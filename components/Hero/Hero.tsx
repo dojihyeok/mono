@@ -41,6 +41,12 @@ export default function Hero() {
                     <span className={styles.badge}>THE GLOBAL STANDARD FOR MASTER TRUST</span>
                 </div>
 
+                <div className={styles.dawnMarketNotice}>
+                    <span className={styles.pulseDot}></span>
+                    <strong>새벽 인력 시장 활성 중: </strong>
+                    04:00 - 08:00 집합 현장 실시간 매칭
+                </div>
+
                 <h1 className={`${styles.title} ${fade ? styles.fadeIn : styles.fadeOut}`}>
                     {parts[0]}
                     <span className={styles.titleSpan}>{current.highlight}</span>
@@ -55,7 +61,7 @@ export default function Hero() {
                 <div className={`${styles.actions} fade-in delay-300`}>
                     <Link href="/jobs" className={`${styles.mainBtn} ${styles.primaryBtn}`}>
                         <Zap size={18} />
-                        일자리 찾기
+                        내 근처 고단가 일자리 찾기
                     </Link>
                     <Link href="/technicians" className={`${styles.mainBtn} ${styles.secondaryBtn}`}>
                         <Search size={18} />

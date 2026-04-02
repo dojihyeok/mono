@@ -37,7 +37,7 @@ export default function MonetizeClient() {
     return (
         <div className={styles.pageWrap}>
             <header className={styles.header}>
-                <div className={styles.premiumBadge}>MASTER STRATEGIC MONETIZE | V2 ASSET</div>
+                <div className={styles.premiumBadge}>MASTER ASSET MONETIZE | V2 ASSET</div>
                 <h1>기술을 <span className={styles.goldText}>황금으로</span> 바꾸는 시간</h1>
                 <p className={styles.subtitle}>퇴근 후 하자 보수 부업부터 장비 렌탈 자산화까지, AI가 가이딩합니다.</p>
             </header>
@@ -128,7 +128,7 @@ export default function MonetizeClient() {
                 <div className={styles.aiStrategyCard}>
                     <div className={styles.cardHeader}>
                         <TrendingUp size={18} color="#B48A09" />
-                        <h3>AI R&R | 장비 자산 교체 전략</h3>
+                        <h3>AI R&R | 장비 자산 교체 계획</h3>
                     </div>
                     <div className={styles.aiReport}>
                         <div className={styles.reportMain}>
@@ -147,7 +147,7 @@ export default function MonetizeClient() {
                             </div>
                         </div>
                     </div>
-                    <button className={styles.planBtn}>교체 전략 상세 리포트 <ChevronRight size={14} /></button>
+                    <button className={styles.planBtn}>교체 계획 상세 리포트 <ChevronRight size={14} /></button>
                 </div>
             </div>
 

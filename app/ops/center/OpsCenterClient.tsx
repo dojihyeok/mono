@@ -58,7 +58,7 @@ export default function OpsCenterClient() {
                 <div className={styles.siteInfo}>
                     <div className={styles.siteTag}>
                         <Radio size={12} className={styles.pulseIcon} />
-                        <span>LIVE COMMAND ON | AI CO-PILOT ACTIVE</span>
+                        <span>LIVE OPERATION ON | AI CO-PILOT ACTIVE</span>
                     </div>
                     <h1>NEOM CITY <span className={styles.goldText}>PROJECT P14</span></h1>
                     <div className={styles.locationGroup}>
@@ -142,7 +142,7 @@ export default function OpsCenterClient() {
             <section className={styles.opsActions}>
                 <div className={styles.actionHeader}>
                     <ClipboardList size={20} color="#B48A09" />
-                    <h3>사령부 수행 액션</h3>
+                    <h3>현장 운영 관리</h3>
                 </div>
                 <div className={styles.actionGrid}>
                     <button className={styles.actionBtn}>
@@ -166,7 +166,7 @@ export default function OpsCenterClient() {
                     <div className={styles.sosIconCircle}>
                         <AlertTriangle size={24} color="#fff" />
                     </div>
-                    <span>EMERGENCY SOS</span>
+                    <span>현장 긴급 지원</span>
                 </button>
             </div>
 

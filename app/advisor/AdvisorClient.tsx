@@ -61,7 +61,7 @@ export default function AdvisorClient() {
             <div className={styles.scanningWrap}>
                 <div className={styles.scanner}>
                     <BrainCircuit size={64} className={styles.scanIcon} />
-                    <h2>MONO AI | STRATEGIC SCANNING</h2>
+                    <h2>MONO AI | ASSET SCANNING</h2>
                     <p>마스터의 기술 자산, 장비 상태 및 신용 리포트를 정밀 분석 중입니다.</p>
                     <div className={styles.progressBar}>
                         <div className={styles.progressFill} style={{ width: `${progress}%` }} />
@@ -75,8 +75,8 @@ export default function AdvisorClient() {
     return (
         <div className={styles.pageWrap}>
             <header className={styles.header}>
-                <div className={styles.premiumBadge}>MONO AI | STRATEGIC CAREER ADVISOR</div>
-                <h1>마스터 커리어 <span className={styles.goldText}>전략적 리포트</span></h1>
+                <div className={styles.premiumBadge}>MONO AI | MASTER CAREER ADVISOR</div>
+                <h1>마스터 커리어 <span className={styles.goldText}>심층 분석 리포트</span></h1>
                 <p className={styles.subtitle}>데이터 자산 분석 기반 글로벌 하이-벨류 프로젝트 매칭 제안</p>
             </header>
 
@@ -101,7 +101,7 @@ export default function AdvisorClient() {
                     <p>
                         현재 마스터님의 **기술 자산(Passport)**과 **장비 상태(Equipment)**는 상위 2%의 글로벌 적합성을 보이고 있습니다. 
                         특히 최근 ISO 보고서 인증을 통한 신용 점수 상승으로, 중동 및 유럽 지역의 **하이-스테이크(High-stakes) 현장** 투입 시 
-                        평균 대비 15% 높은 전략 수당 확보가 가능합니다.
+                        평균 대비 15% 높은 우대 수당 확보가 가능합니다.
                     </p>
                     <div className={styles.alertBox}>
                         <AlertCircle size={16} />
@@ -129,11 +129,11 @@ export default function AdvisorClient() {
                                 <span className={styles.location}>{rec.location}</span>
                                 <p className={styles.reason}>{rec.reason}</p>
                                 <div className={styles.yieldBox}>
-                                    <span className={styles.yieldLabel}>EST. STRATEGIC REWARD</span>
+                                    <span className={styles.yieldLabel}>EST. MONTHLY REWARD</span>
                                     <span className={styles.yieldValue}>{rec.yield}</span>
                                 </div>
                                 <button className={styles.detailsBtn}>
-                                    상세 전략 확인 <ChevronRight size={16} />
+                                    상세 제안 확인 <ChevronRight size={16} />
                                 </button>
                             </div>
                         </div>
@@ -142,7 +142,7 @@ export default function AdvisorClient() {
             </section>
 
             <footer className={styles.footer}>
-                <p>본 리포트는 실시간 프로젝트 수급 데이터와 마스터 자산 가치를 기반으로 AI가 자동 생성한 전략적 제언입니다.</p>
+                <p>본 리포트는 실시간 프로젝트 수급 데이터와 마스터 자산 가치를 기반으로 AI가 자동 생성한 맞춤형 제언입니다. </p>
                 <div className={styles.reportId}>REPORT ID: MA-ALPHA-7729</div>
             </footer>
         </div>

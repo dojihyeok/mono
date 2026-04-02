@@ -1,0 +1,177 @@
+.section {
+    padding: 6rem 0;
+    background: #09090C;
+    position: relative;
+    overflow: hidden;
+}
+
+.content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 3rem;
+}
+
+.title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: -0.03em;
+    margin-bottom: 0.75rem;
+}
+
+.goldText {
+    color: #B48A09;
+}
+
+.subtitle {
+    color: #B0B0B0;
+    font-size: 1.15rem;
+    font-weight: 500;
+}
+
+.viewAll {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #B48A09;
+    font-weight: 700;
+    font-size: 1rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.viewAll:hover {
+    color: #FFD700;
+    transform: translateX(5px);
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+}
+
+.jobCard {
+    padding: 2rem;
+    background: #111117;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 1.5rem;
+}
+
+.cardTop {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2.5rem;
+}
+
+.locBadge {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 10px;
+    font-weight: 800;
+    color: #B48A09;
+    letter-spacing: 0.1em;
+    background: rgba(180, 138, 9, 0.1);
+    padding: 4px 10px;
+    border-radius: 4px;
+}
+
+.urgent {
+    font-size: 10px;
+    font-weight: 800;
+    color: #ef4444;
+    letter-spacing: 0.1em;
+    padding: 4px 10px;
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    border-radius: 4px;
+}
+
+.jobTitle {
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 0.5rem;
+    line-height: 1.4;
+    letter-spacing: -0.02em;
+}
+
+.specialty {
+    font-size: 0.95rem;
+    color: #B0B0B0;
+    margin-bottom: 2.5rem;
+    font-weight: 600;
+}
+
+.wageRow {
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    padding-top: 1.5rem;
+    margin-bottom: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.wageLabel {
+    font-size: 10px;
+    font-weight: 800;
+    color: var(--secondary);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+}
+
+.wageValue {
+    font-size: 2.25rem;
+    font-weight: 900;
+    color: #fff;
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+}
+
+.currency {
+    font-size: 1.25rem;
+    color: #B48A09;
+    font-weight: 700;
+}
+
+.joinBtn {
+    background: #fff;
+    color: #000;
+    padding: 1rem;
+    border-radius: 3rem;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    font-weight: 800;
+    transition: all 0.3s ease;
+    border: none;
+}
+
+.joinBtn:hover {
+    background: #B48A09;
+    color: #fff;
+    transform: translateY(-5px);
+    box-shadow: 0 10px 40px rgba(180, 138, 9, 0.3);
+}
+
+@media (max-width: 1024px) {
+    .grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 768px) {
+    .grid { grid-template-columns: 1fr; }
+    .header { flex-direction: column; align-items: flex-start; gap: 1rem; }
+    .title { font-size: 2rem; }
+}

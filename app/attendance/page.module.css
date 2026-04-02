@@ -143,8 +143,50 @@
     border-color: rgba(48, 209, 88, 0.2) !important;
 }
 
-.idleState {
+.idleState, .gatheringState, .boardedState, .gpsState {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
     text-align: center;
+}
+
+.gatheringInfo {
+    margin-bottom: 1rem;
+}
+
+.timeLabel {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.4);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.gatheringTime {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #B48A09;
+    margin: 0.5rem 0;
+}
+
+.gatheringLoc {
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 0.95rem;
+}
+
+.pulseIcon {
+    font-size: 3rem;
+    animation: bounce 2s infinite;
+}
+
+.loadingSpinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba(180, 138, 9, 0.1);
+    border-top-color: #B48A09;
+    border-radius: 50%;
+    animation: spin 1s infinite linear;
 }
 
 .gpsIndicator {
@@ -152,6 +194,15 @@
     color: #0a84ff;
     font-weight: 700;
     margin-bottom: 1.5rem;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
 }
 
 .checkInBtn, .authBtn {

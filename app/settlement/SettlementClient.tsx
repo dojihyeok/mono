@@ -42,15 +42,15 @@ export default function SettlementClient() {
             <main className={styles.main}>
                 {/* 1. Wallet Status Highlighting */}
                 <header className={styles.header}>
-                    <h1 className={styles.title}>기술 정산(SUPER SETTLEMENT v2)</h1>
-                    <p className={styles.subtitle}>오늘까지 흘린 땀의 가치가 안전하게 보호되고 있습니다.</p>
+                    <h1 className={styles.title}>실시간 정산 및 출금</h1>
+                    <p className={styles.subtitle}>오늘 마스터님의 땀방울이 즉시 현금 자산으로 전환되었습니다.</p>
                 </header>
 
                 <div className={styles.topSection}>
                     <GlassCard className={styles.walletCard}>
                         <div className={styles.walletHeader}>
-                            <span className={styles.label}>출금 가능 수익</span>
-                            <span className={styles.dotLive}>Live</span>
+                            <span className={styles.label}>당일 즉시 출금 가능</span>
+                            <span className={styles.dotLive}>Live Now</span>
                         </div>
                         <h2 className={styles.balance}>₩{WALLET_DATA.availableBalance}</h2>
                         <div className={styles.accountInfo}>
@@ -62,9 +62,9 @@ export default function SettlementClient() {
                             onClick={handleTransfer}
                             disabled={isTransferring}
                         >
-                            {isTransferring ? '송금 중...' : '즉시 출금하기'}
+                            {isTransferring ? '내 계좌로 전송 중...' : '지금 바로 내 통장으로 받기'}
                         </Button>
-                        <p className={styles.footerNote}>* 일일 정산 수수료는 MO-NO가 100% 지원합니다.</p>
+                        <p className={styles.footerNote}>* MO-NO는 일당 당일 지급 99.9% 보증 및 수수료 면제 정책을 준수합니다.</p>
                     </GlassCard>
 
                     <GlassCard className={styles.escrowCard}>

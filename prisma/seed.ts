@@ -124,6 +124,15 @@ async function main() {
             status: 'Working',
             verified: true,
         },
+        {
+            name: '서정필굿',
+            specialty: '현장 운영 및 소통 전문가',
+            experience: 18,
+            location: '전국 (Global)',
+            level: 'Master',
+            status: 'Available',
+            verified: true,
+        },
     ]
 
     for (const t of technicians) {

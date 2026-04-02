@@ -21,7 +21,7 @@ const SITE_DATA = {
 };
 
 export default function AttendanceClient() {
-    const [status, setStatus] = useState<'IDLE' | 'GPS_CHECKED' | 'PPE_NEEDED' | 'WORKING'>('IDLE');
+    const [status, setStatus] = useState<'IDLE' | 'GATHERING' | 'BOARDED' | 'GPS_CHECKED' | 'PPE_NEEDED' | 'WORKING'>('IDLE');
     const [timer, setTimer] = useState(0);
 
     useEffect(() => {
@@ -37,6 +37,15 @@ export default function AttendanceClient() {
         const m = Math.floor((seconds % 3600) / 60);
         const s = seconds % 60;
         return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+    };
+
+    const handleStartGathering = () => {
+        setStatus('GATHERING');
+    };
+
+    const handleBoarding = () => {
+        setStatus('BOARDED');
+        setTimeout(() => setStatus('GPS_CHECKED'), 1500); // Simulate arrival at site
     };
 
     const handleGpsCheck = () => {
@@ -78,8 +87,36 @@ export default function AttendanceClient() {
                     <GlassCard className={`${styles.statusCard} ${status === 'WORKING' ? styles.working : ''}`}>
                         {status === 'IDLE' && (
                             <div className={styles.idleState}>
-                                <div className={styles.gpsIndicator}>📍 반경 150m 내 감지됨</div>
-                                <Button className={styles.checkInBtn} onClick={handleGpsCheck}>현장 도착 인증 (GPS)</Button>
+                                <div className={styles.gatheringInfo}>
+                                    <span className={styles.timeLabel}>오늘의 집합 시간</span>
+                                    <h2 className={styles.gatheringTime}>06:00 AM</h2>
+                                    <p className={styles.gatheringLoc}>📍 {SITE_DATA.location} (정문 앞 소공원)</p>
+                                </div>
+                                <Button className={styles.checkInBtn} onClick={handleStartGathering}>집합지 도착 확인</Button>
+                            </div>
+                        )}
+
+                        {status === 'GATHERING' && (
+                            <div className={styles.gatheringState}>
+                                <div className={styles.pulseIcon}>🚌</div>
+                                <h3>차량 대기 중...</h3>
+                                <p>현장 이동 차량이 도착하면 탑승해 주세요.</p>
+                                <Button className={styles.boardBtn} onClick={handleBoarding}>차량 탑승 완료</Button>
+                            </div>
+                        )}
+
+                        {status === 'BOARDED' && (
+                            <div className={styles.boardedState}>
+                                <div className={styles.loadingSpinner}></div>
+                                <h3>현장으로 이동 중</h3>
+                                <p>안전하게 이동하고 있습니다. 현장 도착 시 GPS 인증이 활성화됩니다.</p>
+                            </div>
+                        )}
+
+                        {status === 'GPS_CHECKED' && (
+                            <div className={styles.gpsState}>
+                                <div className={styles.gpsIndicator}>📍 현장 반경 150m 내 도착 완료</div>
+                                <Button className={styles.checkInBtn} onClick={() => setStatus('PPE_NEEDED')}>현장 작업 시작 인증</Button>
                             </div>
                         )}
 

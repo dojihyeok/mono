@@ -80,6 +80,13 @@ const CATEGORY_GROUPS: CategoryGroup[] = [
             { id: 'signal_person', name: '신호수', en: 'SIGNAL MASTER', image: '/images/occupations/occ_signal_person_v3.png', specialty: '신호수' },
             { id: 'helper', name: '일반 조공 / 헬퍼', en: 'ASSISTANT MASTER', image: '/images/occupations/occ_helper_v3.png', specialty: '일반조공(헬퍼)' },
         ]
+    },
+    {
+        category: '8. Professional Support',
+        description: '현장 운영 및 소통 마케팅 지원',
+        masters: [
+            { id: 'seo-jeong-feel-good', name: '서정필굿', en: 'FEEL GOOD MASTER', image: '/images/occupations/welder_v3.png', specialty: '현장 운영 및 소통 전문가' },
+        ]
     }
 ];
 

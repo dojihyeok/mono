@@ -29,7 +29,10 @@ export default function JobCard({ job }: JobProps) {
                         <span className={styles.categoryBadge}>{CATEGORY_DISPLAY_MAP[job.category] || job.category}</span>
                         <h3 className={styles.title}>{job.title}</h3>
                     </div>
-                    {job.isUrgent && <span className={styles.urgentBadge}>지금 당장 모집</span>}
+                    <div className={styles.badges}>
+                        {job.isUrgent && <span className={styles.urgentBadge}>즉시 모집</span>}
+                        <span className={styles.dailyPayBadge}>당일 지급</span>
+                    </div>
                 </div>
 
                 <div className={styles.meta}>
@@ -38,13 +41,19 @@ export default function JobCard({ job }: JobProps) {
                 </div>
 
                 <p className={styles.wage}>
-                    일급 {job.dailyWage.toLocaleString()}원
+                    {job.dailyWage.toLocaleString()}원
                 </p>
 
                 {job.hasCarpool && (
                     <div className={styles.carpoolInfo}>
-                        <span className={styles.carpoolIcon}>🚌</span>
-                        <span>모여서 이동해요: {job.carpoolLocation}</span>
+                        <div className={styles.gatheringItem}>
+                            <span className={styles.carpoolIcon}>⌚</span>
+                            <span><strong>06:00 집합</strong> (준수 필수)</span>
+                        </div>
+                        <div className={styles.gatheringItem}>
+                            <span className={styles.carpoolIcon}>🚌</span>
+                            <span><strong>집합지:</strong> {job.carpoolLocation}</span>
+                        </div>
                     </div>
                 )}
 

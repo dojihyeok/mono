@@ -25,6 +25,44 @@
     margin-bottom: 24px;
 }
 
+.dawnMarketNotice {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 0.6rem 1.25rem;
+    background: rgba(180, 138, 9, 0.08);
+    border: 1px solid rgba(180, 138, 9, 0.2);
+    border-radius: 12px;
+    font-size: 0.85rem;
+    color: #B48A09;
+    margin-bottom: 2rem;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+    backdrop-filter: blur(10px);
+    animation: fadeInDown 0.8s ease-out;
+}
+
+.pulseDot {
+    width: 8px;
+    height: 8px;
+    background: #FFD700;
+    border-radius: 50%;
+    box-shadow: 0 0 10px #FFD700;
+    animation: glow 2s infinite;
+}
+
+@keyframes glow {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(1.3); }
+}
+
+@keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
 .badge {
     font-size: 10px;
     font-weight: 900;

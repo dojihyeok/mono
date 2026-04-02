@@ -45,7 +45,7 @@ export default function Trust360Client() {
         <div className={styles.pageWrap}>
             <header className={styles.header}>
                 <div className={styles.premiumBadge}>MASTER TRUST 360 | REPUTATION ASSET</div>
-                <h1>상호 신뢰 가치 <span className={styles.goldText}>증명 사령부</span></h1>
+                <h1>상호 신뢰 가치 <span className={styles.goldText}>증명 센터</span></h1>
                 <p className={styles.subtitle}>현장 관리자, 팀장, 기술자가 서로의 전성기를 보증합니다.</p>
             </header>
 
@@ -102,7 +102,7 @@ export default function Trust360Client() {
                 <div className={styles.metricsInfo}>
                     <BrainCircuit size={24} color="#B48A09" />
                     <div className={styles.metricsText}>
-                        <h4>{activeRole === 'SITE_MANAGER' ? '지휘 신뢰지수' : activeRole === 'TEAM_LEADER' ? '리더십 자산' : '기술 자산지수'}</h4>
+                        <h4>{activeRole === 'SITE_MANAGER' ? '현장 관리 지수' : activeRole === 'TEAM_LEADER' ? '리더십 자산' : '기술 자산지수'}</h4>
                         <p>상호 평가 데이터를 기반으로 마스터의 가치가 자산화됩니다.</p>
                     </div>
                 </div>

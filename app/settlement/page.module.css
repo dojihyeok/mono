@@ -23,6 +23,7 @@
     margin-bottom: 0.5rem;
     background: linear-gradient(135deg, #fff 0%, rgba(255, 255, 255, 0.6) 100%);
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
@@ -74,6 +75,13 @@
     padding: 0.2rem 0.5rem;
     border-radius: 4px;
     box-shadow: 0 0 8px rgba(48, 209, 88, 0.2);
+    text-transform: uppercase;
+    animation: blink 1.5s infinite;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; text-shadow: 0 0 5px rgba(48, 209, 88, 0.5); }
+    50% { opacity: 0.4; text-shadow: none; }
 }
 
 .balance {

@@ -21,7 +21,16 @@ export default function ProfileClient({ id }: { id: string }) {
     const [showProposal, setShowProposal] = useState(false);
     
     // Mock master data (can be fetched via id)
-    const MASTER = {
+    const MASTER = id === 'seo-jeong-feel-good' ? {
+        name: '서정필굿',
+        en: 'MASTER SEO JEONG FEEL GOOD',
+        specialty: '현장 운영 및 소통 전문가',
+        trustIndex: 99.9,
+        experience: '18 Years',
+        projects: 215,
+        equipment: 'Mobile Field Comm Station',
+        image: '/images/masters/profile_placeholder.png'
+    } : {
         name: '이창근',
         en: 'MASTER CHANG-GEUN LEE',
         specialty: '수중 용접 & 산업 설비 마스터',
@@ -29,7 +38,7 @@ export default function ProfileClient({ id }: { id: string }) {
         experience: '22 Years',
         projects: 142,
         equipment: 'HYUNDAI 220-7 (Customized)',
-        image: '/images/masters/profile_placeholder.png' // Use generated/existing
+        image: '/images/masters/profile_placeholder.png'
     };
 
     const CORE_SKILLS = ['Underwater Welding', 'Hydraulic Systems', 'Safety Lead', 'Site Management'];
@@ -83,7 +92,7 @@ export default function ProfileClient({ id }: { id: string }) {
                     </div>
                 </div>
                 <div className={styles.assetCard}>
-                    <h3>보유 전략 장비</h3>
+                    <h3>보유 핵심 장비</h3>
                     <div className={styles.equipmentInfo}>
                         <Zap size={20} color="#B48A09" />
                         <div className={styles.eqText}>
@@ -120,7 +129,7 @@ export default function ProfileClient({ id }: { id: string }) {
             <div className={styles.deploymentFixed}>
                 <button className={styles.proposeBtn} onClick={() => setShowProposal(true)}>
                     <Mail size={18} />
-                    <span>전략적 현장 투입 제안 발송</span>
+                    <span>프로젝트 현장 투입 제안 발송</span>
                 </button>
             </div>
 
@@ -133,7 +142,7 @@ export default function ProfileClient({ id }: { id: string }) {
                             <button className={styles.closeBtn} onClick={() => setShowProposal(false)}>×</button>
                         </div>
                         <div className={styles.proposalBody}>
-                            <p>이창근 마스터님을 아래 현장에 전략적으로 배치하고자 합니다.</p>
+                            <p>이창근 마스터님을 아래 현장에 맞춤형으로 배치하고자 합니다.</p>
                             
                             <div className={styles.inputGroup}>
                                 <label>대상 프로젝트</label>
@@ -160,7 +169,7 @@ export default function ProfileClient({ id }: { id: string }) {
                             </div>
                         </div>
                         <button className={styles.sendBtn} onClick={() => {
-                            alert('전략적 투입 제안이 마스터에게 발송되었습니다.');
+                            alert('현장 투입 제안이 마스터에게 발송되었습니다.');
                             setShowProposal(false);
                         }}>
                             제안서 최종 발송 (Sign & Send)
