@@ -1,0 +1,37 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Technician {
+  id          Int      @id @default(autoincrement())
+  name        String
+  specialty   String   // e.g., 목수, 용접, 배관
+  experience  Int      // Years of experience
+  location    String
+  level       String   // Helper, Technician, Master
+  status      String   // Available, Working
+  verified    Boolean  @default(false)
+  avatar      String?
+  createdAt   DateTime @default(now())
+}
+
+model JobSite {
+  id          Int      @id @default(autoincrement())
+  title       String
+  location    String
+  dailyWage   Int      // KRW
+  specialty   String
+  description String
+  status      String   // Recruiting, Closed
+  category    String   @default("Construction") // Construction, AgriTech, OceanTech, DawnMarket
+  isUrgent    Boolean  @default(false)
+  hasCarpool  Boolean  @default(false)
+  carpoolLocation String?
+  date        DateTime @default(now())
+  createdAt   DateTime @default(now())
+}

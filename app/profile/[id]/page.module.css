@@ -1,0 +1,398 @@
+.pageWrap {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem 8rem 1.5rem; /* Space for fixed bottom bar */
+    animation: fadeIn 0.8s ease-out;
+}
+
+.profileHeader {
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+    margin-bottom: 4rem;
+    padding-bottom: 3rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.avatarWrap {
+    position: relative;
+    flex-shrink: 0;
+}
+
+.avatarRing {
+    width: 160px;
+    height: 160px;
+    border: 1px solid rgba(180, 138, 9, 0.4);
+    border-radius: 50%;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.avatarRing::after {
+    content: '';
+    position: absolute;
+    inset: 4px;
+    border: 1px solid rgba(180, 138, 9, 0.2);
+    border-radius: 50%;
+}
+
+.imgCircle {
+    width: 140px;
+    height: 140px;
+    background: #121217;
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.placeholderImg {
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: 0.2em;
+    color: #B48A09;
+    opacity: 0.5;
+}
+
+.trustBadge {
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #020204;
+    border: 1px solid #B48A09;
+    color: #B48A09;
+    font-size: 10px;
+    font-weight: 800;
+    padding: 4px 12px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    white-space: nowrap;
+    box-shadow: 0 4px 15px rgba(180, 138, 9, 0.3);
+}
+
+.profileInfo {
+    flex: 1;
+}
+
+.enName {
+    font-size: 10px;
+    font-weight: 800;
+    color: #B48A09;
+    letter-spacing: 0.15em;
+    margin-bottom: 0.5rem;
+}
+
+.profileInfo h1 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin: 0 0 0.5rem 0;
+    color: #fff;
+}
+
+.specialty {
+    font-size: 1.15rem;
+    color: #CBD5E1;
+    display: block;
+    margin-bottom: 1.5rem;
+}
+
+.quickStats {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.qsItem {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    color: var(--secondary);
+}
+
+.divider {
+    width: 1px;
+    height: 12px;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* Asset Grid */
+.assetGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+}
+
+.assetCard {
+    background: #111117;
+    border: 1px solid var(--border);
+    border-radius: 1.25rem;
+    padding: 2rem;
+}
+
+.assetCard h3 {
+    font-size: 1.1rem;
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+    color: #fff;
+    letter-spacing: -0.01em;
+}
+
+.pillGrid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.skillPill {
+    padding: 6px 12px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    font-size: 0.85rem;
+    color: #E2E8F0;
+    border-radius: 4px;
+}
+
+.equipmentInfo {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.eqText h4 {
+    font-size: 1.1rem;
+    font-weight: 800;
+    margin: 0;
+    color: #fff;
+}
+
+.eqText span {
+    font-size: 0.8rem;
+    color: #10B981;
+    font-weight: 700;
+}
+
+/* History Section */
+.historySection {
+    margin-bottom: 4rem;
+}
+
+.sectionHeader {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+}
+
+.sectionHeader h3 {
+    font-size: 1.25rem;
+    font-weight: 800;
+}
+
+.historyList {
+    background: #09090C;
+    border: 1px solid var(--border);
+    border-radius: 1.5rem;
+    padding: 1rem;
+}
+
+.historyItem {
+    padding: 1.5rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.historyItem:last-child {
+    border-bottom: none;
+}
+
+.histMain h4 {
+    font-size: 1.15rem;
+    font-weight: 800;
+    margin: 0 0 0.25rem 0;
+}
+
+.histMain span {
+    font-size: 0.9rem;
+    color: var(--secondary);
+}
+
+.histScore {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #B48A09;
+}
+
+/* Fixed Deploy Button */
+.deploymentFixed {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
+    width: 100%;
+    max-width: 480px;
+    padding: 0 1.5rem;
+}
+
+.proposeBtn {
+    width: 100%;
+    padding: 1.25rem;
+    background: #B48A09;
+    color: #020204;
+    border: none;
+    border-radius: 1rem;
+    font-size: 1.1rem;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    cursor: pointer;
+    box-shadow: 0 12px 40px rgba(180, 138, 9, 0.4);
+    transition: all 0.3s ease;
+}
+
+.proposeBtn:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 15px 50px rgba(180, 138, 9, 0.6);
+}
+
+/* Modal Styling */
+.modalOverlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 1.5rem;
+}
+
+.proposalCard {
+    background: #111117;
+    border: 1px solid rgba(180, 138, 9, 0.4);
+    width: 100%;
+    max-width: 500px;
+    border-radius: 2rem;
+    padding: 2.5rem;
+    animation: scaleIn 0.4s ease-out;
+}
+
+.modalHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.modalHeader h2 {
+    font-size: 1.25rem;
+    font-weight: 800;
+    margin: 0;
+    color: #fff;
+}
+
+.closeBtn {
+    background: transparent;
+    border: none;
+    color: var(--secondary);
+    font-size: 2rem;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.proposalBody {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+}
+
+.proposalBody p {
+    color: var(--secondary);
+    font-size: 1.05rem;
+    margin-bottom: 0.5rem;
+}
+
+.inputGroup label {
+    display: block;
+    font-size: 9px;
+    font-weight: 700;
+    color: #B48A09;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.5rem;
+}
+
+.selectBox, .offerValue, .datePicker {
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 0.75rem;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #fff;
+}
+
+.offerValue {
+    color: #10B981;
+}
+
+.benefitRow {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #E2E8F0;
+}
+
+.sendBtn {
+    width: 100%;
+    padding: 1.25rem;
+    background: linear-gradient(135deg, #B48A09, #FFD700);
+    color: #020204;
+    border: none;
+    border-radius: 1rem;
+    font-size: 1.1rem;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.sendBtn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(180, 138, 9, 0.4);
+}
+
+@keyframes scaleIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 640px) {
+    .profileHeader { flex-direction: column; text-align: center; gap: 1.5rem; }
+    .quickStats { justify-content: center; }
+    .assetGrid { grid-template-columns: 1fr; }
+    .historyItem { flex-direction: column; gap: 1rem; text-align: center; }
+}

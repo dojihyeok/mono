@@ -1,0 +1,321 @@
+.container {
+    background: #0a0a0c;
+    min-height: 100vh;
+    padding: 24px 20px 120px;
+    color: #ffffff;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 32px;
+}
+
+.headerInfo h1 {
+    font-size: 20px;
+    font-weight: 900;
+    letter-spacing: -0.01em;
+    color: #00f2ff;
+    margin-bottom: 4px;
+}
+
+.headerInfo p {
+    font-size: 13px;
+    color: #666;
+    font-weight: 600;
+}
+
+.premiumBadge {
+    background: linear-gradient(135deg, #7000ff, #00f2ff);
+    color: #fff;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 0.1em;
+    box-shadow: 0 4px 15px rgba(0, 242, 255, 0.2);
+}
+
+/* Financial Status Section */
+.financeSection {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 24px;
+    padding: 24px;
+    margin-bottom: 32px;
+}
+
+.mainBalance {
+    margin-bottom: 24px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    padding-bottom: 24px;
+}
+
+.balanceLabel {
+    font-size: 10px;
+    font-weight: 800;
+    color: #666;
+    letter-spacing: 0.1em;
+    margin-bottom: 8px;
+}
+
+.balanceValue strong {
+    display: block;
+    font-size: 28px;
+    font-weight: 950;
+    color: #fff;
+    letter-spacing: -0.02em;
+}
+
+.balanceValue span {
+    font-size: 14px;
+    color: #00f2ff;
+    font-weight: 700;
+}
+
+.financeGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.financeCard {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 20px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.cardHeader {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.cardHeader span {
+    font-size: 12px;
+    font-weight: 800;
+    color: #ccc;
+}
+
+.cardBody p {
+    font-size: 11px;
+    color: #666;
+    margin-bottom: 4px;
+}
+
+.feeBenefit {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    color: #00f2ff;
+}
+
+.insuranceBadge {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 800;
+    color: #ffd700;
+}
+
+.statusDot {
+    width: 6px;
+    height: 6px;
+    background: #4cd964;
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(76, 217, 100, 0.5);
+}
+
+.actionBtn {
+    margin-top: auto;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #fff;
+    padding: 10px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.actionBtn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #00f2ff;
+}
+
+/* History Section */
+.historySection {
+    margin-bottom: 32px;
+}
+
+.sectionTitle {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.sectionTitle h2 {
+    font-size: 14px;
+    font-weight: 900;
+    color: #888;
+    letter-spacing: 0.1em;
+}
+
+.historyTable {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.historyRow {
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 16px;
+    padding: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.txInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.date {
+    font-size: 11px;
+    color: #555;
+    font-weight: 600;
+}
+
+.txInfo strong {
+    font-size: 14px;
+    font-weight: 800;
+}
+
+.txStatus {
+    text-align: right;
+}
+
+.txStatus strong {
+    display: block;
+    font-size: 13px;
+    color: #eee;
+}
+
+.statusComplete {
+    font-size: 10px;
+    font-weight: 800;
+    color: #4cd964;
+    text-transform: uppercase;
+}
+
+/* Pension Section */
+.pensionSection {
+    background: #141418;
+    border: 1px solid #222;
+    padding: 24px;
+    border-radius: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+}
+
+.pensionContent {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.globeIcon {
+    color: #444;
+}
+
+.pensionDetails h3 {
+    font-size: 14px;
+    font-weight: 900;
+    margin-bottom: 4px;
+}
+
+.pensionDetails p {
+    font-size: 13px;
+    color: #888;
+}
+
+.pensionDetails strong {
+    color: #ffd700;
+}
+
+.pensionNote {
+    font-size: 10px;
+    color: #444;
+}
+
+.pensionStatus {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(76, 217, 100, 0.1);
+    color: #4cd964;
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-size: 10px;
+    font-weight: 800;
+}
+
+/* Emergency Banner */
+.emergencyBanner {
+    background: rgba(255, 59, 48, 0.05);
+    border: 1px solid rgba(255, 59, 48, 0.2);
+    padding: 20px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.emergencyText {
+    flex: 1;
+}
+
+.emergencyText h4 {
+    font-size: 14px;
+    font-weight: 900;
+    color: #ff3b30;
+    margin-bottom: 2px;
+}
+
+.emergencyText p {
+    font-size: 12px;
+    color: #888;
+    line-height: 1.4;
+}
+
+.sosBtn {
+    background: #ff3b30;
+    color: #fff;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: 950;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(255, 59, 48, 0.3);
+}
+
+@media (max-width: 480px) {
+    .financeGrid {
+        grid-template-columns: 1fr;
+    }
+}

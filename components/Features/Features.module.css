@@ -1,0 +1,68 @@
+.section {
+    padding: 4rem 0;
+    background: transparent;
+}
+
+.header {
+    text-align: left;
+    margin-bottom: 2rem;
+    padding: 0 1rem;
+}
+
+.title {
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: var(--foreground);
+    margin-bottom: 0.5rem;
+}
+
+.subtitle {
+    color: var(--secondary);
+    font-size: 0.95rem;
+}
+
+.grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 0 1rem;
+}
+
+.cardOverride {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.iconWrapper {
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 12px;
+    background: var(--accent-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.card:hover .iconWrapper {
+    background: var(--accent);
+    color: white;
+    transform: scale(1.1);
+}
+
+.cardTitle {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    color: var(--foreground);
+}
+
+.cardDesc {
+    color: var(--secondary);
+    font-size: 1rem;
+    line-height: 1.6;
+}

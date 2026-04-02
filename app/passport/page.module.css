@@ -1,0 +1,411 @@
+.container {
+    background: #0d0d0f;
+    min-height: 100vh;
+    padding: 24px 20px 100px;
+    color: #ffffff;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.header {
+    margin-bottom: 40px;
+}
+
+.headerTop {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 32px;
+}
+
+.globeSpin {
+    color: #00f2ff;
+    animation: rotateGlobe 10s linear infinite;
+}
+
+@keyframes rotateGlobe {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.profileMeta h2 {
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+}
+
+.profileMeta span {
+    font-size: 11px;
+    font-weight: 600;
+    color: #ffd700;
+    text-transform: uppercase;
+}
+
+.iconBtn {
+    margin-left: auto;
+    color: #888;
+}
+
+/* Master ID Card Styling */
+.masterIdCard {
+    background: linear-gradient(135deg, rgba(20, 20, 24, 0.9), rgba(10, 10, 12, 0.95));
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 28px;
+    padding: 24px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+}
+
+.cardGlow {
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at 50% 50%, rgba(0, 242, 255, 0.08), transparent 50%);
+    animation: glowMove 10s ease-in-out infinite alternate;
+}
+
+@keyframes glowMove {
+    0% { transform: translate(-10%, -10%); }
+    100% { transform: translate(10%, 10%); }
+}
+
+.cardHeader {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 24px;
+    position: relative;
+}
+
+.idPhoto {
+    position: relative;
+    width: 80px;
+    height: 100px;
+}
+
+.idPhoto img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 12px;
+    filter: grayscale(0.2) contrast(1.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.verifiedBadge {
+    position: absolute;
+    bottom: -6px;
+    right: -6px;
+    background: #00f2ff;
+    color: #000;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 800;
+    border: 2px solid #141418;
+}
+
+.idInfo {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.nameSection h3 {
+    font-size: 22px;
+    font-weight: 800;
+    margin-bottom: 4px;
+}
+
+.roleTag {
+    font-size: 11px;
+    font-weight: 700;
+    color: #00f2ff;
+    background: rgba(0, 242, 255, 0.1);
+    padding: 3px 8px;
+    border-radius: 6px;
+    display: inline-block;
+}
+
+.scoreRow {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+}
+
+.scoreRow span {
+    font-size: 10px;
+    font-weight: 700;
+    color: #666;
+}
+
+.scoreRow strong {
+    font-size: 18px;
+    font-weight: 900;
+    color: #ffffff;
+}
+
+.rankBadge {
+    font-size: 11px;
+    font-weight: 700;
+    color: #ffd700;
+}
+
+.cardStats {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 16px;
+    padding: 16px;
+    margin-bottom: 24px;
+    position: relative;
+}
+
+.statItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+.statItem span {
+    font-size: 10px;
+    color: #666;
+    font-weight: 700;
+}
+
+.statItem strong {
+    font-size: 14px;
+    font-weight: 800;
+    color: #eee;
+}
+
+.statLine {
+    width: 1px;
+    height: 20px;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.cardFooter {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    position: relative;
+}
+
+.qrSection {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.qrMock {
+    width: 32px;
+    height: 32px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 4px;
+    padding: 4px;
+}
+
+.qrSection span {
+    font-size: 10px;
+    color: #555;
+    font-weight: 600;
+}
+
+/* Country Selection */
+.countrySection {
+    margin-bottom: 40px;
+}
+
+.sectionHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.sectionHeader h3 {
+    font-size: 14px;
+    font-weight: 800;
+    color: #666;
+    letter-spacing: 0.1em;
+}
+
+.countryGrid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.countryCard {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 16px;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.activeCountry {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: var(--color, #00f2ff);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+}
+
+.flag {
+    font-size: 24px;
+}
+
+.countryInfo {
+    flex: 1;
+}
+
+.countryInfo h4 {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 2px;
+}
+
+.visaType {
+    font-size: 12px;
+    color: #888;
+}
+
+.statusIndicator {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.statusDot {
+    width: 6px;
+    height: 6px;
+    background: var(--color, #00f2ff);
+    border-radius: 50%;
+    box-shadow: 0 0 10px var(--color, #00f2ff);
+}
+
+.statusIndicator span {
+    font-size: 11px;
+    font-weight: 600;
+    color: #666;
+}
+
+/* Assets Area */
+.assetsSection {
+    margin-bottom: 40px;
+}
+
+.assetGrid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+}
+
+.assetTile {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 16px;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.tileIcon {
+    width: 44px;
+    height: 44px;
+    background: rgba(0, 242, 255, 0.1);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #00f2ff;
+}
+
+.tileBody {
+    flex: 1;
+}
+
+.tileBody h4 {
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 2px;
+}
+
+.tileBody p {
+    font-size: 12px;
+    color: #666;
+}
+
+.tileAction {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #fff;
+    padding: 6px 12px;
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* Pipeline Section */
+.pipelineCard {
+    background: linear-gradient(135deg, #1a1a1e, #141416);
+    border: 2px solid #7000ff;
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 0 30px rgba(112, 0, 255, 0.2);
+}
+
+.pipelineContent {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.neonIcon {
+    color: #7000ff;
+    filter: drop-shadow(0 0 5px #7000ff);
+}
+
+.pipelineContent h4 {
+    font-size: 15px;
+    font-weight: 800;
+    margin-bottom: 2px;
+}
+
+.pipelineContent p {
+    font-size: 12px;
+    color: #888;
+}
+
+.mainActionBtn {
+    width: 100%;
+    background: #7000ff;
+    color: #fff;
+    border: none;
+    padding: 14px;
+    border-radius: 14px;
+    font-size: 14px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    box-shadow: 0 10px 20px rgba(112, 0, 255, 0.3);
+}

@@ -1,33 +1,58 @@
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #020204; /* True midnight obsidian */
+  --foreground: #F1F5F9;
+
+  --primary: #121217; /* Solid anthracite surface */
+  --primary-foreground: #FFFFFF;
+
+  --accent: #E2E8F0; /* Muted Platinum */
+  --accent-hover: #FFFFFF;
+  --accent-gold: #B48A09; /* Rich Burnished Gold */
+
+  --card: rgba(18, 18, 23, 0.98); 
+  --card-foreground: #F8FAFC;
+  --border: rgba(255, 255, 255, 0.05); /* Architectural borders */
+  --nav-bg: rgba(2, 2, 4, 0.9);
+
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+  --radius: 0.625rem; /* Sharper corners for a focused master look */
+  --shadow-heavy: 0 10px 40px -10px rgba(0, 0, 0, 0.9);
+  --shadow-gold: 0 0 15px rgba(180, 138, 9, 0.1);
+
+  --app-max-width: 480px;
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-html,
-body {
-  max-width: 100vw;
-  overflow-x: hidden;
-}
-
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  /* Only if user wants dark mode, but for this specific "Trust" vibe, light verified mode is usually better for "official" feel. 
+     However, modern tech apps often support dark. I'll stick to a solid Light mode base for now as it's cleaner for "Documentation/Paperwork" feel, 
+     but provide variables if needed. Let's keep it Light mode focused for the "Blue Collar Tech" professional look 
+     unless user requested dark mode specifically. The Notion page implies "clean white/light gray backgrounds". */
 }
 
 * {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+  font-family: var(--font-sans);
+  background-color: var(--background);
+  color: var(--foreground);
+  line-height: 1.5;
+  font-size: 16px;
+}
+
+@media (max-width: 640px) {
+  html, body {
+    font-size: 14px; /* Responsive base for rem units */
+  }
 }
 
 a {
@@ -35,8 +60,179 @@ a {
   text-decoration: none;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
+/* App Shell Utilities */
+.app-shell {
+  width: 100%;
+  max-width: var(--app-max-width);
+  margin: 0 auto;
+  min-height: 100vh;
+  position: relative;
+  background-color: var(--background);
+  box-shadow: 0 0 40px rgba(0,0,0,0.5);
+  border-left: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+}
+
+@media (min-width: 769px) {
+  .app-shell {
+    max-width: 100%;
+    border: none;
+    box-shadow: none;
   }
+}
+
+.app-content {
+  padding-bottom: 80px; /* Space for bottom nav */
+  min-height: 100vh;
+}
+
+/* Glassmorphism */
+.glass {
+  background: var(--card);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+/* Utilities */
+.container {
+  width: 100%;
+  padding: 0 1.5rem;
+}
+
+.section {
+  padding: 5rem 0;
+}
+
+.grid {
+  display: grid;
+  gap: 2rem;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-accent {
+  color: var(--accent);
+}
+
+.font-bold {
+  font-weight: 700;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  line-height: 1.2;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+h1 {
+  font-size: 2.25rem; /* 36px */
+}
+
+h2 {
+  font-size: 1.75rem; /* 28px */
+}
+
+h3 {
+  font-size: 1.25rem; /* 20px */
+}
+
+@media (max-width: 768px) {
+  h1 {
+    font-size: 2rem;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse-gold {
+  0% { box-shadow: 0 0 5px rgba(180, 138, 9, 0.4); }
+  50% { box-shadow: 0 0 20px rgba(180, 138, 9, 0.6); }
+  100% { box-shadow: 0 0 5px rgba(180, 138, 9, 0.4); }
+}
+
+.fade-in { animation: fadeIn 0.6s ease-out forwards; }
+.delay-100 { animation-delay: 100ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
+
+/* Premium Global Utilities */
+.btn-premium {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.875rem 1.75rem;
+  background: var(--primary);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #fff;
+  border-radius: var(--radius);
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-premium:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+.btn-gold {
+  background: var(--accent-gold);
+  color: #020204;
+  border-color: #ffd700;
+  box-shadow: 0 4px 20px rgba(180, 138, 9, 0.3);
+}
+
+.btn-gold:hover {
+  background: #ffd700;
+  box-shadow: 0 8px 30px rgba(180, 138, 9, 0.5);
+  transform: translateY(-2px);
+}
+
+.text-gold { color: var(--accent-gold); }
+.text-platinum { color: var(--accent); }
+
+.premium-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-heavy);
+  border-radius: 1.25rem;
+  transition: border-color 0.3s ease;
+}
+
+.premium-card:hover {
+  border-color: rgba(180, 138, 9, 0.3);
 }

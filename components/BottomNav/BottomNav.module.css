@@ -1,0 +1,75 @@
+.bottomNav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 72px;
+  background: var(--nav-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-top: 1px solid var(--border);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.navList {
+  display: flex;
+  width: 100%;
+  max-width: var(--app-max-width);
+  justify-content: space-around;
+  align-items: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.navItem {
+  flex: 1;
+}
+
+.navLink {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--secondary);
+  text-decoration: none;
+  font-size: 0.75rem;
+  font-weight: 500;
+  gap: 4px;
+  transition: color 0.2s ease, transform 0.2s ease;
+  padding: 8px 0;
+}
+
+.navLink:hover,
+.navLink:active {
+  color: var(--accent);
+}
+
+.iconWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.navLink:hover .iconWrapper,
+.navLink:active .iconWrapper {
+  transform: scale(1.15) translateY(-2px);
+}
+
+.label {
+  transition: transform 0.2s ease;
+}
+
+.navLink:hover .label,
+.navLink:active .label {
+  transform: translateY(1px);
+}
+
+/* Hide on larger screens if we want to show a sidebar/topbar instead, 
+   but since it's mobile-first app, we can keep it as the primary navigation. */
+/* Removed empty media query */

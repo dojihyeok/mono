@@ -1,0 +1,203 @@
+.hero {
+    position: relative;
+    padding: 6rem 1rem 4rem;
+    overflow: hidden;
+    background: radial-gradient(circle at 50% 0%, var(--accent-light) 0%, transparent 80%);
+}
+
+.content {
+    max-width: 100%;
+    margin: 0 auto;
+    text-align: center;
+    position: relative;
+    z-index: 10;
+}
+
+/* New Branding Element - Glitch Box */
+.glitchBox {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(180, 138, 9, 0.05);
+    border: 1px solid rgba(180, 138, 9, 0.2);
+    padding: 8px 16px;
+    border-radius: 8px;
+    margin-bottom: 24px;
+}
+
+.badge {
+    font-size: 10px;
+    font-weight: 900;
+    color: var(--accent-gold);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+}
+
+.title {
+    margin-bottom: 1rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: var(--foreground);
+    font-size: 2.25rem;
+    line-height: 1.25;
+    white-space: pre-line;
+}
+
+.titleSpan {
+    background: linear-gradient(135deg, var(--accent-hover) 0%, var(--accent) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.description {
+    font-size: 1rem;
+    color: var(--secondary);
+    margin-bottom: 2.5rem;
+    line-height: 1.6;
+    max-width: 100%;
+}
+
+/* Action Button Overlays */
+.actions {
+    display: flex;
+    gap: 16px;
+    margin-top: 40px;
+    width: 100%;
+}
+
+.mainBtn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 18px;
+    border-radius: 20px;
+    font-size: 15px;
+    font-weight: 800;
+    text-transform: uppercase;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    text-decoration: none;
+}
+
+.primaryBtn {
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.primaryBtn:hover {
+    background: #fff;
+    color: #000;
+    transform: translateY(-2px);
+    box-shadow: 0 15px 40px rgba(255, 255, 255, 0.15);
+}
+
+.secondaryBtn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #fff;
+    backdrop-filter: blur(10px);
+}
+
+.secondaryBtn:hover {
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateY(-4px);
+}
+
+/* Asset Navigation - Academy & Passport */
+.assetNav {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-top: 48px;
+    padding: 20px 24px;
+    background: #111115;
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    border-radius: 16px;
+    box-shadow: var(--shadow-heavy);
+}
+
+.assetItem {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    text-decoration: none;
+    color: #eee;
+    font-size: 13px;
+    font-weight: 700;
+    transition: all 0.2s ease;
+}
+
+.assetItem:hover {
+    color: var(--accent-gold);
+}
+
+.divider {
+    width: 1px;
+    height: 24px;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* Background Abstract Shapes */
+.shape {
+    position: absolute;
+    width: 800px;
+    height: 800px;
+    border-radius: 50%;
+    filter: blur(80px);
+    z-index: 0;
+    opacity: 0.6;
+}
+
+.shape1 {
+    top: -400px;
+    left: -200px;
+    background: radial-gradient(circle, rgba(37, 99, 235, 0.15) 0%, rgba(255, 255, 255, 0) 70%);
+}
+
+.shape2 {
+    bottom: -200px;
+    right: -200px;
+    background: radial-gradient(circle, rgba(15, 23, 42, 0.1) 0%, rgba(255, 255, 255, 0) 70%);
+}
+
+.fadeIn {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.5s ease-out, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.fadeOut {
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: opacity 0.5s ease-in, transform 0.5s ease-in;
+}
+
+@media (max-width: 768px) {
+    .hero {
+        padding: 100px 20px 60px;
+    }
+    
+    .actions {
+        flex-direction: column;
+    }
+    
+    .assetNav {
+        padding: 14px;
+    }
+    
+    .assetItem {
+        font-size: 11px;
+    }
+}
+
+@media (max-width: 480px) {
+    .title {
+        font-size: 1.85rem;
+    }
+}

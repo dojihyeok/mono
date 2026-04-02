@@ -1,0 +1,343 @@
+.container {
+    background: #060608;
+    min-height: 100vh;
+    padding: 20px 16px 120px;
+    color: #ffffff;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.actionBar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.backBtn {
+    background: rgba(255, 255, 255, 0.05);
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    color: #fff;
+    cursor: pointer;
+}
+
+.exportGroup {
+    display: flex;
+    gap: 8px;
+}
+
+.exportBtn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 10px 16px;
+    border-radius: 12px;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.exportBtn.primary {
+    background: #00f2ff;
+    color: #000;
+    border: none;
+}
+
+.exportBtn:hover {
+    transform: translateY(-2px);
+}
+
+/* Report Document */
+.reportDocument {
+    background: #ffffff;
+    color: #141418;
+    border-radius: 2px; /* Document-like sharp corners */
+    padding: 40px;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+    position: relative;
+    overflow: hidden;
+}
+
+.reportHeader {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.logoRow {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.logo {
+    font-size: 20px;
+    font-weight: 900;
+    letter-spacing: 0.1em;
+    color: #000;
+    border-bottom: 2px solid #00f2ff;
+}
+
+.certBadge {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(0, 242, 255, 0.05);
+    border: 1px solid rgba(0, 242, 255, 0.2);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 10px;
+    font-weight: 800;
+    color: #00f2ff;
+    text-transform: uppercase;
+}
+
+.docTitle h1 {
+    font-size: 22px;
+    font-weight: 900;
+    margin-bottom: 6px;
+    color: #1a1a20;
+    letter-spacing: -0.02em;
+}
+
+.docTitle p {
+    font-size: 11px;
+    color: #666;
+    letter-spacing: 0.1em;
+    font-weight: 700;
+}
+
+.divider {
+    height: 1px;
+    background: #eee;
+    margin-bottom: 30px;
+}
+
+/* Identity Section */
+.identitySection {
+    display: flex;
+    gap: 24px;
+    margin-bottom: 40px;
+}
+
+.masterPhoto {
+    width: 100px;
+    height: 130px;
+    background: #f4f4f6;
+    border: 1px solid #ddd;
+    border-radius: 2px;
+    padding: 4px;
+    flex-shrink: 0;
+}
+
+.masterPhoto img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.idDetails {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 12px;
+}
+
+.detailRow {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.label {
+    font-size: 9px;
+    font-weight: 800;
+    color: #999;
+}
+
+.value {
+    font-size: 16px;
+    font-weight: 700;
+    color: #111;
+}
+
+/* Matrix Section */
+.matrixSection {
+    margin-bottom: 40px;
+}
+
+.sectionTitle {
+    font-size: 13px;
+    font-weight: 900;
+    margin-bottom: 20px;
+    color: #333;
+    border-left: 3px solid #00f2ff;
+    padding-left: 12px;
+    letter-spacing: 0.05em;
+}
+
+.statGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.statBox {
+    background: #f8f9fa;
+    border: 1px solid #eee;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.statText strong {
+    display: block;
+    font-size: 18px;
+    font-weight: 900;
+    color: #1a1a20;
+}
+
+.statText span {
+    font-size: 11px;
+    color: #888;
+    font-weight: 600;
+}
+
+/* Skill Section */
+.skillSection {
+    margin-bottom: 40px;
+}
+
+.skillTable {
+    border: 1px solid #eee;
+}
+
+.skillRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.skillRow:last-child {
+    border-bottom: none;
+}
+
+.skillName strong {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 2px;
+}
+
+.skillName span {
+    font-size: 10px;
+    color: #00f2ff;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.skillLevelBadge {
+    padding: 4px 12px;
+    background: #1a1a20;
+    color: #fff;
+    font-size: 10px;
+    font-weight: 800;
+    border-radius: 4px;
+}
+
+/* Report Footer */
+.reportFooter {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-top: 40px;
+    padding-top: 30px;
+    border-top: 1px solid #1a1a20;
+}
+
+.qrArea {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.qrMock {
+    width: 64px;
+    height: 64px;
+    background: #f4f4f6;
+    padding: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.qrArea p {
+    font-size: 10px;
+    color: #666;
+    line-height: 1.4;
+    font-weight: 600;
+}
+
+.signatureArea {
+    text-align: right;
+}
+
+.stamp {
+    font-size: 13px;
+    font-weight: 900;
+    color: #000;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.signatureArea p {
+    font-size: 9px;
+    color: #999;
+}
+
+/* Support Alert */
+.supportAlert {
+    margin-top: 32px;
+    background: rgba(0, 242, 255, 0.03);
+    border: 1px solid rgba(0, 242, 255, 0.1);
+    padding: 20px;
+    border-radius: 16px;
+    display: flex;
+    gap: 16px;
+    align-items: center;
+}
+
+.supportAlert p {
+    font-size: 12px;
+    color: #888;
+    line-height: 1.6;
+}
+
+.supportAlert strong {
+    color: #eee;
+}
+
+@media (max-width: 480px) {
+    .reportDocument {
+        padding: 24px;
+    }
+    
+    .docTitle h1 {
+        font-size: 18px;
+    }
+    
+    .statGrid {
+        grid-template-columns: 1fr;
+    }
+}

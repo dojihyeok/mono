@@ -1,0 +1,55 @@
+.header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    width: 100%;
+    background: var(--nav-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+}
+
+.navContainer {
+    display: flex;
+    height: 3.5rem;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1rem;
+}
+
+.logo {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--primary-foreground);
+    letter-spacing: -0.02em;
+    text-decoration: none;
+}
+
+.navLinks {
+    display: none; /* Hidden in app shell mode, relies on BottomNav */
+}
+
+.ctaGroup {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.iconButton {
+    background: transparent;
+    border: none;
+    color: var(--secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    transition: background 0.2s, color 0.2s;
+    cursor: pointer;
+}
+
+.iconButton:hover {
+    background: var(--card);
+    color: var(--primary-foreground);
+}

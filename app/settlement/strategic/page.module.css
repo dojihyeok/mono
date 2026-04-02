@@ -1,0 +1,204 @@
+.container {
+    min-height: 100vh;
+    padding: 6rem 1.5rem 6rem;
+    background: var(--background);
+}
+
+.header {
+    margin-bottom: 2.5rem;
+}
+
+.header h1 {
+    font-size: 1.750rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: var(--foreground);
+    margin-bottom: 0.5rem;
+}
+
+.header p {
+    font-size: 0.9rem;
+    color: var(--secondary);
+    line-height: 1.5;
+}
+
+/* Strategic Escrow Summary */
+.escrowSummary {
+    padding: 2rem;
+    background: #111117;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 2.5rem;
+    box-shadow: var(--shadow-heavy);
+}
+
+.escrowLabel {
+    font-size: 10px;
+    font-weight: 800;
+    color: var(--accent-gold);
+    letter-spacing: 0.15em;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+}
+
+.escrowAmount {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 1.5rem;
+}
+
+.statsGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.statItem {
+    display: flex;
+    flex-direction: column;
+}
+
+.statLabel {
+    font-size: 9px;
+    font-weight: 700;
+    color: var(--secondary);
+    margin-bottom: 4px;
+}
+
+.statValue {
+    font-size: 14px;
+    font-weight: 800;
+    color: #E2E8F0;
+}
+
+/* Milestone Timeline */
+.milestoneSection {
+    margin-bottom: 3rem;
+}
+
+.sectionHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+}
+
+.sectionHeader h2 {
+    font-size: 1.125rem;
+    font-weight: 800;
+    color: #fff;
+}
+
+.timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.milestoneItem {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 1.25rem;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+}
+
+.milestoneIcon {
+    width: 40px;
+    height: 40px;
+    background: rgba(180, 138, 9, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent-gold);
+}
+
+.milestoneInfo {
+    flex: 1;
+}
+
+.milestoneTitle {
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 2px;
+}
+
+.milestoneDate {
+    font-size: 11px;
+    color: var(--secondary);
+}
+
+.milestoneStatus {
+    font-size: 11px;
+    font-weight: 800;
+    padding: 4px 10px;
+    border-radius: 4px;
+}
+
+.milestoneStatus[data-status="Completed"] {
+    background: rgba(76, 217, 100, 0.1);
+    color: #4cd964;
+}
+
+.milestoneStatus[data-status="Active"] {
+    background: rgba(180, 138, 9, 0.1);
+    color: var(--accent-gold);
+}
+
+/* Payment History */
+.paymentHistory {
+    margin-bottom: 2rem;
+}
+
+.paymentItem {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.paymentInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.paymentDate {
+    font-size: 11px;
+    color: var(--secondary);
+}
+
+.paymentProject {
+    font-size: 13px;
+    font-weight: 700;
+    color: #fff;
+}
+
+.paymentAmount {
+    text-align: right;
+}
+
+.amountPrimary {
+    font-size: 15px;
+    font-weight: 800;
+    color: #fff;
+}
+
+.amountSecondary {
+    font-size: 11px;
+    color: var(--accent-gold);
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 5rem 1rem 4rem;
+    }
+}

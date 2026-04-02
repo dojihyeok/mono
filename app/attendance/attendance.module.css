@@ -1,0 +1,178 @@
+.page {
+  padding-bottom: 2rem;
+}
+
+.container {
+  padding: 1.5rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.header {
+  margin-bottom: 0.5rem;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--foreground);
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  color: var(--secondary);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+/* Map Section */
+.mapSection {
+  width: 100%;
+}
+
+.mapPlaceholder {
+  width: 100%;
+  height: 250px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  background-image: radial-gradient(var(--border) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+.pulseContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.pulseMarker {
+  font-size: 2rem;
+  z-index: 2;
+  position: relative;
+}
+
+.pulse {
+  position: absolute;
+  width: 4rem;
+  height: 4rem;
+  background: rgba(59, 130, 246, 0.4);
+  border-radius: 50%;
+  animation: pulseAnim 2s infinite;
+  z-index: 1;
+}
+
+@keyframes pulseAnim {
+  0% { transform: scale(0.5); opacity: 1; }
+  100% { transform: scale(2); opacity: 0; }
+}
+
+.mapText {
+  color: var(--primary-foreground);
+  font-weight: 600;
+  font-size: 0.95rem;
+  background: rgba(15, 23, 42, 0.8);
+  padding: 0.5rem 1rem;
+  border-radius: 2rem;
+  backdrop-filter: blur(4px);
+}
+
+/* Action Section */
+.actionSection {
+  width: 100%;
+}
+
+.checkInCard {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.statusBox {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.statusLabel {
+  font-size: 0.85rem;
+  color: var(--secondary);
+}
+
+.statusValue {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--foreground);
+}
+
+.projectInfo h3 {
+  font-size: 1.15rem;
+  color: var(--foreground);
+  margin-bottom: 0.25rem;
+}
+
+.projectInfo p {
+  font-size: 0.9rem;
+  color: var(--secondary);
+}
+
+.buttonGroup {
+  width: 100%;
+}
+
+.helpText {
+  font-size: 0.8rem;
+  color: var(--secondary);
+  line-height: 1.4;
+}
+
+/* Weekly Record */
+.weeklyRecord {
+  width: 100%;
+}
+
+.sectionTitle {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--foreground);
+  margin-bottom: 1rem;
+}
+
+.recordList {
+  display: flex;
+  flex-direction: column;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.recordItem {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+  font-size: 0.95rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--foreground);
+}
+
+.recordItem:last-child {
+  border-bottom: none;
+}
+
+.tagDone {
+  color: #22c55e;
+  font-weight: 600;
+  font-size: 0.85rem;
+}

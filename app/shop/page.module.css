@@ -1,0 +1,287 @@
+.pageWrap {
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 5rem 3rem;
+    animation: fadeIn 0.8s ease-out;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 5rem;
+}
+
+.premiumBadge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 800;
+    color: #B48A09;
+    letter-spacing: 0.2em;
+    padding: 6px 16px;
+    background: rgba(180, 138, 9, 0.08);
+    border: 1px solid rgba(180, 138, 9, 0.2);
+    border-radius: 4px;
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+}
+
+.header h1 {
+    font-size: 3.5rem;
+    font-weight: 900;
+    margin: 0 0 1.25rem 0;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+}
+
+.goldText {
+    color: #B48A09;
+}
+
+.subtitle {
+    color: var(--secondary);
+    font-size: 1.35rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Shop Navigation */
+.shopTabs {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-bottom: 3.5rem;
+}
+
+.shopTab {
+    background: transparent;
+    border: none;
+    padding: 0.5rem 1.5rem;
+    color: var(--secondary);
+    font-size: 0.9rem;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-bottom: 2px solid transparent;
+}
+
+.shopTab.active {
+    color: #B48A09;
+    border-bottom-color: #B48A09;
+}
+
+/* Product Grid */
+.productGrid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    margin-bottom: 5rem;
+}
+
+.productCard {
+    background: #111117;
+    border: 1px solid var(--border);
+    border-radius: 1.5rem;
+    overflow: hidden;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.productCard:hover {
+    transform: translateY(-10px);
+    border-color: rgba(180, 138, 9, 0.3);
+}
+
+.productVisual {
+    height: 300px;
+    background: linear-gradient(135deg, #09090C, #18181F);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.productBadge {
+    position: absolute;
+    top: 1.5rem;
+    left: 1.5rem;
+    padding: 4px 10px;
+    background: #B48A09;
+    color: #020204;
+    font-size: 10px;
+    font-weight: 800;
+    border-radius: 4px;
+}
+
+.visualPlaceholder {
+    color: rgba(180, 138, 9, 0.2);
+    animation: float 4s infinite ease-in-out;
+}
+
+/* Product Info */
+.productInfo {
+    padding: 2rem;
+}
+
+.metaRow {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.rating {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.8rem;
+    font-weight: 800;
+    color: #B48A09;
+}
+
+.catText {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--secondary);
+    letter-spacing: 0.1em;
+}
+
+.productInfo h3 {
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin: 0 0 0.5rem 0;
+    color: #fff;
+    letter-spacing: -0.01em;
+}
+
+.productInfo p {
+    font-size: 0.95rem;
+    color: var(--secondary);
+    line-height: 1.6;
+    margin-bottom: 2rem;
+    height: 3em; 
+}
+
+.priceRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.price {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #fff;
+}
+
+.addBtn {
+    background: #B48A09;
+    color: #020204;
+    border: none;
+    padding: 0.75rem 1.25rem;
+    border-radius: 0.5rem;
+    font-size: 0.85rem;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.addBtn:hover {
+    background: #ffd700;
+    box-shadow: 0 5px 20px rgba(180, 138, 9, 0.4);
+}
+
+/* Banner */
+.certBanner {
+    background: rgba(180, 138, 9, 0.03);
+    border: 1px solid rgba(180, 138, 9, 0.2);
+    border-radius: 1.5rem;
+    padding: 2.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.certInfo {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.certText h4 {
+    font-size: 1.1rem;
+    font-weight: 800;
+    margin: 0 0 0.25rem 0;
+    letter-spacing: 0.05em;
+}
+
+.certText p {
+    font-size: 0.9rem;
+    color: var(--secondary);
+    margin: 0;
+}
+
+.shippingInfo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #B48A09;
+}
+
+.footer {
+    margin-top: 5rem;
+    text-align: center;
+}
+
+.footerBrand {
+    font-size: 10px;
+    font-weight: 800;
+    color: #B48A09;
+    letter-spacing: 0.25em;
+    margin-bottom: 0.5rem;
+}
+
+.footer p {
+    font-size: 0.8rem;
+    color: var(--secondary);
+}
+
+@keyframes float {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 1024px) {
+    .productGrid { grid-template-columns: repeat(2, 1fr); }
+    .productVisual { height: 260px; }
+}
+
+@media (max-width: 768px) {
+    .pageWrap { padding: 2rem 1rem; }
+    .header { margin-bottom: 2.5rem; }
+    .header h1 { font-size: 1.75rem; line-height: 1.2; }
+    .subtitle { font-size: 1rem; }
+    .shopTabs { gap: 0.5rem; flex-wrap: wrap; margin-bottom: 2rem; }
+    .shopTab { padding: 0.5rem 1rem; font-size: 0.8rem; }
+    .productGrid { 
+        grid-template-columns: 1fr; 
+        gap: 1.5rem; 
+        margin-bottom: 3rem; 
+    }
+    .productVisual { height: 220px; }
+    .productInfo { padding: 1.25rem; }
+    .productInfo h3 { font-size: 1.2rem; }
+    .productInfo p { font-size: 0.85rem; height: auto; margin-bottom: 1.5rem; }
+    .price { font-size: 1.1rem; }
+    .addBtn { padding: 0.6rem 1rem; font-size: 0.75rem; }
+    .certBanner { padding: 1.5rem; }
+    .certInfo { flex-direction: column; text-align: center; gap: 1rem; }
+}

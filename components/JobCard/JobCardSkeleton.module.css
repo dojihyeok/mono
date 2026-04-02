@@ -1,0 +1,82 @@
+.skeletonCard {
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    padding: 1.5rem;
+    pointer-events: none;
+}
+
+@keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+}
+
+.shimmer {
+    background: linear-gradient(90deg, 
+        rgba(255, 255, 255, 0.05) 25%, 
+        rgba(255, 255, 255, 0.1) 37%, 
+        rgba(255, 255, 255, 0.05) 63%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: 4px;
+}
+
+.badge {
+    width: 80px;
+    height: 18px;
+    composes: shimmer;
+    margin-bottom: 0.5rem;
+}
+
+.title {
+    width: 100%;
+    height: 24px;
+    composes: shimmer;
+}
+
+.meta {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.lineSmall {
+    width: 60px;
+    height: 14px;
+    composes: shimmer;
+}
+
+.wage {
+    width: 120px;
+    height: 20px;
+    margin-top: 1rem;
+    composes: shimmer;
+}
+
+.description {
+    margin-top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.lineFull {
+    width: 100%;
+    height: 12px;
+    composes: shimmer;
+}
+
+.lineHalf {
+    width: 50%;
+    height: 12px;
+    composes: shimmer;
+}
+
+.button {
+    width: 100%;
+    height: 44px;
+    margin-top: 1.5rem;
+    border-radius: 12px;
+    composes: shimmer;
+}

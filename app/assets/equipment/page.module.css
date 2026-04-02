@@ -1,0 +1,321 @@
+.container {
+    background: #060608;
+    min-height: 100vh;
+    padding: 24px 20px 120px;
+    color: #ffffff;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 24px;
+}
+
+.titleArea h1 {
+    font-size: 20px;
+    font-weight: 900;
+    letter-spacing: -0.01em;
+    color: #fff;
+    margin-bottom: 4px;
+}
+
+.titleArea p {
+    font-size: 13px;
+    color: #666;
+    font-weight: 600;
+}
+
+.addBtn {
+    background: #00f2ff;
+    color: #000;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 900;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0, 242, 255, 0.2);
+}
+
+/* Valuation Summary */
+.valuationSummary {
+    background: linear-gradient(135deg, #1c1c20, #0a0a0c);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 24px;
+    border-radius: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 24px;
+}
+
+.summaryContent span {
+    display: block;
+    font-size: 10px;
+    font-weight: 800;
+    color: #888;
+    letter-spacing: 0.1em;
+    margin-bottom: 4px;
+}
+
+.summaryContent strong {
+    font-size: 26px;
+    font-weight: 950;
+    color: #ffd700; /* Gold for high value */
+    letter-spacing: -0.02em;
+}
+
+.valuationBadge {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255, 215, 0, 0.05);
+    border: 1px solid rgba(255, 215, 0, 0.2);
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-size: 10px;
+    font-weight: 800;
+    color: #ffd700;
+}
+
+/* Equipment Grid */
+.equipmentGrid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 32px;
+}
+
+.equipmentCard {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 24px;
+    overflow: hidden;
+}
+
+.imageOverlay {
+    position: relative;
+    height: 180px;
+}
+
+.imageOverlay img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.statusBadge {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 10px;
+    font-weight: 900;
+    text-transform: uppercase;
+}
+
+.statusBadge[data-status="Optimal"] {
+    background: #4cd964;
+    color: #000;
+}
+
+.statusBadge[data-status="Needs Service"] {
+    background: #ff9500;
+    color: #000;
+}
+
+.cardContent {
+    padding: 20px;
+}
+
+.cardHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 16px;
+}
+
+.mainTitle h3 {
+    font-size: 16px;
+    font-weight: 800;
+    margin-bottom: 4px;
+}
+
+.mainTitle span {
+    font-size: 12px;
+    color: #666;
+    font-weight: 600;
+}
+
+.healthScore {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 4px 10px;
+    border-radius: 12px;
+}
+
+.healthScore strong {
+    font-size: 12px;
+}
+
+.statsRow {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.statItem {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: #ccc;
+    font-weight: 600;
+}
+
+.valuationRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.valuationRow span {
+    font-size: 11px;
+    font-weight: 700;
+    color: #666;
+}
+
+.valuationRow strong {
+    font-size: 15px;
+    font-weight: 800;
+    color: #eee;
+}
+
+.cardActions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.utilBtn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #fff;
+    padding: 10px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.utilBtn:hover {
+    background: #00f2ff;
+    color: #000;
+    border: none;
+}
+
+/* Team Section */
+.teamSection {
+    background: linear-gradient(135deg, #111, #060608);
+    border: 1px solid rgba(0, 242, 255, 0.1);
+    border-radius: 24px;
+    padding: 24px;
+    text-align: center;
+}
+
+.teamHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.teamHeader h2 {
+    font-size: 14px;
+    font-weight: 900;
+    letter-spacing: 0.1em;
+    color: #888;
+}
+
+.teamHeader span {
+    font-size: 11px;
+    font-weight: 800;
+    color: #00f2ff;
+}
+
+.teamAvatars {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    padding-right: 12px;
+}
+
+.avatarBox {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 3px solid #060608;
+    margin-right: -12px;
+    overflow: hidden;
+}
+
+.avatarBox img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.avatarAdd {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: #222;
+    border: 3px solid #060608;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 11px;
+    font-weight: 900;
+    color: #888;
+}
+
+.teamSection p {
+    font-size: 13px;
+    color: #666;
+    margin-bottom: 20px;
+    line-height: 1.4;
+}
+
+.teamManageBtn {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #fff;
+    padding: 14px;
+    border-radius: 16px;
+    font-size: 13px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.teamManageBtn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: #00f2ff;
+}

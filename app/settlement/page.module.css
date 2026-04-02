@@ -1,0 +1,289 @@
+.pageWrap {
+    min-height: 100vh;
+    background: radial-gradient(circle at top left, rgba(48, 209, 88, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at bottom right, rgba(10, 132, 255, 0.05) 0%, transparent 40%),
+                #000;
+    padding-bottom: 5rem;
+}
+
+.main {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2.5rem 1.25rem;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+
+.title {
+    font-size: 1.8rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(135deg, #fff 0%, rgba(255, 255, 255, 0.6) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.subtitle {
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.topSection {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    margin-bottom: 3rem;
+}
+
+@media (min-width: 640px) {
+    .topSection {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.walletCard {
+    padding: 2rem;
+    background: linear-gradient(135deg, rgba(48, 209, 88, 0.05) 0%, transparent 100%) !important;
+    border: 1px solid rgba(48, 209, 88, 0.15) !important;
+    display: flex;
+    flex-direction: column;
+}
+
+.walletHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.label {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.5);
+    letter-spacing: 0.05em;
+}
+
+.dotLive {
+    font-size: 0.65rem;
+    font-weight: 800;
+    color: #30d158;
+    background: rgba(48, 209, 88, 0.15);
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    box-shadow: 0 0 8px rgba(48, 209, 88, 0.2);
+}
+
+.balance {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 1.5rem;
+}
+
+.accountInfo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 0.85rem;
+}
+
+.bankTag {
+    color: #30d158;
+    font-weight: 700;
+}
+
+.transferBtn {
+    width: 100%;
+    background-color: #30d158 !important;
+    color: #000 !important;
+    font-weight: 800 !important;
+    border-radius: 12px !important;
+    padding: 1.15rem !important;
+    font-size: 1.1rem !important;
+    box-shadow: 0 0 20px rgba(48, 209, 88, 0.3) !important;
+}
+
+.footerNote {
+    margin-top: 1rem;
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.3);
+    text-align: center;
+}
+
+.escrowCard {
+    padding: 2rem;
+    background: rgba(10, 132, 255, 0.02) !important;
+    border: 1px solid rgba(10, 132, 255, 0.1) !important;
+    display: flex;
+    flex-direction: column;
+}
+
+.escrowHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.secureIcon {
+    font-size: 1.25rem;
+}
+
+.lockedAmount {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #ffcc00;
+    margin-bottom: 1rem;
+}
+
+.escrowDesc {
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.5);
+    margin-bottom: 1.5rem;
+}
+
+.progressTrack {
+    width: 100%;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 2px;
+    margin-top: auto;
+}
+
+.progressBar {
+    height: 100%;
+    background: linear-gradient(90deg, #1d976c, #93f9b9);
+    border-radius: 2px;
+    box-shadow: 0 0 10px rgba(147, 249, 185, 0.3);
+}
+
+.pendingSection {
+    margin-bottom: 3rem;
+}
+
+.sectionTitle {
+    font-size: 0.9rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    color: rgba(255, 255, 255, 0.3);
+    margin-bottom: 1.25rem;
+    padding-left: 0.5rem;
+}
+
+.siteList {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.siteItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.25rem 1.75rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.siteItem:last-child {
+    border-bottom: none;
+}
+
+.siteName {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+}
+
+.siteDate {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.amountInfo {
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.5rem;
+}
+
+.amount {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: #fff;
+}
+
+.statusLabel {
+    font-size: 0.7rem;
+    font-weight: 800;
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+}
+
+.statusLabel.locked {
+    background: rgba(255, 204, 0, 0.1);
+    color: #ffcc00;
+}
+
+.statusLabel.verifying {
+    background: rgba(10, 132, 255, 0.1);
+    color: #0a84ff;
+}
+
+.historyCard {
+    padding: 1.5rem;
+}
+
+.historyItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.historyName {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 0.2rem;
+}
+
+.historyDate {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.historyAmount {
+    text-align: right;
+}
+
+.settledAmount {
+    display: block;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #fff;
+}
+
+.settledTag {
+    font-size: 0.65rem;
+    font-weight: 800;
+    color: #30d158;
+    background: rgba(48, 209, 88, 0.1);
+    padding: 0.15rem 0.45rem;
+    border-radius: 4px;
+    margin-top: 0.25rem;
+    display: inline-block;
+}
+
+.fullHistory {
+    width: 100%;
+    margin-top: 1rem;
+}

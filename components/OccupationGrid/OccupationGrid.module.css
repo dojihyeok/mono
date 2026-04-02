@@ -1,0 +1,151 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 3.5rem;
+    padding: 1rem 0;
+}
+
+.section {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.sectionHeader {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding-left: 0.75rem;
+    position: relative;
+}
+
+.sectionHeader::before {
+    gap: 4px;
+    margin-bottom: 20px;
+    padding-left: 8px;
+    border-left: 3px solid #00f2ff;
+}
+
+.categoryTitle {
+    font-size: 16px;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: -0.01em;
+}
+
+.categoryDesc {
+    font-size: 11px;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+}
+
+.tile {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 16px;
+    padding: 16px 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.tile:hover {
+    background: rgba(0, 242, 255, 0.05);
+    border-color: #00f2ff;
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px rgba(0, 242, 255, 0.15);
+}
+
+.imageWrapper {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    overflow: visible; /* Allow badge to be outside */
+    background: rgba(0, 0, 0, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    transition: transform 0.3s ease;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.countBadge {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    background: #00f2ff;
+    color: #000;
+    font-size: 9px;
+    font-weight: 800;
+    padding: 2px 6px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 242, 255, 0.4);
+    border: 1px solid #141418;
+}
+
+.labelGroup {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.name {
+    font-size: 13px;
+    font-weight: 700;
+    color: #eee;
+    white-space: nowrap;
+}
+
+.metaRow {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+}
+
+.en {
+    font-weight: 500;
+    color: var(--secondary-text);
+    text-transform: uppercase;
+}
+
+@media (max-width: 480px) {
+    .grid {
+        gap: 1rem;
+        padding: 1rem;
+    }
+    
+    .imageWrapper {
+        width: 5.5rem;
+        height: 5.5rem;
+    }
+    
+    .name {
+        font-size: 0.875rem;
+    }
+    
+    .en {
+        font-size: 0.625rem;
+    }
+}
