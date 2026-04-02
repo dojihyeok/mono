@@ -61,7 +61,7 @@ export default function Hero() {
                 <div className={`${styles.actions} fade-in delay-300`}>
                     <Link href="/jobs" className={`${styles.mainBtn} ${styles.primaryBtn}`}>
                         <Zap size={18} />
-                        내 근처 고단가 일자리 찾기
+                        일자리 찾기
                     </Link>
                     <Link href="/technicians" className={`${styles.mainBtn} ${styles.secondaryBtn}`}>
                         <Search size={18} />
@@ -69,11 +69,24 @@ export default function Hero() {
                     </Link>
                 </div>
 
+                <div className={`${styles.fieldAction} fade-in delay-350`}>
+                    <Link href="/office" className={styles.fieldBtn}>
+                        <div className={styles.fieldBtnContent}>
+                            <Radar size={20} color="#B48A09" className={styles.pulseIcon} />
+                            <div className={styles.fieldText}>
+                                <strong>온라인 인력 사무소 (현장)</strong>
+                                <span>오늘의 집합 · 출결 · 정산 관리</span>
+                            </div>
+                        </div>
+                        <ArrowRight size={18} />
+                    </Link>
+                </div>
+
                 {/* Quick Asset Access Tools */}
                 <div className={`${styles.assetNav} fade-in delay-400`}>
-                    <Link href="/trust/360" className={styles.assetItem}>
+                    <Link href="/office" className={styles.assetItem}>
                         <ShieldCheck size={16} color="#B48A09" />
-                        <span>Trust 360</span>
+                        <span>Field Office</span>
                     </Link>
                     <div className={styles.divider} />
                     <Link href="/ops/center" className={styles.assetItem}>
@@ -88,7 +101,7 @@ export default function Hero() {
                     <div className={styles.divider} />
                     <Link href="/shop" className={styles.assetItem}>
                         <ShoppingBag size={16} color="#B48A09" />
-                        <span>Master Gear</span>
+                        <span>Gear</span>
                     </Link>
                 </div>
             </div>
@@ -96,4 +109,4 @@ export default function Hero() {
     );
 }
 
-import { Globe, Search, Zap, ShieldCheck, BrainCircuit, Radio, TrendingUp, ShoppingBag } from 'lucide-react';
+import { Globe, Search, Zap, ShieldCheck, BrainCircuit, Radio, TrendingUp, ShoppingBag, Radar, ArrowRight } from 'lucide-react';
