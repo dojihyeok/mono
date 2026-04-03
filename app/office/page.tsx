@@ -117,7 +117,6 @@ const MANPOWER_OFFICES = [
     ]
   }
 ];
-];
 
 export default function OnlineOfficePage() {
   const [mounted, setMounted] = useState(false);
