@@ -27,6 +27,8 @@ const MANPOWER_OFFICES = [
     reviews: 128,
     distance: '1.2km',
     activeJobsCount: 12,
+    activeMasters: 42,
+    successRate: 98.8,
     status: 'ACTIVE_DAWN',
     jobs: [
       { id: 'j1', time: '04:30', title: '신축 현장 전기 결선', pay: '195,000', type: 'DAWN' },
@@ -42,6 +44,8 @@ const MANPOWER_OFFICES = [
     reviews: 64,
     distance: '12km',
     activeJobsCount: 15,
+    activeMasters: 28,
+    successRate: 96.5,
     status: 'ACTIVE_NOW',
     jobs: [
       { id: 'j10', time: '08:00', title: '스마트팜 수경배지 교체', pay: '155,000', type: 'NORMAL' },
@@ -56,6 +60,8 @@ const MANPOWER_OFFICES = [
     reviews: 215,
     distance: '320km',
     activeJobsCount: 28,
+    activeMasters: 85,
+    successRate: 99.2,
     status: 'ACTIVE_DAWN',
     jobs: [
       { id: 'j20', time: '05:00', title: '선조립 구역 수중 용접', pay: '320,000', type: 'DAWN' },
@@ -70,6 +76,8 @@ const MANPOWER_OFFICES = [
     reviews: 412,
     distance: '45km',
     activeJobsCount: 56,
+    activeMasters: 124,
+    successRate: 100,
     status: 'ACTIVE_NOW',
     jobs: [
       { id: 'j30', time: '04:00', title: '클린룸 공조 덕트 설비', pay: '245,000', type: 'DAWN' },
@@ -84,6 +92,8 @@ const MANPOWER_OFFICES = [
     reviews: 98,
     distance: '28km',
     activeJobsCount: 34,
+    activeMasters: 56,
+    successRate: 94.8,
     status: 'ACTIVE_NOW',
     jobs: [
       { id: 'j40', time: 'ASAP', title: '리치 트럭 (지게차) 운전', pay: '190,000', type: 'IMMEDIATE' },
@@ -98,12 +108,15 @@ const MANPOWER_OFFICES = [
     reviews: 84,
     distance: '3.5km',
     activeJobsCount: 8,
+    activeMasters: 18,
+    successRate: 98.2,
     status: 'ACTIVE_NOW',
     jobs: [
       { id: 'j4', time: '05:15', title: '창호 시공 보조', pay: '180,000', type: 'DAWN' },
       { id: 'j5', time: 'ASAP', title: '자재 양중 (곰방)', pay: '220,000', type: 'IMMEDIATE' }
     ]
   }
+];
 ];
 
 export default function OnlineOfficePage() {
@@ -123,15 +136,18 @@ export default function OnlineOfficePage() {
       <main className="container" style={{ marginTop: '2.5rem' }}>
         <header className={styles.header}>
           <div>
-            <div className={styles.pageLabel}>DAWN MARKET HUB</div>
-            <h1 className={styles.title}>온라인 인력 사무소</h1>
+            <div className={styles.pageLabel}>STRATEGIC TASK OPERATION CENTER</div>
+            <h1 className={styles.title}>기술 자격 기반 태스크 허브</h1>
             <p className={styles.subtitle}>
-              전국의 숙련된 마스터님들을 위한 실시간 현장 매칭 시스템
+              글로벌 마스터 에이전시의 보안 기반 현장 매칭 및 자산 관리 시스템
             </p>
           </div>
           <div className={styles.liveIndicator}>
             <span className={styles.pulse}></span>
-            <span>LIVE: {MANPOWER_OFFICES.reduce((acc, curr) => acc + curr.activeJobsCount, 0)}개 현장 매칭 중</span>
+            <div className={styles.liveStats}>
+               <span className={styles.liveValue}>{MANPOWER_OFFICES.reduce((acc, curr) => acc + curr.activeJobsCount, 0)}</span>
+               <span className={styles.liveLabel}>MISSIONS ACTIVE</span>
+            </div>
           </div>
         </header>
 
@@ -159,7 +175,7 @@ export default function OnlineOfficePage() {
               <div className={styles.officeCardHeader}>
                 <div className={styles.officeInfoMain}>
                   <div className={styles.officeAvatar}>
-                    <Building2 size={24} color="#b48a09" />
+                    <Building2 size={24} color="#FF6B00" />
                   </div>
                   <div>
                     <div className={styles.nameRow}>
@@ -170,7 +186,7 @@ export default function OnlineOfficePage() {
                     </div>
                     <div className={styles.officeStats}>
                       <span className={styles.rating}>
-                        <Star size={12} fill="#b48a09" color="#b48a09" />
+                        <Star size={12} fill="#FF6B00" color="#FF6B00" />
                         {office.rating} ({office.reviews})
                       </span>
                       <span className={styles.dot}>•</span>
@@ -185,8 +201,8 @@ export default function OnlineOfficePage() {
 
               <div className={styles.jobListPreview}>
                 <div className={styles.sectionTitle}>
-                  <Zap size={14} color="#b48a09" />
-                  당장 또는 새벽에 필요한 일자리
+                  <Zap size={14} color="#FF6B00" />
+                  PRIORITY MISSION LOG
                 </div>
                 {office.jobs.map((job) => (
                   <div key={job.id} className={`${styles.jobItem} ${job.type === 'IMMEDIATE' ? styles.immediate : ''}`}>
@@ -208,11 +224,17 @@ export default function OnlineOfficePage() {
 
               <div className={styles.officeCardFooter}>
                 <div className={styles.activeWorkerInfo}>
-                  <Users size={14} />
-                  <span>오늘 {office.activeJobsCount * 2}명의 마스터 활동 중</span>
+                  <div className={styles.statItem}>
+                    <Users size={12} color="#FF6B00" />
+                    <span>{office.activeMasters} Masters</span>
+                  </div>
+                  <div className={styles.statItem}>
+                    <ShieldCheck size={12} color="#22C55E" />
+                    <span>{office.successRate}% Success</span>
+                  </div>
                 </div>
                 <Link href={`/office/${office.id}`} className={styles.enterBtn}>
-                  사무소 입장
+                  HUB ENTRY
                 </Link>
               </div>
             </div>
