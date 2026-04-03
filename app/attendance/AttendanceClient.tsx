@@ -120,9 +120,9 @@ export default function AttendanceClient() {
                         {status === 'IDLE' && (
                             <div className={styles.idleState}>
                                 <div className={styles.gatheringInfo}>
-                                    <span className={styles.timeLabel}>오늘의 집합 시간</span>
-                                    <h2 className={styles.gatheringTime}>06:00 AM</h2>
-                                    <p className={styles.gatheringLoc}>📍 {SITE_DATA.location} (정문 앞 소공원)</p>
+                                    <span className={styles.timeLabel}>오늘 모이는 시간</span>
+                                    <h2 className={styles.gatheringTime}>오전 6:00</h2>
+                                    <p className={styles.gatheringLoc}>📍 {SITE_DATA.location} (정문 앞 공원)</p>
                                 </div>
                                 <Button className={styles.checkInBtn} onClick={handleStartGathering}>집합지 도착 확인</Button>
                             </div>
@@ -145,8 +145,8 @@ export default function AttendanceClient() {
                                         <div className={styles.driver}>{VEHICLE_DATA.driver}</div>
                                     </div>
                                     <div className={styles.etaBox}>
-                                        <span className={styles.etaLabel}>출발 대기</span>
-                                        <span className={styles.etaTime}>{VEHICLE_DATA.eta}</span>
+                                        <span className={styles.etaLabel}>출발 전</span>
+                                        <span className={styles.etaTime}>{VEHICLE_DATA.eta} 뒤 출발</span>
                                     </div>
                                 </div>
 
@@ -195,11 +195,11 @@ export default function AttendanceClient() {
                                 <div className={styles.transitMeta}>
                                     <div className={styles.metaItem}>
                                         <Clock size={14} />
-                                        <span>예상 도착: 07:45 AM</span>
+                                        <span>도착 예정: 오전 7:45</span>
                                     </div>
                                     <div className={styles.metaItem}>
                                         <MapPin size={14} />
-                                        <span>잔여 거리: 4.2km</span>
+                                        <span>남은 거리: 4.2km</span>
                                     </div>
                                 </div>
 

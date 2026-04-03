@@ -101,7 +101,7 @@ export default function CareerPage() {
 
           {/* Equipment Showcase */}
           <div className={styles.equipmentSection}>
-            <h3 className={styles.sectionTitle}>CERTIFIED EQUIPMENT</h3>
+            <h3 className={styles.sectionTitle}>검증된 보유 장비</h3>
             <div className={styles.equipmentGrid}>
               <div className={styles.equipmentItem}>
                 <div className={styles.eqIcon}><Wrench size={16} color="#FF6B00" /></div>

@@ -218,7 +218,7 @@ export default function OfficeDetailPage() {
                   ) : job.type === 'IMMEDIATE' ? (
                     <span className={styles.immediateBadge}>
                       <Zap size={12} />
-                      ASAP 긴급
+                      즉시 투입 긴급
                     </span>
                   ) : null}
                   <span className={styles.jobPay}>₩{job.pay}</span>

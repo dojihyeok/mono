@@ -38,7 +38,7 @@ export default function Hero() {
             <div className={`container ${styles.content}`}>
                 <div className={`${styles.glitchBox} fade-in`}>
                     <Globe size={12} color="#B48A09" />
-                    <span className={styles.badge}>THE GLOBAL STANDARD FOR MASTER TRUST</span>
+                    <span className={styles.badge}>전 세계 기술 마스터가 신뢰하는 표준</span>
                 </div>
 
                 <div className={styles.dawnMarketNotice}>
@@ -55,8 +55,8 @@ export default function Hero() {
                   </h1>
 
                   <p className={`${styles.description} fade-in delay-200`}>
-                      <strong>Navigate Your Skill. Navigate The World.</strong><br />
-                      숙련의 기록을 데이터 자산으로, 전 세계 어디서나 통용되는 MO-NO 글로벌 패스포트 시스템.
+                      <strong>기술로 길을 열고, 세계로 나아가세요.</strong><br />
+                      내 기술 기록을 데이터 자산으로 만들어, 전 세계 어디서나 인정받는 모노만의 경력 인증 시스템.
                   </p>
                 </div>
 
@@ -65,7 +65,7 @@ export default function Hero() {
                         <div className={styles.cardHeader}>
                             <div className={styles.liveIndicator}>
                                 <span className={styles.pulseDot}></span>
-                                <span className={styles.liveText}>LIVE MONITORING</span>
+                                <span className={styles.liveText}>실시간 현장 확인 중</span>
                             </div>
                             <div className={styles.matchingStatus}>
                                 <Radio size={14} color="#ef4444" className={styles.pulseIcon} />
@@ -121,17 +121,17 @@ export default function Hero() {
                 <div className={`${styles.assetNav} fade-in delay-400`}>
                     <Link href="/ops/center" className={styles.assetItem}>
                         <Radio size={16} color="#ef4444" className={styles.pulseIcon} />
-                        <span>Site Ops</span>
+                        <span>내 일터</span>
                     </Link>
                     <div className={styles.divider} />
                     <Link href="/assets/monetize" className={styles.assetItem}>
                         <TrendingUp size={16} color="#10B981" />
-                        <span>Monetize</span>
+                        <span>돈 벌기</span>
                     </Link>
                     <div className={styles.divider} />
                     <Link href="/shop" className={styles.assetItem}>
                         <ShoppingBag size={16} color="#B48A09" />
-                        <span>Gear Shop</span>
+                        <span>장비 장터</span>
                     </Link>
                 </div>
             </div>

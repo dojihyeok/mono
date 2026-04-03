@@ -4,7 +4,7 @@ import GlassCard from '../UI/GlassCard';
 const features = [
     {
         title: "스마트 현장 시스템",
-        description: "반경 500m GPS 출퇴근 인증부터, 에스크로(Escrow) 기반 당일 안심 정산까지 모든 현장 업무를 자동화합니다.",
+        description: "반경 500m GPS 출퇴근 인증부터, 당일 안심 수고비 정산까지 모든 현장 업무를 쉽고 빠르게 도와드립니다.",
         icon: "📍"
     },
     {
@@ -13,8 +13,7 @@ const features = [
         icon: "📄"
     },
     {
-        title: "글로벌 파이프라인 (RPL)",
-        description: "국내 경력을 호주 등 해외 우대 자격(RPL)으로 전환하고, ISO 기준 영문 경력 증명서를 발급받아 해외 취업을 준비하세요.",
+        description: "국내 경력을 해외 우대 자격으로 전환하고, 국제 기준의 경력 증명서를 발급받아 더 넓은 세계로 진출하세요.",
         icon: "🌏"
     },
     {

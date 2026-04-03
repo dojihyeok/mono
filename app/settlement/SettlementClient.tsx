@@ -54,9 +54,9 @@ export default function SettlementClient() {
             <main className={styles.main}>
                 {/* 1. Wallet Status Highlighting */}
                 <header className={styles.header}>
-                    <div className={styles.brandBadge}>GLOBAL MASTER FINANCIAL CONSOLE</div>
-                    <h1 className={styles.title}>실시간 자산 관리 및 정산</h1>
-                    <p className={styles.subtitle}>마스터님의 기술 자산이 MO-NO 에스크로를 통해 안전하게 정산되고 있습니다.</p>
+                    <div className={styles.brandBadge}>내 돈 관리 및 정산 센터</div>
+                    <h1 className={styles.title}>내 수고비 확인하기</h1>
+                    <p className={styles.subtitle}>마스터님의 소중한 땀방울이 안전하게 관리되고 있습니다.</p>
                 </header>
 
                 <div className={styles.topSection}>
@@ -64,11 +64,11 @@ export default function SettlementClient() {
                         <div className={styles.walletHeader}>
                             <div className={styles.walletLabelBox}>
                                 <Wallet size={16} />
-                                <span className={styles.label}>당일 즉시 출금 가능</span>
+                                <span className={styles.label}>지금 바로 내 통장으로 보낼 수 있는 돈</span>
                             </div>
-                            <span className={styles.dotLive}>Live Now</span>
+                            <span className={styles.dotLive}>지금 가능</span>
                         </div>
-                        <h2 className={styles.balance}>₩{WALLET_DATA.availableBalance}</h2>
+                        <h2 className={styles.balance}>{WALLET_DATA.availableBalance}원</h2>
                         <div className={styles.accountInfo}>
                             <Building2 size={14} />
                             <span className={styles.bankTag}>{WALLET_DATA.bank}</span>
@@ -79,7 +79,7 @@ export default function SettlementClient() {
                             onClick={handleTransfer}
                             disabled={isTransferring}
                         >
-                            {isTransferring ? '내 계좌로 안전 전송 중...' : '지금 바로 계좌로 출금 (Withdrawal)'}
+                            {isTransferring ? '내 통장으로 안전하게 보내는 중...' : '지금 바로 내 통장으로 출금'}
                         </Button>
                         <div className={styles.securitySeal}>
                             <ShieldCheck size={12} />
@@ -91,11 +91,11 @@ export default function SettlementClient() {
                         <div className={styles.escrowHeader}>
                             <div className={styles.escrowLabelBox}>
                                 <Lock size={16} color="#FF6B00" />
-                                <span className={styles.label}>미확정 에스크로 자산</span>
+                                <span className={styles.label}>아직 확인 중인 돈 (보관 중)</span>
                             </div>
-                            <div className={styles.secureBadge}>SECURED</div>
+                            <div className={styles.secureBadge}>안전하게 보관됨</div>
                         </div>
-                        <h2 className={styles.lockedAmount}>₩{WALLET_DATA.lockedEscrow}</h2>
+                        <h2 className={styles.lockedAmount}>{WALLET_DATA.lockedEscrow}원</h2>
                         <div className={styles.safetyNetBox}>
                             <div className={styles.netItem}>
                                 <label>산재보험 적립</label>
@@ -115,7 +115,7 @@ export default function SettlementClient() {
 
                 {/* 2. Pending Site Details */}
                 <section className={styles.pendingSection}>
-                    <h3 className={styles.sectionTitle}>진행 중인 정산 (Active)</h3>
+                    <h3 className={styles.sectionTitle}>아직 일하고 있는 현장 (정산 전)</h3>
                     <div className={styles.siteList}>
                         {WALLET_DATA.pendingSites.map(site => (
                             <div key={site.id} className={styles.siteItem}>
@@ -124,9 +124,9 @@ export default function SettlementClient() {
                                     <span className={styles.siteDate}>{site.date}</span>
                                 </div>
                                 <div className={styles.amountInfo}>
-                                    <span className={styles.amount}>+₩{site.amount}</span>
+                                    <span className={styles.amount}>+{site.amount}원</span>
                                     <span className={`${styles.statusLabel} ${styles[site.status.toLowerCase()]}`}>
-                                        {site.status === 'Locked' ? '작업 중' : '검수 중'}
+                                        {site.status === 'Locked' ? '일하는 중' : '검사 중'}
                                     </span>
                                 </div>
                             </div>
@@ -146,8 +146,8 @@ export default function SettlementClient() {
                                         <span className={styles.historyDate}>{item.date}</span>
                                     </div>
                                     <div className={styles.historyAmount}>
-                                        <span className={styles.settledAmount}>₩{item.amount}</span>
-                                        <span className={styles.settledTag}>Settled</span>
+                                        <span className={styles.settledAmount}>{item.amount}원</span>
+                                        <span className={styles.settledTag}>돈 받기 완료</span>
                                     </div>
                                 </div>
                             ))}
