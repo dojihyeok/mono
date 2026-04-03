@@ -131,7 +131,7 @@ export default function AttendanceClient() {
                         {status === 'GATHERING' && (
                             <div className={styles.transitOperation}>
                                 <header className={styles.transitHeader}>
-                                    <div className={styles.transitBadge}>MISSION TRANSIT</div>
+                                    <div className={styles.transitBadge}>현장 이동 중</div>
                                     <h3 className={styles.transitTitle}>이동 수단 배차 완료</h3>
                                 </header>
                                 
@@ -151,7 +151,7 @@ export default function AttendanceClient() {
                                 </div>
 
                                 <div className={styles.seatMapSection}>
-                                    <h4 className={styles.subTitle}>VEHICLE SEAT MAP (9 SEATS)</h4>
+                                    <h4 className={styles.subTitle}>차량 좌석 배치도 (9인승)</h4>
                                     <div className={styles.seatGrid}>
                                         {VEHICLE_DATA.seats.map(seat => (
                                             <div 
@@ -167,15 +167,15 @@ export default function AttendanceClient() {
                                     </div>
                                 </div>
 
-                                <Button className={styles.boardBtn} onClick={handleBoarding}>3번 좌석 탑승 완료 (Boarding)</Button>
+                                <Button className={styles.boardBtn} onClick={handleBoarding}>3번 좌석 탑승 완료</Button>
                             </div>
                         )}
 
                         {status === 'BOARDED' && (
                             <div className={styles.transitOperation}>
                                 <header className={styles.transitHeader}>
-                                    <div className={styles.activeTransitBadge}>TRANSIT IN PROGRESS</div>
-                                    <h3 className={styles.transitTitle}>현장으로 작전 투입 중</h3>
+                                    <div className={styles.activeTransitBadge}>현장으로 가는 중</div>
+                                    <h3 className={styles.transitTitle}>현대 스타리아 이동 중</h3>
                                 </header>
 
                                 <div className={styles.transitProgress}>
@@ -186,9 +186,9 @@ export default function AttendanceClient() {
                                         </div>
                                     </div>
                                     <div className={styles.progressLabels}>
-                                        <span>GATHERING</span>
-                                        <span className={styles.activeLabel}>ON-THE-WAY</span>
-                                        <span>SITE ARVL</span>
+                                        <span>출발지</span>
+                                        <span className={styles.activeLabel}>가는 중</span>
+                                        <span>현장 도착</span>
                                     </div>
                                 </div>
 
@@ -204,21 +204,21 @@ export default function AttendanceClient() {
                                 </div>
 
                                 <div className={styles.boardingPass}>
-                                    <div className={styles.passHeader}>TRANSIT BOARDING PASS</div>
+                                    <div className={styles.passHeader}>현장 이동 승차권</div>
                                     <div className={styles.passContent}>
                                         <div className={styles.passRow}>
                                             <div className={styles.passCol}>
-                                                <label>OPERATOR</label>
+                                                <label>기술자 명</label>
                                                 <p>김모노 마스터</p>
                                             </div>
                                             <div className={styles.passCol}>
-                                                <label>SEAT NO.</label>
-                                                <p>03 (WINDOW)</p>
+                                                <label>지정 좌석</label>
+                                                <p>03 (창가)</p>
                                             </div>
                                         </div>
                                         <div className={styles.passRow}>
                                             <div className={styles.passCol}>
-                                                <label>MISSION</label>
+                                                <label>목적지</label>
                                                 <p>{SITE_DATA.name}</p>
                                             </div>
                                         </div>
@@ -262,7 +262,7 @@ export default function AttendanceClient() {
 
                     {/* Site Team Members */}
                     <GlassCard className={styles.teamCard}>
-                        <h3 className={styles.cardTitle}>TEAM AT SITE (3)</h3>
+                        <h3 className={styles.cardTitle}>현장 함께 일하는 분들 (3명)</h3>
                         <div className={styles.teamList}>
                             {SITE_DATA.currentTeam.map(member => (
                                 <div key={member.id} className={styles.memberItem}>

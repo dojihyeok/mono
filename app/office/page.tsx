@@ -136,17 +136,17 @@ export default function OnlineOfficePage() {
       <main className="container" style={{ marginTop: '2.5rem' }}>
         <header className={styles.header}>
           <div>
-            <div className={styles.pageLabel}>STRATEGIC TASK OPERATION CENTER</div>
-            <h1 className={styles.title}>기술 자격 기반 태스크 허브</h1>
+            <div className={styles.pageLabel}>자격 맞춤 일자리 센터</div>
+            <h1 className={styles.title}>내 기술에 딱 맞는 일자리</h1>
             <p className={styles.subtitle}>
-              글로벌 마스터 에이전시의 보안 기반 현장 매칭 및 자산 관리 시스템
+              전국 마스터 사무소에서 검증된 현장 일감을 바로 확인하세요.
             </p>
           </div>
           <div className={styles.liveIndicator}>
             <span className={styles.pulse}></span>
             <div className={styles.liveStats}>
                <span className={styles.liveValue}>{MANPOWER_OFFICES.reduce((acc, curr) => acc + curr.activeJobsCount, 0)}</span>
-               <span className={styles.liveLabel}>MISSIONS ACTIVE</span>
+               <span className={styles.liveLabel}>지금 바로 가능한 일</span>
             </div>
           </div>
         </header>
@@ -202,13 +202,13 @@ export default function OnlineOfficePage() {
               <div className={styles.jobListPreview}>
                 <div className={styles.sectionTitle}>
                   <Zap size={14} color="#FF6B00" />
-                  PRIORITY MISSION LOG
+                  실시간 올라온 일자리
                 </div>
                 {office.jobs.map((job) => (
                   <div key={job.id} className={`${styles.jobItem} ${job.type === 'IMMEDIATE' ? styles.immediate : ''}`}>
                     <div className={styles.jobTime}>
                       {job.type === 'IMMEDIATE' ? (
-                        <span className={styles.asapBadge}>ASAP</span>
+                        <span className={styles.asapBadge}>즉시 투입</span>
                       ) : (
                         <span className={styles.timeBadge}>{job.time}</span>
                       )}
@@ -226,15 +226,15 @@ export default function OnlineOfficePage() {
                 <div className={styles.activeWorkerInfo}>
                   <div className={styles.statItem}>
                     <Users size={12} color="#FF6B00" />
-                    <span>{office.activeMasters} Masters</span>
+                    <span>{office.activeMasters}명 근무 중</span>
                   </div>
                   <div className={styles.statItem}>
                     <ShieldCheck size={12} color="#22C55E" />
-                    <span>{office.successRate}% Success</span>
+                    <span>{office.successRate}% 성공</span>
                   </div>
                 </div>
                 <Link href={`/office/${office.id}`} className={styles.enterBtn}>
-                  HUB ENTRY
+                  상세 보기
                 </Link>
               </div>
             </div>

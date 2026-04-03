@@ -7,11 +7,11 @@ export default function Footer() {
             <div className="container">
                 <div className={styles.grid}>
                     <div style={{ gridColumn: 'span 2' }}>
-                        <h3 style={{ fontSize: '1.5rem', fontWeight: 800 }}>Mono</h3>
+                        <h3 style={{ fontSize: '1.5rem', fontWeight: 800 }}>모노 (Mono)</h3>
                         <p className={styles.brandDesc}>
-                            Navigate Your Skill, Navigate The World.<br />
-                            물리적 노동을 글로벌 커리어 자산으로 전환하는<br />
-                            프리미엄 테크 마스터 플랫폼
+                            기술로 길을 열고, 세계로 나가가세요.<br />
+                            마스터님의 소중한 땀방울을 가치 있는 경력으로<br />
+                            만들어드리는 프리미엄 기술 파트너
                         </p>
                     </div>
 
