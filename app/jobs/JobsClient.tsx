@@ -1,6 +1,8 @@
 'use client';
 
 import { useState, useMemo, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
+import { Zap } from 'lucide-react';
 import JobCard from '@/components/JobCard';
 import JobCardSkeleton from '@/components/JobCard/JobCardSkeleton';
 import JobFilter from '@/components/JobFilter/JobFilter';
@@ -14,12 +16,22 @@ interface JobsClientProps {
 type ViewMode = 'occupation' | 'location' | 'global' | 'details';
 
 export default function JobsClient({ initialJobs }: JobsClientProps) {
+    const searchParams = useSearchParams();
     const [viewMode, setViewMode] = useState<ViewMode>('occupation');
     const [category, setCategory] = useState('전체');
     const [occupation, setOccupation] = useState('전체');
     const [region, setRegion] = useState('전체');
     const [searchTerm, setSearchTerm] = useState('');
     const [isFiltering, setIsFiltering] = useState(false);
+    const [urgentOnly, setUrgentOnly] = useState(false);
+
+    useEffect(() => {
+        const filter = searchParams.get('filter');
+        if (filter === 'urgent') {
+            setUrgentOnly(true);
+            setViewMode('details');
+        }
+    }, [searchParams]);
 
     const handleFilterChange = (cat: string, occ: string, reg: string) => {
         setIsFiltering(true);
@@ -61,7 +73,9 @@ export default function JobsClient({ initialJobs }: JobsClientProps) {
                                  job.specialty.toLowerCase().includes(searchTerm.toLowerCase()) ||
                                  job.location.toLowerCase().includes(searchTerm.toLowerCase());
             
-            return matchesCat && matchesOcc && matchesReg && matchesSearch;
+            const matchesUrgent = !urgentOnly || job.isUrgent || job.time === 'ASAP' || job.time.includes('즉시');
+            
+            return matchesCat && matchesOcc && matchesReg && matchesSearch && matchesUrgent;
         });
     }, [initialJobs, category, occupation, region, searchTerm]);
 
@@ -105,12 +119,21 @@ export default function JobsClient({ initialJobs }: JobsClientProps) {
 
             {viewMode === 'details' && (
                 <>
-                    <JobFilter 
-                        initialCategory={category}
-                        initialOccupation={occupation}
-                        initialRegion={region}
-                        onFilterChange={handleFilterChange} 
-                    />
+                    <div className={styles.filterBar}>
+                        <JobFilter 
+                            initialCategory={category}
+                            initialOccupation={occupation}
+                            initialRegion={region}
+                            onFilterChange={handleFilterChange} 
+                        />
+                        <button 
+                            className={`${styles.urgentToggle} ${urgentOnly ? styles.active : ''}`}
+                            onClick={() => setUrgentOnly(!urgentOnly)}
+                        >
+                            <Zap size={14} fill={urgentOnly ? "currentColor" : "none"} />
+                            지금 바로 투입 가능 (급구)
+                        </button>
+                    </div>
                     <div className={styles.resultsInfo}>
                         <span className={styles.countText}>
                             총 <strong>{filteredJobs.length}</strong>건의 일자리

@@ -107,9 +107,9 @@ export default function Hero() {
                 </div>
 
                 <div className={`${styles.actions} fade-in delay-350`}>
-                    <Link href="/jobs" className={`${styles.mainBtn} ${styles.primaryBtn}`}>
-                        <Zap size={18} />
-                        전체 일자리 찾기
+                    <Link href="/jobs?filter=urgent" className={`${styles.mainBtn} ${styles.primaryBtn}`}>
+                        <Zap size={18} fill="currentColor" />
+                        즉시 투입 일자리 찾기
                     </Link>
                     <Link href="/technicians" className={`${styles.mainBtn} ${styles.secondaryBtn}`}>
                         <Search size={18} />
