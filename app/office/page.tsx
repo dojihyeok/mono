@@ -14,7 +14,8 @@ import {
   Users,
   Search,
   Filter,
-  ArrowUpRight
+  ArrowUpRight,
+  ShieldCheck
 } from 'lucide-react';
 import Link from 'next/link';
 
