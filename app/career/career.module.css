@@ -7,35 +7,68 @@
   display: flex;
   flex-direction: column;
   gap: 2rem;
+  background: radial-gradient(circle at top right, rgba(255, 107, 0, 0.05), transparent 40%);
 }
 
 .header {
   margin-bottom: 0.5rem;
+  border-left: 4px solid #FF6B00;
+  padding-left: 1rem;
 }
 
-.title {
-  font-size: 1.5rem;
+.passportLabel {
+  font-size: 0.7rem;
   font-weight: 800;
-  color: var(--foreground);
+  color: #FF6B00;
+  letter-spacing: 0.15em;
   margin-bottom: 0.5rem;
 }
 
+.title {
+  font-size: 1.75rem;
+  font-weight: 900;
+  color: #fff;
+  margin-bottom: 0.25rem;
+  letter-spacing: -0.02em;
+}
+
 .subtitle {
-  color: var(--secondary);
-  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.9rem;
   line-height: 1.5;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 /* Stats Section */
 .statsSection {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
 }
 
 .levelCard {
-  background: linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.9) 100%);
-  border-color: rgba(59, 130, 246, 0.3);
+  background: linear-gradient(135deg, rgba(20, 20, 25, 0.9) 0%, rgba(10, 10, 15, 0.95) 100%);
+  border: 1px solid rgba(255, 107, 0, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.levelCard::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100px;
+  height: 100px;
+  background: repeating-linear-gradient(
+    45deg,
+    rgba(255, 107, 0, 0.05),
+    rgba(255, 107, 0, 0.05) 10px,
+    transparent 10px,
+    transparent 20px
+  );
+  pointer-events: none;
 }
 
 .levelHeader {
@@ -46,39 +79,41 @@
 }
 
 .badge {
-  background: var(--accent);
+  background: #FF6B00;
   color: white;
-  padding: 0.25rem 0.75rem;
-  border-radius: 1rem;
-  font-size: 0.8rem;
-  font-weight: 700;
+  padding: 0.3rem 0.8rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 900;
+  letter-spacing: 0.05em;
 }
 
 .levelPoints {
-  font-size: 1.25rem;
-  font-weight: 800;
-  color: var(--accent-hover);
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: #FF6B00;
 }
 
 .progressBarWrapper {
   width: 100%;
-  height: 8px;
-  background: var(--secondary-light);
-  border-radius: 4px;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 3px;
   margin-bottom: 0.75rem;
   overflow: hidden;
 }
 
 .progressBar {
   height: 100%;
-  background: var(--accent);
-  border-radius: 4px;
-  box-shadow: 0 0 10px var(--accent);
+  background: linear-gradient(90deg, #FF6B00, #FFA500);
+  border-radius: 3px;
+  box-shadow: 0 0 15px rgba(255, 107, 0, 0.4);
 }
 
 .levelDesc {
-  font-size: 0.85rem;
-  color: var(--secondary);
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.4);
+  font-weight: 600;
 }
 
 .grid2 {
@@ -88,15 +123,21 @@
 }
 
 .statLabel {
-  font-size: 0.85rem;
-  color: var(--secondary);
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.3);
+  font-weight: 800;
+  text-transform: uppercase;
   margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .statValue {
-  font-size: 1.5rem;
-  font-weight: 800;
-  color: var(--foreground);
+  font-size: 1.75rem;
+  font-weight: 900;
+  color: #fff;
+  letter-spacing: -0.02em;
 }
 
 /* History Section */
@@ -113,47 +154,159 @@
 }
 
 .sectionTitle {
-  font-size: 1.15rem;
-  font-weight: 700;
-  color: var(--foreground);
+  font-size: 1.1rem;
+  font-weight: 900;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.sectionTitle::before {
+  content: '';
+  width: 12px;
+  height: 12px;
+  background: #FF6B00;
+  clip-path: polygon(100% 0, 0 0, 100% 100%);
 }
 
 .historyList {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 1.25rem;
 }
 
 .historyItem {
-  padding: 1.25rem;
+  padding: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.02);
 }
 
 .historyMeta {
   display: flex;
   justify-content: space-between;
-  font-size: 0.85rem;
-  margin-bottom: 0.75rem;
+  font-size: 0.75rem;
+  margin-bottom: 1rem;
+  font-weight: 700;
 }
 
 .historyDate {
-  color: var(--secondary);
+  color: rgba(255, 255, 255, 0.3);
 }
 
 .historyStatus {
-  color: #22c55e;
-  font-weight: 600;
+  color: #22C55E;
+  background: rgba(34, 197, 94, 0.1);
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
 }
 
 .historyTitle {
-  font-size: 1.05rem;
-  font-weight: 700;
-  margin-bottom: 0.25rem;
-  color: var(--primary-foreground);
+  font-size: 1rem;
+  font-weight: 800;
+  margin-bottom: 0.4rem;
+  color: #fff;
 }
 
 .historyCompany {
-  font-size: 0.9rem;
-  color: var(--secondary);
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+/* Passport Content Card */
+.passportCard {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 20px;
+  padding: 1.5rem;
+  position: relative;
+}
+
+/* QR Section */
+.qrSection {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+}
+
+.qrCodeWrapper {
+  width: 80px;
+  height: 80px;
+  background: #fff;
+  padding: 8px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.qrInfo h4 {
+  font-size: 0.95rem;
+  font-weight: 800;
+  margin-bottom: 0.25rem;
+  color: #fff;
+}
+
+.qrInfo p {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.4);
+  line-height: 1.4;
+}
+
+/* Trust Radar */
+.radarWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem 0;
+  margin-bottom: 2rem;
+}
+
+/* Equipment Grid */
+.equipmentGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+}
+
+.equipmentItem {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.eqIcon {
+  width: 32px;
+  height: 32px;
+  background: rgba(255, 107, 0, 0.1);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.eqInfo h5 {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.idExpiry {
+  font-size: 0.6rem;
+  font-weight: 800;
+  color: #22C55E;
+  margin-top: 0.5rem;
+  font-family: monospace;
+}
+
+.radarSection {
+  margin-bottom: 1rem;
 }
 
 /* Verification */
