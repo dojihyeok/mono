@@ -51,7 +51,7 @@
 .wage {
     font-size: 1.5rem;
     font-weight: 800;
-    color: #B48A09;
+    color: var(--accent-gold);
     margin-bottom: 1rem;
     display: flex;
     align-items: baseline;
@@ -129,14 +129,14 @@
 .carpoolInfo {
     margin-bottom: 1rem;
     padding: 1rem;
-    background: rgba(180, 138, 9, 0.05);
+    background: rgba(255, 107, 0, 0.05);
     border-radius: 10px;
-    color: #B48A09;
+    color: var(--accent-gold);
     font-size: 0.9rem;
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
-    border: 1px solid rgba(180, 138, 9, 0.15);
+    border: 1px solid rgba(255, 107, 0, 0.15);
 }
 
 .gatheringItem {

@@ -13,7 +13,6 @@
     z-index: 10;
 }
 
-/* New Branding Element - Glitch Box */
 .glitchBox {
     display: flex;
     align-items: center;
@@ -96,12 +95,175 @@
     max-width: 100%;
 }
 
-/* Action Button Overlays */
+.heroMain {
+    margin-bottom: 3.5rem;
+}
+
+.fieldAction {
+    width: 100%;
+    margin-bottom: 3rem;
+}
+
+.tacticalCard {
+    display: block;
+    background: linear-gradient(135deg, rgba(255, 107, 0, 0.12) 0%, rgba(17, 17, 21, 0.95) 100%);
+    border: 1px solid rgba(255, 107, 0, 0.4);
+    border-radius: 28px;
+    text-decoration: none;
+    color: #fff;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 0 40px rgba(255, 107, 0, 0.1), inset 0 0 20px rgba(255, 107, 0, 0.05);
+    overflow: hidden;
+    position: relative;
+    text-align: left;
+}
+
+.tacticalCard::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 107, 0, 0.12), transparent);
+    transform: translateX(-100%);
+    transition: transform 0.6s;
+    pointer-events: none;
+}
+
+.tacticalCard:hover {
+    border-color: rgba(255, 107, 0, 0.85);
+    transform: translateY(-8px) scale(1.025);
+    box-shadow: 0 20px 60px rgba(255, 107, 0, 0.25);
+}
+
+.tacticalCard:hover::before {
+    transform: translateX(100%);
+}
+
+.cardHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.75rem;
+    background: rgba(0, 0, 0, 0.4);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.liveIndicator {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.liveText {
+    font-size: 0.7rem;
+    font-weight: 900;
+    letter-spacing: 0.12em;
+    color: var(--accent-safe);
+}
+
+.matchingStatus {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.cardBody {
+    display: flex;
+    align-items: center;
+    gap: 2.5rem;
+    padding: 2.5rem 3rem;
+    background: var(--caution-stripe);
+}
+
+.radarMain {
+    animation: radarRotation 4s linear infinite;
+    filter: drop-shadow(0 0 15px rgba(255, 107, 0, 0.5));
+}
+
+.cardInfo {
+    flex: 1;
+}
+
+.cardTitle {
+    font-size: 1.75rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+    color: #fff;
+    letter-spacing: -0.02em;
+}
+
+.cardSub {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.5);
+    margin-bottom: 1.5rem;
+    line-height: 1.5;
+}
+
+.liveStats {
+    display: flex;
+    gap: 2rem;
+}
+
+.statItem {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.85rem;
+    color: #B48A09;
+    font-weight: 800;
+}
+
+.cardArrow {
+    color: rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+}
+
+.tacticalCard:hover .cardArrow {
+    color: #fff;
+    transform: translateX(8px);
+}
+
+.cardFooter {
+    background: rgba(0, 0, 0, 0.6);
+    padding: 0.85rem 1.75rem;
+    overflow: hidden;
+}
+
+.feedMarquee {
+    display: flex;
+    gap: 3rem;
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.4);
+    font-weight: 500;
+    white-space: nowrap;
+    width: fit-content;
+    animation: scrollFeed 25s linear infinite;
+}
+
+.feedDot {
+    color: rgba(180, 138, 9, 0.5);
+}
+
+@keyframes radarRotation {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes scrollFeed {
+    from { transform: translateX(100%); }
+    to { transform: translateX(-100%); }
+}
+
 .actions {
     display: flex;
-    gap: 16px;
-    margin-top: 40px;
-    width: 100%;
+    gap: 1.25rem;
+    margin-top: 1rem;
+    margin-bottom: 3.5rem;
 }
 
 .mainBtn {
@@ -110,27 +272,25 @@
     align-items: center;
     justify-content: center;
     gap: 12px;
-    padding: 18px;
+    padding: 1.25rem;
     border-radius: 20px;
-    font-size: 15px;
+    font-size: 1rem;
     font-weight: 800;
     text-transform: uppercase;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     text-decoration: none;
+    transition: all 0.3s ease;
 }
 
 .primaryBtn {
     background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
     color: #fff;
     border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 }
 
 .primaryBtn:hover {
     background: #fff;
     color: #000;
     transform: translateY(-2px);
-    box-shadow: 0 15px 40px rgba(255, 255, 255, 0.15);
 }
 
 .secondaryBtn {
@@ -142,10 +302,9 @@
 
 .secondaryBtn:hover {
     background: rgba(255, 255, 255, 0.08);
-    transform: translateY(-4px);
+    transform: translateY(-2px);
 }
 
-/* Asset Navigation - Academy & Passport */
 .assetNav {
     display: flex;
     align-items: center;
@@ -181,7 +340,6 @@
     background: rgba(255, 255, 255, 0.1);
 }
 
-/* Background Abstract Shapes */
 .shape {
     position: absolute;
     width: 800px;
@@ -216,65 +374,6 @@
     transition: opacity 0.5s ease-in, transform 0.5s ease-in;
 }
 
-.fieldAction {
-    margin-top: 24px;
-    width: 100%;
-}
-
-.fieldBtn {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 20px 24px;
-    background: linear-gradient(135deg, rgba(180, 138, 9, 0.1) 0%, rgba(17, 17, 21, 0.8) 100%);
-    border: 1px solid rgba(180, 138, 9, 0.3);
-    border-radius: 20px;
-    text-decoration: none;
-    color: #fff;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-}
-
-.fieldBtn:hover {
-    background: linear-gradient(135deg, rgba(180, 138, 9, 0.15) 0%, rgba(17, 17, 21, 0.9) 100%);
-    border-color: rgba(180, 138, 9, 0.5);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 30px rgba(180, 138, 9, 0.1);
-}
-
-.fieldBtnContent {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-}
-
-.fieldText {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-}
-
-.fieldText strong {
-    font-size: 16px;
-    font-weight: 700;
-    color: #fff;
-}
-
-.fieldText span {
-    font-size: 12px;
-    color: rgba(255, 255, 255, 0.5);
-}
-
-.pulseIcon {
-    animation: radarPulse 2s infinite;
-}
-
-@keyframes radarPulse {
-    0% { transform: scale(1); opacity: 1; }
-    50% { transform: scale(1.1); opacity: 0.7; }
-    100% { transform: scale(1); opacity: 1; }
-}
-
 @media (max-width: 768px) {
     .hero {
         padding: 100px 20px 60px;
@@ -284,8 +383,31 @@
         flex-direction: column;
     }
     
-    .fieldBtn {
-        padding: 16px;
+    .tacticalCard {
+        border-radius: 20px;
+    }
+
+    .cardBody {
+        padding: 1.5rem;
+        gap: 1.25rem;
+    }
+
+    .cardTitle {
+        font-size: 1.25rem;
+    }
+
+    .cardSub {
+        font-size: 0.85rem;
+        margin-bottom: 1rem;
+    }
+
+    .liveStats {
+        gap: 1rem;
+    }
+
+    .radarMain {
+        width: 40px;
+        height: 40px;
     }
     
     .assetNav {
@@ -302,5 +424,11 @@
 @media (max-width: 480px) {
     .title {
         font-size: 1.85rem;
+    }
+    
+    .cardBody {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1.5rem;
     }
 }

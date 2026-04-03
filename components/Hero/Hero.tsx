@@ -47,21 +47,69 @@ export default function Hero() {
                     04:00 - 08:00 집합 현장 실시간 매칭
                 </div>
 
-                <h1 className={`${styles.title} ${fade ? styles.fadeIn : styles.fadeOut}`}>
-                    {parts[0]}
-                    <span className={styles.titleSpan}>{current.highlight}</span>
-                    {parts[1]}
-                </h1>
+                <div className={styles.heroMain}>
+                  <h1 className={`${styles.title} ${fade ? styles.fadeIn : styles.fadeOut}`}>
+                      {parts[0]}
+                      <span className={styles.titleSpan}>{current.highlight}</span>
+                      {parts[1]}
+                  </h1>
 
-                <p className={`${styles.description} fade-in delay-200`}>
-                    <strong>Navigate Your Skill. Navigate The World.</strong><br />
-                    숙련의 기록을 데이터 자산으로, 전 세계 어디서나 통용되는 MO-NO 글로벌 패스포트 시스템.
-                </p>
+                  <p className={`${styles.description} fade-in delay-200`}>
+                      <strong>Navigate Your Skill. Navigate The World.</strong><br />
+                      숙련의 기록을 데이터 자산으로, 전 세계 어디서나 통용되는 MO-NO 글로벌 패스포트 시스템.
+                  </p>
+                </div>
 
-                <div className={`${styles.actions} fade-in delay-300`}>
+                <div className={`${styles.fieldAction} fade-in delay-300`}>
+                    <Link href="/office" className={styles.tacticalCard}>
+                        <div className={styles.cardHeader}>
+                            <div className={styles.liveIndicator}>
+                                <span className={styles.pulseDot}></span>
+                                <span className={styles.liveText}>LIVE MONITORING</span>
+                            </div>
+                            <div className={styles.matchingStatus}>
+                                <Radio size={14} color="#ef4444" className={styles.pulseIcon} />
+                                <span>65개 사무소 매칭 중</span>
+                            </div>
+                        </div>
+                        
+                        <div className={styles.cardBody}>
+                            <Radar size={48} color="#B48A09" className={styles.radarMain} />
+                            <div className={styles.cardInfo}>
+                                <h2 className={styles.cardTitle}>온라인 인력 사무소 (현장)</h2>
+                                <p className={styles.cardSub}>전국의 숙련된 마스터를 위한 실시간 현장 배정 시스템</p>
+                                <div className={styles.liveStats}>
+                                    <div className={styles.statItem}>
+                                        <Users size={14} />
+                                        <span>오늘 1,240명 출근</span>
+                                    </div>
+                                    <div className={styles.statItem}>
+                                        <TrendingUp size={14} />
+                                        <span>실시간 매칭률 98%</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className={styles.cardArrow}>
+                                <ArrowRight size={24} />
+                            </div>
+                        </div>
+
+                        <div className={styles.cardFooter}>
+                            <div className={styles.feedMarquee}>
+                                <span>[09:12] 성수 테크니컬 인력 2명 매칭 완료</span>
+                                <span className={styles.feedDot}>•</span>
+                                <span>[09:10] 반포 명장 사무소 집합 확인 중</span>
+                                <span className={styles.feedDot}>•</span>
+                                <span>[09:05] 고덕 삼성 전문관 5명 현장 투입</span>
+                            </div>
+                        </div>
+                    </Link>
+                </div>
+
+                <div className={`${styles.actions} fade-in delay-350`}>
                     <Link href="/jobs" className={`${styles.mainBtn} ${styles.primaryBtn}`}>
                         <Zap size={18} />
-                        일자리 찾기
+                        전체 일자리 찾기
                     </Link>
                     <Link href="/technicians" className={`${styles.mainBtn} ${styles.secondaryBtn}`}>
                         <Search size={18} />
@@ -69,26 +117,8 @@ export default function Hero() {
                     </Link>
                 </div>
 
-                <div className={`${styles.fieldAction} fade-in delay-350`}>
-                    <Link href="/office" className={styles.fieldBtn}>
-                        <div className={styles.fieldBtnContent}>
-                            <Radar size={20} color="#B48A09" className={styles.pulseIcon} />
-                            <div className={styles.fieldText}>
-                                <strong>온라인 인력 사무소 (현장)</strong>
-                                <span>오늘의 집합 · 출결 · 정산 관리</span>
-                            </div>
-                        </div>
-                        <ArrowRight size={18} />
-                    </Link>
-                </div>
-
                 {/* Quick Asset Access Tools */}
                 <div className={`${styles.assetNav} fade-in delay-400`}>
-                    <Link href="/office" className={styles.assetItem}>
-                        <ShieldCheck size={16} color="#B48A09" />
-                        <span>Field Office</span>
-                    </Link>
-                    <div className={styles.divider} />
                     <Link href="/ops/center" className={styles.assetItem}>
                         <Radio size={16} color="#ef4444" className={styles.pulseIcon} />
                         <span>Site Ops</span>
@@ -101,7 +131,7 @@ export default function Hero() {
                     <div className={styles.divider} />
                     <Link href="/shop" className={styles.assetItem}>
                         <ShoppingBag size={16} color="#B48A09" />
-                        <span>Gear</span>
+                        <span>Gear Shop</span>
                     </Link>
                 </div>
             </div>
@@ -109,4 +139,4 @@ export default function Hero() {
     );
 }
 
-import { Globe, Search, Zap, ShieldCheck, BrainCircuit, Radio, TrendingUp, ShoppingBag, Radar, ArrowRight } from 'lucide-react';
+import { Globe, Search, Zap, ShieldCheck, BrainCircuit, Radio, TrendingUp, ShoppingBag, Radar, ArrowRight, Users } from 'lucide-react';

@@ -7,7 +7,9 @@
 
   --accent: #E2E8F0; /* Muted Platinum */
   --accent-hover: #FFFFFF;
-  --accent-gold: #B48A09; /* Rich Burnished Gold */
+  --accent-gold: #FF6B00; /* Safety Construction Orange */
+  --accent-safe: #22C55E; /* High-Visibility Safety Green */
+  --caution-stripe: repeating-linear-gradient(45deg, transparent, transparent 12px, rgba(255, 107, 0, 0.08) 12px, rgba(255, 107, 0, 0.08) 24px);
 
   --card: rgba(18, 18, 23, 0.98); 
   --card-foreground: #F8FAFC;
