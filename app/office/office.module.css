@@ -183,10 +183,58 @@
   justify-content: center;
 }
 
+.nameRow {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.25rem;
+}
+
 .officeName {
   font-size: 1.1rem;
   font-weight: 700;
-  margin-bottom: 0.25rem;
+}
+
+.categoryBadge {
+  font-size: 0.65rem;
+  font-weight: 800;
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.categoryBadge.construction {
+  color: #FF6B00;
+  background: rgba(255, 107, 0, 0.1);
+  border-color: rgba(255, 107, 0, 0.2);
+}
+
+.categoryBadge.agritech {
+  color: #22C55E;
+  background: rgba(34, 197, 94, 0.1);
+  border-color: rgba(34, 197, 94, 0.2);
+}
+
+.categoryBadge.oceantech {
+  color: #3B82F6;
+  background: rgba(59, 130, 246, 0.1);
+  border-color: rgba(59, 130, 246, 0.2);
+}
+
+.categoryBadge.semicon {
+  color: #A855F7;
+  background: rgba(168, 85, 247, 0.1);
+  border-color: rgba(168, 85, 247, 0.2);
+}
+
+.categoryBadge.logistics {
+  color: #EAB308;
+  background: rgba(234, 179, 8, 0.1);
+  border-color: rgba(234, 179, 8, 0.2);
 }
 
 .officeStats {

@@ -22,6 +22,7 @@ const MANPOWER_OFFICES = [
   {
     id: 'seongsu',
     name: '성수 테크니컬 인력',
+    category: 'CONSTRUCTION',
     rating: 4.9,
     reviews: 128,
     distance: '1.2km',
@@ -34,8 +35,65 @@ const MANPOWER_OFFICES = [
     ]
   },
   {
+    id: 'gwangmyeong',
+    name: '광명 스마트팜 센터',
+    category: 'AGRITECH',
+    rating: 4.7,
+    reviews: 64,
+    distance: '12km',
+    activeJobsCount: 15,
+    status: 'ACTIVE_NOW',
+    jobs: [
+      { id: 'j10', time: '08:00', title: '스마트팜 수경배지 교체', pay: '155,000', type: 'NORMAL' },
+      { id: 'j11', time: 'ASAP', title: '시설 하우스 센서 점검', pay: '185,000', type: 'IMMEDIATE' }
+    ]
+  },
+  {
+    id: 'busan',
+    name: '부산 오션 마스터 센터',
+    category: 'OCEANTECH',
+    rating: 4.9,
+    reviews: 215,
+    distance: '320km',
+    activeJobsCount: 28,
+    status: 'ACTIVE_DAWN',
+    jobs: [
+      { id: 'j20', time: '05:00', title: '선조립 구역 수중 용접', pay: '320,000', type: 'DAWN' },
+      { id: 'j21', time: '07:30', title: '대형 선박 도장/코팅', pay: '210,000', type: 'DAWN' }
+    ]
+  },
+  {
+    id: 'pyeongtaek',
+    name: '평택 반도체 설비 본부',
+    category: 'SEMICON',
+    rating: 5.0,
+    reviews: 412,
+    distance: '45km',
+    activeJobsCount: 56,
+    status: 'ACTIVE_NOW',
+    jobs: [
+      { id: 'j30', time: '04:00', title: '클린룸 공조 덕트 설비', pay: '245,000', type: 'DAWN' },
+      { id: 'j31', time: '08:00', title: 'P4 라인 정밀 배관 보조', pay: '210,000', type: 'NORMAL' }
+    ]
+  },
+  {
+    id: 'incheon',
+    name: '인천 글로벌 물류 허브',
+    category: 'LOGISTICS',
+    rating: 4.6,
+    reviews: 98,
+    distance: '28km',
+    activeJobsCount: 34,
+    status: 'ACTIVE_NOW',
+    jobs: [
+      { id: 'j40', time: 'ASAP', title: '리치 트럭 (지게차) 운전', pay: '190,000', type: 'IMMEDIATE' },
+      { id: 'j41', time: '21:00', title: '야간 벌크 화물 하역', pay: '230,000', type: 'NORMAL' }
+    ]
+  },
+  {
     id: 'banpo',
     name: '반포 명장 사무소',
+    category: 'CONSTRUCTION',
     rating: 4.8,
     reviews: 84,
     distance: '3.5km',
@@ -44,19 +102,6 @@ const MANPOWER_OFFICES = [
     jobs: [
       { id: 'j4', time: '05:15', title: '창호 시공 보조', pay: '180,000', type: 'DAWN' },
       { id: 'j5', time: 'ASAP', title: '자재 양중 (곰방)', pay: '220,000', type: 'IMMEDIATE' }
-    ]
-  },
-  {
-    id: 'godeok',
-    name: '고덕 삼성 전문관',
-    rating: 5.0,
-    reviews: 320,
-    distance: '25km',
-    activeJobsCount: 45,
-    status: 'ACTIVE_DAWN',
-    jobs: [
-      { id: 'j6', time: '04:15', title: 'P4 현장 포설 (대량)', pay: '210,000', type: 'DAWN' },
-      { id: 'j7', time: '04:30', title: '시스템 비계 상차', pay: '240,000', type: 'DAWN' }
     ]
   }
 ];
@@ -117,7 +162,12 @@ export default function OnlineOfficePage() {
                     <Building2 size={24} color="#b48a09" />
                   </div>
                   <div>
-                    <h3 className={styles.officeName}>{office.name}</h3>
+                    <div className={styles.nameRow}>
+                      <h3 className={styles.officeName}>{office.name}</h3>
+                      <span className={`${styles.categoryBadge} ${styles[office.category.toLowerCase()]}`}>
+                        {office.category}
+                      </span>
+                    </div>
                     <div className={styles.officeStats}>
                       <span className={styles.rating}>
                         <Star size={12} fill="#b48a09" color="#b48a09" />
