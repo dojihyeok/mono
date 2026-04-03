@@ -27,7 +27,7 @@ export default function CareerPage() {
       <div className={styles.container}>
         <header className={styles.header}>
           <div className={styles.passportLabel}>마스터 기술 경력 신분증</div>
-          <h1 className={styles.title}>디지털 커리어 패스포트</h1>
+          <h1 className={styles.title}>디지털 기술 경력 수첩</h1>
           <p className={styles.subtitle}>검증된 내 기술 실력과 자격증 모음</p>
         </header>
 

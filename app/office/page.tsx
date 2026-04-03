@@ -119,6 +119,15 @@ const MANPOWER_OFFICES = [
   }
 ];
 
+const CATEGORY_LABELS: Record<string, string> = {
+  'CONSTRUCTION': '건설 기술 거점',
+  'AGRITECH': '첨단 농업 거점',
+  'OCEANTECH': '해양 선박 거점',
+  'SEMICON': '반도체 설비 거점',
+  'LOGISTICS': '글로벌 물류 거점',
+  'REMODEL': '주거 수리 거점'
+};
+
 export default function OnlineOfficePage() {
   const [mounted, setMounted] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -181,7 +190,7 @@ export default function OnlineOfficePage() {
                     <div className={styles.nameRow}>
                       <h3 className={styles.officeName}>{office.name}</h3>
                       <span className={`${styles.categoryBadge} ${styles[office.category.toLowerCase()]}`}>
-                        {office.category}
+                        {CATEGORY_LABELS[office.category]}
                       </span>
                     </div>
                     <div className={styles.officeStats}>
