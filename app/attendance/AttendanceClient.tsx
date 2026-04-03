@@ -23,7 +23,7 @@ const SITE_DATA = {
     name: '청담동 고급 빌라 신축 현장',
     location: '서울특별시 강남구 청담동 124-5',
     distance: 0.15, // km
-    weather: 'Sunny, 21°C',
+    weather: '맑음, 21˚C',
     shiftStart: '08:00',
     currentTeam: [
         { id: 'm1', name: '이마스터', initial: 'LM', role: '목수' },
@@ -38,7 +38,7 @@ const VEHICLE_DATA = {
     plate: '52 가 1234',
     driver: '김영수 기사님',
     status: 'GATHERING',
-    eta: '12 min',
+    eta: '12분 뒤',
     seats: [
         { id: 1, occupied: true, name: '이마스터' },
         { id: 2, occupied: true, name: '박마스터' },
@@ -101,7 +101,7 @@ export default function AttendanceClient() {
                         <div className={styles.userMarker}>
                             <div className={styles.markerPulse}></div>
                         </div>
-                        <div className={styles.mapLabel}>SITE: {SITE_DATA.name}</div>
+                        <div className={styles.mapLabel}>현장: {SITE_DATA.name}</div>
                     </div>
                 </section>
 
