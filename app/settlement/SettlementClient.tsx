@@ -5,6 +5,18 @@ import Navbar from '@/components/Navbar/Navbar';
 import GlassCard from '@/components/UI/GlassCard';
 import Button from '@/components/UI/Button';
 import styles from './page.module.css';
+import { 
+  ShieldCheck, 
+  Lock, 
+  TrendingUp, 
+  History, 
+  ArrowUpRight, 
+  Wallet,
+  ShieldAlert,
+  Info,
+  CheckCircle2,
+  Building2
+} from 'lucide-react';
 
 // Mock Settlement Data for Phase 2.2
 const WALLET_DATA = {
@@ -42,18 +54,23 @@ export default function SettlementClient() {
             <main className={styles.main}>
                 {/* 1. Wallet Status Highlighting */}
                 <header className={styles.header}>
-                    <h1 className={styles.title}>실시간 정산 및 출금</h1>
-                    <p className={styles.subtitle}>오늘 마스터님의 땀방울이 즉시 현금 자산으로 전환되었습니다.</p>
+                    <div className={styles.brandBadge}>GLOBAL MASTER FINANCIAL CONSOLE</div>
+                    <h1 className={styles.title}>실시간 자산 관리 및 정산</h1>
+                    <p className={styles.subtitle}>마스터님의 기술 자산이 MO-NO 에스크로를 통해 안전하게 정산되고 있습니다.</p>
                 </header>
 
                 <div className={styles.topSection}>
                     <GlassCard className={styles.walletCard}>
                         <div className={styles.walletHeader}>
-                            <span className={styles.label}>당일 즉시 출금 가능</span>
+                            <div className={styles.walletLabelBox}>
+                                <Wallet size={16} />
+                                <span className={styles.label}>당일 즉시 출금 가능</span>
+                            </div>
                             <span className={styles.dotLive}>Live Now</span>
                         </div>
                         <h2 className={styles.balance}>₩{WALLET_DATA.availableBalance}</h2>
                         <div className={styles.accountInfo}>
+                            <Building2 size={14} />
                             <span className={styles.bankTag}>{WALLET_DATA.bank}</span>
                             <span className={styles.accountNum}>{WALLET_DATA.accountNumber}</span>
                         </div>
@@ -62,20 +79,36 @@ export default function SettlementClient() {
                             onClick={handleTransfer}
                             disabled={isTransferring}
                         >
-                            {isTransferring ? '내 계좌로 전송 중...' : '지금 바로 내 통장으로 받기'}
+                            {isTransferring ? '내 계좌로 안전 전송 중...' : '지금 바로 계좌로 출금 (Withdrawal)'}
                         </Button>
-                        <p className={styles.footerNote}>* MO-NO는 일당 당일 지급 99.9% 보증 및 수수료 면제 정책을 준수합니다.</p>
+                        <div className={styles.securitySeal}>
+                            <ShieldCheck size={12} />
+                            <span>MO-NO 분리형 에스크로 계좌로 보호받고 있습니다.</span>
+                        </div>
                     </GlassCard>
 
                     <GlassCard className={styles.escrowCard}>
                         <div className={styles.escrowHeader}>
-                            <span className={styles.label}>에스크로 보호 중 (Locked)</span>
-                            <div className={styles.secureIcon}>🔒</div>
+                            <div className={styles.escrowLabelBox}>
+                                <Lock size={16} color="#FF6B00" />
+                                <span className={styles.label}>미확정 에스크로 자산</span>
+                            </div>
+                            <div className={styles.secureBadge}>SECURED</div>
                         </div>
                         <h2 className={styles.lockedAmount}>₩{WALLET_DATA.lockedEscrow}</h2>
-                        <p className={styles.escrowDesc}>현장 작업 종료 및 검수 완료 후 즉시 활성화됩니다.</p>
+                        <div className={styles.safetyNetBox}>
+                            <div className={styles.netItem}>
+                                <label>산재보험 적립</label>
+                                <span>3.4%</span>
+                            </div>
+                            <div className={styles.netItem}>
+                                <label>기술 수수료</label>
+                                <span>0% (면제)</span>
+                            </div>
+                        </div>
                         <div className={styles.progressTrack}>
                             <div className={styles.progressBar} style={{width: '65%'}}></div>
+                            <span className={styles.progressLabel}>검수 진행률 65%</span>
                         </div>
                     </GlassCard>
                 </div>
