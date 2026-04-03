@@ -5,6 +5,18 @@ import Navbar from '@/components/Navbar/Navbar';
 import GlassCard from '@/components/UI/GlassCard';
 import Button from '@/components/UI/Button';
 import styles from './page.module.css';
+import { 
+  Bus, 
+  User, 
+  MapPin, 
+  Clock, 
+  Navigation, 
+  ShieldCheck, 
+  Users,
+  ChevronRight,
+  Armchair,
+  CheckCircle2
+} from 'lucide-react';
 
 // Mock Site Data for Phase 2.3
 const SITE_DATA = {
@@ -17,6 +29,26 @@ const SITE_DATA = {
         { id: 'm1', name: '이마스터', initial: 'LM', role: '목수' },
         { id: 'm2', name: '박마스터', initial: 'PM', role: '전기' },
         { id: 'm3', name: '최보조', initial: 'CJ', role: '조공' }
+    ]
+};
+
+const VEHICLE_DATA = {
+    id: 'V-102',
+    model: 'Hyundai Staria Master Van',
+    plate: '52 가 1234',
+    driver: '김영수 기사님',
+    status: 'GATHERING',
+    eta: '12 min',
+    seats: [
+        { id: 1, occupied: true, name: '이마스터' },
+        { id: 2, occupied: true, name: '박마스터' },
+        { id: 3, occupied: false },
+        { id: 4, occupied: true, name: '최보조' },
+        { id: 5, occupied: false },
+        { id: 6, occupied: false },
+        { id: 7, occupied: false },
+        { id: 8, occupied: false },
+        { id: 9, occupied: false },
     ]
 };
 
@@ -97,19 +129,105 @@ export default function AttendanceClient() {
                         )}
 
                         {status === 'GATHERING' && (
-                            <div className={styles.gatheringState}>
-                                <div className={styles.pulseIcon}>🚌</div>
-                                <h3>차량 대기 중...</h3>
-                                <p>현장 이동 차량이 도착하면 탑승해 주세요.</p>
-                                <Button className={styles.boardBtn} onClick={handleBoarding}>차량 탑승 완료</Button>
+                            <div className={styles.transitOperation}>
+                                <header className={styles.transitHeader}>
+                                    <div className={styles.transitBadge}>MISSION TRANSIT</div>
+                                    <h3 className={styles.transitTitle}>이동 수단 배차 완료</h3>
+                                </header>
+                                
+                                <div className={styles.vehicleCard}>
+                                    <div className={styles.vehicleIcon}>
+                                        <Bus size={32} color="#FF6B00" />
+                                    </div>
+                                    <div className={styles.vehicleInfo}>
+                                        <div className={styles.plate}>{VEHICLE_DATA.plate}</div>
+                                        <div className={styles.model}>{VEHICLE_DATA.model}</div>
+                                        <div className={styles.driver}>{VEHICLE_DATA.driver}</div>
+                                    </div>
+                                    <div className={styles.etaBox}>
+                                        <span className={styles.etaLabel}>출발 대기</span>
+                                        <span className={styles.etaTime}>{VEHICLE_DATA.eta}</span>
+                                    </div>
+                                </div>
+
+                                <div className={styles.seatMapSection}>
+                                    <h4 className={styles.subTitle}>VEHICLE SEAT MAP (9 SEATS)</h4>
+                                    <div className={styles.seatGrid}>
+                                        {VEHICLE_DATA.seats.map(seat => (
+                                            <div 
+                                                key={seat.id} 
+                                                className={`${styles.seat} ${seat.occupied ? styles.occupied : ''} ${seat.id === 3 ? styles.mySeat : ''}`}
+                                            >
+                                                <Armchair size={16} />
+                                                <span className={styles.seatId}>{seat.id}</span>
+                                                {seat.occupied && <span className={styles.seatUser}>{seat.name?.substring(0,1)}</span>}
+                                                {seat.id === 3 && <span className={styles.myLabel}>내 좌석</span>}
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                <Button className={styles.boardBtn} onClick={handleBoarding}>3번 좌석 탑승 완료 (Boarding)</Button>
                             </div>
                         )}
 
                         {status === 'BOARDED' && (
-                            <div className={styles.boardedState}>
-                                <div className={styles.loadingSpinner}></div>
-                                <h3>현장으로 이동 중</h3>
-                                <p>안전하게 이동하고 있습니다. 현장 도착 시 GPS 인증이 활성화됩니다.</p>
+                            <div className={styles.transitOperation}>
+                                <header className={styles.transitHeader}>
+                                    <div className={styles.activeTransitBadge}>TRANSIT IN PROGRESS</div>
+                                    <h3 className={styles.transitTitle}>현장으로 작전 투입 중</h3>
+                                </header>
+
+                                <div className={styles.transitProgress}>
+                                    <div className={styles.progressLine}>
+                                        <div className={styles.progressFill} style={{ width: '65%' }}></div>
+                                        <div className={styles.vehicleMarker} style={{ left: '65%' }}>
+                                            <Navigation size={20} fill="#FF6B00" color="#FF6B00" />
+                                        </div>
+                                    </div>
+                                    <div className={styles.progressLabels}>
+                                        <span>GATHERING</span>
+                                        <span className={styles.activeLabel}>ON-THE-WAY</span>
+                                        <span>SITE ARVL</span>
+                                    </div>
+                                </div>
+
+                                <div className={styles.transitMeta}>
+                                    <div className={styles.metaItem}>
+                                        <Clock size={14} />
+                                        <span>예상 도착: 07:45 AM</span>
+                                    </div>
+                                    <div className={styles.metaItem}>
+                                        <MapPin size={14} />
+                                        <span>잔여 거리: 4.2km</span>
+                                    </div>
+                                </div>
+
+                                <div className={styles.boardingPass}>
+                                    <div className={styles.passHeader}>TRANSIT BOARDING PASS</div>
+                                    <div className={styles.passContent}>
+                                        <div className={styles.passRow}>
+                                            <div className={styles.passCol}>
+                                                <label>OPERATOR</label>
+                                                <p>김모노 마스터</p>
+                                            </div>
+                                            <div className={styles.passCol}>
+                                                <label>SEAT NO.</label>
+                                                <p>03 (WINDOW)</p>
+                                            </div>
+                                        </div>
+                                        <div className={styles.passRow}>
+                                            <div className={styles.passCol}>
+                                                <label>MISSION</label>
+                                                <p>{SITE_DATA.name}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className={styles.passFooter}>
+                                        <CheckCircle2 size={14} color="#22C55E" />
+                                        <span>인증된 이동 수단 이용 중</span>
+                                    </div>
+                                </div>
                             </div>
                         )}
 
