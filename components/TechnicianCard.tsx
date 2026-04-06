@@ -35,7 +35,7 @@ export default function TechnicianCard({ technician }: TechnicianProps) {
                         <p className={styles.expertTitle}>{technician.specialty} 마스터 · 경력 {technician.experience}년</p>
                     </div>
                     <div className={styles.trustGroup}>
-                        <span className={styles.scoreLabel}>TRUST</span>
+                        <span className={styles.scoreLabel}>신뢰도</span>
                         <span className={styles.scoreValue}>{trustScore}</span>
                     </div>
                 </div>
