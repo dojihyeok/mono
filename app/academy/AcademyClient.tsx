@@ -18,35 +18,35 @@ const COURSES = [
     {
         id: 'c1',
         title: '반도체 P5 특수 배관 공법',
-        category: 'Advanced Tech',
-        level: 'Master',
+        category: '심화 기술',
+        level: '마스터 등급',
         progress: 65,
-        instructor: 'Kim Master',
+        instructor: '김 소장',
         image: 'https://images.unsplash.com/photo-1581094288338-2314dddb7bc3?w=500&q=80',
         points: 450,
-        badge: 'High-Tech'
+        badge: '하이테크'
     },
     {
         id: 'c2',
-        title: '호주 현장 실무 영어 (Situational)',
-        category: 'Global Survival',
-        level: 'Intermediate',
+        title: '호주 현장 실무 영어 (상황별)',
+        category: '글로벌 생존 영어',
+        level: '중급',
         progress: 30,
-        instructor: 'Emma S.',
+        instructor: '엠마 쌤',
         image: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=500&q=80',
         points: 300,
-        badge: 'Global'
+        badge: '글로벌'
     },
     {
         id: 'c3',
         title: '프리미엄 타일 레이아웃 설계',
-        category: 'Interior',
-        level: 'Expert',
+        category: '인테리어',
+        level: '전문가',
         progress: 0,
-        instructor: 'Lee Master',
+        instructor: '이 소장',
         image: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=500&q=80',
         points: 500,
-        badge: 'Design'
+        badge: '디자인'
     }
 ];
 
@@ -66,10 +66,10 @@ export default function AcademyClient() {
             {/* Header */}
             <header className={styles.header}>
                 <div className={styles.headerTop}>
-                    <h1>MASTER ACADEMY</h1>
+                    <h1>마스터 아카데미</h1>
                     <div className={styles.points}>
                         <Zap size={14} fill="currentColor" />
-                        <span>2,450 SP</span>
+                        <span>2,450 점</span>
                     </div>
                 </div>
                 <p className={styles.subtitle}>기술의 정점에서 글로벌 마스터로 도약하세요.</p>
@@ -81,7 +81,7 @@ export default function AcademyClient() {
                     <div className={styles.radarHeader}>
                         <Target size={18} className={styles.neonIcon} />
                         <h3>AI 역량 진단 데이터</h3>
-                        <span className={styles.grade}>MASTER GRADE</span>
+                        <span className={styles.grade}>마스터 등급</span>
                     </div>
                     <div className={styles.radarContent}>
                         <div className={styles.radarChartMock}>

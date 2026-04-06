@@ -32,27 +32,27 @@ export default function AdvisorClient() {
     }, []);
 
     const MASTER_STATS = [
-        { label: 'TRUST INDEX', value: '98.5', color: '#B48A09', trend: '+1.2' },
-        { label: 'EQUIPMENT HEALTH', value: 'OPTIMAL', color: '#10B981', trend: 'Maintenance Fixed' },
-        { label: 'GLOBAL READINESS', value: 'MASTER', color: '#E2E8F0', trend: 'ISO Certified' }
+        { label: '신뢰 지수', value: '98.5', color: '#B48A09', trend: '+1.2' },
+        { label: '장비 상태', value: '최상 (OPTIMAL)', color: '#10B981', trend: '정비 완료' },
+        { label: '글로벌 진출 준비도', value: '마스터 등급', color: '#E2E8F0', trend: 'ISO 국제 인증' }
     ];
 
     const RECOMMENDATIONS = [
         {
             id: 1,
-            project: 'NEOM CITY Construction Phase 2',
-            location: 'Saudi Arabia',
+            project: '네옴 시티(NEOM CITY) 건설 2단계',
+            location: '사우디아라비아',
             match: 97,
-            yield: '₩ 42.5M /mo',
-            reason: 'High expertise in underwater welding & ISO trust score.'
+            yield: '월 약 4,250만원',
+            reason: '수중 용접 숙련도 및 ISO 신뢰도 기반'
         },
         {
             id: 2,
-            project: 'Australia Green Hydrogen Plant',
-            location: 'Queensland',
+            project: '호주 퀸즐랜드 그린 수소 플랜트',
+            location: '호주 퀸즐랜드',
             match: 92,
-            yield: '₩ 38.0M /mo',
-            reason: 'Heavy equipment asset utilization (Optimal condition).'
+            yield: '월 약 3,800만원',
+            reason: '보유 중장비 전문 활용 (최적 상태 유지)'
         }
     ];
 
@@ -61,7 +61,7 @@ export default function AdvisorClient() {
             <div className={styles.scanningWrap}>
                 <div className={styles.scanner}>
                     <BrainCircuit size={64} className={styles.scanIcon} />
-                    <h2>MONO AI | ASSET SCANNING</h2>
+                    <h2>모노 AI | 자산 정밀 분석 중</h2>
                     <p>마스터의 기술 자산, 장비 상태 및 신용 리포트를 정밀 분석 중입니다.</p>
                     <div className={styles.progressBar}>
                         <div className={styles.progressFill} style={{ width: `${progress}%` }} />
@@ -75,7 +75,7 @@ export default function AdvisorClient() {
     return (
         <div className={styles.pageWrap}>
             <header className={styles.header}>
-                <div className={styles.premiumBadge}>MONO AI | MASTER CAREER ADVISOR</div>
+                <div className={styles.premiumBadge}>모노 AI | 마스터 커리어 어드바이저</div>
                 <h1>마스터 커리어 <span className={styles.goldText}>심층 분석 리포트</span></h1>
                 <p className={styles.subtitle}>데이터 자산 분석 기반 글로벌 하이-벨류 프로젝트 매칭 제안</p>
             </header>
@@ -121,7 +121,7 @@ export default function AdvisorClient() {
                             <div className={styles.matchScore}>
                                 <div className={styles.radialProgress}>
                                     <span className={styles.scoreNum}>{rec.match}%</span>
-                                    <span className={styles.scoreLabel}>MATCH</span>
+                                    <span className={styles.scoreLabel}>일치도</span>
                                 </div>
                             </div>
                             <div className={styles.recInfo}>
@@ -129,7 +129,7 @@ export default function AdvisorClient() {
                                 <span className={styles.location}>{rec.location}</span>
                                 <p className={styles.reason}>{rec.reason}</p>
                                 <div className={styles.yieldBox}>
-                                    <span className={styles.yieldLabel}>EST. MONTHLY REWARD</span>
+                                    <span className={styles.yieldLabel}>예상 월 수익</span>
                                     <span className={styles.yieldValue}>{rec.yield}</span>
                                 </div>
                                 <button className={styles.detailsBtn}>
@@ -143,7 +143,7 @@ export default function AdvisorClient() {
 
             <footer className={styles.footer}>
                 <p>본 리포트는 실시간 프로젝트 수급 데이터와 마스터 자산 가치를 기반으로 AI가 자동 생성한 맞춤형 제언입니다. </p>
-                <div className={styles.reportId}>REPORT ID: MA-ALPHA-7729</div>
+                <div className={styles.reportId}>리포트 번호: MA-ALPHA-7729</div>
             </footer>
         </div>
     );
