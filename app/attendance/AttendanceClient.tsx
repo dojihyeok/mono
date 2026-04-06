@@ -15,7 +15,11 @@ import {
   Users,
   ChevronRight,
   Armchair,
-  CheckCircle2
+  CheckCircle2,
+  AlertTriangle,
+  FileText,
+  Camera,
+  Activity
 } from 'lucide-react';
 
 // Mock Site Data for Phase 2.3
@@ -53,8 +57,9 @@ const VEHICLE_DATA = {
 };
 
 export default function AttendanceClient() {
-    const [status, setStatus] = useState<'IDLE' | 'GATHERING' | 'BOARDED' | 'GPS_CHECKED' | 'PPE_NEEDED' | 'WORKING'>('IDLE');
+    const [status, setStatus] = useState<'IDLE' | 'GATHERING' | 'BOARDED' | 'GPS_CHECKED' | 'PPE_SCAN' | 'WORKING'>('IDLE');
     const [timer, setTimer] = useState(0);
+    const [sosActive, setSosActive] = useState(false);
 
     useEffect(() => {
         let interval: NodeJS.Timeout;
@@ -82,7 +87,19 @@ export default function AttendanceClient() {
 
     const handleGpsCheck = () => {
         setStatus('GPS_CHECKED');
-        setTimeout(() => setStatus('PPE_NEEDED'), 1000);
+        setTimeout(() => setStatus('PPE_SCAN'), 1000);
+    };
+
+    const handleSos = () => {
+        setSosActive(true);
+        // In a real app, this would broadcast GPS to base
+        setTimeout(() => {
+            if (confirm('긴급 SOS 상황인가요? 본사와 주변 기술자에게 즉시 위치가 전송됩니다.')) {
+                alert('SOS 신호가 전송되었습니다. 즉시 지원팀이 출동합니다.');
+            } else {
+                setSosActive(false);
+            }
+        }, 100);
     };
 
     const handlePpeAuth = () => {
@@ -105,14 +122,28 @@ export default function AttendanceClient() {
                     </div>
                 </section>
 
-                {/* 2. Site Info Info */}
+                {/* 2. Site Info Header */}
                 <header className={styles.header}>
                     <div className={styles.siteHeader}>
+                        <div className={styles.commandBadge}>
+                            <Activity size={14} /> 현장 관제 시스템 가동 중
+                        </div>
                         <h1 className={styles.siteTitle}>{SITE_DATA.name}</h1>
                         <span className={styles.weatherTag}>☀️ {SITE_DATA.weather}</span>
                     </div>
                     <p className={styles.location}>{SITE_DATA.location}</p>
                 </header>
+
+                {/* Emergency SOS Button (Floating) */}
+                {(status === 'GPS_CHECKED' || status === 'PPE_SCAN' || status === 'WORKING') && (
+                    <button 
+                        className={`${styles.sosBtn} ${sosActive ? styles.sosActive : ''}`}
+                        onClick={handleSos}
+                    >
+                        <AlertTriangle size={24} />
+                        <span>긴급 SOS</span>
+                    </button>
+                )}
 
                 <div className={styles.actionGrid}>
                     {/* Attendance State Interaction */}
@@ -231,20 +262,26 @@ export default function AttendanceClient() {
                             </div>
                         )}
 
-                        {status === 'GPS_CHECKED' && (
-                            <div className={styles.gpsState}>
-                                <div className={styles.gpsIndicator}>📍 현장 반경 150m 내 도착 완료</div>
-                                <Button className={styles.checkInBtn} onClick={() => setStatus('PPE_NEEDED')}>현장 작업 시작 인증</Button>
+                                <Button className={styles.checkInBtn} onClick={() => setStatus('PPE_SCAN')}>현장 작업 시작 인증</Button>
                             </div>
                         )}
 
-                        {(status === 'GPS_CHECKED' || status === 'PPE_NEEDED') && (
+                        {(status === 'GPS_CHECKED' || status === 'PPE_SCAN') && (
                             <div className={styles.ppeState}>
-                                <div className={styles.cameraFrame}>
-                                    <div className={styles.cameraFocus}></div>
-                                    <div className={styles.ppeOverlay}>안전모/안전화를 착용해 주세요</div>
+                                <div className={styles.scannerHeader}>
+                                    <h3>AI 안전 장비 스캔</h3>
+                                    <p>안전모와 안전화를 착용한 모습이 보이게 찍어주세요.</p>
                                 </div>
-                                <Button className={styles.authBtn} onClick={handlePpeAuth}>안전 장비 인증 & 작업 시작</Button>
+                                <div className={styles.cameraFrame}>
+                                    <div className={styles.scannerLine}></div>
+                                    <div className={styles.cameraFocus}></div>
+                                    <div className={styles.ppeOverlay}>
+                                        <Camera size={40} color="#fff" />
+                                        <span>자동 감지 중...</span>
+                                    </div>
+                                    <div className={styles.scannerBadge}>안전 확인 대기</div>
+                                </div>
+                                <Button className={styles.authBtn} onClick={handlePpeAuth}>인증 완료 및 작업 시작</Button>
                             </div>
                         )}
 
@@ -278,15 +315,35 @@ export default function AttendanceClient() {
                     </GlassCard>
                 </div>
 
-                {/* 3. Site Daily Safety Checklist */}
-                <section className={styles.checklistSection}>
-                    <h3 className={styles.sectionTitle}>오늘의 현장 유의 사항</h3>
-                    <ul className={styles.checklist}>
-                        <li className={styles.checkItem}>⚠️ 골조 공사 중 낙하물 주의</li>
-                        <li className={styles.checkItem}>⚡ 전기 배선 작업 전 전원 차단 확인</li>
-                        <li className={styles.checkItem}>🧼 작업 후 잔여 타일 및 몰탈 정리</li>
-                    </ul>
-                </section>
+                {/* 3. Real-time Site Manual & Checklist */}
+                <div className={styles.lowerGrid}>
+                    <GlassCard className={styles.manualCard}>
+                        <div className={styles.cardHeader}>
+                            <FileText size={18} color="#FF6B00" />
+                            <h3 className={styles.cardTitle}>오늘의 작업 도면 & 상세</h3>
+                        </div>
+                        <div className={styles.blueprintMock}>
+                            <div className={styles.blueprintLabel}>3층 바닥 배근도_v2.pdf</div>
+                            <Button variant="secondary" size="sm">도면 열기 <ChevronRight size={14} /></Button>
+                        </div>
+                        <ul className={styles.missionList}>
+                            <li>✔ 오전: 거푸집 설치 및 수평 확인</li>
+                            <li>✔ 오후: 철근 배근 및 결속 작업</li>
+                        </ul>
+                    </GlassCard>
+
+                    <GlassCard className={styles.checklistCard}>
+                        <div className={styles.cardHeader}>
+                            <ShieldCheck size={18} color="#22C55E" />
+                            <h3 className={styles.cardTitle}>안전 유의 사항</h3>
+                        </div>
+                        <ul className={styles.checklist}>
+                            <li className={styles.checkItem}>⚠️ 골조 공사 중 낙하물 주의</li>
+                            <li className={styles.checkItem}>⚡ 전기 배선 작업 전 전원 차단 확인</li>
+                            <li className={styles.checkItem}>🧼 작업 후 잔여 타일 및 몰탈 정리</li>
+                        </ul>
+                    </GlassCard>
+                </div>
             </main>
         </div>
     );
