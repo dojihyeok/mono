@@ -15,6 +15,8 @@ import {
     MapPin,
     Package
 } from 'lucide-react';
+import EquipmentExplorer from './EquipmentExplorer';
+import RentalWizard from '@/components/Marketplace/RentalWizard';
 
 export default function MonetizeClient() {
     // 용어 매핑 테이블 (어르신들도 이해하기 쉽게)
@@ -39,6 +41,16 @@ export default function MonetizeClient() {
         { id: 1, name: '개인 굴착기 (현대 220-7)', status: 'WAITING', yield: '35만원', owner: '김 씨' },
         { id: 2, name: '용접기 (리바이브 TIG)', status: 'RENTING', yield: '12만원', owner: '이 씨' }
     ];
+
+    const [showExplorer, setShowExplorer] = useState(false);
+    const [selectedEq, setSelectedEq] = useState<any>(null);
+    const [showWizard, setShowWizard] = useState(false);
+
+    const handleEqSelect = (eq: any) => {
+        setSelectedEq(eq);
+        setShowExplorer(false);
+        setShowWizard(true);
+    };
 
     return (
         <div className={styles.pageWrap}>
@@ -102,7 +114,7 @@ export default function MonetizeClient() {
                             </div>
                         ))}
                     </div>
-                    <button className={styles.fleetBtn}>장비 빌리기 신청하기</button>
+                    <button className={styles.fleetBtn} onClick={() => setShowExplorer(true)}>장비 빌리기 신청하기</button>
                 </div>
 
                 {/* B. 내 장비 빌려주기 */}
@@ -127,7 +139,7 @@ export default function MonetizeClient() {
                             </div>
                         ))}
                     </div>
-                    <button className={styles.p2pBtn}>+ 내 장비 빌려주고 돈 받기</button>
+                    <button className={styles.p2pBtn} onClick={() => setShowExplorer(true)}>+ 내 장비 빌려주고 돈 받기</button>
                 </div>
 
                 {/* C. 새로 사기 가이드 */}
@@ -161,6 +173,20 @@ export default function MonetizeClient() {
                 <ShieldCheck size={14} color="#B48A09" />
                 <p>모노가 일당과 렌탈비를 떼이지 않게 안전하게 받아드립니다.</p>
             </footer>
+
+            {showExplorer && (
+                <EquipmentExplorer 
+                    onClose={() => setShowExplorer(false)} 
+                    onSelect={handleEqSelect}
+                />
+            )}
+
+            {showWizard && selectedEq && (
+                <RentalWizard 
+                    equipment={selectedEq} 
+                    onClose={() => setShowWizard(false)} 
+                />
+            )}
         </div>
     );
 }
