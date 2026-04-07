@@ -75,16 +75,8 @@ a {
   border-right: 1px solid var(--border);
 }
 
-@media (min-width: 769px) {
-  .app-shell {
-    max-width: 100%;
-    border: none;
-    box-shadow: none;
-  }
-}
-
 .app-content {
-  padding-bottom: 80px; /* Space for bottom nav */
+  padding-bottom: 120px; /* Space for bottom nav with extra safety margin */
   min-height: 100vh;
 }
 

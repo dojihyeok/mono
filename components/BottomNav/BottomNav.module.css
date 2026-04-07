@@ -1,8 +1,10 @@
 .bottomNav {
   position: fixed;
   bottom: 0;
-  left: 0;
-  right: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: var(--app-max-width);
   height: 72px;
   background: var(--nav-bg);
   backdrop-filter: blur(12px);
@@ -18,7 +20,6 @@
 .navList {
   display: flex;
   width: 100%;
-  max-width: var(--app-max-width);
   justify-content: space-around;
   align-items: center;
   list-style: none;
