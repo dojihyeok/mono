@@ -45,6 +45,19 @@ export default function BottomNav() {
           </Link>
         </li>
         <li className={styles.navItem}>
+          <Link href="/foreman" className={styles.navLink}>
+            <div className={styles.iconWrapper}>
+              {/* AI Foreman Icon (Brain Circuit style) */}
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 4.5a2.5 2.5 0 0 0-4.96-.45 2.5 2.5 0 0 0-1.98 2.48 2.5 2.5 0 0 0 .5 4.9c-.3.2-.5.6-.5 1a2 2 0 0 0 4 0c0-.4-.2-.8-.5-1a2.5 2.5 0 0 0 .5-4.9c0-.4.1-.7.4-.9a2.5 2.5 0 1 0 3-4z" />
+                <path d="M18 10a2 2 0 0 0-4 0c0 .4.2.8.5 1a2.5 2.5 0 0 0-.5 4.9c0 .4-.1.7-.4.9a2.5 2.5 0 1 0-3 4" />
+                <path d="M6 10a2 2 0 0 1 4 0c0 .4-.2.8-.5 1a2.5 2.5 0 0 1 .5 4.9c0 .4.1.7.4.9a2.5 2.5 0 1 1-3 4" />
+              </svg>
+            </div>
+            <span className={styles.label}>반장</span>
+          </Link>
+        </li>
+        <li className={styles.navItem}>
           <Link href="/settlement" className={styles.navLink}>
             <div className={styles.iconWrapper}>
               {/* Settlement Icon */}

@@ -1,0 +1,568 @@
+.pageWrap {
+  background-color: var(--background);
+  min-height: 100vh;
+  padding-bottom: 5rem;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.foremanContainer {
+  padding-top: 4rem;
+}
+
+.intro {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin-bottom: 3rem;
+  animation: fadeIn 0.8s ease-out;
+}
+
+.foremanAvatar {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  background: rgba(255, 107, 0, 0.1);
+  border: 2px solid var(--accent-gold);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatarGlow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 50%;
+  box-shadow: 0 0 30px rgba(180, 138, 9, 0.4);
+  animation: pulse-gold 3s infinite;
+}
+
+.aiIcon {
+  color: var(--accent-gold);
+  z-index: 1;
+}
+
+.introText h1 {
+  font-size: 2.5rem;
+  letter-spacing: -0.03em;
+  margin-bottom: 0.5rem;
+}
+
+.introText p {
+  color: #94A3B8;
+  font-size: 1.125rem;
+}
+
+.badge {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--accent-gold);
+  background: rgba(180, 138, 9, 0.1);
+  padding: 0.25rem 0.75rem;
+  border-radius: 100px;
+  margin-bottom: 0.75rem;
+}
+
+/* Track Switcher */
+.trackSwitcher {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 3rem;
+}
+
+.trackBtn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1.25rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  color: #94A3B8;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.trackBtn:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.activeTrack {
+  border-color: var(--accent-gold);
+  background: rgba(180, 138, 9, 0.05);
+  color: #fff;
+  box-shadow: 0 0 20px rgba(180, 138, 9, 0.1);
+}
+
+/* Main Grid */
+.mainGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  margin-bottom: 4rem;
+}
+
+@media (min-width: 1024px) {
+  .mainGrid {
+    grid-template-columns: 1fr 360px;
+  }
+}
+
+.sectionTitle {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  color: #fff;
+}
+
+.guideGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.25rem;
+}
+
+.guideCard {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  min-height: 200px;
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.25rem;
+}
+
+.levelBadge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #10B981;
+  background: rgba(16, 185, 129, 0.1);
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+}
+
+.statusBadge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #3B82F6;
+  background: rgba(59, 130, 246, 0.1);
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+}
+
+.labelBadge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #B48A09;
+}
+
+.taskTitle {
+  font-size: 1.125rem;
+  margin-bottom: 0.75rem;
+  color: #fff;
+}
+
+.taskDesc {
+  font-size: 0.9375rem;
+  color: #94A3B8;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  flex: 1;
+}
+
+.viewDoc {
+  background: none;
+  border: none;
+  color: var(--accent-gold);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  font-size: 0.875rem;
+}
+
+/* Sidebar Chat */
+.chatCard {
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.chatHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 1rem;
+}
+
+.chatIntro {
+  font-size: 0.875rem;
+  color: #94A3B8;
+  margin-bottom: 1.5rem;
+}
+
+.quickQuestions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.qBtn {
+  text-align: left;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  padding: 0.75rem 1rem;
+  color: #CBD5E1;
+  font-size: 0.8125rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.qBtn:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.chatInputRow {
+  display: flex;
+  background: rgba(0,0,0,0.3);
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  padding: 0.5rem;
+}
+
+.chatInput {
+  flex: 1;
+  background: none;
+  border: none;
+  color: #fff;
+  padding: 0 0.5rem;
+  font-size: 0.875rem;
+  outline: none;
+}
+
+.sendBtn {
+  background: var(--accent-gold);
+  border: none;
+  border-radius: 0.5rem;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #020204;
+  cursor: pointer;
+}
+
+.weatherAlert {
+  padding: 1.25rem;
+}
+
+.alertHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-weight: 700;
+  color: #ef4444;
+  margin-bottom: 0.75rem;
+}
+
+.weatherAlert p {
+  font-size: 0.8125rem;
+  color: #CBD5E1;
+  margin-bottom: 1rem;
+}
+
+.safetyLink {
+  font-size: 0.75rem;
+  color: #3B82F6;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* Roadmap Section */
+.roadmapSection {
+  background: linear-gradient(135deg, rgba(18, 18, 23, 0.8), rgba(2, 2, 4, 0.95));
+  border: 1px solid var(--border);
+  border-radius: 1.5rem;
+  padding: 2.5rem;
+  margin-bottom: 4rem;
+}
+
+.roadmapHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 3rem;
+}
+
+.headerInfo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.roadmapVisual {
+  display: flex;
+  align-items: center;
+  margin-bottom: 3rem;
+  padding: 0 2rem;
+}
+
+.node, .nodeActive {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.875rem;
+  color: #94A3B8;
+  position: relative;
+  width: 100px;
+}
+
+.nodeActive {
+  color: #fff;
+  font-weight: 700;
+}
+
+.dot, .dotPulse, .dotGray {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--accent-gold);
+}
+
+.dotPulse {
+  box-shadow: 0 0 0 0 rgba(180, 138, 9, 0.4);
+  animation: pulse-node 2s infinite;
+}
+
+@keyframes pulse-node {
+  0% { box-shadow: 0 0 0 0 rgba(180, 138, 9, 0.7); }
+  70% { box-shadow: 0 0 0 15px rgba(180, 138, 9, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(180, 138, 9, 0); }
+}
+
+.glossarySection {
+    margin-bottom: 4rem;
+}
+
+.sectionHeader {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.newBadge {
+    font-size: 0.625rem;
+    font-weight: 800;
+    background: var(--accent-gold);
+    color: #000;
+    padding: 0.125rem 0.5rem;
+    border-radius: 4px;
+}
+
+.glossaryGrid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+    .glossaryGrid {
+        grid-template-columns: 1.5fr 1fr;
+    }
+}
+
+.translationBox, .dictionaryList {
+    padding: 1.5rem;
+}
+
+.boxTitle {
+    font-size: 1.125rem;
+    margin-bottom: 1.5rem;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.translateUI {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.langSelect {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.8125rem;
+    color: #94A3B8;
+    background: rgba(255, 255, 255, 0.03);
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    width: fit-content;
+}
+
+.inputArea {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.transInput {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--border);
+    border-radius: 0.75rem;
+    padding: 0.875rem 1rem;
+    color: #fff;
+    outline: none;
+}
+
+.transInput:focus {
+    border-color: var(--accent-gold);
+}
+
+.transBtn {
+    padding: 0 1.5rem;
+    background: var(--primary);
+    border: 1px solid var(--border);
+    color: #fff;
+    border-radius: 0.75rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.transResult {
+    background: rgba(180, 138, 9, 0.05);
+    border: 1px solid rgba(180, 138, 9, 0.2);
+    border-radius: 1rem;
+    padding: 1.25rem;
+}
+
+.resItem strong {
+    display: block;
+    font-size: 1.125rem;
+    color: var(--accent-gold);
+    margin-bottom: 0.5rem;
+}
+
+.resItem p {
+    font-size: 0.9375rem;
+    color: #fff;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.resItem span {
+    font-size: 0.875rem;
+    color: #94A3B8;
+}
+
+.dictItems {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.dictItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 0.75rem;
+    border: 1px solid var(--border);
+}
+
+.term {
+    font-weight: 700;
+    color: #fff;
+}
+
+.mean {
+    font-size: 0.875rem;
+    color: var(--accent-gold);
+}
+
+.viewMoreDict {
+    width: 100%;
+    margin-top: 1.5rem;
+    background: none;
+    border: 1px dashed var(--border);
+    padding: 0.75rem;
+    color: #94A3B8;
+    border-radius: 0.75rem;
+    font-size: 0.8125rem;
+    cursor: pointer;
+}
+
+.viewMoreDict:hover {
+    background: rgba(255, 255, 255, 0.02);
+    color: #fff;
+}
+
+.dotGray {
+  background: #334155;
+}
+
+.line, .lineDisabled {
+  flex: 1;
+  height: 2px;
+  background: var(--accent-gold);
+  opacity: 0.3;
+}
+
+.lineDisabled {
+  background: #334155;
+}
+
+.roadmapInfo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9375rem;
+  color: #CBD5E1;
+}
+
+.roadmapBtn {
+  background: rgba(180, 138, 9, 0.1);
+  border: 1px solid var(--accent-gold);
+  color: var(--accent-gold);
+  padding: 0.625rem 1.25rem;
+  border-radius: 0.625rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse-gold {
+  0% { box-shadow: 0 0 20px rgba(180, 138, 9, 0.2); }
+  50% { box-shadow: 0 0 40px rgba(180, 138, 9, 0.4); }
+  100% { box-shadow: 0 0 20px rgba(180, 138, 9, 0.2); }
+}
