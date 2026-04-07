@@ -8,7 +8,7 @@
 .content {
     max-width: 100%;
     margin: 0 auto;
-    text-align: center;
+    text-align: center !important;
     position: relative;
     z-index: 10;
 }

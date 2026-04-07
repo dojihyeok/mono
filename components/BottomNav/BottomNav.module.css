@@ -15,6 +15,7 @@
   align-items: center;
   justify-content: center;
   padding-bottom: env(safe-area-inset-bottom);
+  box-sizing: border-box;
 }
 
 .navList {

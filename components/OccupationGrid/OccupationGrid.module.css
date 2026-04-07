@@ -116,7 +116,8 @@
     font-size: 13px;
     font-weight: 700;
     color: #eee;
-    white-space: nowrap;
+    white-space: normal;
+    word-break: keep-all;
 }
 
 .metaRow {
