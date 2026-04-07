@@ -1,0 +1,260 @@
+
+> mono@0.1.0 lint
+> eslint
+
+
+/Users/yunhyeok/mono/app/academy/AcademyClient.tsx
+    6:5   warning  'BookOpen' is defined but never used                             @typescript-eslint/no-unused-vars
+   14:5   warning  'BarChart2' is defined but never used                            @typescript-eslint/no-unused-vars
+  103:63  error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  103:69  error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  184:32  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  184:81  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+
+/Users/yunhyeok/mono/app/advisor/AdvisorClient.tsx
+   7:5  warning  'ShieldCheck' is defined but never used  @typescript-eslint/no-unused-vars
+  10:5  warning  'Activity' is defined but never used     @typescript-eslint/no-unused-vars
+  12:5  warning  'Search' is defined but never used       @typescript-eslint/no-unused-vars
+
+/Users/yunhyeok/mono/app/assets/equipment/EquipmentClient.tsx
+    3:17  warning  'useState' is defined but never used                                                                                                                                                                                                                                                     @typescript-eslint/no-unused-vars
+    6:5   warning  'Truck' is defined but never used                                                                                                                                                                                                                                                        @typescript-eslint/no-unused-vars
+    7:5   warning  'Settings' is defined but never used                                                                                                                                                                                                                                                     @typescript-eslint/no-unused-vars
+   10:5   warning  'ShieldCheck' is defined but never used                                                                                                                                                                                                                                                  @typescript-eslint/no-unused-vars
+   11:5   warning  'HardHat' is defined but never used                                                                                                                                                                                                                                                      @typescript-eslint/no-unused-vars
+   14:5   warning  'Construction' is defined but never used                                                                                                                                                                                                                                                 @typescript-eslint/no-unused-vars
+   77:29  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  133:55  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  134:55  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  135:55  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+/Users/yunhyeok/mono/app/assets/monetize/EquipmentExplorer.tsx
+    5:18  warning  'Filter' is defined but never used                                                                                                                                                                                                                                                       @typescript-eslint/no-unused-vars
+    5:26  warning  'Box' is defined but never used                                                                                                                                                                                                                                                          @typescript-eslint/no-unused-vars
+    5:52  warning  'Zap' is defined but never used                                                                                                                                                                                                                                                          @typescript-eslint/no-unused-vars
+    5:57  warning  'ChevronRight' is defined but never used                                                                                                                                                                                                                                                 @typescript-eslint/no-unused-vars
+  120:33  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+/Users/yunhyeok/mono/app/assets/monetize/MonetizeClient.tsx
+   8:5   warning  'BarChart3' is defined but never used     @typescript-eslint/no-unused-vars
+  10:5   warning  'Zap' is defined but never used           @typescript-eslint/no-unused-vars
+  46:50  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  49:33  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/yunhyeok/mono/app/attendance/AttendanceClient.tsx
+  10:3   warning  'User' is defined but never used                     @typescript-eslint/no-unused-vars
+  15:3   warning  'Users' is defined but never used                    @typescript-eslint/no-unused-vars
+  88:11  warning  'handleGpsCheck' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+/Users/yunhyeok/mono/app/career/page.tsx
+   4:8  warning  'Button' is defined but never used        @typescript-eslint/no-unused-vars
+   9:3  warning  'Award' is defined but never used         @typescript-eslint/no-unused-vars
+  13:3  warning  'Activity' is defined but never used      @typescript-eslint/no-unused-vars
+  16:3  warning  'CheckCircle2' is defined but never used  @typescript-eslint/no-unused-vars
+  17:3  warning  'Lock' is defined but never used          @typescript-eslint/no-unused-vars
+  19:3  warning  'TrendingUp' is defined but never used    @typescript-eslint/no-unused-vars
+  20:3  warning  'FileCode2' is defined but never used     @typescript-eslint/no-unused-vars
+
+/Users/yunhyeok/mono/app/dashboard/assets/AssetDashboardClient.tsx
+  9:5  warning  'Award' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/yunhyeok/mono/app/global-jobs/GlobalJobsClient.tsx
+   7:5   warning  'DollarSign' is defined but never used                                                                                                                                                                                                                                                   @typescript-eslint/no-unused-vars
+  14:5   warning  'Filter' is defined but never used                                                                                                                                                                                                                                                       @typescript-eslint/no-unused-vars
+  15:5   warning  'Star' is defined but never used                                                                                                                                                                                                                                                         @typescript-eslint/no-unused-vars
+  98:33  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+/Users/yunhyeok/mono/app/jobs/JobsClient.tsx
+  13:18  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            @typescript-eslint/no-explicit-any
+  31:13  error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/Users/yunhyeok/mono/app/jobs/JobsClient.tsx:31:13
+  29 |         const filter = searchParams.get('filter');
+  30 |         if (filter === 'urgent') {
+> 31 |             setUrgentOnly(true);
+     |             ^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  32 |             setViewMode('details');
+  33 |         }
+  34 |     }, [searchParams]);                                                                                                                                    react-hooks/set-state-in-effect
+  54:34  error    Compilation Skipped: Existing memoization could not be preserved
+
+React Compiler has skipped optimizing this component because the existing manual memoization could not be preserved. The inferred dependencies did not match the manually specified dependencies, which could cause the value to change more or less frequently than expected. The inferred dependency was `urgentOnly`, but the source dependencies were [initialJobs, category, occupation, region, searchTerm]. Inferred different dependency than source.
+
+/Users/yunhyeok/mono/app/jobs/JobsClient.tsx:54:34
+  52 |     };
+  53 |
+> 54 |     const filteredJobs = useMemo(() => {
+     |                                  ^^^^^^^
+> 55 |         return initialJobs.filter((job) => {
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 56 |             const matchesCat = category === '전체' || 
+     …
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 79 |         });
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 80 |     }, [initialJobs, category, occupation, region, searchTerm]);
+     | ^^^^^^ Could not preserve existing manual memoization
+  81 |
+  82 |     return (
+  83 |         <div className={styles.jobsContent}>  react-hooks/preserve-manual-memoization
+  54:34  error    Compilation Skipped: Existing memoization could not be preserved
+
+React Compiler has skipped optimizing this component because the existing manual memoization could not be preserved. The inferred dependencies did not match the manually specified dependencies, which could cause the value to change more or less frequently than expected. The inferred dependency was `urgentOnly`, but the source dependencies were [initialJobs, category, occupation, region, searchTerm]. Inferred different dependency than source.
+
+/Users/yunhyeok/mono/app/jobs/JobsClient.tsx:54:34
+  52 |     };
+  53 |
+> 54 |     const filteredJobs = useMemo(() => {
+     |                                  ^^^^^^^
+> 55 |         return initialJobs.filter((job) => {
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 56 |             const matchesCat = category === '전체' || 
+     …
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 79 |         });
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 80 |     }, [initialJobs, category, occupation, region, searchTerm]);
+     | ^^^^^^ Could not preserve existing manual memoization
+  81 |
+  82 |     return (
+  83 |         <div className={styles.jobsContent}>  react-hooks/preserve-manual-memoization
+  80:8   warning  React Hook useMemo has a missing dependency: 'urgentOnly'. Either include it or remove the dependency array                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         react-hooks/exhaustive-deps
+
+/Users/yunhyeok/mono/app/matching/MatchingClient.tsx
+   6:5   warning  'MapPin' is defined but never used                                                                                                                                                                                                                                                       @typescript-eslint/no-unused-vars
+   8:5   warning  'TrendingUp' is defined but never used                                                                                                                                                                                                                                                   @typescript-eslint/no-unused-vars
+  10:5   warning  'ArrowRight' is defined but never used                                                                                                                                                                                                                                                   @typescript-eslint/no-unused-vars
+  11:5   warning  'Zap' is defined but never used                                                                                                                                                                                                                                                          @typescript-eslint/no-unused-vars
+  13:5   warning  'Award' is defined but never used                                                                                                                                                                                                                                                        @typescript-eslint/no-unused-vars
+  14:5   warning  'Activity' is defined but never used                                                                                                                                                                                                                                                     @typescript-eslint/no-unused-vars
+  15:5   warning  'CreditCard' is defined but never used                                                                                                                                                                                                                                                   @typescript-eslint/no-unused-vars
+  82:29  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+/Users/yunhyeok/mono/app/office/[id]/page.tsx
+   16:3   warning  'ChevronRight' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           @typescript-eslint/no-unused-vars
+   26:35  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           @typescript-eslint/no-explicit-any
+  133:5   error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/Users/yunhyeok/mono/app/office/[id]/page.tsx:133:5
+  131 |
+  132 |   useEffect(() => {
+> 133 |     setMounted(true);
+      |     ^^^^^^^^^^ Avoid calling setState() directly within an effect
+  134 |   }, []);
+  135 |
+  136 |   if (!mounted) return null;  react-hooks/set-state-in-effect
+  210:36  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           @typescript-eslint/no-explicit-any
+
+/Users/yunhyeok/mono/app/office/page.tsx
+    9:3  warning  'Clock' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             @typescript-eslint/no-unused-vars
+   10:3  warning  'MapPin' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            @typescript-eslint/no-unused-vars
+  136:5  error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/Users/yunhyeok/mono/app/office/page.tsx:136:5
+  134 |
+  135 |   useEffect(() => {
+> 136 |     setMounted(true);
+      |     ^^^^^^^^^^ Avoid calling setState() directly within an effect
+  137 |   }, []);
+  138 |
+  139 |   if (!mounted) return null;  react-hooks/set-state-in-effect
+
+/Users/yunhyeok/mono/app/passport/PassportClient.tsx
+   17:5   warning  'Map' is defined but never used                                                                                                                                                                                                                                                          @typescript-eslint/no-unused-vars
+   63:29  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  120:68  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+
+/Users/yunhyeok/mono/app/profile/[id]/ProfileClient.tsx
+   4:8  warning  'Image' is defined but never used         @typescript-eslint/no-unused-vars
+  11:5  warning  'ChevronRight' is defined but never used  @typescript-eslint/no-unused-vars
+  12:5  warning  'Globe' is defined but never used         @typescript-eslint/no-unused-vars
+  16:5  warning  'Calendar' is defined but never used      @typescript-eslint/no-unused-vars
+
+/Users/yunhyeok/mono/app/reports/ReportClient.tsx
+   3:17  warning  'useRef' is defined but never used                                                                                                                                                                                                                                                       @typescript-eslint/no-unused-vars
+  14:5   warning  'Camera' is defined but never used                                                                                                                                                                                                                                                       @typescript-eslint/no-unused-vars
+  80:25  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+/Users/yunhyeok/mono/app/settlement/SettlementClient.tsx
+  11:3  warning  'TrendingUp' is defined but never used    @typescript-eslint/no-unused-vars
+  12:3  warning  'History' is defined but never used       @typescript-eslint/no-unused-vars
+  13:3  warning  'ArrowUpRight' is defined but never used  @typescript-eslint/no-unused-vars
+  15:3  warning  'ShieldAlert' is defined but never used   @typescript-eslint/no-unused-vars
+  16:3  warning  'Info' is defined but never used          @typescript-eslint/no-unused-vars
+  17:3  warning  'CheckCircle2' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/yunhyeok/mono/app/settlement/strategic/StrategicSettlementClient.tsx
+   6:5  warning  'CreditCard' is defined but never used    @typescript-eslint/no-unused-vars
+   8:5  warning  'TrendingUp' is defined but never used    @typescript-eslint/no-unused-vars
+   9:5  warning  'Activity' is defined but never used      @typescript-eslint/no-unused-vars
+  10:5  warning  'ArrowUpRight' is defined but never used  @typescript-eslint/no-unused-vars
+  15:5  warning  'Clock' is defined but never used         @typescript-eslint/no-unused-vars
+
+/Users/yunhyeok/mono/app/shop/ShopClient.tsx
+   7:5  warning  'Award' is defined but never used         @typescript-eslint/no-unused-vars
+   8:5  warning  'Zap' is defined but never used           @typescript-eslint/no-unused-vars
+  10:5  warning  'ChevronRight' is defined but never used  @typescript-eslint/no-unused-vars
+  13:5  warning  'Package' is defined but never used       @typescript-eslint/no-unused-vars
+
+/Users/yunhyeok/mono/app/technicians/TechniciansClient.tsx
+  10:25  error    Unexpected any. Specify a different type                 @typescript-eslint/no-explicit-any
+  17:12  warning  'category' is assigned a value but never used            @typescript-eslint/no-unused-vars
+  23:11  warning  'handleFilterChange' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+/Users/yunhyeok/mono/app/trust/360/Trust360Client.tsx
+  7:5  warning  'Star' is defined but never used        @typescript-eslint/no-unused-vars
+  9:5  warning  'TrendingUp' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/yunhyeok/mono/app/welfare/WelfareClient.tsx
+   3:17  warning  'useState' is defined but never used     @typescript-eslint/no-unused-vars
+   6:5   warning  'CreditCard' is defined but never used   @typescript-eslint/no-unused-vars
+   8:5   warning  'ShieldAlert' is defined but never used  @typescript-eslint/no-unused-vars
+  10:5   warning  'DollarSign' is defined but never used   @typescript-eslint/no-unused-vars
+  12:5   warning  'FileCheck' is defined but never used    @typescript-eslint/no-unused-vars
+  13:5   warning  'Plane' is defined but never used        @typescript-eslint/no-unused-vars
+
+/Users/yunhyeok/mono/components/Hero/Hero.tsx
+    6:8   warning  'buttonStyles' is defined but never used  @typescript-eslint/no-unused-vars
+  142:30  warning  'ShieldCheck' is defined but never used   @typescript-eslint/no-unused-vars
+  142:43  warning  'BrainCircuit' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/yunhyeok/mono/components/QuickNearbyJobs/QuickNearbyJobs.tsx
+  5:37  warning  'DollarSign' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/yunhyeok/mono/components/TechnicianCard.tsx
+  21:60  error  Error: Cannot call impure function during render
+
+`Math.random` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+/Users/yunhyeok/mono/components/TechnicianCard.tsx:21:60
+  19 |
+  20 | export default function TechnicianCard({ technician }: TechnicianProps) {
+> 21 |     const trustScore = technician.trustScore || Math.floor(Math.random() * 20) + 80; // Mock score if missing
+     |                                                            ^^^^^^^^^^^^^ Cannot call impure function
+  22 |
+  23 |     return (
+  24 |         <GlassCard hoverEffect className={styles.cardOverride}>  react-hooks/purity
+
+/Users/yunhyeok/mono/scripts/seed_detailed_jobs.ts
+  1:26  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+
+✖ 105 problems (18 errors, 87 warnings)
+
