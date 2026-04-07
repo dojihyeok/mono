@@ -37,54 +37,83 @@ const NEARBY_JOBS = [
 ];
 
 export default function QuickNearbyJobs() {
+    const [activeIndex, setActiveIndex] = React.useState(0);
+    const carouselRef = React.useRef<HTMLDivElement>(null);
+
+    const handleScroll = () => {
+        if (!carouselRef.current) return;
+        const scrollOffset = carouselRef.current.scrollLeft;
+        const cardWidth = carouselRef.current.offsetWidth * 0.85;
+        const newIndex = Math.round(scrollOffset / cardWidth);
+        if (newIndex !== activeIndex) {
+            setActiveIndex(newIndex);
+        }
+    };
+
     return (
         <section className={styles.section}>
             <div className={styles.container}>
                 <div className={styles.header}>
                     <div className={styles.titleGroup}>
                         <h2 className={styles.title}>내 주변 <span className={styles.premiumText}>맞춤형 현장</span></h2>
-                        <p className={styles.subtitle}>현 위치 기준 가장 가까운 고단가 현장 리스트</p>
+                        <p className={styles.subtitle}>현재 위치 기반 실시간 매칭된 현장들입니다.</p>
                     </div>
                 </div>
 
                 <div className={styles.carouselContainer}>
-                    <div className={styles.carousel}>
-                        {NEARBY_JOBS.map((job) => (
+                    <div 
+                        className={styles.carousel} 
+                        ref={carouselRef}
+                        onScroll={handleScroll}
+                    >
+                        {NEARBY_JOBS.map((job: any) => (
                             <div key={job.id} className={styles.jobCard}>
                                 <div className={styles.cardHeader}>
                                     <div className={styles.locInfo}>
-                                        <MapPin size={14} className={styles.locIcon} />
-                                        <span>{job.distance}</span>
+                                        <span>📍</span>
+                                        {job.distance}
                                     </div>
-                                    {job.isUrgent && <span className={styles.urgentBadge}>긴급</span>}
+                                    <span className={styles.urgentBadge}>긴급</span>
                                 </div>
-                                
-                                <h3 className={styles.jobTitle}>{job.title}</h3>
-                                <div className={styles.jobMeta}>
-                                    <span className={styles.specialtyLabel}>{job.specialty} 전문</span>
-                                    <span className={styles.locationLabel}>{job.location}</span>
+
+                                <div className={styles.jobContent}>
+                                    <h3 className={styles.jobTitle}>{job.title}</h3>
+                                    <div className={styles.jobMeta}>
+                                        <span className={styles.specialtyLabel}>{job.specialty} 전문</span>
+                                        <span className={styles.locationLabel}>{job.location}</span>
+                                    </div>
                                 </div>
 
                                 <div className={styles.wageSection}>
-                                    <div className={styles.wageHeader}>예상 일당 (수수료 포함)</div>
+                                    <span className={styles.wageHeader}>예상 일당 (수수료 포함)</span>
                                     <div className={styles.wageAmount}>
                                         <span className={styles.won}>₩</span>
-                                        <strong>{job.dailyWage.toLocaleString()}</strong>
+                                        <strong>{job.pay}</strong>
                                     </div>
                                 </div>
 
                                 <Link href={`/jobs/${job.id}`} className={styles.joinBtn}>
-                                    <Zap size={14} fill="currentColor" />
+                                    <span>⚡</span>
                                     현장 참여하기
                                 </Link>
                             </div>
+                        ))}
+                    </div>
+
+                    <div className={styles.indicators}>
+                        {NEARBY_JOBS.map((_: any, idx: number) => (
+                            <div 
+                                key={idx} 
+                                className={`${styles.indicator} ${activeIndex === idx ? styles.indicatorActive : ''}`}
+                            />
                         ))}
                     </div>
                 </div>
 
                 <div className={styles.footer}>
                     <Link href="/jobs" className={styles.viewMore}>
-                        맞춤 일자리 전체 보기 <ChevronRight size={16} />
+                        전체 현장 더보기
+                        <ChevronRight size={16} />
                     </Link>
                 </div>
             </div>

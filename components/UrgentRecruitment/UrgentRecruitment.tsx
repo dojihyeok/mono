@@ -26,38 +26,53 @@ const URGENT_JOBS = [
 ];
 
 export default function UrgentRecruitment() {
+    const [activeIndex, setActiveIndex] = React.useState(0);
+    const carouselRef = React.useRef<HTMLDivElement>(null);
+
+    const handleScroll = () => {
+        if (!carouselRef.current) return;
+        const scrollOffset = carouselRef.current.scrollLeft;
+        const cardWidth = carouselRef.current.offsetWidth * 0.85;
+        const newIndex = Math.round(scrollOffset / cardWidth);
+        if (newIndex !== activeIndex) {
+            setActiveIndex(newIndex);
+        }
+    };
+
     return (
         <section className={styles.section}>
             <div className={styles.container}>
                 <div className={styles.header}>
-                    <div className={styles.titleGroup}>
-                        <div className={styles.urgentBadge}>
-                            <Zap size={14} fill="#ef4444" color="#ef4444" />
-                            <span>실시간 급구</span>
-                        </div>
-                        <h2 className={styles.title}>지금 <span className={styles.premiumText}>즉시 투입</span> 가능 현장</h2>
-                        <p className={styles.subtitle}>현장에서 마스터님을 기다리고 있습니다.</p>
+                    <div className={styles.urgentBadge}>
+                        <span>🚨</span>
+                        실시간 긴급 채용
                     </div>
+                    <h2 className={styles.title}>내 주변 <span className={styles.premiumText}>실시간 급구</span></h2>
+                    <p className={styles.subtitle}>지금 바로 출근 가능한 현장입니다.</p>
                 </div>
 
                 <div className={styles.carouselContainer}>
-                    <div className={styles.carousel}>
-                        {URGENT_JOBS.map((job) => (
+                    <div 
+                        className={styles.carousel} 
+                        ref={carouselRef}
+                        onScroll={handleScroll}
+                    >
+                        {URGENT_JOBS.map((job: any) => (
                             <div key={job.id} className={styles.jobCard}>
                                 <div className={styles.cardHeader}>
                                     <span className={styles.categoryBadge}>{job.category}</span>
                                     <div className={styles.timeBadge}>
-                                        <Clock size={12} />
-                                        <span>{job.time}</span>
+                                        <span>🕒</span>
+                                        {job.time}
                                     </div>
                                 </div>
-                                
+
                                 <h3 className={styles.jobTitle}>{job.title}</h3>
-                                
+
                                 <div className={styles.metaRow}>
                                     <div className={styles.locationInfo}>
-                                        <MapPin size={14} />
-                                        <span>{job.location}</span>
+                                        <span>📍</span>
+                                        {job.location}
                                     </div>
                                     <div className={styles.wageInfo}>
                                         <span className={styles.won}>₩</span>
@@ -66,17 +81,27 @@ export default function UrgentRecruitment() {
                                 </div>
 
                                 <Link href={`/jobs/${job.id}`} className={styles.actionBtn}>
-                                    <Zap size={14} fill="currentColor" />
+                                    <span>⚡</span>
                                     지금 바로 참여하기
                                 </Link>
                             </div>
                         ))}
                     </div>
+
+                    <div className={styles.indicators}>
+                        {URGENT_JOBS.map((_: any, idx: number) => (
+                            <div 
+                                key={idx} 
+                                className={`${styles.indicator} ${activeIndex === idx ? styles.indicatorActive : ''}`}
+                            />
+                        ))}
+                    </div>
                 </div>
 
                 <div className={styles.footer}>
-                    <Link href="/jobs?filter=urgent" className={styles.viewMore}>
-                        모든 급구 현장 보기 <ArrowRight size={16} />
+                    <Link href="/jobs" className={styles.viewMore}>
+                        긴급 채용 전체 보기
+                        <span>→</span>
                     </Link>
                 </div>
             </div>

@@ -59,6 +59,8 @@
     padding: 0 1.5rem 1.5rem;
     scrollbar-width: none;
     -ms-overflow-style: none;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
 }
 
 .carousel::-webkit-scrollbar {
@@ -66,7 +68,9 @@
 }
 
 .jobCard {
-    flex: 0 0 300px;
+    flex: 0 0 85%;
+    max-width: 320px;
+    scroll-snap-align: center;
     background: rgba(239, 68, 68, 0.03);
     border: 1px solid rgba(239, 68, 68, 0.15);
     border-radius: 1.25rem;
@@ -179,4 +183,24 @@
     font-size: 0.85rem;
     font-weight: 700;
     text-decoration: none;
+}
+.indicators {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 0.5rem;
+}
+
+.indicator {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.indicatorActive {
+    width: 16px;
+    background: #ef4444;
+    border-radius: 10px;
 }
