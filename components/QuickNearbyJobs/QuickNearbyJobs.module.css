@@ -47,6 +47,7 @@
     -ms-overflow-style: none;
     scroll-snap-type: x mandatory; /* Added for smooth snapping */
     scroll-behavior: smooth;
+    scroll-padding: 0 1.5rem;
 }
 
 .carousel::-webkit-scrollbar {
@@ -54,8 +55,8 @@
 }
 
 .jobCard {
-    flex: 0 0 85%; /* Relative width for better peek balance */
-    max-width: 320px;
+    flex: 0 0 calc(100% - 3rem); /* Full width minus side spacing */
+    max-width: 440px;
     scroll-snap-align: center; /* Snaps to center */
     background: var(--nav-bg);
     backdrop-filter: blur(10px);

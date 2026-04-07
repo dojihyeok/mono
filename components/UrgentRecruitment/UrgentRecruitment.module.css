@@ -61,6 +61,7 @@
     -ms-overflow-style: none;
     scroll-snap-type: x mandatory;
     scroll-behavior: smooth;
+    scroll-padding: 0 1.5rem; /* Ensures the first card can be centered */
 }
 
 .carousel::-webkit-scrollbar {
@@ -68,8 +69,8 @@
 }
 
 .jobCard {
-    flex: 0 0 85%;
-    max-width: 320px;
+    flex: 0 0 calc(100% - 3rem); /* Full width minus side spacing */
+    max-width: 440px; /* Cap for ultra-wide mobile */
     scroll-snap-align: center;
     background: rgba(239, 68, 68, 0.03);
     border: 1px solid rgba(239, 68, 68, 0.15);
