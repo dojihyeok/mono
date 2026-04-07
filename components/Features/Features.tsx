@@ -13,6 +13,7 @@ const features = [
         icon: "📄"
     },
     {
+        title: "글로벌 경력 전환",
         description: "국내 경력을 해외 우대 자격으로 전환하고, 국제 기준의 경력 증명서를 발급받아 더 넓은 세계로 진출하세요.",
         icon: "🌏"
     },
@@ -25,14 +26,16 @@ const features = [
 
 export default function Features() {
     return (
-        <section id="features" className={styles.section}>
-            <div className="container">
+        <section id="features" className={`${styles.section} fade-up`}>
+            <div className={`container ${styles.header}`}>
                 <h2 className={styles.title}>
-                    글로벌 기술 자산화 플랫폼 <span style={{color: 'var(--accent)'}}>Mo-No</span>
+                    글로벌 기술 자산화 플랫폼 <span className={styles.premiumText}>Mo-No</span>
                 </h2>
                 <p className={styles.subtitle}>
-                    단순 구인구직이 아닙니다. 국내 100대 물리적 전문직의 경험을 데이터로 만들어, 나이와 국경을 초월한 경제적 자유를 선물합니다.
+                    단순 구인구직을 넘어, 기술자의 경험을 데이터화하여 평생의 자산으로 만들어드립니다.
                 </p>
+            </div>
+            <div className="container">
                 <div className={styles.grid}>
                     {features.map((feature, idx) => (
                         <GlassCard key={idx} hoverEffect className={styles.cardOverride}>

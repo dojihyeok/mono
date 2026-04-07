@@ -110,7 +110,7 @@ export default function OccupationGrid({ onSelect }: OccupationGridProps) {
     return (
         <div className={styles.container}>
             {CATEGORY_GROUPS.map((group) => (
-                <div key={group.category} className={styles.section}>
+                <div key={group.category} className={`${styles.section} fade-up`}>
                     <div className={styles.sectionHeader}>
                         <h2 className={styles.categoryTitle}>{group.category}</h2>
                         <span className={styles.categoryDesc}>{group.description}</span>

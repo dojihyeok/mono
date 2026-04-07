@@ -50,8 +50,8 @@ export default function Hero() {
 
                 <div className={styles.dawnMarketNotice}>
                     <span className={styles.pulseDot}></span>
-                    <strong>실시간 현장 가동 중: </strong>
-                    04:00 - 08:00 프리미엄 일자리 실시간 매칭
+                    <strong>실시간 현장: </strong>
+                    04:00 - 08:00 프리미엄 매칭 중
                 </div>
 
                 <div className={styles.heroMain}>
