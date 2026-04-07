@@ -1,14 +1,14 @@
 :root {
-  --background: #020204; /* True midnight obsidian */
-  --foreground: #F1F5F9;
+  --background: #0D1117; /* Refined Dark Navy/Charcoal */
+  --foreground: #E6EDF3;
 
-  --primary: #121217; /* Solid anthracite surface */
+  --primary: #161B22; /* Desktop-grade professional surface */
   --primary-foreground: #FFFFFF;
 
-  --accent: #E2E8F0; /* Muted Platinum */
-  --accent-hover: #FFFFFF;
-  --accent-gold: #FF6B00; /* Safety Construction Orange */
-  --accent-safe: #22C55E; /* High-Visibility Safety Green */
+  --accent: #D4AF37; /* Refined Classic Gold */
+  --accent-hover: #F1C40F;
+  --accent-gold: #D4AF37; 
+  --accent-safe: #238636; /* Professional Safety Green */
   --caution-stripe: repeating-linear-gradient(45deg, transparent, transparent 12px, rgba(255, 107, 0, 0.08) 12px, rgba(255, 107, 0, 0.08) 24px);
 
   --card: rgba(18, 18, 23, 0.98); 

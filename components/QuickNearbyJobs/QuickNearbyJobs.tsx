@@ -39,45 +39,53 @@ const NEARBY_JOBS = [
 export default function QuickNearbyJobs() {
     return (
         <section className={styles.section}>
-            <div className={`container ${styles.content}`}>
+            <div className={styles.container}>
                 <div className={styles.header}>
                     <div className={styles.titleGroup}>
-                        <h2 className={styles.title}>내 주변 <span className={styles.goldText}>맞춤형 고단가</span> 현장</h2>
-                        <p className={styles.subtitle}>가장 가까운 현장과 정확한 일당 정보를 확인하고 바로 참여하세요.</p>
+                        <h2 className={styles.title}>내 주변 <span className={styles.premiumText}>맞춤형 현장</span></h2>
+                        <p className={styles.subtitle}>현 위치 기준 가장 가까운 고단가 현장 리스트</p>
                     </div>
-                    <Link href="/jobs" className={styles.viewAll}>
-                        전체 보기 <ChevronRight size={16} />
-                    </Link>
                 </div>
 
-                <div className={styles.grid}>
-                    {NEARBY_JOBS.map((job) => (
-                        <GlassCard key={job.id} className={styles.jobCard} hoverEffect>
-                            <div className={styles.cardTop}>
-                                <div className={styles.locBadge}>
-                                    <MapPin size={12} />
-                                    <span>{job.distance}</span>
+                <div className={styles.carouselContainer}>
+                    <div className={styles.carousel}>
+                        {NEARBY_JOBS.map((job) => (
+                            <div key={job.id} className={styles.jobCard}>
+                                <div className={styles.cardHeader}>
+                                    <div className={styles.locInfo}>
+                                        <MapPin size={14} className={styles.locIcon} />
+                                        <span>{job.distance}</span>
+                                    </div>
+                                    {job.isUrgent && <span className={styles.urgentBadge}>긴급</span>}
                                 </div>
-                                {job.isUrgent && <span className={styles.urgent}>긴급</span>}
-                            </div>
-                            
-                            <h3 className={styles.jobTitle}>{job.title}</h3>
-                            <div className={styles.specialty}>{job.specialty} 마스터</div>
-
-                            <div className={styles.wageRow}>
-                                <div className={styles.wageLabel}>하루 일당</div>
-                                <div className={styles.wageValue}>
-                                    <span className={styles.currency}>₩</span>
-                                    {job.dailyWage.toLocaleString()}
+                                
+                                <h3 className={styles.jobTitle}>{job.title}</h3>
+                                <div className={styles.jobMeta}>
+                                    <span className={styles.specialtyLabel}>{job.specialty} 전문</span>
+                                    <span className={styles.locationLabel}>{job.location}</span>
                                 </div>
-                            </div>
 
-                            <Link href={`/jobs/${job.id}`} className={styles.joinBtn}>
-                                <Zap size={16} />
-                                바로 참여하기
-                            </Link>
-                        </GlassCard>
-                    ))}
+                                <div className={styles.wageSection}>
+                                    <div className={styles.wageHeader}>예상 일당 (수수료 포함)</div>
+                                    <div className={styles.wageAmount}>
+                                        <span className={styles.won}>₩</span>
+                                        <strong>{job.dailyWage.toLocaleString()}</strong>
+                                    </div>
+                                </div>
+
+                                <Link href={`/jobs/${job.id}`} className={styles.joinBtn}>
+                                    <Zap size={14} fill="currentColor" />
+                                    현장 참여하기
+                                </Link>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                <div className={styles.footer}>
+                    <Link href="/jobs" className={styles.viewMore}>
+                        맞춤 일자리 전체 보기 <ChevronRight size={16} />
+                    </Link>
                 </div>
             </div>
         </section>
