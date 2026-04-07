@@ -6,10 +6,18 @@ import styles from './Hero.module.css';
 import buttonStyles from '../UI/Button.module.css';
 
 const ROLLING_TEXTS = [
-    { highlight: '자본', full: '당신의 기술, \n글로벌 자본이 되다.' },
-    { highlight: '표준', full: '현장의 숙련, \n세계의 표준이 되다.' },
-    { highlight: '자산', full: '기록된 경력, \n디지털 자산이 되다.' },
-    { highlight: '마스터', full: '준비된 인재, \n글로벌 마스터가 되다.' }
+    { 
+        main: "'노가다'가 아닙니다. \n당신은 '기술자'입니다.", 
+        sub: "부품처럼 쓰이고 버려지는 일용직은 이제 끝. 당신의 기술이 정당하게 대우받고 평생의 경력이 되는 곳, MO-NO입니다." 
+    },
+    { 
+        main: "새벽 인력소, \n더 이상 줄 서지 마세요.", 
+        sub: "내일 갈 현장은 전날 밤 내가 직접 고릅니다. 내 조건에 맞는 확실한 일자리로 든든하게 출근하세요." 
+    },
+    { 
+        main: "당신의 굳은살이 \n제대로 대접받는 곳.", 
+        sub: "증명할 길 없던 현장의 시간들. 이제 매일의 출퇴근이 은행 대출과 신용을 위한 '공식 경력'으로 쌓입니다." 
+    }
 ];
 
 export default function Hero() {
@@ -22,13 +30,12 @@ export default function Hero() {
             setTimeout(() => {
                 setIndex((prev) => (prev + 1) % ROLLING_TEXTS.length);
                 setFade(true);
-            }, 500); // Wait for fade out
-        }, 3500);
+            }, 600); // Smoother fade transition
+        }, 4500); // Slightly longer for people to read the subtext
         return () => clearInterval(interval);
     }, []);
 
     const current = ROLLING_TEXTS[index];
-    const parts = current.full.split(current.highlight);
 
     return (
         <section className={styles.hero}>
@@ -43,20 +50,19 @@ export default function Hero() {
 
                 <div className={styles.dawnMarketNotice}>
                     <span className={styles.pulseDot}></span>
-                    <strong>새벽 인력 시장 활성 중: </strong>
-                    04:00 - 08:00 집합 현장 실시간 매칭
+                    <strong>실시간 현장 가동 중: </strong>
+                    04:00 - 08:00 프리미엄 일자리 실시간 매칭
                 </div>
 
                 <div className={styles.heroMain}>
                   <h1 className={`${styles.title} ${fade ? styles.fadeIn : styles.fadeOut}`}>
-                      {parts[0]}
-                      <span className={styles.titleSpan}>{current.highlight}</span>
-                      {parts[1]}
+                      {current.main.split('\n').map((line, i) => (
+                          <span key={i} className={styles.titleLine}>{line}</span>
+                      ))}
                   </h1>
 
-                  <p className={`${styles.description} fade-in delay-200`}>
-                      <strong>기술로 길을 열고, 세계로 나아가세요.</strong><br />
-                      내 기술 기록을 데이터 자산으로 만들어, 전 세계 어디서나 인정받는 모노만의 경력 인증 시스템.
+                  <p className={`${styles.description} ${fade ? styles.fadeIn : styles.fadeOut}`}>
+                      {current.sub}
                   </p>
                 </div>
 
