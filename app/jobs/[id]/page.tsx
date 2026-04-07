@@ -34,13 +34,13 @@ const MOCK_URGENT_JOBS: Record<string, any> = {
     }
 };
 
-export default async function JobDetailPage({ params }: { params: { id: string } }) {
-    const { id } = params;
+export default async function JobDetailPage({ params }: { params: Promise<{ id: string }> }) {
+    const { id } = await params;
 
     let job;
 
     // Check if it's a mock ID
-    if (id.startsWith('u')) {
+    if (id && id.startsWith('u')) {
         job = MOCK_URGENT_JOBS[id];
     } else {
         // Try to fetch from DB
