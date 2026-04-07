@@ -77,7 +77,7 @@ export default function JobsClient({ initialJobs }: JobsClientProps) {
             
             return matchesCat && matchesOcc && matchesReg && matchesSearch && matchesUrgent;
         });
-    }, [initialJobs, category, occupation, region, searchTerm]);
+    }, [initialJobs, category, occupation, region, searchTerm, urgentOnly]);
 
     return (
         <div className={styles.jobsContent}>

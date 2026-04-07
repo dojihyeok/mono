@@ -663,3 +663,290 @@
     border-radius: 16px;
     font-size: 0.95rem;
 }
+
+.commandBadge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.25rem 0.6rem;
+    background: rgba(10, 132, 255, 0.1);
+    border: 1px solid rgba(10, 132, 255, 0.2);
+    border-radius: 4px;
+    font-size: 0.65rem;
+    font-weight: 900;
+    color: #0a84ff;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.75rem;
+}
+
+.sosBtn {
+    position: fixed;
+    right: 2rem;
+    bottom: 2rem;
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 50%;
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    color: #ef4444;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.2rem;
+    z-index: 100;
+    cursor: pointer;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+}
+
+.sosBtn span {
+    font-size: 0.5rem;
+    font-weight: 800;
+}
+
+.sosBtn:hover {
+    background: rgba(239, 68, 68, 0.2);
+    transform: scale(1.1);
+}
+
+.sosBtn.sosActive {
+    background: #ef4444;
+    color: #fff;
+    animation: sosPulse 1s infinite alternate;
+}
+
+@keyframes sosPulse {
+    from { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+    to { box-shadow: 0 0 0 20px rgba(239, 68, 68, 0); }
+}
+
+.boardBtn {
+    width: 100%;
+    margin-top: 1rem;
+}
+
+.scannerHeader {
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.scannerHeader h3 {
+    font-size: 1.1rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+}
+
+.scannerHeader p {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.scannerLine {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: #30d158;
+    box-shadow: 0 0 10px #30d158;
+    animation: scanMove 3s infinite linear;
+    z-index: 5;
+}
+
+@keyframes scanMove {
+    0% { top: 0; }
+    50% { top: 100%; }
+    100% { top: 0; }
+}
+
+.scannerBadge {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    padding: 0.2rem 0.6rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    font-size: 0.6rem;
+    font-weight: 900;
+    color: #fff;
+    backdrop-filter: blur(4px);
+    z-index: 10;
+}
+
+.scanProgress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    z-index: 20;
+}
+
+.scanBar {
+    height: 100%;
+    background: #30d158;
+    box-shadow: 0 0 10px #30d158;
+    transition: width 0.3s ease;
+}
+
+.authBtn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    background: #22c55e !important;
+}
+
+.lowerGrid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+}
+
+@media (min-width: 640px) {
+    .lowerGrid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.manualCard, .checklistCard {
+    padding: 1.5rem;
+}
+
+.cardHeader {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.blueprintMock {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.25rem;
+}
+
+.blueprintLabel {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.missionList {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.missionList li {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+/* Settled State UI */
+.settledState {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 1rem 0;
+}
+
+.successIcon {
+    width: 80px;
+    height: 80px;
+    background: rgba(34, 197, 94, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    border: 1px solid rgba(34, 197, 94, 0.2);
+    animation: scaleIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes scaleIn {
+    from { transform: scale(0); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.settledTitle {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 0.5rem;
+}
+
+.settledDate {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.4);
+    margin-bottom: 2rem;
+}
+
+.summaryGrid {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    background: rgba(255, 255, 255, 0.03);
+    padding: 1.5rem;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    margin-bottom: 2.5rem;
+}
+
+.summaryItem {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.summaryLabel {
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: rgba(255, 255, 255, 0.3);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.summaryValue {
+    font-size: 1.25rem;
+    font-weight: 900;
+    color: #fff;
+}
+
+.settledActions {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.linkBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.4);
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.linkBtn:hover {
+    color: #FF6B00;
+}
+
+.completeBtn {
+    width: 100%;
+    padding: 1.25rem !important;
+    font-size: 1rem !important;
+    font-weight: 800 !important;
+}

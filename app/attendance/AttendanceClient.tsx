@@ -1,18 +1,17 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import Navbar from '@/components/Navbar/Navbar';
 import GlassCard from '@/components/UI/GlassCard';
 import Button from '@/components/UI/Button';
 import styles from './page.module.css';
 import { 
   Bus, 
-  User, 
   MapPin, 
   Clock, 
   Navigation, 
   ShieldCheck, 
-  Users,
   ChevronRight,
   Armchair,
   CheckCircle2,
@@ -57,9 +56,11 @@ const VEHICLE_DATA = {
 };
 
 export default function AttendanceClient() {
-    const [status, setStatus] = useState<'IDLE' | 'GATHERING' | 'BOARDED' | 'GPS_CHECKED' | 'PPE_SCAN' | 'WORKING'>('IDLE');
+    const [status, setStatus] = useState<'IDLE' | 'GATHERING' | 'BOARDED' | 'GPS_CHECKED' | 'PPE_SCAN' | 'WORKING' | 'SETTLED'>('IDLE');
     const [timer, setTimer] = useState(0);
     const [sosActive, setSosActive] = useState(false);
+    const [isScanning, setIsScanning] = useState(false);
+    const [scanStep, setScanStep] = useState(0);
 
     useEffect(() => {
         let interval: NodeJS.Timeout;
@@ -85,11 +86,6 @@ export default function AttendanceClient() {
         setTimeout(() => setStatus('GPS_CHECKED'), 1500); // Simulate arrival at site
     };
 
-    const handleGpsCheck = () => {
-        setStatus('GPS_CHECKED');
-        setTimeout(() => setStatus('PPE_SCAN'), 1000);
-    };
-
     const handleSos = () => {
         setSosActive(true);
         // In a real app, this would broadcast GPS to base
@@ -103,7 +99,21 @@ export default function AttendanceClient() {
     };
 
     const handlePpeAuth = () => {
-        setStatus('WORKING');
+        setIsScanning(true);
+        setScanStep(0);
+        
+        // Simulate AI PPE recognition steps
+        setTimeout(() => setScanStep(1), 1000); // Helmet detected
+        setTimeout(() => setScanStep(2), 2000); // Safety shoes detected
+        setTimeout(() => {
+            setIsScanning(false);
+            setStatus('WORKING');
+            setTimer(0);
+        }, 3000);
+    };
+
+    const handleCheckout = () => {
+        setStatus('SETTLED');
     };
 
     return (
@@ -262,11 +272,14 @@ export default function AttendanceClient() {
                             </div>
                         )}
 
+                        {status === 'GPS_CHECKED' && (
+                            <div className={styles.gpsState}>
+                                <div className={styles.gpsIndicator}>📍 현장 반경 150m 내 도착 완료</div>
                                 <Button className={styles.checkInBtn} onClick={() => setStatus('PPE_SCAN')}>현장 작업 시작 인증</Button>
                             </div>
                         )}
 
-                        {(status === 'GPS_CHECKED' || status === 'PPE_SCAN') && (
+                        {status === 'PPE_SCAN' && (
                             <div className={styles.ppeState}>
                                 <div className={styles.scannerHeader}>
                                     <h3>AI 안전 장비 스캔</h3>
@@ -277,11 +290,22 @@ export default function AttendanceClient() {
                                     <div className={styles.cameraFocus}></div>
                                     <div className={styles.ppeOverlay}>
                                         <Camera size={40} color="#fff" />
-                                        <span>자동 감지 중...</span>
+                                        <span>{isScanning ? (scanStep === 0 ? '전신 인식 중...' : scanStep === 1 ? '안전모 감지됨' : '안전화 감지됨') : '자동 감지 대기 중'}</span>
                                     </div>
-                                    <div className={styles.scannerBadge}>안전 확인 대기</div>
+                                    <div className={styles.scannerBadge}>{isScanning ? '분석 중...' : '확인 대기'}</div>
+                                    {isScanning && (
+                                        <div className={styles.scanProgress}>
+                                            <div className={styles.scanBar} style={{ width: `${(scanStep / 2) * 100}%` }}></div>
+                                        </div>
+                                    )}
                                 </div>
-                                <Button className={styles.authBtn} onClick={handlePpeAuth}>인증 완료 및 작업 시작</Button>
+                                <Button 
+                                    className={styles.authBtn} 
+                                    onClick={handlePpeAuth}
+                                    disabled={isScanning}
+                                >
+                                    {isScanning ? 'AI 분석 및 인증 중...' : '인증 완료 및 작업 시작'}
+                                </Button>
                             </div>
                         )}
 
@@ -291,7 +315,33 @@ export default function AttendanceClient() {
                                 <h2 className={styles.timer}>{formatTime(timer)}</h2>
                                 <div className={styles.workFooter}>
                                     <span className={styles.startTime}>시작 시간: {SITE_DATA.shiftStart}</span>
-                                    <Button variant="secondary" size="sm" onClick={() => setStatus('IDLE')}>퇴근 하기 (Checkout)</Button>
+                                    <Button variant="secondary" size="sm" onClick={handleCheckout}>퇴근 하기 (Checkout)</Button>
+                                </div>
+                            </div>
+                        )}
+
+                        {status === 'SETTLED' && (
+                            <div className={styles.settledState}>
+                                <div className={styles.successIcon}>
+                                    <CheckCircle2 size={48} color="#22C55E" />
+                                </div>
+                                <h3 className={styles.settledTitle}>오늘 하루도 고생하셨습니다!</h3>
+                                <p className={styles.settledDate}>{new Date().toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' })}</p>
+                                
+                                <div className={styles.summaryGrid}>
+                                    <div className={styles.summaryItem}>
+                                        <span className={styles.summaryLabel}>총 작업 시간</span>
+                                        <span className={styles.summaryValue}>{formatTime(timer)}</span>
+                                    </div>
+                                    <div className={styles.summaryItem}>
+                                        <span className={styles.summaryLabel}>예상 일당 (정산 예정)</span>
+                                        <span className={styles.summaryValue}>₩195,000</span>
+                                    </div>
+                                </div>
+
+                                <div className={styles.settledActions}>
+                                    <Button className={styles.completeBtn} onClick={() => setStatus('IDLE')}>확인 및 종료</Button>
+                                    <Link href="/settlement" className={styles.linkBtn}>상세 정산 내역 보기 <ChevronRight size={14} /></Link>
                                 </div>
                             </div>
                         )}

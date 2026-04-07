@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import Link from 'next/link';
 import styles from './TechnicianCard.module.css';
 import GlassCard from './UI/GlassCard';
@@ -18,7 +19,10 @@ interface TechnicianProps {
 }
 
 export default function TechnicianCard({ technician }: TechnicianProps) {
-    const trustScore = technician.trustScore || Math.floor(Math.random() * 20) + 80; // Mock score if missing
+    const trustScore = useMemo(() => 
+        technician.trustScore || Math.floor(Math.random() * 20) + 80, 
+        [technician.trustScore]
+    );
 
     return (
         <GlassCard hoverEffect className={styles.cardOverride}>
