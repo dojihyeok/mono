@@ -22,11 +22,13 @@ jobs:
 
       - name: 🔄 Restart PM2 (Hard Restart & Debug)
         run: |
-          pwd
-          ls -la
+          echo "🔎 Current Processes:"
+          ps aux | grep node
+          echo "📍 Current Directory: $(pwd)"
           pm2 list
           pm2 delete mono || true
-          pm2 start npm --name "mono" -- run start -- -p 3004
+          pm2 delete mono-server || true
+          pm2 start npm --name "mono" --cwd . -- run start -- -p 3004
           pm2 save
           pm2 list
 
