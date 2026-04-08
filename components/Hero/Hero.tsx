@@ -44,10 +44,34 @@ export default function Hero() {
             <div className={`${styles.shape} ${styles.shape2}`} />
 
             <div className={`container ${styles.content}`}>
-                <div className={styles.dawnMarketNotice}>
-                    <span className={styles.pulseDot}></span>
-                    <strong>실시간 현장: </strong>
-                    04:00 - 08:00 프리미엄 매칭 중
+                <div className={styles.foremanBanner}>
+                    <div className={styles.foremanIntro}>
+                        <div className={styles.foremanAvatar}>
+                            <div className={styles.avatarGlow}></div>
+                            <div className={styles.avatarInner}>
+                                <BrainCircuit size={40} className={styles.aiIcon} />
+                                <div className={styles.scanningLine} />
+                            </div>
+                        </div>
+                        <div className={styles.foremanIntroText}>
+                            <div className={styles.introBadge}>
+                                MONO AI | 현장 지원 본부
+                            </div>
+                            <h2>반갑습니다, <strong>모컬(Mo-Cul)</strong> 입니다.</h2>
+                            <p>오늘의 현장 상황과 마스터님의 숙련도에 맞춰 실시간 가이드를 준비했습니다.</p>
+                        </div>
+                    </div>
+                    
+                    <div className={styles.foremanActions}>
+                        <Link href="/foreman?mode=junior" className={styles.trackBtn}>
+                            <Zap size={18} />
+                            <span>초보 마스터 (입문/기초)</span>
+                        </Link>
+                        <Link href="/foreman?mode=senior" className={styles.trackBtn}>
+                            <TrendingUp size={18} />
+                            <span>고급/글로벌 마스터 (숙련/최고)</span>
+                        </Link>
+                    </div>
                 </div>
 
                 <div className={styles.heroMain}>

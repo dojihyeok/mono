@@ -31,42 +31,178 @@
     margin-bottom: 24px;
 }
 
-.dawnMarketNotice {
+.foremanBanner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    padding: 2.5rem;
+    background: linear-gradient(135deg, rgba(18, 18, 23, 0.8), rgba(2, 2, 4, 0.95));
+    border: 1px solid rgba(180, 138, 9, 0.2);
+    border-radius: 24px;
+    margin-bottom: 3rem;
+    width: 100%;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    backdrop-filter: blur(20px);
+    animation: fadeInDown 0.8s ease-out;
+    position: relative;
+    overflow: hidden;
+}
+
+.foremanBanner::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(180, 138, 9, 0.5), transparent);
+}
+
+.foremanIntro {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    text-align: left;
+    width: 100%;
+}
+
+.foremanAvatar {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    flex-shrink: 0;
+}
+
+.avatarInner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    border: 1px solid var(--accent-gold);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    box-shadow: 0 0 30px rgba(180, 138, 9, 0.3);
+}
+
+.scanningLine {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(to right, transparent, var(--accent-gold), transparent);
+    animation: scanMove 2.5s infinite linear;
+}
+
+@keyframes scanMove {
+    0% { top: 0; }
+    100% { top: 100%; }
+}
+
+.avatarGlow {
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    border-radius: 50%;
+    border: 1px solid rgba(180, 138, 9, 0.1);
+    animation: rotateGlow 10s infinite linear;
+}
+
+@keyframes rotateGlow {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.foremanIntroText {
+    flex: 1;
+}
+
+.introBadge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: #fff;
+    background: rgba(180, 138, 9, 0.15);
+    padding: 0.4rem 1rem;
+    border-radius: 100px;
+    margin-bottom: 0.75rem;
+    border: 1px solid rgba(180, 138, 9, 0.3);
+}
+
+.foremanIntroText h2 {
+    font-size: 2rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+    color: #fff;
+}
+
+.foremanIntroText h2 strong {
+    color: var(--accent-gold);
+}
+
+.foremanIntroText p {
+    font-size: 1rem;
+    color: #94A3B8;
+    line-height: 1.5;
+}
+
+.foremanActions {
+    display: flex;
+    gap: 1rem;
+    width: 100%;
+}
+
+.trackBtn {
+    flex: 1;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 0.75rem;
-    padding: 0.6rem 1.25rem;
-    background: rgba(180, 138, 9, 0.08);
-    border: 1px solid rgba(180, 138, 9, 0.2);
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 12px;
-    font-size: 0.85rem;
-    color: #B48A09;
-    margin-bottom: 2rem;
-    width: fit-content;
-    margin-left: auto;
-    margin-right: auto;
-    backdrop-filter: blur(10px);
-    animation: fadeInDown 0.8s ease-out;
+    color: #94A3B8;
+    font-size: 0.875rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
-.pulseDot {
-    width: 8px;
-    height: 8px;
-    background: #FFD700;
-    border-radius: 50%;
-    box-shadow: 0 0 10px #FFD700;
-    animation: glow 2s infinite;
+.trackBtn:hover {
+    background: rgba(180, 138, 9, 0.05);
+    border-color: var(--accent-gold);
+    color: #fff;
 }
 
-@keyframes glow {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.4; transform: scale(1.3); }
+@keyframes pulseGold {
+    0% { box-shadow: 0 0 0 0 rgba(180, 138, 9, 0.4); }
+    70% { box-shadow: 0 0 0 10px rgba(180, 138, 9, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(180, 138, 9, 0); }
 }
 
-@keyframes fadeInDown {
-    from { opacity: 0; transform: translateY(-10px); }
-    to { opacity: 1; transform: translateY(0); }
+@media (max-width: 768px) {
+    .foremanIntro {
+        flex-direction: column;
+        text-align: center;
+        gap: 1.5rem;
+    }
+    .foremanIntroText h2 {
+        font-size: 1.5rem;
+    }
+    .foremanActions {
+        flex-direction: column;
+    }
 }
 
 .badge {
