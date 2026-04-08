@@ -22,7 +22,26 @@
   --shadow-heavy: 0 10px 40px -10px rgba(0, 0, 0, 0.9);
   --shadow-gold: 0 0 15px rgba(180, 138, 9, 0.1);
 
-  --app-max-width: 480px;
+  --app-max-width: 480px; /* Mobile first */
+}
+
+/* PC Web Real Responsive Layout */
+@media (min-width: 768px) {
+  :root {
+    --app-max-width: 768px; /* Tablet */
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --app-max-width: 1024px; /* Desktop */
+  }
+}
+
+@media (min-width: 1280px) {
+  :root {
+    --app-max-width: 1200px; /* Ultra Wide */
+  }
 }
 
 @media (prefers-color-scheme: dark) {
