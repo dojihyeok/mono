@@ -43,11 +43,6 @@ export default function Hero() {
             <div className={`${styles.shape} ${styles.shape2}`} />
 
             <div className={`container ${styles.content}`}>
-                <div className={`${styles.glitchBox} fade-in`}>
-                    <Globe size={12} color="#B48A09" />
-                    <span className={styles.badge}>전 세계 기술 마스터가 신뢰하는 표준</span>
-                </div>
-
                 <div className={styles.dawnMarketNotice}>
                     <span className={styles.pulseDot}></span>
                     <strong>실시간 현장: </strong>
@@ -64,52 +59,6 @@ export default function Hero() {
                   <p className={`${styles.description} ${fade ? styles.fadeIn : styles.fadeOut}`}>
                       {current.sub}
                   </p>
-                </div>
-
-                <div className={`${styles.fieldAction} fade-in delay-300`}>
-                    <Link href="/office" className={styles.tacticalCard}>
-                        <div className={styles.cardHeader}>
-                            <div className={styles.liveIndicator}>
-                                <span className={styles.pulseDot}></span>
-                                <span className={styles.liveText}>실시간 현장 확인 중</span>
-                            </div>
-                            <div className={styles.matchingStatus}>
-                                <Radio size={14} color="#ef4444" className={styles.pulseIcon} />
-                                <span>65개 사무소 매칭 중</span>
-                            </div>
-                        </div>
-                        
-                        <div className={styles.cardBody}>
-                            <Radar size={48} color="#B48A09" className={styles.radarMain} />
-                            <div className={styles.cardInfo}>
-                                <h2 className={styles.cardTitle}>온라인 인력 사무소 (현장)</h2>
-                                <p className={styles.cardSub}>전국의 숙련된 마스터를 위한 실시간 현장 배정 시스템</p>
-                                <div className={styles.liveStats}>
-                                    <div className={styles.statItem}>
-                                        <Users size={14} />
-                                        <span>오늘 1,240명 출근</span>
-                                    </div>
-                                    <div className={styles.statItem}>
-                                        <TrendingUp size={14} />
-                                        <span>실시간 매칭률 98%</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className={styles.cardArrow}>
-                                <ArrowRight size={24} />
-                            </div>
-                        </div>
-
-                        <div className={styles.cardFooter}>
-                            <div className={styles.feedMarquee}>
-                                <span>[09:12] 성수 테크니컬 인력 2명 매칭 완료</span>
-                                <span className={styles.feedDot}>•</span>
-                                <span>[09:10] 반포 명장 사무소 집합 확인 중</span>
-                                <span className={styles.feedDot}>•</span>
-                                <span>[09:05] 고덕 삼성 전문관 5명 현장 투입</span>
-                            </div>
-                        </div>
-                    </Link>
                 </div>
 
                 <div className={`${styles.actions} fade-in delay-350`}>
