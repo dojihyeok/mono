@@ -4,6 +4,8 @@ import JobDetailClient from './JobDetailClient';
 import Navbar from '@/components/Navbar/Navbar';
 import styles from './page.module.css';
 
+export const dynamic = 'force-dynamic';
+
 // Mock data for hardcoded u1, u2 from UrgentRecruitment
 const MOCK_URGENT_JOBS: Record<string, any> = {
     'u1': {
@@ -40,7 +42,7 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
     let job;
 
     // Check if it's a mock ID
-    if (id && id.startsWith('u')) {
+    if (id && typeof id === 'string' && id.startsWith('u')) {
         job = MOCK_URGENT_JOBS[id];
     } else {
         // Try to fetch from DB
