@@ -224,3 +224,50 @@
     background: var(--accent);
     border-radius: 10px;
 }
+
+/* PC Web Layout Optimization */
+@media (min-width: 768px) {
+    .header {
+        margin-bottom: 3rem;
+    }
+
+    .title {
+        font-size: 1.75rem;
+    }
+
+    .subtitle {
+        font-size: 1rem;
+    }
+
+    .carousel {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 2rem;
+        padding: 0 2rem 2rem;
+        overflow-x: visible;
+        scroll-snap-type: none;
+    }
+
+    .jobCard {
+        flex: none;
+        max-width: none;
+        width: 100%;
+        scroll-snap-align: none;
+        transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    }
+
+    .jobCard:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 15px 35px rgba(255, 107, 0, 0.15);
+        border-color: var(--accent);
+    }
+
+    .indicators {
+        display: none;
+    }
+    
+    .viewMore {
+        max-width: 300px;
+        margin: 0 auto;
+    }
+}
