@@ -91,9 +91,11 @@
 
 .siteHeader {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    justify-content: flex-start;
     align-items: flex-start;
-    margin-bottom: 0.5rem;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
 }
 
 .siteTitle {

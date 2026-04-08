@@ -42,12 +42,11 @@
     display: flex;
     overflow-x: auto;
     gap: 1rem;
-    padding: 0 1.5rem;
+    padding: 0 7.5% 1.5rem; /* 7.5% side padding perfectly centers an 85% width card */
     scrollbar-width: none;
     -ms-overflow-style: none;
     scroll-snap-type: x mandatory; /* Added for smooth snapping */
     scroll-behavior: smooth;
-    scroll-padding: 0 1.5rem;
 }
 
 .carousel::-webkit-scrollbar {
@@ -55,7 +54,7 @@
 }
 
 .jobCard {
-    flex: 0 0 calc(100% - 3rem); /* Full width minus side spacing */
+    flex: 0 0 85%; /* 85% width card */
     max-width: 440px;
     scroll-snap-align: center; /* Snaps to center */
     background: var(--nav-bg);
