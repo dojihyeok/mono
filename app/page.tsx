@@ -4,8 +4,9 @@ import UrgentRecruitment from '@/components/UrgentRecruitment/UrgentRecruitment'
 import QuickNearbyJobs from '@/components/QuickNearbyJobs/QuickNearbyJobs';
 import Features from '@/components/Features/Features';
 import Footer from '@/components/Footer/Footer';
-
 import Process from '@/components/Process/Process';
+
+export const dynamic = 'force-dynamic';
 
 export default function Home() {
   return (
