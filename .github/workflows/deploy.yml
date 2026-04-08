@@ -20,11 +20,15 @@ jobs:
       - name: 🔨 Build Next.js
         run: npm run build
 
-      - name: 🔄 Restart PM2 (Hard Restart)
+      - name: 🔄 Restart PM2 (Hard Restart & Debug)
         run: |
+          pwd
+          ls -la
+          pm2 list
           pm2 delete mono || true
           pm2 start npm --name "mono" -- run start -- -p 3004
           pm2 save
+          pm2 list
 
       - name: ✅ Health Check
         run: |
