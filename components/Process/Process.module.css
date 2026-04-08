@@ -115,16 +115,18 @@
 }
 
 .stepTitle {
-    font-size: 1.15rem;
-    font-weight: 700;
-    margin-bottom: 0.5rem;
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin-bottom: 0.75rem;
     color: var(--primary-foreground);
+    letter-spacing: -0.02em;
 }
 
 .stepDesc {
-    color: var(--secondary);
-    line-height: 1.5;
-    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.6);
+    line-height: 1.6;
+    font-size: 1rem;
+    margin-bottom: 1rem;
 }
 
 .stepHighlight {

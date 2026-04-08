@@ -102,6 +102,57 @@ export default function JobDetailClient({ job }: JobDetailClientProps) {
                         </div>
                     </GlassCard>
 
+                    {/* AI Site Foreman (AI 현장 반장) Section */}
+                    <div className={styles.aiForemanSection}>
+                        <div className={styles.aiForemanHeader}>
+                            <div className={styles.aiForemanIdentity}>
+                                <div className={styles.aiAvatar}>
+                                    <div className={styles.aiCore} />
+                                    <Zap size={14} fill="#fff" />
+                                </div>
+                                <div className={styles.aiForemanTitle}>
+                                    <h4>AI 현장 반장 : MO-NO 브리핑</h4>
+                                    <div className={styles.aiStatus}>
+                                        <div className={styles.pulseDot} />
+                                        실시간 데이터 분석 중
+                                    </div>
+                                </div>
+                            </div>
+                            <div className={styles.aiBadge}>PREDICTIVE CORE v4</div>
+                        </div>
+
+                        <div className={styles.aiBriefingGrid}>
+                            <div className={styles.briefingItem}>
+                                <div className={styles.briefingLabel}>
+                                    <AlertTriangle size={14} color="#ef4444" />
+                                    <span>안전 유의사항</span>
+                                </div>
+                                <p className={styles.briefingText}>
+                                    {job.id === 'u1' ? '3층 계단 양중 시 허리 부상 위험이 높습니다. 2인 1조 작업을 권장합니다.' : 
+                                     job.id === 'u2' ? '철거 현장 비산 먼지가 많습니다. 1급 방진 마스크 착용이 필수입니다.' :
+                                     '낙하물 주의 구역입니다. 안전모 턱끈을 반드시 조여주세요.'}
+                                </p>
+                            </div>
+                            <div className={styles.briefingItem}>
+                                <div className={styles.briefingLabel}>
+                                    <Clock size={14} color="#3b82f6" />
+                                    <span>작업 효율 팁</span>
+                                </div>
+                                <p className={styles.briefingText}>
+                                    {job.id === 'u1' ? '오전 10시에 폐기물 차량이 도착합니다. 9시 50분까지 자재 적재 완료 시 정시 종료 가능합니다.' : 
+                                     '현장 도착 후 지하 1층 관리실에서 신규 등록 절차를 먼저 진행하시면 대기 시간을 15분 단축할 수 있습니다.'}
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <div className={styles.aiPredictionBanner}>
+                            <div className={styles.predictionIcon}>⚡</div>
+                            <div className={styles.predictionContent}>
+                                <strong>AI 경력 예측 :</strong> 이 현장 완료 시 <strong>"중량물 핸들링 숙련도"</strong> 지수가 12포인트 상승할 것으로 분석됩니다.
+                            </div>
+                        </div>
+                    </div>
+
                     {/* Job Description */}
                     <section className={styles.descSection}>
                         <h3 className={styles.subTitle}>업무 상세 가이드</h3>

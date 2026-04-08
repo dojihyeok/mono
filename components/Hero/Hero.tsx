@@ -51,6 +51,10 @@ export default function Hero() {
                 </div>
 
                 <div className={styles.heroMain}>
+                    <div className={styles.aiBadge}>
+                        <BrainCircuit size={14} className={styles.aiIcon} />
+                        <span>AI ANALYTICS ENGINE ACTIVE</span>
+                    </div>
                   <h1 className={`${styles.title} ${fade ? styles.fadeIn : styles.fadeOut}`}>
                       {current.main.split('\n').map((line, i) => (
                           <span key={i} className={styles.titleLine}>{line}</span>
@@ -63,49 +67,60 @@ export default function Hero() {
                 </div>
 
                 <div className={`${styles.fieldAction} fade-in delay-300`}>
-                    <Link href="/office" className={styles.tacticalCard}>
-                        <div className={styles.cardHeader}>
-                            <div className={styles.liveIndicator}>
-                                <span className={styles.pulseDot}></span>
-                                <span className={styles.liveText}>실시간 현장 확인 중</span>
-                            </div>
-                            <div className={styles.matchingStatus}>
-                                <Radio size={14} color="#ef4444" className={styles.pulseIcon} />
-                                <span>65개 사무소 매칭 중</span>
-                            </div>
+                    <div className={styles.aiTerminal}>
+                        <div className={styles.terminalHeader}>
+                            <div className={styles.terminalDot} />
+                            <div className={styles.terminalDot} />
+                            <div className={styles.terminalDot} />
+                            <span className={styles.terminalTitle}>NEURAL MATCHING CORE v2.0</span>
                         </div>
-                        
-                        <div className={styles.cardBody}>
-                            <Radar size={48} color="#B48A09" className={styles.radarMain} />
-                            <div className={styles.cardInfo}>
-                                <h2 className={styles.cardTitle}>온라인 인력 사무소 (현장)</h2>
-                                <p className={styles.cardSub}>전국의 숙련된 마스터를 위한 실시간 현장 배정 시스템</p>
-                                <div className={styles.liveStats}>
-                                    <div className={styles.statItem}>
-                                        <Users size={14} />
-                                        <span>오늘 1,240명 출근</span>
-                                    </div>
-                                    <div className={styles.statItem}>
-                                        <TrendingUp size={14} />
-                                        <span>실시간 매칭률 98%</span>
-                                    </div>
+                        <Link href="/office" className={styles.tacticalCard}>
+                            <div className={styles.cardHeader}>
+                                <div className={styles.liveIndicator}>
+                                    <span className={styles.pulseDot}></span>
+                                    <span className={styles.liveText}>AI SCANNING ENVIRONMENT</span>
+                                </div>
+                                <div className={styles.matchingStatus}>
+                                    <Radio size={14} color="#ef4444" className={styles.pulseIcon} />
+                                    <span>REAL-TIME ANALYSIS</span>
                                 </div>
                             </div>
-                            <div className={styles.cardArrow}>
-                                <ArrowRight size={24} />
+                            
+                            <div className={styles.cardBody}>
+                                <div className={styles.radarWrapper}>
+                                    <Radar size={64} className={styles.radarMain} />
+                                    <div className={styles.radarScan} />
+                                </div>
+                                <div className={styles.cardInfo}>
+                                    <h2 className={styles.cardTitle}>지능형 현장 배정 시스템</h2>
+                                    <p className={styles.cardSub}>기술자의 숙련도와 현장의 난이도를 AI가 정밀 분석하여 매칭합니다.</p>
+                                    <div className={styles.liveStats}>
+                                        <div className={styles.statItem}>
+                                            <div className={styles.statIcon}><Zap size={14} fill="#B48A09" /></div>
+                                            <span>실시간 매칭률 99.8%</span>
+                                        </div>
+                                        <div className={styles.statItem}>
+                                            <div className={styles.statIcon}><ShieldCheck size={14} fill="#10B981" /></div>
+                                            <span>안전 지수 Verified</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className={styles.cardArrow}>
+                                    <ArrowRight size={24} />
+                                </div>
                             </div>
-                        </div>
 
-                        <div className={styles.cardFooter}>
-                            <div className={styles.feedMarquee}>
-                                <span>[09:12] 성수 테크니컬 인력 2명 매칭 완료</span>
-                                <span className={styles.feedDot}>•</span>
-                                <span>[09:10] 반포 명장 사무소 집합 확인 중</span>
-                                <span className={styles.feedDot}>•</span>
-                                <span>[09:05] 고덕 삼성 전문관 5명 현장 투입</span>
+                            <div className={styles.cardFooter}>
+                                <div className={styles.feedMarquee}>
+                                    <span>[SYSTEM] ANALYZING SKILLSET OF MASTER #7721... OPTIMIZED MATCH FOUND AT SITE A-02</span>
+                                    <span className={styles.feedDot}>•</span>
+                                    <span>[NETWORK] GLOBAL TECHNICIAN SYNC COMPLETED</span>
+                                    <span className={styles.feedDot}>•</span>
+                                    <span>[LOGS] PREDICTIVE DEMAND FORECAST: HIGH LOAD IN GANGNAM AREA</span>
+                                </div>
                             </div>
-                        </div>
-                    </Link>
+                        </Link>
+                    </div>
                 </div>
 
                 <div className={`${styles.actions} fade-in delay-350`}>

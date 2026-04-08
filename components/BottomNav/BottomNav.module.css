@@ -75,6 +75,10 @@
   transform: translateY(1px);
 }
 
-/* Hide on larger screens if we want to show a sidebar/topbar instead, 
-   but since it's mobile-first app, we can keep it as the primary navigation. */
-/* Removed empty media query */
+/* Desktop adjustments */
+@media (min-width: 768px) {
+  .bottomNav {
+    display: none;
+  }
+}
+

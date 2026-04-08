@@ -69,20 +69,31 @@ a {
 /* App Shell Utilities */
 .app-shell {
   width: 100%;
-  max-width: var(--app-max-width);
   margin: 0 auto;
   min-height: 100vh;
   position: relative;
   background-color: var(--background);
-  box-shadow: 0 0 40px rgba(0,0,0,0.5);
-  border-left: 1px solid var(--border);
-  border-right: 1px solid var(--border);
-  overflow-x: hidden; /* Bulletproof boundary */
+  overflow-x: hidden;
+}
+
+@media (max-width: 767px) {
+  .app-shell {
+    max-width: var(--app-max-width);
+    box-shadow: 0 0 40px rgba(0,0,0,0.5);
+    border-left: 1px solid var(--border);
+    border-right: 1px solid var(--border);
+  }
 }
 
 .app-content {
-  padding-bottom: 120px; /* Space for bottom nav with extra safety margin */
+  padding-bottom: 80px; /* Base for mobile */
   min-height: 100vh;
+}
+
+@media (min-width: 768px) {
+  .app-content {
+    padding-bottom: 0; /* No bottom nav on desktop */
+  }
 }
 
 /* Glassmorphism */
@@ -97,6 +108,8 @@ a {
 /* Utilities */
 .container {
   width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
   padding: 0 1.5rem;
 }
 
@@ -242,33 +255,13 @@ h3 {
   border-color: rgba(180, 138, 9, 0.3);
 }
 
-/* PC Web Real Responsive Layout - MOVED TO BOTTOM FOR HIGHEST PRIORITY */
+/* PC Web Real Responsive Layout - REDEFINED */
+:root {
+  --app-max-width: 480px;
+}
+
 @media (min-width: 768px) {
   :root {
-    --app-max-width: 768px;
-  }
-  .app-shell {
-    max-width: 768px !important;
-    width: 100% !important;
-  }
-}
-
-@media (min-width: 1024px) {
-  :root {
-    --app-max-width: 1024px;
-  }
-  .app-shell {
-    max-width: 1024px !important;
-    width: 100% !important;
-  }
-}
-
-@media (min-width: 1280px) {
-  :root {
-    --app-max-width: 1200px;
-  }
-  .app-shell {
-    max-width: 1200px !important;
-    width: 100% !important;
+    --app-max-width: 100%;
   }
 }

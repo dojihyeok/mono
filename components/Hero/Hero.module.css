@@ -116,22 +116,112 @@
 
 .heroMain {
     margin-bottom: 3.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.aiBadge {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.5rem 1rem;
+    background: rgba(37, 99, 235, 0.1);
+    border: 1px solid rgba(37, 99, 235, 0.3);
+    border-radius: 2rem;
+    margin-bottom: 1.5rem;
+    color: #3b82f6;
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    animation: fadeIn 1s ease-out;
+}
+
+.aiIcon {
+    animation: pulse-blue 2s infinite;
+}
+
+@keyframes pulse-blue {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.1); opacity: 0.7; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.aiTerminal {
+    background: #000;
+    border-radius: 20px;
+    padding: 2px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+}
+
+.terminalHeader {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.25rem;
+    background: #111;
+    border-radius: 18px 18px 0 0;
+}
+
+.terminalDot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #333;
+}
+
+.terminalDot:nth-child(1) { background: #ff5f56; }
+.terminalDot:nth-child(2) { background: #ffbd2e; }
+.terminalDot:nth-child(3) { background: #27c93f; }
+
+.terminalTitle {
+    margin-left: 0.5rem;
+    font-size: 0.65rem;
+    color: #666;
+    font-weight: 700;
+    font-family: monospace;
+}
+
+.radarWrapper {
+    position: relative;
+    width: 64px;
+    height: 64px;
+    flex-shrink: 0;
+}
+
+.radarScan {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    border: 1px solid var(--accent);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    animation: radarScan 2s linear infinite;
+}
+
+@keyframes radarScan {
+    0% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
+    100% { transform: translate(-50%, -50%) scale(2); opacity: 0; }
 }
 
 .fieldAction {
     width: 100%;
     margin-bottom: 3rem;
+    max-width: 800px;
 }
 
 .tacticalCard {
     display: block;
-    background: linear-gradient(135deg, rgba(255, 107, 0, 0.12) 0%, rgba(17, 17, 21, 0.95) 100%);
-    border: 1px solid rgba(255, 107, 0, 0.4);
-    border-radius: 28px;
+    background: linear-gradient(135deg, rgba(8, 8, 12, 0.95) 0%, rgba(2, 2, 4, 1) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 0 0 18px 18px;
     text-decoration: none;
     color: #fff;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 0 40px rgba(255, 107, 0, 0.1), inset 0 0 20px rgba(255, 107, 0, 0.05);
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
     overflow: hidden;
     position: relative;
     text-align: left;

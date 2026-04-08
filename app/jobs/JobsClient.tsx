@@ -135,9 +135,12 @@ export default function JobsClient({ initialJobs }: JobsClientProps) {
                         </button>
                     </div>
                     <div className={styles.resultsInfo}>
-                        <span className={styles.countText}>
-                            총 <strong>{filteredJobs.length}</strong>건의 일자리
-                        </span>
+                        <div className={styles.countWrapper}>
+                            <div className={styles.aiPulse} />
+                            <span className={styles.countText}>
+                                AI 최적화 매칭: <strong>{filteredJobs.length}</strong>건
+                            </span>
+                        </div>
                         { (occupation !== '전체' || region !== '전체' || searchTerm !== '') && (
                             <button className={styles.resetBtn} onClick={() => {
                                 setIsFiltering(true);

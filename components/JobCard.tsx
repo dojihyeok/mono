@@ -31,7 +31,10 @@ export default function JobCard({ job }: JobProps) {
                     </div>
                     <div className={styles.badges}>
                         {job.isUrgent && <span className={styles.urgentBadge}>즉시 모집</span>}
-                        <span className={styles.dailyPayBadge}>당일 지급</span>
+                        <div className={styles.aiMatchBadge}>
+                            <span className={styles.aiMatchLabel}>AI MATCH</span>
+                            <span className={styles.aiMatchValue}>{85 + (job.id % 15)}%</span>
+                        </div>
                     </div>
                 </div>
 

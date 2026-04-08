@@ -42,12 +42,18 @@ export default function ForemanClient() {
             <div className={styles.intro}>
                 <div className={styles.foremanAvatar}>
                     <div className={styles.avatarGlow}></div>
-                    <BrainCircuit size={40} className={styles.aiIcon} />
+                    <div className={styles.avatarInner}>
+                        <BrainCircuit size={40} className={styles.aiIcon} />
+                        <div className={styles.scanningLine} />
+                    </div>
                 </div>
                 <div className={styles.introText}>
-                    <div className={styles.badge}>MONO AI | 현장 지원 본부</div>
+                    <div className={styles.badge}>
+                        <span className={styles.pulseDot} />
+                        NEURAL FOREMAN v2.4 ONLINE
+                    </div>
                     <h1>반갑습니다, <strong>모컬(Mo-Cul)</strong> 입니다.</h1>
-                    <p>오늘의 현장 상황과 마스터님의 숙련도에 맞춰 실시간 가이드를 준비했습니다.</p>
+                    <p>현장의 모든 변수를 데이터로 분석하여 최적의 가이드를 제공합니다.</p>
                 </div>
             </div>
 
