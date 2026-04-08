@@ -28,34 +28,6 @@
   --app-max-width: 480px;
 }
 
-/* PC Web Real Responsive Layout */
-@media (min-width: 768px) {
-  :root {
-    --app-max-width: 768px;
-  }
-  .app-shell {
-    max-width: 768px !important;
-  }
-}
-
-@media (min-width: 1024px) {
-  :root {
-    --app-max-width: 1024px;
-  }
-  .app-shell {
-    max-width: 1024px !important;
-  }
-}
-
-@media (min-width: 1280px) {
-  :root {
-    --app-max-width: 1200px;
-  }
-  .app-shell {
-    max-width: 1200px !important;
-  }
-}
-
 @media (prefers-color-scheme: dark) {
   /* Only if user wants dark mode, but for this specific "Trust" vibe, light verified mode is usually better for "official" feel. 
      However, modern tech apps often support dark. I'll stick to a solid Light mode base for now as it's cleaner for "Documentation/Paperwork" feel, 
@@ -268,4 +240,35 @@ h3 {
 
 .premium-card:hover {
   border-color: rgba(180, 138, 9, 0.3);
+}
+
+/* PC Web Real Responsive Layout - MOVED TO BOTTOM FOR HIGHEST PRIORITY */
+@media (min-width: 768px) {
+  :root {
+    --app-max-width: 768px;
+  }
+  .app-shell {
+    max-width: 768px !important;
+    width: 100% !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --app-max-width: 1024px;
+  }
+  .app-shell {
+    max-width: 1024px !important;
+    width: 100% !important;
+  }
+}
+
+@media (min-width: 1280px) {
+  :root {
+    --app-max-width: 1200px;
+  }
+  .app-shell {
+    max-width: 1200px !important;
+    width: 100% !important;
+  }
 }
