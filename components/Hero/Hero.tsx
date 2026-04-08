@@ -44,6 +44,24 @@ export default function Hero() {
             <div className={`${styles.shape} ${styles.shape2}`} />
 
             <div className={`container ${styles.content}`}>
+                <div className={styles.dawnMarketNotice}>
+                    <span className={styles.pulseDot}></span>
+                    <strong>실시간 현장: </strong>
+                    04:00 - 08:00 프리미엄 매칭 중
+                </div>
+
+                <div className={styles.heroMain}>
+                  <h1 className={`${styles.title} ${fade ? styles.fadeIn : styles.fadeOut}`}>
+                      {current.main.split('\n').map((line, i) => (
+                          <span key={i} className={styles.titleLine}>{line}</span>
+                      ))}
+                  </h1>
+
+                  <p className={`${styles.description} ${fade ? styles.fadeIn : styles.fadeOut}`}>
+                      {current.sub}
+                  </p>
+                </div>
+
                 <div className={`${styles.fieldAction} fade-in delay-300`}>
                     <Link href="/office" className={styles.tacticalCard}>
                         <div className={styles.cardHeader}>
@@ -88,24 +106,6 @@ export default function Hero() {
                             </div>
                         </div>
                     </Link>
-                </div>
-
-                <div className={styles.dawnMarketNotice}>
-                    <span className={styles.pulseDot}></span>
-                    <strong>실시간 현장: </strong>
-                    04:00 - 08:00 프리미엄 매칭 중
-                </div>
-
-                <div className={styles.heroMain}>
-                  <h1 className={`${styles.title} ${fade ? styles.fadeIn : styles.fadeOut}`}>
-                      {current.main.split('\n').map((line, i) => (
-                          <span key={i} className={styles.titleLine}>{line}</span>
-                      ))}
-                  </h1>
-
-                  <p className={`${styles.description} ${fade ? styles.fadeIn : styles.fadeOut}`}>
-                      {current.sub}
-                  </p>
                 </div>
 
                 <div className={`${styles.actions} fade-in delay-350`}>
