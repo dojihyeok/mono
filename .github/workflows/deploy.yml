@@ -20,15 +20,17 @@ jobs:
       - name: 🔨 Build Next.js
         run: npm run build
 
-      - name: 🔄 Restart PM2 (Hard Restart & Debug)
+      - name: 🔄 Restart PM2 (Hard Restart)
         run: |
-          echo "🔎 Current Processes:"
-          ps aux | grep node
-          echo "📍 Current Directory: $(pwd)"
-          pm2 list
+          echo "🚀 Starting Deployment Pulse..."
+          # Delete existing process if any, ignore errors
           pm2 delete mono || true
           pm2 delete mono-server || true
+          
+          # Start fresh from the correct directory
           pm2 start npm --name "mono" --cwd . -- run start -- -p 3004
+          
+          # Finalize
           pm2 save
           pm2 list
 
