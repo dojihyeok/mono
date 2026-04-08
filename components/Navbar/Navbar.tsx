@@ -9,6 +9,13 @@ export default function Navbar() {
                     MO-NO
                 </Link>
 
+                <nav className={styles.navLinks}>
+                    <Link href="/jobs" className={styles.navLink}>채용 현장</Link>
+                    <Link href="/technicians" className={styles.navLink}>기술 마스터</Link>
+                    <Link href="/matching" className={styles.navLink}>프리미엄 매칭</Link>
+                    <Link href="/academy" className={styles.navLink}>모노 아카데미</Link>
+                </nav>
+
                 <div className={styles.ctaGroup}>
                     {/* Notification Icon */}
                     <button className={styles.iconButton} aria-label="Notifications">

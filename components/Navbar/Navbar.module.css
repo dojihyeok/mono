@@ -26,7 +26,26 @@
 }
 
 .navLinks {
-    display: none; /* Hidden in app shell mode, relies on BottomNav */
+    display: none;
+}
+
+@media (min-width: 768px) {
+    .navLinks {
+        display: flex;
+        gap: 2rem;
+    }
+    
+    .navLink {
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: var(--foreground);
+        text-decoration: none;
+        transition: color 0.2s;
+    }
+    
+    .navLink:hover {
+        color: var(--accent);
+    }
 }
 
 .ctaGroup {

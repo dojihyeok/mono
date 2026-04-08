@@ -42,6 +42,35 @@
     opacity: 0.5;
 }
 
+@media (min-width: 768px) {
+    .timeline {
+        flex-direction: row;
+        align-items: stretch;
+        gap: 1rem;
+        padding: 3rem 1rem;
+    }
+    
+    .timeline::before {
+        top: 4.25rem;
+        left: 2rem;
+        width: calc(100% - 4rem);
+        height: 2px;
+        background: linear-gradient(to right, var(--accent) 0%, var(--border) 100%);
+    }
+    
+    .step {
+        flex: 1;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 2rem;
+    }
+    
+    .content:hover {
+        transform: translateY(-8px);
+    }
+}
+
 .step {
     display: flex;
     align-items: flex-start;

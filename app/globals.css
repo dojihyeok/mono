@@ -21,26 +21,38 @@
   --radius: 0.625rem; /* Sharper corners for a focused master look */
   --shadow-heavy: 0 10px 40px -10px rgba(0, 0, 0, 0.9);
   --shadow-gold: 0 0 15px rgba(180, 138, 9, 0.1);
+}
 
-  --app-max-width: 480px; /* Mobile first */
+/* Base Variable for Mobile */
+:root {
+  --app-max-width: 480px;
 }
 
 /* PC Web Real Responsive Layout */
 @media (min-width: 768px) {
   :root {
-    --app-max-width: 768px; /* Tablet */
+    --app-max-width: 768px;
+  }
+  .app-shell {
+    max-width: 768px !important;
   }
 }
 
 @media (min-width: 1024px) {
   :root {
-    --app-max-width: 1024px; /* Desktop */
+    --app-max-width: 1024px;
+  }
+  .app-shell {
+    max-width: 1024px !important;
   }
 }
 
 @media (min-width: 1280px) {
   :root {
-    --app-max-width: 1200px; /* Ultra Wide */
+    --app-max-width: 1200px;
+  }
+  .app-shell {
+    max-width: 1200px !important;
   }
 }
 
