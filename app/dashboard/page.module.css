@@ -196,11 +196,14 @@
     display: flex;
     flex-direction: column;
     gap: 1.25rem;
+    min-width: 0;
 }
 
 .statCard {
     padding: 1.75rem;
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, transparent 100%) !important;
+    min-width: 0;
+    overflow: hidden;
 }
 
 .statLabel {
@@ -214,9 +217,8 @@
     font-weight: 800;
     color: #00d2ff;
     margin-bottom: 0.5rem;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    white-space: normal;
+    word-break: break-all;
     width: 100%;
 }
 
