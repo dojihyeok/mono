@@ -20,13 +20,10 @@ jobs:
       - name: 🔨 Build Next.js
         run: npm run build
 
-      - name: 🔄 Reload PM2 (Zero-Downtime)
+      - name: 🔄 Restart PM2 (Hard Restart)
         run: |
-          if pm2 describe mono > /dev/null 2>&1; then
-            pm2 reload mono --update-env
-          else
-            pm2 start npm --name "mono" -- run start -- -p 3004
-          fi
+          pm2 delete mono || true
+          pm2 start npm --name "mono" -- run start -- -p 3004
           pm2 save
 
       - name: ✅ Health Check
