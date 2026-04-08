@@ -40,7 +40,7 @@ export default function Hero() {
 
     return (
         <section className={styles.hero}>
-            <div className={`${styles.shape} ${styles.shape1}`} />
+            <div className={`${styles.shape} ${styles.shape1}`}  />
             <div className={`${styles.shape} ${styles.shape2}`} />
 
             <div className={`container ${styles.content}`}>
