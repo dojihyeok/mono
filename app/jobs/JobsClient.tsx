@@ -114,6 +114,62 @@ export default function JobsClient({ initialJobs }: JobsClientProps) {
             </div>
 
             {viewMode === 'occupation' && (
+                <div className={styles.aiMatchSection}>
+                    <div className={styles.aiMatchHeader}>
+                        <h2 className={styles.aiMatchTitle}>
+                            <Zap size={20} fill="#FF6B00" color="#FF6B00" />
+                            마스터님을 위한 AI 추천 현장
+                        </h2>
+                    </div>
+                    
+                    <div className={styles.aiRecommendGrid}>
+                        {[
+                            {
+                                id: 'rec-1',
+                                title: '평택 삼성전자 P4 신축 배관공',
+                                company: '삼성엔지니어링',
+                                pay: '일당 21만원',
+                                match: '98%',
+                                reason: '마스터님의 평택 P4 경력 및 배관 숙련도가 이 현장의 급수 배관 공정에 완벽하게 매칭됩니다.'
+                            },
+                            {
+                                id: 'rec-2',
+                                title: '용인 반도체 클러스터 플랜트 팀장',
+                                company: 'SK에코플랜트',
+                                pay: '월 650만원+',
+                                match: '94%',
+                                reason: '안전 점수 상위 3% 기록이 플랜트 팀장 선임 기준을 충족합니다.'
+                            },
+                            {
+                                id: 'rec-3',
+                                title: '[해외] 사우디 네옴시티 배관 관리자',
+                                company: '현대건설(해외)',
+                                pay: '시급 $42 / hr',
+                                match: '91%',
+                                reason: '모노 AI가 분석한 글로벌 이력 데이터에 근거하여 고단가 프로젝트 매칭을 추천합니다.'
+                            }
+                        ].map((rec) => (
+                            <div key={rec.id} className={styles.recommendCard}>
+                                <div className={styles.matchBadge}>{rec.match} Match</div>
+                                <span className={styles.recLabel}>AI BEST PICK</span>
+                                <h3 className={styles.recTitle}>{rec.title}</h3>
+                                <div className={styles.recMeta}>
+                                    <span>🏢 {rec.company}</span>
+                                    <span>💰 {rec.pay}</span>
+                                </div>
+                                <p className={styles.aiReasoning}>
+                                    <strong>AI 맞춤 분석:</strong> {rec.reason}
+                                </p>
+                                <button className={styles.recApply}>
+                                    지금 바로 지원하기
+                                </button>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            )}
+
+            {viewMode === 'occupation' && (
                 <OccupationGrid onSelect={handleOccSelect} />
             )}
 
