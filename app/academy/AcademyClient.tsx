@@ -11,7 +11,8 @@ import {
     Play, 
     MessageCircle,
     Target,
-    BarChart2
+    BarChart2,
+    ShieldCheck
 } from 'lucide-react';
 
 const COURSES = [
@@ -75,7 +76,40 @@ export default function AcademyClient() {
                 <p className={styles.subtitle}>기술의 정점에서 글로벌 마스터로 도약하세요.</p>
             </header>
 
-            {/* AI Skill Analysis Radar (Decorative/Visual representation) */}
+            {/* AI Personal Roadmap - New */}
+            <section className={styles.roadmapSection}>
+                <div className={styles.roadmapHeader}>
+                    <h2>AI 퍼스널 로드맵</h2>
+                    <span className={styles.grade}>TARGET: 글로벌 배관 팀장</span>
+                </div>
+                <div className={styles.roadmapCard}>
+                    <div className={styles.roadmapPath}>
+                        <div className={styles.roadmapStep}>
+                            <div className={`${styles.stepDot} ${styles.stepDone}`}>✓</div>
+                            <div className={styles.stepInfo}>
+                                <h4>기초 배관 이론</h4>
+                                <p>수료 완료</p>
+                            </div>
+                        </div>
+                        <div className={styles.roadmapStep}>
+                            <div className={styles.stepDot}>2</div>
+                            <div className={styles.stepInfo}>
+                                <h4>하이테크 특수 배관 실습</h4>
+                                <p>추천 코스 (65% 진행 중)</p>
+                            </div>
+                        </div>
+                        <div className={styles.roadmapStep}>
+                            <div className={styles.stepDot}>3</div>
+                            <div className={styles.stepInfo}>
+                                <h4>글로벌 마스터 서바이벌 영어</h4>
+                                <p>다음 단계 (해외 진출 필수)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* AI Skill Analysis Radar */}
             <section className={styles.radarSection}>
                 <div className={styles.radarCard}>
                     <div className={styles.radarHeader}>
@@ -128,68 +162,107 @@ export default function AcademyClient() {
                 </button>
             </div>
 
-            {/* Course List */}
-            <section className={styles.courseSection}>
-                <div className={styles.sectionTitle}>
-                    <h2>내 학습 현황</h2>
-                    <span>전체보기</span>
+            {/* Tab Content Rendering */}
+            {selectedTab === 'courses' && (
+                <section className={styles.courseSection}>
+                    <div className={styles.sectionTitle}>
+                        <h2>내 학습 현황</h2>
+                        <span>전체보기</span>
+                    </div>
+                    
+                    <div className={styles.courseGrid}>
+                        {COURSES.map(course => (
+                            <div key={course.id} className={styles.courseCard}>
+                                <div className={styles.courseThumb} style={{ backgroundImage: `url(${course.image})` }}>
+                                    <div className={styles.courseLevel}>{course.level}</div>
+                                    {course.progress > 0 && (
+                                        <div className={styles.playButton}>
+                                            <Play size={20} fill="white" />
+                                        </div>
+                                    )}
+                                </div>
+                                <div className={styles.courseBody}>
+                                    <div className={styles.courseMeta}>
+                                        <span className={styles.category}>{course.category}</span>
+                                        <span className={styles.sp}>+{course.points} SP</span>
+                                    </div>
+                                    <h3>{course.title}</h3>
+                                    <div className={styles.instructor}>by {course.instructor}</div>
+                                    
+                                    <div className={styles.progressSection}>
+                                        <div className={styles.progressBar}>
+                                            <div 
+                                                className={styles.progressFill} 
+                                                style={{ width: `${course.progress}%` }}
+                                            />
+                                        </div>
+                                        <div className={styles.progressInfo}>
+                                            <span>{course.progress}% 완료</span>
+                                            <Award size={14} color={course.progress === 100 ? '#00f2ff' : '#666'} />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </section>
+            )}
+
+            {selectedTab === 'global' && (
+                <div className={styles.globalContent}>
+                    <div className={styles.langCard}>
+                        <div className={styles.survivalInfo}>
+                            <div className={styles.iconCircle}>
+                                <MessageCircle color="#00f2ff" />
+                            </div>
+                            <div>
+                                <h4 style={{color: '#fff'}}>오늘의 현장 서바이벌 영어</h4>
+                                <p style={{color: '#00f2ff'}}>"Can we verify the tile alignment before setting?"</p>
+                            </div>
+                        </div>
+                        <button className={styles.listenBtn} style={{marginTop: '1rem', width: '100%'}}>AI 원어민 발음 듣기</button>
+                    </div>
+
+                    <div className={styles.courseGrid}>
+                        {COURSES.filter(c => c.badge === '글로벌').map(course => (
+                            <div key={course.id} className={styles.courseCard}>
+                                <div className={styles.courseThumb} style={{ backgroundImage: `url(${course.image})` }}>
+                                    <div className={styles.courseLevel}>{course.level}</div>
+                                </div>
+                                <div className={styles.courseBody}>
+                                    <div className={styles.courseMeta}>
+                                        <span className={styles.category}>{course.category}</span>
+                                    </div>
+                                    <h3>{course.title}</h3>
+                                    <button className={styles.listenBtn} style={{width: '100%', marginTop: '1rem'}}>학습 시작</button>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
                 </div>
-                
-                <div className={styles.courseGrid}>
-                    {COURSES.map(course => (
-                        <div key={course.id} className={styles.courseCard}>
-                            <div className={styles.courseThumb} style={{ backgroundImage: `url(${course.image})` }}>
-                                <div className={styles.courseLevel}>{course.level}</div>
-                                {course.progress > 0 && (
-                                    <div className={styles.playButton}>
-                                        <Play size={20} fill="white" />
-                                    </div>
-                                )}
+            )}
+
+            {selectedTab === 'cert' && (
+                <div className={styles.certGrid}>
+                    {[
+                        { name: '하이테크 플랜트 마스터', issuer: 'MONO ACADEMY', icon: <Award size={32} color="#ffd700" /> },
+                        { name: '산업 안전 골드 관리자', issuer: 'KOSHA / MONO', icon: <ShieldCheck size={32} color="#00f2ff" /> },
+                        { name: '글로벌 테크니션 (L2)', issuer: 'GLOBAL MONO', icon: <Globe size={32} color="#a855f7" /> },
+                        { name: '자동화 배관 숙련공', issuer: 'SAMSUNG EPC', icon: <Zap size={32} color="#ff6b00" /> }
+                    ].map((cert, i) => (
+                        <div key={i} className={styles.certCard}>
+                            <div className={styles.badgeGlow}>
+                                {cert.icon}
                             </div>
-                            <div className={styles.courseBody}>
-                                <div className={styles.courseMeta}>
-                                    <span className={styles.category}>{course.category}</span>
-                                    <span className={styles.sp}>+{course.points} SP</span>
-                                </div>
-                                <h3>{course.title}</h3>
-                                <div className={styles.instructor}>by {course.instructor}</div>
-                                
-                                <div className={styles.progressSection}>
-                                    <div className={styles.progressBar}>
-                                        <div 
-                                            className={styles.progressFill} 
-                                            style={{ width: `${course.progress}%` }}
-                                        />
-                                    </div>
-                                    <div className={styles.progressInfo}>
-                                        <span>{course.progress}% 완료</span>
-                                        <Award size={14} color={course.progress === 100 ? '#00f2ff' : '#666'} />
-                                    </div>
-                                </div>
-                            </div>
+                            <div className={styles.certName}>{cert.name}</div>
+                            <div className={styles.certIssuer}>{cert.issuer}</div>
                         </div>
                     ))}
                 </div>
-            </section>
+            )}
 
-            {/* Survival English Quick Card */}
-            <section className={styles.survivalSection}>
-                <div className={styles.survivalCard}>
-                    <div className={styles.survivalInfo}>
-                        <div className={styles.iconCircle}>
-                            <MessageCircle color="#00f2ff" />
-                        </div>
-                        <div>
-                            <h4>오늘의 현장 서바이벌 영어</h4>
-                            <p>"Can we verify the tile alignment before setting?"</p>
-                        </div>
-                    </div>
-                    <button className={styles.listenBtn}>듣기</button>
-                </div>
-            </section>
-
-            {/* Recommendation Banner */}
-            <div className={styles.globalBanner}>
+            {/* Bottom Recommendation Banner */}
+            <div className={styles.globalBanner} style={{marginTop: '40px'}}>
                 <div className={styles.bannerContent}>
                     <Globe size={24} className={styles.pulseIcon} />
                     <div>
