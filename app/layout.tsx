@@ -24,6 +24,7 @@ export const viewport = {
 };
 
 import BottomNav from "@/components/BottomNav/BottomNav";
+import MoCulAssistant from "@/components/MoCulAssistant/MoCulAssistant";
 
 export default function RootLayout({
   children,
@@ -37,6 +38,7 @@ export default function RootLayout({
           <main className="app-content">
             {children}
           </main>
+          <MoCulAssistant />
           <BottomNav />
         </div>
       </body>

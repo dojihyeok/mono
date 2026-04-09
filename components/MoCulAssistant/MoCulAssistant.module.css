@@ -1,0 +1,271 @@
+.wrapper {
+    position: fixed;
+    right: 20px;
+    bottom: 90px;
+    z-index: 1000;
+}
+
+.toggleBtn {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: #000;
+    border: 1px solid rgba(59, 130, 246, 0.4);
+    color: #3b82f6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    position: relative;
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.2);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    overflow: hidden;
+}
+
+.toggleBtn:hover {
+    transform: scale(1.1);
+    border-color: #3b82f6;
+    box-shadow: 0 0 30px rgba(59, 130, 246, 0.4);
+}
+
+.active .toggleBtn {
+    transform: scale(0.9) rotate(90deg);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.mainIcon {
+    z-index: 2;
+    filter: drop-shadow(0 0 8px rgba(59, 130, 246, 0.5));
+}
+
+.glow {
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    right: -50%;
+    bottom: -50%;
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, transparent 70%);
+    animation: rotateGlow 10s infinite linear;
+}
+
+.scanningLine {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(to right, transparent, #3b82f6, transparent);
+    animation: scanMove 3s infinite linear;
+    opacity: 0.6;
+}
+
+/* ── Assistant Window ───────────────────── */
+.window {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 320px;
+    background: rgba(18, 18, 23, 0.95);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(180, 138, 9, 0.2);
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5), 0 0 20px rgba(180, 138, 9, 0.1);
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(20px) scale(0.9);
+    pointer-events: none;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transform-origin: bottom right;
+}
+
+.active .window {
+    opacity: 1;
+    transform: translateY(-80px) scale(1);
+    pointer-events: all;
+}
+
+.header {
+    padding: 1rem 1.25rem;
+    background: rgba(180, 138, 9, 0.05);
+    border-bottom: 1px solid rgba(180, 138, 9, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.headerTitle {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.headerTitle h4 {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--text-primary);
+}
+
+.headerTitle span {
+    font-size: 0.7rem;
+    color: #B48A09;
+    font-weight: 600;
+}
+
+.brainIcon {
+    color: #B48A09;
+}
+
+.closeBtn {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 50%;
+    display: flex;
+}
+
+.closeBtn:hover {
+    background: rgba(255,255,255,0.05);
+    color: var(--text-primary);
+}
+
+.content {
+    padding: 1.25rem;
+}
+
+.greeting {
+    margin-bottom: 1rem;
+    font-size: 0.85rem;
+    color: var(--text-primary);
+}
+
+.quickActions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.actionItem {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 12px;
+    text-decoration: none;
+    color: var(--text-secondary);
+    font-size: 0.82rem;
+    transition: all 0.2s;
+}
+
+.actionItem:hover {
+    background: rgba(255,255,255,0.06);
+    border-color: rgba(180, 138, 9, 0.3);
+    color: var(--text-primary);
+}
+
+.actionItem span {
+    flex: 1;
+}
+
+.chatPrompt {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+    font-size: 0.75rem;
+    color: #B48A09;
+    font-weight: 600;
+}
+
+.inputBox {
+    display: flex;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 20px;
+    padding: 4px 4px 4px 12px;
+    margin-top: 0.5rem;
+}
+
+.inputBox input {
+    flex: 1;
+    background: none;
+    border: none;
+    color: var(--text-primary);
+    font-size: 0.8rem;
+    outline: none;
+}
+
+.sendBtn {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #B48A09;
+    color: white;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.footer {
+    padding: 0.75rem 1.25rem;
+    border-top: 1px solid rgba(255,255,255,0.05);
+}
+
+.fullLink {
+    display: block;
+    text-align: center;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    text-decoration: none;
+}
+
+.fullLink:hover {
+    color: #B48A09;
+}
+
+/* 뱃지 */
+.badge {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    width: 18px;
+    height: 18px;
+    background: #FF6B00;
+    color: white;
+    font-size: 10px;
+    font-weight: bold;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #000;
+    animation: bounce 2s infinite;
+}
+
+@keyframes scanMove {
+    0% { top: 0; }
+    100% { top: 100%; }
+}
+
+@keyframes rotateGlow {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-3px); }
+    60% { transform: translateY(-1.5px); }
+}
+
+@media (max-width: 480px) {
+    .window {
+        width: calc(100vw - 40px);
+    }
+}
