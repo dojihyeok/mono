@@ -22,16 +22,33 @@ import {
     HardHat,
     Wrench,
     Flame,
-    Wind
+    Wind,
+    X,
+    Info,
+    ListChecks,
+    Lightbulb
 } from 'lucide-react';
 import styles from './page.module.css';
 import GlassCard from '@/components/UI/GlassCard';
+
+interface GuideDetail {
+    title: string;
+    level?: string;
+    desc: string;
+    tag?: string;
+    steps: {
+        title: string;
+        content: string;
+    }[];
+    tips?: string[];
+}
 
 export default function ForemanClient() {
     const [mode, setMode] = useState<'JUNIOR' | 'SENIOR'>('JUNIOR');
     const [checkedItems, setCheckedItems] = useState<number[]>([]);
     const [hours, setHours] = useState('8');
     const [wage, setWage] = useState('150000');
+    const [selectedGuide, setSelectedGuide] = useState<GuideDetail | null>(null);
 
     const toggleCheck = (i: number) => {
         setCheckedItems(prev => prev.includes(i) ? prev.filter(x => x !== i) : [...prev, i]);
@@ -40,76 +57,73 @@ export default function ForemanClient() {
     const dailyPay = Math.round((parseInt(wage) || 0) / 8 * (parseInt(hours) || 0));
     const overtimePay = parseInt(hours) > 8 ? Math.round(((parseInt(wage) || 0) / 8) * (parseInt(hours) - 8) * 0.5) : 0;
 
-    const JUNIOR_TASKS = [
+    const JUNIOR_TASKS: GuideDetail[] = [
         {
             title: '첫 현장 출근 체크리스트',
             level: 'Level 1',
             desc: '안전모, 안전화, 조끼 착용 → 출역 QR 스캔 → 반장 보고 → 작업 위치 확인. 이 4단계만 기억하세요.',
-            status: 'RECOMMENDED',
-            tag: '⚠️ 필수'
+            tag: '⚠️ 필수',
+            steps: [
+                { title: '개인 보호구(PPE) 최종 확인', content: '안전모 턱끈 체결, 안전화 끈 조임, 형광 조끼 착용 상태를 거울이나 동료와 서로 확인합니다.' },
+                { title: '출역 관리 시스템 등록', content: '현장 입구의 QR 코드를 스캔하거나 종이 출역부에 서명하여 본인의 출근 사실을 전산에 기록합니다.' },
+                { title: 'TBM(Tool Box Meeting) 참여', content: '작업 시작 전 아침 체조와 안전 조례에 참여하여 당일 위험 요소와 작업 물량을 숙지합니다.' },
+                { title: '반장 지시 사항 복창', content: '담당 반장님께 "000 작업하러 왔습니다"라고 보고하고, 구체적인 작업 위치와 주의사항을 확인합니다.' }
+            ],
+            tips: ['모르는 건 바로 물어보세요. 아는 척하다 사고 나면 본인 손해입니다.', '생수 한 병과 면장갑 여분은 항상 주머니에 챙기세요.']
         },
         {
             title: '짐(자재) 안전하게 나르는 법',
             level: 'Level 1',
             desc: '허리가 아닌 무릎으로 들어올리기. 20kg 이상은 반드시 2인 1조. 경사로에서 뒤로 내려가기.',
-            status: 'NEW',
-            tag: '🏋️ 체력'
+            tag: '🏋️ 체력',
+            steps: [
+                { title: '자재 무게 및 상태 파악', content: '먼저 살짝 들어보거나 흔들어보아 무게 중심과 날카로운 부분이 있는지 확인합니다.' },
+                { title: '정석 자세 잡기', content: '발을 어깨너비로 벌리고, 허리를 곧게 편 상태에서 무릎을 굽혀 자재를 몸쪽으로 바짝 밀착시킵니다.' },
+                { title: '무릎 힘으로 일어나기', content: '허리의 반동이 아닌 허벅지와 무릎의 힘으로 천천히 일어납니다. 시선은 정면을 향합니다.' },
+                { title: '이동 경로 확보', content: '발밑에 전선이나 폐자재가 있는지 확인하며 걷습니다. 회전 시에는 몸 전체를 돌려야 합니다.' }
+            ],
+            tips: ['무거운 짐을 들고 허리를 비트는 동작은 디스크 파열의 주원인입니다.', '작업용 허리 보호대를 착용하면 확실히 도움이 됩니다.']
         },
         {
             title: '현장 눈치 100배 키우기',
             level: 'Level 1',
             desc: '"이거 어디다 놓을까요?"가 정답. 혼자 판단 NO. 반장 지시 대기. 빈둥거리지 말고 주변 정리.',
-            status: null,
-            tag: '🧠 마인드'
+            tag: '🧠 마인드',
+            steps: [
+                { title: '질문의 생활화', content: '작업이 끝났거나 다음 단계가 불확실할 때 "반장님 다음은 무엇을 할까요?"라고 즉시 묻습니다.' },
+                { title: '주변 환경 정리정돈', content: '할 일이 없을 때는 바닥의 못이나 쓰레기를 치우는 모습을 보이면 "일할 줄 아는 사람"이라는 인상을 줍니다.' },
+                { title: '작업 흐름 관찰', content: '상급자가 무엇을 필요로 할지 예측해 보세요. (예: 망치질할 때 못을 미리 꺼내둔다든지)' },
+                { title: '안전 거리 유지', content: '장비가 움직일 때나 위에서 작업 중일 때는 절대 그 밑으로 지나가거나 근처에 있지 않습니다.' }
+            ],
+            tips: ['현장에서는 "일 잘하는 사람"보다 "말 잘 듣고 사고 안 내는 사람"을 더 선호합니다.', '휴식 시간에도 너무 구석진 곳에 혼자 있지 말고 팀원들과 어울리세요.']
         },
         {
             title: '공구 이름 & 기본 사용법',
             level: 'Level 2',
             desc: '각마(앵글그라인더), 스라브(슬래브), 빠루(바이어스), 오함마(대해머) - 현장 용어로 소통하는 법.',
-            status: 'STORY',
-            tag: '🔧 기술'
-        },
-        {
-            title: '일당·특근·잔업 계산법',
-            level: 'Level 2',
-            desc: '일당 = 일급 ÷ 8시간 × 실근무시간. 야간/특근은 1.5배. 세금 3.3% 원천징수 기준 이해.',
-            status: null,
-            tag: '💰 정산'
-        },
-        {
-            title: '비 오는 날 현장 대처법',
-            level: 'Level 2',
-            desc: '우천 시 전동공구 사용 금지. 철근·철판 위 미끄럼 주의. 현장 중단 시 일당 처리 기준 확인법.',
-            status: 'NEW',
-            tag: '🌧️ 날씨'
-        },
+            tag: '🔧 기술',
+            steps: [
+                { title: '주요 수공구 명칭 숙지', content: '빠루(지렛대), 오함마(큰 망치), 몽키(렌치), 뺀치(플라이어) 등 기본 명칭을 외웁니다.' },
+                { title: '전동공구 안전 규칙', content: '모든 전동공구는 사용 전 전선 피복 상태를 확인하고, 반드시 보호 가드와 손잡이가 있는지 봅니다.' },
+                { title: '공구 정리법', content: '사용 후에는 흙이나 먼지를 털어내고 반드시 지정된 공구함이나 창고에 반납합니다.' },
+                { title: '소모품 교체 주기', content: '커터 칼날, 그라인더 날 등이 무뎌지면 억지로 쓰지 말고 즉시 교체 요청을 하세요.' }
+            ],
+            tips: ['공구를 타인에게 전달할 때는 반드시 손잡이가 상대방을 향하게 해서 건넵니다.', '남의 공구를 빌려 썼다면 깨끗이 닦아서 돌려주는 게 현장 예의입니다.']
+        }
     ];
 
-    const SENIOR_GUIDES = [
+    const SENIOR_GUIDES: GuideDetail[] = [
         { 
             title: 'ISO 45001 안전보건 경영시스템', 
-            label: 'GLOBAL STANDARD', 
-            desc: '해외 고임금 현장(중동·동남아) 진출을 위한 국제 안전 인증 취득 가이드. 네옴시티·IHI 현장 적용 사례 포함.',
-            icon: <ShieldCheck size={20} /> 
-        },
-        { 
-            title: '고탄소강 TIG/MIG 용접 마스터', 
-            label: 'TECH MASTERY', 
-            desc: '스테인리스·알루미늄 특수소재 용접 기법. 3G/4G 자세 훈련. 해외 현장 용접 자격증(ABS/DNV) 취득 경로.',
-            icon: <Flame size={20} /> 
-        },
-        { 
-            title: '팀 리더 현장 관리 & 정산 연계', 
-            label: 'LEADERSHIP', 
-            desc: 'AI 관제 시스템 하에서 팀원 출역 관리, KPI 기반 성과 측정, 공정 보고서 작성, 도급 계약서 검토법.',
-            icon: <TrendingUp size={20} /> 
-        },
-        { 
-            title: '글로벌 현장 다국어 커뮤니케이션', 
-            label: 'GLOBAL', 
-            desc: '베트남·캄보디아·우즈벡 외국인 팀원과의 현장 소통 필수 표현. 안전 지시 다국어 카드 활용법.',
-            icon: <Globe size={20} /> 
-        },
+            desc: '해외 고임금 현장(중동·동남아) 진출을 위한 국제 안전 인증 취득 가이드.',
+            tag: 'GLOBAL STANDARD', 
+            steps: [
+                { title: '시스템 개요 이해', content: 'ISO 45001이 요구하는 PDCA(Plan-Do-Check-Act) 사이클의 개념을 파악합니다.' },
+                { title: '위험성 평가 방법론', content: '현장의 잠재적 위험 요소를 식별하고 리스크 등급을 산정하는 기술을 습득합니다.' },
+                { title: '비상 대응 시나리오', content: '중대 재해 발생 시 비상 연락망 가동 및 초도 조치 매뉴얼을 작성해 봅니다.' }
+            ],
+            tips: ['영어/제2외국어 안전 용어를 익혀두면 해외 현장 관리자 진급이 매우 빠릅니다.']
+        }
     ];
 
     const SAFETY_CHECKLIST = [
@@ -147,7 +161,7 @@ export default function ForemanClient() {
                 <div className={styles.introText}>
                     <div className={styles.badge}>
                         <span className={styles.pulseDot} />
-                        NEURAL FOREMAN v3.0 ONLINE
+                        NEURAL FOREMAN v3.1 ONLINE
                     </div>
                     <h1>반갑습니다, <strong>모컬(Mo-Cul)</strong> 입니다.</h1>
                     <p>현장의 모든 변수를 데이터로 분석하여 최적의 가이드를 제공합니다.<br/>
@@ -201,32 +215,22 @@ export default function ForemanClient() {
                     </h3>
                     
                     <div className={styles.guideGrid}>
-                        {mode === 'JUNIOR' ? (
-                            JUNIOR_TASKS.map((task, i) => (
-                                <GlassCard key={i} className={styles.guideCard} hoverEffect>
-                                    <div className={styles.cardHeader}>
-                                        <span className={styles.levelBadge}>{task.level}</span>
-                                        <span className={styles.tagBadge}>{task.tag}</span>
-                                        {task.status && <span className={styles.statusBadge}>{task.status}</span>}
-                                    </div>
-                                    <h4 className={styles.taskTitle}>{task.title}</h4>
-                                    <p className={styles.taskDesc}>{task.desc}</p>
-                                    <button className={styles.viewDoc}>가이드 열기 <ChevronRight size={14} /></button>
-                                </GlassCard>
-                            ))
-                        ) : (
-                            SENIOR_GUIDES.map((guide, i) => (
-                                <GlassCard key={i} className={styles.guideCard} hoverEffect>
-                                    <div className={styles.cardHeader}>
-                                        <div className={styles.guideIcon}>{guide.icon}</div>
-                                        <span className={styles.labelBadge}>{guide.label}</span>
-                                    </div>
-                                    <h4 className={styles.taskTitle}>{guide.title}</h4>
-                                    <p className={styles.taskDesc}>{guide.desc}</p>
-                                    <button className={styles.viewDoc}>심화 학습 시작 <ChevronRight size={14} /></button>
-                                </GlassCard>
-                            ))
-                        )}
+                        {(mode === 'JUNIOR' ? JUNIOR_TASKS : SENIOR_GUIDES).map((task, i) => (
+                            <GlassCard key={i} className={styles.guideCard} hoverEffect>
+                                <div className={styles.cardHeader}>
+                                    {task.level && <span className={styles.levelBadge}>{task.level}</span>}
+                                    <span className={styles.tagBadge}>{task.tag}</span>
+                                </div>
+                                <h4 className={styles.taskTitle}>{task.title}</h4>
+                                <p className={styles.taskDesc}>{task.desc}</p>
+                                <button 
+                                    className={styles.viewDoc}
+                                    onClick={() => setSelectedGuide(task)}
+                                >
+                                    가이드 열기 <ChevronRight size={14} />
+                                </button>
+                            </GlassCard>
+                        ))}
                     </div>
                 </div>
 
@@ -348,7 +352,64 @@ export default function ForemanClient() {
                 </GlassCard>
             </div>
 
-            {/* 현장 용어 사전 */}
+            {/* Modal Overlay */}
+            {selectedGuide && (
+                <div className={styles.modalOverlay} onClick={() => setSelectedGuide(null)}>
+                    <div className={styles.modalContent} onClick={e => e.stopPropagation()}>
+                        <button className={styles.modalClose} onClick={() => setSelectedGuide(null)}>
+                            <X size={24} />
+                        </button>
+                        
+                        <div className={styles.modalHeader}>
+                            <div className={styles.modalBadgeRow}>
+                                {selectedGuide.level && <span className={styles.levelBadge}>{selectedGuide.level}</span>}
+                                <span className={styles.tagBadge}>{selectedGuide.tag}</span>
+                            </div>
+                            <h2 className={styles.modalTitle}>{selectedGuide.title}</h2>
+                            <p className={styles.modalIntro}>{selectedGuide.desc}</p>
+                        </div>
+
+                        <div className={styles.modalBody}>
+                            <div className={styles.stepSection}>
+                                <h3><ListChecks size={20} color="#B48A09" /> 세부 가이드 (Step-by-Step)</h3>
+                                <div className={styles.stepList}>
+                                    {selectedGuide.steps.map((step, idx) => (
+                                        <div key={idx} className={styles.stepItem}>
+                                            <div className={styles.stepNumber}>{idx + 1}</div>
+                                            <div className={styles.stepText}>
+                                                <h4>{step.title}</h4>
+                                                <p>{step.content}</p>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+
+                            {selectedGuide.tips && (
+                                <div className={styles.tipSection}>
+                                    <h3><Lightbulb size={20} color="#ffb700" /> 모컬의 현장 꿀팁</h3>
+                                    <div className={styles.tipList}>
+                                        {selectedGuide.tips.map((tip, idx) => (
+                                            <div key={idx} className={styles.tipItem}>
+                                                <Info size={16} />
+                                                <span>{tip}</span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+
+                        <div className={styles.modalFooter}>
+                            <button className={styles.confirmBtn} onClick={() => setSelectedGuide(null)}>
+                                숙지 완료
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* 나머지 섹션들... (용어 사전 등) */}
             <section className={styles.glossarySection}>
                 <div className={styles.sectionHeader}>
                     <Globe size={24} color="#B48A09" />
