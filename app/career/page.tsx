@@ -17,7 +17,8 @@ import {
   Lock,
   ChevronRight,
   TrendingUp,
-  FileCode2
+  FileCode2,
+  BrainCircuit
 } from 'lucide-react';
 
 export default function CareerPage() {
@@ -60,6 +61,50 @@ export default function CareerPage() {
               <p className={styles.statValue}>98.5%</p>
             </GlassCard>
           </div>
+        </section>
+
+        {/* AI Career Insight Section - New */}
+        <section className={styles.aiInsightSection}>
+          <div className={styles.aiHeader}>
+            <h2 className={styles.sectionTitle}>Mo-Cul AI 커리어 인사이트</h2>
+            <div className={styles.aiBadge}>AI ANALYSIS ACTIVE</div>
+          </div>
+
+          <GlassCard className={styles.aiReportCard}>
+            <div className={styles.aiGreeting}>
+              <div className={styles.aiAvatar}><BrainCircuit size={18} /></div>
+              <p className={styles.aiMessage}>모컬 AI가 마스터님의 실력을 분석했습니다.</p>
+            </div>
+            <p className={styles.aiMessage}>
+              "마스터님은 지난 2년간 <span className={styles.aiHighlight}>반도체 플랜트 배관</span> 분야에서 
+              독보적인 성과를 내셨습니다. 특히 <span className={styles.aiHighlight}>안전 규정 준수율이 상위 3%</span>로 
+              해외 하이테크 현장 리더급으로 즉시 투입 가능한 수준입니다."
+            </p>
+            <div className={styles.careerTags}>
+              <span className={`${styles.tag} ${styles.activeTag}`}>#배관_마스터</span>
+              <span className={`${styles.tag} ${styles.activeTag}`}>#안전_TOP_클래스</span>
+              <span className={styles.tag}>#EPC_숙련공</span>
+              <span className={styles.tag}>#해외_현장_적격</span>
+            </div>
+          </GlassCard>
+
+          <div className={styles.globalActionGrid}>
+            <GlassCard className={styles.globalCard}>
+              <span className={styles.cardLabel}>글로벌 매칭 가능성</span>
+              <div className={styles.cardValue}>Very High (92%)</div>
+              <p className={styles.subtitle} style={{fontSize: '0.65rem'}}>사우디 네옴시티 / 미국 조지아</p>
+            </GlassCard>
+            <GlassCard className={styles.globalCard}>
+              <span className={styles.cardLabel}>예상 글로벌 시급</span>
+              <div className={styles.cardValue}>$42.5 / hr</div>
+              <p className={styles.subtitle} style={{fontSize: '0.65rem'}}>중동 하이테크 현장 기준</p>
+            </GlassCard>
+          </div>
+
+          <button className={styles.resumeBtn}>
+            <FileCode2 size={18} />
+            모컬 AI 영문 기술 경력서 생성하기
+          </button>
         </section>
 
         {/* Passport Main Section */}
