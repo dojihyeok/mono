@@ -1,6 +1,6 @@
 .hero {
     position: relative;
-    padding: 6rem 1rem 4rem;
+    padding: 2rem 1rem 4rem;
     overflow: hidden;
     background: radial-gradient(circle at 50% 0%, var(--accent-light) 0%, transparent 80%);
 }
@@ -16,7 +16,7 @@
 @media (min-width: 768px) {
     .content {
         max-width: 900px;
-        padding-top: 4rem;
+        padding-top: 1rem;
     }
 }
 
