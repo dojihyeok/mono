@@ -3,7 +3,7 @@ import styles from './BottomNav.module.css';
 
 export default function BottomNav() {
   return (
-    <nav className={styles.bottomNav}>
+    <nav className={styles.bottomNav} data-version="2026-04-09-001">
       <ul className={styles.navList}>
         <li className={styles.navItem}>
           <Link href="/" className={styles.navLink}>

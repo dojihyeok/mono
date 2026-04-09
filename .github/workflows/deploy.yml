@@ -22,19 +22,28 @@ jobs:
           rm -rf .next
           npm run build
 
-      - name: 🔄 Restart PM2 (Hard Restart)
+      - name: 🔄 Restart PM2 (Deep Cleanup & Port Search)
         run: |
-          echo "🚀 Starting Deployment Pulse..."
-          # Delete existing process if any, ignore errors
-          pm2 delete mono || true
-          pm2 delete mono-server || true
+          echo "🔍 Scanning for stale processes..."
+          # 현재 실행 중인 모든 node 프로세스 강제 종료 (클린 슬레이트)
+          pm2 stop all || true
+          pm2 delete all || true
+          pkill -f node || true
           
-          # Start fresh from the correct directory
-          pm2 start npm --name "mono" --cwd . -- run start -- -p 3004
+          echo "🌐 Checking Port 3004 availability..."
+          fuser -k 3004/tcp || true
           
-          # Finalize
+          echo "🚀 Starting fresh production build on port 3004..."
+          # 현재 디렉토리에서 확실하게 시작
+          PORT=3004 pm2 start npm --name "mono" --cwd . -- run start -- -p 3004
+          
           pm2 save
           pm2 list
+          
+          echo "✅ Scanning Active Ports (JSON):"
+          netstat -tulpn | grep LISTEN || true
+          echo "🐳 Checking Docker containers..."
+          docker ps || true
 
       - name: ✅ Health Check
         run: |
