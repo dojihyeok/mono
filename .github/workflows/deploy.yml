@@ -11,36 +11,33 @@ jobs:
     runs-on: self-hosted
 
     steps:
-      - name: 📥 Checkout latest code
-        uses: actions/checkout@v4
+      - name: 📥 Pull latest code to /root/mono
+        run: |
+          cd /root/mono
+          git pull origin main
 
       - name: 📦 Install dependencies
-        run: npm ci
+        run: |
+          cd /root/mono
+          npm ci
 
       - name: 🔨 Build Next.js
         run: |
+          cd /root/mono
           rm -rf .next
           npm run build
 
-      - name: 🔄 Restart PM2 (Surgical Restart - Port 3004 Only)
+      - name: 🔄 Restart PM2 (Port 3004 Only)
         run: |
-          echo "🎯 Targeting only Port 3004..."
-          
-          # 3004 포트를 사용 중인 구형 프로세스만 선택적으로 종료
+          # 3004 포트를 사용 중인 프로세스만 종료
           sudo fuser -k 3004/tcp || true
           
-          # 해당 이름의 PM2 프로세스만 삭제
+          # mono 프로세스만 삭제 후 재시작
           pm2 delete mono || true
-          
-          echo "🚀 Restarting Mono on Port 3004..."
-          # 3004 포트로 고정하여 시작
-          PORT=3004 pm2 start npm --name "mono" --cwd . -- run start -- -p 3004
+          PORT=3004 pm2 start npm --name "mono" --cwd /root/mono -- run start -- -p 3004
           
           pm2 save
           pm2 list
-          
-          echo "✅ Final Port Scan:"
-          sudo netstat -tulpn | grep LISTEN || true
 
       - name: ✅ Health Check
         run: |
