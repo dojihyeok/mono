@@ -10,30 +10,127 @@ import {
     Activity, 
     BookOpen, 
     ChevronRight,
-    Search,
     AlertCircle,
     Trophy,
     Construction,
-    Globe
+    Globe,
+    ClipboardList,
+    Calculator,
+    CalendarDays,
+    CheckCircle2,
+    Circle,
+    HardHat,
+    Wrench,
+    Flame,
+    Wind
 } from 'lucide-react';
 import styles from './page.module.css';
 import GlassCard from '@/components/UI/GlassCard';
-import Button from '@/components/UI/Button';
 
 export default function ForemanClient() {
     const [mode, setMode] = useState<'JUNIOR' | 'SENIOR'>('JUNIOR');
-    const [asking, setAsking] = useState(false);
+    const [checkedItems, setCheckedItems] = useState<number[]>([]);
+    const [hours, setHours] = useState('8');
+    const [wage, setWage] = useState('150000');
+
+    const toggleCheck = (i: number) => {
+        setCheckedItems(prev => prev.includes(i) ? prev.filter(x => x !== i) : [...prev, i]);
+    };
+
+    const dailyPay = Math.round((parseInt(wage) || 0) / 8 * (parseInt(hours) || 0));
+    const overtimePay = parseInt(hours) > 8 ? Math.round(((parseInt(wage) || 0) / 8) * (parseInt(hours) - 8) * 0.5) : 0;
 
     const JUNIOR_TASKS = [
-        { title: '공사 현장 상하차 기초', level: 'Level 1', desc: '자재 파손 방지 및 안전한 하역 위치 설정법', status: 'RECOMMENDED' },
-        { title: '안전보호구 2.0 착용법', level: 'Level 1', desc: 'AI 스캐너 인식률을 높이는 올바른 착용법', status: 'NEW' },
-        { title: '현장 정리 정돈 (5S)', level: 'Level 2', desc: '작업 효율을 20% 높이는 도구 배치법', status: 'STORY' }
+        {
+            title: '첫 현장 출근 체크리스트',
+            level: 'Level 1',
+            desc: '안전모, 안전화, 조끼 착용 → 출역 QR 스캔 → 반장 보고 → 작업 위치 확인. 이 4단계만 기억하세요.',
+            status: 'RECOMMENDED',
+            tag: '⚠️ 필수'
+        },
+        {
+            title: '짐(자재) 안전하게 나르는 법',
+            level: 'Level 1',
+            desc: '허리가 아닌 무릎으로 들어올리기. 20kg 이상은 반드시 2인 1조. 경사로에서 뒤로 내려가기.',
+            status: 'NEW',
+            tag: '🏋️ 체력'
+        },
+        {
+            title: '현장 눈치 100배 키우기',
+            level: 'Level 1',
+            desc: '"이거 어디다 놓을까요?"가 정답. 혼자 판단 NO. 반장 지시 대기. 빈둥거리지 말고 주변 정리.',
+            status: null,
+            tag: '🧠 마인드'
+        },
+        {
+            title: '공구 이름 & 기본 사용법',
+            level: 'Level 2',
+            desc: '각마(앵글그라인더), 스라브(슬래브), 빠루(바이어스), 오함마(대해머) - 현장 용어로 소통하는 법.',
+            status: 'STORY',
+            tag: '🔧 기술'
+        },
+        {
+            title: '일당·특근·잔업 계산법',
+            level: 'Level 2',
+            desc: '일당 = 일급 ÷ 8시간 × 실근무시간. 야간/특근은 1.5배. 세금 3.3% 원천징수 기준 이해.',
+            status: null,
+            tag: '💰 정산'
+        },
+        {
+            title: '비 오는 날 현장 대처법',
+            level: 'Level 2',
+            desc: '우천 시 전동공구 사용 금지. 철근·철판 위 미끄럼 주의. 현장 중단 시 일당 처리 기준 확인법.',
+            status: 'NEW',
+            tag: '🌧️ 날씨'
+        },
     ];
 
     const SENIOR_GUIDES = [
-        { title: 'ISO 45001 글로벌 표준 적용', label: 'GLOBAL STANDARD', desc: '해외 하이-벨류 현장을 위한 안전 보건 경영 시스템 매뉴얼', icon: <ShieldCheck size={20} /> },
-        { title: '고탄소강 특수 용접 기법', label: 'TECH MASTERY', desc: '사우디 네옴시티 현장 필수 기술 가이드', icon: <Construction size={20} /> },
-        { title: '필드 팀 리더십 & 매니지먼트', label: 'LEADERSHIP', desc: 'AI 관제 시스템 하에서 팀원 성과 관리 및 정산 연계', icon: <TrendingUp size={20} /> }
+        { 
+            title: 'ISO 45001 안전보건 경영시스템', 
+            label: 'GLOBAL STANDARD', 
+            desc: '해외 고임금 현장(중동·동남아) 진출을 위한 국제 안전 인증 취득 가이드. 네옴시티·IHI 현장 적용 사례 포함.',
+            icon: <ShieldCheck size={20} /> 
+        },
+        { 
+            title: '고탄소강 TIG/MIG 용접 마스터', 
+            label: 'TECH MASTERY', 
+            desc: '스테인리스·알루미늄 특수소재 용접 기법. 3G/4G 자세 훈련. 해외 현장 용접 자격증(ABS/DNV) 취득 경로.',
+            icon: <Flame size={20} /> 
+        },
+        { 
+            title: '팀 리더 현장 관리 & 정산 연계', 
+            label: 'LEADERSHIP', 
+            desc: 'AI 관제 시스템 하에서 팀원 출역 관리, KPI 기반 성과 측정, 공정 보고서 작성, 도급 계약서 검토법.',
+            icon: <TrendingUp size={20} /> 
+        },
+        { 
+            title: '글로벌 현장 다국어 커뮤니케이션', 
+            label: 'GLOBAL', 
+            desc: '베트남·캄보디아·우즈벡 외국인 팀원과의 현장 소통 필수 표현. 안전 지시 다국어 카드 활용법.',
+            icon: <Globe size={20} /> 
+        },
+    ];
+
+    const SAFETY_CHECKLIST = [
+        { text: '안전모 착용 및 턱끈 체결', icon: <HardHat size={14}/> },
+        { text: '안전화(S1P 등급 이상) 착용', icon: <CheckCircle2 size={14}/> },
+        { text: '형광 안전 조끼 착용', icon: <CheckCircle2 size={14}/> },
+        { text: '출역 QR 스캔 완료', icon: <CheckCircle2 size={14}/> },
+        { text: '작업 구역 위험 요소 사전 확인', icon: <AlertCircle size={14}/> },
+        { text: '사용 공구 파손 여부 점검', icon: <Wrench size={14}/> },
+        { text: '비상구·소화기 위치 숙지', icon: <CheckCircle2 size={14}/> },
+    ];
+
+    const FIELD_SCHEDULE = [
+        { time: '07:00', task: '현장 집결 & 출역 QR 스캔', done: true },
+        { time: '07:30', task: '안전 조회 & 오늘 작업 지시', done: true },
+        { time: '08:00', task: '오전 작업 시작', done: true },
+        { time: '10:00', task: '휴식 (10분)', done: false },
+        { time: '12:00', task: '점심 (1시간)', done: false },
+        { time: '13:00', task: '오후 작업 시작', done: false },
+        { time: '15:00', task: '휴식 (10분)', done: false },
+        { time: '17:00', task: '작업 마무리 & 출퇴근 QR', done: false },
     ];
 
     return (
@@ -50,10 +147,31 @@ export default function ForemanClient() {
                 <div className={styles.introText}>
                     <div className={styles.badge}>
                         <span className={styles.pulseDot} />
-                        NEURAL FOREMAN v2.4 ONLINE
+                        NEURAL FOREMAN v3.0 ONLINE
                     </div>
                     <h1>반갑습니다, <strong>모컬(Mo-Cul)</strong> 입니다.</h1>
-                    <p>현장의 모든 변수를 데이터로 분석하여 최적의 가이드를 제공합니다.</p>
+                    <p>현장의 모든 변수를 데이터로 분석하여 최적의 가이드를 제공합니다.<br/>
+                    <span style={{color: '#B48A09', fontWeight: 600}}>가이드 · 안전 체크 · 일당 계산 · 현장 일정</span>을 한 곳에서 관리하세요.</p>
+                </div>
+            </div>
+
+            {/* 역할 카드 4종 */}
+            <div className={styles.roleCards}>
+                <div className={styles.roleCard}>
+                    <BookOpen size={20} color="#B48A09"/>
+                    <span>현장 가이드</span>
+                </div>
+                <div className={styles.roleCard}>
+                    <ShieldCheck size={20} color="#22c55e"/>
+                    <span>안전 체크</span>
+                </div>
+                <div className={styles.roleCard}>
+                    <Calculator size={20} color="#3b82f6"/>
+                    <span>일당 계산</span>
+                </div>
+                <div className={styles.roleCard}>
+                    <CalendarDays size={20} color="#a855f7"/>
+                    <span>현장 일정</span>
                 </div>
             </div>
 
@@ -76,10 +194,10 @@ export default function ForemanClient() {
             </div>
 
             <div className={styles.mainGrid}>
-                {/* Mode Specific Guide List */}
+                {/* Guide List */}
                 <div className={styles.guideWrapper}>
                     <h3 className={styles.sectionTitle}>
-                        {mode === 'JUNIOR' ? '🔰 오늘의 현장 기초 가이드' : '⭐ 핵심 기술 및 글로벌 마스터 솔루션'}
+                        {mode === 'JUNIOR' ? '🔰 현장 생존 기초 가이드' : '⭐ 핵심 기술 & 글로벌 마스터 솔루션'}
                     </h3>
                     
                     <div className={styles.guideGrid}>
@@ -88,6 +206,7 @@ export default function ForemanClient() {
                                 <GlassCard key={i} className={styles.guideCard} hoverEffect>
                                     <div className={styles.cardHeader}>
                                         <span className={styles.levelBadge}>{task.level}</span>
+                                        <span className={styles.tagBadge}>{task.tag}</span>
                                         {task.status && <span className={styles.statusBadge}>{task.status}</span>}
                                     </div>
                                     <h4 className={styles.taskTitle}>{task.title}</h4>
@@ -111,19 +230,21 @@ export default function ForemanClient() {
                     </div>
                 </div>
 
-                {/* AI Chat / Question Box */}
+                {/* Sidebar */}
                 <aside className={styles.sidebar}>
+                    {/* AI 질문 */}
                     <GlassCard className={styles.chatCard}>
                         <div className={styles.chatHeader}>
                             <MessageSquare size={18} color="#FF6B00" />
-                            <span>작업반장 질문하기</span>
+                            <span>모컬에게 질문하기</span>
                         </div>
-                        <p className={styles.chatIntro}>현장에서 발생하는 돌발 상황이나 공구 사용법, 도면 해석이 막막할 때 물어보세요.</p>
+                        <p className={styles.chatIntro}>현장 돌발상황, 공구 사용법, 정산 문의 뭐든지 물어보세요.</p>
                         
                         <div className={styles.quickQuestions}>
-                            <button className={styles.qBtn}>"오늘 날씨에 콘크리트 타설 괜찮을까요?"</button>
-                            <button className={styles.qBtn}>"공구 벨트 효율적인 세팅법은?"</button>
-                            <button className={styles.qBtn}>"배관 용접 시 기포가 생기는 원인은?"</button>
+                            <button className={styles.qBtn}>💧 "우천 시 일당 받을 수 있나요?"</button>
+                            <button className={styles.qBtn}>🔧 "각마 날 교체하는 법 알려줘요"</button>
+                            <button className={styles.qBtn}>💰 "특근 수당 계산 방법은?"</button>
+                            <button className={styles.qBtn}>🏥 "현장 다쳤을 때 산재 신청법"</button>
                         </div>
                         
                         <div className={styles.chatInputRow}>
@@ -132,18 +253,102 @@ export default function ForemanClient() {
                         </div>
                     </GlassCard>
 
-                    <GlassCard className={styles.weatherAlert}>
-                        <div className={styles.alertHeader}>
-                            <AlertCircle size={18} color="#ef4444" />
-                            <span>기상 현장 실시간 알림</span>
+                    {/* 일당 계산기 */}
+                    <GlassCard className={styles.calcCard}>
+                        <div className={styles.chatHeader}>
+                            <Calculator size={18} color="#3b82f6" />
+                            <span>오늘 일당 계산기</span>
                         </div>
-                        <p>서울 성동구 지역 초미세먼지 '나쁨'. 야외 작업 시 미세먼지 차단 마스크 착용 바랍니다.</p>
-                        <div className={styles.safetyLink}>작업 보호구 가이드 확인 →</div>
+                        <div className={styles.calcRow}>
+                            <label>일급 (원)</label>
+                            <input 
+                                type="number" 
+                                value={wage} 
+                                onChange={e => setWage(e.target.value)}
+                                className={styles.calcInput}
+                            />
+                        </div>
+                        <div className={styles.calcRow}>
+                            <label>근무시간 (시간)</label>
+                            <input 
+                                type="number" 
+                                value={hours} 
+                                onChange={e => setHours(e.target.value)}
+                                className={styles.calcInput}
+                            />
+                        </div>
+                        <div className={styles.calcResult}>
+                            <div className={styles.calcLine}>
+                                <span>기본급</span>
+                                <strong>{dailyPay.toLocaleString()}원</strong>
+                            </div>
+                            {overtimePay > 0 && (
+                                <div className={styles.calcLine}>
+                                    <span>연장수당 (1.5배)</span>
+                                    <strong style={{color: '#B48A09'}}>+{overtimePay.toLocaleString()}원</strong>
+                                </div>
+                            )}
+                            <div className={styles.calcTotal}>
+                                <span>예상 수령액 (세전)</span>
+                                <strong>{(dailyPay + overtimePay).toLocaleString()}원</strong>
+                            </div>
+                        </div>
                     </GlassCard>
                 </aside>
             </div>
 
-            {/* Field Glossary & Translator Section */}
+            {/* 안전 체크리스트 + 현장 일정 */}
+            <div className={styles.bottomGrid}>
+                {/* 안전 체크리스트 */}
+                <GlassCard className={styles.checklistCard}>
+                    <div className={styles.sectionHeader}>
+                        <ShieldCheck size={22} color="#22c55e" />
+                        <h3>출근 전 안전 체크리스트</h3>
+                        <span className={styles.checkCount}>{checkedItems.length}/{SAFETY_CHECKLIST.length}</span>
+                    </div>
+                    <div className={styles.checkItems}>
+                        {SAFETY_CHECKLIST.map((item, i) => (
+                            <button 
+                                key={i} 
+                                className={`${styles.checkItem} ${checkedItems.includes(i) ? styles.checkDone : ''}`}
+                                onClick={() => toggleCheck(i)}
+                            >
+                                {checkedItems.includes(i) 
+                                    ? <CheckCircle2 size={18} color="#22c55e"/> 
+                                    : <Circle size={18} color="#666"/>
+                                }
+                                <span>{item.text}</span>
+                            </button>
+                        ))}
+                    </div>
+                    {checkedItems.length === SAFETY_CHECKLIST.length && (
+                        <div className={styles.allClear}>✅ 모든 항목 완료! 안전한 하루 되세요.</div>
+                    )}
+                </GlassCard>
+
+                {/* 현장 일정표 */}
+                <GlassCard className={styles.scheduleCard}>
+                    <div className={styles.sectionHeader}>
+                        <CalendarDays size={22} color="#a855f7" />
+                        <h3>오늘 현장 일정</h3>
+                        <span className={styles.dateLabel}>{new Date().toLocaleDateString('ko-KR', {month: 'long', day: 'numeric', weekday: 'short'})}</span>
+                    </div>
+                    <div className={styles.scheduleItems}>
+                        {FIELD_SCHEDULE.map((item, i) => (
+                            <div key={i} className={`${styles.scheduleItem} ${item.done ? styles.schedDone : ''}`}>
+                                <span className={styles.schedTime}>{item.time}</span>
+                                <div className={styles.schedLine}>
+                                    <div className={`${styles.schedDot} ${item.done ? styles.schedDotDone : ''}`}/>
+                                    {i < FIELD_SCHEDULE.length - 1 && <div className={styles.schedConnector}/>}
+                                </div>
+                                <span className={styles.schedTask}>{item.task}</span>
+                            </div>
+                        ))}
+                    </div>
+                </GlassCard>
+            </div>
+
+            {/* 현장 용어 사전 */}
             <section className={styles.glossarySection}>
                 <div className={styles.sectionHeader}>
                     <Globe size={24} color="#B48A09" />
@@ -161,7 +366,7 @@ export default function ForemanClient() {
                                 <span>표준어 / English / Tiếng Việt</span>
                             </div>
                             <div className={styles.inputArea}>
-                                <input type="text" placeholder="예: 가타바쿠, 데나오시..." className={styles.transInput} />
+                                <input type="text" placeholder="예: 가타바쿠, 데나오시, 오함마..." className={styles.transInput} />
                                 <button className={styles.transBtn}>번역</button>
                             </div>
                             <div className={styles.transResult}>
@@ -175,35 +380,30 @@ export default function ForemanClient() {
                     </GlassCard>
 
                     <GlassCard className={styles.dictionaryList}>
-                        <h4 className={styles.boxTitle}>주요 현장 용어 Top 5</h4>
+                        <h4 className={styles.boxTitle}>주요 현장 용어 Top 8</h4>
                         <div className={styles.dictItems}>
-                            <div className={styles.dictItem}>
-                                <span className={styles.term}>데나오시</span>
-                                <span className={styles.mean}>재작업 (Re-do)</span>
-                            </div>
-                            <div className={styles.dictItem}>
-                                <span className={styles.term}>구라스</span>
-                                <span className={styles.mean}>유리 (Glass)</span>
-                            </div>
-                            <div className={styles.dictItem}>
-                                <span className={styles.term}>시마이</span>
-                                <span className={styles.mean}>작업 종료 (Finish)</span>
-                            </div>
-                            <div className={styles.dictItem}>
-                                <span className={styles.term}>야리끼리</span>
-                                <span className={styles.mean}>일당제 도급 (Task-based pay)</span>
-                            </div>
-                            <div className={styles.dictItem}>
-                                <span className={styles.term}>오함마</span>
-                                <span className={styles.mean}>대해머 (Sledgehammer)</span>
-                            </div>
+                            {[
+                                { term: '데나오시', mean: '재작업 (Re-do)' },
+                                { term: '구라스', mean: '유리 (Glass)' },
+                                { term: '시마이', mean: '작업 종료 (Finish)' },
+                                { term: '야리끼리', mean: '일당제 도급 (Task-based pay)' },
+                                { term: '오함마', mean: '대해머 (Sledgehammer)' },
+                                { term: '가꾸목', mean: '각목 / 각재 (Square timber)' },
+                                { term: '단도리', mean: '준비/채비 (Preparation)' },
+                                { term: '뽀루', mean: '나사못 볼트 (Bolt)' },
+                            ].map((d, i) => (
+                                <div key={i} className={styles.dictItem}>
+                                    <span className={styles.term}>{d.term}</span>
+                                    <span className={styles.mean}>{d.mean}</span>
+                                </div>
+                            ))}
                         </div>
                         <button className={styles.viewMoreDict}>용어 사전 전체보기 →</button>
                     </GlassCard>
                 </div>
             </section>
 
-            {/* Learning Roadmap Feature */}
+            {/* 글로벌 마스터 로드맵 */}
             <section className={styles.roadmapSection}>
                 <div className={styles.roadmapHeader}>
                     <div className={styles.headerInfo}>

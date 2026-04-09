@@ -616,3 +616,249 @@
   50% { box-shadow: 0 0 40px rgba(180, 138, 9, 0.4); }
   100% { box-shadow: 0 0 20px rgba(180, 138, 9, 0.2); }
 }
+
+/* ── 역할 카드 4종 ─────────────────────── */
+.roleCards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+
+.roleCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 12px;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  transition: all 0.2s;
+}
+
+.roleCard:hover {
+  background: rgba(255,255,255,0.06);
+  border-color: rgba(180, 138, 9, 0.3);
+  color: var(--text-primary);
+}
+
+@media (max-width: 640px) {
+  .roleCards { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* ── 태그 뱃지 ─────────────────────────── */
+.tagBadge {
+  font-size: 0.65rem;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.06);
+  color: var(--text-secondary);
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+/* ── 일당 계산기 ───────────────────────── */
+.calcCard {
+  padding: 1.25rem;
+}
+
+.calcRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.calcInput {
+  width: 120px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 8px;
+  padding: 0.4rem 0.75rem;
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  text-align: right;
+}
+
+.calcResult {
+  border-top: 1px solid rgba(255,255,255,0.07);
+  padding-top: 0.75rem;
+  margin-top: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.calcLine {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+}
+
+.calcTotal {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.95rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid rgba(180, 138, 9, 0.3);
+  color: var(--text-primary);
+}
+
+.calcTotal strong {
+  color: #B48A09;
+  font-size: 1.1rem;
+}
+
+/* ── 하단 그리드 (체크리스트 + 일정표) ── */
+.bottomGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+
+@media (max-width: 768px) {
+  .bottomGrid { grid-template-columns: 1fr; }
+}
+
+/* ── 안전 체크리스트 ───────────────────── */
+.checklistCard {
+  padding: 1.5rem;
+}
+
+.checkCount {
+  margin-left: auto;
+  font-size: 0.8rem;
+  background: rgba(34, 197, 94, 0.1);
+  color: #22c55e;
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  padding: 2px 10px;
+  border-radius: 999px;
+}
+
+.checkItems {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.checkItem {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.6rem 0.75rem;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 8px;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s;
+  width: 100%;
+}
+
+.checkItem:hover {
+  background: rgba(255,255,255,0.06);
+}
+
+.checkDone {
+  color: var(--text-primary);
+  background: rgba(34, 197, 94, 0.05);
+  border-color: rgba(34, 197, 94, 0.2);
+  text-decoration: line-through;
+  opacity: 0.7;
+}
+
+.allClear {
+  margin-top: 1rem;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #22c55e;
+  font-weight: 600;
+  padding: 0.75rem;
+  background: rgba(34, 197, 94, 0.08);
+  border-radius: 8px;
+  border: 1px solid rgba(34, 197, 94, 0.2);
+}
+
+/* ── 현장 일정표 ───────────────────────── */
+.scheduleCard {
+  padding: 1.5rem;
+}
+
+.dateLabel {
+  margin-left: auto;
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+}
+
+.scheduleItems {
+  display: flex;
+  flex-direction: column;
+  margin-top: 1rem;
+}
+
+.scheduleItem {
+  display: grid;
+  grid-template-columns: 3.5rem 1.5rem 1fr;
+  align-items: flex-start;
+  gap: 0.5rem;
+  min-height: 2.5rem;
+}
+
+.schedTime {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
+  padding-top: 0.15rem;
+}
+
+.schedLine {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.schedDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.15);
+  flex-shrink: 0;
+  margin-top: 0.2rem;
+}
+
+.schedDotDone {
+  background: #a855f7;
+  box-shadow: 0 0 8px rgba(168, 85, 247, 0.5);
+}
+
+.schedConnector {
+  width: 1px;
+  flex: 1;
+  min-height: 1.5rem;
+  background: rgba(255,255,255,0.07);
+}
+
+.schedTask {
+  font-size: 0.83rem;
+  color: var(--text-secondary);
+  padding-top: 0.1rem;
+}
+
+.schedDone .schedTask {
+  color: var(--text-primary);
+}
+
+.schedDone .schedTime {
+  color: #a855f7;
+}
+
