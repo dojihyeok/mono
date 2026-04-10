@@ -77,7 +77,7 @@ export default function Hero() {
                 <div className={styles.heroMain}>
                     <div className={styles.aiBadge}>
                         <BrainCircuit size={14} className={styles.aiIcon} />
-                        <span>AI ANALYTICS ENGINE ACTIVE</span>
+                        <span>모컬 AI 지능형 분석 시스템 가동 중</span>
                     </div>
                   <h1 className={`${styles.title} ${fade ? styles.fadeIn : styles.fadeOut}`}>
                       {current.main.split('\n').map((line, i) => (
@@ -96,17 +96,17 @@ export default function Hero() {
                             <div className={styles.terminalDot} />
                             <div className={styles.terminalDot} />
                             <div className={styles.terminalDot} />
-                            <span className={styles.terminalTitle}>NEURAL MATCHING CORE v2.0</span>
+                            <span className={styles.terminalTitle}>지능형 매칭 엔진 v2.0</span>
                         </div>
                         <Link href="/office" className={styles.tacticalCard}>
                             <div className={styles.cardHeader}>
                                 <div className={styles.liveIndicator}>
                                     <span className={styles.pulseDot}></span>
-                                    <span className={styles.liveText}>AI SCANNING ENVIRONMENT</span>
+                                    <span className={styles.liveText}>AI 현장 상황 실시간 스캔</span>
                                 </div>
                                 <div className={styles.matchingStatus}>
                                     <Radio size={14} color="#ef4444" className={styles.pulseIcon} />
-                                    <span>REAL-TIME ANALYSIS</span>
+                                    <span>실시간 데이터 분석</span>
                                 </div>
                             </div>
                             
