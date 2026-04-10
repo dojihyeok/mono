@@ -25,7 +25,8 @@ import {
     ListChecks,
     CloudSun,
     Gauge,
-    Scan
+    Scan,
+    ArrowRight
 } from 'lucide-react';
 import styles from './page.module.css';
 import GlassCard from '@/components/UI/GlassCard';
@@ -169,7 +170,7 @@ export default function ForemanClient() {
                     맞춤형 기술 가이드와 실시간 정산 서비스를 제공합니다.</p>
                 </div>
 
-                <div className={styles.tacticalStats}>
+                <div className={styles.managerStats}>
                     <div className={styles.statBox}>
                         <CloudSun size={18} color="#B48A09" />
                         <div className={styles.statContent}>

@@ -82,7 +82,7 @@ export default function CareerPage() {
           <div className={styles.aiHeader}>
             <h2 className={styles.sectionTitle}>
                 <Activity size={20} color="#B48A09" />
-                Mo-Cul AI 전략 레이더
+                AI 커리어 리포트
             </h2>
             <div className={styles.aiBadge}>AI ANALYSIS ACTIVE</div>
           </div>
@@ -107,7 +107,7 @@ export default function CareerPage() {
 
           <div className={styles.globalActionGrid}>
             <GlassCard className={styles.globalCard}>
-              <span className={styles.cardLabel}>글로벌 미션 매칭률</span>
+              <span className={styles.cardLabel}>글로벌 프로젝트 매칭률</span>
               <div className={styles.cardValue}>92% (EXCELLENT)</div>
               <p className={styles.subtitle} style={{fontSize: '0.65rem'}}>SAUDI NEOM / US GEORGIA EPC</p>
             </GlassCard>
@@ -146,7 +146,7 @@ export default function CareerPage() {
           <div className={styles.radarSection}>
             <h3 className={styles.sectionTitle}>
                 <Target size={18} color="#B48A09" />
-                기술 신뢰 레이더 (RADAR)
+                기술 역량 지표 (Radar)
             </h3>
             <div className={styles.radarWrapper}>
               <svg width="200" height="200" viewBox="0 0 200 200">
@@ -192,7 +192,7 @@ export default function CareerPage() {
         {/* Digital Career Log */}
         <section className={styles.historySection}>
           <div className={styles.sectionHeader}>
-            <h2 className={styles.sectionTitle}>마스터 미션 로그 (HISTORY)</h2>
+            <h2 className={styles.sectionTitle}>마스터 커리어 이력 (History)</h2>
             <ChevronRight size={24} color="rgba(180,138,9,0.5)" />
           </div>
 
@@ -200,7 +200,7 @@ export default function CareerPage() {
             <GlassCard className={styles.historyItem}>
               <div className={styles.historyMeta}>
                 <span className={styles.historyDate}>2026. 03. 25</span>
-                <span className={styles.historyStatus}>MISSION VERIFIED</span>
+                <span className={styles.historyStatus}>이수 완료</span>
               </div>
               <h3 className={styles.historyTitle}>반도체 평택 캠퍼스 P4 신축 (배관)</h3>
               <p className={styles.historyCompany}>
@@ -211,7 +211,7 @@ export default function CareerPage() {
             <GlassCard className={styles.historyItem}>
               <div className={styles.historyMeta}>
                 <span className={styles.historyDate}>2026. 03. 20</span>
-                <span className={styles.historyStatus}>MISSION VERIFIED</span>
+                <span className={styles.historyStatus}>이수 완료</span>
               </div>
               <h3 className={styles.historyTitle}>성수 테크니컬 허브 리노베이션</h3>
               <p className={styles.historyCompany}>

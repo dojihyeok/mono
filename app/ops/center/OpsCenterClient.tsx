@@ -58,9 +58,9 @@ export default function OpsCenterClient() {
                 <div className={styles.siteInfo}>
                     <div className={styles.siteTag}>
                         <Radio size={12} className={styles.pulseIcon} />
-                        <span>LIVE OPERATION ON | AI CO-PILOT ACTIVE</span>
+                        <span>실시간 현장 지원 중 | AI 매니저 활성화</span>
                     </div>
-                    <h1>NEOM CITY <span className={styles.goldText}>PROJECT P14</span></h1>
+                    <h1>NEOM CITY <span className={styles.goldText}>프로젝트 현황</span></h1>
                     <div className={styles.locationGroup}>
                         <MapPin size={14} color="#B48A09" />
                         <span>Riyadh Sector 4, Saudi Arabia</span>
@@ -78,7 +78,7 @@ export default function OpsCenterClient() {
             <section className={styles.aiInsightSection}>
                 <div className={styles.aiHeader}>
                     <BrainCircuit size={20} color="#B48A09" className={styles.aiIcon} />
-                    <h3>AI CO-PILOT STRATEGIC INSIGHTS</h3>
+                    <h3>AI 매니저 업무 인사이트</h3>
                 </div>
                 <div className={styles.insightGrid}>
                     {AI_INSIGHTS.map((insight, i) => (
@@ -104,11 +104,11 @@ export default function OpsCenterClient() {
                         <div className={styles.circularGauge}>
                             <div className={styles.gaugeFill} style={{ clipPath: `inset(${100 - progress}% 0 0 0)` }} />
                             <div className={styles.percentage}>{progress}%</div>
-                            <span className={styles.gaugeLabel}>DAILY GOAL</span>
+                            <span className={styles.gaugeLabel}>일일 목표</span>
                         </div>
                         <div className={styles.taskSummary}>
-                            <h4>CURRENT MILESTONE</h4>
-                            <p>Preliminary Substructure Testing (Phase 4.2)</p>
+                            <h4>현재 주요 공정</h4>
+                            <p>기초 구조물 안정성 테스트 (Phase 4.2)</p>
                             <div className={styles.milestoneMini}>
                                 <span>다음 단계: Main Pillar Foundation</span>
                             </div>
@@ -120,7 +120,7 @@ export default function OpsCenterClient() {
                 <div className={styles.sideCard}>
                     <div className={styles.cardHeader}>
                         <Settings size={18} color="#E2E8F0" />
-                        <h3>실시간 장비 텔레매틱스</h3>
+                        <h3>핵심 장비 운용 현황</h3>
                     </div>
                     <div className={styles.telemetryList}>
                         {TELEMETRY_DATA.map((data, i) => (
@@ -171,8 +171,8 @@ export default function OpsCenterClient() {
             </div>
 
             <footer className={styles.footer}>
-                <p>본 관제 시스템은 AI Co-pilot의 실시간 예측 로직에 의해 30초 주기로 현장 리스크를 자동 스캐닝 중입니다.</p>
-                <div className={styles.systemId}>AI NODE ID: MN-SA-AI-X10</div>
+                <p>본 관리 시스템은 AI 매니저의 실시간 분석 로직에 의해 30초 주기로 현장 안전 및 리스크를 모니터링 중입니다.</p>
+                <div className={styles.systemId}>시스템 ID: MN-SA-AI-X10</div>
             </footer>
         </div>
     );
