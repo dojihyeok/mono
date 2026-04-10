@@ -71,7 +71,7 @@ export default function MatchingClient() {
             {/* Global Readiness Status */}
             <section className={styles.statusBar}>
                 <div className={styles.statusInfo}>
-                    <span className={styles.statusLabel}>글로벌 진출 준비도 (READINESS)</span>
+                    <span className={styles.statusLabel}>글로벌 진출 준비도 (준비도)</span>
                     <div className={styles.statusValue}>
                         <Activity size={24} color="#B48A09" style={{display: 'inline', marginRight: '16px'}} />
                         전문 역량 인증 완료 / 100%

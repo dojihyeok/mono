@@ -24,7 +24,7 @@ const COURSES = [
         id: 'c1',
         title: '반도체 P5 특수 배관 공법 실무',
         category: '심화 직무 기술',
-        level: 'MASTER',
+        level: '마스터',
         progress: 65,
         instructor: '김 소장 (AI Analysis)',
         image: 'https://images.unsplash.com/photo-1581094288338-2314dddb7bc3?w=500&q=80',
@@ -35,9 +35,9 @@ const COURSES = [
         id: 'c2',
         title: '해외 현장 실무 영어 (상황별)',
         category: '글로벌 역량',
-        level: 'INTERMEDIATE',
+        level: '중급',
         progress: 30,
-        instructor: '엠마 매니저 (Native)',
+        instructor: '엠마 매니저 (원어민)',
         image: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=500&q=80',
         points: 300,
         badge: '글로벌'
@@ -46,7 +46,7 @@ const COURSES = [
         id: 'c3',
         title: '프리미엄 타일 레이아웃 및 설계',
         category: '직무 기술',
-        level: 'EXPERT',
+        level: '전문가',
         progress: 0,
         instructor: '이 소장 (Architect)',
         image: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=500&q=80',
@@ -91,7 +91,7 @@ export default function AcademyClient() {
             <section className={styles.roadmapSection}>
                 <div className={styles.roadmapHeader}>
                     <h2><TrendingUp size={20} color="#B48A09" /> 나의 성장 로드맵</h2>
-                    <span className={styles.grade}>TARGET: GLOBAL TEAM LEADER</span>
+                    <span className={styles.grade}>목표: 글로벌 팀 리더</span>
                 </div>
                 <div className={styles.roadmapCard}>
                     <div className={styles.roadmapPath}>

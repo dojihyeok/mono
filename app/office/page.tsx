@@ -107,7 +107,7 @@ export default function OnlineOfficePage() {
           <div className={styles.headerLeft}>
             <div className={styles.pageLabel}>
                <Activity size={12} style={{marginRight: '6px'}} />
-               실시간 업무 관제 (WORKSPACE)
+               실시간 업무 상황실
             </div>
             <h1 className={styles.title}>내 업무 대시보드</h1>
             <p className={styles.subtitle}>
@@ -132,7 +132,7 @@ export default function OnlineOfficePage() {
             </div>
             <div className={styles.statWidget}>
               <span className={styles.widgetLabel}>마스터 등급</span>
-              <span className={styles.widgetValue}>Lv. 42</span>
+              <span className={styles.widgetValue}>레벨 42</span>
               <div className={`${styles.widgetTrend} ${styles.trendGold}`}>
                  <Award size={10} /> 상위 3% 숙련도
               </div>

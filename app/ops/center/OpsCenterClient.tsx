@@ -19,7 +19,7 @@ import {
 
 export default function OpsCenterClient() {
     const [progress, setProgress] = useState(0);
-    const [status, setStatus] = useState('DIAGNOSING');
+    const [status, setStatus] = useState('진단 중');
     const [currentTime, setCurrentTime] = useState('');
 
     useEffect(() => {
@@ -32,7 +32,7 @@ export default function OpsCenterClient() {
             setCurrentTime(now.toLocaleTimeString('en-US', { hour12: false }));
         }, 1000);
 
-        setTimeout(() => setStatus('OPERATIONAL'), 2000);
+        setTimeout(() => setStatus('운영 중'), 2000);
 
         return () => {
             clearTimeout(timer);
@@ -41,15 +41,15 @@ export default function OpsCenterClient() {
     }, []);
 
     const TELEMETRY_DATA = [
-        { label: 'EQUIPMENT HEALTH', value: '94%', sub: 'No Critical Alerts', color: '#10B981' },
-        { label: 'FUEL / ENERGY', value: '62%', sub: 'Estimated 4.5h left', color: '#B48A09' },
-        { label: 'LOAD CAPACITY', value: 'OPTIMAL', sub: 'Balanced / Stable', color: '#E2E8F0' }
+        { label: '장비 건강 상태', value: '94%', sub: '이상 없음', color: '#10B981' },
+        { label: '에너지 잔량', value: '62%', sub: '잔여 시간 약 4.5시간', color: '#B48A09' },
+        { label: '적재 및 하중', value: '최적', sub: '균형 / 안정적', color: '#E2E8F0' }
     ];
 
     const AI_INSIGHTS = [
-        { title: 'PREDICTIVE MAINTENANCE', desc: '유압 계통 마모 감지: 14시간 후 오일 교체 권장', type: 'WARN', icon: <Settings size={14} /> },
-        { title: 'SMART STAFFING', desc: '공정 Phase 4.3 진입 전, 용접 마스터 1명 추가 배치 권장 (98% Match)', type: 'INFO', icon: <Users size={14} /> },
-        { title: 'WEATHER PROTOCOL', desc: '사우디 현지 기상 변동: 3시간 후 강풍 예보 - 고공 작업 주의', type: 'ALERT', icon: <AlertTriangle size={14} /> }
+        { title: '장비 예측 보전', desc: '유압 계통 마모 감지: 14시간 후 오일 교체 권장', type: 'WARN', icon: <Settings size={14} /> },
+        { title: '인력 최적 배치', desc: '공정 4.3 단계 진입 전, 용접 마스터 1명 추가 배치 권장 (98% 매칭)', type: 'INFO', icon: <Users size={14} /> },
+        { title: '현지 기상 주의보', desc: '사우디 현지 기상 변동: 3시간 후 강풍 예보 - 고공 작업 주의', type: 'ALERT', icon: <AlertTriangle size={14} /> }
     ];
 
     return (
@@ -66,7 +66,7 @@ export default function OpsCenterClient() {
                         <span>Riyadh Sector 4, Saudi Arabia</span>
                         <div className={styles.divider} />
                         <Clock size={14} color="#B0B0B0" />
-                        <span>LOCAL {currentTime}</span>
+                        <span>현지 시간 {currentTime}</span>
                     </div>
                 </div>
                 <div className={`${styles.statusBadge} ${styles[status]}`}>
@@ -110,7 +110,7 @@ export default function OpsCenterClient() {
                             <h4>현재 주요 공정</h4>
                             <p>기초 구조물 안정성 테스트 (Phase 4.2)</p>
                             <div className={styles.milestoneMini}>
-                                <span>다음 단계: Main Pillar Foundation</span>
+                                <span>다음 단계: 기초 기초대 공정(Main Pillar)</span>
                             </div>
                         </div>
                     </div>
@@ -147,7 +147,7 @@ export default function OpsCenterClient() {
                 <div className={styles.actionGrid}>
                     <button className={styles.actionBtn}>
                         <CheckSquare size={18} />
-                        <span>오늘 작업 서명 (LOG)</span>
+                        <span>오늘 작업 서명 (Log)</span>
                     </button>
                     <button className={styles.actionBtn}>
                         <Zap size={18} />
