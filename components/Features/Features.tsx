@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { LocateFixed, Database, Globe, Package, Cpu, ShieldCheck, Zap } from 'lucide-react';
+import { LocateFixed, Database, Globe, Package, Cpu, Terminal } from 'lucide-react';
 import styles from './Features.module.css';
 import GlassCard from '../UI/GlassCard';
 
@@ -9,25 +9,22 @@ const features = [
     {
         title: "지능형 현장 관제 (Smart Ops)",
         description: "GPS 기반 실시간 출퇴근 인증 및 AI 데이터 분석을 통한 투명한 정산 시스템을 제공합니다.",
-        icon: <LocateFixed size={32} />
+        icon: <LocateFixed size={32} color="#B48A09" />
     },
     {
-        id: "f2",
         title: "디지털 자산 가속기 (Assetizer)",
         description: "마스터의 모든 현장 경력을 변조 불가능한 디지털 데이터로 자산화하여 신용과 가치를 증명합니다.",
-        icon: <Database size={32} />
+        icon: <Database size={32} color="#B48A09" />
     },
     {
-        id: "f3",
         title: "글로벌 테크 마이그레이션",
         description: "국내 기술 경력을 글로벌 표준 규격으로 전환하여 호주, 중동 등 해외 우대 진출을 지원합니다.",
-        icon: <Globe size={32} />
+        icon: <Globe size={32} color="#B48A09" />
     },
     {
-        id: "f4",
         title: "스킬 & 장비 통합 패키지",
         description: "최고의 기술자와 최첨단 특수 장비를 최적의 미션에 매칭하는 지능형 패키징 솔루션입니다.",
-        icon: <Package size={32} />
+        icon: <Package size={32} color="#B48A09" />
     }
 ];
 
@@ -51,7 +48,7 @@ export default function Features() {
                     {features.map((feature, idx) => (
                         <GlassCard key={idx} hoverEffect className={styles.cardOverride}>
                             <div className={styles.iconWrapper}>
-                                {React.cloneElement(feature.icon as React.ReactElement, { color: '#B48A09' })}
+                                {feature.icon}
                             </div>
                             <h3 className={styles.cardTitle}>{feature.title}</h3>
                             <p className={styles.cardDesc}>{feature.description}</p>
