@@ -1,16 +1,17 @@
 .pageWrap {
     min-height: 100vh;
     padding-bottom: 5rem;
+    background: radial-gradient(circle at 50% 0%, rgba(212, 175, 55, 0.05) 0%, transparent 50%);
 }
 
 .container {
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
-    padding: 3rem 1.5rem;
+    padding: 4rem 1.5rem;
 }
 
 .header {
-    margin-bottom: 3rem;
+    margin-bottom: 4rem;
     text-align: left;
 }
 
@@ -23,112 +24,136 @@
 }
 
 .title {
-    font-size: 2.5rem;
-    font-weight: 800;
-    margin-bottom: 0.5rem;
-    background: linear-gradient(135deg, #fff 0%, rgba(255, 255, 255, 0.7) 100%);
+    font-size: 3rem;
+    font-weight: 900;
+    margin-bottom: 0.75rem;
+    background: linear-gradient(135deg, #fff 0%, #B48A09 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    letter-spacing: -0.02em;
 }
 
 .subtitle {
-    font-size: 1.1rem;
-    color: rgba(255, 255, 255, 0.5);
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.4);
+    font-weight: 500;
 }
 
 .searchBar {
-    margin-bottom: 2.5rem;
+    margin-bottom: 3.5rem;
     position: relative;
-    max-width: 600px;
+    max-width: 700px;
 }
 
 .searchInput {
     width: 100%;
-    padding: 1.25rem 1.75rem;
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 1.5rem;
+    padding: 1.5rem 2rem;
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(30px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 2rem;
     color: #fff;
-    font-size: 1.1rem;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    font-size: 1.2rem;
+    font-weight: 600;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.searchInput::placeholder {
+    color: rgba(255, 255, 255, 0.2);
 }
 
 .searchInput:focus {
     outline: none;
-    border-color: #0a84ff;
-    background: rgba(255, 255, 255, 0.08);
-    box-shadow: 0 0 0 4px rgba(10, 132, 255, 0.15), 0 15px 50px rgba(0, 0, 0, 0.4);
-    transform: translateY(-2px);
+    border-color: #B48A09;
+    background: rgba(255, 255, 255, 0.06);
+    box-shadow: 0 0 0 1px rgba(180, 138, 9, 0.3), 0 20px 60px rgba(0, 0, 0, 0.6);
+    transform: translateY(-4px);
 }
 
 .tabs {
     display: flex;
-    gap: 0.5rem;
-    margin-bottom: 2.5rem;
-    background: rgba(255, 255, 255, 0.03);
-    padding: 0.5rem;
-    border-radius: 1rem;
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    max-width: 500px;
+    gap: 0.75rem;
+    margin-bottom: 3.5rem;
+    background: rgba(255, 255, 255, 0.02);
+    padding: 0.6rem;
+    border-radius: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    max-width: 550px;
 }
 
 .tab {
     flex: 1;
-    padding: 0.875rem;
-    border-radius: 0.75rem;
+    padding: 1rem;
+    border-radius: 1.1rem;
     border: none;
     background: transparent;
-    color: rgba(255, 255, 255, 0.5);
-    font-size: 1rem;
-    font-weight: 700;
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 1.1rem;
+    font-weight: 800;
     cursor: pointer;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.tab:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.03);
 }
 
 .tab.active {
-    background: #0a84ff;
-    color: #fff;
-    box-shadow: 0 4px 15px rgba(10, 132, 255, 0.3);
+    background: #B48A09;
+    color: #000;
+    box-shadow: 0 10px 25px rgba(180, 138, 9, 0.4);
 }
 
 .resultsInfo {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 2rem;
+    margin-bottom: 2.5rem;
 }
 
 .countText {
-    font-size: 1.1rem;
-    color: rgba(255, 255, 255, 0.6);
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.5);
 }
 
 .countText strong {
-    color: #0a84ff;
-    font-size: 1.3rem;
+    color: #B48A09;
+    font-size: 1.5rem;
+    margin: 0 4px;
 }
 
 .backToGrid {
-    font-size: 1rem;
-    color: #0a84ff;
+    font-size: 1.1rem;
+    color: #B48A09;
     background: none;
     border: none;
     cursor: pointer;
-    font-weight: 700;
-    text-decoration: underline;
-    transition: opacity 0.2s;
+    font-weight: 800;
+    position: relative;
+    padding-bottom: 4px;
 }
 
-.backToGrid:hover {
-    opacity: 0.8;
+.backToGrid::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: #B48A09;
+    transition: width 0.3s;
+}
+
+.backToGrid:hover::after {
+    width: 100%;
 }
 
 .grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 1.5rem;
+    gap: 2.5rem;
 }
 
 @media (min-width: 640px) {
@@ -143,64 +168,84 @@
     }
 }
 
-
 .noResults {
     grid-column: 1 / -1;
     text-align: center;
-    padding: 4rem 2rem;
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px dashed rgba(255, 255, 255, 0.1);
-    border-radius: 20px;
+    padding: 6rem 2rem;
+    background: rgba(255, 255, 255, 0.01);
+    border: 1px dashed rgba(255, 255, 255, 0.08);
+    border-radius: 3rem;
 }
 
 .noResults p {
-    color: rgba(255, 255, 255, 0.5);
-    margin-bottom: 1.5rem;
+    color: rgba(255, 255, 255, 0.4);
+    margin-bottom: 2.5rem;
+    font-size: 1.25rem;
+    font-weight: 600;
 }
 
 .backBtn {
-    background: #0a84ff;
-    color: #fff;
+    background: #B48A09;
+    color: #000;
     border: none;
-    padding: 0.75rem 1.5rem;
-    border-radius: 12px;
-    font-weight: 600;
+    padding: 1rem 2.5rem;
+    border-radius: 1.25rem;
+    font-weight: 800;
+    font-size: 1.1rem;
     cursor: pointer;
+    transition: all 0.3s;
+}
+
+.backBtn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 30px rgba(180, 138, 9, 0.3);
 }
 
 .locationSearch {
-    padding: 2rem 0;
+    padding: 3rem 0;
 }
 
 .nearMeBox {
     text-align: center;
-    background: linear-gradient(135deg, rgba(10, 132, 255, 0.1) 0%, rgba(0, 210, 255, 0.05) 100%);
-    border: 1px solid rgba(10, 132, 255, 0.2);
-    padding: 3rem 2rem;
-    border-radius: 24px;
+    background: radial-gradient(circle at center, rgba(180, 138, 9, 0.1) 0%, rgba(0, 0, 0, 0.2) 100%);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(180, 138, 9, 0.2);
+    padding: 5rem 2rem;
+    border-radius: 3rem;
 }
 
 .nearMeIcon {
-    font-size: 3rem;
-    margin-bottom: 1rem;
+    font-size: 4rem;
+    margin-bottom: 1.5rem;
+    filter: drop-shadow(0 0 15px rgba(180, 138, 9, 0.4));
 }
 
 .nearMeBox h3 {
-    font-size: 1.5rem;
-    margin-bottom: 0.75rem;
+    font-size: 2rem;
+    font-weight: 900;
+    margin-bottom: 1rem;
+    color: #fff;
 }
 
 .nearMeBox p {
-    color: rgba(255, 255, 255, 0.6);
-    margin-bottom: 2rem;
+    color: rgba(255, 255, 255, 0.5);
+    margin-bottom: 3rem;
+    font-size: 1.1rem;
 }
 
 .gpsBtn {
-    background: #fff;
+    background: #B48A09;
     color: #000;
     border: none;
-    padding: 1rem 2rem;
-    border-radius: 12px;
-    font-weight: 700;
+    padding: 1.25rem 3rem;
+    border-radius: 1.5rem;
+    font-weight: 900;
+    font-size: 1.2rem;
     cursor: pointer;
+    transition: all 0.3s;
+}
+
+.gpsBtn:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(180, 138, 9, 0.4);
 }
