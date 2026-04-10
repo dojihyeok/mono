@@ -1,45 +1,58 @@
+'use client';
+
+import React from 'react';
+import { LocateFixed, Database, Globe, Package, Cpu, ShieldCheck, Zap } from 'lucide-react';
 import styles from './Features.module.css';
 import GlassCard from '../UI/GlassCard';
 
 const features = [
     {
-        title: "스마트 현장 시스템",
-        description: "반경 500m GPS 출퇴근 인증부터, 당일 안심 수고비 정산까지 모든 현장 업무를 쉽고 빠르게 도와드립니다.",
-        icon: "📍"
+        title: "지능형 현장 관제 (Smart Ops)",
+        description: "GPS 기반 실시간 출퇴근 인증 및 AI 데이터 분석을 통한 투명한 정산 시스템을 제공합니다.",
+        icon: <LocateFixed size={32} />
     },
     {
-        title: "디지털 커리어 자산화",
-        description: "나의 현장 경력과 숙련도를 블록체인 기반의 변조 불가능한 포트폴리오로 구축하고 증명하세요.",
-        icon: "📄"
+        id: "f2",
+        title: "디지털 자산 가속기 (Assetizer)",
+        description: "마스터의 모든 현장 경력을 변조 불가능한 디지털 데이터로 자산화하여 신용과 가치를 증명합니다.",
+        icon: <Database size={32} />
     },
     {
-        title: "글로벌 경력 전환",
-        description: "국내 경력을 해외 우대 자격으로 전환하고, 국제 기준의 경력 증명서를 발급받아 더 넓은 세계로 진출하세요.",
-        icon: "🌏"
+        id: "f3",
+        title: "글로벌 테크 마이그레이션",
+        description: "국내 기술 경력을 글로벌 표준 규격으로 전환하여 호주, 중동 등 해외 우대 진출을 지원합니다.",
+        icon: <Globe size={32} />
     },
     {
-        title: "장비 & 기사 패키지",
-        description: "최고의 기술자와 특수 장비를 하나로 매칭합니다. 하루 단위 렌탈 시스템으로 더 쉽게 필요한 스킬을 구하세요.",
-        icon: "🚜"
+        id: "f4",
+        title: "스킬 & 장비 통합 패키지",
+        description: "최고의 기술자와 최첨단 특수 장비를 최적의 미션에 매칭하는 지능형 패키징 솔루션입니다.",
+        icon: <Package size={32} />
     }
 ];
 
 export default function Features() {
     return (
-        <section id="features" className={`${styles.section} fade-up`}>
+        <section id="features" className={styles.section}>
             <div className={`container ${styles.header}`}>
+                <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'rgba(180, 138, 9, 0.1)', color: '#B48A09', padding: '6px 14px', borderRadius: '8px', fontSize: '10px', fontWeight: 800, marginBottom: '1.5rem', border: '1px solid rgba(180, 138, 9, 0.2)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
+                    <Cpu size={12} />
+                    Mono Core Operating System
+                </div>
                 <h2 className={styles.title}>
-                    글로벌 기술 자산화 플랫폼 <span className={styles.premiumText}>Mo-No</span>
+                    글로벌 기술 자산화 프로토콜 <span className={styles.premiumText}>Mo-No</span>
                 </h2>
                 <p className={styles.subtitle}>
-                    단순 구인구직을 넘어, 기술자의 경험을 데이터화하여 평생의 자산으로 만들어드립니다.
+                    기술자의 모든 경험을 정량화된 데이터로 변환하여 신뢰할 수 있는 미래 자산으로 구축합니다.
                 </p>
             </div>
             <div className="container">
                 <div className={styles.grid}>
                     {features.map((feature, idx) => (
                         <GlassCard key={idx} hoverEffect className={styles.cardOverride}>
-                            <div className={styles.iconWrapper}>{feature.icon}</div>
+                            <div className={styles.iconWrapper}>
+                                {React.cloneElement(feature.icon as React.ReactElement, { color: '#B48A09' })}
+                            </div>
                             <h3 className={styles.cardTitle}>{feature.title}</h3>
                             <p className={styles.cardDesc}>{feature.description}</p>
                         </GlassCard>

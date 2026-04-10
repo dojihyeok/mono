@@ -1,38 +1,48 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import Link from 'next/link';
-import { Zap, MapPin, Clock, ArrowRight } from 'lucide-react';
+import { Zap, MapPin, Clock, ArrowRight, Target, Radar, Activity, ShieldAlert } from 'lucide-react';
 import styles from './UrgentRecruitment.module.css';
-import GlassCard from '../UI/GlassCard';
 
 const URGENT_JOBS = [
     {
         id: 'u1',
-        title: '성수동 카페거리 상가 폐기물 긴급 양중',
-        location: '서울 성동구 성수동',
-        pay: '180,000',
-        time: '즉시 투입 (ASAP)',
-        category: '일반작업'
+        title: '하이테크 플랜트 특수 배관 긴급 지원',
+        location: '평택 고덕 삼성 P5',
+        pay: '210,000',
+        time: 'IMMEDIATE / ASAP',
+        category: 'HIGH-TECH',
+        risk: 'LOW'
     },
     {
         id: 'u2',
-        title: '강남역 인근 병원 인테리어 철거 보조',
-        location: '서울 서초구 강남역',
-        pay: '170,000',
-        time: '오늘 오전 10:00 까지',
-        category: '철거/철해'
+        title: '데이터센터 인테리어 철거 전술 지원',
+        location: '서울 서초구 데이터센터',
+        pay: '185,000',
+        time: 'EST. 10:00 AM',
+        category: 'DEMOLITION',
+        risk: 'MEDIUM'
+    },
+    {
+        id: 'u3',
+        title: '반도체 인프라 장비 양중 미션',
+        location: '용인 기흥구 메가팹',
+        pay: '190,000',
+        time: 'TOMORROW 07:00',
+        category: 'EQUIPMENT',
+        risk: 'LOW'
     }
 ];
 
 export default function UrgentRecruitment() {
-    const [activeIndex, setActiveIndex] = React.useState(0);
-    const carouselRef = React.useRef<HTMLDivElement>(null);
+    const [activeIndex, setActiveIndex] = useState(0);
+    const carouselRef = useRef<HTMLDivElement>(null);
 
     const handleScroll = () => {
         if (!carouselRef.current) return;
         const scrollOffset = carouselRef.current.scrollLeft;
-        const cardWidth = carouselRef.current.offsetWidth * 0.85;
+        const cardWidth = carouselRef.current.children[0].clientWidth + 32; // card width + gap
         const newIndex = Math.round(scrollOffset / cardWidth);
         if (newIndex !== activeIndex) {
             setActiveIndex(newIndex);
@@ -44,11 +54,11 @@ export default function UrgentRecruitment() {
             <div className={styles.container}>
                 <div className={styles.header}>
                     <div className={styles.urgentBadge}>
-                        <span>🚨</span>
-                        실시간 긴급 채용
+                        <Radar size={14} className={styles.pulseIcon} />
+                        실시간 긴급 미션 브리핑
                     </div>
-                    <h2 className={styles.title}>내 주변 <span className={styles.premiumText}>실시간 급구</span></h2>
-                    <p className={styles.subtitle}>지금 바로 출근 가능한 현장입니다.</p>
+                    <h2 className={styles.title}>마스터 <span className={styles.premiumText}>즉시 투입</span> 필드</h2>
+                    <p className={styles.subtitle}>데이터로 분석된 최우선 순위 긴급 현장입니다.</p>
                 </div>
 
                 <div className={styles.carouselContainer}>
@@ -57,12 +67,12 @@ export default function UrgentRecruitment() {
                         ref={carouselRef}
                         onScroll={handleScroll}
                     >
-                        {URGENT_JOBS.map((job: any) => (
+                        {URGENT_JOBS.map((job) => (
                             <div key={job.id} className={styles.jobCard}>
                                 <div className={styles.cardHeader}>
                                     <span className={styles.categoryBadge}>{job.category}</span>
                                     <div className={styles.timeBadge}>
-                                        <span>🕒</span>
+                                        <Activity size={14} color="#ff4d4d" />
                                         {job.time}
                                     </div>
                                 </div>
@@ -71,7 +81,7 @@ export default function UrgentRecruitment() {
 
                                 <div className={styles.metaRow}>
                                     <div className={styles.locationInfo}>
-                                        <span>📍</span>
+                                        <Target size={16} color="#B48A09" />
                                         {job.location}
                                     </div>
                                     <div className={styles.wageInfo}>
@@ -81,15 +91,15 @@ export default function UrgentRecruitment() {
                                 </div>
 
                                 <Link href={`/jobs/${job.id}`} className={styles.actionBtn}>
-                                    <span>⚡</span>
-                                    지금 바로 참여하기
+                                    <Zap size={18} fill="currentColor" />
+                                    미션 즉시 참여 (JOIN NOW)
                                 </Link>
                             </div>
                         ))}
                     </div>
 
                     <div className={styles.indicators}>
-                        {URGENT_JOBS.map((_: any, idx: number) => (
+                        {URGENT_JOBS.map((_, idx) => (
                             <div 
                                 key={idx} 
                                 className={`${styles.indicator} ${activeIndex === idx ? styles.indicatorActive : ''}`}
@@ -100,8 +110,8 @@ export default function UrgentRecruitment() {
 
                 <div className={styles.footer}>
                     <Link href="/jobs" className={styles.viewMore}>
-                        긴급 채용 전체 보기
-                        <span>→</span>
+                        긴급 관제 데이터 전체 보기
+                        <ArrowRight size={18} />
                     </Link>
                 </div>
             </div>
