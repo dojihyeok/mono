@@ -53,7 +53,7 @@ export default function CareerPage() {
             </div>
             <p className={styles.levelDesc}>
               <Cpu size={14} style={{display: 'inline', marginRight: '8px'}} />
-              MASTER LV.45 | NEXT: LEGENDARY MASTER (2,580 SP REMAINING)
+              마스터 레벨 45 | 다음 등급: 레전더리 마스터 (2,450 SP 남음)
             </p>
           </GlassCard>
 
@@ -120,7 +120,7 @@ export default function CareerPage() {
 
           <button className={styles.resumeBtn}>
             <FileCode2 size={20} />
-            AI 영문 기술 자산 증명서 (EXPORT)
+            AI 영문 기술 자산 증명서 (출력/내보내기)
           </button>
         </section>
 
@@ -134,11 +134,11 @@ export default function CareerPage() {
             <div className={styles.qrInfo}>
                 <div style={{display: 'flex', alignItems: 'center', gap: '8px', color: '#B48A09', fontSize: '10px', fontWeight: 900, marginBottom: '8px'}}>
                     <Lock size={12} />
-                    SECURE DATA VERIFIED
+                    보안 데이터 검증 완료
                 </div>
               <h4>현장 보안 매칭 QR</h4>
               <p>현장 관리자의 실시간 경력 스캔을 위한 보안 암호화 코드입니다.</p>
-              <div className={styles.idExpiry}>EXPIRY: 2027. 12. 31</div>
+              <div className={styles.idExpiry}>만료일: 2027. 12. 31</div>
             </div>
           </div>
 
@@ -168,21 +168,21 @@ export default function CareerPage() {
           <div className={styles.equipmentSection}>
             <h3 className={styles.sectionTitle}>
                 <BarChart3 size={18} color="#B48A09" />
-                검증된 기술 인프라 (ASSETS)
+                검증된 기술 자산 (Assets)
             </h3>
             <div className={styles.equipmentGrid}>
               <div className={styles.equipmentItem}>
                 <div className={styles.eqIcon}><Wrench size={20} color="#B48A09" /></div>
                 <div className={styles.eqInfo}>
                   <h5>힐티 TE-60 (HIGH-PERF)</h5>
-                  <span>CERTIFIED</span>
+                  <span>인증 완료</span>
                 </div>
               </div>
               <div className={styles.equipmentItem}>
                 <div className={styles.eqIcon}><HardHat size={20} color="#B48A09" /></div>
                 <div className={styles.eqInfo}>
                   <h5>디지털 안전 고글 (AR)</h5>
-                  <span>CERTIFIED</span>
+                  <span>인증 완료</span>
                 </div>
               </div>
             </div>
