@@ -1,7 +1,6 @@
 import React from 'react';
 import styles from './career.module.css';
 import GlassCard from '@/components/UI/GlassCard';
-import Button from '@/components/UI/Button';
 import Navbar from '@/components/Navbar/Navbar';
 
 import { 
@@ -18,7 +17,11 @@ import {
   ChevronRight,
   TrendingUp,
   FileCode2,
-  BrainCircuit
+  BrainCircuit,
+  Cpu,
+  Target,
+  BarChart3,
+  Scan
 } from 'lucide-react';
 
 export default function CareerPage() {
@@ -27,53 +30,67 @@ export default function CareerPage() {
       <Navbar />
       <div className={styles.container}>
         <header className={styles.header}>
-          <div className={styles.passportLabel}>마스터 기술 경력 신분증</div>
-          <h1 className={styles.title}>디지털 기술 경력 수첩</h1>
-          <p className={styles.subtitle}>검증된 내 기술 실력과 자격증 모음</p>
+          <div className={styles.passportLabel}>
+            <Scan size={12} style={{marginRight: '8px'}} />
+            마스터 기술 자산 신분증 (GLOBAL VERIFIED)
+          </div>
+          <h1 className={styles.title}>디지털 기술 여권</h1>
+          <p className={styles.subtitle}>검증된 기술 자산과 글로벌 커리어 포트폴리오</p>
         </header>
 
         {/* Level & Stats */}
         <section className={styles.statsSection}>
           <GlassCard className={styles.levelCard}>
             <div className={styles.levelHeader}>
-              <span className={styles.badge}>숙련 기술 대장</span>
-              <span className={styles.levelPoints}>7,420 점</span>
+              <span className={styles.badge}>
+                <Award size={24} color="#B48A09" />
+                숙련 기술 마스터 (TIER 1)
+              </span>
+              <span className={styles.levelPoints}>7,420 SP</span>
             </div>
             <div className={styles.progressBarWrapper}>
               <div className={styles.progressBar} style={{ width: '74%' }}></div>
             </div>
-            <p className={styles.levelDesc}>LV.45 | 다음 단계: 전설의 마스터 (2,580 점 남음)</p>
+            <p className={styles.levelDesc}>
+              <Cpu size={14} style={{display: 'inline', marginRight: '8px'}} />
+              MASTER LV.45 | NEXT: LEGENDARY MASTER (2,580 SP REMAINING)
+            </p>
           </GlassCard>
 
           <div className={styles.grid2}>
             <GlassCard>
-              <h3 className={styles.statLabel}>
-                <Calendar size={14} color="#FF6B00" />
-                현장 출역 총 합계
-              </h3>
+                <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start'}}>
+                    <h3 className={styles.statLabel}>
+                        <Calendar size={14} color="#B48A09" />
+                        현장 투입 데이터 (DEPLOYMENT)
+                    </h3>
+                </div>
               <p className={styles.statValue}>342일</p>
             </GlassCard>
             <GlassCard>
               <h3 className={styles.statLabel}>
-                <ShieldCheck size={14} color="#22C55E" />
-                안전 신뢰 지수
+                <ShieldCheck size={14} color="#B48A09" />
+                안전 신뢰 지수 (SAFETY INDEX)
               </h3>
               <p className={styles.statValue}>98.5%</p>
             </GlassCard>
           </div>
         </section>
 
-        {/* AI Career Insight Section - New */}
+        {/* AI Career Insight Section */}
         <section className={styles.aiInsightSection}>
           <div className={styles.aiHeader}>
-            <h2 className={styles.sectionTitle}>Mo-Cul AI 커리어 인사이트</h2>
+            <h2 className={styles.sectionTitle}>
+                <Activity size={20} color="#B48A09" />
+                Mo-Cul AI 전략 레이더
+            </h2>
             <div className={styles.aiBadge}>AI ANALYSIS ACTIVE</div>
           </div>
 
           <GlassCard className={styles.aiReportCard}>
             <div className={styles.aiGreeting}>
-              <div className={styles.aiAvatar}><BrainCircuit size={18} /></div>
-              <p className={styles.aiMessage}>모컬 AI가 마스터님의 실력을 분석했습니다.</p>
+              <div className={styles.aiAvatar}><BrainCircuit size={20} /></div>
+              <p className={styles.aiMessage}>모컬 AI 분석: 마스터 기술 자산 평가</p>
             </div>
             <p className={styles.aiMessage}>
               "마스터님은 지난 2년간 <span className={styles.aiHighlight}>반도체 플랜트 배관</span> 분야에서 
@@ -81,29 +98,29 @@ export default function CareerPage() {
               해외 하이테크 현장 리더급으로 즉시 투입 가능한 수준입니다."
             </p>
             <div className={styles.careerTags}>
-              <span className={`${styles.tag} ${styles.activeTag}`}>#배관_마스터</span>
-              <span className={`${styles.tag} ${styles.activeTag}`}>#안전_TOP_클래스</span>
+              <span className={`${styles.tag} ${styles.activeTag}`}>#배관_마스터_V1</span>
+              <span className={`${styles.tag} ${styles.activeTag}`}>#안정성_최우수</span>
               <span className={styles.tag}>#EPC_숙련공</span>
-              <span className={styles.tag}>#해외_현장_적격</span>
+              <span className={styles.tag}>#글로벌_파견_준비_완료</span>
             </div>
           </GlassCard>
 
           <div className={styles.globalActionGrid}>
             <GlassCard className={styles.globalCard}>
-              <span className={styles.cardLabel}>글로벌 매칭 가능성</span>
-              <div className={styles.cardValue}>Very High (92%)</div>
-              <p className={styles.subtitle} style={{fontSize: '0.65rem'}}>사우디 네옴시티 / 미국 조지아</p>
+              <span className={styles.cardLabel}>글로벌 미션 매칭률</span>
+              <div className={styles.cardValue}>92% (EXCELLENT)</div>
+              <p className={styles.subtitle} style={{fontSize: '0.65rem'}}>SAUDI NEOM / US GEORGIA EPC</p>
             </GlassCard>
             <GlassCard className={styles.globalCard}>
-              <span className={styles.cardLabel}>예상 글로벌 시급</span>
+              <span className={styles.cardLabel}>추천 글로벌 리워드</span>
               <div className={styles.cardValue}>$42.5 / hr</div>
-              <p className={styles.subtitle} style={{fontSize: '0.65rem'}}>중동 하이테크 현장 기준</p>
+              <p className={styles.subtitle} style={{fontSize: '0.65rem', color: '#B48A09'}}>글로벌 마스터 평균 이상</p>
             </GlassCard>
           </div>
 
           <button className={styles.resumeBtn}>
-            <FileCode2 size={18} />
-            모컬 AI 영문 기술 경력서 생성하기
+            <FileCode2 size={20} />
+            AI 영문 기술 자산 증명서 (EXPORT)
           </button>
         </section>
 
@@ -112,54 +129,60 @@ export default function CareerPage() {
           {/* QR Verification */}
           <div className={styles.qrSection}>
             <div className={styles.qrCodeWrapper}>
-              <QrCode size={64} color="#000" />
+              <QrCode size={80} color="#000" />
             </div>
             <div className={styles.qrInfo}>
-              <h4>현장 본인 인증용</h4>
-              <p>현장 관리자가 이 코드를 찍으면 마스터님의 실력과 경력이 바로 확인됩니다.</p>
-              <div className={styles.idExpiry}>유효기한: 2027. 12. 31</div>
+                <div style={{display: 'flex', alignItems: 'center', gap: '8px', color: '#B48A09', fontSize: '10px', fontWeight: 900, marginBottom: '8px'}}>
+                    <Lock size={12} />
+                    SECURE DATA VERIFIED
+                </div>
+              <h4>현장 보안 매칭 QR</h4>
+              <p>현장 관리자의 실시간 경력 스캔을 위한 보안 암호화 코드입니다.</p>
+              <div className={styles.idExpiry}>EXPIRY: 2027. 12. 31</div>
             </div>
           </div>
 
-          {/* Trust Radar Mockup */}
+          {/* Trust Radar */}
           <div className={styles.radarSection}>
-            <h3 className={styles.sectionTitle}>마스터 기술 신뢰 레이더</h3>
+            <h3 className={styles.sectionTitle}>
+                <Target size={18} color="#B48A09" />
+                기술 신뢰 레이더 (RADAR)
+            </h3>
             <div className={styles.radarWrapper}>
               <svg width="200" height="200" viewBox="0 0 200 200">
-                {/* Radar Grid */}
-                <circle cx="100" cy="100" r="80" fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="1" />
-                <circle cx="100" cy="100" r="60" fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="1" />
-                <circle cx="100" cy="100" r="40" fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="1" />
-                {/* Radar Axes */}
-                <line x1="100" y1="20" x2="100" y2="180" stroke="rgba(255,255,255,0.1)" />
-                <line x1="20" y1="100" x2="180" y2="100" stroke="rgba(255,255,255,0.1)" />
-                {/* Radar Area (Mock) */}
-                <polygon points="100,40 160,100 100,160 40,100" fill="rgba(255,107,0,0.3)" stroke="#FF6B00" strokeWidth="2" />
-                {/* Labels */}
-                <text x="100" y="15" textAnchor="middle" fill="rgba(255,255,255,0.5)" fontSize="10">안전성</text>
-                <text x="185" y="105" textAnchor="middle" fill="rgba(255,255,255,0.5)" fontSize="10">기술력</text>
-                <text x="100" y="195" textAnchor="middle" fill="rgba(255,255,255,0.5)" fontSize="10">성실성</text>
-                <text x="15" y="105" textAnchor="middle" fill="rgba(255,255,255,0.5)" fontSize="10">수공구</text>
+                <circle cx="100" cy="100" r="80" fill="none" stroke="rgba(180, 138, 9, 0.1)" strokeWidth="1" />
+                <circle cx="100" cy="100" r="60" fill="none" stroke="rgba(180, 138, 9, 0.1)" strokeWidth="1" />
+                <circle cx="100" cy="100" r="40" fill="none" stroke="rgba(180, 138, 9, 0.1)" strokeWidth="1" />
+                <line x1="100" y1="20" x2="100" y2="180" stroke="rgba(180, 138, 9, 0.1)" />
+                <line x1="20" y1="100" x2="180" y2="100" stroke="rgba(180, 138, 9, 0.1)" />
+                <polygon points="100,40 160,100 100,160 40,100" fill="rgba(180, 138, 9, 0.2)" stroke="#B48A09" strokeWidth="2" />
+                <text x="100" y="15" textAnchor="middle" fill="rgba(255,255,255,0.4)" fontSize="10" fontWeight="800">안전성</text>
+                <text x="185" y="105" textAnchor="middle" fill="rgba(255,255,255,0.4)" fontSize="10" fontWeight="800">기술력</text>
+                <text x="100" y="195" textAnchor="middle" fill="rgba(255,255,255,0.4)" fontSize="10" fontWeight="800">성실성</text>
+                <text x="15" y="105" textAnchor="middle" fill="rgba(255,255,255,0.4)" fontSize="10" fontWeight="800">숙련도</text>
               </svg>
             </div>
           </div>
 
           {/* Equipment Showcase */}
           <div className={styles.equipmentSection}>
-            <h3 className={styles.sectionTitle}>검증된 보유 장비</h3>
+            <h3 className={styles.sectionTitle}>
+                <BarChart3 size={18} color="#B48A09" />
+                검증된 기술 인프라 (ASSETS)
+            </h3>
             <div className={styles.equipmentGrid}>
               <div className={styles.equipmentItem}>
-                <div className={styles.eqIcon}><Wrench size={16} color="#FF6B00" /></div>
+                <div className={styles.eqIcon}><Wrench size={20} color="#B48A09" /></div>
                 <div className={styles.eqInfo}>
-                  <h5>힐티 TE-60 (함마드릴)</h5>
-                  <span>인증 완료</span>
+                  <h5>힐티 TE-60 (HIGH-PERF)</h5>
+                  <span>CERTIFIED</span>
                 </div>
               </div>
               <div className={styles.equipmentItem}>
-                <div className={styles.eqIcon}><HardHat size={16} color="#FF6B00" /></div>
+                <div className={styles.eqIcon}><HardHat size={20} color="#B48A09" /></div>
                 <div className={styles.eqInfo}>
-                  <h5>안전 보호구 세트</h5>
-                  <span>정상 보유</span>
+                  <h5>디지털 안전 고글 (AR)</h5>
+                  <span>CERTIFIED</span>
                 </div>
               </div>
             </div>
@@ -169,30 +192,30 @@ export default function CareerPage() {
         {/* Digital Career Log */}
         <section className={styles.historySection}>
           <div className={styles.sectionHeader}>
-            <h2 className={styles.sectionTitle}>나의 경력 수첩 (기록)</h2>
-            <ChevronRight size={18} color="rgba(255,255,255,0.3)" />
+            <h2 className={styles.sectionTitle}>마스터 미션 로그 (HISTORY)</h2>
+            <ChevronRight size={24} color="rgba(180,138,9,0.5)" />
           </div>
 
           <div className={styles.historyList}>
             <GlassCard className={styles.historyItem}>
               <div className={styles.historyMeta}>
                 <span className={styles.historyDate}>2026. 03. 25</span>
-                <span className={styles.historyStatus}>경력 인증됨</span>
+                <span className={styles.historyStatus}>MISSION VERIFIED</span>
               </div>
               <h3 className={styles.historyTitle}>반도체 평택 캠퍼스 P4 신축 (배관)</h3>
               <p className={styles.historyCompany}>
-                <MapPin size={12} /> 경기도 평택시 | 삼성엔지니어링
+                <MapPin size={14} style={{marginRight: '8px'}} /> 경기도 평택시 | 삼성엔지니어링
               </p>
             </GlassCard>
 
             <GlassCard className={styles.historyItem}>
               <div className={styles.historyMeta}>
                 <span className={styles.historyDate}>2026. 03. 20</span>
-                <span className={styles.historyStatus}>경력 인증됨</span>
+                <span className={styles.historyStatus}>MISSION VERIFIED</span>
               </div>
               <h3 className={styles.historyTitle}>성수 테크니컬 허브 리노베이션</h3>
               <p className={styles.historyCompany}>
-                <MapPin size={12} /> 서울시 성동구 | 현대건설
+                <MapPin size={14} style={{marginRight: '8px'}} /> 서울시 성동구 | 현대건설
               </p>
             </GlassCard>
           </div>
