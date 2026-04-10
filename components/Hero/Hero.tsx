@@ -75,10 +75,6 @@ export default function Hero() {
                 </div>
 
                 <div className={styles.heroMain}>
-                    <div className={styles.aiBadge}>
-                        <BrainCircuit size={14} className={styles.aiIcon} />
-                        <span>모컬 AI 지능형 분석 시스템 가동 중</span>
-                    </div>
                   <h1 className={`${styles.title} ${fade ? styles.fadeIn : styles.fadeOut}`}>
                       {current.main.split('\n').map((line, i) => (
                           <span key={i} className={styles.titleLine}>{line}</span>
