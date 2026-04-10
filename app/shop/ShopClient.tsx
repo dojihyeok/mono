@@ -60,16 +60,16 @@ export default function ShopClient() {
     return (
         <div className={styles.pageWrap}>
             <header className={styles.header}>
-                <div className={styles.premiumBadge}>MO-NO MASTER GEAR | v2 TACTICAL</div>
+                <div className={styles.premiumBadge}>MO-NO 마스터 공식 스토어</div>
                 <h1>기술자의 <span className={styles.goldText}>시그니처 기어</span></h1>
-                <p className={styles.subtitle}>현장의 권위와 숙련된 자부심을 완성하는 하이-테크 전술 자산.</p>
+                <p className={styles.subtitle}>현장의 권위와 숙련된 자부심을 완성하는 프로페셔널 업무 인프라.</p>
             </header>
 
             {/* Shop Navigation */}
             <div className={styles.shopTabs}>
-                <button className={`${styles.shopTab} ${selectedCategory === 'ALL' ? styles.active : ''}`} onClick={() => setSelectedCategory('ALL')}>ALL GEAR</button>
-                <button className={`${styles.shopTab} ${selectedCategory === 'FASHION' ? styles.active : ''}`} onClick={() => setSelectedCategory('FASHION')}>FASHION</button>
-                <button className={`${styles.shopTab} ${selectedCategory === 'GEAR' ? styles.active : ''}`} onClick={() => setSelectedCategory('GEAR')}>TOOLS & PKG</button>
+                <button className={`${styles.shopTab} ${selectedCategory === 'ALL' ? styles.active : ''}`} onClick={() => setSelectedCategory('ALL')}>전체 상품</button>
+                <button className={`${styles.shopTab} ${selectedCategory === 'FASHION' ? styles.active : ''}`} onClick={() => setSelectedCategory('FASHION')}>워크웨어</button>
+                <button className={`${styles.shopTab} ${selectedCategory === 'GEAR' ? styles.active : ''}`} onClick={() => setSelectedCategory('GEAR')}>전문 장비</button>
             </div>
 
             {/* Product Gallery Grid */}
@@ -91,12 +91,12 @@ export default function ShopClient() {
                                 </div>
                                 <span className={styles.catText}>{product.category}</span>
                             </div>
-                            <h3>{product.name}</h3>
+                            <h3>{product.name.replace('Tactical Vest', 'Professional Vest')}</h3>
                             <p>{product.desc}</p>
                             <div className={styles.priceRow}>
                                 <span className={styles.price}>{product.price}</span>
                                 <button className={styles.addBtn}>
-                                    <ShoppingBag size={14} /> GEAR ADD
+                                    <ShoppingBag size={14} /> 장바구니 담기
                                 </button>
                             </div>
                         </div>
@@ -109,20 +109,21 @@ export default function ShopClient() {
                 <div className={styles.certInfo}>
                     <ShieldCheck size={28} color="#B48A09" />
                     <div className={styles.certText}>
-                        <h4>MASTER GEAR AUTHENTICITY</h4>
-                        <p>본 숍의 모든 기어와 패션은 MO-NO 마스터 심사 위원회의 필드 테스트를 통과한 정품입니다.</p>
+                        <h4>OFFICIAL MASTER CERTIFICATION</h4>
+                        <p>본 스토어의 모든 상품은 MO-NO 마스터 위원회의 엄격한 필드 테스트를 통과한 정품입니다.</p>
                     </div>
                 </div>
                 <div className={styles.shippingInfo}>
                     <Truck size={18} />
-                    <span>전 세계 현장 글로벌 특급 배송 지원</span>
+                    <span>글로벌 현장 특급 배송 지원</span>
                 </div>
             </section>
 
             <footer className={styles.footer}>
-                <div className={styles.footerBrand}>MO-NO MASTER GEAR</div>
-                <p>Copyright 2026 MO-NO Masters Agency. All rights asset-protected.</p>
+                <div className={styles.footerBrand}>MO-NO OFFICIAL STORE</div>
+                <p>Copyright 2026 MO-NO Masters Agency. All rights reserved.</p>
             </footer>
         </div>
+    );
     );
 }
