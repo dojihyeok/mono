@@ -3,8 +3,9 @@
 import { useState, useMemo } from 'react';
 import TechnicianCard from '@/components/TechnicianCard';
 import OccupationGrid from '@/components/OccupationGrid/OccupationGrid';
-import JobCardSkeleton from '@/components/JobCard/JobCardSkeleton'; // Reuse for loading feel
+import JobCardSkeleton from '@/components/JobCard/JobCardSkeleton'; 
 import styles from './page.module.css';
+import { Search, MapPin, Grid, LocateFixed, ArrowLeft } from 'lucide-react';
 
 interface TechniciansClientProps {
     initialTechnicians: any[];
@@ -14,19 +15,10 @@ type ViewMode = 'occupation' | 'location' | 'details';
 
 export default function TechniciansClient({ initialTechnicians }: TechniciansClientProps) {
     const [viewMode, setViewMode] = useState<ViewMode>('occupation');
-    const [category, setCategory] = useState('전체');
     const [occupation, setOccupation] = useState('전체');
     const [region, setRegion] = useState('전체');
     const [searchTerm, setSearchTerm] = useState('');
     const [isFiltering, setIsFiltering] = useState(false);
-
-    const handleFilterChange = (cat: string, occ: string, reg: string) => {
-        setIsFiltering(true);
-        setCategory(cat);
-        setOccupation(occ);
-        setRegion(reg);
-        setTimeout(() => setIsFiltering(false), 350);
-    };
 
     const handleOccSelect = (specialty: string) => {
         setIsFiltering(true);
@@ -54,14 +46,14 @@ export default function TechniciansClient({ initialTechnicians }: TechniciansCli
     return (
         <div className={styles.container}>
             <div className={styles.header}>
-                <h1 className={styles.title}>마스터 탐색</h1>
-                <p className={styles.subtitle}>분야별 검증된 전문가들을 직접 찾아보세요.</p>
+                <h1 className={styles.title}>전문 기술 마스터 찾기</h1>
+                <p className={styles.subtitle}>검증된 숙련도와 신뢰도를 보유한 마스터 리스트</p>
             </div>
 
             <div className={styles.searchBar}>
                 <input 
                     type="text" 
-                    placeholder="이름, 기술직종, 거주지역으로 검색해보세요" 
+                    placeholder="이름, 기술직종 또는 거주지역으로 검색해보세요" 
                     className={styles.searchInput}
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
@@ -73,13 +65,13 @@ export default function TechniciansClient({ initialTechnicians }: TechniciansCli
                     className={`${styles.tab} ${viewMode === 'occupation' ? styles.active : ''}`}
                     onClick={() => setViewMode('occupation')}
                 >
-                    직종별 마스터
+                    전문 직종별
                 </button>
                 <button 
                     className={`${styles.tab} ${viewMode === 'location' ? styles.active : ''}`}
                     onClick={() => setViewMode('location')}
                 >
-                    가까운 마스터
+                    내 주변 검색
                 </button>
             </div>
 
@@ -91,10 +83,10 @@ export default function TechniciansClient({ initialTechnicians }: TechniciansCli
                 <>
                     <div className={styles.resultsInfo}>
                         <span className={styles.countText}>
-                            총 <strong>{filteredTechnicians.length}</strong>명의 마스터 검색됨
+                            총 <strong>{filteredTechnicians.length}</strong>명의 마스터가 검색되었습니다.
                         </span>
                         <button className={styles.backToGrid} onClick={() => setViewMode('occupation')}>
-                            다른 직종 둘러보기
+                            검색 초기화
                         </button>
                     </div>
                     <div className={styles.grid}>
@@ -107,7 +99,7 @@ export default function TechniciansClient({ initialTechnicians }: TechniciansCli
                         ) : (
                             <div className={styles.noResults}>
                                 <p>해당 조건의 마스터를 찾을 수 없습니다.</p>
-                                <button className={styles.backBtn} onClick={() => setViewMode('occupation')}>직종 그리드로 돌아가기</button>
+                                <button className={styles.backBtn} onClick={() => setViewMode('occupation')}>다른 기술직종 보기</button>
                             </div>
                         )}
                     </div>
@@ -117,10 +109,12 @@ export default function TechniciansClient({ initialTechnicians }: TechniciansCli
             {viewMode === 'location' && (
                 <div className={styles.locationSearch}>
                     <div className={styles.nearMeBox}>
-                        <div className={styles.nearMeIcon}>🗺️</div>
+                        <div className={styles.nearMeIcon}>
+                            <LocateFixed size={64} color="#B48A09" style={{margin: '0 auto'}} />
+                        </div>
                         <h3>내 주변 마스터 찾기</h3>
-                        <p>현재 위치를 기반으로 가장 가까운 마스터들을 추천합니다.</p>
-                        <button className={styles.gpsBtn}>현재 위치 확인</button>
+                        <p>현재 위치 정보를 기반으로 근거리에서 활동 중인<br/>검증된 마스터들을 추천해 드립니다.</p>
+                        <button className={styles.gpsBtn}>현재 위치로 검색하기</button>
                     </div>
                 </div>
             )}

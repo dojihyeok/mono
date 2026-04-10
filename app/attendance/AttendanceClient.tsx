@@ -18,10 +18,10 @@ import {
   AlertTriangle,
   FileText,
   Camera,
-  Activity
+  Activity,
+  ArrowRight
 } from 'lucide-react';
 
-// Mock Site Data for Phase 2.3
 const SITE_DATA = {
     name: '청담동 고급 빌라 신축 현장',
     location: '서울특별시 강남구 청담동 124-5',
@@ -83,15 +83,14 @@ export default function AttendanceClient() {
 
     const handleBoarding = () => {
         setStatus('BOARDED');
-        setTimeout(() => setStatus('GPS_CHECKED'), 1500); // Simulate arrival at site
+        setTimeout(() => setStatus('GPS_CHECKED'), 1500); 
     };
 
     const handleSos = () => {
         setSosActive(true);
-        // In a real app, this would broadcast GPS to base
         setTimeout(() => {
-            if (confirm('긴급 SOS 상황인가요? 본사와 주변 기술자에게 즉시 위치가 전송됩니다.')) {
-                alert('SOS 신호가 전송되었습니다. 즉시 지원팀이 출동합니다.');
+            if (confirm('긴급 SOS 지원이 필요한 상황인가요? 현장 관리 센터와 주변 동료들에게 위치가 전송됩니다.')) {
+                alert('SOS 신호가 정상적으로 전송되었습니다. 즉시 지원팀이 출동합니다.');
             } else {
                 setSosActive(false);
             }
@@ -102,9 +101,8 @@ export default function AttendanceClient() {
         setIsScanning(true);
         setScanStep(0);
         
-        // Simulate AI PPE recognition steps
-        setTimeout(() => setScanStep(1), 1000); // Helmet detected
-        setTimeout(() => setScanStep(2), 2000); // Safety shoes detected
+        setTimeout(() => setScanStep(1), 1000); 
+        setTimeout(() => setScanStep(2), 2000); 
         setTimeout(() => {
             setIsScanning(false);
             setStatus('WORKING');
@@ -121,201 +119,154 @@ export default function AttendanceClient() {
             <Navbar />
             
             <main className={styles.main}>
-                {/* 1. Map & Geofence (Visual Representation) */}
+                {/* 1. Map Area */}
                 <section className={styles.mapSection}>
                     <div className={styles.mapMock}>
                         <div className={styles.geofenceRing}></div>
                         <div className={styles.userMarker}>
                             <div className={styles.markerPulse}></div>
                         </div>
-                        <div className={styles.mapLabel}>현장: {SITE_DATA.name}</div>
+                        <div className={styles.mapLabel}>오늘의 현장: {SITE_DATA.name}</div>
                     </div>
                 </section>
 
-                {/* 2. Site Info Header */}
+                {/* 2. Site Header */}
                 <header className={styles.header}>
                     <div className={styles.siteHeader}>
                         <div className={styles.commandBadge}>
-                            <Activity size={14} /> 현장 관제 시스템 가동 중
+                            <Activity size={12} /> 출역 및 안전 서비스 가동 중
                         </div>
                         <h1 className={styles.siteTitle}>{SITE_DATA.name}</h1>
-                        <span className={styles.weatherTag}>☀️ {SITE_DATA.weather}</span>
+                        <span className={styles.weatherTag}>☀️ {SITE_DATA.weather} (강남구 청담동)</span>
                     </div>
-                    <p className={styles.location}>{SITE_DATA.location}</p>
                 </header>
 
-                {/* Emergency SOS Button (Floating) */}
+                {/* Floating SOS */}
                 {(status === 'GPS_CHECKED' || status === 'PPE_SCAN' || status === 'WORKING') && (
                     <button 
                         className={`${styles.sosBtn} ${sosActive ? styles.sosActive : ''}`}
                         onClick={handleSos}
                     >
                         <AlertTriangle size={24} />
-                        <span>긴급 SOS</span>
+                        <span>긴급 도움 요철 (SOS)</span>
                     </button>
                 )}
 
                 <div className={styles.actionGrid}>
-                    {/* Attendance State Interaction */}
-                    <GlassCard className={`${styles.statusCard} ${status === 'WORKING' ? styles.working : ''}`}>
+                    <GlassCard className={styles.statusCard}>
                         {status === 'IDLE' && (
                             <div className={styles.idleState}>
                                 <div className={styles.gatheringInfo}>
-                                    <span className={styles.timeLabel}>오늘 모이는 시간</span>
+                                    <span className={styles.timeLabel}>오늘 오전 집결 시간</span>
                                     <h2 className={styles.gatheringTime}>오전 6:00</h2>
-                                    <p className={styles.gatheringLoc}>📍 {SITE_DATA.location} (정문 앞 공원)</p>
+                                    <p className={styles.gatheringLoc}>📍 정문 앞 맞은편 파크랜드 공원</p>
                                 </div>
-                                <Button className={styles.checkInBtn} onClick={handleStartGathering}>집합지 도착 확인</Button>
+                                <Button className={styles.checkInBtn} onClick={handleStartGathering}>집결지 도착 확인</Button>
                             </div>
                         )}
 
                         {status === 'GATHERING' && (
                             <div className={styles.transitOperation}>
                                 <header className={styles.transitHeader}>
-                                    <div className={styles.transitBadge}>현장 이동 중</div>
-                                    <h3 className={styles.transitTitle}>이동 수단 배차 완료</h3>
+                                    <div className={styles.transitBadge}>현장 셔틀 대기 중</div>
+                                    <h3 className={styles.transitTitle}>셔틀 차량이 배차되었습니다</h3>
                                 </header>
                                 
                                 <div className={styles.vehicleCard}>
                                     <div className={styles.vehicleIcon}>
-                                        <Bus size={32} color="#FF6B00" />
+                                        <Bus size={36} color="#B48A09" />
                                     </div>
                                     <div className={styles.vehicleInfo}>
                                         <div className={styles.plate}>{VEHICLE_DATA.plate}</div>
                                         <div className={styles.model}>{VEHICLE_DATA.model}</div>
-                                        <div className={styles.driver}>{VEHICLE_DATA.driver}</div>
+                                        <div className={styles.driver}>{VEHICLE_DATA.driver} (운행 담당자)</div>
                                     </div>
                                     <div className={styles.etaBox}>
-                                        <span className={styles.etaLabel}>출발 전</span>
-                                        <span className={styles.etaTime}>{VEHICLE_DATA.eta} 뒤 출발</span>
+                                        <span className={styles.etaTime}>{VEHICLE_DATA.eta} 출발 예정</span>
                                     </div>
                                 </div>
 
                                 <div className={styles.seatMapSection}>
-                                    <h4 className={styles.subTitle}>차량 좌석 배치도 (9인승)</h4>
+                                    <h4 style={{fontSize: '14px', color: '#fff', marginBottom: '1.5rem', fontWeight: 800}}>마스터님의 전용 지정 좌석</h4>
                                     <div className={styles.seatGrid}>
                                         {VEHICLE_DATA.seats.map(seat => (
                                             <div 
                                                 key={seat.id} 
                                                 className={`${styles.seat} ${seat.occupied ? styles.occupied : ''} ${seat.id === 3 ? styles.mySeat : ''}`}
                                             >
-                                                <Armchair size={16} />
-                                                <span className={styles.seatId}>{seat.id}</span>
-                                                {seat.occupied && <span className={styles.seatUser}>{seat.name?.substring(0,1)}</span>}
-                                                {seat.id === 3 && <span className={styles.myLabel}>내 좌석</span>}
+                                                <Armchair size={20} />
+                                                <span className={styles.seatId}>{seat.id}번</span>
+                                                {seat.id === 3 && <span className={styles.myLabel}>내 자리</span>}
                                             </div>
                                         ))}
                                     </div>
                                 </div>
 
-                                <Button className={styles.boardBtn} onClick={handleBoarding}>3번 좌석 탑승 완료</Button>
+                                <Button className={styles.checkInBtn} onClick={handleBoarding}>3번 좌석 탑승 확인</Button>
                             </div>
                         )}
 
                         {status === 'BOARDED' && (
                             <div className={styles.transitOperation}>
                                 <header className={styles.transitHeader}>
-                                    <div className={styles.activeTransitBadge}>현장으로 가는 중</div>
-                                    <h3 className={styles.transitTitle}>현대 스타리아 이동 중</h3>
+                                    <div className={styles.transitBadge} style={{backgroundColor: '#B48A09', color: '#000'}}>현장으로 이동 중</div>
+                                    <h3 className={styles.transitTitle}>현장에 안전하게 모시는 중입니다</h3>
                                 </header>
 
-                                <div className={styles.transitProgress}>
-                                    <div className={styles.progressLine}>
-                                        <div className={styles.progressFill} style={{ width: '65%' }}></div>
-                                        <div className={styles.vehicleMarker} style={{ left: '65%' }}>
-                                            <Navigation size={20} fill="#FF6B00" color="#FF6B00" />
-                                        </div>
+                                <div className={styles.boardingPass} style={{background: 'rgba(255,255,255,0.03)', padding: '2.5rem', borderRadius: '24px', border: '1px solid rgba(255,255,255,0.05)'}}>
+                                    <div style={{display: 'flex', justifyContent: 'space-between', marginBottom: '2rem'}}>
+                                        <div style={{fontSize: '12px', fontWeight: 800, color: '#B48A09'}}>MOBILE BOARDING PASS</div>
+                                        <div style={{fontSize: '12px', color: 'rgba(255,255,255,0.2)'}}>{VEHICLE_DATA.id}</div>
                                     </div>
-                                    <div className={styles.progressLabels}>
-                                        <span>출발지</span>
-                                        <span className={styles.activeLabel}>가는 중</span>
-                                        <span>현장 도착</span>
+                                    <div style={{display: 'flex', gap: '3rem', marginBottom: '1.5rem'}}>
+                                        <div><label style={{fontSize: '11px', color: 'rgba(255,255,255,0.3)', display: 'block', marginBottom: '6px'}}>성함</label><strong style={{color: '#fff'}}>김모노 마스터</strong></div>
+                                        <div><label style={{fontSize: '11px', color: 'rgba(255,255,255,0.3)', display: 'block', marginBottom: '6px'}}>지정 좌석</label><strong style={{color: '#fff'}}>03번 (창가)</strong></div>
                                     </div>
-                                </div>
-
-                                <div className={styles.transitMeta}>
-                                    <div className={styles.metaItem}>
-                                        <Clock size={14} />
-                                        <span>도착 예정: 오전 7:45</span>
-                                    </div>
-                                    <div className={styles.metaItem}>
-                                        <MapPin size={14} />
-                                        <span>남은 거리: 4.2km</span>
-                                    </div>
-                                </div>
-
-                                <div className={styles.boardingPass}>
-                                    <div className={styles.passHeader}>현장 이동 승차권</div>
-                                    <div className={styles.passContent}>
-                                        <div className={styles.passRow}>
-                                            <div className={styles.passCol}>
-                                                <label>기술자 명</label>
-                                                <p>김모노 마스터</p>
-                                            </div>
-                                            <div className={styles.passCol}>
-                                                <label>지정 좌석</label>
-                                                <p>03 (창가)</p>
-                                            </div>
-                                        </div>
-                                        <div className={styles.passRow}>
-                                            <div className={styles.passCol}>
-                                                <label>목적지</label>
-                                                <p>{SITE_DATA.name}</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className={styles.passFooter}>
-                                        <CheckCircle2 size={14} color="#22C55E" />
-                                        <span>인증된 이동 수단 이용 중</span>
+                                    <div style={{fontSize: '15px', color: '#fff', fontWeight: 700, padding: '1rem', background: 'rgba(255,255,255,0.02)', borderRadius: '12px', display: 'flex', alignItems: 'center', gap: '10px'}}>
+                                        <CheckCircle2 size={16} color="#B48A09" /> 공식 셔틀 차량 인증됨
                                     </div>
                                 </div>
                             </div>
                         )}
 
                         {status === 'GPS_CHECKED' && (
-                            <div className={styles.gpsState}>
-                                <div className={styles.gpsIndicator}>📍 현장 반경 150m 내 도착 완료</div>
-                                <Button className={styles.checkInBtn} onClick={() => setStatus('PPE_SCAN')}>현장 작업 시작 인증</Button>
+                            <div className={styles.idleState}>
+                                <div className={styles.gpsIndicator} style={{marginBottom: '2rem', fontSize: '1.25rem', fontWeight: 800, color: '#22C55E'}}>📍 현장 반경 내 도착이 확인되었습니다</div>
+                                <Button className={styles.checkInBtn} onClick={() => setStatus('PPE_SCAN')}>안전 장비 착용 확인 시작</Button>
                             </div>
                         )}
 
                         {status === 'PPE_SCAN' && (
                             <div className={styles.ppeState}>
                                 <div className={styles.scannerHeader}>
-                                    <h3>AI 안전 장비 스캔</h3>
-                                    <p>안전모와 안전화를 착용한 모습이 보이게 찍어주세요.</p>
+                                    <h3 style={{fontSize: '1.5rem', color: '#fff', marginBottom: '1rem', fontWeight: 800}}>안전 보호구 착용 확인</h3>
+                                    <p style={{fontSize: '0.95rem', color: 'rgba(255,255,255,0.4)', lineHeight: '1.6'}}>마스터님의 소중한 안전을 위해<br/>안전모와 안전화 착용 모습을 보여주세요.</p>
                                 </div>
                                 <div className={styles.cameraFrame}>
                                     <div className={styles.scannerLine}></div>
-                                    <div className={styles.cameraFocus}></div>
-                                    <div className={styles.ppeOverlay}>
-                                        <Camera size={40} color="#fff" />
-                                        <span>{isScanning ? (scanStep === 0 ? '전신 인식 중...' : scanStep === 1 ? '안전모 감지됨' : '안전화 감지됨') : '자동 감지 대기 중'}</span>
+                                    <div style={{position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', opacity: 0.2}}>
+                                        <Camera size={80} color="#fff" />
                                     </div>
-                                    <div className={styles.scannerBadge}>{isScanning ? '분석 중...' : '확인 대기'}</div>
-                                    {isScanning && (
-                                        <div className={styles.scanProgress}>
-                                            <div className={styles.scanBar} style={{ width: `${(scanStep / 2) * 100}%` }}></div>
-                                        </div>
-                                    )}
+                                    <div style={{position: 'absolute', bottom: '2rem', left: '0', right: '0', textAlign: 'center', fontSize: '14px', fontWeight: 800, color: '#fff'}}>
+                                        {isScanning ? (scanStep === 1 ? '✅ 안전모 인식 완료' : scanStep === 2 ? '✅ 안전화 인식 완료' : '전신 스캐닝 중...') : 'AI 인식 대기 중'}
+                                    </div>
                                 </div>
                                 <Button 
-                                    className={styles.authBtn} 
+                                    className={styles.checkInBtn} 
                                     onClick={handlePpeAuth}
                                     disabled={isScanning}
                                 >
-                                    {isScanning ? 'AI 분석 및 인증 중...' : '인증 완료 및 작업 시작'}
+                                    {isScanning ? 'AI 장비 분석 중입니다...' : '착용 완료 및 작업 시작'}
                                 </Button>
                             </div>
                         )}
 
                         {status === 'WORKING' && (
                             <div className={styles.workState}>
-                                <span className={styles.workingLabel}>작업 진행 중</span>
+                                <span className={styles.workingLabel}>오늘의 작업 진행 중</span>
                                 <h2 className={styles.timer}>{formatTime(timer)}</h2>
                                 <div className={styles.workFooter}>
-                                    <span className={styles.startTime}>시작 시간: {SITE_DATA.shiftStart}</span>
-                                    <Button variant="secondary" size="sm" onClick={handleCheckout}>퇴근 하기 (Checkout)</Button>
+                                    <Button variant="secondary" onClick={handleCheckout}>업무 종료 및 퇴근 인증</Button>
                                 </div>
                             </div>
                         )}
@@ -323,10 +274,9 @@ export default function AttendanceClient() {
                         {status === 'SETTLED' && (
                             <div className={styles.settledState}>
                                 <div className={styles.successIcon}>
-                                    <CheckCircle2 size={48} color="#22C55E" />
+                                    <CheckCircle2 size={64} color="#B48A09" />
                                 </div>
-                                <h3 className={styles.settledTitle}>오늘 하루도 고생하셨습니다!</h3>
-                                <p className={styles.settledDate}>{new Date().toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' })}</p>
+                                <h3 className={styles.settledTitle}>오늘 하루도 정말 고생하셨습니다!</h3>
                                 
                                 <div className={styles.summaryGrid}>
                                     <div className={styles.summaryItem}>
@@ -334,64 +284,34 @@ export default function AttendanceClient() {
                                         <span className={styles.summaryValue}>{formatTime(timer)}</span>
                                     </div>
                                     <div className={styles.summaryItem}>
-                                        <span className={styles.summaryLabel}>예상 일당 (정산 예정)</span>
+                                        <span className={styles.summaryLabel}>오늘의 예상 수입</span>
                                         <span className={styles.summaryValue}>₩195,000</span>
                                     </div>
                                 </div>
 
-                                <div className={styles.settledActions}>
-                                    <Button className={styles.completeBtn} onClick={() => setStatus('IDLE')}>확인 및 종료</Button>
-                                    <Link href="/settlement" className={styles.linkBtn}>상세 정산 내역 보기 <ChevronRight size={14} /></Link>
+                                <div style={{display: 'flex', flexDirection: 'column', gap: '1rem'}}>
+                                    <Button className={styles.checkInBtn} onClick={() => setStatus('IDLE')}>기록 저장 및 종료</Button>
+                                    <Link href="/settlement" style={{textDecoration: 'none', color: '#B48A09', fontSize: '14px', fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px'}}>
+                                        상세 정산 리포트 확인 <ArrowRight size={14} />
+                                    </Link>
                                 </div>
                             </div>
                         )}
                     </GlassCard>
 
-                    {/* Site Team Members */}
                     <GlassCard className={styles.teamCard}>
-                        <h3 className={styles.cardTitle}>현장 함께 일하는 분들 (3명)</h3>
+                        <h3 className={styles.cardTitle}>오늘 현장에서 함께하는 분들</h3>
                         <div className={styles.teamList}>
                             {SITE_DATA.currentTeam.map(member => (
                                 <div key={member.id} className={styles.memberItem}>
                                     <div className={styles.memberAvatar}>{member.initial}</div>
                                     <div className={styles.memberInfo}>
                                         <p className={styles.memberName}>{member.name}</p>
-                                        <span className={styles.memberRole}>{member.role}</span>
+                                        <span className={styles.memberRole}>{member.role} 전문</span>
                                     </div>
-                                    <div className={styles.activeDot}></div>
                                 </div>
                             ))}
                         </div>
-                    </GlassCard>
-                </div>
-
-                {/* 3. Real-time Site Manual & Checklist */}
-                <div className={styles.lowerGrid}>
-                    <GlassCard className={styles.manualCard}>
-                        <div className={styles.cardHeader}>
-                            <FileText size={18} color="#FF6B00" />
-                            <h3 className={styles.cardTitle}>오늘의 작업 도면 & 상세</h3>
-                        </div>
-                        <div className={styles.blueprintMock}>
-                            <div className={styles.blueprintLabel}>3층 바닥 배근도_v2.pdf</div>
-                            <Button variant="secondary" size="sm">도면 열기 <ChevronRight size={14} /></Button>
-                        </div>
-                        <ul className={styles.missionList}>
-                            <li>✔ 오전: 거푸집 설치 및 수평 확인</li>
-                            <li>✔ 오후: 철근 배근 및 결속 작업</li>
-                        </ul>
-                    </GlassCard>
-
-                    <GlassCard className={styles.checklistCard}>
-                        <div className={styles.cardHeader}>
-                            <ShieldCheck size={18} color="#22C55E" />
-                            <h3 className={styles.cardTitle}>안전 유의 사항</h3>
-                        </div>
-                        <ul className={styles.checklist}>
-                            <li className={styles.checkItem}>⚠️ 골조 공사 중 낙하물 주의</li>
-                            <li className={styles.checkItem}>⚡ 전기 배선 작업 전 전원 차단 확인</li>
-                            <li className={styles.checkItem}>🧼 작업 후 잔여 타일 및 몰탈 정리</li>
-                        </ul>
                     </GlassCard>
                 </div>
             </main>

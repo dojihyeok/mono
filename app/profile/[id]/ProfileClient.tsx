@@ -1,52 +1,46 @@
 'use client';
 
 import { useState } from 'react';
-import Image from 'next/image';
 import styles from './page.module.css';
 import { 
     Award, 
     ShieldCheck, 
     Zap, 
     Mail, 
-    ChevronRight, 
-    Globe, 
-    Activity, 
     Star,
     CheckCircle2,
-    Calendar,
-    Briefcase
+    Briefcase,
+    Activity,
+    ClipboardCheck
 } from 'lucide-react';
 
 export default function ProfileClient({ id }: { id: string }) {
     const [showProposal, setShowProposal] = useState(false);
     
-    // Mock master data (can be fetched via id)
     const MASTER = id === 'seo-jeong-feel-good' ? {
         name: '서정필굿',
-        en: 'MASTER SEO JEONG FEEL GOOD',
         specialty: '현장 운영 및 소통 전문가',
         trustIndex: 99.9,
-        experience: '18 Years',
+        experience: '18년',
         projects: 215,
         equipment: 'Mobile Field Comm Station',
         image: '/images/masters/profile_placeholder.png'
     } : {
         name: '이창근',
-        en: 'MASTER CHANG-GEUN LEE',
         specialty: '수중 용접 & 산업 설비 마스터',
         trustIndex: 98.2,
-        experience: '22 Years',
+        experience: '22년',
         projects: 142,
         equipment: 'HYUNDAI 220-7 (Customized)',
         image: '/images/masters/profile_placeholder.png'
     };
 
-    const CORE_SKILLS = ['Underwater Welding', 'Hydraulic Systems', 'Safety Lead', 'Site Management'];
+    const CORE_SKILLS = ['수중 용접', '유압 시스템 점검', '안전 관리 감독', '현장 총괄 매니지먼트'];
     
     const RECENT_HISTORY = [
-        { project: 'Saudi Neom City (Dam)', role: 'Lead Welder', score: 99 },
-        { project: 'Samsung Pyeongtaek P4', role: 'Team Leader', score: 97 },
-        { project: 'Australia Green Energy', role: 'Support Lead', score: 98 }
+        { project: '사우디 네옴시티 (댐 공정)', role: '리드 전문 용접공', score: 99 },
+        { project: '삼성 평택 P4 반도체 현장', role: '현장 팀 리더', score: 97 },
+        { project: '호주 그린에너지 플랜트', role: '기술 지원 리더', score: 98 }
     ];
 
     return (
@@ -56,17 +50,15 @@ export default function ProfileClient({ id }: { id: string }) {
                 <div className={styles.avatarWrap}>
                     <div className={styles.avatarRing}>
                         <div className={styles.imgCircle}>
-                             {/* Replace with actual image in production */}
                              <div className={styles.placeholderImg}>MASTER</div>
                         </div>
                     </div>
                     <div className={styles.trustBadge}>
-                        <ShieldCheck size={16} />
-                        <span>TRUST INDEX {MASTER.trustIndex}</span>
+                        <ShieldCheck size={14} />
+                        <span>마스터 신뢰도 {MASTER.trustIndex}%</span>
                     </div>
                 </div>
                 <div className={styles.profileInfo}>
-                    <div className={styles.enName}>{MASTER.en}</div>
                     <h1>{MASTER.name} 마스터</h1>
                     <span className={styles.specialty}>{MASTER.specialty}</span>
                     <div className={styles.quickStats}>
@@ -84,7 +76,7 @@ export default function ProfileClient({ id }: { id: string }) {
             {/* 2. Professional Assets Grid */}
             <div className={styles.assetGrid}>
                 <div className={styles.assetCard}>
-                    <h3>코어 기술 자산</h3>
+                    <h3>전문 보유 기술</h3>
                     <div className={styles.pillGrid}>
                         {CORE_SKILLS.map(skill => (
                             <span key={skill} className={styles.skillPill}>{skill}</span>
@@ -92,12 +84,12 @@ export default function ProfileClient({ id }: { id: string }) {
                     </div>
                 </div>
                 <div className={styles.assetCard}>
-                    <h3>보유 핵심 장비</h3>
+                    <h3>보유 장비 및 인프라</h3>
                     <div className={styles.equipmentInfo}>
-                        <Zap size={20} color="#B48A09" />
+                        <Zap size={24} color="#B48A09" />
                         <div className={styles.eqText}>
                             <h4>{MASTER.equipment}</h4>
-                            <span>정비 등급: OPTIMAL (Master Certified)</span>
+                            <span style={{color: '#22C55E', fontWeight: 700}}>최적 운용 상태 (A+ 등급)</span>
                         </div>
                     </div>
                 </div>
@@ -106,8 +98,8 @@ export default function ProfileClient({ id }: { id: string }) {
             {/* 3. Reputation & History */}
             <div className={styles.historySection}>
                 <div className={styles.sectionHeader}>
-                    <Activity size={20} color="#B48A09" />
-                    <h3>최근 현장 기여 이력</h3>
+                    <ClipboardCheck size={20} color="#B48A09" />
+                    <h3>최근 프로젝트 수행 이력</h3>
                 </div>
                 <div className={styles.historyList}>
                     {RECENT_HISTORY.map((hist, i) => (
@@ -117,62 +109,64 @@ export default function ProfileClient({ id }: { id: string }) {
                                 <span>{hist.role}</span>
                             </div>
                             <div className={styles.histScore}>
-                                <Star size={12} color="#B48A09" />
-                                <span>REPUTATION {hist.score}</span>
+                                <Star size={10} fill="#B48A09" />
+                                <span>현장 평점 {hist.score}</span>
                             </div>
                         </div>
                     ))}
                 </div>
             </div>
 
-            {/* 4. Strategic Deployment Action (Floating) */}
+            {/* 4. Deployment Action (Floating) */}
             <div className={styles.deploymentFixed}>
                 <button className={styles.proposeBtn} onClick={() => setShowProposal(true)}>
-                    <Mail size={18} />
-                    <span>프로젝트 현장 투입 제안 발송</span>
+                    <Mail size={20} />
+                    <span>프로젝트 제안하기</span>
                 </button>
             </div>
 
-            {/* 5. Proposal Modal Overlay */}
+            {/* 5. Proposal Modal */}
             {showProposal && (
-                <div className={styles.modalOverlay}>
-                    <div className={styles.proposalCard}>
+                <div className={styles.modalOverlay} onClick={() => setShowProposal(false)}>
+                    <div className={styles.proposalCard} onClick={e => e.stopPropagation()}>
                         <div className={styles.modalHeader}>
-                            <h2>현장 투입 제안 (Deployment Offer)</h2>
+                            <h2>현장 투입 제안서</h2>
                             <button className={styles.closeBtn} onClick={() => setShowProposal(false)}>×</button>
                         </div>
                         <div className={styles.proposalBody}>
-                            <p>이창근 마스터님을 아래 현장에 맞춤형으로 배치하고자 합니다.</p>
+                            <p style={{color: 'rgba(255,255,255,0.4)', marginBottom: '2rem', fontSize: '0.95rem'}}>
+                                {MASTER.name} 마스터님의 전문 역량을 고려하여<br/>아래 프로젝트에 최적의 조건으로 모시고자 합니다.
+                            </p>
                             
                             <div className={styles.inputGroup}>
                                 <label>대상 프로젝트</label>
-                                <div className={styles.selectBox}>Saudi Neom City (Sector 4)</div>
+                                <div className={styles.selectBox}>사우디 NEOM City (Sector 4)</div>
                             </div>
 
                             <div className={styles.inputGroup}>
-                                <label>제안 수당 (Estimated Monthly)</label>
+                                <label>제안 수익 (월 예상 수익)</label>
                                 <div className={styles.offerValue}>₩ 42,500,000 ~ ₩ 50,000,000</div>
                             </div>
 
                             <div className={styles.inputGroup}>
-                                <label>투입 기간</label>
-                                <div className={styles.datePicker}>2026.05.01 - 2026.11.30 (6 Months)</div>
+                                <label>예상 투입 기간</label>
+                                <div className={styles.datePicker}>2026.05.01 - 2026.11.30 (6개월)</div>
                             </div>
 
                             <div className={styles.benefitRow}>
                                 <CheckCircle2 size={16} color="#B48A09" />
-                                <span>글로벌 현장 체류 비용 100% 지원</span>
+                                <span>글로벌 현장 체류 및 주거 비용 100% 지원</span>
                             </div>
                             <div className={styles.benefitRow}>
                                 <CheckCircle2 size={16} color="#B48A09" />
-                                <span>MO-NO 마스터 전용 상해보험 가입</span>
+                                <span>모노 마스터 전용 상해/보상 보험 가입</span>
                             </div>
                         </div>
                         <button className={styles.sendBtn} onClick={() => {
-                            alert('현장 투입 제안이 마스터에게 발송되었습니다.');
+                            alert('프로젝트 제안서가 마스터님께 정식으로 발송되었습니다.');
                             setShowProposal(false);
                         }}>
-                            제안서 최종 발송 (Sign & Send)
+                            제안서 최종 발송
                         </button>
                     </div>
                 </div>

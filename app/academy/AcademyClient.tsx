@@ -9,22 +9,21 @@ import {
     Award, 
     ChevronRight, 
     Play, 
-    MessageCircle,
     Target,
-    BarChart2,
     ShieldCheck,
     Cpu,
     Database,
     Scan,
     TrendingUp,
-    Volume2
+    Volume2,
+    ArrowRight
 } from 'lucide-react';
 
 const COURSES = [
     {
         id: 'c1',
-        title: '반도체 P5 특수 배관 공법',
-        category: '심화 기술',
+        title: '반도체 P5 특수 배관 공법 실무',
+        category: '심화 직무 기술',
         level: 'MASTER',
         progress: 65,
         instructor: '김 소장 (AI Analysis)',
@@ -34,19 +33,19 @@ const COURSES = [
     },
     {
         id: 'c2',
-        title: '호주 현장 실무 영어 (상황별)',
-        category: '글로벌 생존 영어',
+        title: '해외 현장 실무 영어 (상황별)',
+        category: '글로벌 역량',
         level: 'INTERMEDIATE',
         progress: 30,
-        instructor: '엠마 쌤 (Native)',
+        instructor: '엠마 매니저 (Native)',
         image: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=500&q=80',
         points: 300,
         badge: '글로벌'
     },
     {
         id: 'c3',
-        title: '프리미엄 타일 레이아웃 설계',
-        category: '전술 인테리어',
+        title: '프리미엄 타일 레이아웃 및 설계',
+        category: '직무 기술',
         level: 'EXPERT',
         progress: 0,
         instructor: '이 소장 (Architect)',
@@ -57,7 +56,7 @@ const COURSES = [
 ];
 
 const SKILL_RADAR = [
-    { name: '공법 숙력도', value: 85, icon: <Cpu size={14} /> },
+    { name: '공법 숙련도', value: 85, icon: <Cpu size={14} /> },
     { name: '현장 영어', value: 42, icon: <Globe size={14} /> },
     { name: '도면 분석', value: 90, icon: <Database size={14} /> },
     { name: '안전 관리', value: 95, icon: <ShieldCheck size={14} /> },
@@ -79,68 +78,67 @@ export default function AcademyClient() {
             {/* Header */}
             <header className={styles.header}>
                 <div className={styles.headerTop}>
-                    <h1>마스터 아카데미</h1>
+                    <h1>모노 아카데미</h1>
                     <div className={styles.points}>
                         <Zap size={16} color="#B48A09" fill="#B48A09" />
-                        <span>2,450 SP</span>
+                        <span>성장 포인트 2,450 SP</span>
                     </div>
                 </div>
-                <p className={styles.subtitle}>데이터로 입증하는 마스터의 기술적 자산화.</p>
+                <p className={styles.subtitle}>검증된 기술력으로 마스터님의 가치를 증명하세요.</p>
             </header>
 
-            {/* Tactical Skill Tree Roadmap */}
+            {/* Roadmap */}
             <section className={styles.roadmapSection}>
                 <div className={styles.roadmapHeader}>
-                    <h2><Scan size={18} color="#B48A09" /> 퍼스널 스킬 트리</h2>
+                    <h2><TrendingUp size={20} color="#B48A09" /> 나의 성장 로드맵</h2>
                     <span className={styles.grade}>TARGET: GLOBAL TEAM LEADER</span>
                 </div>
                 <div className={styles.roadmapCard}>
                     <div className={styles.roadmapPath}>
                         <div className={styles.roadmapStep}>
                             <div className={`${styles.stepDot} ${styles.stepDone}`}>
-                                <ShieldCheck size={18} />
+                                <ShieldCheck size={20} />
                             </div>
                             <div className={styles.stepInfo}>
                                 <h4>기초 배관 이론</h4>
-                                <p>DATA VERIFIED</p>
+                                <p>수료 완료</p>
                             </div>
                         </div>
                         <div className={styles.roadmapStep}>
                             <div className={styles.stepDot} style={{borderColor: '#B48A09', borderStyle: 'dashed'}}>
-                                <Cpu size={18} color="#B48A09" />
+                                <Cpu size={20} color="#B48A09" />
                             </div>
                             <div className={styles.stepInfo}>
                                 <h4>특수 배관 실습</h4>
-                                <p style={{color: '#B48A09'}}>65% PROCESSING</p>
+                                <p style={{color: '#B48A09'}}>65% 진행 중</p>
                             </div>
                         </div>
                         <div className={styles.roadmapStep}>
                             <div className={styles.stepDot}>
-                                <Globe size={18} />
+                                <Globe size={20} />
                             </div>
                             <div className={styles.stepInfo}>
-                                <h4>글로벌 영어</h4>
-                                <p>NEXT MISSION</p>
+                                <h4>해외 현장 영어</h4>
+                                <p>다음 목표</p>
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
 
-            {/* AI Skill Analysis */}
+            {/* AI Analysis */}
             <section className={styles.radarSection}>
                 <div className={styles.radarCard}>
                     <div className={styles.radarHeader}>
-                        <Target size={20} color="#B48A09" />
-                        <h3>AI 역량 진단 포트폴리오</h3>
-                        <span className={styles.grade}>MASTER STATUS</span>
+                        <Target size={24} color="#B48A09" />
+                        <h3>AI 역량 분석 리포트</h3>
                     </div>
                     <div className={styles.radarContent}>
                         <div className={styles.radarChartMock}>
                             {SKILL_RADAR.map((skill, idx) => (
                                 <div key={idx} className={styles.radarBarWrapper}>
                                     <div className={styles.radarLabel}>
-                                        {skill.icon} {skill.name}
+                                        {skill.name}
                                     </div>
                                     <div className={styles.radarBarBase}>
                                         <div 
@@ -153,8 +151,8 @@ export default function AcademyClient() {
                             ))}
                         </div>
                         <div className={styles.aiSuggestion}>
-                            <Zap size={24} color="#B48A09" />
-                            <p><strong>AI INSIGHT:</strong> 현재 '현장 영어' 역량이 보완되면 <strong>호주 브리즈번 EPC 현장</strong> 마스터 추천 확률이 <strong>92%</strong>까지 도달합니다.</p>
+                            <Zap size={28} color="#B48A09" />
+                            <p><strong>AI 매니저의 추천:</strong><br/> 현재 '현장 영어' 역량을 조금 더 보완하시면, <strong>호주 브리즈번 High-Tech 공정</strong>의 마스터 추천 확률이 <strong>92%</strong>로 비약적으로 상승합니다.</p>
                         </div>
                     </div>
                 </div>
@@ -166,23 +164,23 @@ export default function AcademyClient() {
                     className={selectedTab === 'courses' ? styles.activeTab : ''}
                     onClick={() => setSelectedTab('courses')}
                 >
-                    미션 코스
+                    추천 교육 과정
                 </button>
                 <button 
                     className={selectedTab === 'global' ? styles.activeTab : ''}
                     onClick={() => setSelectedTab('global')}
                 >
-                    글로벌 마스터링
+                    글로벌 어학 지원
                 </button>
                 <button 
                     className={selectedTab === 'cert' ? styles.activeTab : ''}
                     onClick={() => setSelectedTab('cert')}
                 >
-                    디지털 배지
+                    보유 자격 및 수료증
                 </button>
             </div>
 
-            {/* Tab Content Rendering */}
+            {/* Course Content */}
             {selectedTab === 'courses' && (
                 <section className={styles.courseSection}>
                     <div className={styles.courseGrid}>
@@ -192,7 +190,7 @@ export default function AcademyClient() {
                                     <div className={styles.courseLevel}>{course.level}</div>
                                     {course.progress > 0 && (
                                         <div className={styles.playButton}>
-                                            <Play size={20} fill="#B48A09" color="#B48A09" />
+                                            <Play size={24} fill="#B48A09" color="#B48A09" />
                                         </div>
                                     )}
                                 </div>
@@ -202,7 +200,7 @@ export default function AcademyClient() {
                                         <span className={styles.sp}>+{course.points} SP</span>
                                     </div>
                                     <h3>{course.title}</h3>
-                                    <div className={styles.instructor}>INS: {course.instructor}</div>
+                                    <div className={styles.instructor}>담당 마스터: {course.instructor}</div>
                                     
                                     <div className={styles.progressSection}>
                                         <div className={styles.progressBar}>
@@ -212,8 +210,8 @@ export default function AcademyClient() {
                                             />
                                         </div>
                                         <div className={styles.progressInfo}>
-                                            <span>{course.progress}% ANALYSIS DONE</span>
-                                            <Award size={14} color={course.progress === 100 ? '#B48A09' : '#333'} />
+                                            <span>{course.progress}% 학습 완료</span>
+                                            <Award size={14} color={course.progress === 100 ? '#B48A09' : 'rgba(255,255,255,0.1)'} />
                                         </div>
                                     </div>
                                 </div>
@@ -227,13 +225,13 @@ export default function AcademyClient() {
                 <div style={{display: 'flex', flexDirection: 'column', gap: '2rem'}}>
                     <div className={styles.globalBanner}>
                         <div className={styles.bannerContent}>
-                            <Volume2 size={32} className={styles.pulseIcon} />
+                            <Volume2 size={32} color="#B48A09" />
                             <div>
-                                <h4>[LIVE] 오늘의 현장 서바이벌 영어</h4>
+                                <h4>[오늘의 문장] 현장 실무 영어 기초</h4>
                                 <p>"The welding zone requires secondary gas verification."</p>
                             </div>
                         </div>
-                        <button style={{background: '#B48A09', color: '#000', border: 'none', padding: '10px 20px', borderRadius: '10px', fontWeight: 800}}>발음 교정하기</button>
+                        <button style={{background: '#B48A09', color: '#000', border: 'none', padding: '12px 24px', borderRadius: '12px', fontWeight: 800, cursor: 'pointer'}}>발음 연습하기</button>
                     </div>
 
                     <div className={styles.courseGrid}>
@@ -247,8 +245,8 @@ export default function AcademyClient() {
                                         <span className={styles.category}>{course.category}</span>
                                     </div>
                                     <h3>{course.title}</h3>
-                                    <p style={{fontSize: '12px', color: 'rgba(255,255,255,0.3)', marginBottom: '1.5rem'}}>네이티브 마스터와 함께하는 실전 커뮤니케이션.</p>
-                                    <button style={{width: '100%', background: 'rgba(180, 138, 9, 0.1)', border: '1px solid #B48A09', color: '#B48A09', padding: '12px', borderRadius: '10px', fontWeight: 800}}>트레이닝 시작</button>
+                                    <p style={{fontSize: '13px', color: 'rgba(255,255,255,0.4)', marginBottom: '2rem', lineHeight: '1.6'}}>네이티브 매니저와 함께하는<br/>실전 현장 커뮤니케이션 트레이닝.</p>
+                                    <button style={{width: '100%', background: 'rgba(180, 138, 9, 0.1)', border: '1px solid #B48A09', color: '#B48A09', padding: '14px', borderRadius: '12px', fontWeight: 800, cursor: 'pointer'}}>트레이닝 시작</button>
                                 </div>
                             </div>
                         ))}
@@ -259,10 +257,10 @@ export default function AcademyClient() {
             {selectedTab === 'cert' && (
                 <div className={styles.certGrid}>
                     {[
-                        { name: '하이테크 플랜트 마스터', issuer: 'MONO PROTOCOL', icon: <Cpu size={32} color="#B48A09" /> },
-                        { name: '산업 안전 골드 관제자', issuer: 'KOSHA / MONO', icon: <ShieldCheck size={32} color="#B48A09" /> },
-                        { name: '글로벌 테크니션 (L2)', issuer: 'GLOBAL MONO', icon: <Globe size={32} color="#B48A09" /> },
-                        { name: '전략적 배관 숙련공', issuer: 'SAMSUNG EPC', icon: <Zap size={32} color="#B48A09" fill="#B48A09" /> }
+                        { name: '하이테크 플랜트 마스터', issuer: 'MONO ACADEMY', icon: <Cpu size={32} color="#B48A09" /> },
+                        { name: '산업 안전 전문 관리자', issuer: 'KOSHA / MONO', icon: <ShieldCheck size={32} color="#B48A09" /> },
+                        { name: '글로벌 테크니션 (Lv.2)', issuer: 'GLOBAL MONO', icon: <Globe size={32} color="#B48A09" /> },
+                        { name: '전문 배관 공정 수료', issuer: 'SAMSUNG EPC', icon: <Zap size={32} color="#B48A09" fill="#B48A09" /> }
                     ].map((cert, i) => (
                         <div key={i} className={styles.certCard}>
                             <div className={styles.badgeGlow}>
@@ -274,18 +272,6 @@ export default function AcademyClient() {
                     ))}
                 </div>
             )}
-
-            {/* Bottom Recommendation Banner */}
-            <div className={styles.globalBanner}>
-                <div className={styles.bannerContent}>
-                    <Globe size={28} className={styles.pulseIcon} />
-                    <div>
-                        <h4>호주 멜버른 퀸즐랜드 현장 파견 미션</h4>
-                        <p>특수 금속 배관 마스터 급구 (Daily Rate $700+ AUD)</p>
-                    </div>
-                </div>
-                <ChevronRight size={24} color="#B48A09" />
-            </div>
         </div>
     );
 }

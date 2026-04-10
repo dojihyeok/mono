@@ -6,7 +6,6 @@ import Footer from '@/components/Footer/Footer';
 import styles from './office.module.css';
 import { 
   Building2, 
-  Clock, 
   MapPin, 
   Zap, 
   ChevronRight, 
@@ -14,11 +13,11 @@ import {
   Users,
   Search,
   Filter,
-  ArrowUpRight,
   ShieldCheck,
   TrendingUp,
   Activity,
-  Award
+  Award,
+  ArrowRight
 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -30,10 +29,8 @@ const MANPOWER_OFFICES = [
     rating: 4.9,
     reviews: 128,
     distance: '1.2km',
-    activeJobsCount: 12,
     activeMasters: 42,
     successRate: 98.8,
-    status: 'ACTIVE_DAWN',
     jobs: [
       { id: 'j1', time: '04:30', title: '신축 현장 전기 결선', pay: '195,000', type: 'DAWN' },
       { id: 'j2', time: '05:00', title: '배관 설비 보조 (숙련)', pay: '175,000', type: 'DAWN' },
@@ -47,10 +44,8 @@ const MANPOWER_OFFICES = [
     rating: 5.0,
     reviews: 412,
     distance: '45km',
-    activeJobsCount: 56,
     activeMasters: 124,
     successRate: 100,
-    status: 'ACTIVE_NOW',
     jobs: [
       { id: 'j30', time: '04:00', title: '클린룸 공조 덕트 설비', pay: '245,000', type: 'DAWN' },
       { id: 'j31', time: '08:00', title: 'P4 라인 정밀 배관 보조', pay: '210,000', type: 'NORMAL' }
@@ -63,10 +58,8 @@ const MANPOWER_OFFICES = [
     rating: 4.9,
     reviews: 215,
     distance: '320km',
-    activeJobsCount: 28,
     activeMasters: 85,
     successRate: 99.2,
-    status: 'ACTIVE_DAWN',
     jobs: [
       { id: 'j20', time: '05:00', title: '선조립 구역 수중 용접', pay: '320,000', type: 'DAWN' },
       { id: 'j21', time: '07:30', title: '대형 선박 도장/코팅', pay: '210,000', type: 'DAWN' }
@@ -79,56 +72,20 @@ const MANPOWER_OFFICES = [
     rating: 4.7,
     reviews: 64,
     distance: '12km',
-    activeJobsCount: 15,
     activeMasters: 28,
     successRate: 96.5,
-    status: 'ACTIVE_NOW',
     jobs: [
       { id: 'j10', time: '08:00', title: '스마트팜 수경배지 교체', pay: '155,000', type: 'NORMAL' },
       { id: 'j11', time: 'ASAP', title: '시설 하우스 센서 점검', pay: '185,000', type: 'IMMEDIATE' }
-    ]
-  },
-  {
-    id: 'incheon',
-    name: '인천 글로벌 물류 허브',
-    category: 'LOGISTICS',
-    rating: 4.6,
-    reviews: 98,
-    distance: '28km',
-    activeJobsCount: 34,
-    activeMasters: 56,
-    successRate: 94.8,
-    status: 'ACTIVE_NOW',
-    jobs: [
-      { id: 'j40', time: 'ASAP', title: '리치 트럭 (지게차) 운전', pay: '190,000', type: 'IMMEDIATE' },
-      { id: 'j41', time: '21:00', title: '야간 벌크 화물 하역', pay: '230,000', type: 'NORMAL' }
-    ]
-  },
-  {
-    id: 'banpo',
-    name: '반포 명장 사무소',
-    category: 'CONSTRUCTION',
-    rating: 4.8,
-    reviews: 84,
-    distance: '3.5km',
-    activeJobsCount: 8,
-    activeMasters: 18,
-    successRate: 98.2,
-    status: 'ACTIVE_NOW',
-    jobs: [
-      { id: 'j4', time: '05:15', title: '창호 시공 보조', pay: '180,000', type: 'DAWN' },
-      { id: 'j5', time: 'ASAP', title: '자재 양중 (곰방)', pay: '220,000', type: 'IMMEDIATE' }
     ]
   }
 ];
 
 const CATEGORY_LABELS: Record<string, string> = {
-  'CONSTRUCTION': '건설 기술 거약',
-  'AGRITECH': '첨단 농업 거점',
-  'OCEANTECH': '해양 선박 거점',
-  'SEMICON': '반도체 설비 거점',
-  'LOGISTICS': '글로벌 물류 거점',
-  'REMODEL': '주거 수리 거점'
+  'CONSTRUCTION': '건설 기술 거점',
+  'SEMICON': '반도체 특수 설비',
+  'OCEANTECH': '해양 플랜트',
+  'AGRITECH': '첨단 농업 시설'
 };
 
 export default function OnlineOfficePage() {
@@ -149,36 +106,35 @@ export default function OnlineOfficePage() {
         <header className={styles.header}>
           <div className={styles.headerLeft}>
             <div className={styles.pageLabel}>
-               <Activity size={12} />
-               COMMAND CENTER / ACTIVE
+               <Activity size={12} style={{marginRight: '6px'}} />
+               실시간 업무 관제 (WORKSPACE)
             </div>
-            <h1 className={styles.title}>마스터 커맨드 센터</h1>
+            <h1 className={styles.title}>내 업무 대시보드</h1>
             <p className={styles.subtitle}>
-              실시간 현지 거점과 매칭 데이터를 관제합니다. 
-              현재 마스터님의 조건에 최적화된 <strong>49개</strong>의 전략 현장이 발견되었습니다.
+              마스터님의 경력과 거리에 최적화된 <strong>49개</strong>의 현장 사무소가 연결되어 있습니다.
             </p>
           </div>
 
           <div className={styles.statusBoard}>
             <div className={styles.statWidget}>
-              <span className={styles.widgetLabel}>일일 예상 수입</span>
-              <span className={styles.widgetValue}>₩245K</span>
+              <span className={styles.widgetLabel}>오늘의 예상 수입</span>
+              <span className={styles.widgetValue}>₩245,000</span>
               <div className={`${styles.widgetTrend} ${styles.trendUp}`}>
-                 <TrendingUp size={10} /> +12.4% 상향
+                 <TrendingUp size={10} /> +12.4% 상향됨
               </div>
             </div>
             <div className={styles.statWidget}>
               <span className={styles.widgetLabel}>현장 안전 지수</span>
               <span className={styles.widgetValue}>94.2%</span>
               <div className={`${styles.widgetTrend} ${styles.trendUp}`}>
-                 <ShieldCheck size={10} /> 최상급 안전군
+                 <ShieldCheck size={10} /> 안정권 인증
               </div>
             </div>
             <div className={styles.statWidget}>
               <span className={styles.widgetLabel}>마스터 등급</span>
               <span className={styles.widgetValue}>Lv. 42</span>
               <div className={`${styles.widgetTrend} ${styles.trendGold}`}>
-                 <Award size={10} /> 명장 등급 도전 중
+                 <Award size={10} /> 상위 3% 숙련도
               </div>
             </div>
           </div>
@@ -190,7 +146,7 @@ export default function OnlineOfficePage() {
             <Search size={18} className={styles.searchIcon} color="rgba(255,255,255,0.4)" />
             <input 
               type="text" 
-              placeholder="전략 거점 또는 사무소 이름을 검색하세요..." 
+              placeholder="관심 지역 또는 사무소 이름을 검색하세요..." 
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
@@ -208,7 +164,7 @@ export default function OnlineOfficePage() {
               <div className={styles.officeCardHeader}>
                 <div className={styles.officeInfoMain}>
                   <div className={styles.officeAvatar}>
-                    <Building2 size={24} color="#B48A09" />
+                    <Building2 size={28} color="#B48A09" />
                   </div>
                   <div className={styles.nameRow}>
                     <h3 className={styles.officeName}>{office.name}</h3>
@@ -229,8 +185,7 @@ export default function OnlineOfficePage() {
 
               <div className={styles.jobListPreview}>
                 <div className={styles.sectionTitle}>
-                  <Zap size={10} color="#B48A09" />
-                  실시간 전술 현장 보고
+                  현재 지원 가능한 공고
                 </div>
                 {office.jobs.map((job) => (
                   <div key={job.id} className={styles.jobItem}>
@@ -245,7 +200,7 @@ export default function OnlineOfficePage() {
                       <span className={styles.jobTitleText}>{job.title}</span>
                       <span className={styles.jobPay}>₩{job.pay}</span>
                     </div>
-                    <ChevronRight size={14} color="rgba(255,255,255,0.1)" />
+                    <ArrowRight size={14} color="rgba(255,255,255,0.2)" />
                   </div>
                 ))}
               </div>
@@ -253,16 +208,16 @@ export default function OnlineOfficePage() {
               <div className={styles.officeCardFooter}>
                 <div className={styles.activeWorkerInfo}>
                   <div className={styles.statItem}>
-                    <Users size={12} color="#B48A09" />
-                    <span>{office.activeMasters}명 매칭 중</span>
+                    <Users size={12} />
+                    <span>{office.activeMasters || 12}명 대기 중</span>
                   </div>
                   <div className={styles.statItem}>
-                    <ShieldCheck size={12} color="#22C55E" />
-                    <span>{office.successRate}% 신뢰도</span>
+                    <ShieldCheck size={12} />
+                    <span>{office.successRate}% 신뢰성</span>
                   </div>
                 </div>
                 <Link href={`/office/${office.id}`} className={styles.enterBtn}>
-                  거점 접속
+                  상세보기
                 </Link>
               </div>
             </div>
