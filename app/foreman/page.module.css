@@ -1,1046 +1,965 @@
 .pageWrap {
-  background-color: var(--background);
-  min-height: 100vh;
-  padding-bottom: 5rem;
+    min-height: 100vh;
+    background: #000;
+    position: relative;
+    overflow: hidden;
+}
+
+/* ── Tactical Background ────────────────── */
+.pageWrap::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: 
+        linear-gradient(rgba(180, 138, 9, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(180, 138, 9, 0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.pageWrap::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100vh;
+    background: radial-gradient(circle at 50% 0%, rgba(180, 138, 9, 0.08) 0%, transparent 70%);
+    pointer-events: none;
 }
 
 .container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 1.5rem;
+    position: relative;
+    z-index: 1;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2.5rem 1.5rem;
 }
 
 .foremanContainer {
-  padding-top: 4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 3.5rem;
 }
 
+/* ── Intro / Tactical Scanner ────────────── */
 .intro {
-  display: flex;
-  align-items: center;
-  gap: 2rem;
-  margin-bottom: 3rem;
-  animation: fadeIn 0.8s ease-out;
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+    padding: 3rem;
+    background: rgba(255, 255, 255, 0.02);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(180, 138, 9, 0.15);
+    border-radius: 2.5rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.intro::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: conic-gradient(from 0deg, transparent, rgba(180, 138, 9, 0.1), transparent);
+    animation: rotate 10s linear infinite;
+    z-index: -1;
+}
+
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
 }
 
 .foremanAvatar {
-  position: relative;
-  width: 100px;
-  height: 100px;
-  flex-shrink: 0;
+    position: relative;
+    width: 120px;
+    height: 120px;
 }
 
 .avatarInner {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  background: #000;
-  border: 1px solid #3b82f6;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  box-shadow: 0 0 30px rgba(59, 130, 246, 0.2);
-}
-
-.scanningLine {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  background: linear-gradient(to right, transparent, #3b82f6, transparent);
-  animation: scanMove 2.5s infinite linear;
-}
-
-@keyframes scanMove {
-  0% { top: 0; }
-  100% { top: 100%; }
-}
-
-.avatarGlow {
-  position: absolute;
-  top: -10px;
-  left: -10px;
-  right: -10px;
-  bottom: -10px;
-  border-radius: 50%;
-  border: 1px solid rgba(59, 130, 246, 0.1);
-  animation: rotateGlow 10s infinite linear;
-}
-
-@keyframes rotateGlow {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    border: 2px solid var(--accent);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 30px rgba(180, 138, 9, 0.2);
 }
 
 .aiIcon {
-  color: #3b82f6;
-  z-index: 2;
-  filter: drop-shadow(0 0 10px rgba(59, 130, 246, 0.5));
+    color: var(--accent);
+    filter: drop-shadow(0 0 10px rgba(180, 138, 9, 0.5));
+}
+
+.scanningLine {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    animation: scan 3s ease-in-out infinite;
+    box-shadow: 0 0 10px var(--accent);
+}
+
+@keyframes scan {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(120px); }
+}
+
+.avatarGlow {
+    position: absolute;
+    inset: -10px;
+    background: radial-gradient(circle, rgba(180, 138, 9, 0.2), transparent);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 0.5; }
+    50% { transform: scale(1.1); opacity: 0.8; }
+    100% { transform: scale(1); opacity: 0.5; }
 }
 
 .introText h1 {
-  font-size: 2.5rem;
-  letter-spacing: -0.03em;
-  margin-bottom: 0.5rem;
-  color: #fff;
+    font-size: 2.8rem;
+    font-weight: 900;
+    color: #fff;
+    margin-bottom: 0.8rem;
+    letter-spacing: -0.02em;
+}
+
+.introText h1 strong {
+    background: linear-gradient(to right, #fff, var(--accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 .introText p {
-  color: #94A3B8;
-  font-size: 1.125rem;
+    font-size: 1.15rem;
+    color: rgba(255, 255, 255, 0.5);
+    line-height: 1.6;
 }
 
 .badge {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 0.75rem;
-  font-weight: 800;
-  color: #3b82f6;
-  background: rgba(37, 99, 235, 0.1);
-  padding: 0.4rem 1rem;
-  border-radius: 100px;
-  margin-bottom: 1rem;
-  border: 1px solid rgba(37, 99, 235, 0.2);
-  width: fit-content;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(180, 138, 9, 0.1);
+    color: var(--accent);
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-size: 11px;
+    font-weight: 800;
+    margin-bottom: 1.2rem;
+    border: 1px solid rgba(180, 138, 9, 0.2);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
 }
 
 .pulseDot {
-  width: 6px;
-  height: 6px;
-  background: #3b82f6;
-  border-radius: 50%;
-  box-shadow: 0 0 10px #3b82f6;
-  animation: simplePulse 2s infinite;
+    width: 6px;
+    height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    box-shadow: 0 0 10px var(--accent);
+    animation: dotPulse 1.5s infinite;
 }
 
-@keyframes simplePulse {
-  0% { opacity: 0.4; transform: scale(1); }
-  50% { opacity: 1; transform: scale(1.2); }
-  100% { opacity: 0.4; transform: scale(1); }
+@keyframes dotPulse {
+    0% { transform: scale(1); opacity: 1; }
+    100% { transform: scale(2.5); opacity: 0; }
 }
 
-/* Track Switcher */
+/* ── Role Cards ────────────────────────── */
+.roleCards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+}
+
+.roleCard {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 1.5rem;
+    border-radius: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    transition: all 0.3s;
+    cursor: pointer;
+}
+
+.roleCard:hover {
+    background: rgba(180, 138, 9, 0.05);
+    border-color: rgba(180, 138, 9, 0.3);
+    transform: translateY(-5px);
+}
+
+.roleCard span {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+/* ── Mode Switcher ─────────────────────── */
 .trackSwitcher {
-  display: flex;
-  gap: 1rem;
-  margin-bottom: 3rem;
+    display: flex;
+    padding: 6px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 1.25rem;
+    width: fit-content;
 }
 
 .trackBtn {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.75rem;
-  padding: 1.25rem;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid var(--border);
-  border-radius: 1rem;
-  color: #94A3B8;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.trackBtn:hover {
-  background: rgba(255, 255, 255, 0.05);
-  border-color: rgba(255, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 1rem 2rem;
+    border: none;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.4);
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 1rem;
+    transition: all 0.3s;
 }
 
 .activeTrack {
-  border-color: var(--accent-gold);
-  background: rgba(180, 138, 9, 0.05);
-  color: #fff;
-  box-shadow: 0 0 20px rgba(180, 138, 9, 0.1);
+    background: rgba(180, 138, 9, 0.1);
+    color: var(--accent);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
-/* Main Grid */
+/* ── Main Grid ─────────────────────────── */
 .mainGrid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 2rem;
-  margin-bottom: 4rem;
-}
-
-@media (min-width: 1024px) {
-  .mainGrid {
-    grid-template-columns: 1fr 360px;
-  }
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 2.5rem;
 }
 
 .sectionTitle {
-  font-size: 1.5rem;
-  margin-bottom: 1.5rem;
-  color: #fff;
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 12px;
 }
 
 .guideGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 1.25rem;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
 }
 
 .guideCard {
-  padding: 1.5rem;
-  display: flex;
-  flex-direction: column;
-  min-height: 200px;
+    padding: 1.75rem !important;
+    border: 1px solid rgba(255, 255, 255, 0.05) !important;
 }
 
 .cardHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1.25rem;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1.25rem;
 }
 
 .levelBadge {
-  font-size: 0.75rem;
-  font-weight: 700;
-  color: #10B981;
-  background: rgba(16, 185, 129, 0.1);
-  padding: 0.2rem 0.6rem;
-  border-radius: 4px;
+    background: rgba(180, 138, 9, 0.1);
+    color: var(--accent);
+    font-size: 10px;
+    font-weight: 900;
+    padding: 4px 10px;
+    border-radius: 6px;
+    text-transform: uppercase;
 }
 
-.statusBadge {
-  font-size: 0.75rem;
-  font-weight: 700;
-  color: #3B82F6;
-  background: rgba(59, 130, 246, 0.1);
-  padding: 0.2rem 0.6rem;
-  border-radius: 4px;
-}
-
-.labelBadge {
-  font-size: 0.75rem;
-  font-weight: 700;
-  color: #B48A09;
+.tagBadge {
+    background: rgba(255, 255, 255, 0.05);
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 10px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 6px;
 }
 
 .taskTitle {
-  font-size: 1.125rem;
-  margin-bottom: 0.75rem;
-  color: #fff;
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 0.8rem;
 }
 
 .taskDesc {
-  font-size: 0.9375rem;
-  color: #94A3B8;
-  line-height: 1.6;
-  margin-bottom: 1.5rem;
-  flex: 1;
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.4);
+    line-height: 1.5;
+    margin-bottom: 1.5rem;
 }
 
 .viewDoc {
-  background: none;
-  border: none;
-  color: var(--accent-gold);
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  cursor: pointer;
-  font-size: 0.875rem;
+    background: transparent;
+    border: 1px solid rgba(180, 138, 9, 0.2);
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.3s;
 }
 
-/* Sidebar Chat */
-.chatCard {
-  padding: 1.5rem;
-  margin-bottom: 1.5rem;
+.viewDoc:hover {
+    background: var(--accent);
+    color: #000;
+}
+
+/* ── Sidebar Cards ─────────────────────── */
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
 }
 
 .chatHeader {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  font-weight: 700;
-  color: #fff;
-  margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #fff;
 }
 
 .chatIntro {
-  font-size: 0.875rem;
-  color: #94A3B8;
-  margin-bottom: 1.5rem;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.4);
+    margin-bottom: 1.5rem;
 }
 
 .quickQuestions {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  margin-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 1.5rem;
 }
 
 .qBtn {
-  text-align: left;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid var(--border);
-  border-radius: 0.75rem;
-  padding: 0.75rem 1rem;
-  color: #CBD5E1;
-  font-size: 0.8125rem;
-  cursor: pointer;
-  transition: all 0.2s ease;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 12px;
+    border-radius: 10px;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.2s;
 }
 
 .qBtn:hover {
-  background: rgba(255, 255, 255, 0.06);
-  border-color: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.1);
+    color: #fff;
 }
 
 .chatInputRow {
-  display: flex;
-  background: rgba(0,0,0,0.3);
-  border: 1px solid var(--border);
-  border-radius: 0.75rem;
-  padding: 0.5rem;
+    display: flex;
+    gap: 10px;
 }
 
 .chatInput {
-  flex: 1;
-  background: none;
-  border: none;
-  color: #fff;
-  padding: 0 0.5rem;
-  font-size: 0.875rem;
-  outline: none;
+    flex: 1;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 12px;
+    color: #fff;
+    font-size: 0.9rem;
 }
 
 .sendBtn {
-  background: var(--accent-gold);
-  border: none;
-  border-radius: 0.5rem;
-  width: 32px;
-  height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #020204;
-  cursor: pointer;
+    background: var(--accent);
+    border: none;
+    border-radius: 10px;
+    padding: 0 15px;
+    color: #000;
+    cursor: pointer;
 }
 
-.weatherAlert {
-  padding: 1.25rem;
+/* ── Calculator ────────────────────────── */
+.calcRow {
+    margin-bottom: 1rem;
 }
 
-.alertHeader {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  font-weight: 700;
-  color: #ef4444;
-  margin-bottom: 0.75rem;
+.calcRow label {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.3);
+    margin-bottom: 6px;
+    text-transform: uppercase;
 }
 
-.weatherAlert p {
-  font-size: 0.8125rem;
-  color: #CBD5E1;
-  margin-bottom: 1rem;
+.calcInput {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 12px;
+    color: #fff;
+    font-weight: 800;
+    font-size: 1.1rem;
 }
 
-.safetyLink {
-  font-size: 0.75rem;
-  color: #3B82F6;
-  font-weight: 600;
-  cursor: pointer;
+.calcResult {
+    background: rgba(0, 0, 0, 0.2);
+    padding: 1.25rem;
+    border-radius: 1rem;
+    margin-top: 1rem;
 }
 
-/* Roadmap Section */
-.roadmapSection {
-  background: linear-gradient(135deg, rgba(18, 18, 23, 0.8), rgba(2, 2, 4, 0.95));
-  border: 1px solid var(--border);
-  border-radius: 1.5rem;
-  padding: 2.5rem;
-  margin-bottom: 4rem;
+.calcLine {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.5);
 }
 
-.roadmapHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 3rem;
+.calcTotal {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 1rem;
+    margin-top: 0.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    font-weight: 900;
+    font-size: 1.1rem;
+    color: #fff;
 }
 
-.headerInfo {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
+/* ── Checklist / Schedule Grid ───────────── */
+.bottomGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2.5rem;
 }
 
-.roadmapVisual {
-  display: flex;
-  align-items: center;
-  margin-bottom: 3rem;
-  padding: 0 2rem;
-}
-
-.node, .nodeActive {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.75rem;
-  font-size: 0.875rem;
-  color: #94A3B8;
-  position: relative;
-  width: 100px;
-}
-
-.nodeActive {
-  color: #fff;
-  font-weight: 700;
-}
-
-.dot, .dotPulse, .dotGray {
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  background: var(--accent-gold);
-}
-
-.dotPulse {
-  box-shadow: 0 0 0 0 rgba(180, 138, 9, 0.4);
-  animation: pulse-node 2s infinite;
-}
-
-@keyframes pulse-node {
-  0% { box-shadow: 0 0 0 0 rgba(180, 138, 9, 0.7); }
-  70% { box-shadow: 0 0 0 15px rgba(180, 138, 9, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(180, 138, 9, 0); }
-}
-
-.glossarySection {
-    margin-bottom: 4rem;
+.checklistCard {
+    padding: 2.5rem !important;
 }
 
 .sectionHeader {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 15px;
     margin-bottom: 2rem;
 }
 
-.newBadge {
-    font-size: 0.625rem;
+.sectionHeader h3 {
+    font-size: 1.3rem;
+    font-weight: 900;
+    color: #fff;
+    flex: 1;
+}
+
+.checkCount {
+    font-size: 0.9rem;
     font-weight: 800;
-    background: var(--accent-gold);
+    color: var(--accent);
+    background: rgba(180, 138, 9, 0.1);
+    padding: 4px 12px;
+    border-radius: 20px;
+}
+
+.checkItems {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.checkItem {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 1.25rem;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 1rem;
+    color: rgba(255, 255, 255, 0.6);
+    font-weight: 700;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.checkDone {
+    background: rgba(34, 197, 94, 0.05);
+    border-color: rgba(34, 197, 94, 0.2);
+    color: #fff;
+}
+
+.allClear {
+    margin-top: 2rem;
+    padding: 1rem;
+    background: rgba(34, 197, 94, 0.1);
+    border: 1px solid rgba(34, 197, 94, 0.2);
+    border-radius: 1rem;
+    color: #22c55e;
+    font-weight: 800;
+    text-align: center;
+}
+
+/* ── Schedule ──────────────────────────── */
+.scheduleItems {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.scheduleItem {
+    display: flex;
+    gap: 20px;
+    padding: 1rem 0;
+}
+
+.schedTime {
+    width: 60px;
+    font-size: 0.9rem;
+    font-weight: 800;
+    color: rgba(255, 255, 255, 0.2);
+}
+
+.schedLine {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    width: 20px;
+}
+
+.schedDot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    z-index: 2;
+}
+
+.schedDotDone {
+    background: var(--accent);
+    box-shadow: 0 0 10px var(--accent);
+}
+
+.schedConnector {
+    position: absolute;
+    top: 10px;
+    bottom: -10px;
+    width: 2px;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.schedTask {
+    font-size: 1rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.schedDone .schedTask {
+    color: #fff;
+}
+
+.schedDone .schedTime {
+    color: var(--accent);
+}
+
+/* ── Modal Overlay ─────────────────────── */
+.modalOverlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    padding: 2rem;
+}
+
+.modalContent {
+    background: #0D0D0D;
+    border: 1px solid rgba(180, 138, 9, 0.3);
+    border-radius: 2rem;
+    width: 100%;
+    max-width: 800px;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    padding: 3rem;
+    box-shadow: 0 50px 100px rgba(0, 0, 0, 0.8);
+}
+
+.modalClose {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.3);
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.modalClose:hover {
+    color: #fff;
+}
+
+.modalHeader {
+    margin-bottom: 2.5rem;
+}
+
+.modalTitle {
+    font-size: 2.2rem;
+    font-weight: 900;
+    color: #fff;
+    margin: 1rem 0;
+    letter-spacing: -0.02em;
+}
+
+.modalIntro {
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.4);
+    line-height: 1.6;
+}
+
+.stepSection h3, .tipSection h3 {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 1.5rem;
+}
+
+.stepList {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+}
+
+.stepItem {
+    display: flex;
+    gap: 1.5rem;
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 1.25rem;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.stepNumber {
+    width: 32px;
+    height: 32px;
+    background: var(--accent);
     color: #000;
-    padding: 0.125rem 0.5rem;
-    border-radius: 4px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 900;
+    flex-shrink: 0;
+}
+
+.stepText h4 {
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 6px;
+}
+
+.stepText p {
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.4);
+    line-height: 1.6;
+}
+
+.tipSection {
+    background: rgba(180, 138, 9, 0.05);
+    padding: 2rem;
+    border-radius: 1.5rem;
+    border: 1px solid rgba(180, 138, 9, 0.1);
+}
+
+.tipList {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.tipItem {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.5;
+}
+
+.tipItem svg {
+    margin-top: 3px;
+    color: var(--accent);
+    flex-shrink: 0;
+}
+
+.modalFooter {
+    margin-top: 3rem;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.confirmBtn {
+    padding: 1.25rem 3rem;
+    background: var(--accent);
+    color: #000;
+    border: none;
+    border-radius: 1rem;
+    font-size: 1.1rem;
+    font-weight: 900;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.confirmBtn:hover {
+    transform: scale(1.05);
+}
+
+/* ── Glossary ──────────────────────────── */
+.glossarySection {
+    margin-top: 5rem;
 }
 
 .glossaryGrid {
     display: grid;
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-}
-
-@media (min-width: 768px) {
-    .glossaryGrid {
-        grid-template-columns: 1.5fr 1fr;
-    }
-}
-
-.translationBox, .dictionaryList {
-    padding: 1.5rem;
+    grid-template-columns: 1fr 1fr;
+    gap: 2.5rem;
 }
 
 .boxTitle {
-    font-size: 1.125rem;
-    margin-bottom: 1.5rem;
+    font-size: 1.1rem;
+    font-weight: 800;
     color: #fff;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.translateUI {
-    display: flex;
-    flex-direction: column;
-    gap: 1.25rem;
+    margin-bottom: 1.5rem;
 }
 
 .langSelect {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    font-size: 0.8125rem;
-    color: #94A3B8;
+    gap: 10px;
+    padding: 10px 15px;
     background: rgba(255, 255, 255, 0.03);
-    padding: 0.5rem 1rem;
-    border-radius: 0.5rem;
-    width: fit-content;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.4);
 }
 
 .inputArea {
     display: flex;
-    gap: 0.75rem;
+    gap: 10px;
+    margin-bottom: 1.5rem;
 }
 
 .transInput {
     flex: 1;
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid var(--border);
-    border-radius: 0.75rem;
-    padding: 0.875rem 1rem;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 12px;
     color: #fff;
-    outline: none;
-}
-
-.transInput:focus {
-    border-color: var(--accent-gold);
 }
 
 .transBtn {
-    padding: 0 1.5rem;
-    background: var(--primary);
-    border: 1px solid var(--border);
-    color: #fff;
-    border-radius: 0.75rem;
-    font-weight: 700;
-    cursor: pointer;
+    background: var(--accent);
+    border: none;
+    border-radius: 10px;
+    padding: 0 20px;
+    color: #000;
+    font-weight: 800;
 }
 
 .transResult {
-    background: rgba(180, 138, 9, 0.05);
-    border: 1px solid rgba(180, 138, 9, 0.2);
+    background: rgba(0, 0, 0, 0.3);
+    padding: 1.5rem;
     border-radius: 1rem;
-    padding: 1.25rem;
+    border: 1px solid rgba(180, 138, 9, 0.1);
 }
 
 .resItem strong {
+    font-size: 1.1rem;
+    color: var(--accent);
     display: block;
-    font-size: 1.125rem;
-    color: var(--accent-gold);
-    margin-bottom: 0.5rem;
+    margin-bottom: 8px;
 }
 
 .resItem p {
-    font-size: 0.9375rem;
+    font-size: 1rem;
+    font-weight: 700;
     color: #fff;
-    margin-bottom: 0.5rem;
-    font-weight: 600;
+    margin-bottom: 6px;
 }
 
 .resItem span {
-    font-size: 0.875rem;
-    color: #94A3B8;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.4);
 }
 
 .dictItems {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
 }
 
 .dictItem {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem;
+    padding: 12px;
     background: rgba(255, 255, 255, 0.02);
-    border-radius: 0.75rem;
-    border: 1px solid var(--border);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
 }
 
 .term {
-    font-weight: 700;
+    font-size: 0.95rem;
+    font-weight: 900;
     color: #fff;
 }
 
 .mean {
-    font-size: 0.875rem;
-    color: var(--accent-gold);
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.4);
 }
 
-.viewMoreDict {
-    width: 100%;
-    margin-top: 1.5rem;
-    background: none;
-    border: 1px dashed var(--border);
-    padding: 0.75rem;
-    color: #94A3B8;
-    border-radius: 0.75rem;
-    font-size: 0.8125rem;
-    cursor: pointer;
+/* ── Roadmap ───────────────────────────── */
+.roadmapSection {
+    background: rgba(180, 138, 9, 0.03);
+    border: 1px solid rgba(180, 138, 9, 0.1);
+    border-radius: 2.5rem;
+    padding: 3rem;
+    margin-bottom: 5rem;
 }
 
-.viewMoreDict:hover {
-    background: rgba(255, 255, 255, 0.02);
+.roadmapVisual {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 4rem 0;
+    position: relative;
+    padding: 0 2rem;
+}
+
+.node, .nodeActive {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    font-size: 0.9rem;
+    font-weight: 800;
+    color: rgba(255, 255, 255, 0.3);
+}
+
+.nodeActive {
     color: #fff;
 }
 
-.dotGray {
-  background: #334155;
+.dot {
+    width: 16px;
+    height: 16px;
+    background: var(--accent);
+    border-radius: 50%;
 }
 
-.line, .lineDisabled {
-  flex: 1;
-  height: 2px;
-  background: var(--accent-gold);
-  opacity: 0.3;
+.dotPulse {
+    width: 20px;
+    height: 20px;
+    background: var(--accent);
+    border-radius: 50%;
+    box-shadow: 0 0 20px var(--accent);
+    animation: dotPulse 1.5s infinite;
+}
+
+.dotGray {
+    width: 16px;
+    height: 16px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+}
+
+.line {
+    flex: 1;
+    height: 2px;
+    background: var(--accent);
+    margin: 0 10px;
 }
 
 .lineDisabled {
-  background: #334155;
-}
-
-.roadmapInfo {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 0.9375rem;
-  color: #CBD5E1;
+    flex: 1;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.05);
+    margin: 0 10px;
 }
 
 .roadmapBtn {
-  background: rgba(180, 138, 9, 0.1);
-  border: 1px solid var(--accent-gold);
-  color: var(--accent-gold);
-  padding: 0.625rem 1.25rem;
-  border-radius: 0.625rem;
-  font-weight: 600;
-  cursor: pointer;
+    padding: 1rem 2rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    color: #fff;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s;
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+.roadmapBtn:hover {
+    background: rgba(255, 255, 255, 0.1);
 }
 
-@keyframes pulse-gold {
-  0% { box-shadow: 0 0 20px rgba(180, 138, 9, 0.2); }
-  50% { box-shadow: 0 0 40px rgba(180, 138, 9, 0.4); }
-  100% { box-shadow: 0 0 20px rgba(180, 138, 9, 0.2); }
-}
-
-/* ── 역할 카드 4종 ─────────────────────── */
-.roleCards {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 0.75rem;
-  margin-bottom: 2rem;
-}
-
-.roleCard {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 1rem;
-  background: rgba(255,255,255,0.03);
-  border: 1px solid rgba(255,255,255,0.07);
-  border-radius: 12px;
-  font-size: 0.8rem;
-  color: var(--text-secondary);
-  transition: all 0.2s;
-}
-
-.roleCard:hover {
-  background: rgba(255,255,255,0.06);
-  border-color: rgba(180, 138, 9, 0.3);
-  color: var(--text-primary);
-}
-
-@media (max-width: 640px) {
-  .roleCards { grid-template-columns: repeat(2, 1fr); }
-}
-
-/* ── 태그 뱃지 ─────────────────────────── */
-.tagBadge {
-  font-size: 0.65rem;
-  padding: 2px 8px;
-  border-radius: 999px;
-  background: rgba(255,255,255,0.06);
-  color: var(--text-secondary);
-  border: 1px solid rgba(255,255,255,0.1);
-}
-
-/* ── 일당 계산기 ───────────────────────── */
-.calcCard {
-  padding: 1.25rem;
-}
-
-.calcRow {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 0.75rem;
-  font-size: 0.85rem;
-  color: var(--text-secondary);
-}
-
-.calcInput {
-  width: 120px;
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 8px;
-  padding: 0.4rem 0.75rem;
-  color: var(--text-primary);
-  font-size: 0.9rem;
-  text-align: right;
-}
-
-.calcResult {
-  border-top: 1px solid rgba(255,255,255,0.07);
-  padding-top: 0.75rem;
-  margin-top: 0.75rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
-}
-
-.calcLine {
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.82rem;
-  color: var(--text-secondary);
-}
-
-.calcTotal {
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.95rem;
-  padding-top: 0.5rem;
-  border-top: 1px solid rgba(180, 138, 9, 0.3);
-  color: var(--text-primary);
-}
-
-.calcTotal strong {
-  color: #B48A09;
-  font-size: 1.1rem;
-}
-
-/* ── 하단 그리드 (체크리스트 + 일정표) ── */
-.bottomGrid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.5rem;
-  margin: 2rem 0;
+/* Responsive */
+@media (max-width: 1024px) {
+    .mainGrid, .bottomGrid, .glossaryGrid {
+        grid-template-columns: 1fr;
+    }
 }
 
 @media (max-width: 768px) {
-  .bottomGrid { grid-template-columns: 1fr; }
+    .intro {
+        flex-direction: column;
+        text-align: center;
+        gap: 2rem;
+    }
+    .roleCards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .guideGrid {
+        grid-template-columns: 1fr;
+    }
+    .introText h1 {
+        font-size: 2rem;
+    }
 }
-
-/* ── 안전 체크리스트 ───────────────────── */
-.checklistCard {
-  padding: 1.5rem;
-}
-
-.checkCount {
-  margin-left: auto;
-  font-size: 0.8rem;
-  background: rgba(34, 197, 94, 0.1);
-  color: #22c55e;
-  border: 1px solid rgba(34, 197, 94, 0.3);
-  padding: 2px 10px;
-  border-radius: 999px;
-}
-
-.checkItems {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  margin-top: 1rem;
-}
-
-.checkItem {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 0.6rem 0.75rem;
-  background: rgba(255,255,255,0.03);
-  border: 1px solid rgba(255,255,255,0.06);
-  border-radius: 8px;
-  font-size: 0.85rem;
-  color: var(--text-secondary);
-  cursor: pointer;
-  text-align: left;
-  transition: all 0.2s;
-  width: 100%;
-}
-
-.checkItem:hover {
-  background: rgba(255,255,255,0.06);
-}
-
-.checkDone {
-  color: var(--text-primary);
-  background: rgba(34, 197, 94, 0.05);
-  border-color: rgba(34, 197, 94, 0.2);
-  text-decoration: line-through;
-  opacity: 0.7;
-}
-
-.allClear {
-  margin-top: 1rem;
-  text-align: center;
-  font-size: 0.9rem;
-  color: #22c55e;
-  font-weight: 600;
-  padding: 0.75rem;
-  background: rgba(34, 197, 94, 0.08);
-  border-radius: 8px;
-  border: 1px solid rgba(34, 197, 94, 0.2);
-}
-
-/* ── 현장 일정표 ───────────────────────── */
-.scheduleCard {
-  padding: 1.5rem;
-}
-
-.dateLabel {
-  margin-left: auto;
-  font-size: 0.78rem;
-  color: var(--text-secondary);
-}
-
-.scheduleItems {
-  display: flex;
-  flex-direction: column;
-  margin-top: 1rem;
-}
-
-.scheduleItem {
-  display: grid;
-  grid-template-columns: 3.5rem 1.5rem 1fr;
-  align-items: flex-start;
-  gap: 0.5rem;
-  min-height: 2.5rem;
-}
-
-.schedTime {
-  font-size: 0.75rem;
-  color: var(--text-secondary);
-  font-variant-numeric: tabular-nums;
-  padding-top: 0.15rem;
-}
-
-.schedLine {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.schedDot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.15);
-  flex-shrink: 0;
-  margin-top: 0.2rem;
-}
-
-.schedDotDone {
-  background: #a855f7;
-  box-shadow: 0 0 8px rgba(168, 85, 247, 0.5);
-}
-
-.schedConnector {
-  width: 1px;
-  flex: 1;
-  min-height: 1.5rem;
-  background: rgba(255,255,255,0.07);
-}
-
-.schedTask {
-  font-size: 0.83rem;
-  color: var(--text-secondary);
-  padding-top: 0.1rem;
-}
-
-.schedDone .schedTask {
-  color: var(--text-primary);
-}
-
-.schedDone .schedTime {
-  color: #a855f7;
-}
-
-/* ── 모달 스타일 ───────────────────────── */
-.modalOverlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.85);
-  backdrop-filter: blur(8px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 2000;
-  padding: 1rem;
-}
-
-.modalContent {
-  background: linear-gradient(135deg, rgba(20, 20, 25, 1), rgba(10, 10, 15, 1));
-  border: 1px solid rgba(180, 138, 9, 0.3);
-  border-radius: 24px;
-  width: 100%;
-  max-width: 600px;
-  max-height: 90vh;
-  overflow-y: auto;
-  position: relative;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.8), 0 0 30px rgba(180, 138, 9, 0.1);
-  animation: modalPop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-@keyframes modalPop {
-  from { opacity: 0; transform: scale(0.9); }
-  to { opacity: 1; transform: scale(1); }
-}
-
-.modalClose {
-  position: absolute;
-  top: 1.25rem;
-  right: 1.25rem;
-  background: rgba(255,255,255,0.05);
-  border: none;
-  color: var(--text-secondary);
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  z-index: 10;
-}
-
-.modalClose:hover {
-  background: rgba(255,255,255,0.1);
-  color: var(--text-primary);
-}
-
-.modalHeader {
-  padding: 2.5rem 2rem 1.5rem;
-  border-bottom: 1px solid rgba(255,255,255,0.05);
-}
-
-.modalBadgeRow {
-  display: flex;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
-}
-
-.modalTitle {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--text-primary);
-  margin-bottom: 0.75rem;
-}
-
-.modalIntro {
-  font-size: 0.95rem;
-  color: var(--text-secondary);
-  line-height: 1.6;
-}
-
-.modalBody {
-  padding: 2rem;
-}
-
-.stepSection h3, .tipSection h3 {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  font-size: 1.1rem;
-  color: var(--text-primary);
-  margin-bottom: 1.25rem;
-}
-
-.stepList {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-.stepItem {
-  display: flex;
-  gap: 1rem;
-}
-
-.stepNumber {
-  width: 24px;
-  height: 24px;
-  background: #B48A09;
-  color: #000;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.8rem;
-  font-weight: 800;
-  flex-shrink: 0;
-  margin-top: 2px;
-}
-
-.stepText h4 {
-  font-size: 0.95rem;
-  color: var(--text-primary);
-  margin-bottom: 0.5rem;
-}
-
-.stepText p {
-  font-size: 0.88rem;
-  color: var(--text-secondary);
-  line-height: 1.6;
-}
-
-.tipSection {
-  margin-top: 2.5rem;
-  padding: 1.5rem;
-  background: rgba(180, 138, 9, 0.05);
-  border: 1px dotted rgba(180, 138, 9, 0.3);
-  border-radius: 16px;
-}
-
-.tipList {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-}
-
-.tipItem {
-  display: flex;
-  gap: 0.75rem;
-  font-size: 0.85rem;
-  color: #ffb700;
-  line-height: 1.5;
-}
-
-.tipItem span {
-  color: var(--text-secondary);
-}
-
-.modalFooter {
-  padding: 1.5rem 2rem 2.5rem;
-  display: flex;
-  justify-content: center;
-}
-
-.confirmBtn {
-  background: #B48A09;
-  color: #000;
-  border: none;
-  padding: 1rem 3rem;
-  border-radius: 12px;
-  font-weight: 700;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.confirmBtn:hover {
-  background: #d4a511;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 20px rgba(180, 138, 9, 0.3);
-}
-
-
