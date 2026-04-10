@@ -2,36 +2,33 @@
 
 import React, { useState, useRef } from 'react';
 import Link from 'next/link';
-import { Zap, MapPin, Clock, ArrowRight, Target, Radar, Activity, ShieldAlert } from 'lucide-react';
+import { MapPin, Clock, ArrowRight, Zap, Target, Activity } from 'lucide-react';
 import styles from './UrgentRecruitment.module.css';
 
 const URGENT_JOBS = [
     {
         id: 'u1',
-        title: '하이테크 플랜트 특수 배관 긴급 지원',
-        location: '평택 고덕 삼성 P5',
+        title: '하이테크 플랜트 특수 배관 기술자 모집',
+        location: '경기 평택 삼성전자',
         pay: '210,000',
-        time: 'IMMEDIATE / ASAP',
-        category: 'HIGH-TECH',
-        risk: 'LOW'
+        time: '즉시 출근',
+        category: '반도체',
     },
     {
         id: 'u2',
-        title: '데이터센터 인테리어 철거 전술 지원',
-        location: '서울 서초구 데이터센터',
+        title: '데이터센터 인테리어 철거 기술자',
+        location: '서울 서초구',
         pay: '185,000',
-        time: 'EST. 10:00 AM',
-        category: 'DEMOLITION',
-        risk: 'MEDIUM'
+        time: '오전 10시 시작',
+        category: '철거/인테리어',
     },
     {
         id: 'u3',
-        title: '반도체 인프라 장비 양중 미션',
-        location: '용인 기흥구 메가팹',
+        title: '신축 아파트 인프라 장비 양중 미션',
+        location: '경기 용인 기흥',
         pay: '190,000',
-        time: 'TOMORROW 07:00',
-        category: 'EQUIPMENT',
-        risk: 'LOW'
+        time: '내일 오전 7시',
+        category: '장비운용',
     }
 ];
 
@@ -42,7 +39,7 @@ export default function UrgentRecruitment() {
     const handleScroll = () => {
         if (!carouselRef.current) return;
         const scrollOffset = carouselRef.current.scrollLeft;
-        const cardWidth = carouselRef.current.children[0].clientWidth + 32; // card width + gap
+        const cardWidth = carouselRef.current.children[0].clientWidth + 20; // card + gap
         const newIndex = Math.round(scrollOffset / cardWidth);
         if (newIndex !== activeIndex) {
             setActiveIndex(newIndex);
@@ -54,11 +51,11 @@ export default function UrgentRecruitment() {
             <div className={styles.container}>
                 <div className={styles.header}>
                     <div className={styles.urgentBadge}>
-                        <Radar size={14} className={styles.pulseIcon} />
-                        실시간 긴급 미션 브리핑
+                        <Activity size={12} />
+                        긴급 채용 현황
                     </div>
-                    <h2 className={styles.title}>마스터 <span className={styles.premiumText}>즉시 투입</span> 필드</h2>
-                    <p className={styles.subtitle}>데이터로 분석된 최우선 순위 긴급 현장입니다.</p>
+                    <h2 className={styles.title}>지금 바로 <span className={styles.premiumText}>지원 가능</span>한 현장</h2>
+                    <p className={styles.subtitle}>검증된 마스터를 위해 엄선된 최우선 일자리입니다.</p>
                 </div>
 
                 <div className={styles.carouselContainer}>
@@ -72,7 +69,7 @@ export default function UrgentRecruitment() {
                                 <div className={styles.cardHeader}>
                                     <span className={styles.categoryBadge}>{job.category}</span>
                                     <div className={styles.timeBadge}>
-                                        <Activity size={14} color="#ff4d4d" />
+                                        <Clock size={14} />
                                         {job.time}
                                     </div>
                                 </div>
@@ -81,18 +78,18 @@ export default function UrgentRecruitment() {
 
                                 <div className={styles.metaRow}>
                                     <div className={styles.locationInfo}>
-                                        <Target size={16} color="#B48A09" />
+                                        <MapPin size={16} />
                                         {job.location}
                                     </div>
                                     <div className={styles.wageInfo}>
-                                        <span className={styles.won}>₩</span>
+                                        <span className={styles.won}>일당</span>
                                         <span className={styles.wageValue}>{job.pay}</span>
                                     </div>
                                 </div>
 
                                 <Link href={`/jobs/${job.id}`} className={styles.actionBtn}>
-                                    <Zap size={18} fill="currentColor" />
-                                    미션 즉시 참여 (JOIN NOW)
+                                    상세보기
+                                    <ArrowRight size={18} />
                                 </Link>
                             </div>
                         ))}
@@ -110,7 +107,7 @@ export default function UrgentRecruitment() {
 
                 <div className={styles.footer}>
                     <Link href="/jobs" className={styles.viewMore}>
-                        긴급 관제 데이터 전체 보기
+                        전체 공고 보러가기
                         <ArrowRight size={18} />
                     </Link>
                 </div>

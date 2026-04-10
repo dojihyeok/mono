@@ -1,83 +1,63 @@
 .section {
-    padding: 100px 0;
+    padding: 80px 0;
     background: #000;
-    position: relative;
-    overflow: hidden;
-}
-
-/* ── Tactical Background ────────────────── */
-.section::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-image: 
-        linear-gradient(rgba(180, 138, 9, 0.02) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(180, 138, 9, 0.02) 1px, transparent 1px);
-    background-size: 60px 60px;
-    z-index: 0;
 }
 
 .container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 1.5rem;
-    position: relative;
-    z-index: 1;
 }
 
 .header {
-    margin-bottom: 4rem;
-    text-align: center;
+    margin-bottom: 3rem;
 }
 
 .urgentBadge {
     display: inline-flex;
     align-items: center;
-    gap: 10px;
-    background: rgba(255, 0, 0, 0.1);
-    border: 1px solid rgba(255, 0, 0, 0.2);
+    gap: 8px;
+    background: rgba(255, 77, 77, 0.1);
     color: #ff4d4d;
-    padding: 8px 16px;
+    padding: 6px 14px;
     border-radius: 30px;
     font-size: 11px;
-    font-weight: 900;
-    margin-bottom: 1.5rem;
+    font-weight: 800;
+    margin-bottom: 1.25rem;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.05em;
 }
 
 .title {
-    font-size: 3rem;
-    font-weight: 950;
+    font-size: 2.25rem;
+    font-weight: 800;
     color: #fff;
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
     letter-spacing: -0.02em;
 }
 
 .premiumText {
-    background: linear-gradient(to right, #fff, #B48A09);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: #B48A09;
 }
 
 .subtitle {
-    font-size: 1.15rem;
+    font-size: 1rem;
     color: rgba(255, 255, 255, 0.4);
     font-weight: 500;
 }
 
-/* ── Carousel / Job Cards ───────────────── */
+/* ── Clean Native Carousel ──────────────── */
 .carouselContainer {
     position: relative;
-    margin-bottom: 4rem;
+    margin-bottom: 3rem;
 }
 
 .carousel {
     display: flex;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
-    gap: 2rem;
-    padding: 2rem 0;
+    gap: 1.25rem;
+    padding: 1.5rem 0;
     scrollbar-width: none;
 }
 
@@ -87,66 +67,52 @@
 
 .jobCard {
     flex: 0 0 85%;
-    max-width: 500px;
+    max-width: 400px;
     scroll-snap-align: center;
-    background: rgba(255, 255, 255, 0.02);
-    backdrop-filter: blur(20px);
+    background: rgba(255, 255, 255, 0.03);
     border: 1px solid rgba(255, 255, 255, 0.05);
-    border-radius: 2rem;
-    padding: 2.5rem;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-    overflow: hidden;
-}
-
-.jobCard::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 4px;
-    background: linear-gradient(90deg, #ff4d4d, #B48A09);
-    opacity: 0.5;
+    border-radius: 28px;
+    padding: 2rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .jobCard:hover {
-    transform: translateY(-10px);
-    border-color: rgba(180, 138, 9, 0.3);
-    box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6);
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(180, 138, 9, 0.2);
+    transform: translateY(-5px);
 }
 
 .cardHeader {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 2rem;
+    align-items: center;
+    margin-bottom: 1.5rem;
 }
 
 .categoryBadge {
-    font-size: 10px;
-    font-weight: 900;
-    color: #B48A09;
-    background: rgba(180, 138, 9, 0.1);
-    padding: 6px 14px;
-    border-radius: 8px;
+    font-size: 11px;
+    font-weight: 800;
+    color: rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.05);
+    padding: 4px 10px;
+    border-radius: 6px;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
 }
 
 .timeBadge {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
     font-size: 11px;
     font-weight: 800;
-    color: rgba(255, 255, 255, 0.3);
+    color: #ff4d4d;
 }
 
 .jobTitle {
-    font-size: 1.6rem;
-    font-weight: 900;
+    font-size: 1.4rem;
+    font-weight: 800;
     color: #fff;
-    margin-bottom: 2.5rem;
+    margin-bottom: 2rem;
     line-height: 1.4;
     letter-spacing: -0.01em;
 }
@@ -155,103 +121,104 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
-    margin-bottom: 2.5rem;
-    padding-bottom: 2rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    margin-bottom: 2rem;
 }
 
 .locationInfo {
     display: flex;
     align-items: center;
     gap: 8px;
-    font-size: 0.95rem;
-    font-weight: 700;
+    font-size: 14px;
+    font-weight: 600;
     color: rgba(255, 255, 255, 0.4);
 }
 
 .wageInfo {
-    text-align: right;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
 }
 
 .won {
-    font-size: 0.9rem;
-    font-weight: 900;
+    font-size: 11px;
+    font-weight: 800;
     color: #B48A09;
-    margin-right: 4px;
+    margin-bottom: 2px;
 }
 
 .wageValue {
-    font-size: 1.8rem;
-    font-weight: 950;
+    font-size: 1.75rem;
+    font-weight: 900;
     color: #fff;
-    letter-spacing: -0.02em;
 }
 
 .actionBtn {
-    background: var(--accent);
-    color: #000;
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 12px;
-    padding: 1.25rem;
-    border-radius: 1.25rem;
-    font-size: 1.1rem;
-    font-weight: 900;
-    transition: all 0.3s;
+    gap: 10px;
+    width: 100%;
+    padding: 1.1rem;
+    background: rgba(255, 255, 255, 0.05);
+    color: #fff;
+    border-radius: 18px;
+    font-size: 15px;
+    font-weight: 800;
+    transition: all 0.2s;
     text-decoration: none;
+    border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .actionBtn:hover {
-    transform: scale(1.02);
-    box-shadow: 0 10px 30px rgba(180, 138, 9, 0.3);
+    background: #B48A09;
+    color: #000;
+    border-color: #B48A09;
 }
 
 /* ── Indicators ─────────────────────────── */
 .indicators {
     display: flex;
     justify-content: center;
-    gap: 12px;
+    gap: 8px;
 }
 
 .indicator {
-    width: 40px;
-    height: 4px;
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 2px;
+    width: 6px;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
     transition: all 0.3s;
 }
 
 .indicatorActive {
     background: #B48A09;
-    box-shadow: 0 0 10px #B48A09;
+    width: 20px;
+    border-radius: 3px;
 }
 
 /* ── Footer ─────────────────────────────── */
 .footer {
     display: flex;
     justify-content: center;
-    margin-top: 3rem;
 }
 
 .viewMore {
     display: flex;
     align-items: center;
-    gap: 12px;
-    font-size: 1rem;
-    font-weight: 800;
-    color: rgba(255, 255, 255, 0.3);
-    transition: all 0.2s;
+    gap: 10px;
+    font-size: 15px;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.4);
     text-decoration: none;
+    transition: all 0.2s;
 }
 
 .viewMore:hover {
-    color: #B48A09;
-    gap: 18px;
+    color: #fff;
 }
 
 /* Responsive */
 @media (max-width: 768px) {
-    .title { font-size: 2.2rem; }
-    .jobCard { flex: 0 0 95%; padding: 2rem; }
+    .title { font-size: 1.75rem; }
+    .jobCard { flex: 0 0 90%; }
 }

@@ -1,36 +1,36 @@
 'use client';
 
 import React from 'react';
-import { Activity, ShieldCheck, MessageSquare, Plane, Radio, Terminal } from 'lucide-react';
+import { ClipboardCheck, ShieldCheck, BookOpen, Plane } from 'lucide-react';
 import styles from './Process.module.css';
 
 const steps = [
     {
         step: "01",
-        title: "데이터 로그 브리핑 (Data Logging)",
-        description: "매일의 현장 기록이 실시간으로 데이터화됩니다. 단순한 노동이 아닌, 시스템으로 증명되는 공식 경력이 누적됩니다.",
-        highlight: "REAL-TIME LOGGING · AUTO-INSURANCE",
-        icon: <Activity size={24} />
+        title: "현장 출력 및 경력 기록",
+        description: "매일의 현장 기록이 차곡차곡 쌓입니다. 단순한 노동을 넘어, 데이터로 증빙되는 소중한 자산이 구축됩니다.",
+        highlight: "자동 출퇴근 기록 · 안심 정산",
+        icon: <ClipboardCheck size={24} />
     },
     {
         step: "02",
-        title: "마스터 자격 인증 (Certification)",
-        description: "누적된 작업 데이터를 기반으로 모노(Mo-No) 공식 마스터 티어를 부여받습니다. 검증된 실력으로 최상위 현장에 배정됩니다.",
-        highlight: "MASTER TIER VERIFIED · PREMIUM JOB MATCH",
+        title: "숙련 기술 마스터 인증",
+        description: "누적된 데이터를 기반으로 공식 마스터 인증을 받습니다. 검증된 실력을 바탕으로 더 높은 일당과 대우를 보장받으세요.",
+        highlight: "공식 마스터 뱃지 · 전용 일자리 추천",
         icon: <ShieldCheck size={24} />
     },
     {
         step: "03",
-        title: "글로벌 전술 교육 (Training)",
-        description: "해외 현장 진출을 위한 핵심 기술 영어 및 국제 표준 공법을 학습합니다. 글로벌 마스터로의 언어적 기반을 구축합니다.",
-        highlight: "TACTICAL ENGLISH · GLOBAL STANDARD",
-        icon: <MessageSquare size={24} />
+        title: "기술 교육 및 글로벌 준비",
+        description: "해외 우수 현장 진출을 위한 맞춤형 기술 교육과 필수 현장 영어를 배웁니다. 더 넓은 세상을 향한 준비를 돕습니다.",
+        highlight: "실전 기술 영어 · 공법 교육",
+        icon: <BookOpen size={24} />
     },
     {
         step: "04",
-        title: "글로벌 미션 파견 (Deployment)",
-        description: "검증된 경력과 인증된 데이터로 전 세계 주요 인프라 현장에 파견됩니다. 당신의 기술이 글로벌 자산이 됩니다.",
-        highlight: "MISSION DEPLOYMENT · VISA READY",
+        title: "해외 우수 현장 배정",
+        description: "국내외 대규모 프로젝트에 최우선적으로 투입됩니다. 당신의 기술이 전 세계 어디서나 인정받는 자산이 됩니다.",
+        highlight: "해외 파견 지원 · 비자 컨설팅",
         icon: <Plane size={24} />
     }
 ];
@@ -40,14 +40,10 @@ export default function Process() {
         <section className={styles.section}>
             <div className="container">
                 <div className={styles.header}>
-                    <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'rgba(180, 138, 9, 0.1)', color: '#B48A09', padding: '6px 14px', borderRadius: '8px', fontSize: '10px', fontWeight: 800, marginBottom: '1.5rem', border: '1px solid rgba(180, 138, 9, 0.2)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
-                        <Terminal size={12} />
-                        Workflow Pipeline Optimization
-                    </div>
-                    <h2 className={styles.title}>기술 자산화 성장 파이프라인</h2>
+                    <h2 className={styles.title}>마스터가 되는 체계적인 여정</h2>
                     <p className={styles.subtitle}>
-                        일용직에서 글로벌 마스터로의 전환,<br />
-                        Mo-No의 지능형 커리어 설계 시스템이 함께합니다.
+                        모노는 기술자 한 분 한 분의 노력이 정당한 가치로 인정받고<br />
+                        글로벌 전문가로 성장할 수 있는 로드맵을 제공합니다.
                     </p>
                 </div>
 
@@ -58,11 +54,10 @@ export default function Process() {
                                 {item.icon}
                             </div>
                             <div className={styles.content}>
-                                <div style={{ fontSize: '0.8rem', fontWeight: 900, color: 'rgba(180,138,9,0.5)', marginBottom: '4px', fontFamily: 'monospace' }}>STEP_{item.step}</div>
+                                <div style={{ fontSize: '11px', fontWeight: 900, color: '#B48A09', marginBottom: '6px', letterSpacing: '0.05em' }}>STEP {item.step}</div>
                                 <h3 className={styles.stepTitle}>{item.title}</h3>
                                 <p className={styles.stepDesc}>{item.description}</p>
                                 <span className={styles.stepHighlight}>
-                                    <Radio size={12} style={{ marginRight: '8px', display: 'inline' }} />
                                     {item.highlight}
                                 </span>
                             </div>
