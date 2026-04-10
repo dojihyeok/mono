@@ -32,7 +32,7 @@ export default function CareerPage() {
         <header className={styles.header}>
           <div className={styles.passportLabel}>
             <Scan size={12} style={{marginRight: '8px'}} />
-            마스터 기술 자산 신분증 (GLOBAL VERIFIED)
+            마스터 기술 자산 신분증 (글로벌 표준)
           </div>
           <h1 className={styles.title}>디지털 기술 여권</h1>
           <p className={styles.subtitle}>검증된 기술 자산과 글로벌 커리어 포트폴리오</p>
@@ -44,7 +44,7 @@ export default function CareerPage() {
             <div className={styles.levelHeader}>
               <span className={styles.badge}>
                 <Award size={24} color="#B48A09" />
-                숙련 기술 마스터 (TIER 1)
+                숙련 기술 마스터
               </span>
               <span className={styles.levelPoints}>7,420 SP</span>
             </div>
@@ -62,7 +62,7 @@ export default function CareerPage() {
                 <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start'}}>
                     <h3 className={styles.statLabel}>
                         <Calendar size={14} color="#B48A09" />
-                        현장 투입 데이터 (DEPLOYMENT)
+                        현장 투입 데이터
                     </h3>
                 </div>
               <p className={styles.statValue}>342일</p>
@@ -70,7 +70,7 @@ export default function CareerPage() {
             <GlassCard>
               <h3 className={styles.statLabel}>
                 <ShieldCheck size={14} color="#B48A09" />
-                안전 신뢰 지수 (SAFETY INDEX)
+                안전 신뢰 지수
               </h3>
               <p className={styles.statValue}>98.5%</p>
             </GlassCard>
@@ -84,7 +84,7 @@ export default function CareerPage() {
                 <Activity size={20} color="#B48A09" />
                 AI 커리어 리포트
             </h2>
-            <div className={styles.aiBadge}>AI ANALYSIS ACTIVE</div>
+            <div className={styles.aiBadge}>AI 분석 시스템 가동 중</div>
           </div>
 
           <GlassCard className={styles.aiReportCard}>
@@ -108,7 +108,7 @@ export default function CareerPage() {
           <div className={styles.globalActionGrid}>
             <GlassCard className={styles.globalCard}>
               <span className={styles.cardLabel}>글로벌 프로젝트 매칭률</span>
-              <div className={styles.cardValue}>92% (EXCELLENT)</div>
+              <div className={styles.cardValue}>92% (최우수)</div>
               <p className={styles.subtitle} style={{fontSize: '0.65rem'}}>SAUDI NEOM / US GEORGIA EPC</p>
             </GlassCard>
             <GlassCard className={styles.globalCard}>

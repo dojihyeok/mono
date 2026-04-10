@@ -25,15 +25,15 @@ export default function Hero() {
                             <User size={32} />
                         </div>
                         <div className={styles.foremanIntroText}>
-                            <span className={styles.introBadge}>MY CAREER PARTNER</span>
-                            <h2>포먼 매니저가 마스터님을 기다리고 있습니다</h2>
-                            <p>전국 3,420개 현장에서 마스터님의 숙련된 기술이 필요합니다.</p>
+                            <span className={styles.introBadge}>AI 커리어 파트너</span>
+                            <h2>오늘의 전문적인 성장을 위해 AI 매니저가 함께합니다</h2>
+                            <p>마스터님의 숙련된 기술이 최적의 현장과 매칭될 수 있도록 지원합니다.</p>
                         </div>
                     </div>
                     <div className={styles.foremanActions}>
                         <Link href="/foreman" className={styles.trackBtn}>
                             <Search size={18} />
-                            현장 매니저와 상담하기
+                            AI 매니저 가이드 확인하기
                         </Link>
                     </div>
                 </div>
