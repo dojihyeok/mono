@@ -58,7 +58,7 @@ export default function OpsCenterClient() {
                 <div className={styles.siteInfo}>
                     <div className={styles.siteTag}>
                         <Radio size={12} className={styles.pulseIcon} />
-                        <span>실시간 현장 지원 중 | AI 현장 반장 활성화</span>
+                        <span>전문가님의 모든 공정에 함께하고 있어요</span>
                     </div>
                     <h1>NEOM CITY <span className={styles.goldText}>프로젝트 현황</span></h1>
                     <div className={styles.locationGroup}>

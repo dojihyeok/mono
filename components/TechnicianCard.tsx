@@ -36,7 +36,7 @@ export default function TechnicianCard({ technician }: TechnicianProps) {
                     </div>
                     <div className={styles.nameGroup}>
                         <h3 className={styles.name}>{technician.name}</h3>
-                        <p className={styles.expertTitle}>{technician.specialty} 마스터 · 경력 {technician.experience}년</p>
+                        <p className={styles.expertTitle}>{technician.specialty} 전문가 · 경력 {technician.experience}년</p>
                     </div>
                     <div className={styles.trustGroup}>
                         <span className={styles.scoreLabel}>신뢰도</span>
@@ -55,7 +55,7 @@ export default function TechnicianCard({ technician }: TechnicianProps) {
                         {technician.status === 'Available' ? '매칭 가능' : '현장 작업 중'}
                     </div>
                     <Button variant="secondary" size="sm" className={styles.profileBtn}>
-                        마스터 프로필
+                        상세 프로필
                     </Button>
                 </div>
             </Link>

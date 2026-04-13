@@ -13,7 +13,7 @@ const features = [
     },
     {
         title: "검증된 경력 데이터",
-        description: "복잡한 서류 없이도 마스터님의 모든 현장 기록을 디지털 데이터로 증명할 수 있습니다.",
+        description: "복잡한 서류 없이도 전문가님의 모든 현장 기록을 디지털 데이터로 증명할 수 있습니다.",
         icon: <ShieldCheck size={28} />
     },
     {
@@ -23,7 +23,7 @@ const features = [
     },
     {
         title: "최적의 일자리 매칭",
-        description: "마스터님의 숙련도와 거리를 고려하여 최적의 현장과 장비를 맞춤형으로 연결해 드립니다.",
+        description: "전문가님의 숙련도와 거리를 고려하여 최적의 현장과 장비를 맞춤형으로 연결해 드립니다.",
         icon: <TrendingUp size={28} />
     }
 ];

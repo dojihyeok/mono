@@ -134,7 +134,7 @@ export default function AttendanceClient() {
                 <header className={styles.header}>
                     <div className={styles.siteHeader}>
                         <div className={styles.commandBadge}>
-                            <Activity size={12} /> 출역 및 안전 서비스 가동 중
+                            <Activity size={12} /> 실시간으로 안전을 확인하고 있어요
                         </div>
                         <h1 className={styles.siteTitle}>{SITE_DATA.name}</h1>
                         <span className={styles.weatherTag}>☀️ {SITE_DATA.weather} (강남구 청담동)</span>
@@ -148,7 +148,7 @@ export default function AttendanceClient() {
                         onClick={handleSos}
                     >
                         <AlertTriangle size={24} />
-                        <span>긴급 도움 요철 (SOS)</span>
+                        <span>긴급 상황 도움 요청 (SOS)</span>
                     </button>
                 )}
 

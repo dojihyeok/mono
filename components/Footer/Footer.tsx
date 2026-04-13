@@ -21,7 +21,7 @@ export default function Footer() {
                         <h4 className={styles.colTitle}>서비스</h4>
                         <div className={styles.links}>
                             <Link href="/jobs" className={styles.link}>일자리 찾기</Link>
-                            <Link href="/technicians" className={styles.link}>기술 마스터</Link>
+                            <Link href="/technicians" className={styles.link}>기술 전문가</Link>
                             <Link href="/matching" className={styles.link}>프리미엄 매칭</Link>
                             <Link href="/academy" className={styles.link}>교육 프로그램</Link>
                         </div>
@@ -41,7 +41,7 @@ export default function Footer() {
                 <div className={styles.bottom}>
                     <p>&copy; 2026 Mono Inc. All rights reserved.</p>
                     <div style={{ display: 'flex', gap: '2rem' }}>
-                        <span style={{ fontSize: '13px', color: 'rgba(255,255,255,0.1)' }}>Made with Precision for Technical Masters</span>
+                        <span style={{ fontSize: '13px', color: 'rgba(255,255,255,0.1)' }}>숙련된 기술의 가치를 증명하는 시간, 모노와 함께</span>
                     </div>
                 </div>
             </div>

@@ -163,7 +163,7 @@ export default function ForemanClient() {
                 <div className={styles.introText}>
                     <div className={styles.badge}>
                         <span className={styles.pulseDot} />
-                        현장 지원 반장 가동 중
+                        현장 반장이 상시 대기 중이에요
                     </div>
                     <h1>안녕하세요, <strong>현장 반장 모컬</strong>입니다.</h1>
                     <p>전문가님의 오늘 하루가 안전하고 가치 있게 기록될 수 있도록<br/>

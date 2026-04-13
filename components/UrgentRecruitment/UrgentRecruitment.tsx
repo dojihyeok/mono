@@ -55,7 +55,7 @@ export default function UrgentRecruitment() {
                         긴급 채용 현황
                     </div>
                     <h2 className={styles.title}>지금 바로 <span className={styles.premiumText}>지원 가능</span>한 현장</h2>
-                    <p className={styles.subtitle}>검증된 마스터를 위해 엄선된 최우선 일자리입니다.</p>
+                    <p className={styles.subtitle}>검증된 전문가를 위해 엄선된 최우선 일자리입니다.</p>
                 </div>
 
                 <div className={styles.carouselContainer}>

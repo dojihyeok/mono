@@ -14,9 +14,9 @@ const steps = [
     },
     {
         step: "02",
-        title: "숙련 기술 마스터 인증",
-        description: "누적된 데이터를 기반으로 공식 마스터 인증을 받습니다. 검증된 실력을 바탕으로 더 높은 일당과 대우를 보장받으세요.",
-        highlight: "공식 마스터 뱃지 · 전용 일자리 추천",
+        title: "전문가 인증 및 경력 증명",
+        description: "누적된 데이터를 기반으로 공식 인증을 받습니다. 검증된 실력을 바탕으로 더 높은 일당과 대우를 보장받으세요.",
+        highlight: "공식 기술 뱃지 · 맞춤형 현장 추천",
         icon: <ShieldCheck size={24} />
     },
     {
@@ -40,7 +40,7 @@ export default function Process() {
         <section className={styles.section}>
             <div className="container">
                 <div className={styles.header}>
-                    <h2 className={styles.title}>마스터가 되는 체계적인 여정</h2>
+                    <h2 className={styles.title}>전문가로 성장하는 체계적인 여정</h2>
                     <p className={styles.subtitle}>
                         모노는 기술자 한 분 한 분의 노력이 정당한 가치로 인정받고<br />
                         글로벌 전문가로 성장할 수 있는 로드맵을 제공합니다.
@@ -54,7 +54,7 @@ export default function Process() {
                                 {item.icon}
                             </div>
                             <div className={styles.content}>
-                                <div style={{ fontSize: '11px', fontWeight: 900, color: '#B48A09', marginBottom: '6px', letterSpacing: '0.05em' }}>STEP {item.step}</div>
+                                <div style={{ fontSize: '11px', fontWeight: 900, color: '#B48A09', marginBottom: '6px', letterSpacing: '0.05em' }}>{item.step}단계</div>
                                 <h3 className={styles.stepTitle}>{item.title}</h3>
                                 <p className={styles.stepDesc}>{item.description}</p>
                                 <span className={styles.stepHighlight}>

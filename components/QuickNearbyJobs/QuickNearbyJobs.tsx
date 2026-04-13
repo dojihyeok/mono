@@ -55,7 +55,7 @@ export default function QuickNearbyJobs() {
                 <div className={styles.header}>
                     <div className={styles.titleGroup}>
                         <h2 className={styles.title}>내 주변 <span className={styles.premiumText}>맞춤 추천</span> 일자리</h2>
-                        <p className={styles.subtitle}>현 위치를 기반으로 마스터님께 최적화된 현장입니다.</p>
+                        <p className={styles.subtitle}>현 위치를 기반으로 전문가님께 최적화된 현장입니다.</p>
                     </div>
                 </div>
 

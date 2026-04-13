@@ -161,7 +161,7 @@ export default function GlobalJobsClient() {
                 <div className={styles.supportContent}>
                     <Plane size={32} className={styles.planeIcon} />
                     <div>
-                        <h4>글로벌 마스터 서포트 패키지</h4>
+                        <h4>글로벌 전문가 서포트 패키지</h4>
                         <p>비자, 항공, 현지 숙소 및 의료 보험 원스톱 케어</p>
                     </div>
                 </div>

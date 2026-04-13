@@ -53,13 +53,13 @@ export default function Hero() {
                 <div className={styles.aiTerminal}>
                     <div className={styles.terminalHeader}>
                         <div className={styles.pulseDot} />
-                        실시간 맞춤 일자리 스캔 중
+                        전문가님께 딱 맞는 현장을 찾고 있어요
                     </div>
                     <Link href="/jobs" className={styles.tacticalCard}>
                         <div className={styles.cardInfo}>
-                            <div className={styles.liveIndicator}>
+                        <div className={styles.liveIndicator}>
                                 <Star size={14} fill="currentColor" />
-                                최우선 추천 매칭
+                                오늘 가장 추천하는 현장
                             </div>
                             <h3 className={styles.cardTitle}>반도체 플랜트 고소작업 배관 기술자 급구</h3>
                             <p className={styles.cardSub}>경기도 평택 | 일당 210,000원 | 즉시 출근 가능</p>

@@ -20,33 +20,33 @@ export default function Trust360Client() {
     const [activeRole, setActiveRole] = useState<Role>('SITE_MANAGER');
 
     const ROLES = [
-        { id: 'SITE_MANAGER', label: '현장 책임자', desc: '팀, 팀장, 기술자 전체 조망 및 평가' },
-        { id: 'TEAM_LEADER', label: '현장 팀장', desc: '그룹 내 기술자 숙련도 및 태도 평가' },
-        { id: 'TECHNICIAN', label: '기술자 (마스터)', desc: '팀장 리더십 및 현장 환경 공정 평가' }
+        { id: 'SITE_MANAGER', label: '현장 반장', desc: '팀, 팀장, 기술자 전체 조망 및 평판 확인' },
+        { id: 'TEAM_LEADER', label: '현장 팀장', desc: '그룹 내 기술자 숙련도 및 태도 보증' },
+        { id: 'TECHNICIAN', label: '전문 기술인', desc: '팀장 리더십 및 현장 환경 공정 평가' }
     ];
 
     const EVALUATION_LIST = {
         SITE_MANAGER: [
             { id: 1, name: '경기 삼성반도체 팀 A', type: 'TEAM', status: 'PENDING' },
-            { id: 2, name: '김두석 마스터 (팀장)', type: 'LEADER', status: 'COMPLETED' },
-            { id: 3, name: '이창근 마스터 (기전)', type: 'TECH', status: 'PENDING' }
+            { id: 2, name: '김두석 전문가 (팀장)', type: 'LEADER', status: 'COMPLETED' },
+            { id: 3, name: '이창근 전문가 (기전)', type: 'TECH', status: 'PENDING' }
         ],
         TEAM_LEADER: [
             { id: 4, name: '박지훈 (초급기공)', type: 'TECH', status: 'PENDING' },
             { id: 5, name: '최현우 (조공/헬퍼)', type: 'TECH', status: 'PENDING' }
         ],
         TECHNICIAN: [
-            { id: 6, name: '김두석 마스터 (팀장)', type: 'LEADER', status: 'PENDING' },
-            { id: 7, name: '삼성물산 현장 공무 (책임자)', type: 'MANAGER', status: 'PENDING' }
+            { id: 6, name: '김두석 전문가 (팀장)', type: 'LEADER', status: 'PENDING' },
+            { id: 7, name: '삼성물산 현장 공무 (반장)', type: 'FOREMAN', status: 'PENDING' }
         ]
     };
 
     return (
         <div className={styles.pageWrap}>
             <header className={styles.header}>
-                <div className={styles.premiumBadge}>MASTER TRUST 360 | REPUTATION ASSET</div>
+                <div className={styles.premiumBadge}>EXPERT TRUST 360 | REPUTATION ASSET</div>
                 <h1>상호 신뢰 가치 <span className={styles.goldText}>증명 센터</span></h1>
-                <p className={styles.subtitle}>현장 관리자, 팀장, 기술자가 서로의 전성기를 보증합니다.</p>
+                <p className={styles.subtitle}>현장 반장, 팀장, 기술자가 서로의 전성기를 보증합니다.</p>
             </header>
 
             {/* 1. Role Switcher (For Demo Context) */}
@@ -102,8 +102,8 @@ export default function Trust360Client() {
                 <div className={styles.metricsInfo}>
                     <BrainCircuit size={24} color="#B48A09" />
                     <div className={styles.metricsText}>
-                        <h4>{activeRole === 'SITE_MANAGER' ? '현장 관리 지수' : activeRole === 'TEAM_LEADER' ? '리더십 자산' : '기술 자산지수'}</h4>
-                        <p>상호 평가 데이터를 기반으로 마스터의 가치가 자산화됩니다.</p>
+                        <h4>{activeRole === 'SITE_MANAGER' ? '현장 반장 신뢰 지수' : activeRole === 'TEAM_LEADER' ? '리더십 자산' : '기술 자산지수'}</h4>
+                        <p>상호 평가 데이터를 기반으로 기술인의 가치가 자산화됩니다.</p>
                     </div>
                 </div>
                 <div className={styles.metricsValue}>

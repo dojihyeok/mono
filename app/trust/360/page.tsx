@@ -1,8 +1,8 @@
 import Trust360Client from './Trust360Client';
 
 export const metadata = {
-    title: 'Master Trust 360 | Mutual Evaluation System',
-    description: 'A multi-directional trust and reputation evaluation system for site managers, team leaders, and masters.',
+    title: 'Expert Trust 360 | Mutual Evaluation System',
+    description: 'A multi-directional trust and reputation evaluation system for site foremen, team leaders, and experts.',
 };
 
 export default function Trust360Page() {

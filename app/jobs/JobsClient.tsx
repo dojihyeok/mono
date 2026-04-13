@@ -118,7 +118,7 @@ export default function JobsClient({ initialJobs }: JobsClientProps) {
                     <div className={styles.aiMatchHeader}>
                         <h2 className={styles.aiMatchTitle}>
                             <Zap size={20} fill="#FF6B00" color="#FF6B00" />
-                            마스터님을 위한 AI 추천 현장
+                            전문가님을 위해 준비한 추천 현장
                         </h2>
                     </div>
                     
@@ -130,7 +130,7 @@ export default function JobsClient({ initialJobs }: JobsClientProps) {
                                 company: '삼성엔지니어링',
                                 pay: '일당 21만원',
                                 match: '98%',
-                                reason: '마스터님의 평택 P4 경력 및 배관 숙련도가 이 현장의 급수 배관 공정에 완벽하게 매칭됩니다.'
+                                reason: '전문가님의 평택 P4 경력 및 배관 숙련도가 이 현장의 급수 배관 공정에 완벽하게 연결됩니다.'
                             },
                             {
                                 id: 'rec-2',
@@ -150,15 +150,15 @@ export default function JobsClient({ initialJobs }: JobsClientProps) {
                             }
                         ].map((rec) => (
                             <div key={rec.id} className={styles.recommendCard}>
-                                <div className={styles.matchBadge}>{rec.match} Match</div>
-                                <span className={styles.recLabel}>AI BEST PICK</span>
+                                <div className={styles.matchBadge}>{rec.match} 연결</div>
+                                <span className={styles.recLabel}>맞춤형 현장</span>
                                 <h3 className={styles.recTitle}>{rec.title}</h3>
                                 <div className={styles.recMeta}>
                                     <span>🏢 {rec.company}</span>
                                     <span>💰 {rec.pay}</span>
                                 </div>
                                 <p className={styles.aiReasoning}>
-                                    <strong>AI 맞춤 분석:</strong> {rec.reason}
+                                    <strong>맞춤 분석 결과:</strong> {rec.reason}
                                 </p>
                                 <button className={styles.recApply}>
                                     지금 바로 지원하기
@@ -194,7 +194,7 @@ export default function JobsClient({ initialJobs }: JobsClientProps) {
                         <div className={styles.countWrapper}>
                             <div className={styles.aiPulse} />
                             <span className={styles.countText}>
-                                AI 최적화 매칭: <strong>{filteredJobs.length}</strong>건
+                                조건에 맞는 일자리 연결: <strong>{filteredJobs.length}</strong>건
                             </span>
                         </div>
                         { (occupation !== '전체' || region !== '전체' || searchTerm !== '') && (
@@ -260,7 +260,7 @@ export default function JobsClient({ initialJobs }: JobsClientProps) {
                     <div className={styles.globalBanner}>
                         <div className={styles.bannerContent}>
                             <div className={styles.premiumBadge}>STRATEGIC MATCHING</div>
-                            <h2>글로벌 마스터 에이전시</h2>
+                            <h2>글로벌 전문가 에이전시</h2>
                             <p>사우디 네옴시티, 호주 수소 플랜트 등 전 세계 하이-벨류 프로젝트가 당신을 기다립니다.</p>
                             <button className={styles.globalCta} onClick={() => window.location.href = '/matching'}>
                                 프로젝트 탐색하기
