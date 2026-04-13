@@ -111,7 +111,7 @@ export default function OnlineOfficePage() {
             </div>
             <h1 className={styles.title}>내 업무 대시보드</h1>
             <p className={styles.subtitle}>
-              마스터님의 경력과 거리에 최적화된 <strong>49개</strong>의 현장 사무소가 연결되어 있습니다.
+              전문가님의 경력과 거리에 최적화된 <strong>49개</strong>의 현장 사무소가 연결되어 있습니다.
             </p>
           </div>
 
@@ -131,7 +131,7 @@ export default function OnlineOfficePage() {
               </div>
             </div>
             <div className={styles.statWidget}>
-              <span className={styles.widgetLabel}>마스터 등급</span>
+              <span className={styles.widgetLabel}>숙련도 등급</span>
               <span className={styles.widgetValue}>레벨 42</span>
               <div className={`${styles.widgetTrend} ${styles.trendGold}`}>
                  <Award size={10} /> 상위 3% 숙련도

@@ -11,8 +11,8 @@ export default function Navbar() {
 
                 <nav className={styles.navLinks}>
                     <Link href="/jobs" className={styles.navLink}>채용 현장</Link>
-                    <Link href="/technicians" className={styles.navLink}>기술 마스터</Link>
-                    <Link href="/foreman" className={styles.navLink}>AI 매니저</Link>
+                    <Link href="/technicians" className={styles.navLink}>기술 전문가</Link>
+                    <Link href="/foreman" className={styles.navLink}>현장 비서 (AI)</Link>
                     <Link href="/matching" className={styles.navLink}>프리미엄 매칭</Link>
                     <Link href="/academy" className={styles.navLink}>모노 아카데미</Link>
                 </nav>

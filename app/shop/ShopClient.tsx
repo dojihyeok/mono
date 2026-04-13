@@ -21,11 +21,11 @@ export default function ShopClient() {
     const GEAR_PRODUCTS = [
         { 
             id: 1, 
-            name: 'SIG-1 Master Signature Suit', 
+            name: 'SIG-1 전문가 시그니처 수트', 
             category: 'FASHION',
             price: '₩ 485,000', 
             desc: '옵시디언 블랙 스트레치 원단, 내화 및 내마모 쉴드 적용.',
-            tag: 'MASTER ONLY',
+            tag: '전문가 전용',
             rating: 5.0
         },
         { 
@@ -33,8 +33,8 @@ export default function ShopClient() {
             name: 'Titanium X-Tool Kit (Black Ed.)', 
             category: 'GEAR',
             price: '₩ 1,250,000', 
-            desc: '티타늄 합금 기반, MO-NO 마스터 로고 레이저 각인.',
-            tag: 'PREMIUM PKG',
+            desc: '티타늄 합금 기반, 모노 전문가 로고 레이저 각인.',
+            tag: '프리미엄 세트',
             rating: 4.9
         },
         { 
@@ -60,9 +60,9 @@ export default function ShopClient() {
     return (
         <div className={styles.pageWrap}>
             <header className={styles.header}>
-                <div className={styles.premiumBadge}>MO-NO 마스터 공식 스토어</div>
-                <h1>기술자의 <span className={styles.goldText}>시그니처 기어</span></h1>
-                <p className={styles.subtitle}>현장의 권위와 숙련된 자부심을 완성하는 프로페셔널 업무 인프라.</p>
+                <div className={styles.premiumBadge}>모노 전문가 공식 스토어</div>
+                <h1>기술자의 <span className={styles.goldText}>시그니처 장비</span></h1>
+                <p className={styles.subtitle}>현장의 권위와 숙련된 자부심을 완성하는 기술 인프라.</p>
             </header>
 
             {/* Shop Navigation */}
@@ -109,8 +109,8 @@ export default function ShopClient() {
                 <div className={styles.certInfo}>
                     <ShieldCheck size={28} color="#B48A09" />
                     <div className={styles.certText}>
-                        <h4>OFFICIAL MASTER CERTIFICATION</h4>
-                        <p>본 스토어의 모든 상품은 MO-NO 마스터 위원회의 엄격한 필드 테스트를 통과한 정품입니다.</p>
+                        <h4>OFFICIAL EXPERT CERTIFICATION</h4>
+                        <p>본 스토어의 모든 상품은 모노 전문가 위원회의 엄격한 필드 테스트를 통과한 정품입니다.</p>
                     </div>
                 </div>
                 <div className={styles.shippingInfo}>

@@ -119,7 +119,7 @@ export default function ForemanClient() {
         { 
             title: '글로벌 안전 인증 (ISO 45001)', 
             desc: '해외 고임금 현장 진입을 위한 국제 안전 보건 경영시스템 인증 가이드.',
-            tag: '글로벌 마스터',
+            tag: '글로벌 전문가',
             icon: <Globe size={24} color="#B48A09" />, 
             steps: [
                 { title: '시스템 개요 이해', content: 'ISO 45001이 요구하는 관리 프로세스의 개념을 파악합니다.' },
@@ -163,10 +163,10 @@ export default function ForemanClient() {
                 <div className={styles.introText}>
                     <div className={styles.badge}>
                         <span className={styles.pulseDot} />
-                        AI 커리어 매니저 가동 중
+                        현장 지원 비서 가동 중
                     </div>
-                    <h1>안녕하세요, <strong>커리어 매니저 모컬</strong>입니다.</h1>
-                    <p>마스터님의 오늘 하루가 안전하고 가치 있게 기록될 수 있도록<br/>
+                    <h1>안녕하세요, <strong>현장 비서 모컬</strong>입니다.</h1>
+                    <p>전문가님의 오늘 하루가 안전하고 가치 있게 기록될 수 있도록<br/>
                     맞춤형 기술 가이드와 실시간 정산 서비스를 제공합니다.</p>
                 </div>
 
@@ -222,7 +222,7 @@ export default function ForemanClient() {
                     onClick={() => setMode('SENIOR')}
                 >
                     <Trophy size={18} />
-                    <span>글로벌·숙련 마스터</span>
+                    <span>글로벌·숙련 전문가</span>
                 </button>
             </div>
 
@@ -230,7 +230,7 @@ export default function ForemanClient() {
                 {/* Guide List */}
                 <div className={styles.guideWrapper}>
                     <h3 className={styles.sectionTitle}>
-                        {mode === 'JUNIOR' ? '🔰 현장 실전 핵심 노하우' : '⭐ 마스터 브랜딩 솔루션'}
+                        {mode === 'JUNIOR' ? '🔰 현장 실전 핵심 노하우' : '⭐ 전문가 브랜딩 솔루션'}
                     </h3>
                     
                     <div className={styles.guideGrid}>

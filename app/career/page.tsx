@@ -32,7 +32,7 @@ export default function CareerPage() {
         <header className={styles.header}>
           <div className={styles.passportLabel}>
             <Scan size={12} style={{marginRight: '8px'}} />
-            마스터 기술 자산 신분증 (글로벌 표준)
+            전문가 기술 자산 신분증 (글로벌 표준)
           </div>
           <h1 className={styles.title}>디지털 기술 여권</h1>
           <p className={styles.subtitle}>검증된 기술 자산과 글로벌 커리어 포트폴리오</p>
@@ -44,7 +44,7 @@ export default function CareerPage() {
             <div className={styles.levelHeader}>
               <span className={styles.badge}>
                 <Award size={24} color="#B48A09" />
-                숙련 기술 마스터
+                공인 숙련 기술인
               </span>
               <span className={styles.levelPoints}>7,420 SP</span>
             </div>
@@ -53,7 +53,7 @@ export default function CareerPage() {
             </div>
             <p className={styles.levelDesc}>
               <Cpu size={14} style={{display: 'inline', marginRight: '8px'}} />
-              마스터 레벨 45 | 다음 등급: 레전더리 마스터 (2,450 SP 남음)
+              전문가 레벨 45 | 다음 등급: 레전더리 (2,450 SP 남음)
             </p>
           </GlassCard>
 
@@ -90,15 +90,15 @@ export default function CareerPage() {
           <GlassCard className={styles.aiReportCard}>
             <div className={styles.aiGreeting}>
               <div className={styles.aiAvatar}><BrainCircuit size={20} /></div>
-              <p className={styles.aiMessage}>모컬 AI 분석: 마스터 기술 자산 평가</p>
+              <p className={styles.aiMessage}>모컬 AI 분석: 전문가 기술 자산 평가</p>
             </div>
             <p className={styles.aiMessage}>
-              "마스터님은 지난 2년간 <span className={styles.aiHighlight}>반도체 플랜트 배관</span> 분야에서 
+              "전문가님은 지난 2년간 <span className={styles.aiHighlight}>반도체 플랜트 배관</span> 분야에서 
               독보적인 성과를 내셨습니다. 특히 <span className={styles.aiHighlight}>안전 규정 준수율이 상위 3%</span>로 
               해외 하이테크 현장 리더급으로 즉시 투입 가능한 수준입니다."
             </p>
             <div className={styles.careerTags}>
-              <span className={`${styles.tag} ${styles.activeTag}`}>#배관_마스터_V1</span>
+              <span className={`${styles.tag} ${styles.activeTag}`}>#배관_전문가_V1</span>
               <span className={`${styles.tag} ${styles.activeTag}`}>#안정성_최우수</span>
               <span className={styles.tag}>#EPC_숙련공</span>
               <span className={styles.tag}>#글로벌_파견_준비_완료</span>
@@ -114,7 +114,7 @@ export default function CareerPage() {
             <GlassCard className={styles.globalCard}>
               <span className={styles.cardLabel}>추천 글로벌 리워드</span>
               <div className={styles.cardValue}>$42.5 / hr</div>
-              <p className={styles.subtitle} style={{fontSize: '0.65rem', color: '#B48A09'}}>글로벌 마스터 평균 이상</p>
+              <p className={styles.subtitle} style={{fontSize: '0.65rem', color: '#B48A09'}}>글로벌 전문가 평균 이상</p>
             </GlassCard>
           </div>
 
@@ -192,7 +192,7 @@ export default function CareerPage() {
         {/* Digital Career Log */}
         <section className={styles.historySection}>
           <div className={styles.sectionHeader}>
-            <h2 className={styles.sectionTitle}>마스터 커리어 이력 (History)</h2>
+            <h2 className={styles.sectionTitle}>전문가 경력 이력 (History)</h2>
             <ChevronRight size={24} color="rgba(180,138,9,0.5)" />
           </div>
 
