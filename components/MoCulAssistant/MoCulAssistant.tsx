@@ -82,7 +82,7 @@ export default function MoCulAssistant() {
     const getMockResponse = (input: string) => {
         if (input.includes('비') || input.includes('수당')) return "비가 오면 현장 안전 수침에 따라 작업 중단 여부가 결정됩니다. 대기 수당은 소속 계약 조건에 따라 다를 수 있으니 일당 계산기에서 '우천 할증'을 확인해 보세요.";
         if (input.includes('안전') || input.includes('비계')) return "비계 작업 시에는 반드시 안전 고리를 체결하고 하부 통제 구역을 설정해야 합니다. 자세한 수칙은 '안전 체크리스트'를 확인해 주세요.";
-        return "마스터님의 질문을 확인 중입니다. 현장 매뉴얼에 따르면 해당 공정은 숙련도 Level 3 이상의 지침을 권장합니다. 더 자세한 내용은 '가이드' 섹션을 추천해 드립니다.";
+        return "전문가님의 질문을 확인 중입니다. 현장 매뉴얼에 따르면 해당 공정은 숙련도 Level 3 이상의 지침을 권장합니다. 더 자세한 내용은 '가이드' 섹션을 추천해 드립니다.";
     };
 
     if (isForemanPage) return null;
@@ -96,7 +96,7 @@ export default function MoCulAssistant() {
                         <BrainCircuit size={20} className={styles.brainIcon} />
                         <div>
                             <h4>Mo-Cul AI</h4>
-                            <span>현장 실시간 비서</span>
+                            <span>현장 실시간 반장</span>
                         </div>
                     </div>
                     <button onClick={toggleAssistant} className={styles.closeBtn}>
@@ -156,7 +156,7 @@ export default function MoCulAssistant() {
                                 <div className={styles.wave}></div>
                             </div>
                             <p style={{fontSize: '0.8rem', color: '#B48A09', marginTop: '1.5rem', fontWeight: 700}}>
-                                마스터님의 목소리를 듣는 중...
+                                전문가님의 목소리를 듣는 중...
                             </p>
                             <button 
                                 className={styles.micBtnActive} 

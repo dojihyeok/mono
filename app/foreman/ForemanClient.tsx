@@ -163,9 +163,9 @@ export default function ForemanClient() {
                 <div className={styles.introText}>
                     <div className={styles.badge}>
                         <span className={styles.pulseDot} />
-                        현장 지원 비서 가동 중
+                        현장 지원 반장 가동 중
                     </div>
-                    <h1>안녕하세요, <strong>현장 비서 모컬</strong>입니다.</h1>
+                    <h1>안녕하세요, <strong>현장 반장 모컬</strong>입니다.</h1>
                     <p>전문가님의 오늘 하루가 안전하고 가치 있게 기록될 수 있도록<br/>
                     맞춤형 기술 가이드와 실시간 정산 서비스를 제공합니다.</p>
                 </div>
@@ -261,7 +261,7 @@ export default function ForemanClient() {
                     <GlassCard className={styles.chatCard}>
                         <div className={styles.chatHeader}>
                             <MessageSquare size={18} color="#B48A09" />
-                            <span>현장 비서 모컬</span>
+                            <span>현장 반장 모컬</span>
                         </div>
                         <p className={styles.chatIntro}>돌발상황이나 궁금한 점을 말씀해 주세요.</p>
                         

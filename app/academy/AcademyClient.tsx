@@ -24,7 +24,7 @@ const COURSES = [
         id: 'c1',
         title: '반도체 P5 특수 배관 공법 실무',
         category: '심화 직무 기술',
-        level: '마스터',
+        level: '체계화',
         progress: 65,
         instructor: '김 소장 (AI Analysis)',
         image: 'https://images.unsplash.com/photo-1581094288338-2314dddb7bc3?w=500&q=80',
@@ -37,7 +37,7 @@ const COURSES = [
         category: '글로벌 역량',
         level: '중급',
         progress: 30,
-        instructor: '엠마 매니저 (원어민)',
+        instructor: '엠마 선생님 (원어민)',
         image: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=500&q=80',
         points: 300,
         badge: '글로벌'
@@ -84,7 +84,7 @@ export default function AcademyClient() {
                         <span>성장 포인트 2,450 SP</span>
                     </div>
                 </div>
-                <p className={styles.subtitle}>검증된 기술력으로 마스터님의 가치를 증명하세요.</p>
+                <p className={styles.subtitle}>검증된 기술력으로 전문가님의 가치를 증명하세요.</p>
             </header>
 
             {/* Roadmap */}
@@ -152,7 +152,7 @@ export default function AcademyClient() {
                         </div>
                         <div className={styles.aiSuggestion}>
                             <Zap size={28} color="#B48A09" />
-                            <p><strong>AI 매니저의 추천:</strong><br/> 현재 '현장 영어' 역량을 조금 더 보완하시면, <strong>호주 브리즈번 High-Tech 공정</strong>의 마스터 추천 확률이 <strong>92%</strong>로 비약적으로 상승합니다.</p>
+                            <p><strong>AI 반장님의 추천:</strong><br/> 현재 '현장 영어' 역량을 조금 더 보완하시면, <strong>호주 브리즈번 High-Tech 공정</strong>의 전문가 추천 확률이 <strong>92%</strong>로 비약적으로 상승합니다.</p>
                         </div>
                     </div>
                 </div>
@@ -200,7 +200,7 @@ export default function AcademyClient() {
                                         <span className={styles.sp}>+{course.points} SP</span>
                                     </div>
                                     <h3>{course.title}</h3>
-                                    <div className={styles.instructor}>담당 마스터: {course.instructor}</div>
+                                    <div className={styles.instructor}>담당 전문가: {course.instructor}</div>
                                     
                                     <div className={styles.progressSection}>
                                         <div className={styles.progressBar}>
@@ -245,7 +245,7 @@ export default function AcademyClient() {
                                         <span className={styles.category}>{course.category}</span>
                                     </div>
                                     <h3>{course.title}</h3>
-                                    <p style={{fontSize: '13px', color: 'rgba(255,255,255,0.4)', marginBottom: '2rem', lineHeight: '1.6'}}>네이티브 매니저와 함께하는<br/>실전 현장 커뮤니케이션 트레이닝.</p>
+                                    <p style={{fontSize: '13px', color: 'rgba(255,255,255,0.4)', marginBottom: '2rem', lineHeight: '1.6'}}>네이티브 코치와 함께하는<br/>실전 현장 커뮤니케이션 트레이닝.</p>
                                     <button style={{width: '100%', background: 'rgba(180, 138, 9, 0.1)', border: '1px solid #B48A09', color: '#B48A09', padding: '14px', borderRadius: '12px', fontWeight: 800, cursor: 'pointer'}}>트레이닝 시작</button>
                                 </div>
                             </div>
@@ -257,7 +257,7 @@ export default function AcademyClient() {
             {selectedTab === 'cert' && (
                 <div className={styles.certGrid}>
                     {[
-                        { name: '하이테크 플랜트 마스터', issuer: 'MONO ACADEMY', icon: <Cpu size={32} color="#B48A09" /> },
+                        { name: '하이테크 플랜트 전문가', issuer: 'MONO ACADEMY', icon: <Cpu size={32} color="#B48A09" /> },
                         { name: '산업 안전 전문 관리자', issuer: 'KOSHA / MONO', icon: <ShieldCheck size={32} color="#B48A09" /> },
                         { name: '글로벌 테크니션 (Lv.2)', issuer: 'GLOBAL MONO', icon: <Globe size={32} color="#B48A09" /> },
                         { name: '전문 배관 공정 수료', issuer: 'SAMSUNG EPC', icon: <Zap size={32} color="#B48A09" fill="#B48A09" /> }

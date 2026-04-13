@@ -48,7 +48,7 @@ export default function OpsCenterClient() {
 
     const AI_INSIGHTS = [
         { title: '장비 예측 보전', desc: '유압 계통 마모 감지: 14시간 후 오일 교체 권장', type: 'WARN', icon: <Settings size={14} /> },
-        { title: '인력 최적 배치', desc: '공정 4.3 단계 진입 전, 용접 마스터 1명 추가 배치 권장 (98% 매칭)', type: 'INFO', icon: <Users size={14} /> },
+        { title: '인력 최적 배치', desc: '공정 4.3 단계 진입 전, 용접 전문가 1명 추가 배치 권장 (98% 매칭)', type: 'INFO', icon: <Users size={14} /> },
         { title: '현지 기상 주의보', desc: '사우디 현지 기상 변동: 3시간 후 강풍 예보 - 고공 작업 주의', type: 'ALERT', icon: <AlertTriangle size={14} /> }
     ];
 
@@ -58,7 +58,7 @@ export default function OpsCenterClient() {
                 <div className={styles.siteInfo}>
                     <div className={styles.siteTag}>
                         <Radio size={12} className={styles.pulseIcon} />
-                        <span>실시간 현장 지원 중 | AI 매니저 활성화</span>
+                        <span>실시간 현장 지원 중 | AI 현장 반장 활성화</span>
                     </div>
                     <h1>NEOM CITY <span className={styles.goldText}>프로젝트 현황</span></h1>
                     <div className={styles.locationGroup}>
@@ -78,7 +78,7 @@ export default function OpsCenterClient() {
             <section className={styles.aiInsightSection}>
                 <div className={styles.aiHeader}>
                     <BrainCircuit size={20} color="#B48A09" className={styles.aiIcon} />
-                    <h3>AI 매니저 업무 인사이트</h3>
+                    <h3>AI 현장 반장 업무 인사이트</h3>
                 </div>
                 <div className={styles.insightGrid}>
                     {AI_INSIGHTS.map((insight, i) => (
@@ -171,7 +171,7 @@ export default function OpsCenterClient() {
             </div>
 
             <footer className={styles.footer}>
-                <p>본 관리 시스템은 AI 매니저의 실시간 분석 로직에 의해 30초 주기로 현장 안전 및 리스크를 모니터링 중입니다.</p>
+                <p>본 관리 시스템은 AI 현장 반장의 실시간 분석 로직에 의해 30초 주기로 현장 안전 및 리스크를 모니터링 중입니다.</p>
                 <div className={styles.systemId}>시스템 ID: MN-SA-AI-X10</div>
             </footer>
         </div>
