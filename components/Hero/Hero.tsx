@@ -14,7 +14,41 @@ import {
 } from 'lucide-react';
 import styles from './Hero.module.css';
 
+const HERO_SLOGANS = [
+    {
+        main: "현장의 경력을 신용으로 바꿉니다",
+        sub: "증발하던 노동의 가치를 투명한 데이터 자산으로 전환합니다.\n안전한 정산, 확실한 커리어. 당신의 기술이 곧 금융이 되는 곳, MO-NO."
+    },
+    {
+        main: "'노가다'가 아닙니다. 당신은 '기술자'입니다",
+        sub: "부품처럼 쓰이고 버려지는 일용직은 이제 끝. 당신의 기술이 정당하게 대우받고 평생의 경력이 되는 곳, MO-NO입니다."
+    },
+    {
+        main: "새벽 인력소, 더 이상 줄 서지 마세요",
+        sub: "내일 갈 현장은 전날 밤 내가 직접 고릅니다. 내 조건에 맞는 확실한 일자리로 든든하게 출근하세요."
+    },
+    {
+        main: "당신의 굳은살이 제대로 대접받는 곳",
+        sub: "증명할 길 없던 현장의 시간들. 이제 매일의 출퇴근이 은행 대출과 신용을 위한 '공식 경력'으로 쌓입니다."
+    }
+];
+
 export default function Hero() {
+    const [index, setIndex] = React.useState(0);
+    const [isExiting, setIsExiting] = React.useState(false);
+
+    React.useEffect(() => {
+        const timer = setInterval(() => {
+            setIsExiting(true);
+            setTimeout(() => {
+                setIndex((prev) => (prev + 1) % HERO_SLOGANS.length);
+                setIsExiting(false);
+            }, 500); // Wait for exit animation
+        }, 5000); // Change every 5 seconds
+
+        return () => clearInterval(timer);
+    }, []);
+
     return (
         <section className={styles.hero}>
             <div className={styles.content}>
@@ -38,15 +72,21 @@ export default function Hero() {
                     </div>
                 </div>
 
-                {/* ── Main Hero Text ── */}
+                {/* ── Main Hero Text (Rolling Animation) ── */}
                 <div className={styles.heroMain}>
-                    <h1 className={styles.title}>
-                        <span className={styles.titleLine}>기술인의 숙련도가</span>
-                        <span className={styles.titleLine}>가치 있는 <span style={{color: '#B48A09'}}>자산</span>이 되는 곳</span>
-                    </h1>
-                    <p className={styles.description}>
-                        모노는 단순한 구인구직을 넘어, 기술자의 모든 경력을 데이터화하여 글로벌 시장에서 인정받는 커리어 자산으로 구축해 드립니다.
-                    </p>
+                    <div className={`${styles.sloganContainer} ${isExiting ? styles.exit : styles.enter}`}>
+                        <h1 className={styles.title}>
+                            {HERO_SLOGANS[index].main}
+                        </h1>
+                        <p className={styles.description}>
+                            {HERO_SLOGANS[index].sub.split('\n').map((line, i) => (
+                                <React.Fragment key={i}>
+                                    {line}
+                                    <br />
+                                </React.Fragment>
+                            ))}
+                        </p>
+                    </div>
                 </div>
 
                 {/* ── AI Matching Card (Native Style) ── */}

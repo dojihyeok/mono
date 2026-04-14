@@ -28,6 +28,10 @@
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center everything */
+    text-align: center;   /* Center text by default */
 }
 
 /* ── Refined Mo-Cul Banner (Native Style) ───── */
@@ -38,10 +42,12 @@
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid rgba(255, 255, 255, 0.05);
     border-radius: 24px;
-    padding: 2rem 2.5rem;
+    padding: 1.5rem 2rem;
     margin-bottom: 4rem;
     backdrop-filter: blur(20px);
     transition: all 0.3s ease;
+    width: 100%;
+    max-width: 900px;
 }
 
 .foremanBanner:hover {
@@ -115,27 +121,46 @@
 /* ── Hero Main Text (Clean & Bold) ───────────── */
 .heroMain {
     margin-bottom: 5rem;
+    min-height: 220px; /* Prevent jump when switching */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.sloganContainer {
+    width: 100%;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.enter {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.exit {
+    opacity: 0;
+    transform: translateY(-20px);
 }
 
 .title {
-    font-size: 4rem;
+    font-size: 3.5rem;
     font-weight: 900;
     line-height: 1.25;
     margin-bottom: 1.5rem;
     letter-spacing: -0.03em;
     color: #fff;
-}
-
-.titleLine {
-    display: block;
+    word-break: keep-all;
 }
 
 .description {
     font-size: 1.25rem;
     color: rgba(255, 255, 255, 0.5);
-    max-width: 600px;
-    line-height: 1.6;
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.8;
     font-weight: 500;
+    word-break: keep-all;
 }
 
 /* ── Refined AI Terminal (Card Style) ───────── */
@@ -145,6 +170,8 @@
     border-radius: 32px;
     overflow: hidden;
     margin-bottom: 5rem;
+    width: 100%;
+    max-width: 900px;
 }
 
 .terminalHeader {
@@ -242,6 +269,7 @@
     display: flex;
     gap: 1rem;
     margin-bottom: 4rem;
+    justify-content: center;
 }
 
 .mainBtn {
