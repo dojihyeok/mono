@@ -22,12 +22,16 @@ jobs:
           npm ci
 
       - name: 🔨 Build Next.js
+        env:
+          DATABASE_URL: "file:./dev.db"
         run: |
           cd /root/mono
           rm -rf .next
           npm run build
 
       - name: 🔄 Restart PM2 (Port 3004 Only)
+        env:
+          DATABASE_URL: "file:./dev.db"
         run: |
           # 3004 포트를 사용 중인 프로세스만 종료
           sudo fuser -k 3004/tcp || true
