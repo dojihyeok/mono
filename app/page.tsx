@@ -8,6 +8,7 @@ import QuickNearbyJobs from '@/components/QuickNearbyJobs/QuickNearbyJobs';
 import Features from '@/components/Features/Features';
 import Footer from '@/components/Footer/Footer';
 import Process from '@/components/Process/Process';
+import MoCulAssistant from '@/components/MoCulAssistant/MoCulAssistant';
 
 export default function Home() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -29,12 +30,16 @@ export default function Home() {
       ) : (
         <>
           {/* Landing View (Guest) */}
+          <UrgentRecruitment />
           <Features />
           <Process />
         </>
       )}
       
       <Footer />
+
+      {/* Floating AI Assistant (현장 반장) */}
+      <MoCulAssistant />
     </div>
   );
 }
