@@ -9,14 +9,19 @@ export const metadata = {
 };
 
 export default async function SettlementPage() {
-    // For now, we'll fetch data for the first technician in our seed
-    const tech = await prisma.technician.findFirst();
-    const transactions = tech 
-        ? await prisma.transaction.findMany({
-            where: { technicianId: tech.id },
-            orderBy: { date: 'desc' }
-          })
-        : [];
+    let transactions: any[] = [];
+
+    try {
+        const tech = await prisma.technician.findFirst();
+        if (tech) {
+            transactions = await prisma.transaction.findMany({
+                where: { technicianId: tech.id },
+                orderBy: { date: 'desc' }
+            });
+        }
+    } catch (e) {
+        // DB not available at build time — handled gracefully
+    }
 
     return <SettlementClient initialTransactions={transactions} />;
 }

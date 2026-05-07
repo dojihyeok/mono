@@ -1,7 +1,6 @@
 import { prisma } from '@/lib/prisma';
 import { notFound } from 'next/navigation';
 import JobDetailClient from './JobDetailClient';
-import Navbar from '@/components/Navbar/Navbar';
 import styles from './page.module.css';
 
 export const dynamic = 'force-dynamic';
@@ -46,11 +45,15 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
         job = MOCK_URGENT_JOBS[id];
     } else {
         // Try to fetch from DB
-        const jobId = parseInt(id);
-        if (!isNaN(jobId)) {
-            job = await prisma.jobSite.findUnique({
-                where: { id: jobId }
-            });
+        try {
+            const jobId = parseInt(id);
+            if (!isNaN(jobId)) {
+                job = await prisma.jobSite.findUnique({
+                    where: { id: jobId }
+                });
+            }
+        } catch (e) {
+            // DB not available at build time — handled gracefully
         }
     }
 
@@ -60,7 +63,6 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
 
     return (
         <div className={styles.pageWrap}>
-            <Navbar />
             <JobDetailClient job={job} />
         </div>
     );

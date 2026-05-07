@@ -5,9 +5,15 @@ import JobsClient from './JobsClient';
 export const dynamic = 'force-dynamic';
 
 export default async function JobsPage() {
-    const initialJobs = await prisma.jobSite.findMany({
-        orderBy: { createdAt: 'desc' }
-    });
+    let initialJobs: any[] = [];
+
+    try {
+        initialJobs = await prisma.jobSite.findMany({
+            orderBy: { createdAt: 'desc' }
+        });
+    } catch (e) {
+        // DB not available at build time — handled gracefully
+    }
 
     return (
         <div className={styles.pageWrap}>
