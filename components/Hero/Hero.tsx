@@ -56,7 +56,7 @@ export default function Hero({ isLoggedIn = false }: HeroProps) {
                 <div className={styles.foremanBanner}>
                     <div className={styles.foremanIntro}>
                         <div className={styles.foremanAvatar}>
-                            <BrainCircuit size={28} />
+                            <BrainCircuit size={36} />
                         </div>
                         <div className={styles.foremanIntroText}>
                             <span className={styles.introBadge}>현장 반장 모컬(MO-CUL)</span>

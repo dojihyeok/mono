@@ -4,10 +4,10 @@
 
 .hero {
     position: relative;
-    padding: 140px 0 100px;
+    padding: 160px 0 120px;
     background: #06070a;
     overflow: hidden;
-    min-height: 90vh;
+    min-height: 95vh;
     display: flex;
     align-items: center;
 }
@@ -54,12 +54,12 @@
 .foremanBanner {
     display: inline-flex;
     align-items: center;
-    gap: 2rem;
+    gap: 2.5rem;
     background: rgba(180, 138, 9, 0.06);
     border: 1px solid rgba(180, 138, 9, 0.2);
     border-radius: 100px;
-    padding: 0.75rem 1.75rem 0.75rem 0.75rem;
-    margin-bottom: 4rem;
+    padding: 1rem 2rem 1rem 1rem;
+    margin-bottom: 5rem;
     backdrop-filter: blur(20px);
     transition: all 0.3s ease;
 }
@@ -77,15 +77,15 @@
 }
 
 .foremanAvatar {
-    width: 44px;
-    height: 44px;
+    width: 56px;
+    height: 56px;
     background: linear-gradient(135deg, #B48A09, #D4AF37);
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
     color: #000;
-    box-shadow: 0 0 20px rgba(180, 138, 9, 0.4);
+    box-shadow: 0 0 28px rgba(180, 138, 9, 0.45);
     flex-shrink: 0;
 }
 
@@ -96,23 +96,23 @@
 .introBadge {
     display: block;
     color: #B48A09;
-    font-size: 10px;
+    font-size: 11px;
     font-weight: 800;
-    margin-bottom: 2px;
+    margin-bottom: 4px;
     letter-spacing: 0.12em;
     text-transform: uppercase;
 }
 
 .foremanIntroText h2 {
-    font-size: 0.95rem;
+    font-size: 1.1rem;
     font-weight: 700;
     color: #fff;
-    letter-spacing: -0.01em;
+    letter-spacing: -0.02em;
 }
 
 .trackBtn {
     color: rgba(255, 255, 255, 0.5);
-    font-size: 12px;
+    font-size: 14px;
     font-weight: 700;
     display: flex;
     align-items: center;
@@ -132,8 +132,8 @@
 
 /* ── Main Hero Text ─────────────────────── */
 .heroMain {
-    margin-bottom: 4rem;
-    min-height: 200px;
+    margin-bottom: 5rem;
+    min-height: 260px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -163,19 +163,19 @@
 }
 
 .title {
-    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-size: clamp(3rem, 6vw, 5.5rem);
     font-weight: 900;
-    line-height: 1.15;
-    margin-bottom: 1.5rem;
-    letter-spacing: -0.04em;
+    line-height: 1.1;
+    margin-bottom: 2rem;
+    letter-spacing: -0.05em;
     color: #fff;
     word-break: keep-all;
 }
 
 .description {
-    font-size: 1.1rem;
+    font-size: 1.25rem;
     color: rgba(255, 255, 255, 0.5);
-    max-width: 600px;
+    max-width: 680px;
     margin: 0 auto;
     line-height: 1.8;
     font-weight: 400;
@@ -307,13 +307,13 @@
 }
 
 .mainBtn {
-    padding: 1rem 2rem;
+    padding: 1.2rem 2.5rem;
     border-radius: 100px;
-    font-size: 15px;
+    font-size: 17px;
     font-weight: 800;
     display: inline-flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
     transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     text-decoration: none;
     letter-spacing: -0.01em;
