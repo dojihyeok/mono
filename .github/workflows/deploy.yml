@@ -14,7 +14,8 @@ jobs:
       - name: 📥 Pull latest code to /root/mono
         run: |
           cd /root/mono
-          git pull origin main
+          git fetch origin main
+          git reset --hard origin/main
 
       - name: 📦 Install dependencies
         run: |
@@ -26,6 +27,7 @@ jobs:
           DATABASE_URL: "file:./prisma/dev.db"
         run: |
           cd /root/mono
+          npx prisma generate
           rm -rf .next
           npm run build
 
