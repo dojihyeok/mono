@@ -1,71 +1,153 @@
+/* ─────────────────────────────────────────────
+   Footer — Premium Redesign
+───────────────────────────────────────────── */
+
 .footer {
-    padding: 100px 0 60px;
-    background: #08090a;
+    background: #06070a;
     border-top: 1px solid rgba(255, 255, 255, 0.05);
+    padding-bottom: 2rem;
+}
+
+.footerBody {
+    padding-top: 5rem;
+    padding-bottom: 3rem;
 }
 
 .grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: 2fr 1fr 1fr;
     gap: 4rem;
-    margin-bottom: 6rem;
+    margin-bottom: 4rem;
+}
+
+/* Brand Column */
+.brandLogo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 1.5rem;
+}
+
+.logoMark {
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(135deg, #B48A09, #D4AF37);
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(180, 138, 9, 0.25);
+}
+
+.logoText {
+    font-size: 1.15rem;
+    font-weight: 900;
+    color: #fff;
+    letter-spacing: 0.12em;
 }
 
 .brandDesc {
-    font-size: 0.95rem;
-    color: rgba(255, 255, 255, 0.4);
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.35);
     line-height: 1.8;
-    margin-top: 1.5rem;
-    font-weight: 500;
+    font-weight: 400;
+    max-width: 320px;
+    word-break: keep-all;
+    margin-bottom: 2rem;
 }
 
-.colTitle {
-    font-size: 0.9rem;
+.socialRow {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.socialBtn {
+    width: 36px;
+    height: 36px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255, 255, 255, 0.4);
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 12px;
     font-weight: 800;
-    color: #fff;
-    margin-bottom: 2rem;
+}
+
+.socialBtn:hover {
+    background: rgba(180, 138, 9, 0.1);
+    border-color: rgba(180, 138, 9, 0.2);
+    color: #B48A09;
+}
+
+/* Link Columns */
+.colTitle {
+    font-size: 0.8rem;
+    font-weight: 800;
+    color: rgba(255, 255, 255, 0.3);
+    letter-spacing: 0.12em;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    margin-bottom: 1.5rem;
 }
 
 .links {
     display: flex;
     flex-direction: column;
-    gap: 1.25rem;
+    gap: 0.875rem;
 }
 
 .link {
-    font-size: 14px;
-    font-weight: 600;
-    color: rgba(255, 255, 255, 0.35);
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.45);
     text-decoration: none;
-    transition: all 0.2s;
+    font-weight: 500;
+    transition: color 0.2s;
+    width: fit-content;
 }
 
 .link:hover {
     color: #fff;
 }
 
+/* Bottom Bar */
 .bottom {
-    padding-top: 3rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.03);
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.04);
 }
 
-.bottom p {
-    font-size: 13px;
+.bottomLeft {
+    font-size: 0.85rem;
     color: rgba(255, 255, 255, 0.2);
-    font-weight: 500;
+}
+
+.bottomRight {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.15);
+    font-weight: 700;
+}
+
+.goldDot {
+    width: 6px;
+    height: 6px;
+    background: #B48A09;
+    border-radius: 50%;
+    box-shadow: 0 0 6px rgba(180, 138, 9, 0.5);
 }
 
 /* Responsive */
-@media (max-width: 1024px) {
-    .grid { grid-template-columns: 1fr 1fr; }
-}
-
 @media (max-width: 768px) {
-    .grid { grid-template-columns: 1fr; gap: 3rem; }
+    .grid {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+        margin-bottom: 2.5rem;
+    }
+    .footerBody { padding-top: 3rem; }
     .bottom { flex-direction: column; gap: 1rem; text-align: center; }
+    .brandDesc { max-width: 100%; }
 }

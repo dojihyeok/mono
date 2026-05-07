@@ -1,6 +1,22 @@
+/* ─────────────────────────────────────────────
+   Features — Premium Card Grid
+───────────────────────────────────────────── */
+
 .section {
-    padding: 100px 0;
-    background: #000;
+    padding: 120px 0;
+    background: #06070a;
+    position: relative;
+    overflow: hidden;
+}
+
+.section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(180, 138, 9, 0.3), transparent);
 }
 
 .header {
@@ -9,86 +25,99 @@
 }
 
 .title {
-    font-size: 2.25rem;
-    font-weight: 800;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 900;
     color: #fff;
-    margin-bottom: 1rem;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.04em;
+    margin-bottom: 1.25rem;
+    line-height: 1.2;
 }
 
 .premiumText {
-    color: #B48A09;
+    background: linear-gradient(135deg, #B48A09, #D4AF37, #FFD700);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 .subtitle {
     font-size: 1.1rem;
-    color: rgba(255, 255, 255, 0.4);
-    max-width: 600px;
+    color: rgba(255, 255, 255, 0.45);
+    max-width: 520px;
     margin: 0 auto;
-    line-height: 1.6;
+    line-height: 1.7;
+    word-break: keep-all;
 }
 
-/* ── Native Values Grid ─────────────────── */
 .grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1.5rem;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
 }
 
 .cardOverride {
-    padding: 2.5rem 1.5rem !important;
-    background: rgba(255, 255, 255, 0.02) !important;
-    border: 1px solid rgba(255, 255, 255, 0.05) !important;
-    border-radius: 28px !important;
-    text-align: center;
+    padding: 2.5rem !important;
+    border-radius: 24px !important;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    position: relative;
+    overflow: hidden;
 }
 
-.cardOverride:hover {
-    transform: translateY(-10px) !important;
-    background: rgba(180, 138, 9, 0.03) !important;
-    border-color: rgba(180, 138, 9, 0.2) !important;
+.cardOverride::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(180, 138, 9, 0.4), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.cardOverride:hover::before {
+    opacity: 1;
 }
 
 .iconWrapper {
-    width: 60px;
-    height: 60px;
-    background: rgba(180, 138, 9, 0.08);
-    border-radius: 18px;
+    width: 52px;
+    height: 52px;
+    background: rgba(180, 138, 9, 0.1);
+    border: 1px solid rgba(180, 138, 9, 0.2);
+    border-radius: 16px;
     display: flex;
-    justify-content: center;
     align-items: center;
-    margin: 0 auto 2rem;
+    justify-content: center;
     color: #B48A09;
+    margin-bottom: 1.75rem;
     transition: all 0.3s;
 }
 
 .cardOverride:hover .iconWrapper {
-    background: #B48A09;
-    color: #000;
-    transform: scale(1.1);
+    background: rgba(180, 138, 9, 0.15);
+    border-color: rgba(180, 138, 9, 0.4);
+    transform: scale(1.05);
 }
 
 .cardTitle {
     font-size: 1.25rem;
     font-weight: 800;
     color: #fff;
-    margin-bottom: 1rem;
+    margin-bottom: 0.875rem;
+    letter-spacing: -0.025em;
 }
 
 .cardDesc {
     font-size: 0.95rem;
-    color: rgba(255, 255, 255, 0.4);
+    color: rgba(255, 255, 255, 0.45);
     line-height: 1.7;
-    font-weight: 500;
-}
-
-/* Responsive */
-@media (max-width: 1024px) {
-    .grid { grid-template-columns: repeat(2, 1fr); }
+    font-weight: 400;
+    word-break: keep-all;
 }
 
 @media (max-width: 768px) {
+    .section { padding: 80px 0; }
+    .header { margin-bottom: 3rem; }
     .grid { grid-template-columns: 1fr; }
-    .title { font-size: 1.75rem; }
+    .cardOverride { padding: 2rem !important; }
 }
