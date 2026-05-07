@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import AppShell from "@/components/AppShell";
+import { AuthProvider } from "@/context/AuthContext";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -23,9 +25,6 @@ export const viewport = {
   userScalable: false,
 };
 
-import BottomNav from "@/components/BottomNav/BottomNav";
-import MoCulAssistant from "@/components/MoCulAssistant/MoCulAssistant";
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -35,11 +34,11 @@ export default function RootLayout({
     <html lang="ko" suppressHydrationWarning>
       <body suppressHydrationWarning>
         <div className={`${inter.className} app-shell`}>
-          <main className="app-content">
-            {children}
-          </main>
-          <MoCulAssistant />
-          <BottomNav />
+          <AuthProvider>
+            <AppShell>
+              {children}
+            </AppShell>
+          </AuthProvider>
         </div>
       </body>
     </html>

@@ -1,5 +1,4 @@
 import { prisma } from '@/lib/prisma';
-import Navbar from '@/components/Navbar/Navbar';
 import styles from './page.module.css';
 import JobsClient from './JobsClient';
 
@@ -12,7 +11,6 @@ export default async function JobsPage() {
 
     return (
         <div className={styles.pageWrap}>
-            <Navbar />
             <div className={styles.container}>
                 <div className={styles.header}>
                     <h1 className={styles.title}>실시간 일자리</h1>
@@ -24,4 +22,3 @@ export default async function JobsPage() {
         </div>
     );
 }
-

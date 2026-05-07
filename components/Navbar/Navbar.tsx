@@ -17,12 +17,8 @@ export default function Navbar({ isLoggedIn = false, onToggleLogin }: NavbarProp
                 <nav className={styles.navLinks}>
                     <Link href="/jobs" className={styles.navLink}>채용 현장</Link>
                     <Link href="/technicians" className={styles.navLink}>기술 전문가</Link>
-                    {isLoggedIn && (
-                        <>
-                            <Link href="/foreman" className={styles.navLink}>현장 반장 (AI)</Link>
-                            <Link href="/matching" className={styles.navLink}>프리미엄 매칭</Link>
-                        </>
-                    )}
+                    <Link href="/foreman" className={styles.navLink}>현장 반장 (AI)</Link>
+                    <Link href="/matching" className={styles.navLink}>프리미엄 매칭</Link>
                     <Link href="/academy" className={styles.navLink}>모노 아카데미</Link>
                 </nav>
 
