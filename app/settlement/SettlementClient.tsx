@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import Navbar from '@/components/Navbar/Navbar';
 import GlassCard from '@/components/UI/GlassCard';
 import Button from '@/components/UI/Button';
@@ -8,36 +8,43 @@ import styles from './page.module.css';
 import { 
   ShieldCheck, 
   Lock, 
-  TrendingUp, 
-  History, 
-  ArrowUpRight, 
   Wallet,
-  ShieldAlert,
-  Info,
-  CheckCircle2,
   Building2
 } from 'lucide-react';
 
-// Mock Settlement Data for Phase 2.2
-const WALLET_DATA = {
-    availableBalance: '830,000',
-    lockedEscrow: '1,200,000',
-    totalCumulative: '42,850,000',
-    bank: '국민은행',
-    accountNumber: '479202-04-******',
-    pendingSites: [
-        { id: 'p1', site: '청담동 고급 빌라 시공', date: '2024.03.18', status: 'Locked', amount: '450,000' },
-        { id: 'p2', site: '한남 더 힐 대리석 보수', date: '2024.03.19', status: 'Verifying', amount: '750,000' }
-    ],
-    history: [
-        { id: 'h1', site: '강남 오피스텔 리모델링', date: '2024.03.15', amount: '380,000', status: 'Settled' },
-        { id: 'h2', site: '서초구 아파트 타일 시공', date: '2024.03.12', amount: '450,000', status: 'Settled' },
-        { id: 'h3', site: '잠실 롯데캐슬 보수', date: '2024.03.01', amount: '220,000', status: 'Settled' }
-    ]
-};
+interface SettlementClientProps {
+    initialTransactions: any[];
+}
 
-export default function SettlementClient() {
+export default function SettlementClient({ initialTransactions }: SettlementClientProps) {
     const [isTransferring, setIsTransferring] = useState(false);
+
+    const { availableBalance, lockedEscrow, pendingSites, history } = useMemo(() => {
+        const settled = initialTransactions.filter(t => t.status === 'Settled');
+        const pending = initialTransactions.filter(t => t.status !== 'Settled');
+        
+        const available = settled.reduce((acc, t) => acc + t.amount, 0);
+        const locked = pending.reduce((acc, t) => acc + t.amount, 0);
+
+        return {
+            availableBalance: available.toLocaleString(),
+            lockedEscrow: locked.toLocaleString(),
+            pendingSites: pending.map(t => ({
+                id: t.id.toString(),
+                site: t.siteName,
+                date: t.date.toLocaleDateString(),
+                status: t.status,
+                amount: t.amount.toLocaleString()
+            })),
+            history: settled.map(t => ({
+                id: t.id.toString(),
+                site: t.siteName,
+                date: t.date.toLocaleDateString(),
+                amount: t.amount.toLocaleString(),
+                status: 'Settled'
+            }))
+        };
+    }, [initialTransactions]);
 
     const handleTransfer = () => {
         setIsTransferring(true);
@@ -52,7 +59,6 @@ export default function SettlementClient() {
             <Navbar />
             
             <main className={styles.main}>
-                {/* 1. Wallet Status Highlighting */}
                 <header className={styles.header}>
                     <div className={styles.brandBadge}>내 돈 관리 및 정산 센터</div>
                     <h1 className={styles.title}>내 수고비 확인하기</h1>
@@ -68,11 +74,11 @@ export default function SettlementClient() {
                             </div>
                             <span className={styles.dotLive}>지금 가능</span>
                         </div>
-                        <h2 className={styles.balance}>{WALLET_DATA.availableBalance}원</h2>
+                        <h2 className={styles.balance}>{availableBalance}원</h2>
                         <div className={styles.accountInfo}>
                             <Building2 size={14} />
-                            <span className={styles.bankTag}>{WALLET_DATA.bank}</span>
-                            <span className={styles.accountNum}>{WALLET_DATA.accountNumber}</span>
+                            <span className={styles.bankTag}>국민은행</span>
+                            <span className={styles.accountNum}>479202-04-******</span>
                         </div>
                         <Button 
                             className={styles.transferBtn} 
@@ -95,7 +101,7 @@ export default function SettlementClient() {
                             </div>
                             <div className={styles.secureBadge}>안전하게 보관됨</div>
                         </div>
-                        <h2 className={styles.lockedAmount}>{WALLET_DATA.lockedEscrow}원</h2>
+                        <h2 className={styles.lockedAmount}>{lockedEscrow}원</h2>
                         <div className={styles.safetyNetBox}>
                             <div className={styles.netItem}>
                                 <label>산재보험 적립</label>
@@ -113,11 +119,10 @@ export default function SettlementClient() {
                     </GlassCard>
                 </div>
 
-                {/* 2. Pending Site Details */}
                 <section className={styles.pendingSection}>
                     <h3 className={styles.sectionTitle}>아직 일하고 있는 현장 (정산 전)</h3>
                     <div className={styles.siteList}>
-                        {WALLET_DATA.pendingSites.map(site => (
+                        {pendingSites.map(site => (
                             <div key={site.id} className={styles.siteItem}>
                                 <div className={styles.siteInfo}>
                                     <p className={styles.siteName}>{site.site}</p>
@@ -134,12 +139,17 @@ export default function SettlementClient() {
                     </div>
                 </section>
 
-                {/* 3. Settlement History */}
                 <section className={styles.historySection}>
-                    <h3 className={styles.sectionTitle}>정산 완료 내역</h3>
+                    <div className={styles.sectionHeaderWithAction}>
+                        <h3 className={styles.sectionTitle}>정산 완료 내역</h3>
+                        <div className={styles.actionGroup}>
+                            <button className={styles.exportBtn} onClick={() => alert('PDF 리포트가 생성되었습니다.')}>PDF</button>
+                            <button className={styles.exportBtn} onClick={() => alert('CSV 파일이 다운로드되었습니다.')}>CSV</button>
+                        </div>
+                    </div>
                     <GlassCard className={styles.historyCard}>
                         <div className={styles.historyList}>
-                            {WALLET_DATA.history.map(item => (
+                            {history.map(item => (
                                 <div key={item.id} className={styles.historyItem}>
                                     <div className={styles.historyInfo}>
                                         <p className={styles.historyName}>{item.site}</p>

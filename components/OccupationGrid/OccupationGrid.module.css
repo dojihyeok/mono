@@ -101,6 +101,22 @@
     height: 100%;
 }
 
+@media (max-width: 768px) {
+    .tile {
+        padding: 1.5rem 0.75rem;
+        border-radius: 1.5rem;
+        gap: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .tile {
+        padding: 1.5rem 0.75rem;
+        border-radius: 1.5rem;
+        gap: 1rem;
+    }
+}
+
 .tile::before {
     content: '';
     position: absolute;
@@ -138,6 +154,28 @@
     z-index: 2;
 }
 
+@media (max-width: 768px) {
+    .iconWrapper {
+        width: 60px;
+        height: 60px;
+    }
+    .iconWrapper svg {
+        width: 24px;
+        height: 24px;
+    }
+}
+
+@media (max-width: 768px) {
+    .iconWrapper {
+        width: 60px;
+        height: 60px;
+    }
+    .iconWrapper svg {
+        width: 24px;
+        height: 24px;
+    }
+}
+
 .tile:hover .iconWrapper {
     transform: scale(1.1);
     border-color: var(--accent);
@@ -169,6 +207,16 @@
     border-radius: 8px;
     box-shadow: 0 4px 10px rgba(255, 107, 0, 0.4);
     z-index: 10;
+}
+
+.pulseBadge {
+    animation: pulseBadgeAnim 2s infinite;
+}
+
+@keyframes pulseBadgeAnim {
+    0% { transform: scale(1); box-shadow: 0 4px 10px rgba(255, 107, 0, 0.4); }
+    50% { transform: scale(1.1); box-shadow: 0 4px 20px rgba(255, 107, 0, 0.6); }
+    100% { transform: scale(1); box-shadow: 0 4px 10px rgba(255, 107, 0, 0.4); }
 }
 
 .labelGroup {

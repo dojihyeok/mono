@@ -515,6 +515,23 @@
     box-shadow: 0 4px 10px rgba(255, 107, 0, 0.3);
 }
 
+.passportConnected {
+    position: absolute;
+    top: 2.5rem;
+    right: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 8px;
+    font-weight: 900;
+    color: #3b82f6;
+    background: rgba(59, 130, 246, 0.1);
+    padding: 2px 6px;
+    border-radius: 4px;
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    letter-spacing: 0.05em;
+}
+
 .recLabel {
     font-size: 0.7rem;
     font-weight: 700;

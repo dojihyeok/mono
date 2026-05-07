@@ -258,6 +258,45 @@ async function main() {
         await prisma.jobSite.create({ data: j })
     }
 
+    // Seed Transactions for Technician 1
+    const firstTech = await prisma.technician.findFirst();
+    if (firstTech) {
+        const transactions = [
+            {
+                technicianId: firstTech.id,
+                siteName: '강남 오피스텔 리모델링',
+                amount: 380000,
+                status: 'Settled',
+                date: new Date('2024-03-15'),
+            },
+            {
+                technicianId: firstTech.id,
+                siteName: '서초구 아파트 타일 시공',
+                amount: 450000,
+                status: 'Settled',
+                date: new Date('2024-03-12'),
+            },
+            {
+                technicianId: firstTech.id,
+                siteName: '청담동 고급 빌라 시공',
+                amount: 450000,
+                status: 'Locked',
+                date: new Date('2024-03-18'),
+            },
+            {
+                technicianId: firstTech.id,
+                siteName: '한남 더 힐 대리석 보수',
+                amount: 750000,
+                status: 'Verifying',
+                date: new Date('2024-03-19'),
+            },
+        ];
+
+        for (const t of transactions) {
+            await prisma.transaction.create({ data: t });
+        }
+    }
+
     console.log('Seed data inserted successfully.')
 }
 

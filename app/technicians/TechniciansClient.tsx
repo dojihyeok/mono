@@ -56,7 +56,12 @@ export default function TechniciansClient({ initialTechnicians }: TechniciansCli
                     placeholder="이름, 기술직종 또는 거주지역으로 검색해보세요" 
                     className={styles.searchInput}
                     value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
+                    onChange={(e) => {
+                        setSearchTerm(e.target.value);
+                        if (e.target.value !== '' && viewMode !== 'details') {
+                            setViewMode('details');
+                        }
+                    }}
                 />
             </div>
 

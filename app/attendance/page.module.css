@@ -108,13 +108,13 @@
 
 .weatherTag {
     font-size: 14px;
-    color: rgba(255, 255, 255, 0.4);
+    color: rgba(255, 255, 255, 0.6);
     font-weight: 600;
 }
 
 .location {
     font-size: 1rem;
-    color: rgba(255, 255, 255, 0.4);
+    color: rgba(255, 255, 255, 0.5);
     margin-top: 0.5rem;
 }
 
@@ -183,7 +183,7 @@
 }
 
 .gatheringLoc {
-    color: rgba(255, 255, 255, 0.4);
+    color: rgba(255, 255, 255, 0.6);
     margin-bottom: 3rem;
     font-weight: 500;
 }
@@ -233,7 +233,7 @@
 }
 
 .plate { font-size: 1.5rem; font-weight: 800; color: #fff; }
-.model { color: rgba(255, 255, 255, 0.4); font-size: 14px; font-weight: 600; margin-top: 4px; }
+.model { color: rgba(255, 255, 255, 0.5); font-size: 14px; font-weight: 600; margin-top: 4px; }
 
 .etaBox {
     margin-left: auto;
@@ -305,6 +305,13 @@
     color: #fff;
     margin: 2rem 0 3.5rem;
     font-family: monospace;
+    animation: heartbeat 2s ease-in-out infinite;
+}
+
+@keyframes heartbeat {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.02); opacity: 0.9; }
+    100% { transform: scale(1); opacity: 1; }
 }
 
 /* ── Settled State (Success Card) ──────────── */
@@ -342,7 +349,7 @@
 .summaryLabel {
     font-size: 11px;
     font-weight: 700;
-    color: rgba(255, 255, 255, 0.3);
+    color: rgba(255, 255, 255, 0.5);
 }
 
 .summaryValue {
@@ -402,6 +409,34 @@
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+.cameraFrame::before, .cameraFrame::after {
+    content: '';
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    border: 3px solid #B48A09;
+    z-index: 10;
+    pointer-events: none;
+}
+
+/* Top Left Corner */
+.cameraFrame::before {
+    top: 20px;
+    left: 20px;
+    border-right: none;
+    border-bottom: none;
+    border-top-left-radius: 12px;
+}
+
+/* Bottom Right Corner */
+.cameraFrame::after {
+    bottom: 20px;
+    right: 20px;
+    border-left: none;
+    border-top: none;
+    border-bottom-right-radius: 12px;
+}
+
 .scannerLine {
     position: absolute;
     top: 0;
@@ -429,4 +464,44 @@
     .statusCard { padding: 2rem !important; }
     .timer { font-size: 3rem; }
     .sosBtn { bottom: 2rem; right: 2rem; padding: 1rem; }
+}
+
+.safetyReport {
+    background: rgba(180, 138, 9, 0.05);
+    border: 1px solid rgba(180, 138, 9, 0.1);
+    border-radius: 20px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    text-align: left;
+}
+
+.reportTitle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 800;
+    color: #B48A09;
+    margin-bottom: 1rem;
+}
+
+.reportGrid {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.reportItem {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.6);
+    font-weight: 600;
+}
+
+.dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
 }

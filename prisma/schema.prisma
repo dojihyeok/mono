@@ -35,3 +35,13 @@ model JobSite {
   date        DateTime @default(now())
   createdAt   DateTime @default(now())
 }
+
+model Transaction {
+  id          Int      @id @default(autoincrement())
+  technicianId Int
+  siteName    String
+  amount      Int
+  status      String   // Settled, Locked, Verifying
+  date        DateTime @default(now())
+  createdAt   DateTime @default(now())
+}

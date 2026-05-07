@@ -84,6 +84,24 @@
     border-color: rgba(180, 138, 9, 0.2);
 }
 
+.loginBtn {
+    background: #fff;
+    color: #000;
+    padding: 0.6rem 1.25rem;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    font-weight: 800;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.loginBtn:hover {
+    background: #B48A09;
+    color: #000;
+    transform: translateY(-2px);
+}
+
 /* Responsive */
 @media (max-width: 1024px) {
     .navLinks { display: none; }

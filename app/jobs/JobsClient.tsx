@@ -2,7 +2,7 @@
 
 import { useState, useMemo, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { Zap } from 'lucide-react';
+import { Zap, ShieldCheck } from 'lucide-react';
 import JobCard from '@/components/JobCard';
 import JobCardSkeleton from '@/components/JobCard/JobCardSkeleton';
 import JobFilter from '@/components/JobFilter/JobFilter';
@@ -123,7 +123,7 @@ export default function JobsClient({ initialJobs }: JobsClientProps) {
                     </div>
                     
                     <div className={styles.aiRecommendGrid}>
-                        {[
+                        {([
                             {
                                 id: 'rec-1',
                                 title: '평택 삼성전자 P4 신축 배관공',
@@ -148,9 +148,13 @@ export default function JobsClient({ initialJobs }: JobsClientProps) {
                                 match: '91%',
                                 reason: '모노 AI가 분석한 글로벌 이력 데이터에 근거하여 고단가 프로젝트 매칭을 추천합니다.'
                             }
-                        ].map((rec) => (
+                        ] as const).map((rec) => (
                             <div key={rec.id} className={styles.recommendCard}>
                                 <div className={styles.matchBadge}>{rec.match} 연결</div>
+                                <div className={styles.passportConnected}>
+                                    <ShieldCheck size={10} />
+                                    PASSPORT CONNECTED
+                                </div>
                                 <span className={styles.recLabel}>맞춤형 현장</span>
                                 <h3 className={styles.recTitle}>{rec.title}</h3>
                                 <div className={styles.recMeta}>
@@ -160,8 +164,8 @@ export default function JobsClient({ initialJobs }: JobsClientProps) {
                                 <p className={styles.aiReasoning}>
                                     <strong>맞춤 분석 결과:</strong> {rec.reason}
                                 </p>
-                                <button className={styles.recApply}>
-                                    지금 바로 지원하기
+                                <button className={styles.recApply} onClick={() => alert('디지털 기술 여권으로 즉시 지원되었습니다.')}>
+                                    여권으로 즉시 지원하기
                                 </button>
                             </div>
                         ))}

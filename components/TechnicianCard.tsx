@@ -3,6 +3,7 @@ import Link from 'next/link';
 import styles from './TechnicianCard.module.css';
 import GlassCard from './UI/GlassCard';
 import Button from './UI/Button';
+import { Star, ShieldCheck, MapPin, User } from 'lucide-react';
 
 interface TechnicianProps {
     technician: {
@@ -15,6 +16,7 @@ interface TechnicianProps {
         status: string;
         verified: boolean;
         trustScore?: number;
+        rating?: number;
     }
 }
 
@@ -24,18 +26,30 @@ export default function TechnicianCard({ technician }: TechnicianProps) {
         [technician.trustScore]
     );
 
+    const rating = technician.rating || 4.8;
+
     return (
         <GlassCard hoverEffect className={styles.cardOverride}>
             <Link href={`/profile/${technician.id}`} className={styles.linkWrapper}>
                 <div className={styles.header}>
                     <div className={styles.avatarWrapper}>
                         <div className={styles.avatar}>
-                            {technician.name[0]}
+                            <User size={24} />
                         </div>
-                        {technician.verified && <div className={styles.verifiedIcon}>★</div>}
+                        {technician.verified && (
+                            <div className={styles.verifiedIcon}>
+                                <ShieldCheck size={12} fill="currentColor" stroke="black" />
+                            </div>
+                        )}
                     </div>
                     <div className={styles.nameGroup}>
-                        <h3 className={styles.name}>{technician.name}</h3>
+                        <div className={styles.nameRow}>
+                            <h3 className={styles.name}>{technician.name}</h3>
+                            <div className={styles.ratingBox}>
+                                <Star size={12} fill="#B48A09" color="#B48A09" />
+                                <span>{rating}</span>
+                            </div>
+                        </div>
                         <p className={styles.expertTitle}>{technician.specialty} 전문가 · 경력 {technician.experience}년</p>
                     </div>
                     <div className={styles.trustGroup}>

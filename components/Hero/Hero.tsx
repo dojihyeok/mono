@@ -6,7 +6,7 @@ import {
     ChevronRight, 
     ShieldCheck, 
     ArrowRight, 
-    User, 
+    BrainCircuit, 
     Search, 
     Briefcase, 
     Star,
@@ -16,24 +16,24 @@ import styles from './Hero.module.css';
 
 const HERO_SLOGANS = [
     {
-        main: "현장의 경력을 신용으로 바꿉니다",
-        sub: "증발하던 노동의 가치를 투명한 데이터 자산으로 전환합니다.\n안전한 정산, 확실한 커리어. 당신의 기술이 곧 금융이 되는 곳, MO-NO."
+        main: "기술자의 숙련도가 곧 금융 자산이 됩니다",
+        sub: "증발하던 노동의 가치를 투명한 데이터로 전환하여\n당신의 경력을 공식적인 신용으로 바꿔드립니다."
     },
     {
-        main: "'노가다'가 아닙니다. 당신은 '기술자'입니다",
-        sub: "부품처럼 쓰이고 버려지는 일용직은 이제 끝. 당신의 기술이 정당하게 대우받고 평생의 경력이 되는 곳, MO-NO입니다."
+        main: "나에게 꼭 맞는 현장, AI가 찾아드려요",
+        sub: "새벽 인력소 줄 서기 대신, 전날 밤 미리 고르는 확실한 일자리.\n기술 여권 하나로 글로벌 프로젝트까지 연결됩니다."
     },
     {
-        main: "새벽 인력소, 더 이상 줄 서지 마세요",
-        sub: "내일 갈 현장은 전날 밤 내가 직접 고릅니다. 내 조건에 맞는 확실한 일자리로 든든하게 출근하세요."
-    },
-    {
-        main: "당신의 굳은살이 제대로 대접받는 곳",
-        sub: "증명할 길 없던 현장의 시간들. 이제 매일의 출퇴근이 은행 대출과 신용을 위한 '공식 경력'으로 쌓입니다."
+        main: "매일 쌓이는 경력, 더 높은 대우를 위해",
+        sub: "내일의 성장을 위한 실시간 기술 가이드부터\n정당한 대우를 받는 전문가 커리어의 시작, MO-NO."
     }
 ];
 
-export default function Hero() {
+interface HeroProps {
+    isLoggedIn?: boolean;
+}
+
+export default function Hero({ isLoggedIn = false }: HeroProps) {
     const [index, setIndex] = React.useState(0);
     const [isExiting, setIsExiting] = React.useState(false);
 
@@ -43,8 +43,8 @@ export default function Hero() {
             setTimeout(() => {
                 setIndex((prev) => (prev + 1) % HERO_SLOGANS.length);
                 setIsExiting(false);
-            }, 500); // Wait for exit animation
-        }, 5000); // Change every 5 seconds
+            }, 500);
+        }, 5000);
 
         return () => clearInterval(timer);
     }, []);
@@ -56,18 +56,16 @@ export default function Hero() {
                 <div className={styles.foremanBanner}>
                     <div className={styles.foremanIntro}>
                         <div className={styles.foremanAvatar}>
-                            <User size={32} />
+                            <BrainCircuit size={28} />
                         </div>
                         <div className={styles.foremanIntroText}>
-                            <span className={styles.introBadge}>든든한 현장 조력자</span>
-                            <h2>오늘의 전문적인 성장을 위해 현장 반장이 함께합니다</h2>
-                            <p>전문가님의 숙련된 기술이 최적의 현장과 매칭될 수 있도록 지원합니다.</p>
+                            <span className={styles.introBadge}>현장 반장 모컬(MO-CUL)</span>
+                            <h2>기술자님의 전문적인 성장을 돕습니다</h2>
                         </div>
                     </div>
                     <div className={styles.foremanActions}>
                         <Link href="/foreman" className={styles.trackBtn}>
-                            <Search size={18} />
-                            현장 반장 가이드 확인하기
+                            AI 가이드 확인 <ArrowRight size={14} />
                         </Link>
                     </div>
                 </div>
@@ -89,63 +87,94 @@ export default function Hero() {
                     </div>
                 </div>
 
-                {/* ── AI Matching Card (Native Style) ── */}
-                <div className={styles.aiTerminal}>
-                    <div className={styles.terminalHeader}>
-                        <div className={styles.pulseDot} />
-                        전문가님께 딱 맞는 현장을 찾고 있어요
-                    </div>
-                    <Link href="/jobs" className={styles.tacticalCard}>
-                        <div className={styles.cardInfo}>
-                        <div className={styles.liveIndicator}>
-                                <Star size={14} fill="currentColor" />
-                                오늘 가장 추천하는 현장
+                {isLoggedIn ? (
+                    <>
+                        {/* ── AI Matching Card (Only for Logged In) ── */}
+                        <div className={styles.aiTerminal}>
+                            <div className={styles.terminalHeader}>
+                                <div className={styles.pulseDot} />
+                                기술자님께 딱 맞는 현장을 찾고 있어요
                             </div>
-                            <h3 className={styles.cardTitle}>반도체 플랜트 고소작업 배관 기술자 급구</h3>
-                            <p className={styles.cardSub}>경기도 평택 | 일당 210,000원 | 즉시 출근 가능</p>
-                            
-                            <div className={styles.liveStats}>
-                                <div className={styles.statItem}>
-                                    <Briefcase size={16} />
-                                    12명 지원 중
+                            <Link href="/jobs" className={styles.tacticalCard}>
+                                <div className={styles.cardInfo}>
+                                    <div className={styles.liveIndicator}>
+                                        <Star size={14} fill="currentColor" />
+                                        오늘 가장 추천하는 현장
+                                    </div>
+                                    <h3 className={styles.cardTitle}>반도체 플랜트 고소작업 배관 기술자 급구</h3>
+                                    <p className={styles.cardSub}>경기도 평택 | 일당 210,000원 | 즉시 출근 가능</p>
+                                    
+                                    <div className={styles.liveStats}>
+                                        <div className={styles.statItem}>
+                                            <Briefcase size={16} />
+                                            12명 지원 중
+                                        </div>
+                                        <div className={styles.statItem}>
+                                            <BarChart3 size={16} />
+                                            매칭 적합도 98%
+                                        </div>
+                                    </div>
                                 </div>
-                                <div className={styles.statItem}>
-                                    <BarChart3 size={16} />
-                                    매칭 적합도 98%
+                                <div className={styles.cardArrow}>
+                                    <ArrowRight size={28} />
                                 </div>
-                            </div>
+                            </Link>
                         </div>
-                        <div className={styles.cardArrow}>
-                            <ArrowRight size={28} />
+
+                        {/* ── Dashboard Quick Actions ── */}
+                        <div className={styles.actions}>
+                            <Link href="/jobs" className={`${styles.mainBtn} ${styles.primaryBtn}`}>
+                                일자리 탐색
+                                <ChevronRight size={20} />
+                            </Link>
+                            <Link href="/career" className={`${styles.mainBtn} ${styles.secondaryBtn}`}>
+                                내 기술 자산
+                            </Link>
                         </div>
-                    </Link>
-                </div>
+                    </>
+                ) : (
+                    <>
+                        {/* ── Landing Page Actions ── */}
+                        <div className={styles.actions}>
+                            <Link href="/login" className={`${styles.mainBtn} ${styles.primaryBtn}`}>
+                                지금 시작하기
+                                <ChevronRight size={20} />
+                            </Link>
+                            <Link href="/about" className={`${styles.mainBtn} ${styles.secondaryBtn}`}>
+                                모노 서비스 소개
+                            </Link>
+                        </div>
+                    </>
+                )}
 
-                {/* ── Main Actions ── */}
-                <div className={styles.actions}>
-                    <Link href="/jobs" className={`${styles.mainBtn} ${styles.primaryBtn}`}>
-                        일자리 바로 찾기
-                        <ChevronRight size={20} />
-                    </Link>
-                    <Link href="/career" className={`${styles.mainBtn} ${styles.secondaryBtn}`}>
-                        내 기술 자산 확인하기
-                    </Link>
-                </div>
-
-                {/* ── Quick Asset Nav ── */}
+                {/* ── Navigation (Different for Auth/Guest) ── */}
                 <div className={styles.assetNav}>
-                    <Link href="/office" className={styles.assetItem}>
-                        <ShieldCheck size={16} />
-                        경력 관리
-                    </Link>
-                    <div className={styles.divider} />
-                    <Link href="/academy" className={styles.assetItem}>
-                        기술 교육
-                    </Link>
-                    <div className={styles.divider} />
-                    <Link href="/matching" className={styles.assetItem}>
-                        글로벌 파견
-                    </Link>
+                    {isLoggedIn ? (
+                        <>
+                            <Link href="/office" className={styles.assetItem}>
+                                <ShieldCheck size={16} />
+                                경력 관리
+                            </Link>
+                            <div className={styles.divider} />
+                            <Link href="/settlement" className={styles.assetItem}>
+                                정산 현황
+                            </Link>
+                            <div className={styles.divider} />
+                            <Link href="/matching" className={styles.assetItem}>
+                                글로벌 매칭
+                            </Link>
+                        </>
+                    ) : (
+                        <>
+                            <Link href="/technicians" className={styles.assetItem}>
+                                우수 기술자 찾기
+                            </Link>
+                            <div className={styles.divider} />
+                            <Link href="/academy" className={styles.assetItem}>
+                                기술 교육 문의
+                            </Link>
+                        </>
+                    )}
                 </div>
             </div>
         </section>

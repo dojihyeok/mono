@@ -293,6 +293,32 @@
     box-shadow: 0 20px 50px rgba(180, 138, 9, 0.5);
 }
 
+.exportActions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.iconBtn {
+    width: 64px;
+    height: 64px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.6);
+    border-radius: 1.25rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.iconBtn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
 /* ── Digital Passport Card ──────────────── */
 .passportCard {
     background: rgba(255, 255, 255, 0.02);

@@ -1,3 +1,6 @@
+'use client';
+
+import React, { useState } from 'react';
 import Navbar from '@/components/Navbar/Navbar';
 import Hero from '@/components/Hero/Hero';
 import UrgentRecruitment from '@/components/UrgentRecruitment/UrgentRecruitment';
@@ -6,17 +9,31 @@ import Features from '@/components/Features/Features';
 import Footer from '@/components/Footer/Footer';
 import Process from '@/components/Process/Process';
 
-export const dynamic = 'force-dynamic';
-
 export default function Home() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const toggleLogin = () => setIsLoggedIn(!isLoggedIn);
+
   return (
     <div className="page-container">
-      <Navbar />
-      <Hero />
-      <UrgentRecruitment />
-      <QuickNearbyJobs />
-      <Features />
-      <Process />
+      <Navbar isLoggedIn={isLoggedIn} onToggleLogin={toggleLogin} />
+      
+      <Hero isLoggedIn={isLoggedIn} />
+      
+      {isLoggedIn ? (
+        <>
+          {/* Dashboard View (Auth) */}
+          <UrgentRecruitment />
+          <QuickNearbyJobs />
+        </>
+      ) : (
+        <>
+          {/* Landing View (Guest) */}
+          <Features />
+          <Process />
+        </>
+      )}
+      
       <Footer />
     </div>
   );

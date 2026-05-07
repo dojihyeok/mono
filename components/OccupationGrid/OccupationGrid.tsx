@@ -136,7 +136,7 @@ export default function OccupationGrid({ onSelect }: OccupationGridProps) {
                                     <div className={styles.iconOverlay} />
                                     {occ.icon}
                                     {isMounted && (
-                                        <div className={styles.countBadge}>
+                                        <div className={`${styles.countBadge} ${styles.pulseBadge}`}>
                                             {getCount(occ.id)}
                                         </div>
                                     )}

@@ -29,22 +29,22 @@ const SITE_DATA = {
     weather: '맑음, 21˚C',
     shiftStart: '08:00',
     currentTeam: [
-        { id: 'm1', name: '이마스터', initial: 'LM', role: '목수' },
-        { id: 'm2', name: '박마스터', initial: 'PM', role: '전기' },
+        { id: 'm1', name: '이기술자', initial: 'LT', role: '목수' },
+        { id: 'm2', name: '박기술자', initial: 'PT', role: '전기' },
         { id: 'm3', name: '최보조', initial: 'CJ', role: '조공' }
     ]
 };
 
 const VEHICLE_DATA = {
     id: 'V-102',
-    model: 'Hyundai Staria Master Van',
+    model: 'Hyundai Staria Technician Van',
     plate: '52 가 1234',
     driver: '김영수 기사님',
     status: 'GATHERING',
     eta: '12분 뒤',
     seats: [
-        { id: 1, occupied: true, name: '이마스터' },
-        { id: 2, occupied: true, name: '박마스터' },
+        { id: 1, occupied: true, name: '이기술자' },
+        { id: 2, occupied: true, name: '박기술자' },
         { id: 3, occupied: false },
         { id: 4, occupied: true, name: '최보조' },
         { id: 5, occupied: false },
@@ -187,7 +187,7 @@ export default function AttendanceClient() {
                                 </div>
 
                                 <div className={styles.seatMapSection}>
-                                    <h4 style={{fontSize: '14px', color: '#fff', marginBottom: '1.5rem', fontWeight: 800}}>마스터님의 전용 지정 좌석</h4>
+                                    <h4 style={{fontSize: '14px', color: '#fff', marginBottom: '1.5rem', fontWeight: 800}}>기술자님의 전용 지정 좌석</h4>
                                     <div className={styles.seatGrid}>
                                         {VEHICLE_DATA.seats.map(seat => (
                                             <div 
@@ -219,8 +219,8 @@ export default function AttendanceClient() {
                                         <div style={{fontSize: '12px', color: 'rgba(255,255,255,0.2)'}}>{VEHICLE_DATA.id}</div>
                                     </div>
                                     <div style={{display: 'flex', gap: '3rem', marginBottom: '1.5rem'}}>
-                                        <div><label style={{fontSize: '11px', color: 'rgba(255,255,255,0.3)', display: 'block', marginBottom: '6px'}}>성함</label><strong style={{color: '#fff'}}>김모노 마스터</strong></div>
-                                        <div><label style={{fontSize: '11px', color: 'rgba(255,255,255,0.3)', display: 'block', marginBottom: '6px'}}>지정 좌석</label><strong style={{color: '#fff'}}>03번 (창가)</strong></div>
+                                        <div><label style={{fontSize: '11px', color: 'rgba(255,255,255,0.5)', display: 'block', marginBottom: '6px'}}>성함</label><strong style={{color: '#fff'}}>김모노 기술자</strong></div>
+                                        <div><label style={{fontSize: '11px', color: 'rgba(255,255,255,0.5)', display: 'block', marginBottom: '6px'}}>지정 좌석</label><strong style={{color: '#fff'}}>03번 (창가)</strong></div>
                                     </div>
                                     <div style={{fontSize: '15px', color: '#fff', fontWeight: 700, padding: '1rem', background: 'rgba(255,255,255,0.02)', borderRadius: '12px', display: 'flex', alignItems: 'center', gap: '10px'}}>
                                         <CheckCircle2 size={16} color="#B48A09" /> 공식 셔틀 차량 인증됨
@@ -240,7 +240,7 @@ export default function AttendanceClient() {
                             <div className={styles.ppeState}>
                                 <div className={styles.scannerHeader}>
                                     <h3 style={{fontSize: '1.5rem', color: '#fff', marginBottom: '1rem', fontWeight: 800}}>안전 보호구 착용 확인</h3>
-                                    <p style={{fontSize: '0.95rem', color: 'rgba(255,255,255,0.4)', lineHeight: '1.6'}}>마스터님의 소중한 안전을 위해<br/>안전모와 안전화 착용 모습을 보여주세요.</p>
+                                    <p style={{fontSize: '0.95rem', color: 'rgba(255,255,255,0.6)', lineHeight: '1.6'}}>기술자님의 소중한 안전을 위해<br/>안전모와 안전화 착용 모습을 보여주세요.</p>
                                 </div>
                                 <div className={styles.cameraFrame}>
                                     <div className={styles.scannerLine}></div>
@@ -286,6 +286,26 @@ export default function AttendanceClient() {
                                     <div className={styles.summaryItem}>
                                         <span className={styles.summaryLabel}>오늘의 예상 수입</span>
                                         <span className={styles.summaryValue}>₩195,000</span>
+                                    </div>
+                                </div>
+
+                                <div className={styles.safetyReport}>
+                                    <h4 className={styles.reportTitle}>
+                                        <ShieldCheck size={14} /> 오늘의 안전 리포트
+                                    </h4>
+                                    <div className={styles.reportGrid}>
+                                        <div className={styles.reportItem}>
+                                            <span className={styles.dot} style={{backgroundColor: '#22C55E'}} />
+                                            <span>안전 장비 100% 준수</span>
+                                        </div>
+                                        <div className={styles.reportItem}>
+                                            <span className={styles.dot} style={{backgroundColor: '#22C55E'}} />
+                                            <span>현장 이탈 없음</span>
+                                        </div>
+                                        <div className={styles.reportItem}>
+                                            <span className={styles.dot} style={{backgroundColor: '#22C55E'}} />
+                                            <span>위험 경보 0건</span>
+                                        </div>
                                     </div>
                                 </div>
 
