@@ -1,7 +1,7 @@
 .foremanContainer {
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
-    padding: 120px 1.5rem 100px;
+    padding: 120px 5rem 100px;
     background: #000;
     min-height: 100vh;
 }
