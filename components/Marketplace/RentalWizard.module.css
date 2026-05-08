@@ -60,7 +60,7 @@
 }
 
 .stepDot.active {
-    background: #B48A09;
+    background: #D4AF37;
 }
 
 .content {
@@ -78,7 +78,7 @@
 .iconCircle {
     width: 80px;
     height: 80px;
-    background: rgba(180, 138, 9, 0.1);
+    background: rgba(212, 175, 55, 0.1);
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -124,8 +124,8 @@
 }
 
 .optionBtn.selected {
-    background: rgba(180, 138, 9, 0.1);
-    border-color: #B48A09;
+    background: rgba(212, 175, 55, 0.1);
+    border-color: #D4AF37;
 }
 
 .summaryCard {
@@ -156,7 +156,7 @@
 }
 
 .totalPrice {
-    color: #B48A09;
+    color: #D4AF37;
     font-size: 1.25rem;
     font-weight: 800;
 }
@@ -204,7 +204,7 @@
 }
 
 .finalBtn {
-    background: #B48A09;
+    background: #D4AF37;
     color: #000;
 }
 

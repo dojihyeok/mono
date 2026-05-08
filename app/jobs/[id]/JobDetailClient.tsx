@@ -90,7 +90,7 @@ export default function JobDetailClient({ job }: JobDetailClientProps) {
                                 <div className={styles.infoVal}>{job.time || '07:30 (협의 가능)'}</div>
                             </div>
                             <div className={styles.infoItem}>
-                                <div className={styles.infoIcon}><Trophy size={20} color="#B48A09" /></div>
+                                <div className={styles.infoIcon}><Trophy size={20} color="#D4AF37" /></div>
                                 <div className={styles.infoLabel}>필요 기술</div>
                                 <div className={styles.infoVal}>{job.specialty}</div>
                             </div>

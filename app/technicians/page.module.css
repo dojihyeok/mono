@@ -47,7 +47,7 @@
 
 .searchInput:focus {
     background: rgba(255, 255, 255, 0.05);
-    border-color: rgba(180, 138, 9, 0.3);
+    border-color: rgba(212, 175, 55, 0.3);
     outline: none;
 }
 
@@ -132,7 +132,7 @@
 }
 
 .backBtn {
-    background: #B48A09;
+    background: #D4AF37;
     color: #000;
     padding: 12px 24px;
     border-radius: 14px;

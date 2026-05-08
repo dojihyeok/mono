@@ -4,10 +4,10 @@
 
 .hero {
     position: relative;
-    padding: 60px 0 40px;
+    padding: 30px 0 60px;
     background: #06070a;
     overflow: hidden;
-    min-height: 80vh;
+    min-height: 75vh;
     display: flex;
     align-items: center;
 }
@@ -18,8 +18,8 @@
     position: absolute;
     inset: 0;
     background:
-        radial-gradient(ellipse 80% 60% at 70% -10%, rgba(180, 138, 9, 0.08) 0%, transparent 60%),
-        radial-gradient(ellipse 60% 80% at -10% 80%, rgba(180, 138, 9, 0.04) 0%, transparent 50%);
+        radial-gradient(ellipse 80% 60% at 70% -10%, rgba(212, 175, 55, 0.08) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 80% at -10% 80%, rgba(212, 175, 55, 0.04) 0%, transparent 50%);
     pointer-events: none;
     z-index: 0;
 }
@@ -57,8 +57,8 @@
     justify-content: space-between;
     width: 100%;
     gap: 2rem;
-    background: rgba(180, 138, 9, 0.06);
-    border: 1px solid rgba(180, 138, 9, 0.2);
+    background: rgba(212, 175, 55, 0.06);
+    border: 1px solid rgba(212, 175, 55, 0.2);
     border-radius: 20px;
     padding: 1.5rem 2.5rem;
     margin-bottom: 4.5rem;
@@ -67,8 +67,8 @@
 }
 
 .foremanBanner:hover {
-    background: rgba(180, 138, 9, 0.1);
-    border-color: rgba(180, 138, 9, 0.35);
+    background: rgba(212, 175, 55, 0.1);
+    border-color: rgba(212, 175, 55, 0.35);
     transform: translateY(-2px);
 }
 
@@ -81,13 +81,13 @@
 .foremanAvatar {
     width: 68px;
     height: 68px;
-    background: linear-gradient(135deg, #B48A09, #D4AF37);
+    background: linear-gradient(135deg, #D4AF37, #D4AF37);
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
     color: #000;
-    box-shadow: 0 0 36px rgba(180, 138, 9, 0.5);
+    box-shadow: 0 0 36px rgba(212, 175, 55, 0.5);
     flex-shrink: 0;
 }
 
@@ -97,7 +97,7 @@
 
 .introBadge {
     display: block;
-    color: #B48A09;
+    color: #D4AF37;
     font-size: 12px;
     font-weight: 800;
     margin-bottom: 6px;
@@ -126,7 +126,7 @@
 }
 
 .trackBtn:hover {
-    color: #B48A09;
+    color: #D4AF37;
 }
 
 .foremanActions {
@@ -135,8 +135,8 @@
 
 /* ── Main Hero Text ─────────────────────── */
 .heroMain {
-    margin-bottom: 4rem;
-    min-height: 220px;
+    margin-bottom: 5rem;
+    min-height: 200px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -169,7 +169,7 @@
     font-size: clamp(2.5rem, 5vw, 4.2rem);
     font-weight: 900;
     line-height: 1.05;
-    margin-bottom: 2rem;
+    margin-bottom: 3rem;
     letter-spacing: -0.05em;
     color: #fff;
     word-break: keep-all;
@@ -212,7 +212,7 @@
 }
 
 .aiTerminal:hover {
-    border-color: rgba(180, 138, 9, 0.2);
+    border-color: rgba(212, 175, 55, 0.2);
 }
 
 .terminalHeader {
@@ -296,8 +296,8 @@
 }
 
 .tacticalCard:hover .cardArrow {
-    background: #B48A09;
-    border-color: #B48A09;
+    background: #D4AF37;
+    border-color: #D4AF37;
     color: #000;
     transform: translateX(4px);
 }

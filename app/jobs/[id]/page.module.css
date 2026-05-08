@@ -56,9 +56,9 @@
     font-size: 0.75rem;
     font-weight: 700;
     padding: 0.25rem 0.75rem;
-    background: rgba(180, 138, 9, 0.1);
-    color: #B48A09;
-    border: 1px solid rgba(180, 138, 9, 0.3);
+    background: rgba(212, 175, 55, 0.1);
+    color: #D4AF37;
+    border: 1px solid rgba(212, 175, 55, 0.3);
     border-radius: 100px;
 }
 
@@ -84,8 +84,8 @@
 }
 
 .wageBox {
-    background: linear-gradient(to right, rgba(180, 138, 9, 0.15), rgba(180, 138, 9, 0.05));
-    border-left: 4px solid #B48A09;
+    background: linear-gradient(to right, rgba(212, 175, 55, 0.15), rgba(212, 175, 55, 0.05));
+    border-left: 4px solid #D4AF37;
     padding: 1.25rem 1.5rem;
     border-radius: 0 1rem 1rem 0;
 }
@@ -93,7 +93,7 @@
 .wageLabel {
     display: block;
     font-size: 0.75rem;
-    color: #B48A09;
+    color: #D4AF37;
     margin-bottom: 0.25rem;
 }
 
@@ -107,7 +107,7 @@
 .currency {
     font-size: 1.25rem;
     font-weight: 800;
-    color: #B48A09;
+    color: #D4AF37;
 }
 
 .wageValue strong {
@@ -223,7 +223,7 @@
     align-items: center;
     gap: 8px;
     font-size: 0.875rem;
-    color: #B48A09;
+    color: #D4AF37;
     margin-bottom: 1.25rem;
 }
 
@@ -427,8 +427,8 @@
     display: flex;
     align-items: center;
     gap: 1rem;
-    background: rgba(180, 138, 9, 0.1);
-    border: 1px solid rgba(180, 138, 9, 0.2);
+    background: rgba(212, 175, 55, 0.1);
+    border: 1px solid rgba(212, 175, 55, 0.2);
     padding: 1rem 1.25rem;
     border-radius: 0.75rem;
 }
@@ -443,7 +443,7 @@
 }
 
 .predictionContent strong {
-    color: #B48A09;
+    color: #D4AF37;
 }
 
 .aiBadge {

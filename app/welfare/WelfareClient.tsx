@@ -55,19 +55,19 @@ export default function WelfareClient() {
                     <div className={styles.balanceLabel}>현재 보유 자산 (현지 통화)</div>
                     <div className={styles.balanceValue}>
                         <strong>{FINANCE_DATA.balanceLocal}</strong>
-                        <span style={{ color: '#B48A09' }}>≈ {FINANCE_DATA.balanceKRW}</span>
+                        <span style={{ color: '#D4AF37' }}>≈ {FINANCE_DATA.balanceKRW}</span>
                     </div>
                 </div>
 
                 <div className={styles.financeGrid}>
                     <div className={styles.financeCard}>
                         <div className={styles.cardHeader}>
-                            <ArrowRightLeft size={16} color="#B48A09" />
+                            <ArrowRightLeft size={16} color="#D4AF37" />
                             <span>해외 송금 (Global Remittance)</span>
                         </div>
                         <div className={styles.cardBody}>
                             <p>실시간 환율 우대 혜택 적용 중</p>
-                            <div className={styles.feeBenefit} style={{ color: '#B48A09' }}>
+                            <div className={styles.feeBenefit} style={{ color: '#D4AF37' }}>
                                 <TrendingDown size={14} />
                                 <span>총 절감 수수료: <strong>₩ 113,000</strong></span>
                             </div>

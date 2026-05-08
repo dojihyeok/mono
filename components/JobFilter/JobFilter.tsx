@@ -69,7 +69,7 @@ export default function JobFilter({
             {/* Category Filter */}
             <div className={styles.filterGroup}>
                 <h3 className={styles.filterLabel}>
-                    <ShieldCheck size={18} color="#B48A09" />
+                    <ShieldCheck size={18} color="#D4AF37" />
                     마스터 서비스 영역
                 </h3>
                 <div className={styles.chipGrid}>
@@ -89,7 +89,7 @@ export default function JobFilter({
             {/* Quick Filter Tags (New) */}
             <div className={styles.filterGroup}>
                 <h3 className={styles.filterLabel}>
-                    <Clock size={18} color="#B48A09" />
+                    <Clock size={18} color="#D4AF37" />
                     상시 퀵 필터
                 </h3>
                 <div className={styles.quickTags}>
@@ -103,7 +103,7 @@ export default function JobFilter({
             {/* Occupation Filter */}
             <div className={styles.filterGroup}>
                 <h3 className={styles.filterLabel}>
-                    <Construction size={18} color="#B48A09" />
+                    <Construction size={18} color="#D4AF37" />
                     세부 전문 직군
                 </h3>
                 <div className={styles.chipGrid}>
@@ -128,7 +128,7 @@ export default function JobFilter({
             {/* Region Filter */}
             <div className={styles.filterGroup}>
                 <h3 className={styles.filterLabel}>
-                    <MapPin size={18} color="#B48A09" />
+                    <MapPin size={18} color="#D4AF37" />
                     활동 가능 지역
                 </h3>
                 <div className={styles.chipGrid}>

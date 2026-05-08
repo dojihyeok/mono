@@ -64,7 +64,7 @@ export default function MonetizeClient() {
             <section className={styles.monetizeSection}>
                 <div className={styles.sectionHeader}>
                     <div className={styles.iconTitle}>
-                        <Moon size={20} color="#B48A09" />
+                        <Moon size={20} color="#D4AF37" />
                         <h3>오늘 퇴근길 저녁 알바 (꿀잡)</h3>
                     </div>
                     <span className={styles.onAir}>지금 바로 가능한 일</span>
@@ -95,14 +95,14 @@ export default function MonetizeClient() {
                 {/* A. 빌려 쓰기 */}
                 <div className={styles.strategyCard}>
                     <div className={styles.cardHeader}>
-                        <ShieldCheck size={18} color="#B48A09" />
+                        <ShieldCheck size={18} color="#D4AF37" />
                         <h3>모노 본사 장비 빌려 쓰기</h3>
                     </div>
                     <div className={styles.assetList}>
                         {CORPORATE_FLEET.map(asset => (
                             <div key={asset.id} className={styles.assetItem}>
                                 <div className={styles.assetMain}>
-                                    <Box size={16} color="#B48A09" />
+                                    <Box size={16} color="#D4AF37" />
                                     <div className={styles.assetName}>
                                         <p>{asset.name}</p>
                                         <span>하루 빌리는 값: <strong>{asset.rate}</strong></span>
@@ -145,7 +145,7 @@ export default function MonetizeClient() {
                 {/* C. 새로 사기 가이드 */}
                 <div className={styles.aiStrategyCard}>
                     <div className={styles.cardHeader}>
-                        <TrendingUp size={18} color="#B48A09" />
+                        <TrendingUp size={18} color="#D4AF37" />
                         <h3>똑똑한 장비 관리 (팔고 사기)</h3>
                     </div>
                     <div className={styles.aiReport}>
@@ -170,7 +170,7 @@ export default function MonetizeClient() {
             </div>
 
             <footer className={styles.footer}>
-                <ShieldCheck size={14} color="#B48A09" />
+                <ShieldCheck size={14} color="#D4AF37" />
                 <p>모노가 일당과 렌탈비를 떼이지 않게 안전하게 받아드립니다.</p>
             </footer>
 

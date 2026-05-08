@@ -16,7 +16,7 @@
     left: 0;
     right: 0;
     height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(180, 138, 9, 0.3), transparent);
+    background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.3), transparent);
 }
 
 .header {
@@ -34,7 +34,7 @@
 }
 
 .premiumText {
-    background: linear-gradient(135deg, #B48A09, #D4AF37, #FFD700);
+    background: linear-gradient(135deg, #D4AF37, #D4AF37, #FFD700);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -76,7 +76,7 @@
     left: 0;
     right: 0;
     height: 2px;
-    background: linear-gradient(90deg, transparent, rgba(180, 138, 9, 0.4), transparent);
+    background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.4), transparent);
     opacity: 0;
     transition: opacity 0.3s;
 }
@@ -88,20 +88,20 @@
 .iconWrapper {
     width: 64px;
     height: 64px;
-    background: rgba(180, 138, 9, 0.08);
-    border: 1px solid rgba(180, 138, 9, 0.2);
+    background: rgba(212, 175, 55, 0.08);
+    border: 1px solid rgba(212, 175, 55, 0.2);
     border-radius: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #B48A09;
+    color: #D4AF37;
     margin-bottom: 2rem;
     transition: all 0.3s;
 }
 
 .cardOverride:hover .iconWrapper {
-    background: rgba(180, 138, 9, 0.15);
-    border-color: rgba(180, 138, 9, 0.4);
+    background: rgba(212, 175, 55, 0.15);
+    border-color: rgba(212, 175, 55, 0.4);
     transform: scale(1.05);
 }
 

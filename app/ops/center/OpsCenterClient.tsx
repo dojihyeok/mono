@@ -42,7 +42,7 @@ export default function OpsCenterClient() {
 
     const TELEMETRY_DATA = [
         { label: '장비 건강 상태', value: '94%', sub: '이상 없음', color: '#10B981' },
-        { label: '에너지 잔량', value: '62%', sub: '잔여 시간 약 4.5시간', color: '#B48A09' },
+        { label: '에너지 잔량', value: '62%', sub: '잔여 시간 약 4.5시간', color: '#D4AF37' },
         { label: '적재 및 하중', value: '최적', sub: '균형 / 안정적', color: '#E2E8F0' }
     ];
 
@@ -62,7 +62,7 @@ export default function OpsCenterClient() {
                     </div>
                     <h1>NEOM CITY <span className={styles.goldText}>프로젝트 현황</span></h1>
                     <div className={styles.locationGroup}>
-                        <MapPin size={14} color="#B48A09" />
+                        <MapPin size={14} color="#D4AF37" />
                         <span>Riyadh Sector 4, Saudi Arabia</span>
                         <div className={styles.divider} />
                         <Clock size={14} color="#B0B0B0" />
@@ -77,7 +77,7 @@ export default function OpsCenterClient() {
             {/* AI Advisor Insight Bar */}
             <section className={styles.aiInsightSection}>
                 <div className={styles.aiHeader}>
-                    <BrainCircuit size={20} color="#B48A09" className={styles.aiIcon} />
+                    <BrainCircuit size={20} color="#D4AF37" className={styles.aiIcon} />
                     <h3>AI 현장 반장 업무 인사이트</h3>
                 </div>
                 <div className={styles.insightGrid}>
@@ -97,7 +97,7 @@ export default function OpsCenterClient() {
                 {/* 1. Milestone Progress Gauge */}
                 <div className={styles.mainCard}>
                     <div className={styles.cardHeader}>
-                        <Activity size={18} color="#B48A09" />
+                        <Activity size={18} color="#D4AF37" />
                         <h3>오늘의 공정 달성률</h3>
                     </div>
                     <div className={styles.progressSection}>
@@ -141,7 +141,7 @@ export default function OpsCenterClient() {
 
             <section className={styles.opsActions}>
                 <div className={styles.actionHeader}>
-                    <ClipboardList size={20} color="#B48A09" />
+                    <ClipboardList size={20} color="#D4AF37" />
                     <h3>현장 운영 관리</h3>
                 </div>
                 <div className={styles.actionGrid}>

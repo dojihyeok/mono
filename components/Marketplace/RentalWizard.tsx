@@ -34,7 +34,7 @@ export default function RentalWizard({ equipment, onClose }: { equipment: Equipm
                 <main className={styles.content}>
                     {step === 1 && (
                         <div className={styles.stepContent}>
-                            <div className={styles.iconCircle}><Calendar size={32} color="#B48A09" /></div>
+                            <div className={styles.iconCircle}><Calendar size={32} color="#D4AF37" /></div>
                             <h2>언제, 얼마나 빌릴까요?</h2>
                             <p className={styles.desc}>{equipment.name}을(를) 대여합니다.</p>
                             
@@ -54,7 +54,7 @@ export default function RentalWizard({ equipment, onClose }: { equipment: Equipm
 
                     {step === 2 && (
                         <div className={styles.stepContent}>
-                            <div className={styles.iconCircle}><Truck size={32} color="#B48A09" /></div>
+                            <div className={styles.iconCircle}><Truck size={32} color="#D4AF37" /></div>
                             <h2>어디로 보낼까요?</h2>
                             <p className={styles.desc}>장비 운송 및 물류 옵션을 선택하세요.</p>
                             
@@ -74,7 +74,7 @@ export default function RentalWizard({ equipment, onClose }: { equipment: Equipm
 
                     {step === 3 && (
                         <div className={styles.stepContent}>
-                            <div className={styles.iconCircle}><CreditCard size={32} color="#B48A09" /></div>
+                            <div className={styles.iconCircle}><CreditCard size={32} color="#D4AF37" /></div>
                             <h2>결제 및 예약 확정</h2>
                             <p className={styles.desc}>모노 에스크로(Escrow) 시스템으로 안전하게 보호됩니다.</p>
                             

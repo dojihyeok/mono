@@ -99,7 +99,7 @@ export default function JobsClient({ initialJobs }: JobsClientProps) {
                 <button 
                     className={`${styles.tab} ${viewMode === 'global' ? styles.active : ''}`}
                     onClick={() => setViewMode('global')}
-                    style={{ color: '#B48A09' }}
+                    style={{ color: '#D4AF37' }}
                 >
                     글로벌
                 </button>

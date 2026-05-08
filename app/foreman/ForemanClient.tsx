@@ -69,7 +69,7 @@ export default function ForemanClient() {
             level: 'Lv.1 입문',
             desc: '안전모, 안전화, 조끼 착용 → 출근 인증 → 담당자 보고.',
             tag: '필수 가이드',
-            icon: <ShieldCheck size={24} color="#B48A09" />,
+            icon: <ShieldCheck size={24} color="#D4AF37" />,
             steps: [
                 { title: '개인 보호구(PPE) 최종 확인', content: '안전모 턱끈 체결, 안전화 끈 조임, 형광 조끼 착용 상태를 확인합니다.' },
                 { title: '출역 관리 시스템 등록', content: '현장 입구의 QR 코드를 스캔하여 본인의 출근 사실을 기록합니다.' },
@@ -82,7 +82,7 @@ export default function ForemanClient() {
             level: 'Lv.1 입문',
             desc: '허리가 아닌 무릎으로 들어올리기. 20kg 이상은 2인 1조 작업.',
             tag: '업무 숙련도',
-            icon: <Construction size={24} color="#B48A09" />,
+            icon: <Construction size={24} color="#D4AF37" />,
             steps: [
                 { title: '자재 무게 파악', content: '먼저 살짝 흔들어보아 무게 중심과 날카로운 부분이 있는지 확인합니다.' },
                 { title: '무릎 힘으로 일어나기', content: '허리의 반동이 아닌 허벅지와 무릎의 힘으로 천천히 일어납니다.' }
@@ -94,7 +94,7 @@ export default function ForemanClient() {
             level: 'Lv.1 입문',
             desc: '단독 판단 지양. 담당자 지시 대기 및 주변 정리 정돈 생활화.',
             tag: '마인드셋',
-            icon: <BrainCircuit size={24} color="#B48A09" />,
+            icon: <BrainCircuit size={24} color="#D4AF37" />,
             steps: [
                 { title: '질문의 생활화', content: '다음 단계가 불확실할 때 "반장님 다음은 무엇을 할까요?"라고 묻습니다.' },
                 { title: '주변 환경 정리정돈', content: '바닥의 못이나 쓰레기를 치우는 모습을 보이면 좋은 인상을 줍니다.' }
@@ -106,7 +106,7 @@ export default function ForemanClient() {
             level: 'Lv.2 숙련',
             desc: '그라인더, 빠루, 해머 등 현장에서 자주 쓰는 전문 용어 가이드.',
             tag: '기술 용어',
-            icon: <Wrench size={24} color="#B48A09" />,
+            icon: <Wrench size={24} color="#D4AF37" />,
             steps: [
                 { title: '주요 수공구 명칭 숙지', content: '빠루(지렛대), 해머(큰 망치), 렌치 등 현장식 명칭을 외웁니다.' },
                 { title: '전동공구 안전 규칙', content: '사용 전 전선 피복 상태를 확인하고 보호 가드를 확인합니다.' }
@@ -120,7 +120,7 @@ export default function ForemanClient() {
             title: '글로벌 안전 인증 (ISO 45001)', 
             desc: '해외 고임금 현장 진입을 위한 국제 안전 보건 경영시스템 인증 가이드.',
             tag: '글로벌 전문가',
-            icon: <Globe size={24} color="#B48A09" />, 
+            icon: <Globe size={24} color="#D4AF37" />, 
             steps: [
                 { title: '시스템 개요 이해', content: 'ISO 45001이 요구하는 관리 프로세스의 개념을 파악합니다.' },
                 { title: '위험성 평가 방법론', content: '잠재적 위험 요소를 식별하고 리스크 등급을 스스로 산정합니다.' }
@@ -178,7 +178,7 @@ export default function ForemanClient() {
 
                 <div className={styles.managerStats}>
                     <div className={styles.statBox}>
-                        <CloudSun size={18} color="#B48A09" />
+                        <CloudSun size={18} color="#D4AF37" />
                         <div className={styles.statContent}>
                             <span>현재 기온</span>
                             <strong>12.4°C</strong>
@@ -204,7 +204,7 @@ export default function ForemanClient() {
             {/* 역할 선택 */}
             <div className={styles.roleCards}>
                 <div className={styles.roleCard}>
-                    <BookOpen size={28} color="#B48A09"/>
+                    <BookOpen size={28} color="#D4AF37"/>
                     <span>기술 가이드</span>
                 </div>
                 <div className={styles.roleCard}>
@@ -273,7 +273,7 @@ export default function ForemanClient() {
                     {/* 현장 비서 Chat */}
                     <GlassCard className={styles.chatCard}>
                         <div className={styles.chatHeader}>
-                            <MessageSquare size={18} color="#B48A09" />
+                            <MessageSquare size={18} color="#D4AF37" />
                             <span>현장 반장 모컬</span>
                         </div>
                         <p className={styles.chatIntro}>돌발상황이나 궁금한 점을 말씀해 주세요.</p>
@@ -392,7 +392,7 @@ export default function ForemanClient() {
                         <div className={styles.modalBody}>
                             <div className={styles.stepSection}>
                                 <h3 style={{fontSize: '1.25rem', color: '#fff', marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '10px'}}>
-                                    <ListChecks size={24} color="#B48A09" /> 
+                                    <ListChecks size={24} color="#D4AF37" /> 
                                     상세 작업 노하우
                                 </h3>
                                 <div className={styles.stepList}>

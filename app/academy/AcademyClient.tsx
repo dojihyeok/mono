@@ -80,7 +80,7 @@ export default function AcademyClient() {
                 <div className={styles.headerTop}>
                     <h1>모노 아카데미</h1>
                     <div className={styles.points}>
-                        <Zap size={16} color="#B48A09" fill="#B48A09" />
+                        <Zap size={16} color="#D4AF37" fill="#D4AF37" />
                         <span>성장 포인트 2,450 SP</span>
                     </div>
                 </div>
@@ -90,7 +90,7 @@ export default function AcademyClient() {
             {/* Roadmap */}
             <section className={styles.roadmapSection}>
                 <div className={styles.roadmapHeader}>
-                    <h2><TrendingUp size={20} color="#B48A09" /> 나의 성장 로드맵</h2>
+                    <h2><TrendingUp size={20} color="#D4AF37" /> 나의 성장 로드맵</h2>
                     <span className={styles.grade}>목표: 글로벌 팀 리더</span>
                 </div>
                 <div className={styles.roadmapCard}>
@@ -105,12 +105,12 @@ export default function AcademyClient() {
                             </div>
                         </div>
                         <div className={styles.roadmapStep}>
-                            <div className={styles.stepDot} style={{borderColor: '#B48A09', borderStyle: 'dashed'}}>
-                                <Cpu size={20} color="#B48A09" />
+                            <div className={styles.stepDot} style={{borderColor: '#D4AF37', borderStyle: 'dashed'}}>
+                                <Cpu size={20} color="#D4AF37" />
                             </div>
                             <div className={styles.stepInfo}>
                                 <h4>특수 배관 실습</h4>
-                                <p style={{color: '#B48A09'}}>65% 진행 중</p>
+                                <p style={{color: '#D4AF37'}}>65% 진행 중</p>
                             </div>
                         </div>
                         <div className={styles.roadmapStep}>
@@ -130,7 +130,7 @@ export default function AcademyClient() {
             <section className={styles.radarSection}>
                 <div className={styles.radarCard}>
                     <div className={styles.radarHeader}>
-                        <Target size={24} color="#B48A09" />
+                        <Target size={24} color="#D4AF37" />
                         <h3>AI 역량 분석 리포트</h3>
                     </div>
                     <div className={styles.radarContent}>
@@ -151,7 +151,7 @@ export default function AcademyClient() {
                             ))}
                         </div>
                         <div className={styles.aiSuggestion}>
-                            <Zap size={28} color="#B48A09" />
+                            <Zap size={28} color="#D4AF37" />
                             <p><strong>AI 반장님의 추천:</strong><br/> 현재 '현장 영어' 역량을 조금 더 보완하시면, <strong>호주 브리즈번 High-Tech 공정</strong>의 전문가 추천 확률이 <strong>92%</strong>로 비약적으로 상승합니다.</p>
                         </div>
                     </div>
@@ -190,7 +190,7 @@ export default function AcademyClient() {
                                     <div className={styles.courseLevel}>{course.level}</div>
                                     {course.progress > 0 && (
                                         <div className={styles.playButton}>
-                                            <Play size={24} fill="#B48A09" color="#B48A09" />
+                                            <Play size={24} fill="#D4AF37" color="#D4AF37" />
                                         </div>
                                     )}
                                 </div>
@@ -211,7 +211,7 @@ export default function AcademyClient() {
                                         </div>
                                         <div className={styles.progressInfo}>
                                             <span>{course.progress}% 학습 완료</span>
-                                            <Award size={14} color={course.progress === 100 ? '#B48A09' : 'rgba(255,255,255,0.1)'} />
+                                            <Award size={14} color={course.progress === 100 ? '#D4AF37' : 'rgba(255,255,255,0.1)'} />
                                         </div>
                                     </div>
                                 </div>
@@ -225,13 +225,13 @@ export default function AcademyClient() {
                 <div style={{display: 'flex', flexDirection: 'column', gap: '2rem'}}>
                     <div className={styles.globalBanner}>
                         <div className={styles.bannerContent}>
-                            <Volume2 size={32} color="#B48A09" />
+                            <Volume2 size={32} color="#D4AF37" />
                             <div>
                                 <h4>[오늘의 문장] 현장 실무 영어 기초</h4>
                                 <p>"The welding zone requires secondary gas verification."</p>
                             </div>
                         </div>
-                        <button style={{background: '#B48A09', color: '#000', border: 'none', padding: '12px 24px', borderRadius: '12px', fontWeight: 800, cursor: 'pointer'}}>발음 연습하기</button>
+                        <button style={{background: '#D4AF37', color: '#000', border: 'none', padding: '12px 24px', borderRadius: '12px', fontWeight: 800, cursor: 'pointer'}}>발음 연습하기</button>
                     </div>
 
                     <div className={styles.courseGrid}>
@@ -246,7 +246,7 @@ export default function AcademyClient() {
                                     </div>
                                     <h3>{course.title}</h3>
                                     <p style={{fontSize: '13px', color: 'rgba(255,255,255,0.4)', marginBottom: '2rem', lineHeight: '1.6'}}>네이티브 코치와 함께하는<br/>실전 현장 커뮤니케이션 트레이닝.</p>
-                                    <button style={{width: '100%', background: 'rgba(180, 138, 9, 0.1)', border: '1px solid #B48A09', color: '#B48A09', padding: '14px', borderRadius: '12px', fontWeight: 800, cursor: 'pointer'}}>트레이닝 시작</button>
+                                    <button style={{width: '100%', background: 'rgba(212, 175, 55, 0.1)', border: '1px solid #D4AF37', color: '#D4AF37', padding: '14px', borderRadius: '12px', fontWeight: 800, cursor: 'pointer'}}>트레이닝 시작</button>
                                 </div>
                             </div>
                         ))}
@@ -257,10 +257,10 @@ export default function AcademyClient() {
             {selectedTab === 'cert' && (
                 <div className={styles.certGrid}>
                     {[
-                        { name: '하이테크 플랜트 전문가', issuer: 'MONO ACADEMY', icon: <Cpu size={32} color="#B48A09" /> },
-                        { name: '산업 안전 전문 관리자', issuer: 'KOSHA / MONO', icon: <ShieldCheck size={32} color="#B48A09" /> },
-                        { name: '글로벌 테크니션 (Lv.2)', issuer: 'GLOBAL MONO', icon: <Globe size={32} color="#B48A09" /> },
-                        { name: '전문 배관 공정 수료', issuer: 'SAMSUNG EPC', icon: <Zap size={32} color="#B48A09" fill="#B48A09" /> }
+                        { name: '하이테크 플랜트 전문가', issuer: 'MONO ACADEMY', icon: <Cpu size={32} color="#D4AF37" /> },
+                        { name: '산업 안전 전문 관리자', issuer: 'KOSHA / MONO', icon: <ShieldCheck size={32} color="#D4AF37" /> },
+                        { name: '글로벌 테크니션 (Lv.2)', issuer: 'GLOBAL MONO', icon: <Globe size={32} color="#D4AF37" /> },
+                        { name: '전문 배관 공정 수료', issuer: 'SAMSUNG EPC', icon: <Zap size={32} color="#D4AF37" fill="#D4AF37" /> }
                     ].map((cert, i) => (
                         <div key={i} className={styles.certCard}>
                             <div className={styles.badgeGlow}>

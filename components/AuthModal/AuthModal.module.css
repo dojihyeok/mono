@@ -53,10 +53,10 @@
 .logoMark {
     width: 40px;
     height: 40px;
-    background: linear-gradient(135deg, #B48A09, #D4AF37);
+    background: linear-gradient(135deg, #D4AF37, #D4AF37);
     border-radius: 12px;
     margin: 0 auto 1.5rem;
-    box-shadow: 0 0 24px rgba(180, 138, 9, 0.3);
+    box-shadow: 0 0 24px rgba(212, 175, 55, 0.3);
 }
 
 .title {
@@ -106,14 +106,14 @@
 }
 
 .phoneInput:focus-within {
-    border-color: #B48A09;
-    background: rgba(180, 138, 9, 0.04);
-    box-shadow: 0 0 0 4px rgba(180, 138, 9, 0.1);
+    border-color: #D4AF37;
+    background: rgba(212, 175, 55, 0.04);
+    box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.1);
 }
 
 .prefix {
     font-weight: 800;
-    color: #B48A09;
+    color: #D4AF37;
     padding-right: 0.75rem;
     border-right: 1px solid rgba(255, 255, 255, 0.1);
     margin-right: 0.75rem;

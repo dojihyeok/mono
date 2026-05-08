@@ -53,7 +53,7 @@ export default function CareerClient() {
         <GlassCard className={styles.levelCard}>
           <div className={styles.levelHeader}>
             <span className={styles.badge}>
-              <Award size={24} color="#B48A09" />
+              <Award size={24} color="#D4AF37" />
               공인 숙련 기술인
             </span>
             <span className={styles.levelPoints}>7,420 SP</span>
@@ -71,7 +71,7 @@ export default function CareerClient() {
           <GlassCard>
               <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start'}}>
                   <h3 className={styles.statLabel}>
-                      <Calendar size={14} color="#B48A09" />
+                      <Calendar size={14} color="#D4AF37" />
                       현장 투입 데이터
                   </h3>
               </div>
@@ -79,7 +79,7 @@ export default function CareerClient() {
           </GlassCard>
           <GlassCard>
             <h3 className={styles.statLabel}>
-              <ShieldCheck size={14} color="#B48A09" />
+              <ShieldCheck size={14} color="#D4AF37" />
               안전 신뢰 지수
             </h3>
             <p className={styles.statValue}>98.5%</p>
@@ -91,7 +91,7 @@ export default function CareerClient() {
       <section className={styles.aiInsightSection}>
         <div className={styles.aiHeader}>
           <h2 className={styles.sectionTitle}>
-              <Activity size={20} color="#B48A09" />
+              <Activity size={20} color="#D4AF37" />
               AI 커리어 리포트
           </h2>
           <div className={styles.aiBadge}>AI 분석 시스템 가동 중</div>
@@ -126,7 +126,7 @@ export default function CareerClient() {
             <span className={styles.cardLabel}>추천 글로벌 리워드</span>
             <div className={styles.cardValue}>$42.5 / hr</div>
             <div className={styles.rewardIndicator}>TOP 3%</div>
-            <p className={styles.subtitle} style={{fontSize: '0.65rem', color: '#B48A09'}}>글로벌 전문가 평균 이상</p>
+            <p className={styles.subtitle} style={{fontSize: '0.65rem', color: '#D4AF37'}}>글로벌 전문가 평균 이상</p>
           </GlassCard>
         </div>
 
@@ -173,7 +173,7 @@ export default function CareerClient() {
             <QrCode size={80} color="#000" />
           </div>
           <div className={styles.qrInfo}>
-              <div style={{display: 'flex', alignItems: 'center', gap: '8px', color: '#B48A09', fontSize: '10px', fontWeight: 900, marginBottom: '8px'}}>
+              <div style={{display: 'flex', alignItems: 'center', gap: '8px', color: '#D4AF37', fontSize: '10px', fontWeight: 900, marginBottom: '8px'}}>
                   <Lock size={12} />
                   보안 데이터 검증 완료
               </div>
@@ -186,17 +186,17 @@ export default function CareerClient() {
         {/* Trust Radar */}
         <div className={styles.radarSection}>
           <h3 className={styles.sectionTitle}>
-              <Target size={18} color="#B48A09" />
+              <Target size={18} color="#D4AF37" />
               기술 역량 지표 (Radar)
           </h3>
           <div className={styles.radarWrapper}>
             <svg width="200" height="200" viewBox="0 0 200 200">
-              <circle cx="100" cy="100" r="80" fill="none" stroke="rgba(180, 138, 9, 0.1)" strokeWidth="1" />
-              <circle cx="100" cy="100" r="60" fill="none" stroke="rgba(180, 138, 9, 0.1)" strokeWidth="1" />
-              <circle cx="100" cy="100" r="40" fill="none" stroke="rgba(180, 138, 9, 0.1)" strokeWidth="1" />
-              <line x1="100" y1="20" x2="100" y2="180" stroke="rgba(180, 138, 9, 0.1)" />
-              <line x1="20" y1="100" x2="180" y2="100" stroke="rgba(180, 138, 9, 0.1)" />
-              <polygon points="100,40 160,100 100,160 40,100" fill="rgba(180, 138, 9, 0.2)" stroke="#B48A09" strokeWidth="2" />
+              <circle cx="100" cy="100" r="80" fill="none" stroke="rgba(212, 175, 55, 0.1)" strokeWidth="1" />
+              <circle cx="100" cy="100" r="60" fill="none" stroke="rgba(212, 175, 55, 0.1)" strokeWidth="1" />
+              <circle cx="100" cy="100" r="40" fill="none" stroke="rgba(212, 175, 55, 0.1)" strokeWidth="1" />
+              <line x1="100" y1="20" x2="100" y2="180" stroke="rgba(212, 175, 55, 0.1)" />
+              <line x1="20" y1="100" x2="180" y2="100" stroke="rgba(212, 175, 55, 0.1)" />
+              <polygon points="100,40 160,100 100,160 40,100" fill="rgba(212, 175, 55, 0.2)" stroke="#D4AF37" strokeWidth="2" />
               <text x="100" y="15" textAnchor="middle" fill="rgba(255,255,255,0.4)" fontSize="10" fontWeight="800">안전성</text>
               <text x="185" y="105" textAnchor="middle" fill="rgba(255,255,255,0.4)" fontSize="10" fontWeight="800">기술력</text>
               <text x="100" y="195" textAnchor="middle" fill="rgba(255,255,255,0.4)" fontSize="10" fontWeight="800">성실성</text>
@@ -208,19 +208,19 @@ export default function CareerClient() {
         {/* Equipment Showcase */}
         <div className={styles.equipmentSection}>
           <h3 className={styles.sectionTitle}>
-              <BarChart3 size={18} color="#B48A09" />
+              <BarChart3 size={18} color="#D4AF37" />
               검증된 기술 자산 (Assets)
           </h3>
           <div className={styles.equipmentGrid}>
             <div className={styles.equipmentItem}>
-              <div className={styles.eqIcon}><Wrench size={20} color="#B48A09" /></div>
+              <div className={styles.eqIcon}><Wrench size={20} color="#D4AF37" /></div>
               <div className={styles.eqInfo}>
                 <h5>힐티 TE-60 (HIGH-PERF)</h5>
                 <span>인증 완료</span>
               </div>
             </div>
             <div className={styles.equipmentItem}>
-              <div className={styles.eqIcon}><HardHat size={20} color="#B48A09" /></div>
+              <div className={styles.eqIcon}><HardHat size={20} color="#D4AF37" /></div>
               <div className={styles.eqInfo}>
                 <h5>디지털 안전 고글 (AR)</h5>
                 <span>인증 완료</span>

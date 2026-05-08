@@ -73,7 +73,7 @@ export default function MatchingClient() {
                 <div className={styles.statusInfo}>
                     <span className={styles.statusLabel}>글로벌 진출 준비도 (준비도)</span>
                     <div className={styles.statusValue}>
-                        <Activity size={24} color="#B48A09" style={{display: 'inline', marginRight: '16px'}} />
+                        <Activity size={24} color="#D4AF37" style={{display: 'inline', marginRight: '16px'}} />
                         전문 역량 인증 완료 / 100%
                     </div>
                 </div>
@@ -97,7 +97,7 @@ export default function MatchingClient() {
 
                         <div className={styles.cardContent}>
                             <div className={styles.location}>
-                                <Compass size={16} color="#B48A09" />
+                                <Compass size={16} color="#D4AF37" />
                                 <span>{project.location}</span>
                             </div>
 
@@ -110,7 +110,7 @@ export default function MatchingClient() {
                             <div className={styles.pills}>
                                 {project.pills.map((pill, i) => (
                                     <span key={i} className={styles.pill}>
-                                        <Zap size={14} color="#B48A09" style={{marginRight: '6px'}} />
+                                        <Zap size={14} color="#D4AF37" style={{marginRight: '6px'}} />
                                         {pill}
                                     </span>
                                 ))}

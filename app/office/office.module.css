@@ -22,8 +22,8 @@
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    background: rgba(180, 138, 9, 0.1);
-    color: #B48A09;
+    background: rgba(212, 175, 55, 0.1);
+    color: #D4AF37;
     padding: 6px 14px;
     border-radius: 8px;
     font-size: 11px;
@@ -69,7 +69,7 @@
 
 .statWidget:hover {
     background: rgba(255, 255, 255, 0.05);
-    border-color: rgba(180, 138, 9, 0.2);
+    border-color: rgba(212, 175, 55, 0.2);
 }
 
 .widgetLabel {
@@ -96,7 +96,7 @@
 }
 
 .trendUp { color: #22C55E; }
-.trendGold { color: #B48A09; }
+.trendGold { color: #D4AF37; }
 
 /* ── Search & Filter (Clean Search) ────────── */
 .searchBar {
@@ -131,7 +131,7 @@
 
 .searchInputWrapper input:focus {
     background: rgba(255, 255, 255, 0.05);
-    border-color: rgba(180, 138, 9, 0.3);
+    border-color: rgba(212, 175, 55, 0.3);
     outline: none;
 }
 
@@ -171,7 +171,7 @@
 
 .officeCard:hover {
     background: rgba(255, 255, 255, 0.04);
-    border-color: rgba(180, 138, 9, 0.2);
+    border-color: rgba(212, 175, 55, 0.2);
     transform: translateY(-5px);
 }
 
@@ -222,7 +222,7 @@
     display: flex;
     align-items: center;
     gap: 4px;
-    color: #B48A09;
+    color: #D4AF37;
 }
 
 .categoryBadge {
@@ -233,7 +233,7 @@
 }
 
 .construction { background: rgba(59, 130, 246, 0.1); color: #3b82f6; }
-.semicon { background: rgba(180, 138, 9, 0.1); color: #B48A09; }
+.semicon { background: rgba(212, 175, 55, 0.1); color: #D4AF37; }
 .oceantech { background: rgba(16, 185, 129, 0.1); color: #10b981; }
 .agritech { background: rgba(139, 92, 246, 0.1); color: #8b5cf6; }
 .logistics { background: rgba(245, 158, 11, 0.1); color: #f59e0b; }

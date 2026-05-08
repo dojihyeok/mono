@@ -68,9 +68,9 @@
     width: 320px;
     background: rgba(18, 18, 23, 0.95);
     backdrop-filter: blur(20px);
-    border: 1px solid rgba(180, 138, 9, 0.2);
+    border: 1px solid rgba(212, 175, 55, 0.2);
     border-radius: 20px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.5), 0 0 20px rgba(180, 138, 9, 0.1);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5), 0 0 20px rgba(212, 175, 55, 0.1);
     overflow: hidden;
     opacity: 0;
     transform: translateY(20px) scale(0.9);
@@ -87,8 +87,8 @@
 
 .header {
     padding: 1rem 1.25rem;
-    background: rgba(180, 138, 9, 0.05);
-    border-bottom: 1px solid rgba(180, 138, 9, 0.1);
+    background: rgba(212, 175, 55, 0.05);
+    border-bottom: 1px solid rgba(212, 175, 55, 0.1);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -108,12 +108,12 @@
 
 .headerTitle span {
     font-size: 0.7rem;
-    color: #B48A09;
+    color: #D4AF37;
     font-weight: 600;
 }
 
 .brainIcon {
-    color: #B48A09;
+    color: #D4AF37;
 }
 
 .closeBtn {
@@ -163,7 +163,7 @@
 
 .actionItem:hover {
     background: rgba(255,255,255,0.06);
-    border-color: rgba(180, 138, 9, 0.3);
+    border-color: rgba(212, 175, 55, 0.3);
     color: var(--text-primary);
 }
 
@@ -177,7 +177,7 @@
     gap: 0.5rem;
     margin-top: 0.75rem;
     font-size: 0.75rem;
-    color: #B48A09;
+    color: #D4AF37;
     font-weight: 600;
 }
 
@@ -203,7 +203,7 @@
     width: 32px;
     height: 32px;
     border-radius: 50%;
-    background: #B48A09;
+    background: #D4AF37;
     color: white;
     border: none;
     display: flex;
@@ -226,7 +226,7 @@
 }
 
 .fullLink:hover {
-    color: #B48A09;
+    color: #D4AF37;
 }
 
 /* 뱃지 */
@@ -280,7 +280,7 @@
 }
 
 .chatHistory::-webkit-scrollbar-thumb {
-    background: rgba(180, 138, 9, 0.2);
+    background: rgba(212, 175, 55, 0.2);
     border-radius: 10px;
 }
 
@@ -308,7 +308,7 @@
 }
 
 .userBubble {
-    background: #B48A09;
+    background: #D4AF37;
     color: #000;
     align-self: flex-end;
     border-bottom-right-radius: 2px;
@@ -325,7 +325,7 @@
 .dot {
     width: 4px;
     height: 4px;
-    background: #B48A09;
+    background: #D4AF37;
     border-radius: 50%;
     animation: dotPulse 1.5s infinite;
 }
@@ -349,7 +349,7 @@
 .wave {
     width: 2px;
     height: 100%;
-    background: #B48A09;
+    background: #D4AF37;
     border-radius: 1px;
     animation: wavePulse 1s infinite ease-in-out;
 }
@@ -376,11 +376,11 @@
 }
 
 .micBtn:hover {
-    color: #B48A09;
+    color: #D4AF37;
 }
 
 .micBtnActive {
-    color: #B48A09;
+    color: #D4AF37;
     animation: glowPulse 2s infinite;
 }
 

@@ -155,7 +155,7 @@ export default function MoCulAssistant() {
                                 <div className={styles.wave}></div>
                                 <div className={styles.wave}></div>
                             </div>
-                            <p style={{fontSize: '0.8rem', color: '#B48A09', marginTop: '1.5rem', fontWeight: 700}}>
+                            <p style={{fontSize: '0.8rem', color: '#D4AF37', marginTop: '1.5rem', fontWeight: 700}}>
                                 전문가님의 목소리를 듣는 중...
                             </p>
                             <button 

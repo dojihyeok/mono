@@ -360,7 +360,7 @@
 
 .globalBanner {
     background: linear-gradient(135deg, #111117 0%, #020204 100%);
-    border: 1px solid rgba(180, 138, 9, 0.3);
+    border: 1px solid rgba(212, 175, 55, 0.3);
     border-radius: 1.5rem;
     padding: 3rem 2rem;
     position: relative;
@@ -375,7 +375,7 @@
     right: -50%;
     width: 100%;
     height: 100%;
-    background: radial-gradient(circle, rgba(180, 138, 9, 0.1) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
     pointer-events: none;
 }
 
@@ -395,8 +395,8 @@
     color: var(--accent-gold);
     letter-spacing: 0.15em;
     padding: 4px 12px;
-    background: rgba(180, 138, 9, 0.1);
-    border: 1px solid rgba(180, 138, 9, 0.3);
+    background: rgba(212, 175, 55, 0.1);
+    border: 1px solid rgba(212, 175, 55, 0.3);
     border-radius: 4px;
     margin-bottom: 0.5rem;
 }
@@ -427,12 +427,12 @@
     font-weight: 800;
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 4px 20px rgba(180, 138, 9, 0.3);
+    box-shadow: 0 4px 20px rgba(212, 175, 55, 0.3);
 }
 
 .globalCta:hover {
     transform: translateY(-2px) scale(1.02);
-    box-shadow: 0 8px 30px rgba(180, 138, 9, 0.4);
+    box-shadow: 0 8px 30px rgba(212, 175, 55, 0.4);
     background: #ffd700;
 }
 
@@ -470,7 +470,7 @@
     overflow-x: auto;
     padding-bottom: 1rem;
     scrollbar-width: thin;
-    scrollbar-color: rgba(180, 138, 9, 0.3) transparent;
+    scrollbar-color: rgba(212, 175, 55, 0.3) transparent;
 }
 
 .aiRecommendGrid::-webkit-scrollbar {
@@ -478,14 +478,14 @@
 }
 
 .aiRecommendGrid::-webkit-scrollbar-thumb {
-    background: rgba(180, 138, 9, 0.3);
+    background: rgba(212, 175, 55, 0.3);
     border-radius: 3px;
 }
 
 .recommendCard {
     min-width: 320px;
-    background: rgba(180, 138, 9, 0.05);
-    border: 1px solid rgba(180, 138, 9, 0.2);
+    background: rgba(212, 175, 55, 0.05);
+    border: 1px solid rgba(212, 175, 55, 0.2);
     border-radius: 1.5rem;
     padding: 1.5rem;
     display: flex;
@@ -497,8 +497,8 @@
 }
 
 .recommendCard:hover {
-    background: rgba(180, 138, 9, 0.08);
-    border-color: rgba(180, 138, 9, 0.4);
+    background: rgba(212, 175, 55, 0.08);
+    border-color: rgba(212, 175, 55, 0.4);
     transform: translateY(-4px);
 }
 
@@ -535,8 +535,8 @@
 .recLabel {
     font-size: 0.7rem;
     font-weight: 700;
-    color: #B48A09;
-    background: rgba(180, 138, 9, 0.1);
+    color: #D4AF37;
+    background: rgba(212, 175, 55, 0.1);
     padding: 2px 8px;
     border-radius: 4px;
     align-self: flex-start;
@@ -564,14 +564,14 @@
     font-size: 0.75rem;
     line-height: 1.5;
     color: rgba(255, 255, 255, 0.5);
-    border-left: 2px solid #B48A09;
+    border-left: 2px solid #D4AF37;
 }
 
 .recApply {
     margin-top: 1rem;
     width: 100%;
     padding: 0.75rem;
-    background: #B48A09;
+    background: #D4AF37;
     color: #000;
     border: none;
     border-radius: 10px;

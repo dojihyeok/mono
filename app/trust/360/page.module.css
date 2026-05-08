@@ -14,11 +14,11 @@
     display: inline-block;
     font-size: 11px;
     font-weight: 800;
-    color: #B48A09;
+    color: #D4AF37;
     letter-spacing: 0.2em;
     padding: 6px 16px;
-    background: rgba(180, 138, 9, 0.08);
-    border: 1px solid rgba(180, 138, 9, 0.2);
+    background: rgba(212, 175, 55, 0.08);
+    border: 1px solid rgba(212, 175, 55, 0.2);
     border-radius: 4px;
     margin-bottom: 1.5rem;
     text-transform: uppercase;
@@ -33,7 +33,7 @@
 }
 
 .goldText {
-    color: #B48A09;
+    color: #D4AF37;
 }
 
 .subtitle {
@@ -80,19 +80,19 @@
 }
 
 .roleCard.active {
-    background: rgba(180, 138, 9, 0.05);
-    border-color: #B48A09;
-    box-shadow: 0 10px 40px rgba(180, 138, 9, 0.15);
+    background: rgba(212, 175, 55, 0.05);
+    border-color: #D4AF37;
+    box-shadow: 0 10px 40px rgba(212, 175, 55, 0.15);
 }
 
 .roleCard.active .roleHeader {
-    color: #B48A09;
+    color: #D4AF37;
 }
 
 /* Evaluation Card Section */
 .cardSection {
     background: #09090C;
-    border: 1px solid rgba(180, 138, 9, 0.1);
+    border: 1px solid rgba(212, 175, 55, 0.1);
     border-radius: 2rem;
     padding: 3.5rem;
     margin-bottom: 4rem;
@@ -116,11 +116,11 @@
 .countBadge {
     font-size: 0.8rem;
     font-weight: 800;
-    color: #B48A09;
-    background: rgba(180, 138, 9, 0.12);
+    color: #D4AF37;
+    background: rgba(212, 175, 55, 0.12);
     padding: 5px 14px;
     border-radius: 2rem;
-    border: 1px solid rgba(180, 138, 9, 0.2);
+    border: 1px solid rgba(212, 175, 55, 0.2);
 }
 
 .evalGrid {
@@ -141,7 +141,7 @@
 }
 
 .evalCard:hover {
-    border-color: rgba(180, 138, 9, 0.3);
+    border-color: rgba(212, 175, 55, 0.3);
     background: #111117;
     transform: scale(1.01);
 }
@@ -153,7 +153,7 @@
 .itemType {
     font-size: 10px;
     font-weight: 800;
-    color: #B48A09;
+    color: #D4AF37;
     letter-spacing: 0.2em;
     margin-bottom: 0.75rem;
     text-transform: uppercase;
@@ -177,8 +177,8 @@
 /* Button with Vouching feel */
 .vouchBtn {
     background: transparent;
-    border: 1px solid rgba(180, 138, 9, 0.4);
-    color: #B48A09;
+    border: 1px solid rgba(212, 175, 55, 0.4);
+    color: #D4AF37;
     padding: 1rem 2rem;
     border-radius: 0.5rem;
     font-size: 1rem;
@@ -192,15 +192,15 @@
 }
 
 .vouchBtn:hover {
-    background: #B48A09;
+    background: #D4AF37;
     color: #020204;
-    box-shadow: 0 10px 30px rgba(180, 138, 9, 0.3);
+    box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
 }
 
 /* Metrics Overview Card */
 .metricsCard {
     background: linear-gradient(135deg, #0D0D12, #050507);
-    border: 1px solid rgba(180, 138, 9, 0.25);
+    border: 1px solid rgba(212, 175, 55, 0.25);
     padding: 2.5rem 3.5rem;
     border-radius: 2rem;
     display: flex;
@@ -236,7 +236,7 @@
 .score {
     font-size: 3.5rem;
     font-weight: 900;
-    color: #B48A09;
+    color: #D4AF37;
     display: block;
     line-height: 0.9;
     letter-spacing: -0.05em;

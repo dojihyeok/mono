@@ -67,7 +67,7 @@ export default function StrategicSettlementClient() {
             <section className={styles.milestoneSection}>
                 <div className={styles.sectionHeader}>
                     <h2>MILESTONE PROGRESS</h2>
-                    <ShieldCheck size={16} color="#B48A09" />
+                    <ShieldCheck size={16} color="#D4AF37" />
                 </div>
                 
                 <div className={styles.timeline}>
@@ -111,7 +111,7 @@ export default function StrategicSettlementClient() {
 
             {/* Security Notice */}
             <div className={styles.securityBanner} style={{ padding: '1.25rem', background: '#111117', border: '1px solid var(--border)', borderRadius: '12px', display: 'flex', alignItems: 'center', gap: '12px' }}>
-                <Lock size={18} color="#B48A09" />
+                <Lock size={18} color="#D4AF37" />
                 <p style={{ fontSize: '11px', color: 'var(--secondary)', margin: 0 }}>
                     모든 정산금은 스마트 컨트랙트에 의해 **마일스톤 달성 시 즉시 에스크로 해제**됩니다.
                 </p>

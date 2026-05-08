@@ -17,10 +17,10 @@ import Link from 'next/link';
 
 const ASSET_SUMMARY = [
     { name: 'Master Academy', status: 'Completed', level: 'Lvl. 4', icon: <Zap size={18} />, color: '#E2E8F0', href: '/academy' },
-    { name: 'Global Passport', status: 'Verified', level: 'Tier 1', icon: <Globe size={18} />, color: '#B48A09', href: '/passport' },
+    { name: 'Global Passport', status: 'Verified', level: 'Tier 1', icon: <Globe size={18} />, color: '#D4AF37', href: '/passport' },
     { name: 'ISO Report', status: 'Issued', level: 'v2024.04', icon: <FileText size={18} />, color: '#94A3B8', href: '/reports/MN-2024-KIM-01' },
     { name: 'Global Welfare', status: 'Protected', level: 'Master Care+', icon: <ShieldCheck size={18} />, color: '#E2E8F0', href: '/welfare' },
-    { name: 'Team Equipment', status: 'Optimal', level: '₩ 2.09억', icon: <PieChart size={18} />, color: '#B48A09', href: '/assets/equipment' }
+    { name: 'Team Equipment', status: 'Optimal', level: '₩ 2.09억', icon: <PieChart size={18} />, color: '#D4AF37', href: '/assets/equipment' }
 ];
 
 export default function AssetDashboardClient() {
@@ -87,7 +87,7 @@ export default function AssetDashboardClient() {
                     <div className={styles.matrixItem}>
                         <div className={styles.matrixLabel}>GER (Germany)</div>
                         <div className={styles.progressBar}>
-                            <div className={styles.progressFill} style={{ width: '64%', background: '#B48A09' }} />
+                            <div className={styles.progressFill} style={{ width: '64%', background: '#D4AF37' }} />
                         </div>
                         <span className={styles.percentage}>64%</span>
                     </div>

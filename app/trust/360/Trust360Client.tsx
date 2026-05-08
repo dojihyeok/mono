@@ -58,7 +58,7 @@ export default function Trust360Client() {
                         onClick={() => setActiveRole(role.id as Role)}
                     >
                         <div className={styles.roleHeader}>
-                            <Users size={16} color={activeRole === role.id ? '#B48A09' : '#B0B0B0'} />
+                            <Users size={16} color={activeRole === role.id ? '#D4AF37' : '#B0B0B0'} />
                             <span>{role.label}</span>
                         </div>
                         <p>{role.desc}</p>
@@ -69,7 +69,7 @@ export default function Trust360Client() {
             {/* 2. Main Evaluation Interface */}
             <div className={styles.cardSection}>
                 <div className={styles.sectionHeader}>
-                    <ShieldCheck size={20} color="#B48A09" />
+                    <ShieldCheck size={20} color="#D4AF37" />
                     <h3>상호 신뢰 평판 기록</h3>
                     <span className={styles.countBadge}>{EVALUATION_LIST[activeRole].length} 건의 대기중</span>
                 </div>
@@ -100,7 +100,7 @@ export default function Trust360Client() {
             {/* 3. Metrics Overview Card (Dynamic) */}
             <div className={styles.metricsCard}>
                 <div className={styles.metricsInfo}>
-                    <BrainCircuit size={24} color="#B48A09" />
+                    <BrainCircuit size={24} color="#D4AF37" />
                     <div className={styles.metricsText}>
                         <h4>{activeRole === 'SITE_MANAGER' ? '현장 반장 신뢰 지수' : activeRole === 'TEAM_LEADER' ? '리더십 자산' : '기술 자산지수'}</h4>
                         <p>상호 평가 데이터를 기반으로 기술인의 가치가 자산화됩니다.</p>

@@ -46,7 +46,7 @@ export default function TechnicianCard({ technician }: TechnicianProps) {
                         <div className={styles.nameRow}>
                             <h3 className={styles.name}>{technician.name}</h3>
                             <div className={styles.ratingBox}>
-                                <Star size={12} fill="#B48A09" color="#B48A09" />
+                                <Star size={12} fill="#D4AF37" color="#D4AF37" />
                                 <span>{rating}</span>
                             </div>
                         </div>

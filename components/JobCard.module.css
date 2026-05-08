@@ -30,14 +30,14 @@
     left: 0;
     right: 0;
     height: 2px;
-    background: linear-gradient(90deg, transparent, rgba(180, 138, 9, 0.4), transparent);
+    background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.4), transparent);
     opacity: 0;
     transition: opacity 0.3s;
 }
 
 .card:hover {
     background: rgba(255, 255, 255, 0.04);
-    border-color: rgba(180, 138, 9, 0.2);
+    border-color: rgba(212, 175, 55, 0.2);
     transform: translateY(-6px);
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
 }
@@ -109,9 +109,9 @@
 .categoryBadge {
     font-size: 11px;
     font-weight: 800;
-    color: #B48A09;
-    background: rgba(180, 138, 9, 0.08);
-    border: 1px solid rgba(180, 138, 9, 0.15);
+    color: #D4AF37;
+    background: rgba(212, 175, 55, 0.08);
+    border: 1px solid rgba(212, 175, 55, 0.15);
     padding: 3px 9px;
     border-radius: 6px;
     width: fit-content;
@@ -221,7 +221,7 @@
 .wonSign {
     font-size: 1rem;
     font-weight: 900;
-    color: #B48A09;
+    color: #D4AF37;
 }
 
 .wageAmount strong {
@@ -292,8 +292,8 @@
 }
 
 .applyBtn:hover:not(:disabled) {
-    background: rgba(180, 138, 9, 0.15);
-    border-color: rgba(180, 138, 9, 0.3);
+    background: rgba(212, 175, 55, 0.15);
+    border-color: rgba(212, 175, 55, 0.3);
     color: #D4AF37;
 }
 

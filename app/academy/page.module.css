@@ -32,10 +32,10 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    background: rgba(180, 138, 9, 0.1);
+    background: rgba(212, 175, 55, 0.1);
     padding: 10px 20px;
     border-radius: 12px;
-    color: #B48A09;
+    color: #D4AF37;
     font-size: 14px;
     font-weight: 800;
 }
@@ -64,8 +64,8 @@
 .grade {
     font-size: 11px;
     font-weight: 800;
-    color: #B48A09;
-    background: rgba(180, 138, 9, 0.1);
+    color: #D4AF37;
+    background: rgba(212, 175, 55, 0.1);
     padding: 4px 10px;
     border-radius: 6px;
 }
@@ -118,8 +118,8 @@
 }
 
 .stepDone {
-    background: #B48A09;
-    border-color: #B48A09;
+    background: #D4AF37;
+    border-color: #D4AF37;
     color: #000;
 }
 
@@ -204,7 +204,7 @@
 
 .radarBarFill {
     height: 100%;
-    background: linear-gradient(90deg, #B48A09, #D4AF37);
+    background: linear-gradient(90deg, #D4AF37, #D4AF37);
     border-radius: 4px;
 }
 
@@ -279,7 +279,7 @@
 
 .courseCard:hover {
     transform: translateY(-5px);
-    border-color: rgba(180, 138, 9, 0.2);
+    border-color: rgba(212, 175, 55, 0.2);
 }
 
 .courseThumb {
@@ -329,7 +329,7 @@
 .category {
     font-size: 11px;
     font-weight: 800;
-    color: #B48A09;
+    color: #D4AF37;
 }
 
 .sp {
@@ -366,7 +366,7 @@
 
 .progressFill {
     height: 100%;
-    background: #B48A09;
+    background: #D4AF37;
 }
 
 .progressInfo {
@@ -380,8 +380,8 @@
 
 /* ── Global Banner & Cert (Native Style) ─────── */
 .globalBanner {
-    background: rgba(180, 138, 9, 0.1);
-    border: 1px solid rgba(180, 138, 9, 0.2);
+    background: rgba(212, 175, 55, 0.1);
+    border: 1px solid rgba(212, 175, 55, 0.2);
     border-radius: 32px;
     padding: 2rem 3rem;
     display: flex;

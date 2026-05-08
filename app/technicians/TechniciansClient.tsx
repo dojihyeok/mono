@@ -115,7 +115,7 @@ export default function TechniciansClient({ initialTechnicians }: TechniciansCli
                 <div className={styles.locationSearch}>
                     <div className={styles.nearMeBox}>
                         <div className={styles.nearMeIcon}>
-                            <LocateFixed size={64} color="#B48A09" style={{margin: '0 auto'}} />
+                            <LocateFixed size={64} color="#D4AF37" style={{margin: '0 auto'}} />
                         </div>
                         <h3>내 주변 마스터 찾기</h3>
                         <p>현재 위치 정보를 기반으로 근거리에서 활동 중인<br/>검증된 마스터들을 추천해 드립니다.</p>

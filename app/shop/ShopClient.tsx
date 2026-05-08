@@ -86,7 +86,7 @@ export default function ShopClient() {
                         <div className={styles.productInfo}>
                             <div className={styles.metaRow}>
                                 <div className={styles.rating}>
-                                    <Star size={10} fill="#B48A09" color="#B48A09" />
+                                    <Star size={10} fill="#D4AF37" color="#D4AF37" />
                                     <span>{product.rating}</span>
                                 </div>
                                 <span className={styles.catText}>{product.category}</span>
@@ -107,7 +107,7 @@ export default function ShopClient() {
             {/* Gear Certification Banner */}
             <section className={styles.certBanner}>
                 <div className={styles.certInfo}>
-                    <ShieldCheck size={28} color="#B48A09" />
+                    <ShieldCheck size={28} color="#D4AF37" />
                     <div className={styles.certText}>
                         <h4>OFFICIAL EXPERT CERTIFICATION</h4>
                         <p>본 스토어의 모든 상품은 모노 전문가 위원회의 엄격한 필드 테스트를 통과한 정품입니다.</p>

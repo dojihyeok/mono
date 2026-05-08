@@ -86,7 +86,7 @@ export default function ProfileClient({ id }: { id: string }) {
                 <div className={styles.assetCard}>
                     <h3>보유 장비 및 인프라</h3>
                     <div className={styles.equipmentInfo}>
-                        <Zap size={24} color="#B48A09" />
+                        <Zap size={24} color="#D4AF37" />
                         <div className={styles.eqText}>
                             <h4>{MASTER.equipment}</h4>
                             <span style={{color: '#22C55E', fontWeight: 700}}>최적 운용 상태 (A+ 등급)</span>
@@ -98,7 +98,7 @@ export default function ProfileClient({ id }: { id: string }) {
             {/* 3. Reputation & History */}
             <div className={styles.historySection}>
                 <div className={styles.sectionHeader}>
-                    <ClipboardCheck size={20} color="#B48A09" />
+                    <ClipboardCheck size={20} color="#D4AF37" />
                     <h3>최근 프로젝트 수행 이력</h3>
                 </div>
                 <div className={styles.historyList}>
@@ -109,7 +109,7 @@ export default function ProfileClient({ id }: { id: string }) {
                                 <span>{hist.role}</span>
                             </div>
                             <div className={styles.histScore}>
-                                <Star size={10} fill="#B48A09" />
+                                <Star size={10} fill="#D4AF37" />
                                 <span>현장 평점 {hist.score}</span>
                             </div>
                         </div>
@@ -154,11 +154,11 @@ export default function ProfileClient({ id }: { id: string }) {
                             </div>
 
                             <div className={styles.benefitRow}>
-                                <CheckCircle2 size={16} color="#B48A09" />
+                                <CheckCircle2 size={16} color="#D4AF37" />
                                 <span>글로벌 현장 체류 및 주거 비용 100% 지원</span>
                             </div>
                             <div className={styles.benefitRow}>
-                                <CheckCircle2 size={16} color="#B48A09" />
+                                <CheckCircle2 size={16} color="#D4AF37" />
                                 <span>모노 마스터 전용 상해/보상 보험 가입</span>
                             </div>
                         </div>

@@ -44,9 +44,9 @@
     content: '';
     width: 28px;
     height: 28px;
-    background: linear-gradient(135deg, #B48A09, #D4AF37);
+    background: linear-gradient(135deg, #D4AF37, #D4AF37);
     border-radius: 8px;
-    box-shadow: 0 0 16px rgba(180, 138, 9, 0.3);
+    box-shadow: 0 0 16px rgba(212, 175, 55, 0.3);
 }
 
 /* Nav Links */
@@ -95,9 +95,9 @@
 }
 
 .iconButton:hover {
-    background: rgba(180, 138, 9, 0.1);
-    color: #B48A09;
-    border-color: rgba(180, 138, 9, 0.25);
+    background: rgba(212, 175, 55, 0.1);
+    color: #D4AF37;
+    border-color: rgba(212, 175, 55, 0.25);
 }
 
 .loginBtn {

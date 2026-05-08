@@ -31,7 +31,7 @@
     transform: translateX(-50%);
     width: 250px;
     height: 120px;
-    background: rgba(180, 138, 9, 0.06);
+    background: rgba(212, 175, 55, 0.06);
     filter: blur(60px);
     pointer-events: none;
 }
@@ -49,7 +49,7 @@
 
 .categoryDesc {
     font-size: 11px;
-    color: #B48A09;
+    color: #D4AF37;
     text-transform: uppercase;
     letter-spacing: 0.2em;
     font-weight: 700;
@@ -60,10 +60,10 @@
     content: '';
     width: 36px;
     height: 2px;
-    background: linear-gradient(90deg, #B48A09, #D4AF37);
+    background: linear-gradient(90deg, #D4AF37, #D4AF37);
     margin-top: 8px;
     border-radius: 2px;
-    box-shadow: 0 0 12px rgba(180, 138, 9, 0.5);
+    box-shadow: 0 0 12px rgba(212, 175, 55, 0.5);
 }
 
 /* ── Grid ───────────────────────────────── */
@@ -118,7 +118,7 @@
     left: 0;
     right: 0;
     height: 2px;
-    background: linear-gradient(90deg, #B48A09, #D4AF37);
+    background: linear-gradient(90deg, #D4AF37, #D4AF37);
     opacity: 0;
     transition: opacity 0.3s;
 }
@@ -127,16 +127,16 @@
     content: '';
     position: absolute;
     inset: 0;
-    background: radial-gradient(circle at top center, rgba(180, 138, 9, 0.08), transparent 60%);
+    background: radial-gradient(circle at top center, rgba(212, 175, 55, 0.08), transparent 60%);
     opacity: 0;
     transition: opacity 0.3s;
 }
 
 .tile:hover {
     background: rgba(255, 255, 255, 0.05);
-    border-color: rgba(180, 138, 9, 0.3);
+    border-color: rgba(212, 175, 55, 0.3);
     transform: translateY(-8px);
-    box-shadow: 0 24px 48px rgba(0, 0, 0, 0.5), 0 0 24px rgba(180, 138, 9, 0.08);
+    box-shadow: 0 24px 48px rgba(0, 0, 0, 0.5), 0 0 24px rgba(212, 175, 55, 0.08);
 }
 
 .tile:hover::before,
@@ -153,7 +153,7 @@
     justify-content: center;
     align-items: center;
     background: rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(180, 138, 9, 0.12);
+    border: 1px solid rgba(212, 175, 55, 0.12);
     position: relative;
     transition: all 0.35s;
     z-index: 2;
@@ -164,15 +164,15 @@
     position: absolute;
     inset: 0;
     border-radius: 50%;
-    background: radial-gradient(circle, #B48A09 0%, transparent 70%);
+    background: radial-gradient(circle, #D4AF37 0%, transparent 70%);
     opacity: 0.05;
     transition: opacity 0.35s;
 }
 
 .tile:hover .iconWrapper {
     transform: scale(1.12);
-    border-color: rgba(180, 138, 9, 0.5);
-    box-shadow: 0 0 32px rgba(180, 138, 9, 0.2);
+    border-color: rgba(212, 175, 55, 0.5);
+    box-shadow: 0 0 32px rgba(212, 175, 55, 0.2);
     color: #D4AF37;
 }
 
@@ -223,7 +223,7 @@
 .en {
     font-size: 9px;
     font-weight: 700;
-    color: #B48A09;
+    color: #D4AF37;
     text-transform: uppercase;
     letter-spacing: 0.12em;
     opacity: 0.7;

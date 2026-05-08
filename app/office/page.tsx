@@ -164,13 +164,13 @@ export default function OnlineOfficePage() {
               <div className={styles.officeCardHeader}>
                 <div className={styles.officeInfoMain}>
                   <div className={styles.officeAvatar}>
-                    <Building2 size={28} color="#B48A09" />
+                    <Building2 size={28} color="#D4AF37" />
                   </div>
                   <div className={styles.nameRow}>
                     <h3 className={styles.officeName}>{office.name}</h3>
                     <div className={styles.officeStats}>
                       <span className={styles.rating}>
-                        <Star size={12} fill="#B48A09" color="#B48A09" />
+                        <Star size={12} fill="#D4AF37" color="#D4AF37" />
                         {office.rating} ({office.reviews})
                       </span>
                       <span className={styles.dot}>•</span>

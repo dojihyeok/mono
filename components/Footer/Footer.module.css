@@ -31,9 +31,9 @@
 .logoMark {
     width: 32px;
     height: 32px;
-    background: linear-gradient(135deg, #B48A09, #D4AF37);
+    background: linear-gradient(135deg, #D4AF37, #D4AF37);
     border-radius: 10px;
-    box-shadow: 0 0 20px rgba(180, 138, 9, 0.25);
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.25);
 }
 
 .logoText {
@@ -75,9 +75,9 @@
 }
 
 .socialBtn:hover {
-    background: rgba(180, 138, 9, 0.1);
-    border-color: rgba(180, 138, 9, 0.2);
-    color: #B48A09;
+    background: rgba(212, 175, 55, 0.1);
+    border-color: rgba(212, 175, 55, 0.2);
+    color: #D4AF37;
 }
 
 /* Link Columns */
@@ -135,9 +135,9 @@
 .goldDot {
     width: 6px;
     height: 6px;
-    background: #B48A09;
+    background: #D4AF37;
     border-radius: 50%;
-    box-shadow: 0 0 6px rgba(180, 138, 9, 0.5);
+    box-shadow: 0 0 6px rgba(212, 175, 55, 0.5);
 }
 
 /* Responsive */

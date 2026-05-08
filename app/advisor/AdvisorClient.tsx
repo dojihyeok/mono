@@ -32,7 +32,7 @@ export default function AdvisorClient() {
     }, []);
 
     const MASTER_STATS = [
-        { label: '신뢰 지수', value: '98.5', color: '#B48A09', trend: '+1.2' },
+        { label: '신뢰 지수', value: '98.5', color: '#D4AF37', trend: '+1.2' },
         { label: '장비 상태', value: '최상 (OPTIMAL)', color: '#10B981', trend: '정비 완료' },
         { label: '글로벌 진출 준비도', value: '마스터 등급', color: '#E2E8F0', trend: 'ISO 국제 인증' }
     ];
@@ -94,7 +94,7 @@ export default function AdvisorClient() {
 
             <section className={styles.advisorSection}>
                 <div className={styles.cardHeader}>
-                    <TrendingUp size={20} color="#B48A09" />
+                    <TrendingUp size={20} color="#D4AF37" />
                     <h3>AI 가치 분석 인사이트</h3>
                 </div>
                 <div className={styles.insightBox}>
@@ -112,7 +112,7 @@ export default function AdvisorClient() {
 
             <section className={styles.projectSection}>
                 <div className={styles.cardHeader}>
-                    <Globe size={20} color="#B48A09" />
+                    <Globe size={20} color="#D4AF37" />
                     <h3>최적 글로벌 매칭 제안</h3>
                 </div>
                 <div className={styles.projectGrid}>

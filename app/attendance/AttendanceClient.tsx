@@ -174,7 +174,7 @@ export default function AttendanceClient() {
                                 
                                 <div className={styles.vehicleCard}>
                                     <div className={styles.vehicleIcon}>
-                                        <Bus size={36} color="#B48A09" />
+                                        <Bus size={36} color="#D4AF37" />
                                     </div>
                                     <div className={styles.vehicleInfo}>
                                         <div className={styles.plate}>{VEHICLE_DATA.plate}</div>
@@ -209,13 +209,13 @@ export default function AttendanceClient() {
                         {status === 'BOARDED' && (
                             <div className={styles.transitOperation}>
                                 <header className={styles.transitHeader}>
-                                    <div className={styles.transitBadge} style={{backgroundColor: '#B48A09', color: '#000'}}>현장으로 이동 중</div>
+                                    <div className={styles.transitBadge} style={{backgroundColor: '#D4AF37', color: '#000'}}>현장으로 이동 중</div>
                                     <h3 className={styles.transitTitle}>현장에 안전하게 모시는 중입니다</h3>
                                 </header>
 
                                 <div className={styles.boardingPass} style={{background: 'rgba(255,255,255,0.03)', padding: '2.5rem', borderRadius: '24px', border: '1px solid rgba(255,255,255,0.05)'}}>
                                     <div style={{display: 'flex', justifyContent: 'space-between', marginBottom: '2rem'}}>
-                                        <div style={{fontSize: '12px', fontWeight: 800, color: '#B48A09'}}>MOBILE BOARDING PASS</div>
+                                        <div style={{fontSize: '12px', fontWeight: 800, color: '#D4AF37'}}>MOBILE BOARDING PASS</div>
                                         <div style={{fontSize: '12px', color: 'rgba(255,255,255,0.2)'}}>{VEHICLE_DATA.id}</div>
                                     </div>
                                     <div style={{display: 'flex', gap: '3rem', marginBottom: '1.5rem'}}>
@@ -223,7 +223,7 @@ export default function AttendanceClient() {
                                         <div><label style={{fontSize: '11px', color: 'rgba(255,255,255,0.5)', display: 'block', marginBottom: '6px'}}>지정 좌석</label><strong style={{color: '#fff'}}>03번 (창가)</strong></div>
                                     </div>
                                     <div style={{fontSize: '15px', color: '#fff', fontWeight: 700, padding: '1rem', background: 'rgba(255,255,255,0.02)', borderRadius: '12px', display: 'flex', alignItems: 'center', gap: '10px'}}>
-                                        <CheckCircle2 size={16} color="#B48A09" /> 공식 셔틀 차량 인증됨
+                                        <CheckCircle2 size={16} color="#D4AF37" /> 공식 셔틀 차량 인증됨
                                     </div>
                                 </div>
                             </div>
@@ -274,7 +274,7 @@ export default function AttendanceClient() {
                         {status === 'SETTLED' && (
                             <div className={styles.settledState}>
                                 <div className={styles.successIcon}>
-                                    <CheckCircle2 size={64} color="#B48A09" />
+                                    <CheckCircle2 size={64} color="#D4AF37" />
                                 </div>
                                 <h3 className={styles.settledTitle}>오늘 하루도 정말 고생하셨습니다!</h3>
                                 
@@ -311,7 +311,7 @@ export default function AttendanceClient() {
 
                                 <div style={{display: 'flex', flexDirection: 'column', gap: '1rem'}}>
                                     <Button className={styles.checkInBtn} onClick={() => setStatus('IDLE')}>기록 저장 및 종료</Button>
-                                    <Link href="/settlement" style={{textDecoration: 'none', color: '#B48A09', fontSize: '14px', fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px'}}>
+                                    <Link href="/settlement" style={{textDecoration: 'none', color: '#D4AF37', fontSize: '14px', fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px'}}>
                                         상세 정산 리포트 확인 <ArrowRight size={14} />
                                     </Link>
                                 </div>

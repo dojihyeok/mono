@@ -67,7 +67,7 @@
     background: var(--accent-gold);
     color: #000;
     border-color: var(--accent-gold);
-    box-shadow: 0 8px 25px rgba(180, 138, 9, 0.3);
+    box-shadow: 0 8px 25px rgba(212, 175, 55, 0.3);
 }
 
 .categoryIcon {
@@ -88,18 +88,18 @@
 
 .tag {
     padding: 0.5rem 1.25rem;
-    background: rgba(180, 138, 9, 0.05);
-    border: 1px solid rgba(180, 138, 9, 0.2);
+    background: rgba(212, 175, 55, 0.05);
+    border: 1px solid rgba(212, 175, 55, 0.2);
     border-radius: 3rem;
     font-size: 0.8rem;
     font-weight: 800;
-    color: #B48A09;
+    color: #D4AF37;
     cursor: pointer;
     transition: all 0.2s;
 }
 
 .tag:hover {
-    background: rgba(180, 138, 9, 0.1);
+    background: rgba(212, 175, 55, 0.1);
     transform: scale(1.05);
 }
 
