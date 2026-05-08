@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { X, Phone, Mail, Github, Chrome } from 'lucide-react';
+import { X, Phone, Mail, Globe, Smartphone } from 'lucide-react';
 import styles from './AuthModal.module.css';
 
 interface AuthModalProps {
@@ -48,13 +48,13 @@ export default function AuthModal({ isOpen, onClose, onLogin }: AuthModalProps) 
 
                     <div className={styles.socialGroup}>
                         <button className={styles.socialBtn} aria-label="Google Login">
-                            <Chrome size={20} />
+                            <Globe size={20} />
                         </button>
                         <button className={styles.socialBtn} aria-label="Kakao Login">
                             <span className={styles.kakaoIcon}>K</span>
                         </button>
                         <button className={styles.socialBtn} aria-label="Github Login">
-                            <Github size={20} />
+                            <Smartphone size={20} />
                         </button>
                     </div>
                 </div>
