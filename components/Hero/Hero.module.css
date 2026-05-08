@@ -4,10 +4,10 @@
 
 .hero {
     position: relative;
-    padding: 60px 0 120px;
+    padding: 60px 0 40px;
     background: #06070a;
     overflow: hidden;
-    min-height: 95vh;
+    min-height: 80vh;
     display: flex;
     align-items: center;
 }
