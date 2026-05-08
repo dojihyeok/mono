@@ -1,7 +1,7 @@
 .container {
     display: flex;
     flex-direction: column;
-    gap: 4.5rem;
+    gap: 5rem;
     padding: 2rem 0;
 }
 
@@ -11,6 +11,7 @@
     gap: 2.5rem;
 }
 
+/* ── Section Header ─────────────────────── */
 .sectionHeader {
     display: flex;
     flex-direction: column;
@@ -21,100 +22,91 @@
     position: relative;
 }
 
+.glowTop {
+    position: absolute;
+    top: -60px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 250px;
+    height: 120px;
+    background: rgba(180, 138, 9, 0.06);
+    filter: blur(60px);
+    pointer-events: none;
+}
+
 .categoryTitle {
-    font-size: 1.25rem;
+    font-size: 1.4rem;
     font-weight: 900;
-    color: #fff;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
-    background: linear-gradient(to right, #fff, #888);
+    background: linear-gradient(135deg, #fff 30%, rgba(255,255,255,0.5));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 .categoryDesc {
-    font-size: 12px;
-    color: var(--accent);
+    font-size: 11px;
+    color: #B48A09;
     text-transform: uppercase;
     letter-spacing: 0.2em;
     font-weight: 700;
-    opacity: 0.8;
+    opacity: 0.9;
 }
 
 .sectionHeader::after {
     content: '';
-    width: 40px;
-    height: 3px;
-    background: var(--accent);
-    margin-top: 12px;
+    width: 36px;
+    height: 2px;
+    background: linear-gradient(90deg, #B48A09, #D4AF37);
+    margin-top: 8px;
     border-radius: 2px;
-    box-shadow: 0 0 10px var(--accent);
+    box-shadow: 0 0 12px rgba(180, 138, 9, 0.5);
 }
 
+/* ── Grid ───────────────────────────────── */
 .grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
+    gap: 14px;
     padding: 0 1.5rem;
 }
 
 @media (min-width: 480px) {
-    .grid {
-        grid-template-columns: repeat(3, 1fr);
-    }
+    .grid { grid-template-columns: repeat(3, 1fr); }
 }
 
 @media (min-width: 768px) {
     .grid {
         grid-template-columns: repeat(4, 1fr);
-        gap: 24px;
-        padding: 0 3rem;
+        gap: 20px;
+        padding: 0 2rem;
     }
 }
 
 @media (min-width: 1024px) {
-    .grid {
-        grid-template-columns: repeat(5, 1fr);
-    }
+    .grid { grid-template-columns: repeat(5, 1fr); }
 }
 
 @media (min-width: 1280px) {
-    .grid {
-        grid-template-columns: repeat(6, 1fr);
-    }
+    .grid { grid-template-columns: repeat(6, 1fr); }
 }
 
+/* ── Tile ───────────────────────────────── */
 .tile {
-    background: rgba(255, 255, 255, 0.03);
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.07);
-    border-radius: 2rem;
+    background: rgba(255, 255, 255, 0.025);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 24px;
     padding: 2rem 1rem;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 1.25rem;
     cursor: pointer;
-    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    transition: all 0.35s cubic-bezier(0.23, 1, 0.32, 1);
     position: relative;
     overflow: hidden;
     height: 100%;
-}
-
-@media (max-width: 768px) {
-    .tile {
-        padding: 1.5rem 0.75rem;
-        border-radius: 1.5rem;
-        gap: 1rem;
-    }
-}
-
-@media (max-width: 768px) {
-    .tile {
-        padding: 1.5rem 0.75rem;
-        border-radius: 1.5rem;
-        gap: 1rem;
-    }
 }
 
 .tile::before {
@@ -123,23 +115,34 @@
     top: 0;
     left: 0;
     right: 0;
-    height: 100%;
-    background: radial-gradient(circle at top right, rgba(212, 175, 55, 0.1), transparent);
+    height: 2px;
+    background: linear-gradient(90deg, #B48A09, #D4AF37);
     opacity: 0;
-    transition: opacity 0.4s;
+    transition: opacity 0.3s;
+}
+
+.tile::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at top center, rgba(180, 138, 9, 0.08), transparent 60%);
+    opacity: 0;
+    transition: opacity 0.3s;
 }
 
 .tile:hover {
-    background: rgba(255, 255, 255, 0.06);
-    border-color: rgba(212, 175, 55, 0.4);
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(180, 138, 9, 0.3);
     transform: translateY(-8px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 20px rgba(212, 175, 55, 0.1);
+    box-shadow: 0 24px 48px rgba(0, 0, 0, 0.5), 0 0 24px rgba(180, 138, 9, 0.08);
 }
 
-.tile:hover::before {
+.tile:hover::before,
+.tile:hover::after {
     opacity: 1;
 }
 
+/* ── Icon ───────────────────────────────── */
 .iconWrapper {
     width: 80px;
     height: 80px;
@@ -148,82 +151,63 @@
     justify-content: center;
     align-items: center;
     background: rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(212, 175, 55, 0.1);
+    border: 1px solid rgba(180, 138, 9, 0.12);
     position: relative;
-    transition: all 0.4s;
+    transition: all 0.35s;
     z-index: 2;
-}
-
-@media (max-width: 768px) {
-    .iconWrapper {
-        width: 60px;
-        height: 60px;
-    }
-    .iconWrapper svg {
-        width: 24px;
-        height: 24px;
-    }
-}
-
-@media (max-width: 768px) {
-    .iconWrapper {
-        width: 60px;
-        height: 60px;
-    }
-    .iconWrapper svg {
-        width: 24px;
-        height: 24px;
-    }
-}
-
-.tile:hover .iconWrapper {
-    transform: scale(1.1);
-    border-color: var(--accent);
-    box-shadow: 0 0 30px rgba(212, 175, 55, 0.2);
+    color: rgba(255, 255, 255, 0.7);
 }
 
 .iconOverlay {
     position: absolute;
     inset: 0;
     border-radius: 50%;
-    background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
+    background: radial-gradient(circle, #B48A09 0%, transparent 70%);
     opacity: 0.05;
-    transition: opacity 0.4s;
+    transition: opacity 0.35s;
+}
+
+.tile:hover .iconWrapper {
+    transform: scale(1.12);
+    border-color: rgba(180, 138, 9, 0.5);
+    box-shadow: 0 0 32px rgba(180, 138, 9, 0.2);
+    color: #D4AF37;
 }
 
 .tile:hover .iconOverlay {
-    opacity: 0.15;
+    opacity: 0.18;
 }
 
+/* ── Count Badge ────────────────────────── */
 .countBadge {
     position: absolute;
-    top: -5px;
-    right: -5px;
-    background: #FF6B00;
+    top: -4px;
+    right: -4px;
+    background: linear-gradient(135deg, #ff6b00, #ff8c00);
     color: #fff;
     font-size: 10px;
-    font-weight: 800;
-    padding: 3px 8px;
+    font-weight: 900;
+    padding: 3px 7px;
     border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(255, 107, 0, 0.4);
+    box-shadow: 0 4px 12px rgba(255, 107, 0, 0.45);
     z-index: 10;
 }
 
 .pulseBadge {
-    animation: pulseBadgeAnim 2s infinite;
+    animation: pulseBadgeAnim 2.5s ease-in-out infinite;
 }
 
 @keyframes pulseBadgeAnim {
-    0% { transform: scale(1); box-shadow: 0 4px 10px rgba(255, 107, 0, 0.4); }
-    50% { transform: scale(1.1); box-shadow: 0 4px 20px rgba(255, 107, 0, 0.6); }
-    100% { transform: scale(1); box-shadow: 0 4px 10px rgba(255, 107, 0, 0.4); }
+    0%, 100% { transform: scale(1); box-shadow: 0 4px 12px rgba(255, 107, 0, 0.45); }
+    50%       { transform: scale(1.12); box-shadow: 0 4px 20px rgba(255, 107, 0, 0.7); }
 }
 
+/* ── Label ──────────────────────────────── */
 .labelGroup {
     text-align: center;
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 5px;
     z-index: 2;
 }
 
@@ -231,37 +215,44 @@
     font-size: 15px;
     font-weight: 800;
     color: #fff;
+    letter-spacing: -0.01em;
 }
 
 .en {
-    font-size: 10px;
-    font-weight: 600;
-    color: var(--accent);
+    font-size: 9px;
+    font-weight: 700;
+    color: #B48A09;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
-    opacity: 0.6;
+    letter-spacing: 0.12em;
+    opacity: 0.7;
 }
 
+/* ── Placeholder ────────────────────────── */
 .placeholderCard {
     grid-column: 1 / -1;
     background: rgba(255, 255, 255, 0.02);
-    border: 1px dashed rgba(255, 255, 255, 0.1);
-    border-radius: 2rem;
+    border: 1px dashed rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
     padding: 3rem;
     text-align: center;
-    color: #555;
+    color: rgba(255, 255, 255, 0.2);
     font-weight: 700;
 }
 
-/* ── Glow Effects ──────────────────────── */
-.glowTop {
-    position: absolute;
-    top: -50px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 200px;
-    height: 100px;
-    background: rgba(212, 175, 55, 0.03);
-    filter: blur(50px);
-    pointer-events: none;
+/* ── Mobile ─────────────────────────────── */
+@media (max-width: 768px) {
+    .tile {
+        padding: 1.5rem 0.75rem;
+        border-radius: 20px;
+        gap: 1rem;
+    }
+    .iconWrapper {
+        width: 62px;
+        height: 62px;
+    }
+    .iconWrapper svg {
+        width: 26px;
+        height: 26px;
+    }
+    .name { font-size: 14px; }
 }

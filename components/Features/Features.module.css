@@ -52,12 +52,18 @@
 .grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 1.25rem;
+    gap: 1.5rem;
+}
+
+@media (min-width: 1024px) {
+    .grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
 }
 
 .cardOverride {
-    padding: 2.5rem !important;
-    border-radius: 24px !important;
+    padding: 3rem 2rem !important;
+    border-radius: 28px !important;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
     position: relative;
     overflow: hidden;
@@ -80,16 +86,16 @@
 }
 
 .iconWrapper {
-    width: 52px;
-    height: 52px;
-    background: rgba(180, 138, 9, 0.1);
+    width: 64px;
+    height: 64px;
+    background: rgba(180, 138, 9, 0.08);
     border: 1px solid rgba(180, 138, 9, 0.2);
-    border-radius: 16px;
+    border-radius: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
     color: #B48A09;
-    margin-bottom: 1.75rem;
+    margin-bottom: 2rem;
     transition: all 0.3s;
 }
 
@@ -100,10 +106,10 @@
 }
 
 .cardTitle {
-    font-size: 1.25rem;
+    font-size: 1.35rem;
     font-weight: 800;
     color: #fff;
-    margin-bottom: 0.875rem;
+    margin-bottom: 1rem;
     letter-spacing: -0.025em;
 }
 

@@ -1,7 +1,19 @@
 .section {
-    padding: 80px 0;
+    padding: 100px 0;
     background: #000;
+    position: relative;
 }
+
+.section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+}
+
 
 .container {
     max-width: 1200px;
@@ -29,21 +41,25 @@
 }
 
 .title {
-    font-size: 2.25rem;
-    font-weight: 800;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 900;
     color: #fff;
-    margin-bottom: 0.5rem;
-    letter-spacing: -0.02em;
+    margin-bottom: 0.75rem;
+    letter-spacing: -0.04em;
+    line-height: 1.15;
 }
 
 .premiumText {
-    color: #B48A09;
+    background: linear-gradient(135deg, #B48A09, #D4AF37);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 .subtitle {
-    font-size: 1rem;
+    font-size: 1.05rem;
     color: rgba(255, 255, 255, 0.4);
-    font-weight: 500;
+    font-weight: 400;
 }
 
 /* ── Clean Native Carousel ──────────────── */
