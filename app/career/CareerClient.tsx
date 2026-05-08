@@ -119,13 +119,35 @@ export default function CareerClient() {
           <GlassCard className={styles.globalCard}>
             <span className={styles.cardLabel}>글로벌 프로젝트 매칭률</span>
             <div className={styles.cardValue}>92% (최우수)</div>
+            <div className={styles.matchBar}><div className={styles.matchProgress} style={{width: '92%'}}></div></div>
             <p className={styles.subtitle} style={{fontSize: '0.65rem'}}>SAUDI NEOM / US GEORGIA EPC</p>
           </GlassCard>
           <GlassCard className={styles.globalCard}>
             <span className={styles.cardLabel}>추천 글로벌 리워드</span>
             <div className={styles.cardValue}>$42.5 / hr</div>
+            <div className={styles.rewardIndicator}>TOP 3%</div>
             <p className={styles.subtitle} style={{fontSize: '0.65rem', color: '#B48A09'}}>글로벌 전문가 평균 이상</p>
           </GlassCard>
+        </div>
+
+        {/* New Safety Badges Row */}
+        <div className={styles.safetyBadgesRow}>
+            <div className={styles.safetyBadge}>
+                <ShieldCheck size={14} />
+                OSHA 30
+            </div>
+            <div className={styles.safetyBadge}>
+                <ShieldCheck size={14} />
+                ISO 45001
+            </div>
+            <div className={styles.safetyBadge}>
+                <ShieldCheck size={14} />
+                안전보건관리자
+            </div>
+            <div className={styles.safetyBadge}>
+                <ShieldCheck size={14} />
+                고소작업수료
+            </div>
         </div>
 
         <div className={styles.exportActions}>

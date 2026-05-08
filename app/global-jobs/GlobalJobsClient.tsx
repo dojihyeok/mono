@@ -77,6 +77,31 @@ export default function GlobalJobsClient() {
                 </div>
             </header>
 
+            {/* AI Regional Analysis (New) */}
+            <section className={styles.analysisSection}>
+                <div className={styles.analysisHeader}>
+                    <Star size={18} color="#ffd700" fill="#ffd700" />
+                    <h3>AI 지역별 가치 분석 리포트</h3>
+                </div>
+                <div className={styles.analysisGrid}>
+                    <div className={styles.analysisCard}>
+                        <span className={styles.regionName}>Oceania (Australia)</span>
+                        <div className={styles.demandMeter}><div className={styles.demandLevel} style={{width: '85%'}}></div></div>
+                        <p>숙련 타일러 수요 급증 | 평균 수익성 대비 1.4x</p>
+                    </div>
+                    <div className={styles.analysisCard}>
+                        <span className={styles.regionName}>North America (Canada)</span>
+                        <div className={styles.demandMeter}><div className={styles.demandLevel} style={{width: '72%'}}></div></div>
+                        <p>하이테크 공조 인력 부족 | 영주권 가점 유리</p>
+                    </div>
+                    <div className={styles.analysisCard}>
+                        <span className={styles.regionName}>Middle East (Saudi)</span>
+                        <div className={styles.demandMeter}><div className={styles.demandLevel} style={{width: '95%'}}></div></div>
+                        <p>네옴시티 인프라 마스터 모집 | 비과세 혜택 극대화</p>
+                    </div>
+                </div>
+            </section>
+
             {/* Currency Switcher & Stats */}
             <section className={styles.utilityRow}>
                 <div className={styles.currencyToggle} onClick={() => setSelectedCurrency(selectedCurrency === 'LOCAL' ? 'KRW' : 'LOCAL')}>
@@ -84,7 +109,7 @@ export default function GlobalJobsClient() {
                     <span>{selectedCurrency === 'LOCAL' ? '현지 통화 기준' : '한화 환산 기준'}</span>
                 </div>
                 <div className={styles.activeStats}>
-                    <strong>12평균</strong>
+                    <strong>1,240명</strong>
                     <span>실시간 매칭 중</span>
                 </div>
             </section>

@@ -268,6 +268,55 @@
     font-size: 1.75rem;
     font-weight: 950;
     color: #fff;
+    margin-bottom: 8px;
+}
+
+.matchBar {
+    height: 4px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 2px;
+    margin-bottom: 12px;
+}
+
+.matchProgress {
+    height: 100%;
+    background: #10B981;
+    box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+    border-radius: 2px;
+}
+
+.rewardIndicator {
+    display: inline-block;
+    padding: 2px 8px;
+    background: rgba(180, 138, 9, 0.1);
+    border: 1px solid rgba(180, 138, 9, 0.3);
+    color: #B48A09;
+    font-size: 9px;
+    font-weight: 900;
+    border-radius: 4px;
+    margin-bottom: 8px;
+}
+
+.safetyBadgesRow {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 3rem;
+    overflow-x: auto;
+    padding-bottom: 10px;
+}
+
+.safetyBadge {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    background: rgba(16, 185, 129, 0.05);
+    border: 1px solid rgba(16, 185, 129, 0.15);
+    color: #10B981;
+    font-size: 11px;
+    font-weight: 800;
+    border-radius: 12px;
 }
 
 .resumeBtn {

@@ -158,6 +158,12 @@ export default function ForemanClient() {
                     <div className={styles.avatarGlow}></div>
                     <div className={styles.avatarInner}>
                         <BrainCircuit size={64} style={{opacity: 0.9}} />
+                        <div className={styles.waveformContainer}>
+                            <div className={styles.waveBar} />
+                            <div className={styles.waveBar} />
+                            <div className={styles.waveBar} />
+                            <div className={styles.waveBar} />
+                        </div>
                     </div>
                 </div>
                 <div className={styles.introText}>
@@ -183,6 +189,13 @@ export default function ForemanClient() {
                         <div className={styles.statContent}>
                             <span>현장 위험도</span>
                             <strong>안정적</strong>
+                        </div>
+                    </div>
+                    {/* New Live Ticker */}
+                    <div className={styles.liveTicker}>
+                        <div className={styles.tickerContent}>
+                            <span>🚨 실시간 공지: P4 현장 C구역 우천으로 인한 미끄럼 주의</span>
+                            <span>⚡ 기술 포인트 1.2x 배율 적용 중</span>
                         </div>
                     </div>
                 </div>

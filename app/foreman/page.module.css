@@ -32,11 +32,37 @@
     background: linear-gradient(135deg, #B48A09, #D4AF37);
     border-radius: 48px;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     color: #000;
     box-shadow: 0 20px 40px rgba(180, 138, 9, 0.2);
     z-index: 2;
+}
+
+.waveformContainer {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    height: 20px;
+    margin-top: 10px;
+}
+
+.waveBar {
+    width: 3px;
+    height: 100%;
+    background: #000;
+    border-radius: 2px;
+    animation: wave 1s ease-in-out infinite;
+}
+
+.waveBar:nth-child(2) { animation-delay: 0.1s; }
+.waveBar:nth-child(3) { animation-delay: 0.2s; }
+.waveBar:nth-child(4) { animation-delay: 0.3s; }
+
+@keyframes wave {
+    0%, 100% { transform: scaleY(0.3); }
+    50% { transform: scaleY(1); }
 }
 
 .avatarGlow {
@@ -104,6 +130,37 @@
     font-size: 14px;
     font-weight: 800;
     color: #fff;
+}
+
+.liveTicker {
+    flex: 1;
+    height: 42px;
+    background: rgba(180, 138, 9, 0.05);
+    border: 1px solid rgba(180, 138, 9, 0.15);
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.tickerContent {
+    display: flex;
+    white-space: nowrap;
+    gap: 50px;
+    animation: scrollTicker 30s linear infinite;
+    padding: 0 20px;
+}
+
+.tickerContent span {
+    font-size: 12px;
+    font-weight: 700;
+    color: #B48A09;
+}
+
+@keyframes scrollTicker {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-100%); }
 }
 
 /* ── Role Options (Toss Style Icons) ────────── */

@@ -47,6 +47,70 @@
     outline: none;
 }
 
+/* AI Analysis Section */
+.analysisSection {
+    margin-bottom: 3rem;
+    padding: 2rem;
+    background: rgba(255, 215, 0, 0.03);
+    border: 1px solid rgba(255, 215, 0, 0.1);
+    border-radius: 24px;
+}
+
+.analysisHeader {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 1.5rem;
+}
+
+.analysisHeader h3 {
+    font-size: 14px;
+    font-weight: 900;
+    color: #ffd700;
+    letter-spacing: 0.05em;
+}
+
+.analysisGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+.analysisCard {
+    background: rgba(255, 255, 255, 0.02);
+    padding: 1.5rem;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.regionName {
+    display: block;
+    font-size: 13px;
+    font-weight: 800;
+    margin-bottom: 12px;
+    color: #fff;
+}
+
+.demandMeter {
+    height: 6px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 3px;
+    margin-bottom: 12px;
+    overflow: hidden;
+}
+
+.demandLevel {
+    height: 100%;
+    background: linear-gradient(90deg, #ffd700, #ff8c00);
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+}
+
+.analysisCard p {
+    font-size: 11px;
+    color: #888;
+    line-height: 1.4;
+}
+
 /* Utility Row */
 .utilityRow {
     display: flex;
