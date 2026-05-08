@@ -72,22 +72,24 @@ export default function Hero({ isLoggedIn = false }: HeroProps) {
                     </div>
                 )}
 
-                {/* ── Main Hero Text (Rolling Animation) ── */}
-                <div className={styles.heroMain}>
-                    <div className={`${styles.sloganContainer} ${isExiting ? styles.exit : styles.enter}`}>
-                        <h1 className={styles.title}>
-                            {HERO_SLOGANS[index].main}
-                        </h1>
-                        <p className={styles.description}>
-                            {HERO_SLOGANS[index].sub.split('\n').map((line, i) => (
-                                <React.Fragment key={i}>
-                                    {line}
-                                    <br />
-                                </React.Fragment>
-                            ))}
-                        </p>
+                {/* ── Main Hero Text (Only for Guests) ── */}
+                {!isLoggedIn && (
+                    <div className={styles.heroMain}>
+                        <div className={`${styles.sloganContainer} ${isExiting ? styles.exit : styles.enter}`}>
+                            <h1 className={styles.title}>
+                                {HERO_SLOGANS[index].main}
+                            </h1>
+                            <p className={styles.description}>
+                                {HERO_SLOGANS[index].sub.split('\n').map((line, i) => (
+                                    <React.Fragment key={i}>
+                                        {line}
+                                        <br />
+                                    </React.Fragment>
+                                ))}
+                            </p>
+                        </div>
                     </div>
-                </div>
+                )}
 
                 {isLoggedIn ? (
                     <>
