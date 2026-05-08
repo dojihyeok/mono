@@ -25,8 +25,6 @@ export default function Home() {
       ) : (
         <>
           {/* Landing View (Guest) */}
-          <UrgentRecruitment />
-          <QuickNearbyJobs />
           <Features />
           <Process />
         </>

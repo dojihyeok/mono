@@ -52,23 +52,25 @@ export default function Hero({ isLoggedIn = false }: HeroProps) {
     return (
         <section className={styles.hero}>
             <div className={styles.content}>
-                {/* ── Foreman / Career Partner Banner ── */}
-                <div className={styles.foremanBanner}>
-                    <div className={styles.foremanIntro}>
-                        <div className={styles.foremanAvatar}>
-                            <BrainCircuit size={44} />
+                {/* ── Foreman / Career Partner Banner (Only for Logged In) ── */}
+                {isLoggedIn && (
+                    <div className={styles.foremanBanner}>
+                        <div className={styles.foremanIntro}>
+                            <div className={styles.foremanAvatar}>
+                                <BrainCircuit size={44} />
+                            </div>
+                            <div className={styles.foremanIntroText}>
+                                <span className={styles.introBadge}>현장 반장 모컬(MO-CUL)</span>
+                                <h2>기술자님의 전문적인 성장을 돕습니다</h2>
+                            </div>
                         </div>
-                        <div className={styles.foremanIntroText}>
-                            <span className={styles.introBadge}>현장 반장 모컬(MO-CUL)</span>
-                            <h2>기술자님의 전문적인 성장을 돕습니다</h2>
+                        <div className={styles.foremanActions}>
+                            <Link href="/foreman" className={styles.trackBtn}>
+                                AI 가이드 확인 <ArrowRight size={14} />
+                            </Link>
                         </div>
                     </div>
-                    <div className={styles.foremanActions}>
-                        <Link href="/foreman" className={styles.trackBtn}>
-                            AI 가이드 확인 <ArrowRight size={14} />
-                        </Link>
-                    </div>
-                </div>
+                )}
 
                 {/* ── Main Hero Text (Rolling Animation) ── */}
                 <div className={styles.heroMain}>
