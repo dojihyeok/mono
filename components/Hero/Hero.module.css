@@ -58,8 +58,8 @@
     background: rgba(180, 138, 9, 0.06);
     border: 1px solid rgba(180, 138, 9, 0.2);
     border-radius: 100px;
-    padding: 1rem 2rem 1rem 1rem;
-    margin-bottom: 5rem;
+    padding: 1.25rem 2.5rem 1.25rem 1.25rem;
+    margin-bottom: 2.5rem;
     backdrop-filter: blur(20px);
     transition: all 0.3s ease;
 }
@@ -73,19 +73,19 @@
 .foremanIntro {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 1.25rem;
 }
 
 .foremanAvatar {
-    width: 56px;
-    height: 56px;
+    width: 68px;
+    height: 68px;
     background: linear-gradient(135deg, #B48A09, #D4AF37);
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
     color: #000;
-    box-shadow: 0 0 28px rgba(180, 138, 9, 0.45);
+    box-shadow: 0 0 36px rgba(180, 138, 9, 0.5);
     flex-shrink: 0;
 }
 
@@ -96,27 +96,28 @@
 .introBadge {
     display: block;
     color: #B48A09;
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 800;
-    margin-bottom: 4px;
+    margin-bottom: 6px;
     letter-spacing: 0.12em;
     text-transform: uppercase;
 }
 
 .foremanIntroText h2 {
-    font-size: 1.1rem;
-    font-weight: 700;
+    font-size: 1.5rem;
+    font-weight: 800;
     color: #fff;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.03em;
+    line-height: 1.2;
 }
 
 .trackBtn {
     color: rgba(255, 255, 255, 0.5);
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 700;
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 6px;
     transition: all 0.2s;
     text-decoration: none;
     white-space: nowrap;
@@ -132,8 +133,8 @@
 
 /* ── Main Hero Text ─────────────────────── */
 .heroMain {
-    margin-bottom: 5rem;
-    min-height: 260px;
+    margin-bottom: 4rem;
+    min-height: 220px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -395,7 +396,7 @@
 
     .foremanIntro { justify-content: center; }
     .foremanIntroText { text-align: center; }
-    .foremanIntroText h2 { font-size: 0.9rem; }
+    .foremanIntroText h2 { font-size: 1.2rem; }
     .trackBtn { justify-content: center; }
 
     .heroMain { min-height: 160px; margin-bottom: 3rem; }
