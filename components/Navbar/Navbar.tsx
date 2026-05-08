@@ -1,5 +1,7 @@
+import React, { useState } from 'react';
 import Link from 'next/link';
 import styles from './Navbar.module.css';
+import AuthModal from '../AuthModal/AuthModal';
 
 interface NavbarProps {
     isLoggedIn?: boolean;
@@ -7,6 +9,8 @@ interface NavbarProps {
 }
 
 export default function Navbar({ isLoggedIn = false, onToggleLogin }: NavbarProps) {
+    const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+
     return (
         <header className={styles.header}>
             <div className={`container ${styles.navContainer}`}>
@@ -42,12 +46,18 @@ export default function Navbar({ isLoggedIn = false, onToggleLogin }: NavbarProp
                             </button>
                         </>
                     ) : (
-                        <button className={styles.loginBtn} onClick={onToggleLogin}>
+                        <button className={styles.loginBtn} onClick={() => setIsAuthModalOpen(true)}>
                             로그인 / 가입
                         </button>
                     )}
                 </div>
             </div>
+
+            <AuthModal 
+                isOpen={isAuthModalOpen} 
+                onClose={() => setIsAuthModalOpen(false)} 
+                onLogin={onToggleLogin || (() => {})} 
+            />
         </header>
     );
 }
