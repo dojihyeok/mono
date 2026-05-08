@@ -1,62 +1,114 @@
 .filterSection {
-    margin-bottom: 2rem;
+    margin-bottom: 3.5rem;
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
-    padding: 1.5rem;
-    background: rgba(255, 255, 255, 0.05); /* Soft glassmorphism */
-    border-radius: 1rem;
+    gap: 2.5rem;
+    padding: 2.5rem;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 2rem;
+    backdrop-filter: blur(20px);
 }
 
 .filterGroup {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 1.25rem;
 }
 
 .filterLabel {
-    font-size: 1rem;
-    font-weight: 600;
+    font-size: 0.95rem;
+    font-weight: 800;
     color: var(--secondary-text);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
-.scrollList {
+.filterLabel::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.chipGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 0.75rem;
+}
+
+.filterChip {
+    padding: 0.875rem 1.25rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 1rem;
+    color: var(--secondary-text);
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    text-align: center;
+}
+
+.filterChip:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+.filterChip.active {
+    background: var(--accent-gold);
+    color: #000;
+    border-color: var(--accent-gold);
+    box-shadow: 0 8px 25px rgba(180, 138, 9, 0.3);
+}
+
+.categoryIcon {
+    opacity: 0.6;
+}
+
+.active .categoryIcon {
+    opacity: 1;
+}
+
+/* Quick Tags */
+.quickTags {
     display: flex;
     gap: 0.75rem;
-    flex-wrap: wrap; /* Normal wrapping on desktop/wide, but we could use overflow-x on mobile */
+    flex-wrap: wrap;
+    margin-top: 1rem;
 }
 
-.filterBtn {
-    padding: 0.5rem 1rem;
-    border-radius: 2rem;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    color: var(--secondary-text);
-    font-size: 0.875rem;
+.tag {
+    padding: 0.5rem 1.25rem;
+    background: rgba(180, 138, 9, 0.05);
+    border: 1px solid rgba(180, 138, 9, 0.2);
+    border-radius: 3rem;
+    font-size: 0.8rem;
+    font-weight: 800;
+    color: #B48A09;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.2s;
 }
 
-.filterBtn:hover {
-    background: rgba(255, 255, 255, 0.1);
+.tag:hover {
+    background: rgba(180, 138, 9, 0.1);
+    transform: scale(1.05);
 }
 
-.filterBtn.active {
-    background: var(--accent-gold);
-    color: white;
-    border-color: #ffd700;
-    box-shadow: 0 4px 12px rgba(180, 138, 9, 0.4);
-}
-
-@media (max-width: 480px) {
-    .scrollList {
-        flex-wrap: nowrap;
-        overflow-x: auto;
-        padding-bottom: 0.5rem;
-        scrollbar-width: none; /* Firefox */
+@media (max-width: 768px) {
+    .filterSection {
+        padding: 1.5rem;
     }
     
-    .scrollList::-webkit-scrollbar {
-        display: none; /* Safari/Chrome */
+    .chipGrid {
+        grid-template-columns: repeat(2, 1fr);
     }
 }

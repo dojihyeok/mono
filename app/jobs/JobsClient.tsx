@@ -53,15 +53,7 @@ export default function JobsClient({ initialJobs }: JobsClientProps) {
 
     const filteredJobs = useMemo(() => {
         return initialJobs.filter((job) => {
-            const matchesCat = category === '전체' || 
-                             job.category === category || 
-                             (category === 'Heavy-Tech' && (job.category === 'Construction' || job.category === 'Heavy-Tech')) ||
-                             (category === 'Equipment' && (job.category === 'Equipment')) ||
-                             (category === 'E-Tech & IT' && (job.category === 'ETech' || job.category === 'E-Tech & IT')) ||
-                             (category === 'Agri/Eco-Tech' && (job.category === 'AgriTech' || job.category === 'Agri/Eco-Tech')) ||
-                             (category === 'Ocean-Tech' && (job.category === 'OceanTech' || job.category === 'Ocean-Tech')) ||
-                             (category === 'Life/Home-Care' && (job.category === 'LifeCare' || job.category === 'Life/Home-Care')) ||
-                             (category === 'Safety & Support' && (job.category === 'DawnMarket' || job.category === 'Safety & Support' || job.category === 'Safety'));
+            const matchesCat = category === '전체' || job.category === category;
             
             const matchesOcc = occupation === '전체' || 
                              job.specialty.includes(occupation);
@@ -84,7 +76,7 @@ export default function JobsClient({ initialJobs }: JobsClientProps) {
             <div className={styles.searchBar}>
                 <input 
                     type="text" 
-                    placeholder="현장명, 직종, 지역으로 검색해보세요 (예: 강남, 배관, 현장조공)" 
+                    placeholder="현장명, 기술직군, 지역 키워드로 실시간 매칭 검색" 
                     className={styles.searchInput}
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}

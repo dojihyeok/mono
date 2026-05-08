@@ -2,6 +2,16 @@
 
 import { useState } from 'react';
 import styles from './JobFilter.module.css';
+import { 
+    Wrench, 
+    Construction, 
+    Zap, 
+    MapPin, 
+    LayoutGrid, 
+    Sparkles,
+    ShieldCheck,
+    Clock
+} from 'lucide-react';
 
 import { CATEGORIES, CATEGORY_MAP, REGIONS } from '@/constants/jobs';
 
@@ -11,6 +21,17 @@ interface JobFilterProps {
     initialRegion?: string;
     onFilterChange: (category: string, occupation: string, region: string) => void;
 }
+
+const CATEGORY_ICONS: Record<string, any> = {
+    '전체': <LayoutGrid size={16} />,
+    'Heavy-Tech': <Construction size={16} />,
+    'Equipment': <Wrench size={16} />,
+    'E-Tech & IT': <Zap size={16} />,
+    'Agri/Eco-Tech': <Sparkles size={16} />,
+    'Ocean-Tech': <Zap size={16} />,
+    'Life/Home-Care': <ShieldCheck size={16} />,
+    'Safety & Support': <ShieldCheck size={16} />,
+};
 
 export default function JobFilter({ 
     initialCategory = '전체',
@@ -45,34 +66,57 @@ export default function JobFilter({
 
     return (
         <div className={styles.filterSection}>
+            {/* Category Filter */}
             <div className={styles.filterGroup}>
-                <h3 className={styles.filterLabel}>서비스 카테고리</h3>
-                <div className={styles.scrollList}>
+                <h3 className={styles.filterLabel}>
+                    <ShieldCheck size={18} color="#B48A09" />
+                    마스터 서비스 영역
+                </h3>
+                <div className={styles.chipGrid}>
                     {CATEGORIES.map((cat) => (
                         <button
                             key={cat}
-                            className={`${styles.filterBtn} ${selectedCat === cat ? styles.active : ''}`}
+                            className={`${styles.filterChip} ${selectedCat === cat ? styles.active : ''}`}
                             onClick={() => handleCatClick(cat)}
                         >
+                            <span className={styles.categoryIcon}>{CATEGORY_ICONS[cat] || <LayoutGrid size={16} />}</span>
                             {cat}
                         </button>
                     ))}
                 </div>
             </div>
 
+            {/* Quick Filter Tags (New) */}
             <div className={styles.filterGroup}>
-                <h3 className={styles.filterLabel}>상세 기술직군</h3>
-                <div className={styles.scrollList}>
+                <h3 className={styles.filterLabel}>
+                    <Clock size={18} color="#B48A09" />
+                    상시 퀵 필터
+                </h3>
+                <div className={styles.quickTags}>
+                    <span className={styles.tag}>⚡ 즉시 투입 가능</span>
+                    <span className={styles.tag}>💰 고단가 보장 (20만+)</span>
+                    <span className={styles.tag}>🏢 대기업 현장</span>
+                    <span className={styles.tag}>✈️ 글로벌 파견</span>
+                </div>
+            </div>
+
+            {/* Occupation Filter */}
+            <div className={styles.filterGroup}>
+                <h3 className={styles.filterLabel}>
+                    <Construction size={18} color="#B48A09" />
+                    세부 전문 직군
+                </h3>
+                <div className={styles.chipGrid}>
                     <button
-                        className={`${styles.filterBtn} ${selectedOcc === '전체' ? styles.active : ''}`}
+                        className={`${styles.filterChip} ${selectedOcc === '전체' ? styles.active : ''}`}
                         onClick={() => handleOccClick('전체')}
                     >
                         전체
                     </button>
-                    {filteredOccupations.map((occ) => (
+                    {filteredOccupations.slice(0, 10).map((occ) => (
                         <button
                             key={occ}
-                            className={`${styles.filterBtn} ${selectedOcc === occ ? styles.active : ''}`}
+                            className={`${styles.filterChip} ${selectedOcc === occ ? styles.active : ''}`}
                             onClick={() => handleOccClick(occ)}
                         >
                             {occ}
@@ -81,13 +125,17 @@ export default function JobFilter({
                 </div>
             </div>
 
+            {/* Region Filter */}
             <div className={styles.filterGroup}>
-                <h3 className={styles.filterLabel}>근무 지역</h3>
-                <div className={styles.scrollList}>
+                <h3 className={styles.filterLabel}>
+                    <MapPin size={18} color="#B48A09" />
+                    활동 가능 지역
+                </h3>
+                <div className={styles.chipGrid}>
                     {REGIONS.map((reg) => (
                         <button
                             key={reg}
-                            className={`${styles.filterBtn} ${selectedReg === reg ? styles.active : ''}`}
+                            className={`${styles.filterChip} ${selectedReg === reg ? styles.active : ''}`}
                             onClick={() => handleRegClick(reg)}
                         >
                             {reg}
