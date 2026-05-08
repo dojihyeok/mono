@@ -41,24 +41,26 @@
     position: relative;
     z-index: 2;
     width: 100%;
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
-    padding: 0 1.5rem;
+    padding: 0 3rem;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: stretch;
     text-align: center;
 }
 
 /* ── Mo-Cul Banner ─────────────────────── */
 .foremanBanner {
-    display: inline-flex;
+    display: flex;
     align-items: center;
-    gap: 2.5rem;
+    justify-content: space-between;
+    width: 100%;
+    gap: 2rem;
     background: rgba(180, 138, 9, 0.06);
     border: 1px solid rgba(180, 138, 9, 0.2);
-    border-radius: 100px;
-    padding: 1.25rem 2.5rem 1.25rem 1.25rem;
+    border-radius: 20px;
+    padding: 1.5rem 2.5rem;
     margin-bottom: 2.5rem;
     backdrop-filter: blur(20px);
     transition: all 0.3s ease;
@@ -136,8 +138,8 @@
     margin-bottom: 4rem;
     min-height: 220px;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: flex-start;
+    align-items: flex-start;
     width: 100%;
 }
 
@@ -164,24 +166,26 @@
 }
 
 .title {
-    font-size: clamp(3rem, 6vw, 5.5rem);
+    font-size: clamp(3rem, 7vw, 6.5rem);
     font-weight: 900;
-    line-height: 1.1;
+    line-height: 1.05;
     margin-bottom: 2rem;
     letter-spacing: -0.05em;
     color: #fff;
     word-break: keep-all;
+    text-align: left;
 }
 
 .description {
-    font-size: 1.25rem;
-    color: rgba(255, 255, 255, 0.5);
-    max-width: 680px;
-    margin: 0 auto;
-    line-height: 1.8;
+    font-size: 1.3rem;
+    color: rgba(255, 255, 255, 0.45);
+    max-width: 100%;
+    margin: 0;
+    line-height: 1.7;
     font-weight: 400;
     letter-spacing: -0.01em;
     word-break: keep-all;
+    text-align: left;
 }
 
 /* ── AI Matching Terminal ───────────────── */
@@ -203,7 +207,7 @@
     overflow: hidden;
     margin-bottom: 3rem;
     width: 100%;
-    max-width: 700px;
+    max-width: 100%;
     transition: border-color 0.3s;
 }
 
@@ -301,10 +305,10 @@
 /* ── CTA Actions ────────────────────────── */
 .actions {
     display: flex;
-    gap: 0.875rem;
-    margin-bottom: 3.5rem;
+    gap: 1rem;
+    margin-bottom: 4rem;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: flex-start;
 }
 
 .mainBtn {
@@ -352,6 +356,7 @@
     padding: 0.5rem;
     border-radius: 100px;
     border: 1px solid rgba(255, 255, 255, 0.05);
+    width: fit-content;
 }
 
 .assetItem {
