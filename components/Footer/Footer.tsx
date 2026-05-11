@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Instagram, Youtube, Facebook, MessageCircle } from 'lucide-react';
+import { Camera, Play, MessageCircle } from 'lucide-react';
 import styles from './Footer.module.css';
 
 export default function Footer() {
@@ -22,10 +22,10 @@ export default function Footer() {
                                 <MessageCircle size={18} />
                             </Link>
                             <Link href="#" className={styles.socialBtn} aria-label="Instagram">
-                                <Instagram size={18} />
+                                <Camera size={18} />
                             </Link>
                             <Link href="#" className={styles.socialBtn} aria-label="YouTube">
-                                <Youtube size={18} />
+                                <Play size={18} />
                             </Link>
                         </div>
                     </div>
