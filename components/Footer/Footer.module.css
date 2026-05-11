@@ -59,8 +59,9 @@
     color: rgba(255, 255, 255, 0.35);
     line-height: 1.8;
     font-weight: 400;
-    max-width: 320px;
+    max-width: 400px;
     word-break: keep-all;
+    overflow-wrap: break-word;
     margin-bottom: 2rem;
 }
 
