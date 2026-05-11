@@ -1,11 +1,10 @@
 .pageWrap {
-    padding-top: 80px;
     padding-bottom: 2rem;
 }
 
 .container {
     width: 100%;
-    padding: 1.5rem 1.25rem;
+    padding: 1rem 1.25rem;
     display: flex;
     flex-direction: column;
 }
