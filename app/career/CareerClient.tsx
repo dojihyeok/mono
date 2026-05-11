@@ -225,12 +225,14 @@ export default function CareerClient() {
               <div className={styles.safetyBadge}>화재 감시자</div>
           </div>
 
-          <GlassCard className={styles.historyItem} style={{ marginTop: '2rem' }}>
-            <h3 className={styles.historyTitle} style={{ fontSize: '1.1rem', marginBottom: '8px' }}>단가 올리는 배관 심화 과정 (온라인)</h3>
-            <p className={styles.historyCompany} style={{ fontSize: '0.95rem', color: '#D4AF37' }}>
-              현재 수강 중 - 진도율 75%
-            </p>
-          </GlassCard>
+          <div style={{ marginTop: '2rem' }}>
+            <GlassCard className={styles.historyItem}>
+              <h3 className={styles.historyTitle} style={{ fontSize: '1.1rem', marginBottom: '8px' }}>단가 올리는 배관 심화 과정 (온라인)</h3>
+              <p className={styles.historyCompany} style={{ fontSize: '0.95rem', color: '#D4AF37' }}>
+                현재 수강 중 - 진도율 75%
+              </p>
+            </GlassCard>
+          </div>
         </section>
       )}
     </div>
