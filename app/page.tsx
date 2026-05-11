@@ -27,78 +27,81 @@ export default function Home() {
     <div className={styles.homeContainer}>
       <header className={styles.greetingSection}>
         <div className={styles.greetingText}>
+          <span className={styles.brandBadge}>LEVEL 2 MASTER</span>
           <h1>안녕하세요, 기술자님</h1>
+          <p className={styles.greetingSub}>오늘도 안전한 하루 되세요.</p>
         </div>
       </header>
 
-      {/* 2. Growth Stage Card */}
-      <section className={styles.growthCard}>
-        <div className={styles.growthHeader}>
+      {/* 2. Main Status Card (Toss Style) */}
+      <section className={styles.statusCard}>
+        <div className={styles.statusHeader}>
           <div>
-            <div className={styles.growthLabel}>현재 성장 단계</div>
-            <h2 className={styles.growthStep}>STEP 02</h2>
-            <p className={styles.growthDesc}>전문 기술 마스터 과정 중</p>
+            <div className={styles.statusLabel}>나의 기술 점수</div>
+            <h2 className={styles.statusValue}>865<span>점</span></h2>
           </div>
-          <div className={styles.trendIcon}>
-            <TrendingUp size={24} />
+          <div className={styles.statusIcon}>
+            <TrendingUp size={20} />
           </div>
         </div>
-        <div className={styles.progressContainer}>
+        <div className={styles.progressBox}>
           <div className={styles.progressTrack}>
-            <div className={styles.progressFill} style={{ width: '65%' }} />
+            <div className={styles.progressFill} style={{ width: '82%' }} />
           </div>
-          <span className={styles.progressText}>다음 단계까지 35%</span>
+          <div className={styles.progressLabels}>
+            <span>상위 12%</span>
+            <span>다음 등급까지 135점</span>
+          </div>
         </div>
       </section>
 
-      {/* 3. AI Briefing Card */}
-      <section className={styles.aiBriefingCard}>
-        <div className={styles.aiBadge}>
+      {/* 3. AI Insights (Clean & Minimal) */}
+      <section className={styles.insightCard}>
+        <div className={styles.insightIcon}>
           <BrainCircuit size={20} />
         </div>
-        <div className={styles.aiContent}>
-          <h3>모컬 AI 오늘의 브리핑</h3>
+        <div className={styles.insightContent}>
+          <h3>AI 맞춤 브리핑</h3>
           <p>
-            오늘 평택 지역은 맑음이며, 고소작업 단가가 어제보다 5% 상승했습니다. 
-            기술자님의 선호 조건에 맞는 새로운 현장이 3건 등록되었습니다.
+            평택 고소작업 단가가 어제보다 <strong>5,000원 상승</strong>했습니다. 
+            조건에 맞는 현장이 3건 새로 올라왔어요.
           </p>
         </div>
       </section>
 
-      {/* 4. Premium Matching */}
+      {/* 4. Highlighted Opportunity */}
       <section>
-        <h2 className={styles.sectionHeading}>내일의 맞춤형 우수 현장</h2>
+        <div className={styles.sectionHeader}>
+          <h2 className={styles.sectionTitle}>추천 현장</h2>
+          <Link href="/jobs" className={styles.seeAll}>전체보기</Link>
+        </div>
         <div className={styles.jobCard}>
-          <div className={styles.jobBadge}>현장 적합도 98%</div>
-          <h3 className={styles.jobTitle}>반도체 플랜트 고소작업 (배관)</h3>
-          <div className={styles.jobMeta}>
-            <MapPin size={14} /> 평택 삼성 고덕 현장
+          <div className={styles.jobInfo}>
+            <div className={styles.jobMatch}>98% 일치</div>
+            <h3 className={styles.jobTitle}>삼성 고덕 반도체 배관공</h3>
+            <p className={styles.jobLoc}>평택시 고덕동 | 일급 21만</p>
           </div>
-          <div className={styles.jobPay}>
-            210,000<span>원 / 일급</span>
-          </div>
-          <div className={styles.jobActions}>
-            <button className={styles.rejectBtn}>거절하기</button>
-            <button className={styles.acceptBtn}>수락하기</button>
+          <div className={styles.jobAction}>
+            <button className={styles.applyBtn}>지원하기</button>
           </div>
         </div>
       </section>
 
-      {/* 5. Quick Access Grid */}
-      <section>
-        <h2 className={styles.sectionHeading}>바로가기</h2>
+      {/* 5. Quick Service Grid */}
+      <section className={styles.quickSection}>
+        <h2 className={styles.sectionTitle}>서비스</h2>
         <div className={styles.quickGrid}>
           <Link href="/attendance" className={styles.quickItem}>
-            <CalendarCheck className={styles.quickIcon} size={28} />
-            <span className={styles.quickLabel}>내 일정</span>
+            <div className={styles.quickIconBox}><CalendarCheck size={24} /></div>
+            <span>출퇴근</span>
           </Link>
-          <Link href="/equipment" className={styles.quickItem}>
-            <Wrench className={styles.quickIcon} size={28} />
-            <span className={styles.quickLabel}>장비 대여</span>
+          <Link href="/settlement" className={styles.quickItem}>
+            <div className={styles.quickIconBox} style={{color: '#3182f6'}}><TrendingUp size={24} /></div>
+            <span>정산</span>
           </Link>
           <Link href="/academy" className={styles.quickItem}>
-            <GraduationCap className={styles.quickIcon} size={28} />
-            <span className={styles.quickLabel}>아카데미</span>
+            <div className={styles.quickIconBox} style={{color: '#30d158'}}><GraduationCap size={24} /></div>
+            <span>아카데미</span>
           </Link>
         </div>
       </section>
