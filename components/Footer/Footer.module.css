@@ -14,10 +14,21 @@
 }
 
 .grid {
-    display: grid;
-    grid-template-columns: 2fr 1fr 1fr;
-    gap: 4rem;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 3rem;
     margin-bottom: 4rem;
+}
+
+.brandCol {
+    flex: 2;
+    min-width: 280px;
+}
+
+.linkCol {
+    flex: 1;
+    min-width: 150px;
 }
 
 /* Brand Column */

@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { Instagram, Youtube, Facebook, MessageCircle } from 'lucide-react';
 import styles from './Footer.module.css';
 
 export default function Footer() {
@@ -7,7 +8,7 @@ export default function Footer() {
             <div className={`container ${styles.footerBody}`}>
                 <div className={styles.grid}>
                     {/* Brand */}
-                    <div>
+                    <div className={styles.brandCol}>
                         <div className={styles.brandLogo}>
                             <div className={styles.logoMark} />
                             <span className={styles.logoText}>MO-NO</span>
@@ -17,14 +18,20 @@ export default function Footer() {
                             정당한 가치로 인정받는 환경을 만드는 프리미엄 기술 파트너입니다.
                         </p>
                         <div className={styles.socialRow}>
-                            <button className={styles.socialBtn}>K</button>
-                            <button className={styles.socialBtn}>N</button>
-                            <button className={styles.socialBtn}>Y</button>
+                            <Link href="#" className={styles.socialBtn} aria-label="KakaoTalk">
+                                <MessageCircle size={18} />
+                            </Link>
+                            <Link href="#" className={styles.socialBtn} aria-label="Instagram">
+                                <Instagram size={18} />
+                            </Link>
+                            <Link href="#" className={styles.socialBtn} aria-label="YouTube">
+                                <Youtube size={18} />
+                            </Link>
                         </div>
                     </div>
 
                     {/* Service Links */}
-                    <div>
+                    <div className={styles.linkCol}>
                         <h4 className={styles.colTitle}>서비스</h4>
                         <div className={styles.links}>
                             <Link href="/jobs" className={styles.link}>일자리 찾기</Link>
@@ -36,7 +43,7 @@ export default function Footer() {
                     </div>
 
                     {/* Legal Links */}
-                    <div>
+                    <div className={styles.linkCol}>
                         <h4 className={styles.colTitle}>법적 고지</h4>
                         <div className={styles.links}>
                             <Link href="#" className={styles.link}>이용약관</Link>
