@@ -23,7 +23,7 @@
 }
 
 .greetingText h1 {
-    font-size: 1.75rem;
+    font-size: 1.35rem;
     font-weight: 800;
     color: #fff;
     margin: 0 0 0.5rem 0;
@@ -31,7 +31,7 @@
 }
 
 .greetingSub {
-    font-size: 1rem;
+    font-size: 0.9rem;
     color: rgba(255, 255, 255, 0.4);
 }
 
@@ -39,32 +39,32 @@
 .statusCard {
     background: #111;
     border-radius: 28px;
-    padding: 2rem;
+    padding: 1.75rem;
 }
 
 .statusHeader {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
 }
 
 .statusLabel {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     color: rgba(255, 255, 255, 0.4);
     font-weight: 600;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.4rem;
 }
 
 .statusValue {
-    font-size: 2.25rem;
+    font-size: 1.75rem;
     font-weight: 900;
     color: #fff;
     margin: 0;
 }
 
 .statusValue span {
-    font-size: 1.25rem;
+    font-size: 1rem;
     font-weight: 700;
     margin-left: 4px;
 }
@@ -72,8 +72,8 @@
 .statusIcon {
     color: #3182f6;
     background: rgba(49, 130, 246, 0.1);
-    width: 40px;
-    height: 40px;
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -81,11 +81,11 @@
 }
 
 .progressBox {
-    margin-top: 1.5rem;
+    margin-top: 1.25rem;
 }
 
 .progressTrack {
-    height: 8px;
+    height: 6px;
     background: rgba(255, 255, 255, 0.05);
     border-radius: 4px;
     overflow: hidden;
@@ -101,7 +101,7 @@
 .progressLabels {
     display: flex;
     justify-content: space-between;
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     font-weight: 600;
     color: rgba(255, 255, 255, 0.3);
 }
@@ -110,17 +110,17 @@
 .insightCard {
     background: #111;
     border-radius: 24px;
-    padding: 1.5rem;
+    padding: 1.25rem;
     display: flex;
-    gap: 1.25rem;
+    gap: 1rem;
     align-items: center;
 }
 
 .insightIcon {
-    width: 44px;
-    height: 44px;
+    width: 40px;
+    height: 40px;
     background: rgba(48, 209, 88, 0.1);
-    border-radius: 14px;
+    border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -129,17 +129,17 @@
 }
 
 .insightContent h3 {
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     font-weight: 800;
     color: #30d158;
-    margin: 0 0 0.25rem 0;
+    margin: 0 0 0.2rem 0;
 }
 
 .insightContent p {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     color: rgba(255, 255, 255, 0.6);
     margin: 0;
-    line-height: 1.5;
+    line-height: 1.4;
     word-break: keep-all;
 }
 
@@ -148,18 +148,18 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 1.25rem;
+    margin-bottom: 1rem;
     padding: 0 0.25rem;
 }
 
 .sectionTitle {
-    font-size: 1.25rem;
+    font-size: 1.1rem;
     font-weight: 800;
     color: #fff;
 }
 
 .seeAll {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     color: rgba(255, 255, 255, 0.3);
     text-decoration: none;
     font-weight: 600;
@@ -169,7 +169,7 @@
 .jobCard {
     background: #111;
     border-radius: 24px;
-    padding: 1.75rem;
+    padding: 1.5rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -177,21 +177,21 @@
 }
 
 .jobMatch {
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     font-weight: 700;
     color: #30d158;
     background: rgba(48, 209, 88, 0.1);
-    padding: 0.25rem 0.6rem;
+    padding: 0.2rem 0.5rem;
     border-radius: 6px;
     display: inline-block;
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.5rem;
 }
 
 .jobTitle {
-    font-size: 1.15rem;
+    font-size: 1rem;
     font-weight: 800;
     color: #fff;
-    margin-bottom: 0.4rem;
+    margin-bottom: 0.3rem;
 }
 
 .jobLoc {
