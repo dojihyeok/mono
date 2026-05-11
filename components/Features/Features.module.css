@@ -5,6 +5,13 @@
     overflow: hidden;
 }
 
+/* Force container to be wider in this section */
+.section :global(.container) {
+    max-width: 1400px;
+    padding-left: 1.25rem !important;
+    padding-right: 1.25rem !important;
+}
+
 .bgOverlay {
     position: absolute;
     inset: 0;
