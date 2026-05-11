@@ -89,7 +89,7 @@ export default function SettlementClient({ initialTransactions }: SettlementClie
                             onClick={handleTransfer}
                             disabled={isTransferring}
                         >
-                            {isTransferring ? '내 통장으로 안전하게 보내는 중...' : '지금 바로 내 통장으로 출금'}
+                            {isTransferring ? '안전하게 보내는 중...' : '지금 바로 출금하기'}
                         </Button>
                         <div className={styles.securitySeal}>
                             <ShieldCheck size={12} />
