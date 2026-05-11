@@ -179,6 +179,7 @@
     color: #fff;
     word-break: keep-all;
     text-align: center;
+    white-space: nowrap;
 }
 
 .description {
