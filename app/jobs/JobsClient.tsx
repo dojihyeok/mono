@@ -145,7 +145,7 @@ export default function JobsClient({ initialJobs }: JobsClientProps) {
                                 <div className={styles.matchBadge}>{rec.match} 연결</div>
                                 <div className={styles.passportConnected}>
                                     <ShieldCheck size={10} />
-                                    디지털 여권 연동됨
+                                    경력 데이터 연동됨
                                 </div>
                                 <span className={styles.recLabel}>맞춤형 현장</span>
                                 <h3 className={styles.recTitle}>{rec.title}</h3>
@@ -156,8 +156,8 @@ export default function JobsClient({ initialJobs }: JobsClientProps) {
                                 <p className={styles.aiReasoning}>
                                     <strong>맞춤 분석 결과:</strong> {rec.reason}
                                 </p>
-                                <button className={styles.recApply} onClick={() => alert('디지털 기술 여권으로 즉시 지원되었습니다.')}>
-                                    여권으로 즉시 지원하기
+                                <button className={styles.recApply} onClick={() => alert('기술 데이터로 즉시 지원되었습니다.')}>
+                                    즉시 지원하기
                                 </button>
                             </div>
                         ))}

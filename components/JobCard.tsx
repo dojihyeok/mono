@@ -45,7 +45,7 @@ export default function JobCard({ job }: JobProps) {
                         <CheckCircle2 size={44} color="#22C55E" />
                     </div>
                     <h3>지원 완료!</h3>
-                    <p>전문가님의 기술 자산(Passport)이<br/>현장 관리자에게 안전하게 전달되었습니다.</p>
+                    <p>전문가님의 기술 데이터가<br/>현장 관리자에게 안전하게 전달되었습니다.</p>
                     <Link href="/attendance" className={styles.checkNextBtn}>
                         출근 대기 목록 확인 <ArrowRight size={14} />
                     </Link>
@@ -66,7 +66,7 @@ export default function JobCard({ job }: JobProps) {
                     <div className={styles.headerLeft}>
                         <div className={styles.passportBadge}>
                             <ShieldCheck size={9} />
-                            PASSPORT VERIFIED
+                            SKILL VERIFIED
                         </div>
                         <span className={styles.categoryBadge}>
                             {CATEGORY_DISPLAY_MAP[job.category] || job.category}
@@ -137,7 +137,7 @@ export default function JobCard({ job }: JobProps) {
                     {applyStatus === 'CHECKING' ? (
                         <>
                             <Loader2 size={16} className={styles.spin} />
-                            기술 여권 검증 중...
+                            기술 데이터 전송 중...
                         </>
                     ) : (
                         <>
