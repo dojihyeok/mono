@@ -1,8 +1,8 @@
 .homeContainer {
-    padding: 2rem 1.25rem;
+    padding: 1.25rem;
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 1.25rem;
     min-height: 100vh;
     background: #000;
 }

@@ -1,5 +1,5 @@
 .section {
-    padding: 60px 0 100px;
+    padding: 40px 0 60px;
     background: #06070a;
     position: relative;
     overflow: hidden;
@@ -34,7 +34,7 @@
 
 .header {
     text-align: center;
-    margin-bottom: 80px;
+    margin-bottom: 40px;
 }
 
 .title {
@@ -79,14 +79,14 @@
 }
 
 .cardOverride {
-    padding: 2.5rem 2rem !important;
+    padding: 2rem 1.5rem !important;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     text-align: left;
     background: rgba(255, 255, 255, 0.015) !important;
     border: 1px solid rgba(255, 255, 255, 0.05) !important;
-    border-radius: 32px !important;
+    border-radius: 28px !important;
     transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1) !important;
     height: 100%;
     position: relative;
@@ -106,7 +106,7 @@
 }
 
 .cardOverride:hover {
-    transform: translateY(-12px) scale(1.02);
+    transform: translateY(-8px) scale(1.01);
     background: rgba(212, 175, 55, 0.03) !important;
     border-color: rgba(212, 175, 55, 0.2) !important;
     box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6) !important;
@@ -117,15 +117,15 @@
 }
 
 .iconWrapper {
-    width: 64px;
-    height: 64px;
+    width: 54px;
+    height: 54px;
     background: rgba(212, 175, 55, 0.08);
-    border-radius: 20px;
+    border-radius: 16px;
     display: flex;
     align-items: center;
     justify-content: center;
     color: #D4AF37;
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
     transition: all 0.3s ease;
     border: 1px solid rgba(212, 175, 55, 0.1);
 }
@@ -138,28 +138,28 @@
 }
 
 .cardTitle {
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     font-weight: 850;
     color: #fff;
-    margin-bottom: 1.25rem;
+    margin-bottom: 1rem;
     letter-spacing: -0.02em;
 }
 
 .cardDesc {
-    font-size: 1rem;
+    font-size: 0.95rem;
     color: rgba(255, 255, 255, 0.4);
-    line-height: 1.7;
+    line-height: 1.6;
     font-weight: 500;
     word-break: keep-all;
 }
 
 @media (max-width: 768px) {
     .section {
-        padding: 20px 0 60px;
+        padding: 20px 0 40px;
     }
     
     .header {
-        margin-bottom: 40px;
+        margin-bottom: 30px;
     }
     
     .title {
