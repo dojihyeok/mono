@@ -8,7 +8,7 @@ import GlassCard from '../UI/GlassCard';
 const features = [
     {
         title: "투명한 정산과 안전",
-        description: "GPS 기반의 정확한 출퇴근 인증과 AI 분석을 통해 투명한 정산 시스템을 제공합니다. 안심 에스크로로 수수료 없이 바로 정산됩니다.",
+        description: "GPS 기반의 정확한 출퇴근 인증과 AI 분석을 통해 투명한 정산 시스템을 제공합니다. 임금 체불 걱정 없는 안전 결제로 수수료 없이 바로 정산됩니다.",
         icon: <LocateFixed size={32} />
     },
     {
