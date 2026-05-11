@@ -4,7 +4,7 @@ import { prisma } from '@/lib/prisma';
 export const dynamic = 'force-dynamic';
 
 export const metadata = {
-    title: 'Master Settlement | MO-NO Real-time Wallet',
+    title: '기술자 정산 | MO-NO Real-time Wallet',
     description: '기술인을 위한 실시간 일일 정산 및 에스크로 보호 시스템 서비스.',
 };
 

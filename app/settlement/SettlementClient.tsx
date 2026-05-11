@@ -66,7 +66,7 @@ export default function SettlementClient({ initialTransactions }: SettlementClie
                 <header className={styles.header}>
                     <div className={styles.brandBadge}>내 돈 관리 및 정산 센터</div>
                     <h1 className={styles.title}>내 수고비 확인하기</h1>
-                    <p className={styles.subtitle}>마스터님의 소중한 땀방울이 안전하게 관리되고 있습니다.</p>
+                    <p className={styles.subtitle}>기술자님의 소중한 땀방울이 안전하게 관리되고 있습니다.</p>
                 </header>
 
                 <div className={styles.topSection}>
@@ -131,7 +131,7 @@ export default function SettlementClient({ initialTransactions }: SettlementClie
                                 <PiggyBank size={20} color="#D4AF37" />
                             </div>
                             <h4 className={styles.financeTitle}>13월의 월급, 국민펀드 가입</h4>
-                            <p className={styles.financeDesc}>매월 정산금의 일부를 모아<br/>연말정산 소득공제 혜택을 챙기세요.</p>
+                            <p className={styles.financeDesc}>매월 정산금의 일부를 모아 연말정산 소득공제 혜택을 챙기세요.</p>
                             <div className={styles.financeAction}>
                                 소득공제 혜택 확인하기 <ChevronRight size={14} />
                             </div>
@@ -142,7 +142,7 @@ export default function SettlementClient({ initialTransactions }: SettlementClie
                                 <Landmark size={20} color="#D4AF37" />
                             </div>
                             <h4 className={styles.financeTitle}>내 출역일수로 모노 우대 대출</h4>
-                            <p className={styles.financeDesc}>총 출역 342일의 신용으로<br/>제1금융권 금리 우대 혜택을 받으세요.</p>
+                            <p className={styles.financeDesc}>총 출역 342일의 신용으로 제1금융권 금리 우대 혜택을 받으세요.</p>
                             <div className={styles.financeAction}>
                                 내 한도 조회하기 <ChevronRight size={14} />
                             </div>
@@ -153,7 +153,7 @@ export default function SettlementClient({ initialTransactions }: SettlementClie
                                 <Activity size={20} color="#D4AF37" />
                             </div>
                             <h4 className={styles.financeTitle}>안전 맞춤형 상해/실손 보험</h4>
-                            <p className={styles.financeDesc}>현장 작업자를 위한 든든한 보험<br/>지금 모인 정산금으로 가입 가능합니다.</p>
+                            <p className={styles.financeDesc}>현장 작업자를 위한 든든한 보험 지금 모인 정산금으로 가입 가능합니다.</p>
                             <div className={styles.financeAction}>
                                 보험 상품 알아보기 <ChevronRight size={14} />
                             </div>
