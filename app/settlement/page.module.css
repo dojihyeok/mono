@@ -239,6 +239,72 @@
     color: rgba(255, 255, 255, 0.3);
 }
 
+.financeSection {
+    margin-bottom: 3rem;
+}
+
+.financeGrid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+@media (min-width: 640px) {
+    .financeGrid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.financeCard {
+    background: rgba(212, 175, 55, 0.05) !important;
+    border: 1px solid rgba(212, 175, 55, 0.2) !important;
+    padding: 1.5rem !important;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.financeCard:hover {
+    background: rgba(212, 175, 55, 0.1) !important;
+    transform: translateY(-2px);
+}
+
+.financeIconBox {
+    width: 40px;
+    height: 40px;
+    background: rgba(212, 175, 55, 0.1);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.5rem;
+}
+
+.financeTitle {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #fff;
+}
+
+.financeDesc {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.6);
+    line-height: 1.4;
+}
+
+.financeAction {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.85rem;
+    font-weight: 800;
+    color: #D4AF37;
+    margin-top: 0.5rem;
+}
+
 .pendingSection {
     margin-bottom: 3rem;
 }

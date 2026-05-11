@@ -9,7 +9,11 @@ import {
   ShieldCheck, 
   Lock, 
   Wallet,
-  Building2
+  Building2,
+  PiggyBank,
+  Landmark,
+  Activity,
+  ChevronRight
 } from 'lucide-react';
 
 interface SettlementClientProps {
@@ -118,6 +122,44 @@ export default function SettlementClient({ initialTransactions }: SettlementClie
                         </div>
                     </GlassCard>
                 </div>
+
+                <section className={styles.financeSection}>
+                    <h3 className={styles.sectionTitle}>💰 정산 이력으로 만드는 내 금융 자산</h3>
+                    <div className={styles.financeGrid}>
+                        <div className={styles.financeCard} onClick={() => alert('국민펀드 가입 페이지로 이동합니다.')}>
+                            <div className={styles.financeIconBox}>
+                                <PiggyBank size={20} color="#D4AF37" />
+                            </div>
+                            <h4 className={styles.financeTitle}>13월의 월급, 국민펀드 가입</h4>
+                            <p className={styles.financeDesc}>매월 정산금의 일부를 모아<br/>연말정산 소득공제 혜택을 챙기세요.</p>
+                            <div className={styles.financeAction}>
+                                소득공제 혜택 확인하기 <ChevronRight size={14} />
+                            </div>
+                        </div>
+
+                        <div className={styles.financeCard} onClick={() => alert('모노 우대 대출 페이지로 이동합니다.')}>
+                            <div className={styles.financeIconBox}>
+                                <Landmark size={20} color="#D4AF37" />
+                            </div>
+                            <h4 className={styles.financeTitle}>내 출역일수로 모노 우대 대출</h4>
+                            <p className={styles.financeDesc}>총 출역 342일의 신용으로<br/>제1금융권 금리 우대 혜택을 받으세요.</p>
+                            <div className={styles.financeAction}>
+                                내 한도 조회하기 <ChevronRight size={14} />
+                            </div>
+                        </div>
+
+                        <div className={styles.financeCard} onClick={() => alert('실손/상해 보험 페이지로 이동합니다.')}>
+                            <div className={styles.financeIconBox}>
+                                <Activity size={20} color="#D4AF37" />
+                            </div>
+                            <h4 className={styles.financeTitle}>안전 맞춤형 상해/실손 보험</h4>
+                            <p className={styles.financeDesc}>현장 작업자를 위한 든든한 보험<br/>지금 모인 정산금으로 가입 가능합니다.</p>
+                            <div className={styles.financeAction}>
+                                보험 상품 알아보기 <ChevronRight size={14} />
+                            </div>
+                        </div>
+                    </div>
+                </section>
 
                 <section className={styles.pendingSection}>
                     <h3 className={styles.sectionTitle}>아직 일하고 있는 현장 (정산 전)</h3>

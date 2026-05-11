@@ -67,7 +67,7 @@ export default function TechniciansClient({ initialTechnicians }: TechniciansCli
 
             <div className={styles.tabs}>
                 <button 
-                    className={`${styles.tab} ${viewMode === 'occupation' ? styles.active : ''}`}
+                    className={`${styles.tab} ${(viewMode === 'occupation' || viewMode === 'details') ? styles.active : ''}`}
                     onClick={() => setViewMode('occupation')}
                 >
                     전문 직종별

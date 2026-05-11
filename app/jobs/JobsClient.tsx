@@ -85,7 +85,7 @@ export default function JobsClient({ initialJobs }: JobsClientProps) {
 
             <div className={styles.tabs}>
                 <button 
-                    className={`${styles.tab} ${viewMode === 'occupation' ? styles.active : ''}`}
+                    className={`${styles.tab} ${(viewMode === 'occupation' || viewMode === 'details') ? styles.active : ''}`}
                     onClick={() => setViewMode('occupation')}
                 >
                     직업별
