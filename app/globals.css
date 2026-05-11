@@ -60,6 +60,7 @@
 }
 
 html {
+  font-size: 15px; /* Base size for rem units */
   scroll-behavior: smooth;
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
@@ -67,12 +68,18 @@ html {
   height: 100%;
 }
 
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
 body {
   background-color: #020203;
   background-image: radial-gradient(circle at 50% 0%, rgba(212, 175, 55, 0.03) 0%, transparent 60%);
   color: var(--foreground);
   font-family: var(--font-sans);
-  line-height: 1.6;
+  line-height: 1.5;
   overflow-x: hidden;
   height: 100%;
   overscroll-behavior-y: none;
@@ -118,26 +125,31 @@ body {
 
 /* ── Typography Refinement ───────────────── */
 h1, h2, h3, h4, h5, h6 {
-  font-weight: 900;
-  letter-spacing: -0.04em;
-  line-height: 1.15;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
 }
 
+h1 { font-size: 2rem; }
+h2 { font-size: 1.6rem; }
+h3 { font-size: 1.3rem; }
+h4 { font-size: 1.1rem; }
+
 p {
-  color: rgba(255, 255, 255, 0.55);
+  color: rgba(255, 255, 255, 0.6);
   font-weight: 400;
   letter-spacing: -0.01em;
-  line-height: 1.7;
+  line-height: 1.6;
+  font-size: 1rem;
 }
 
 @media (max-width: 768px) {
-  h1, h2, h3 {
-    letter-spacing: -0.05em;
-    line-height: 1.1;
-  }
+  h1 { font-size: 1.8rem; }
+  h2 { font-size: 1.4rem; }
+  h3 { font-size: 1.2rem; }
   
   p {
-    letter-spacing: -0.02em;
+    letter-spacing: -0.01em;
     line-height: 1.5;
     font-size: 0.95rem;
   }
