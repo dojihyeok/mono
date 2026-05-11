@@ -34,7 +34,7 @@ export default function Features() {
             <div className={styles.bgOverlay} />
             <div className={`container ${styles.header}`}>
                 <h2 className={styles.title}>
-                    기술인의 성장을 돕는 <span className={styles.premiumText}>모노(Mo-No)</span>
+                    기술인의 성장을 돕는 <span className={styles.premiumText}>모노(MoNo)</span>
                 </h2>
                 <p className={styles.subtitle}>
                     단순한 연결을 넘어, 전문가님의 기술 자산을<br />

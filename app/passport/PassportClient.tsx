@@ -20,7 +20,7 @@ import {
 const GLOBAL_REPORT_DATA = {
     userName: 'KIM MASTER',
     role: 'Tier 1 Tiler & Layout Expert',
-    certifiedBy: 'MO-NO Global Agency',
+    certifiedBy: 'MONO Global Agency',
     score: 96,
     trustRank: 'Master (Global Top 5%)',
     verifiedProjects: 142,

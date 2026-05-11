@@ -93,7 +93,7 @@ export default function SettlementClient({ initialTransactions }: SettlementClie
                         </Button>
                         <div className={styles.securitySeal}>
                             <ShieldCheck size={12} />
-                            <span>MO-NO 분리형 에스크로 계좌로 보호받고 있습니다.</span>
+                            <span>MONO 분리형 에스크로 계좌로 보호받고 있습니다.</span>
                         </div>
                     </GlassCard>
 

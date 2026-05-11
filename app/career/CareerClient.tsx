@@ -103,7 +103,7 @@ export default function CareerClient() {
                 <ShieldCheck size={40} color="#D4AF37" />
               </div>
               <div>
-                <h4 style={{ fontSize: '1.2rem', marginBottom: '8px', color: '#D4AF37' }}>모노(MO-NO) 공식 기술 인증</h4>
+                <h4 style={{ fontSize: '1.2rem', marginBottom: '8px', color: '#D4AF37' }}>모노(MONO) 공식 기술 인증</h4>
                 <p style={{ fontSize: '0.95rem', color: 'rgba(255,255,255,0.7)', lineHeight: '1.5' }}>
                   본 기술 여권은 블록체인 기반으로 위변조가 불가능하며,<br/>
                   전문가님의 신원 및 기술 등급을 공식적으로 보증합니다.

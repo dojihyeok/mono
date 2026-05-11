@@ -21,7 +21,7 @@ const MASTER_DATA = {
     role: 'Tier 1 Tiling Master (Finishing Specialist)',
     issueDate: '2024.04.01',
     validUntil: '2026.03.31',
-    agency: 'MO-NO Global Master Agency',
+    agency: 'MONO Global Master Agency',
     standard: 'ISO 20001:2024 Tech-Log Compliance',
     trustScore: 96,
     stats: {
@@ -60,7 +60,7 @@ export default function ReportClient() {
                 {/* Document Header */}
                 <header className={styles.reportHeader}>
                     <div className={styles.logoRow}>
-                        <div className={styles.logo}>MO-NO</div>
+                        <div className={styles.logo}>MONO</div>
                         <div className={styles.certBadge}>
                             <ShieldCheck size={14} />
                             OFFICIAL VERIFIED
@@ -155,8 +155,8 @@ export default function ReportClient() {
                         <p>Scan to verify real-time history<br />on <strong>mo-no.io/verify</strong></p>
                     </div>
                     <div className={styles.signatureArea}>
-                        <div className={styles.stamp}>MO-NO GLOBAL</div>
-                        <p>ISSUED BY MO-NO MASTER AGENCY</p>
+                        <div className={styles.stamp}>MONO GLOBAL</div>
+                        <p>ISSUED BY MONO MASTER AGENCY</p>
                     </div>
                 </footer>
             </div>

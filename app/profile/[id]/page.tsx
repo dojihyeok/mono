@@ -1,7 +1,7 @@
 import ProfileClient from './ProfileClient';
 
 export const metadata = {
-    title: 'Master Professional Profile | MO-NO Masters',
+    title: 'Master Professional Profile | MONO Masters',
     description: 'A premium professional profile for global masters showing trust, skills, and strategic deployment opportunities.',
 };
 

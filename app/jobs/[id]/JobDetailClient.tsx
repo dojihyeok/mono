@@ -111,7 +111,7 @@ export default function JobDetailClient({ job }: JobDetailClientProps) {
                                     <Zap size={14} fill="#fff" />
                                 </div>
                                 <div className={styles.aiForemanTitle}>
-                                    <h4>AI 현장 반장 : MO-NO 브리핑</h4>
+                                    <h4>AI 현장 반장 : MONO 브리핑</h4>
                                     <div className={styles.aiStatus}>
                                         <div className={styles.pulseDot} />
                                         실시간 데이터 분석 중

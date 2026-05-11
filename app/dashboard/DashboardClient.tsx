@@ -80,7 +80,7 @@ export default function DashboardClient({ technician, transactions }: DashboardC
                             <p className={styles.speciality}>{technician.specialty}</p>
                             <span className={styles.since}>
                                 <ShieldCheck size={14} color="#D4AF37" /> 
-                                MO-NO 마스터 인증됨 · 2023.05 가입
+                                MONO 마스터 인증됨 · 2023.05 가입
                             </span>
                         </div>
                     </div>

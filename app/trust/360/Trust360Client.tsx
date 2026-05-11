@@ -115,7 +115,7 @@ export default function Trust360Client() {
             <footer className={styles.footer}>
                 <div className={styles.alertBox}>
                     <AlertCircle size={14} />
-                    <span>상호 평가는 MO-NO 에스크로 정산 및 글로벌 매칭 신뢰도의 핵심 지표로 활용됩니다.</span>
+                    <span>상호 평가는 MONO 에스크로 정산 및 글로벌 매칭 신뢰도의 핵심 지표로 활용됩니다.</span>
                 </div>
             </footer>
         </div>

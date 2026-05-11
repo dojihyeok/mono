@@ -44,7 +44,7 @@ export default function WelfareClient() {
             <header className={styles.header}>
                 <div className={styles.headerInfo}>
                     <h1>글로벌 마스터 복지 허브</h1>
-                    <p>마스터의 수익과 안전, MO-NO가 끝까지 보호합니다.</p>
+                    <p>마스터의 수익과 안전, MONO가 끝까지 보호합니다.</p>
                 </div>
                 <div className={styles.premiumBadge}>마스터 케어+ (MASTER CARE+)</div>
             </header>

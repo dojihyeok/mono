@@ -11,10 +11,10 @@ export default function Footer() {
                     <div className={styles.brandCol}>
                         <div className={styles.brandLogo}>
                             <div className={styles.logoMark} />
-                            <span className={styles.logoText}>MO-NO</span>
+                            <span className={styles.logoText}>MONO</span>
                         </div>
                         <p className={styles.brandDesc}>
-                            모노(Mo-No)는 기술인의 모든 경험과 실력을 데이터화하여
+                            모노(MoNo)는 기술인의 모든 경험과 실력을 데이터화하여
                             정당한 가치로 인정받는 환경을 만드는 프리미엄 기술 파트너입니다.
                         </p>
                         <div className={styles.socialRow}>

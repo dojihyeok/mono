@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
-    title: "MO-NO",
+    title: "MONO",
   },
   icons: {
     icon: "/favicon.ico",

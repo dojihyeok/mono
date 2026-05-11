@@ -18,7 +18,7 @@ export default function Navbar({ isLoggedIn = false, onToggleLogin }: NavbarProp
         <header className={styles.header}>
             <div className={`container ${styles.navContainer}`}>
                 <Link href="/" className={styles.logo}>
-                    MO-NO
+                    MONO
                 </Link>
 
                 <div className={styles.ctaGroup}>

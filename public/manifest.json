@@ -1,6 +1,6 @@
 {
-  "name": "MO-NO",
-  "short_name": "MO-NO",
+  "name": "MONO",
+  "short_name": "MONO",
   "description": "글로벌 테크니션 매칭 및 커리어 관리 플랫폼",
   "start_url": "/",
   "display": "standalone",

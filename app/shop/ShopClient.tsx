@@ -120,8 +120,8 @@ export default function ShopClient() {
             </section>
 
             <footer className={styles.footer}>
-                <div className={styles.footerBrand}>MO-NO OFFICIAL STORE</div>
-                <p>Copyright 2026 MO-NO Masters Agency. All rights reserved.</p>
+                <div className={styles.footerBrand}>MONO OFFICIAL STORE</div>
+                <p>Copyright 2026 MONO Masters Agency. All rights reserved.</p>
             </footer>
         </div>
     );
