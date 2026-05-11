@@ -117,15 +117,15 @@ export default function CareerClient() {
 
         <div className={styles.globalActionGrid}>
           <GlassCard className={styles.globalCard}>
-            <span className={styles.cardLabel}>글로벌 프로젝트 매칭률</span>
+            <span className={styles.cardLabel}>해외 프로젝트 매칭률</span>
             <div className={styles.cardValue}>92% (최우수)</div>
             <div className={styles.matchBar}><div className={styles.matchProgress} style={{width: '92%'}}></div></div>
-            <p className={styles.subtitle} style={{fontSize: '0.65rem'}}>SAUDI NEOM / US GEORGIA EPC</p>
+            <p className={styles.subtitle} style={{fontSize: '0.65rem'}}>사우디 네옴 / 미국 조지아 EPC</p>
           </GlassCard>
           <GlassCard className={styles.globalCard}>
-            <span className={styles.cardLabel}>추천 글로벌 리워드</span>
+            <span className={styles.cardLabel}>추천 해외 단가</span>
             <div className={styles.cardValue}>$42.5 / hr</div>
-            <div className={styles.rewardIndicator}>TOP 3%</div>
+            <div className={styles.rewardIndicator}>상위 3%</div>
             <p className={styles.subtitle} style={{fontSize: '0.65rem', color: '#D4AF37'}}>글로벌 전문가 평균 이상</p>
           </GlassCard>
         </div>
@@ -134,11 +134,11 @@ export default function CareerClient() {
         <div className={styles.safetyBadgesRow}>
             <div className={styles.safetyBadge}>
                 <ShieldCheck size={14} />
-                OSHA 30
+                미국 안전 규격 인증
             </div>
             <div className={styles.safetyBadge}>
                 <ShieldCheck size={14} />
-                ISO 45001
+                국제 안전 보건 인증
             </div>
             <div className={styles.safetyBadge}>
                 <ShieldCheck size={14} />
@@ -157,7 +157,7 @@ export default function CareerClient() {
             disabled={isExporting}
           >
             <FileCode2 size={20} />
-            {isExporting ? 'AI 리포트 생성 중...' : 'AI 영문 기술 자산 증명서 (PDF)'}
+            {isExporting ? 'AI 리포트 생성 중...' : 'AI 기술 자산 증명서 다운로드'}
           </button>
           <button className={styles.iconBtn} onClick={() => window.print()}>
             <Printer size={20} />
@@ -177,7 +177,7 @@ export default function CareerClient() {
                   <Lock size={12} />
                   보안 데이터 검증 완료
               </div>
-            <h4>현장 보안 매칭 QR</h4>
+            <h4>현장 출입용 보안 QR</h4>
             <p>현장 관리자의 실시간 경력 스캔을 위한 보안 암호화 코드입니다.</p>
             <div className={styles.idExpiry}>만료일: 2027. 12. 31</div>
           </div>
@@ -187,7 +187,7 @@ export default function CareerClient() {
         <div className={styles.radarSection}>
           <h3 className={styles.sectionTitle}>
               <Target size={18} color="#D4AF37" />
-              기술 역량 지표 (Radar)
+              기술 역량 상세 지표
           </h3>
           <div className={styles.radarWrapper}>
             <svg width="200" height="200" viewBox="0 0 200 200">
@@ -209,20 +209,20 @@ export default function CareerClient() {
         <div className={styles.equipmentSection}>
           <h3 className={styles.sectionTitle}>
               <BarChart3 size={18} color="#D4AF37" />
-              검증된 기술 자산 (Assets)
+              검증된 보유 장비
           </h3>
           <div className={styles.equipmentGrid}>
             <div className={styles.equipmentItem}>
               <div className={styles.eqIcon}><Wrench size={20} color="#D4AF37" /></div>
               <div className={styles.eqInfo}>
-                <h5>힐티 TE-60 (HIGH-PERF)</h5>
+                <h5>힐티 TE-60 (고성능 함마드릴)</h5>
                 <span>인증 완료</span>
               </div>
             </div>
             <div className={styles.equipmentItem}>
               <div className={styles.eqIcon}><HardHat size={20} color="#D4AF37" /></div>
               <div className={styles.eqInfo}>
-                <h5>디지털 안전 고글 (AR)</h5>
+                <h5>디지털 안전 고글</h5>
                 <span>인증 완료</span>
               </div>
             </div>
@@ -233,7 +233,7 @@ export default function CareerClient() {
       {/* Digital Career Log */}
       <section className={styles.historySection}>
         <div className={styles.sectionHeader}>
-          <h2 className={styles.sectionTitle}>전문가 경력 이력 (History)</h2>
+          <h2 className={styles.sectionTitle}>전문가 상세 경력</h2>
           <ChevronRight size={24} color="rgba(180,138,9,0.5)" />
         </div>
 

@@ -127,7 +127,6 @@ export default function JobCard({ job }: JobProps) {
                 )}
 
                 {/* Description */}
-                <p className={styles.description}>{job.description}</p>
 
                 {/* CTA */}
                 <button

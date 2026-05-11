@@ -31,13 +31,14 @@ const features = [
 export default function Features() {
     return (
         <section id="features" className={styles.section}>
+            <div className={styles.bgOverlay} />
             <div className={`container ${styles.header}`}>
                 <h2 className={styles.title}>
                     기술인의 성장을 돕는 <span className={styles.premiumText}>모노(Mo-No)</span>
                 </h2>
                 <p className={styles.subtitle}>
-                    단순한 연결을 넘어, 기술자분들이 현장에서 정당한 대우를 받고<br />
-                    더 큰 시장으로 나아갈 수 있도록 든든한 파트너가 되어 드립니다.
+                    단순한 연결을 넘어, 전문가님의 기술 자산을<br />
+                    디지털 데이터로 전환하여 세계 시장으로 연결합니다.
                 </p>
             </div>
             <div className="container">

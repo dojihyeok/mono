@@ -1,141 +1,252 @@
-.page {
-  --background: #fafafa;
-  --foreground: #fff;
-
-  --text-primary: #000;
-  --text-secondary: #666;
-
-  --button-primary-hover: #383838;
-  --button-secondary-hover: #f2f2f2;
-  --button-secondary-border: #ebebeb;
-
-  display: flex;
-  min-height: 100vh;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-geist-sans);
-  background-color: var(--background);
+.homeContainer {
+    padding: 1rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    min-height: 100vh;
+    background: #06070a;
 }
 
-.main {
-  display: flex;
-  min-height: 100vh;
-  width: 100%;
-  max-width: 800px;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: space-between;
-  background-color: var(--foreground);
-  padding: 120px 60px;
+/* Header Greeting */
+.greetingSection {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
 }
 
-.intro {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  text-align: left;
-  gap: 24px;
+.greetingText h1 {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #fff;
+    margin: 0;
+    line-height: 1.2;
 }
 
-.intro h1 {
-  max-width: 320px;
-  font-size: 40px;
-  font-weight: 600;
-  line-height: 48px;
-  letter-spacing: -2.4px;
-  text-wrap: balance;
-  color: var(--text-primary);
+.greetingText p {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.6);
+    margin: 0;
 }
 
-.intro p {
-  max-width: 440px;
-  font-size: 18px;
-  line-height: 32px;
-  text-wrap: balance;
-  color: var(--text-secondary);
+/* Growth Stage Card */
+.growthCard {
+    background: #1e1e1e;
+    border-radius: 20px;
+    padding: 1.25rem;
+    position: relative;
+    overflow: hidden;
 }
 
-.intro a {
-  font-weight: 500;
-  color: var(--text-primary);
+.growthHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
 }
 
-.ctas {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  max-width: 440px;
-  gap: 16px;
-  font-size: 14px;
+.growthLabel {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.5);
+    font-weight: 600;
+    margin-bottom: 0.25rem;
 }
 
-.ctas a {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 40px;
-  padding: 0 16px;
-  border-radius: 128px;
-  border: 1px solid transparent;
-  transition: 0.2s;
-  cursor: pointer;
-  width: fit-content;
-  font-weight: 500;
+.growthStep {
+    font-size: 1.75rem;
+    font-weight: 900;
+    color: #D4AF37;
+    margin: 0 0 0.25rem 0;
 }
 
-a.primary {
-  background: var(--text-primary);
-  color: var(--background);
-  gap: 8px;
+.growthDesc {
+    font-size: 0.85rem;
+    color: #fff;
+    margin: 0;
 }
 
-a.secondary {
-  border-color: var(--button-secondary-border);
+.trendIcon {
+    color: #D4AF37;
+    background: rgba(212, 175, 55, 0.1);
+    padding: 0.5rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-/* Enable hover only on non-touch devices */
-@media (hover: hover) and (pointer: fine) {
-  a.primary:hover {
-    background: var(--button-primary-hover);
-    border-color: transparent;
-  }
-
-  a.secondary:hover {
-    background: var(--button-secondary-hover);
-    border-color: transparent;
-  }
+.progressContainer {
+    margin-top: 1.25rem;
 }
 
-@media (max-width: 600px) {
-  .main {
-    padding: 48px 24px;
-  }
-
-  .intro {
-    gap: 16px;
-  }
-
-  .intro h1 {
-    font-size: 32px;
-    line-height: 40px;
-    letter-spacing: -1.92px;
-  }
+.progressTrack {
+    height: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 0.5rem;
 }
 
-@media (prefers-color-scheme: dark) {
-  .logo {
-    filter: invert();
-  }
+.progressFill {
+    height: 100%;
+    background: #D4AF37;
+    border-radius: 3px;
+    transition: width 1s ease-in-out;
+}
 
-  .page {
-    --background: #000;
-    --foreground: #000;
+.progressText {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.6);
+    text-align: right;
+    display: block;
+}
 
-    --text-primary: #ededed;
-    --text-secondary: #999;
+/* AI Briefing Card */
+.aiBriefingCard {
+    background: rgba(212, 175, 55, 0.05);
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    border-radius: 20px;
+    padding: 1.25rem;
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+}
 
-    --button-primary-hover: #ccc;
-    --button-secondary-hover: #1a1a1a;
-    --button-secondary-border: #1a1a1a;
-  }
+.aiBadge {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, #D4AF37, #B48A09);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #000;
+    flex-shrink: 0;
+}
+
+.aiContent h3 {
+    font-size: 0.9rem;
+    font-weight: 800;
+    color: #D4AF37;
+    margin: 0 0 0.25rem 0;
+}
+
+.aiContent p {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.8);
+    margin: 0;
+    line-height: 1.5;
+}
+
+/* Section Headings */
+.sectionHeading {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #fff;
+    margin: 0.5rem 0 1rem 0;
+}
+
+/* Premium Matching Job Card */
+.jobCard {
+    background: #1e1e1e;
+    border-radius: 20px;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.jobBadge {
+    background: #D4AF37;
+    color: #000;
+    font-size: 0.7rem;
+    font-weight: 900;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    display: inline-block;
+    align-self: flex-start;
+}
+
+.jobTitle {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: #fff;
+    margin: 0;
+}
+
+.jobMeta {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.5);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.jobPay {
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: #D4AF37;
+    display: flex;
+    align-items: baseline;
+    gap: 0.25rem;
+}
+
+.jobPay span {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.6);
+    font-weight: 600;
+}
+
+.jobActions {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+}
+
+.acceptBtn, .rejectBtn {
+    flex: 1;
+    padding: 0.8rem;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    font-weight: 800;
+    border: none;
+    cursor: pointer;
+}
+
+.acceptBtn {
+    background: #D4AF37;
+    color: #000;
+}
+
+.rejectBtn {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+}
+
+/* Quick Access Grid */
+.quickGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+}
+
+.quickItem {
+    background: #1e1e1e;
+    border-radius: 16px;
+    padding: 1rem 0.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    text-decoration: none;
+}
+
+.quickIcon {
+    color: #D4AF37;
+}
+
+.quickLabel {
+    font-size: 0.8rem;
+    color: #fff;
+    font-weight: 600;
 }

@@ -1,9 +1,25 @@
 'use client';
 
-import { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import Navbar from '@/components/Navbar/Navbar';
 import GlassCard from '@/components/UI/GlassCard';
 import Button from '@/components/UI/Button';
+import { 
+    ShieldCheck, 
+    TrendingUp, 
+    MapPin, 
+    Star, 
+    Settings, 
+    ChevronRight, 
+    Plus, 
+    History, 
+    Wrench, 
+    Award,
+    Zap,
+    CreditCard,
+    BrainCircuit,
+    CheckCircle2
+} from 'lucide-react';
 import styles from './page.module.css';
 
 interface DashboardClientProps {
@@ -50,12 +66,22 @@ export default function DashboardClient({ technician, transactions }: DashboardC
                     <div className={styles.profileHeader}>
                         <div className={styles.avatarWrapper}>
                             <div className={styles.avatar}>{technician.name[0]}</div>
-                            {technician.verified && <div className={styles.verifiedIcon}>✓</div>}
+                            {technician.verified && (
+                                <div className={styles.verifiedIcon}>
+                                    <CheckCircle2 size={12} strokeWidth={3} />
+                                </div>
+                            )}
                         </div>
                         <div className={styles.profileMeta}>
-                            <h1 className={styles.name}>{technician.name} <span className={styles.levelTag}>{technician.level}</span></h1>
+                            <h1 className={styles.name}>
+                                {technician.name} 
+                                <span className={styles.levelTag}>{technician.level}</span>
+                            </h1>
                             <p className={styles.speciality}>{technician.specialty}</p>
-                            <span className={styles.since}>가입일: 2023.05</span>
+                            <span className={styles.since}>
+                                <ShieldCheck size={14} color="#D4AF37" /> 
+                                MO-NO 마스터 인증됨 · 2023.05 가입
+                            </span>
                         </div>
                     </div>
                 </section>
@@ -64,21 +90,24 @@ export default function DashboardClient({ technician, transactions }: DashboardC
                 <div className={styles.dashboardGrid}>
                     <GlassCard className={styles.trustCard}>
                         <div className={styles.trustHeader}>
-                            <h3 className={styles.cardTitle}>마스터 신뢰 점수</h3>
-                            <span className={styles.statusLive}>실시간 측정</span>
+                            <h3 className={styles.cardTitle}>Master Trust Score</h3>
+                            <span className={styles.statusLive}>
+                                <span className={styles.pulseDot} />
+                                LIVE
+                            </span>
                         </div>
                         <div className={styles.ringContainer}>
                             <svg className={styles.svgRing}>
-                                <circle className={styles.ringBg} cx="60" cy="60" r="54" />
+                                <circle className={styles.ringBg} cx="80" cy="80" r="74" />
                                 <circle 
                                     className={styles.ringIndicator} 
-                                    cx="60" cy="60" r="54" 
-                                    style={{ strokeDashoffset: 340 - (340 * scoreAnim) / 100 }}
+                                    cx="80" cy="80" r="74" 
+                                    style={{ strokeDashoffset: 440 - (440 * scoreAnim) / 100 }}
                                 />
                             </svg>
                             <div className={styles.scoreText}>
                                 <span className={styles.scoreNumber}>{scoreAnim}</span>
-                                <span className={styles.scoreUnit}>점</span>
+                                <span className={styles.scoreUnit}>Mastery</span>
                             </div>
                         </div>
                         <p className={styles.trustDesc}>상위 3% 이내의 초숙련 마스터입니다.</p>
@@ -86,18 +115,21 @@ export default function DashboardClient({ technician, transactions }: DashboardC
 
                     <div className={styles.statColumn}>
                         <GlassCard className={styles.statCard}>
-                            <p className={styles.statLabel}>총 기술 자산 (수익)</p>
+                            <p className={styles.statLabel}>총 기술 자산 (누적 수익)</p>
                             <h2 className={styles.statValue}>₩{stats.totalEarnings}</h2>
-                            <span className={styles.statTrend}>↑ 최근 30일 기준</span>
+                            <span className={styles.statTrend}>
+                                <TrendingUp size={16} />
+                                전월 대비 12.4% 증가
+                            </span>
                         </GlassCard>
                         <div className={styles.smallGrid}>
                             <GlassCard className={styles.smallStat}>
-                                <p className={styles.statLabel}>참여 현장</p>
-                                <p className={styles.smallValue}>{stats.totalSites}곳</p>
+                                <p className={styles.statLabel}>매칭 현장</p>
+                                <p className={styles.smallValue}>{stats.totalSites}</p>
                             </GlassCard>
                             <GlassCard className={styles.smallStat}>
-                                <p className={styles.statLabel}>평점</p>
-                                <p className={styles.smallValue}>★ 4.9</p>
+                                <p className={styles.statLabel}>마스터 평점</p>
+                                <p className={styles.smallValue}>4.9</p>
                             </GlassCard>
                         </div>
                     </div>
@@ -109,12 +141,12 @@ export default function DashboardClient({ technician, transactions }: DashboardC
                     </div>
                     <div className={styles.badgeGrid}>
                         {[
-                            { id: 'b1', name: '대리석 시공 숙련', level: '전문가' },
-                            { id: 'b2', name: '방수 기능사 자격', level: '인증됨' },
-                            { id: 'b3', name: '현장 안전 교육 이수', level: '이수 완료' },
+                            { id: 'b1', name: '하이테크 플랜트 숙련', level: 'Level 5', icon: <Zap size={20} color="#D4AF37" /> },
+                            { id: 'b2', name: '글로벌 안전 인증 (ISO)', level: 'Certified', icon: <ShieldCheck size={20} color="#D4AF37" /> },
+                            { id: 'b3', name: '전담 마스터 리더십', level: 'Leader', icon: <Award size={20} color="#D4AF37" /> },
                         ].map(badge => (
                             <div key={badge.id} className={styles.badgeItem}>
-                                <div className={styles.badgeIcon}>🏅</div>
+                                <div className={styles.badgeIcon}>{badge.icon}</div>
                                 <div className={styles.badgeInfo}>
                                     <p className={styles.badgeName}>{badge.name}</p>
                                     <span className={styles.badgeLevel}>{badge.level}</span>

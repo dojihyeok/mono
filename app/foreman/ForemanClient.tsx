@@ -71,9 +71,9 @@ export default function ForemanClient() {
             tag: '필수 가이드',
             icon: <ShieldCheck size={24} color="#D4AF37" />,
             steps: [
-                { title: '개인 보호구(PPE) 최종 확인', content: '안전모 턱끈 체결, 안전화 끈 조임, 형광 조끼 착용 상태를 확인합니다.' },
+                { title: '개인 보호 장비 최종 확인', content: '안전모 턱끈 체결, 안전화 끈 조임, 형광 조끼 착용 상태를 확인합니다.' },
                 { title: '출역 관리 시스템 등록', content: '현장 입구의 QR 코드를 스캔하여 본인의 출근 사실을 기록합니다.' },
-                { title: 'TBM 안전 교육 참여', content: '작업 시작 전 안전 조례에 참여하여 당일 위험 요소를 숙지합니다.' }
+                { title: '작업 전 안전 미팅 (TBM)', content: '작업 시작 전 안전 조례에 참여하여 당일 위험 요소를 숙지합니다.' }
             ],
             tips: ['모르는 건 바로 물어보세요. 아는 척하다 사고 나면 본인 손해입니다.']
         },

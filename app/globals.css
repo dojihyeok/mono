@@ -43,8 +43,11 @@
 
 @media (min-width: 768px) {
   .app-content {
-    max-width: 100%;
-    padding-bottom: 0;
+    border-left: 1px solid rgba(255, 255, 255, 0.05);
+    border-right: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+    min-height: 100vh;
+    background: #06070a; /* Ensure the frame has its own background */
   }
 }
 
@@ -58,14 +61,40 @@
 
 html {
   scroll-behavior: smooth;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  overflow-x: hidden;
+  height: 100%;
 }
 
 body {
-  background-color: #06070a;
+  background-color: #020203;
+  background-image: radial-gradient(circle at 50% 0%, rgba(212, 175, 55, 0.03) 0%, transparent 60%);
   color: var(--foreground);
   font-family: var(--font-sans);
   line-height: 1.6;
   overflow-x: hidden;
+  height: 100%;
+  overscroll-behavior-y: none;
+}
+
+.app-shell {
+  height: 100vh;
+  height: -webkit-fill-available;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.app-content {
+  flex: 1;
+  width: 100%;
+  max-width: var(--app-max-width);
+  margin: 0 auto;
+  padding-top: calc(72px + env(safe-area-inset-top)); 
+  padding-bottom: calc(90px + env(safe-area-inset-bottom));
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 /* ── Custom Scrollbar (Premium Dark) ─────── */
@@ -119,7 +148,13 @@ p {
   width: 100%;
   max-width: 1400px;
   margin: 0 auto;
-  padding: 0 5rem;
+  padding: 0 1.25rem;
+}
+
+@media (min-width: 768px) {
+  .container {
+    padding: 0 5rem;
+  }
 }
 
 .glass {

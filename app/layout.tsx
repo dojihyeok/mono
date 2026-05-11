@@ -13,8 +13,16 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "Mono | 기술의 가치를 알아보는 세상",
   description: "글로벌 테크니션 매칭 및 커리어 관리 플랫폼. 당신의 현장 경력이 자산이 됩니다.",
+  manifest: "/manifest.json",
+  themeColor: "#06070a",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "MO-NO",
+  },
   icons: {
     icon: "/favicon.ico",
+    apple: "/apple-touch-icon.png",
   },
 };
 

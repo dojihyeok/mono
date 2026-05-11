@@ -1,8 +1,12 @@
 .wrapper {
     position: fixed;
-    right: 20px;
     bottom: 90px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: var(--app-max-width);
     z-index: 1000;
+    pointer-events: none;
 }
 
 .toggleBtn {
@@ -16,7 +20,10 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    position: relative;
+    position: absolute;
+    right: 20px;
+    bottom: 0;
+    pointer-events: auto;
     box-shadow: 0 0 20px rgba(59, 130, 246, 0.2);
     transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     overflow: hidden;
@@ -64,7 +71,7 @@
 .window {
     position: absolute;
     bottom: 0;
-    right: 0;
+    right: 20px;
     width: 320px;
     background: rgba(18, 18, 23, 0.95);
     backdrop-filter: blur(20px);

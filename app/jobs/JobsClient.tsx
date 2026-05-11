@@ -145,7 +145,7 @@ export default function JobsClient({ initialJobs }: JobsClientProps) {
                                 <div className={styles.matchBadge}>{rec.match} 연결</div>
                                 <div className={styles.passportConnected}>
                                     <ShieldCheck size={10} />
-                                    PASSPORT CONNECTED
+                                    디지털 여권 연동됨
                                 </div>
                                 <span className={styles.recLabel}>맞춤형 현장</span>
                                 <h3 className={styles.recTitle}>{rec.title}</h3>
@@ -255,9 +255,9 @@ export default function JobsClient({ initialJobs }: JobsClientProps) {
                 <div className={styles.globalTeaser}>
                     <div className={styles.globalBanner}>
                         <div className={styles.bannerContent}>
-                            <div className={styles.premiumBadge}>STRATEGIC MATCHING</div>
-                            <h2>글로벌 전문가 에이전시</h2>
-                            <p>사우디 네옴시티, 호주 수소 플랜트 등 전 세계 하이-벨류 프로젝트가 당신을 기다립니다.</p>
+                            <div className={styles.premiumBadge}>해외 맞춤형 연결</div>
+                            <h2>글로벌 최고급 일자리</h2>
+                            <p>사우디 네옴시티, 호주 수소 플랜트 등 전 세계 대형 프로젝트가 당신을 기다립니다.</p>
                             <button className={styles.globalCta} onClick={() => window.location.href = '/matching'}>
                                 프로젝트 탐색하기
                                 <span style={{ marginLeft: '8px' }}>→</span>
