@@ -37,7 +37,7 @@ export default function CareerClient() {
     }, 2000);
   };
 
-  const [activeTab, setActiveTab] = useState<'passport' | 'history' | 'academy'>('passport');
+  const [activeTab, setActiveTab] = useState<'history' | 'passport' | 'academy'>('history');
 
   return (
     <div className={styles.container}>
@@ -45,15 +45,48 @@ export default function CareerClient() {
         <h1 className={styles.title} style={{ fontSize: '2rem' }}>내 커리어</h1>
       </header>
 
+      {/* Level & Stats (Persistent Header) */}
+      <section className={styles.statsSection}>
+        <GlassCard className={styles.levelCard}>
+          <div className={styles.levelHeader}>
+            <span className={styles.badge}>
+              <Award size={24} color="#D4AF37" />
+              배관 베테랑 기술자
+            </span>
+          </div>
+          <p className={styles.levelDesc}>
+            <Cpu size={14} style={{display: 'inline', marginRight: '8px'}} />
+            현장 작업 10년차 | 최고 등급 기술자
+          </p>
+        </GlassCard>
+
+        <div className={styles.grid2}>
+          <GlassCard>
+            <h3 className={styles.statLabel}>
+              <Calendar size={14} color="#D4AF37" />
+              모노 출역 일수
+            </h3>
+            <p className={styles.statValue}>342일</p>
+          </GlassCard>
+          <GlassCard>
+            <h3 className={styles.statLabel}>
+              <ShieldCheck size={14} color="#D4AF37" />
+              안전 평가
+            </h3>
+            <p className={styles.statValue}>최우수</p>
+          </GlassCard>
+        </div>
+      </section>
+
       <div className={styles.tabs}>
-        <button 
-          className={`${styles.tab} ${activeTab === 'passport' ? styles.active : ''}`}
-          onClick={() => setActiveTab('passport')}
-        >기술 여권</button>
         <button 
           className={`${styles.tab} ${activeTab === 'history' ? styles.active : ''}`}
           onClick={() => setActiveTab('history')}
         >경력 수첩</button>
+        <button 
+          className={`${styles.tab} ${activeTab === 'passport' ? styles.active : ''}`}
+          onClick={() => setActiveTab('passport')}
+        >기술 여권</button>
         <button 
           className={`${styles.tab} ${activeTab === 'academy' ? styles.active : ''}`}
           onClick={() => setActiveTab('academy')}
@@ -62,49 +95,19 @@ export default function CareerClient() {
 
       {activeTab === 'passport' && (
         <>
-          {/* Level & Stats */}
-          <section className={styles.statsSection}>
-            <GlassCard className={styles.levelCard}>
-              <div className={styles.levelHeader}>
-                <span className={styles.badge}>
-                  <Award size={24} color="#D4AF37" />
-                  배관 베테랑 기술자
-                </span>
-              </div>
-              <p className={styles.levelDesc}>
-                <Cpu size={14} style={{display: 'inline', marginRight: '8px'}} />
-                현장 작업 10년차 | 최고 등급 기술자
-              </p>
-            </GlassCard>
-
-            <div className={styles.grid2}>
-              <GlassCard>
-                <h3 className={styles.statLabel}>
-                  <Calendar size={14} color="#D4AF37" />
-                  모노 출역 일수
-                </h3>
-                <p className={styles.statValue}>342일</p>
-              </GlassCard>
-              <GlassCard>
-                <h3 className={styles.statLabel}>
-                  <ShieldCheck size={14} color="#D4AF37" />
-                  안전 평가
-                </h3>
-                <p className={styles.statValue}>최우수</p>
-              </GlassCard>
-            </div>
-          </section>
-
           {/* Passport Main Section */}
           <section className={styles.passportCard}>
-            {/* QR Verification */}
-            <div className={styles.qrSection}>
-              <div className={styles.qrCodeWrapper}>
-                <QrCode size={80} color="#000" />
+            {/* Official Certification Seal */}
+            <div className={styles.qrSection} style={{ textAlign: 'center', padding: '2rem 1rem' }}>
+              <div style={{ display: 'inline-flex', justifyContent: 'center', alignItems: 'center', width: '80px', height: '80px', borderRadius: '50%', background: 'rgba(212, 175, 55, 0.1)', border: '2px solid #D4AF37', marginBottom: '1rem' }}>
+                <ShieldCheck size={40} color="#D4AF37" />
               </div>
-              <div className={styles.qrInfo}>
-                <h4 style={{ fontSize: '1.2rem', marginBottom: '8px' }}>현장 출입용 큐알(QR)코드</h4>
-                <p style={{ fontSize: '0.95rem' }}>아침에 출근하실 때 현장 반장님께 이 화면을 보여주세요.</p>
+              <div>
+                <h4 style={{ fontSize: '1.2rem', marginBottom: '8px', color: '#D4AF37' }}>모노(MO-NO) 공식 기술 인증</h4>
+                <p style={{ fontSize: '0.95rem', color: 'rgba(255,255,255,0.7)', lineHeight: '1.5' }}>
+                  본 기술 여권은 블록체인 기반으로 위변조가 불가능하며,<br/>
+                  전문가님의 신원 및 기술 등급을 공식적으로 보증합니다.
+                </p>
               </div>
             </div>
 

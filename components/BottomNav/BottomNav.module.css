@@ -6,10 +6,8 @@
     width: 100%;
     max-width: var(--app-max-width);
     height: 72px;
-    background: rgba(10, 10, 10, 0.85);
-    backdrop-filter: blur(25px);
-    -webkit-backdrop-filter: blur(25px);
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    background: #080808;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
     border-left: 1px solid rgba(255, 255, 255, 0.05);
     border-right: 1px solid rgba(255, 255, 255, 0.05);
     border-top-left-radius: 20px;
