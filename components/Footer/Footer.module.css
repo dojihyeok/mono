@@ -14,21 +14,18 @@
 }
 
 .grid {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
     gap: 3rem;
     margin-bottom: 4rem;
 }
 
 .brandCol {
-    flex: 2;
-    min-width: 280px;
+    max-width: 400px;
 }
 
 .linkCol {
-    flex: 1;
-    min-width: 150px;
+    /* No specific styles needed here as grid handles it */
 }
 
 /* Brand Column */
@@ -59,7 +56,7 @@
     color: rgba(255, 255, 255, 0.35);
     line-height: 1.8;
     font-weight: 400;
-    max-width: 400px;
+    max-width: 100%;
     word-break: keep-all;
     overflow-wrap: break-word;
     margin-bottom: 2rem;
@@ -157,12 +154,12 @@
 @media (max-width: 768px) {
     .grid {
         grid-template-columns: 1fr 1fr;
-        gap: 3rem 1.5rem;
+        gap: 2.5rem 1rem;
         margin-bottom: 3rem;
     }
     .grid > div:first-child {
         grid-column: 1 / -1;
-        margin-bottom: 0;
+        margin-bottom: 1rem;
     }
     .footerBody { padding-top: 3.5rem; padding-bottom: 2.5rem; }
     .brandDesc { 
