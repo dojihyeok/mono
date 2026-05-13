@@ -11,60 +11,91 @@
 .greetingSection {
     margin-bottom: 0.5rem;
     padding: 0 0.25rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
 }
 
-.brandBadge {
-    display: inline-block;
-    font-size: 0.75rem;
+.levelBadge {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.7rem;
     font-weight: 800;
     color: #3182f6;
-    margin-bottom: 0.5rem;
+    background: rgba(49, 130, 246, 0.1);
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-bottom: 0.75rem;
     letter-spacing: 0.05em;
+    width: fit-content;
+}
+
+.notifyBtn {
+    position: relative;
+    color: rgba(255, 255, 255, 0.4);
+    padding: 8px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 12px;
+}
+
+.notifyDot {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 6px;
+    height: 6px;
+    background: #ff453a;
+    border-radius: 50%;
+    border: 2px solid #000;
 }
 
 .greetingText h1 {
-    font-size: 1.35rem;
-    font-weight: 800;
+    font-size: 1.5rem;
+    font-weight: 900;
     color: #fff;
     margin: 0 0 0.5rem 0;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.03em;
 }
 
 .greetingSub {
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     color: rgba(255, 255, 255, 0.4);
+    font-weight: 500;
 }
 
 /* Status Card */
 .statusCard {
     background: #111;
     border-radius: 28px;
-    padding: 1.75rem;
+    padding: 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.03);
 }
 
 .statusHeader {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    margin-bottom: 1rem;
+    margin-bottom: 1.25rem;
 }
 
 .statusLabel {
     font-size: 0.85rem;
     color: rgba(255, 255, 255, 0.4);
     font-weight: 600;
-    margin-bottom: 0.4rem;
+    margin-bottom: 0.5rem;
 }
 
 .statusValue {
-    font-size: 1.75rem;
+    font-size: 2.25rem;
     font-weight: 900;
     color: #fff;
     margin: 0;
+    letter-spacing: -0.02em;
 }
 
 .statusValue span {
-    font-size: 1rem;
+    font-size: 1.25rem;
     font-weight: 700;
     margin-left: 4px;
 }
@@ -72,8 +103,8 @@
 .statusIcon {
     color: #3182f6;
     background: rgba(49, 130, 246, 0.1);
-    width: 36px;
-    height: 36px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -81,11 +112,11 @@
 }
 
 .progressBox {
-    margin-top: 1.25rem;
+    margin-top: 1.5rem;
 }
 
 .progressTrack {
-    height: 6px;
+    height: 8px;
     background: rgba(255, 255, 255, 0.05);
     border-radius: 4px;
     overflow: hidden;
@@ -94,33 +125,34 @@
 
 .progressFill {
     height: 100%;
-    background: #3182f6;
+    background: linear-gradient(90deg, #3182f6, #64d2ff);
     border-radius: 4px;
 }
 
 .progressLabels {
     display: flex;
     justify-content: space-between;
-    font-size: 0.75rem;
-    font-weight: 600;
-    color: rgba(255, 255, 255, 0.3);
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.25);
 }
 
 /* Insight Card */
 .insightCard {
     background: #111;
     border-radius: 24px;
-    padding: 1.25rem;
+    padding: 1.5rem;
     display: flex;
-    gap: 1rem;
+    gap: 1.25rem;
     align-items: center;
+    position: relative;
 }
 
 .insightIcon {
-    width: 40px;
-    height: 40px;
+    width: 44px;
+    height: 44px;
     background: rgba(48, 209, 88, 0.1);
-    border-radius: 12px;
+    border-radius: 14px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -129,18 +161,74 @@
 }
 
 .insightContent h3 {
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     font-weight: 800;
     color: #30d158;
-    margin: 0 0 0.2rem 0;
+    margin: 0 0 0.35rem 0;
 }
 
 .insightContent p {
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     color: rgba(255, 255, 255, 0.6);
     margin: 0;
-    line-height: 1.4;
+    line-height: 1.5;
     word-break: keep-all;
+}
+
+.insightArrow {
+    color: rgba(255, 255, 255, 0.2);
+    margin-left: auto;
+}
+
+/* Global Banner */
+.globalBanner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(135deg, #000 0%, #111 100%);
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    border-radius: 24px;
+    padding: 2rem;
+    text-decoration: none;
+    position: relative;
+    overflow: hidden;
+}
+
+.globalBanner::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at top right, rgba(212, 175, 55, 0.05) 0%, transparent 70%);
+}
+
+.globalLabel {
+    font-size: 0.7rem;
+    font-weight: 900;
+    color: #D4AF37;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.75rem;
+}
+
+.globalContent h3 {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 0.4rem;
+}
+
+.globalContent p {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.4);
+    font-weight: 500;
+}
+
+.globalIcon {
+    color: #D4AF37;
+    opacity: 0.5;
+    filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.2));
 }
 
 /* Section Header */
@@ -148,28 +236,24 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 1rem;
-    padding: 0 0.25rem;
+    margin-bottom: 1.25rem;
+    padding: 0 0.5rem;
 }
 
 .sectionTitle {
-    font-size: 1.1rem;
-    font-weight: 800;
-    color: #fff;
-}
-
-.seeAll {
-    font-size: 0.85rem;
+    font-size: 1rem;
+    font-weight: 900;
     color: rgba(255, 255, 255, 0.3);
-    text-decoration: none;
-    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
 }
 
 /* Job Card */
 .jobCard {
-    background: #111;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
     border-radius: 24px;
-    padding: 1.5rem;
+    padding: 1.75rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -178,81 +262,87 @@
 
 .jobMatch {
     font-size: 0.7rem;
-    font-weight: 700;
-    color: #30d158;
-    background: rgba(48, 209, 88, 0.1);
-    padding: 0.2rem 0.5rem;
+    font-weight: 800;
+    color: #ff6b00;
+    background: rgba(255, 107, 0, 0.1);
+    padding: 3px 8px;
     border-radius: 6px;
     display: inline-block;
     margin-bottom: 0.5rem;
 }
 
 .jobTitle {
-    font-size: 1rem;
+    font-size: 1.1rem;
     font-weight: 800;
     color: #fff;
-    margin-bottom: 0.3rem;
+    margin-bottom: 0.4rem;
 }
 
 .jobLoc {
     font-size: 0.9rem;
     color: rgba(255, 255, 255, 0.3);
-    font-weight: 500;
+    font-weight: 600;
 }
 
 .applyBtn {
-    background: #3182f6;
-    color: #fff;
+    background: #fff;
+    color: #000;
     border: none;
-    padding: 0.75rem 1.25rem;
-    border-radius: 12px;
+    padding: 0.85rem 1.5rem;
+    border-radius: 14px;
     font-size: 0.95rem;
-    font-weight: 700;
+    font-weight: 900;
     cursor: pointer;
     white-space: nowrap;
 }
 
 /* Quick Service */
-.quickSection {
-    margin-top: 1rem;
-}
-
 .quickGrid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 0.75rem;
-    margin-top: 1.25rem;
+    margin-top: 1rem;
 }
 
 .quickItem {
     background: #111;
     border-radius: 24px;
-    padding: 1.5rem 0.5rem;
+    padding: 1.5rem 0.25rem;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 0.75rem;
     text-decoration: none;
-    transition: background 0.2s;
+    transition: all 0.2s;
 }
 
 .quickItem:active {
+    transform: scale(0.95);
     background: #1a1a1a;
 }
 
 .quickIconBox {
     color: #fff;
-    width: 48px;
-    height: 48px;
+    width: 44px;
+    height: 44px;
     background: rgba(255, 255, 255, 0.03);
-    border-radius: 16px;
+    border-radius: 14px;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 .quickItem span {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     color: #fff;
-    font-weight: 700;
+    font-weight: 800;
+}
+
+@media (max-width: 480px) {
+    .homeContainer { padding: 1rem; }
+    .statusCard { padding: 1.5rem; }
+    .statusValue { font-size: 1.75rem; }
+    .globalBanner { padding: 1.5rem; }
+    .globalContent h3 { font-size: 1.05rem; }
+    .quickItem span { font-size: 0.7rem; }
 }
