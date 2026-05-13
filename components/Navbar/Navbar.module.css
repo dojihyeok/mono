@@ -4,7 +4,7 @@
     left: 0;
     right: 0;
     height: 65px;
-    background: rgba(0, 0, 0, 0.7);
+    background: var(--glass);
     backdrop-filter: blur(25px);
     -webkit-backdrop-filter: blur(25px);
     border-bottom: 1px solid var(--border);
@@ -24,11 +24,11 @@
 }
 
 .logo {
-    font-size: 1rem;
+    font-size: 1.1rem;
     font-weight: 900;
     color: var(--text-primary);
     text-decoration: none;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.05em;
 }
 
 .ctaGroup {
@@ -60,7 +60,7 @@
 
 .loginBtn {
     background: var(--primary);
-    color: #fff;
+    color: var(--foreground);
     padding: 8px 16px;
     border-radius: 10px;
     font-size: 0.85rem;
