@@ -12,6 +12,8 @@ interface NavbarProps {
     onToggleLogin?: () => void;
 }
 
+import ThemeSwitcher from '../ThemeSwitcher/ThemeSwitcher';
+
 export default function Navbar({ isLoggedIn = false, onToggleLogin }: NavbarProps) {
     const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
     const pathname = usePathname();
@@ -27,6 +29,7 @@ export default function Navbar({ isLoggedIn = false, onToggleLogin }: NavbarProp
                 </Link>
 
                 <div className={styles.ctaGroup}>
+                    <ThemeSwitcher />
                     {isLoggedIn ? (
                         <>
                             <TacticalAlerts />
@@ -50,3 +53,4 @@ export default function Navbar({ isLoggedIn = false, onToggleLogin }: NavbarProp
         </header>
     );
 }
+

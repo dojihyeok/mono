@@ -1,36 +1,76 @@
-:root {
+:root, [data-theme='original'] {
   --background: #000000;
   --foreground: #ffffff;
-  
-  /* Super App Palette */
-  --primary: #3182f6; /* Toss-style Blue */
+  --primary: #3182f6; 
   --primary-soft: rgba(49, 130, 246, 0.1);
-  --accent: #D4AF37; /* Premium Gold */
-  
+  --accent: #D4AF37;
   --surface: #0a0a0c;
   --surface-raised: #141416;
   --surface-overlay: rgba(255, 255, 255, 0.03);
-  
   --border: rgba(255, 255, 255, 0.05);
   --border-strong: rgba(255, 255, 255, 0.1);
-  
   --text-primary: #ffffff;
   --text-secondary: rgba(255, 255, 255, 0.6);
   --text-tertiary: rgba(255, 255, 255, 0.3);
-  
   --font-sans: 'Pretendard Variable', 'Pretendard', 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-  
   --radius-xl: 32px;
   --radius-lg: 24px;
   --radius-md: 16px;
   --radius-sm: 12px;
-  
   --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.1);
   --shadow-md: 0 12px 24px rgba(0, 0, 0, 0.2);
   --shadow-lg: 0 24px 48px rgba(0, 0, 0, 0.4);
-
   --app-max-width: 600px;
 }
+
+[data-theme='sky'] {
+  --background: #f0f7ff;
+  --foreground: #001a33;
+  --primary: #007aff;
+  --primary-soft: rgba(0, 122, 255, 0.1);
+  --accent: #0056b3;
+  --surface: #ffffff;
+  --surface-raised: #f5faff;
+  --surface-overlay: rgba(0, 0, 0, 0.02);
+  --border: rgba(0, 122, 255, 0.1);
+  --border-strong: rgba(0, 122, 255, 0.2);
+  --text-primary: #001a33;
+  --text-secondary: #334d66;
+  --text-tertiary: #668099;
+}
+
+[data-theme='recommend1'] {
+  --background: #f5f5f7;
+  --foreground: #1d1d1f;
+  --primary: #000000;
+  --primary-soft: rgba(0, 0, 0, 0.05);
+  --accent: #86868b;
+  --surface: #ffffff;
+  --surface-raised: #fbfbfd;
+  --surface-overlay: rgba(0, 0, 0, 0.01);
+  --border: rgba(0, 0, 0, 0.1);
+  --border-strong: rgba(0, 0, 0, 0.15);
+  --text-primary: #1d1d1f;
+  --text-secondary: #424245;
+  --text-tertiary: #86868b;
+}
+
+[data-theme='recommend2'] {
+  --background: #fafaf8;
+  --foreground: #2c2c2e;
+  --primary: #8e8e93;
+  --primary-soft: rgba(142, 142, 147, 0.1);
+  --accent: #2c2c2e;
+  --surface: #ffffff;
+  --surface-raised: #f2f2f7;
+  --surface-overlay: rgba(0, 0, 0, 0.02);
+  --border: rgba(0, 0, 0, 0.05);
+  --border-strong: rgba(0, 0, 0, 0.1);
+  --text-primary: #2c2c2e;
+  --text-secondary: #4a4a4c;
+  --text-tertiary: #a1a1a6;
+}
+
 
 * {
   box-sizing: border-box;

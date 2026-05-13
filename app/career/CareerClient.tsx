@@ -1,240 +1,192 @@
 'use client';
 
 import { useState } from 'react';
-import GlassCard from '@/components/UI/GlassCard';
 import styles from './career.module.css';
 import { 
-  ShieldCheck, 
-  Award, 
-  MapPin, 
-  Calendar, 
-  QrCode, 
-  Activity, 
-  HardHat, 
-  Wrench, 
-  CheckCircle2,
-  Lock,
-  ChevronRight,
-  TrendingUp,
-  FileCode2,
-  BrainCircuit,
-  Cpu,
-  Target,
-  BarChart3,
-  Scan,
-  Download,
-  Printer
+    Award, 
+    ShieldCheck, 
+    ChevronRight,
+    MapPin,
+    Calendar,
+    Download,
+    Cpu,
+    Zap,
+    Briefcase,
+    Star,
+    Share2,
+    CheckCircle2
 } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export default function CareerClient() {
-  const [isExporting, setIsExporting] = useState(false);
+    const [activeTab, setActiveTab] = useState<'passport' | 'history'>('passport');
 
-  const handleExport = (format: 'PDF' | 'IMAGE') => {
-    setIsExporting(true);
-    setTimeout(() => {
-      alert(`AI 기술 자산 증명서가 ${format} 형식으로 생성되었습니다.`);
-      setIsExporting(false);
-    }, 2000);
-  };
+    return (
+        <div className={styles.careerContainer}>
+            {/* 1. Header */}
+            <header className={styles.careerHeader}>
+                <h1>내 커리어</h1>
+                <button className={styles.shareBtn}><Share2 size={20} /></button>
+            </header>
 
-  const [activeTab, setActiveTab] = useState<'history' | 'passport' | 'academy'>('history');
+            {/* 2. Main Passport Card */}
+            <section className={styles.passportHero}>
+                <div className={styles.passportCard}>
+                    <div className={styles.cardGlow} />
+                    <div className={styles.cardHeader}>
+                        <div className={styles.identity}>
+                            <div className={styles.avatar}>K</div>
+                            <div className={styles.nameInfo}>
+                                <h2>김마스터</h2>
+                                <span>배관 특급 기술자</span>
+                            </div>
+                        </div>
+                        <div className={styles.officialBadge}>
+                            <Award size={24} />
+                            <span>CERTIFIED</span>
+                        </div>
+                    </div>
+                    
+                    <div className={styles.cardStats}>
+                        <div className={styles.statItem}>
+                            <span>출역 일수</span>
+                            <strong>342일</strong>
+                        </div>
+                        <div className={styles.statItem}>
+                            <span>안전 평점</span>
+                            <strong>4.9/5.0</strong>
+                        </div>
+                        <div className={styles.statItem}>
+                            <span>기술 지수</span>
+                            <strong>980</strong>
+                        </div>
+                    </div>
 
-  return (
-    <div className={styles.container}>
-      <header className={styles.header} style={{ marginBottom: '2rem' }}>
-        <h1 className={styles.title} style={{ fontSize: '2rem' }}>내 커리어</h1>
-      </header>
+                    <div className={styles.verificationRow}>
+                        <ShieldCheck size={14} />
+                        모노 블록체인 기술 증명 완료
+                    </div>
+                </div>
+            </section>
 
-      {/* Level & Stats (Persistent Header) */}
-      <section className={styles.statsSection}>
-        <GlassCard className={styles.levelCard}>
-          <div className={styles.levelHeader}>
-            <span className={styles.badge}>
-              <Award size={24} color="#D4AF37" />
-              배관 베테랑 기술자
-            </span>
-          </div>
-          <p className={styles.levelDesc}>
-            <Cpu size={14} style={{display: 'inline', marginRight: '8px'}} />
-            현장 작업 10년차 | 최고 등급 기술자
-          </p>
-        </GlassCard>
+            {/* 3. Navigation */}
+            <nav className={styles.careerNav}>
+                <button 
+                    className={`${styles.navBtn} ${activeTab === 'passport' ? styles.active : ''}`}
+                    onClick={() => setActiveTab('passport')}
+                >
+                    기술 인증
+                </button>
+                <button 
+                    className={`${styles.navBtn} ${activeTab === 'history' ? styles.active : ''}`}
+                    onClick={() => setActiveTab('history')}
+                >
+                    경력 이력
+                </button>
+            </nav>
 
-        <div className={styles.grid2}>
-          <GlassCard>
-            <h3 className={styles.statLabel}>
-              <Calendar size={14} color="#D4AF37" />
-              모노 출역 일수
-            </h3>
-            <p className={styles.statValue}>342일</p>
-          </GlassCard>
-          <GlassCard>
-            <h3 className={styles.statLabel}>
-              <ShieldCheck size={14} color="#D4AF37" />
-              안전 평가
-            </h3>
-            <p className={styles.statValue}>최우수</p>
-          </GlassCard>
+            {/* 4. Content Content Area */}
+            <main className={styles.mainContent}>
+                <AnimatePresence mode="wait">
+                    {activeTab === 'passport' ? (
+                        <motion.div 
+                            key="passport"
+                            initial={{ opacity: 0, x: -10 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            exit={{ opacity: 0, x: 10 }}
+                            className={styles.skillSection}
+                        >
+                            <div className={styles.sectionHeader}>
+                                <h3>핵심 보유 기술</h3>
+                                <button className={styles.detailBtn}>전체보기</button>
+                            </div>
+                            
+                            <div className={styles.skillGrid}>
+                                <div className={styles.skillItem}>
+                                    <div className={styles.skillLabel}>
+                                        <span>고압 배관 설계</span>
+                                        <strong>MASTER</strong>
+                                    </div>
+                                    <div className={styles.progressBar}><div className={styles.progressFill} style={{ width: '95%' }} /></div>
+                                </div>
+                                <div className={styles.skillItem}>
+                                    <div className={styles.skillLabel}>
+                                        <span>TIG 용접</span>
+                                        <strong>EXPERT</strong>
+                                    </div>
+                                    <div className={styles.progressBar}><div className={styles.progressFill} style={{ width: '88%' }} /></div>
+                                </div>
+                            </div>
+
+                            <div className={styles.certSection}>
+                                <h3>보유 자격증</h3>
+                                <div className={styles.certList}>
+                                    <div className={styles.certItem}>
+                                        <div className={styles.certIcon}><Cpu size={20} /></div>
+                                        <div className={styles.certInfo}>
+                                            <strong>배관기능장</strong>
+                                            <span>한국산업인력공단 · 2020.05</span>
+                                        </div>
+                                        <CheckCircle2 size={18} color="#30d158" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button className={styles.downloadBtn}>
+                                <Download size={20} />
+                                디지털 경력 증명서 PDF 저장
+                            </button>
+                        </motion.div>
+                    ) : (
+                        <motion.div 
+                            key="history"
+                            initial={{ opacity: 0, x: 10 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            exit={{ opacity: 0, x: -10 }}
+                            className={styles.historySection}
+                        >
+                            <div className={styles.timeline}>
+                                <div className={styles.timelineItem}>
+                                    <div className={styles.timeMarker} />
+                                    <div className={styles.timeContent}>
+                                        <div className={styles.timeHeader}>
+                                            <strong>평택 캠퍼스 P4 신축 (배관)</strong>
+                                            <span>2026.03 - 현재</span>
+                                        </div>
+                                        <div className={styles.timeMeta}>
+                                            <MapPin size={12} /> 삼성엔지니어링 · 경기도 평택
+                                        </div>
+                                        <div className={styles.timeBadge}>진행 중</div>
+                                    </div>
+                                </div>
+                                <div className={styles.timelineItem}>
+                                    <div className={styles.timeMarker} />
+                                    <div className={styles.timeContent}>
+                                        <div className={styles.timeHeader}>
+                                            <strong>성수 테크니컬 허브 리노베이션</strong>
+                                            <span>2026.01 - 2026.03</span>
+                                        </div>
+                                        <div className={styles.timeMeta}>
+                                            <MapPin size={12} /> 현대건설 · 서울 성수
+                                        </div>
+                                        <div className={styles.timeBadge}>완료</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
+            </main>
+
+            {/* AI Advisor Card */}
+            <aside className={styles.aiAdvisor}>
+                <div className={styles.advisorHeader}>
+                    <div className={styles.zapIcon}><Zap size={18} /></div>
+                    <strong>커리어 성장을 위한 조언</strong>
+                </div>
+                <p>현재 보유하신 <strong>배관 설계</strong> 역량에 <strong>자동화 용접</strong> 교육을 추가하시면 예상 단가가 15% 상승할 것으로 분석됩니다.</p>
+                <button className={styles.advisorBtn}>추천 강의 보기 <ChevronRight size={14} /></button>
+            </aside>
         </div>
-      </section>
-
-      <div className={styles.tabs}>
-        <button 
-          className={`${styles.tab} ${activeTab === 'history' ? styles.active : ''}`}
-          onClick={() => setActiveTab('history')}
-        >경력 수첩</button>
-        <button 
-          className={`${styles.tab} ${activeTab === 'passport' ? styles.active : ''}`}
-          onClick={() => setActiveTab('passport')}
-        >기술 여권</button>
-        <button 
-          className={`${styles.tab} ${activeTab === 'academy' ? styles.active : ''}`}
-          onClick={() => setActiveTab('academy')}
-        >아카데미</button>
-      </div>
-
-      {activeTab === 'passport' && (
-        <>
-          {/* Passport Main Section */}
-          <section className={styles.passportCard}>
-            {/* Official Certification Seal */}
-            <div className={styles.qrSection} style={{ textAlign: 'center', padding: '2rem 1rem' }}>
-              <div style={{ display: 'inline-flex', justifyContent: 'center', alignItems: 'center', width: '80px', height: '80px', borderRadius: '50%', background: 'rgba(212, 175, 55, 0.1)', border: '2px solid #D4AF37', marginBottom: '1rem' }}>
-                <ShieldCheck size={40} color="#D4AF37" />
-              </div>
-              <div>
-                <h4 style={{ fontSize: '1.2rem', marginBottom: '8px', color: '#D4AF37' }}>모노(MONO) 공식 기술 인증</h4>
-                <p style={{ fontSize: '0.95rem', color: 'rgba(255,255,255,0.7)', lineHeight: '1.5' }}>
-                  본 기술 여권은 블록체인 기반으로 위변조가 불가능하며,<br/>
-                  전문가님의 신원 및 기술 등급을 공식적으로 보증합니다.
-                </p>
-              </div>
-            </div>
-
-            {/* Equipment Showcase */}
-            <div className={styles.equipmentSection}>
-              <h3 className={styles.sectionTitle}>
-                  <BarChart3 size={18} color="#D4AF37" />
-                  내가 보유한 장비
-              </h3>
-              <div className={styles.equipmentGrid}>
-                <div className={styles.equipmentItem}>
-                  <div className={styles.eqIcon}><Wrench size={20} color="#D4AF37" /></div>
-                  <div className={styles.eqInfo}>
-                    <h5 style={{ fontSize: '1rem' }}>힐티 함마드릴 (TE-60)</h5>
-                  </div>
-                </div>
-                <div className={styles.equipmentItem}>
-                  <div className={styles.eqIcon}><HardHat size={20} color="#D4AF37" /></div>
-                  <div className={styles.eqInfo}>
-                    <h5 style={{ fontSize: '1rem' }}>안전 고글 및 보호구</h5>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-
-          <div className={styles.exportActions} style={{ marginTop: '2rem' }}>
-            <button 
-              className={styles.resumeBtn} 
-              onClick={() => handleExport('PDF')}
-              disabled={isExporting}
-            >
-              <FileCode2 size={20} />
-              {isExporting ? '경력 증명서 만드는 중...' : '내 경력 증명서 내려받기'}
-            </button>
-          </div>
-        </>
-      )}
-
-      {activeTab === 'history' && (
-        <>
-
-
-          {/* AI Career Insight Section */}
-          <section className={styles.aiInsightSection}>
-            <div className={styles.aiHeader}>
-              <h2 className={styles.sectionTitle}>
-                  <Activity size={20} color="#D4AF37" />
-                  모컬 반장의 한줄 평
-              </h2>
-            </div>
-
-            <GlassCard className={styles.aiReportCard}>
-              <p className={styles.aiMessage} style={{ fontSize: '1rem', lineHeight: '1.6' }}>
-                "선생님은 최근 2년간 <span className={styles.aiHighlight}>반도체 현장 배관 작업</span>을 아주 훌륭하게 해내셨습니다. 특히 <span className={styles.aiHighlight}>단 한 번의 사고도 없이 안전 수칙을 완벽하게 지키셔서</span> 현장 소장님들이 가장 모시고 싶어 하는 기술자입니다."
-              </p>
-            </GlassCard>
-
-            <div className={styles.globalActionGrid}>
-              <GlassCard className={styles.globalCard}>
-                <span className={styles.cardLabel}>다음 현장 추천 점수</span>
-                <div className={styles.cardValue}>100점</div>
-                <p className={styles.subtitle} style={{fontSize: '0.85rem'}}>어느 현장이든 환영받습니다</p>
-              </GlassCard>
-              <GlassCard className={styles.globalCard}>
-                <span className={styles.cardLabel}>추천 일당</span>
-                <div className={styles.cardValue}>21만원 ~</div>
-                <div className={styles.rewardIndicator}>최고 대우</div>
-              </GlassCard>
-            </div>
-          </section>
-
-          {/* Digital Career Log */}
-          <section className={styles.historySection}>
-            <div className={styles.sectionHeader}>
-              <h2 className={styles.sectionTitle}>그동안 일하신 현장</h2>
-            </div>
-
-            <div className={styles.historyList}>
-              <GlassCard className={styles.historyItem}>
-                <div className={styles.historyMeta}>
-                  <span className={styles.historyDate}>2026. 03. 25</span>
-                  <span className={styles.historyStatus}>작업 완료</span>
-                </div>
-                <h3 className={styles.historyTitle} style={{ fontSize: '1.1rem' }}>반도체 평택 캠퍼스 P4 신축 (배관)</h3>
-                <p className={styles.historyCompany} style={{ fontSize: '0.95rem' }}>
-                  <MapPin size={14} style={{marginRight: '8px'}} /> 경기도 평택시 | 삼성엔지니어링
-                </p>
-              </GlassCard>
-
-              <GlassCard className={styles.historyItem}>
-                <div className={styles.historyMeta}>
-                  <span className={styles.historyDate}>2026. 03. 20</span>
-                  <span className={styles.historyStatus}>작업 완료</span>
-                </div>
-                <h3 className={styles.historyTitle} style={{ fontSize: '1.1rem' }}>성수 테크니컬 허브 리노베이션</h3>
-                <p className={styles.historyCompany} style={{ fontSize: '0.95rem' }}>
-                  <MapPin size={14} style={{marginRight: '8px'}} /> 서울시 성동구 | 현대건설
-                </p>
-              </GlassCard>
-            </div>
-          </section>
-        </>
-      )}
-
-      {activeTab === 'academy' && (
-        <section className={styles.aiInsightSection}>
-          <div className={styles.sectionHeader}>
-            <h2 className={styles.sectionTitle}>아카데미 수료 내역</h2>
-          </div>
-          
-          <div className={styles.safetyBadgesRow}>
-              <div className={styles.safetyBadge}>기초안전보건교육</div>
-              <div className={styles.safetyBadge}>고소작업 이수</div>
-              <div className={styles.safetyBadge}>화재 감시자</div>
-          </div>
-
-          <div style={{ marginTop: '2rem' }}>
-            <GlassCard className={styles.historyItem}>
-              <h3 className={styles.historyTitle} style={{ fontSize: '1.1rem', marginBottom: '8px' }}>단가 올리는 배관 심화 과정 (온라인)</h3>
-              <p className={styles.historyCompany} style={{ fontSize: '0.95rem', color: '#D4AF37' }}>
-                현재 수강 중 - 진도율 75%
-              </p>
-            </GlassCard>
-          </div>
-        </section>
-      )}
-    </div>
-  );
+    );
 }

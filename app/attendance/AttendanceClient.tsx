@@ -2,30 +2,31 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import Navbar from '@/components/Navbar/Navbar';
-import GlassCard from '@/components/UI/GlassCard';
-import Button from '@/components/UI/Button';
 import styles from './page.module.css';
 import { 
-  Bus, 
-  MapPin, 
-  Clock, 
-  Navigation, 
-  ShieldCheck, 
-  ChevronRight,
-  Armchair,
-  CheckCircle2,
-  AlertTriangle,
-  FileText,
-  Camera,
-  Activity,
-  ArrowRight
+    MapPin, 
+    Clock, 
+    ShieldCheck, 
+    ChevronRight,
+    CheckCircle2,
+    AlertTriangle,
+    Camera,
+    Activity,
+    ArrowRight,
+    Mic,
+    Radio,
+    Bus,
+    Armchair,
+    History,
+    Zap,
+    Users
 } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const SITE_DATA = {
     name: '청담동 고급 빌라 신축 현장',
     location: '서울특별시 강남구 청담동 124-5',
-    distance: 0.15, // km
+    distance: 0.15,
     weather: '맑음, 21˚C',
     shiftStart: '08:00',
     currentTeam: [
@@ -36,31 +37,25 @@ const SITE_DATA = {
 };
 
 const VEHICLE_DATA = {
-    id: 'V-102',
-    model: 'Hyundai Staria Technician Van',
     plate: '52 가 1234',
-    driver: '김영수 기사님',
-    status: 'GATHERING',
+    model: 'Hyundai Staria',
     eta: '12분 뒤',
     seats: [
-        { id: 1, occupied: true, name: '이기술자' },
-        { id: 2, occupied: true, name: '박기술자' },
-        { id: 3, occupied: false },
-        { id: 4, occupied: true, name: '최보조' },
+        { id: 1, occupied: true },
+        { id: 2, occupied: true },
+        { id: 3, occupied: false }, // User seat
+        { id: 4, occupied: true },
         { id: 5, occupied: false },
         { id: 6, occupied: false },
-        { id: 7, occupied: false },
-        { id: 8, occupied: false },
-        { id: 9, occupied: false },
     ]
 };
 
+type WorkStatus = 'IDLE' | 'SHUTTLE' | 'GEOFENCE' | 'AUTH' | 'WORKING' | 'FINISH';
+
 export default function AttendanceClient() {
-    const [status, setStatus] = useState<'IDLE' | 'GATHERING' | 'BOARDED' | 'GPS_CHECKED' | 'PPE_SCAN' | 'WORKING' | 'SETTLED'>('IDLE');
+    const [status, setStatus] = useState<WorkStatus>('IDLE');
     const [timer, setTimer] = useState(0);
-    const [sosActive, setSosActive] = useState(false);
     const [isScanning, setIsScanning] = useState(false);
-    const [scanStep, setScanStep] = useState(0);
 
     useEffect(() => {
         let interval: NodeJS.Timeout;
@@ -77,264 +72,167 @@ export default function AttendanceClient() {
         return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
     };
 
-    const handleStartGathering = () => {
-        setStatus('GATHERING');
-    };
-
-    const handleBoarding = () => {
-        setStatus('BOARDED');
-        setTimeout(() => setStatus('GPS_CHECKED'), 1500); 
-    };
-
-    const handleSos = () => {
-        setSosActive(true);
-        setTimeout(() => {
-            if (confirm('긴급 SOS 지원이 필요한 상황인가요? 현장 관리 센터와 주변 동료들에게 위치가 전송됩니다.')) {
-                alert('SOS 신호가 정상적으로 전송되었습니다. 즉시 지원팀이 출동합니다.');
-            } else {
-                setSosActive(false);
-            }
-        }, 100);
-    };
-
-    const handlePpeAuth = () => {
-        setIsScanning(true);
-        setScanStep(0);
-        
-        setTimeout(() => setScanStep(1), 1000); 
-        setTimeout(() => setScanStep(2), 2000); 
-        setTimeout(() => {
-            setIsScanning(false);
-            setStatus('WORKING');
-            setTimer(0);
-        }, 3000);
-    };
-
-    const handleCheckout = () => {
-        setStatus('SETTLED');
-    };
-
     return (
         <div className={styles.pageWrap}>
-            <Navbar />
-            
-            <main className={styles.main}>
-                {/* 1. Map Area */}
-                <section className={styles.mapSection}>
-                    <div className={styles.mapMock}>
-                        <div className={styles.geofenceRing}></div>
-                        <div className={styles.userMarker}>
-                            <div className={styles.markerPulse}></div>
+            {/* Native Header */}
+            <header className={styles.attendanceHeader}>
+                <div className={styles.headerInfo}>
+                    <span className={styles.dateLabel}>5월 13일 수요일</span>
+                    <h1>현장 활동</h1>
+                </div>
+                <div className={styles.headerActions}>
+                    <button className={styles.iconBtn}><History size={22} /></button>
+                </div>
+            </header>
+
+            {/* Dynamic Activity Hub */}
+            <main className={styles.activityHub}>
+                {/* 1. Status Hero Section */}
+                <section className={styles.statusHero}>
+                    <div className={styles.siteInfoCard}>
+                        <div className={styles.siteHeader}>
+                            <div className={styles.badge}><Activity size={12} /> 실시간 안전 관제 중</div>
+                            <h2>{SITE_DATA.name}</h2>
+                            <p>📍 {SITE_DATA.location}</p>
                         </div>
-                        <div className={styles.mapLabel}>오늘의 현장: {SITE_DATA.name}</div>
+                        <div className={styles.weatherInfo}>
+                            <span>{SITE_DATA.weather}</span>
+                        </div>
+                    </div>
+
+                    <div className={styles.mainActionArea}>
+                        <AnimatePresence mode="wait">
+                            {status === 'IDLE' && (
+                                <motion.div key="idle" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className={styles.actionState}>
+                                    <div className={styles.timeInfo}>
+                                        <span>오늘의 집결 시간</span>
+                                        <strong>오전 06:00</strong>
+                                    </div>
+                                    <button className={styles.primaryBtn} onClick={() => setStatus('SHUTTLE')}>집결지 도착 확인</button>
+                                </motion.div>
+                            )}
+
+                            {status === 'SHUTTLE' && (
+                                <motion.div key="shuttle" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className={styles.actionState}>
+                                    <div className={styles.shuttleInfo}>
+                                        <div className={styles.shuttleHeader}>
+                                            <Bus size={20} />
+                                            <span>셔틀 도착 예정 · {VEHICLE_DATA.eta}</span>
+                                        </div>
+                                        <div className={styles.shuttleDetails}>
+                                            <strong>{VEHICLE_DATA.plate} ({VEHICLE_DATA.model})</strong>
+                                            <p>3번 좌석에 탑승해 주세요.</p>
+                                        </div>
+                                    </div>
+                                    <button className={styles.primaryBtn} onClick={() => setStatus('GEOFENCE')}>셔틀 탑승 완료</button>
+                                </motion.div>
+                            )}
+
+                            {status === 'GEOFENCE' && (
+                                <motion.div key="geofence" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className={styles.actionState}>
+                                    <div className={styles.gpsVerified}>
+                                        <CheckCircle2 size={32} color="#30d158" />
+                                        <strong>현장 도착 확인됨</strong>
+                                        <p>현장 반경 내에 정상 진입했습니다.</p>
+                                    </div>
+                                    <button className={styles.primaryBtn} onClick={() => setStatus('AUTH')}>안전 장비 착용 인증</button>
+                                </motion.div>
+                            )}
+
+                            {status === 'AUTH' && (
+                                <motion.div key="auth" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className={styles.actionState}>
+                                    <div className={styles.scannerBox}>
+                                        <div className={styles.scannerFrame}>
+                                            <div className={styles.scanLine} />
+                                            <Camera size={48} opacity={0.3} />
+                                            {isScanning && <span className={styles.scanLabel}>AI 장비 분석 중...</span>}
+                                        </div>
+                                        <p>전신이 보이도록 카메라를 응시해 주세요.</p>
+                                    </div>
+                                    <button className={styles.primaryBtn} onClick={() => {
+                                        setIsScanning(true);
+                                        setTimeout(() => {
+                                            setIsScanning(false);
+                                            setStatus('WORKING');
+                                        }, 2000);
+                                    }}>인증 및 작업 시작</button>
+                                </motion.div>
+                            )}
+
+                            {status === 'WORKING' && (
+                                <motion.div key="working" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className={styles.actionState}>
+                                    <div className={styles.workTimer}>
+                                        <span className={styles.pulse} />
+                                        <div className={styles.timerValue}>{formatTime(timer)}</div>
+                                        <p>오늘의 실시간 누적 수당: ₩ 145,200</p>
+                                    </div>
+                                    <button className={styles.secondaryBtn} onClick={() => setStatus('FINISH')}>작업 종료 및 퇴근</button>
+                                </motion.div>
+                            )}
+
+                            {status === 'FINISH' && (
+                                <motion.div key="finish" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className={styles.actionState}>
+                                    <div className={styles.finishSummary}>
+                                        <div className={styles.summaryIcon}><Zap size={32} color="#D4AF37" /></div>
+                                        <h3>오늘도 고생하셨습니다!</h3>
+                                        <div className={styles.summaryGrid}>
+                                            <div className={styles.sumItem}><span>작업 시간</span><strong>8시간 22분</strong></div>
+                                            <div className={styles.sumItem}><span>예상 정산금</span><strong>₩ 195,000</strong></div>
+                                        </div>
+                                    </div>
+                                    <Link href="/settlement" className={styles.primaryBtn}>정산 결과 확인</Link>
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
                     </div>
                 </section>
 
-                {/* 2. Site Header */}
-                <header className={styles.header}>
-                    <div className={styles.siteHeader}>
-                        <div className={styles.commandBadge}>
-                            <Activity size={12} /> 실시간으로 안전을 확인하고 있어요
-                        </div>
-                        <h1 className={styles.siteTitle}>{SITE_DATA.name}</h1>
-                        <span className={styles.weatherTag}>☀️ {SITE_DATA.weather} (강남구 청담동)</span>
+                {/* 2. Field Controls */}
+                <section className={styles.fieldControls}>
+                    <div className={styles.controlGrid}>
+                        <button className={styles.controlBtn}>
+                            <div className={styles.iconBox}><Radio size={20} /></div>
+                            <span>무전기</span>
+                        </button>
+                        <button className={styles.controlBtn}>
+                            <div className={styles.iconBox}><Users size={20} /></div>
+                            <span>동료</span>
+                        </button>
+                        <button className={styles.controlBtn} style={{ color: '#ff3b30' }}>
+                            <div className={styles.iconBox} style={{ background: 'rgba(255, 59, 48, 0.1)' }}><AlertTriangle size={20} /></div>
+                            <span>긴급 SOS</span>
+                        </button>
                     </div>
-                </header>
+                </section>
 
-                {/* Floating SOS */}
-                {(status === 'GPS_CHECKED' || status === 'PPE_SCAN' || status === 'WORKING') && (
-                    <button 
-                        className={`${styles.sosBtn} ${sosActive ? styles.sosActive : ''}`}
-                        onClick={handleSos}
-                    >
-                        <AlertTriangle size={24} />
-                        <span>긴급 상황 도움 요청 (SOS)</span>
-                    </button>
-                )}
-
-                <div className={styles.actionGrid}>
-                    <GlassCard className={styles.statusCard}>
-                        {status === 'IDLE' && (
-                            <div className={styles.idleState}>
-                                <div className={styles.gatheringInfo}>
-                                    <span className={styles.timeLabel}>오늘 오전 집결 시간</span>
-                                    <h2 className={styles.gatheringTime}>오전 6:00</h2>
-                                    <p className={styles.gatheringLoc}>📍 정문 앞 맞은편 파크랜드 공원</p>
-                                </div>
-                                <Button className={styles.checkInBtn} onClick={handleStartGathering}>집결지 도착 확인</Button>
-                            </div>
-                        )}
-
-                        {status === 'GATHERING' && (
-                            <div className={styles.transitOperation}>
-                                <header className={styles.transitHeader}>
-                                    <div className={styles.transitBadge}>현장 셔틀 대기 중</div>
-                                    <h3 className={styles.transitTitle}>셔틀 차량이 배차되었습니다</h3>
-                                </header>
-                                
-                                <div className={styles.vehicleCard}>
-                                    <div className={styles.vehicleIcon}>
-                                        <Bus size={36} color="#D4AF37" />
-                                    </div>
-                                    <div className={styles.vehicleInfo}>
-                                        <div className={styles.plate}>{VEHICLE_DATA.plate}</div>
-                                        <div className={styles.model}>{VEHICLE_DATA.model}</div>
-                                        <div className={styles.driver}>{VEHICLE_DATA.driver} (운행 담당자)</div>
-                                    </div>
-                                    <div className={styles.etaBox}>
-                                        <span className={styles.etaTime}>{VEHICLE_DATA.eta} 출발 예정</span>
-                                    </div>
-                                </div>
-
-                                <div className={styles.seatMapSection}>
-                                    <h4 style={{fontSize: '14px', color: '#fff', marginBottom: '1.5rem', fontWeight: 800}}>기술자님의 전용 지정 좌석</h4>
-                                    <div className={styles.seatGrid}>
-                                        {VEHICLE_DATA.seats.map(seat => (
-                                            <div 
-                                                key={seat.id} 
-                                                className={`${styles.seat} ${seat.occupied ? styles.occupied : ''} ${seat.id === 3 ? styles.mySeat : ''}`}
-                                            >
-                                                <Armchair size={20} />
-                                                <span className={styles.seatId}>{seat.id}번</span>
-                                                {seat.id === 3 && <span className={styles.myLabel}>내 자리</span>}
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-
-                                <Button className={styles.checkInBtn} onClick={handleBoarding}>3번 좌석 탑승 확인</Button>
-                            </div>
-                        )}
-
-                        {status === 'BOARDED' && (
-                            <div className={styles.transitOperation}>
-                                <header className={styles.transitHeader}>
-                                    <div className={styles.transitBadge} style={{backgroundColor: '#D4AF37', color: '#000'}}>현장으로 이동 중</div>
-                                    <h3 className={styles.transitTitle}>현장에 안전하게 모시는 중입니다</h3>
-                                </header>
-
-                                <div className={styles.boardingPass} style={{background: 'rgba(255,255,255,0.03)', padding: '2.5rem', borderRadius: '24px', border: '1px solid rgba(255,255,255,0.05)'}}>
-                                    <div style={{display: 'flex', justifyContent: 'space-between', marginBottom: '2rem'}}>
-                                        <div style={{fontSize: '12px', fontWeight: 800, color: '#D4AF37'}}>MOBILE BOARDING PASS</div>
-                                        <div style={{fontSize: '12px', color: 'rgba(255,255,255,0.2)'}}>{VEHICLE_DATA.id}</div>
-                                    </div>
-                                    <div style={{display: 'flex', gap: '3rem', marginBottom: '1.5rem'}}>
-                                        <div><label style={{fontSize: '11px', color: 'rgba(255,255,255,0.5)', display: 'block', marginBottom: '6px'}}>성함</label><strong style={{color: '#fff'}}>김모노 기술자</strong></div>
-                                        <div><label style={{fontSize: '11px', color: 'rgba(255,255,255,0.5)', display: 'block', marginBottom: '6px'}}>지정 좌석</label><strong style={{color: '#fff'}}>03번 (창가)</strong></div>
-                                    </div>
-                                    <div style={{fontSize: '15px', color: '#fff', fontWeight: 700, padding: '1rem', background: 'rgba(255,255,255,0.02)', borderRadius: '12px', display: 'flex', alignItems: 'center', gap: '10px'}}>
-                                        <CheckCircle2 size={16} color="#D4AF37" /> 공식 셔틀 차량 인증됨
-                                    </div>
+                {/* 3. Team & Activity Feed */}
+                <section className={styles.activityFeed}>
+                    <div className={styles.sectionHeader}>
+                        <h3>함께하는 팀원</h3>
+                        <span>{SITE_DATA.currentTeam.length}명 활동 중</span>
+                    </div>
+                    <div className={styles.teamSlider}>
+                        {SITE_DATA.currentTeam.map(member => (
+                            <div key={member.id} className={styles.teamMember}>
+                                <div className={styles.avatar}>{member.initial}</div>
+                                <div className={styles.memberInfo}>
+                                    <strong>{member.name}</strong>
+                                    <span>{member.role}</span>
                                 </div>
                             </div>
-                        )}
+                        ))}
+                    </div>
 
-                        {status === 'GPS_CHECKED' && (
-                            <div className={styles.idleState}>
-                                <div className={styles.gpsIndicator} style={{marginBottom: '2rem', fontSize: '1.25rem', fontWeight: 800, color: '#22C55E'}}>📍 현장 반경 내 도착이 확인되었습니다</div>
-                                <Button className={styles.checkInBtn} onClick={() => setStatus('PPE_SCAN')}>안전 장비 착용 확인 시작</Button>
-                            </div>
-                        )}
-
-                        {status === 'PPE_SCAN' && (
-                            <div className={styles.ppeState}>
-                                <div className={styles.scannerHeader}>
-                                    <h3 style={{fontSize: '1.5rem', color: '#fff', marginBottom: '1rem', fontWeight: 800}}>안전 보호구 착용 확인</h3>
-                                    <p style={{fontSize: '0.95rem', color: 'rgba(255,255,255,0.6)', lineHeight: '1.6'}}>기술자님의 소중한 안전을 위해<br/>안전모와 안전화 착용 모습을 보여주세요.</p>
-                                </div>
-                                <div className={styles.cameraFrame}>
-                                    <div className={styles.scannerLine}></div>
-                                    <div style={{position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', opacity: 0.2}}>
-                                        <Camera size={80} color="#fff" />
-                                    </div>
-                                    <div style={{position: 'absolute', bottom: '2rem', left: '0', right: '0', textAlign: 'center', fontSize: '14px', fontWeight: 800, color: '#fff'}}>
-                                        {isScanning ? (scanStep === 1 ? '✅ 안전모 인식 완료' : scanStep === 2 ? '✅ 안전화 인식 완료' : '전신 스캐닝 중...') : 'AI 인식 대기 중'}
-                                    </div>
-                                </div>
-                                <Button 
-                                    className={styles.checkInBtn} 
-                                    onClick={handlePpeAuth}
-                                    disabled={isScanning}
-                                >
-                                    {isScanning ? 'AI 장비 분석 중입니다...' : '착용 완료 및 작업 시작'}
-                                </Button>
-                            </div>
-                        )}
-
-                        {status === 'WORKING' && (
-                            <div className={styles.workState}>
-                                <span className={styles.workingLabel}>오늘의 작업 진행 중</span>
-                                <h2 className={styles.timer}>{formatTime(timer)}</h2>
-                                <div className={styles.workFooter}>
-                                    <Button variant="secondary" onClick={handleCheckout}>업무 종료 및 퇴근 인증</Button>
-                                </div>
-                            </div>
-                        )}
-
-                        {status === 'SETTLED' && (
-                            <div className={styles.settledState}>
-                                <div className={styles.successIcon}>
-                                    <CheckCircle2 size={64} color="#D4AF37" />
-                                </div>
-                                <h3 className={styles.settledTitle}>오늘 하루도 정말 고생하셨습니다!</h3>
-                                
-                                <div className={styles.summaryGrid}>
-                                    <div className={styles.summaryItem}>
-                                        <span className={styles.summaryLabel}>총 작업 시간</span>
-                                        <span className={styles.summaryValue}>{formatTime(timer)}</span>
-                                    </div>
-                                    <div className={styles.summaryItem}>
-                                        <span className={styles.summaryLabel}>오늘의 예상 수입</span>
-                                        <span className={styles.summaryValue}>₩195,000</span>
-                                    </div>
-                                </div>
-
-                                <div className={styles.safetyReport}>
-                                    <h4 className={styles.reportTitle}>
-                                        <ShieldCheck size={14} /> 오늘의 안전 리포트
-                                    </h4>
-                                    <div className={styles.reportGrid}>
-                                        <div className={styles.reportItem}>
-                                            <span className={styles.dot} style={{backgroundColor: '#22C55E'}} />
-                                            <span>안전 장비 100% 준수</span>
-                                        </div>
-                                        <div className={styles.reportItem}>
-                                            <span className={styles.dot} style={{backgroundColor: '#22C55E'}} />
-                                            <span>현장 이탈 없음</span>
-                                        </div>
-                                        <div className={styles.reportItem}>
-                                            <span className={styles.dot} style={{backgroundColor: '#22C55E'}} />
-                                            <span>위험 경보 0건</span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div style={{display: 'flex', flexDirection: 'column', gap: '1rem'}}>
-                                    <Button className={styles.checkInBtn} onClick={() => setStatus('IDLE')}>기록 저장 및 종료</Button>
-                                    <Link href="/settlement" style={{textDecoration: 'none', color: '#D4AF37', fontSize: '14px', fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px'}}>
-                                        상세 정산 리포트 확인 <ArrowRight size={14} />
-                                    </Link>
-                                </div>
-                            </div>
-                        )}
-                    </GlassCard>
-
-                    <GlassCard className={styles.teamCard}>
-                        <h3 className={styles.cardTitle}>오늘 현장에서 함께하는 분들</h3>
-                        <div className={styles.teamList}>
-                            {SITE_DATA.currentTeam.map(member => (
-                                <div key={member.id} className={styles.memberItem}>
-                                    <div className={styles.memberAvatar}>{member.initial}</div>
-                                    <div className={styles.memberInfo}>
-                                        <p className={styles.memberName}>{member.name}</p>
-                                        <span className={styles.memberRole}>{member.role} 전문</span>
-                                    </div>
-                                </div>
-                            ))}
+                    <div className={styles.safeReport}>
+                        <div className={styles.reportHeader}>
+                            <ShieldCheck size={18} color="#30d158" />
+                            <strong>AI 안전 관리 리포트</strong>
                         </div>
-                    </GlassCard>
-                </div>
+                        <p>모든 안전 수칙이 정상적으로 준수되고 있습니다. 현재 작업 환경은 <strong>안전</strong>합니다.</p>
+                    </div>
+                </section>
             </main>
         </div>
     );
 }
+

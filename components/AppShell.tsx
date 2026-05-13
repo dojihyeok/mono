@@ -18,12 +18,32 @@ export default function AppShell({ children }: AppShellProps) {
     const { isLoggedIn, toggleLogin } = useAuth();
     const { toasts, removeToast } = useUI();
     const pathname = usePathname();
-    const isAdmin = pathname?.startsWith('/admin');
+    const isAuthPage = pathname === '/login';
 
     if (isAdmin) {
         return (
             <div className="admin-shell">
                 <main className="admin-content">
+                    {children}
+                </main>
+                <AnimatePresence>
+                    {toasts.map(toast => (
+                        <Toast 
+                            key={toast.id} 
+                            message={toast.message} 
+                            type={toast.type} 
+                            onClose={() => removeToast(toast.id)} 
+                        />
+                    ))}
+                </AnimatePresence>
+            </div>
+        );
+    }
+
+    if (isAuthPage) {
+        return (
+            <div className="auth-shell">
+                <main className="auth-content">
                     {children}
                 </main>
                 <AnimatePresence>

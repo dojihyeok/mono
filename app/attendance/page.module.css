@@ -1,507 +1,433 @@
 .pageWrap {
+    padding-bottom: 6rem;
     background: #000;
     min-height: 100vh;
 }
 
-.main {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 120px 1.5rem 100px;
-}
-
-/* ── Refined Map Section (Toss Style Location) ─ */
-.mapSection {
-    margin-bottom: 3rem;
-    position: relative;
-    border-radius: 40px;
-    overflow: hidden;
-    height: 300px;
-    border: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.mapMock {
-    width: 100%;
-    height: 100%;
-    background: #0a0a0a;
-    position: relative;
+/* ── Attendance Header ── */
+.attendanceHeader {
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 2rem 1.5rem 1rem;
+    position: sticky;
+    top: 0;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+    z-index: 100;
 }
 
-.geofenceRing {
-    position: absolute;
-    width: 200px;
-    height: 200px;
-    border: 2px dashed rgba(212, 175, 55, 0.2);
-    border-radius: 50%;
-    animation: rotate 20s linear infinite;
+.headerInfo .dateLabel {
+    font-size: 0.85rem;
+    color: var(--text-tertiary);
+    font-weight: 700;
+    margin-bottom: 4px;
+    display: block;
 }
 
-@keyframes rotate {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
+.headerInfo h1 {
+    font-size: 1.75rem;
+    font-weight: 900;
+    letter-spacing: -0.04em;
 }
 
-.userMarker {
-    position: relative;
-    width: 20px;
-    height: 20px;
-    background: #D4AF37;
-    border-radius: 50%;
-    z-index: 10;
+.iconBtn {
+    background: transparent;
+    border: none;
+    color: #fff;
+    cursor: pointer;
 }
 
-.markerPulse {
-    position: absolute;
-    top: -10px;
-    left: -10px;
-    width: 40px;
-    height: 40px;
-    background: rgba(212, 175, 55, 0.3);
-    border-radius: 50%;
-    animation: pulse 2s infinite;
+/* ── Activity Hub ── */
+.activityHub {
+    padding: 0 1.5rem;
 }
 
-@keyframes pulse {
-    0% { transform: scale(1); opacity: 0.8; }
-    100% { transform: scale(2.5); opacity: 0; }
+/* ── Status Hero ── */
+.statusHero {
+    margin-bottom: 2rem;
 }
 
-.mapLabel {
-    position: absolute;
-    bottom: 30px;
-    background: #fff;
-    color: #000;
-    padding: 10px 20px;
-    border-radius: 12px;
-    font-size: 13px;
-    font-weight: 800;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+.siteInfoCard {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 28px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
 }
 
-/* ── Header Area (Native Profile) ─────────── */
-.header {
-    margin-bottom: 4rem;
-}
-
-.commandBadge {
+.siteHeader .badge {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    background: rgba(212, 175, 55, 0.1);
-    color: #D4AF37;
-    padding: 6px 14px;
-    border-radius: 8px;
-    font-size: 11px;
-    font-weight: 800;
-    margin-bottom: 1.25rem;
+    gap: 4px;
+    background: rgba(48, 209, 88, 0.1);
+    color: #30d158;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 0.7rem;
+    font-weight: 900;
+    margin-bottom: 10px;
 }
 
-.siteTitle {
-    font-size: 2.5rem;
-    font-weight: 800;
-    color: #fff;
-    margin-bottom: 1rem;
+.siteHeader h2 {
+    font-size: 1.1rem;
+    font-weight: 900;
+    margin-bottom: 4px;
+}
+
+.siteHeader p {
+    font-size: 0.8rem;
+    color: var(--text-tertiary);
+}
+
+.weatherInfo {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+}
+
+.mainActionArea {
+    background: linear-gradient(135deg, #111 0%, #000 100%);
+    border: 1px solid var(--border);
+    border-radius: 32px;
+    padding: 2.5rem 1.5rem;
+    text-align: center;
+    min-height: 280px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.actionState {
+    width: 100%;
+}
+
+.timeInfo span {
+    font-size: 1rem;
+    color: var(--text-tertiary);
+    display: block;
+    margin-bottom: 8px;
+}
+
+.timeInfo strong {
+    font-size: 3rem;
+    font-weight: 900;
+    display: block;
+    margin-bottom: 2.5rem;
     letter-spacing: -0.02em;
 }
 
-.weatherTag {
-    font-size: 14px;
-    color: rgba(255, 255, 255, 0.6);
-    font-weight: 600;
-}
-
-.location {
-    font-size: 1rem;
-    color: rgba(255, 255, 255, 0.5);
-    margin-top: 0.5rem;
-}
-
-/* ── SOS Button (Premium Emergency) ───────── */
-.sosBtn {
-    position: fixed;
-    bottom: 4rem;
-    right: 4rem;
-    background: rgba(255, 77, 77, 0.1);
-    border: 1px solid rgba(255, 77, 77, 0.3);
-    backdrop-filter: blur(12px);
-    color: #ff4d4d;
-    padding: 1.25rem 2rem;
-    border-radius: 20px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    font-size: 16px;
-    font-weight: 800;
-    z-index: 1000;
-    cursor: pointer;
-    transition: all 0.2s;
-}
-
-.sosBtn:hover {
-    background: rgba(255, 77, 77, 0.2);
-    transform: scale(1.05);
-}
-
-.sosActive {
-    background: #ff4d4d;
-    color: #fff;
-    animation: blink 1s infinite;
-}
-
-@keyframes blink {
-    0% { opacity: 1; }
-    50% { opacity: 0.5; }
-    100% { opacity: 1; }
-}
-
-/* ── Main Action Grid ──────────────────────── */
-.actionGrid {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 2rem;
-    margin-bottom: 2rem;
-}
-
-.statusCard {
-    background: rgba(255, 255, 255, 0.02) !important;
-    border: 1px solid rgba(255, 255, 255, 0.05) !important;
-    border-radius: 40px !important;
-    padding: 4rem !important;
-}
-
-.idleState {
-    text-align: center;
-}
-
-.gatheringTime {
-    font-size: 3.5rem;
-    font-weight: 800;
-    color: #fff;
-    margin: 1.5rem 0;
-}
-
-.gatheringLoc {
-    color: rgba(255, 255, 255, 0.6);
-    margin-bottom: 3rem;
-    font-weight: 500;
-}
-
-.checkInBtn {
+.primaryBtn {
     width: 100%;
     background: #fff;
     color: #000;
-    padding: 1.5rem;
-    border-radius: 20px;
-    font-size: 18px;
-    font-weight: 800;
     border: none;
+    padding: 1.25rem;
+    border-radius: 20px;
+    font-weight: 900;
+    font-size: 1.1rem;
+    cursor: pointer;
+    text-decoration: none;
+    display: block;
+}
+
+.secondaryBtn {
+    width: 100%;
+    background: var(--surface-raised);
+    color: #fff;
+    border: 1px solid var(--border);
+    padding: 1.1rem;
+    border-radius: 20px;
+    font-weight: 800;
+    font-size: 1rem;
     cursor: pointer;
 }
 
-/* ── Vehicle & Transit (Native Shuttle) ────── */
-.transitHeader {
-    margin-bottom: 3rem;
+/* ── Shuttle Info ── */
+.shuttleInfo {
+    margin-bottom: 2rem;
 }
 
-.transitBadge {
-    display: inline-block;
-    background: rgba(255, 255, 255, 0.05);
-    color: #fff;
-    padding: 6px 14px;
-    border-radius: 8px;
-    font-size: 11px;
-    font-weight: 800;
-    margin-bottom: 1rem;
-}
-
-.transitTitle {
-    font-size: 1.75rem;
-    font-weight: 800;
-    color: #fff;
-}
-
-.vehicleCard {
-    background: rgba(255, 255, 255, 0.03);
-    border-radius: 24px;
-    padding: 2.5rem;
+.shuttleHeader {
     display: flex;
     align-items: center;
-    gap: 2rem;
-    margin-bottom: 3rem;
+    justify-content: center;
+    gap: 8px;
+    color: var(--primary);
+    font-weight: 900;
+    font-size: 0.9rem;
+    margin-bottom: 12px;
 }
 
-.plate { font-size: 1.5rem; font-weight: 800; color: #fff; }
-.model { color: rgba(255, 255, 255, 0.5); font-size: 14px; font-weight: 600; margin-top: 4px; }
-
-.etaBox {
-    margin-left: auto;
-    text-align: right;
-}
-
-.etaTime {
+.shuttleDetails strong {
+    font-size: 1.5rem;
+    font-weight: 900;
     display: block;
-    font-size: 1.25rem;
-    font-weight: 800;
-    color: #D4AF37;
+    margin-bottom: 4px;
 }
 
-.seatGrid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1rem;
-    margin: 2rem 0 3rem;
+.shuttleDetails p {
+    font-size: 0.95rem;
+    color: var(--text-tertiary);
 }
 
-.seat {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    border-radius: 16px;
-    padding: 1.25rem;
+/* ── GPS Verified ── */
+.gpsVerified {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 8px;
-    position: relative;
+    gap: 12px;
+    margin-bottom: 2rem;
 }
 
-.occupied {
-    background: rgba(255, 255, 255, 0.01);
-    color: rgba(255, 255, 255, 0.1);
-}
-
-.mySeat {
-    border-color: #D4AF37;
-    color: #D4AF37;
-}
-
-.myLabel {
-    position: absolute;
-    top: -10px;
-    background: #D4AF37;
-    color: #000;
-    padding: 2px 8px;
-    border-radius: 4px;
-    font-size: 9px;
+.gpsVerified strong {
+    font-size: 1.5rem;
     font-weight: 900;
 }
 
-/* ── Work Status (Native Timer) ────────────── */
-.workState {
-    text-align: center;
-}
-
-.workingLabel {
-    color: #D4AF37;
-    font-size: 14px;
-    font-weight: 800;
-    text-transform: uppercase;
-}
-
-.timer {
-    font-size: 4.5rem;
-    font-weight: 800;
-    color: #fff;
-    margin: 2rem 0 3.5rem;
-    font-family: monospace;
-    animation: heartbeat 2s ease-in-out infinite;
-}
-
-@keyframes heartbeat {
-    0% { transform: scale(1); opacity: 1; }
-    50% { transform: scale(1.02); opacity: 0.9; }
-    100% { transform: scale(1); opacity: 1; }
-}
-
-/* ── Settled State (Success Card) ──────────── */
-.settledState {
-    text-align: center;
-}
-
-.successIcon {
+/* ── Scanner Box ── */
+.scannerBox {
     margin-bottom: 2rem;
 }
 
-.settledTitle {
-    font-size: 2rem;
-    font-weight: 800;
-    color: #fff;
-    margin-bottom: 1rem;
-}
-
-.summaryGrid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.5rem;
-    background: rgba(255, 255, 255, 0.03);
-    padding: 2.5rem;
+.scannerFrame {
+    width: 160px;
+    height: 160px;
+    margin: 0 auto 1.5rem;
+    border: 2px solid var(--border);
     border-radius: 24px;
-    margin: 3rem 0;
-}
-
-.summaryItem {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.summaryLabel {
-    font-size: 11px;
-    font-weight: 700;
-    color: rgba(255, 255, 255, 0.5);
-}
-
-.summaryValue {
-    font-size: 1.25rem;
-    font-weight: 800;
-    color: #fff;
-}
-
-/* ── Team & Info Cards ─────────────────────── */
-.teamCard, .manualCard, .checklistCard {
-    background: rgba(255, 255, 255, 0.02) !important;
-    border: 1px solid rgba(255, 255, 255, 0.05) !important;
-    border-radius: 32px !important;
-    padding: 2.5rem !important;
-}
-
-.cardTitle {
-    font-size: 1.1rem;
-    font-weight: 800;
-    color: #fff;
-    margin-bottom: 2rem;
-}
-
-.memberItem {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    padding: 1rem 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-}
-
-.memberAvatar {
-    width: 40px;
-    height: 40px;
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 12px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-weight: 800;
-    font-size: 12px;
-}
-
-/* ── PPE State (Native Scanner) ────────────── */
-.ppeState {
-    text-align: center;
-}
-
-.cameraFrame {
-    width: 100%;
-    aspect-ratio: 1;
-    background: #0a0a0a;
-    border-radius: 32px;
     position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     overflow: hidden;
-    margin: 3rem 0;
-    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.cameraFrame::before, .cameraFrame::after {
-    content: '';
-    position: absolute;
-    width: 40px;
-    height: 40px;
-    border: 3px solid #D4AF37;
-    z-index: 10;
-    pointer-events: none;
-}
-
-/* Top Left Corner */
-.cameraFrame::before {
-    top: 20px;
-    left: 20px;
-    border-right: none;
-    border-bottom: none;
-    border-top-left-radius: 12px;
-}
-
-/* Bottom Right Corner */
-.cameraFrame::after {
-    bottom: 20px;
-    right: 20px;
-    border-left: none;
-    border-top: none;
-    border-bottom-right-radius: 12px;
-}
-
-.scannerLine {
+.scanLine {
     position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
+    right: 0;
     height: 2px;
-    background: #D4AF37;
-    box-shadow: 0 0 20px #D4AF37;
-    animation: scan 3s linear infinite;
-    z-index: 5;
+    background: var(--primary);
+    box-shadow: 0 0 15px var(--primary);
+    animation: scan 2s infinite ease-in-out;
 }
 
 @keyframes scan {
     0% { top: 0; }
-    100% { top: 100%; }
+    50% { top: 100%; }
+    100% { top: 0; }
 }
 
-/* Responsive */
-@media (max-width: 1024px) {
-    .actionGrid { grid-template-columns: 1fr; }
+.scanLabel {
+    position: absolute;
+    bottom: 12px;
+    font-size: 0.75rem;
+    font-weight: 900;
+    color: var(--primary);
 }
 
-@media (max-width: 768px) {
-    .siteTitle { font-size: 2rem; }
-    .statusCard { padding: 2rem !important; }
-    .timer { font-size: 3rem; }
-    .sosBtn { bottom: 2rem; right: 2rem; padding: 1rem; }
-}
-
-.safetyReport {
-    background: rgba(212, 175, 55, 0.05);
-    border: 1px solid rgba(212, 175, 55, 0.1);
-    border-radius: 20px;
-    padding: 1.5rem;
+/* ── Work Timer ── */
+.workTimer {
     margin-bottom: 2rem;
-    text-align: left;
 }
 
-.reportTitle {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 13px;
+.pulse {
+    width: 12px;
+    height: 12px;
+    background: #30d158;
+    border-radius: 50%;
+    display: inline-block;
+    margin-bottom: 12px;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 1; }
+    100% { transform: scale(2.5); opacity: 0; }
+}
+
+.timerValue {
+    font-size: 4rem;
+    font-weight: 900;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.05em;
+    margin-bottom: 10px;
+}
+
+.workTimer p {
+    font-size: 0.95rem;
+    color: var(--primary);
     font-weight: 800;
-    color: #D4AF37;
-    margin-bottom: 1rem;
 }
 
-.reportGrid {
+/* ── Finish Summary ── */
+.finishSummary {
+    margin-bottom: 2rem;
+}
+
+.summaryIcon {
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: center;
+}
+
+.finishSummary h3 {
+    font-size: 1.5rem;
+    font-weight: 900;
+    margin-bottom: 1.5rem;
+}
+
+.summaryGrid {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+}
+
+.sumItem span {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--text-tertiary);
+    margin-bottom: 4px;
+}
+
+.sumItem strong {
+    font-size: 1.1rem;
+    font-weight: 900;
+}
+
+/* ── Field Controls ── */
+.fieldControls {
+    margin-bottom: 2.5rem;
+}
+
+.controlGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+
+.controlBtn {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 1.25rem 0.5rem;
     display: flex;
     flex-direction: column;
-    gap: 8px;
-}
-
-.reportItem {
-    display: flex;
     align-items: center;
     gap: 10px;
-    font-size: 13px;
-    color: rgba(255, 255, 255, 0.6);
-    font-weight: 600;
+    color: #fff;
+    cursor: pointer;
 }
 
-.dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
+.iconBox {
+    width: 44px;
+    height: 44px;
+    background: var(--surface-raised);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.controlBtn span {
+    font-size: 0.8rem;
+    font-weight: 800;
+}
+
+/* ── Activity Feed ── */
+.activityFeed h3 {
+    font-size: 1.1rem;
+    font-weight: 900;
+}
+
+.sectionHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 1.25rem;
+}
+
+.sectionHeader span {
+    font-size: 0.8rem;
+    color: var(--text-tertiary);
+    font-weight: 700;
+}
+
+.teamSlider {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    padding-bottom: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.teamSlider::-webkit-scrollbar { display: none; }
+
+.teamMember {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 1rem 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 140px;
+}
+
+.avatar {
+    width: 36px;
+    height: 36px;
+    background: var(--surface-raised);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: 900;
+}
+
+.memberInfo strong {
+    display: block;
+    font-size: 0.9rem;
+    margin-bottom: 2px;
+}
+
+.memberInfo span {
+    font-size: 0.7rem;
+    color: var(--text-tertiary);
+}
+
+.safeReport {
+    background: rgba(48, 209, 88, 0.05);
+    border: 1px solid rgba(48, 209, 88, 0.1);
+    border-radius: 24px;
+    padding: 1.25rem;
+}
+
+.reportHeader {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.reportHeader strong {
+    font-size: 0.9rem;
+    font-weight: 900;
+    color: #30d158;
+}
+
+.safeReport p {
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: var(--text-secondary);
+}
+
+.safeReport p strong {
+    color: #30d158;
 }

@@ -9,16 +9,26 @@ interface ToastData {
     type: ToastType;
 }
 
+export type ThemeMode = 'original' | 'sky' | 'recommend1' | 'recommend2';
+
 interface UIContextType {
     toasts: ToastData[];
     showToast: (message: string, type?: ToastType) => void;
     removeToast: (id: string) => void;
+    theme: ThemeMode;
+    setTheme: (theme: ThemeMode) => void;
 }
 
 const UIContext = createContext<UIContextType | undefined>(undefined);
 
 export function UIProvider({ children }: { children: React.ReactNode }) {
     const [toasts, setToasts] = useState<ToastData[]>([]);
+    const [theme, _setTheme] = useState<ThemeMode>('original');
+
+    const setTheme = useCallback((newTheme: ThemeMode) => {
+        _setTheme(newTheme);
+        document.documentElement.setAttribute('data-theme', newTheme);
+    }, []);
 
     const showToast = useCallback((message: string, type: ToastType = 'success') => {
         const id = Math.random().toString(36).substring(2, 9);
@@ -30,11 +40,12 @@ export function UIProvider({ children }: { children: React.ReactNode }) {
     }, []);
 
     return (
-        <UIContext.Provider value={{ toasts, showToast, removeToast }}>
+        <UIContext.Provider value={{ toasts, showToast, removeToast, theme, setTheme }}>
             {children}
         </UIContext.Provider>
     );
 }
+
 
 export function useUI() {
     const context = useContext(UIContext);
