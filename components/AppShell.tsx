@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { usePathname } from 'next/navigation';
 import Navbar from './Navbar/Navbar';
 import BottomNav from './BottomNav/BottomNav';
 import MoCulAssistant from './MoCulAssistant/MoCulAssistant';
@@ -16,6 +17,28 @@ interface AppShellProps {
 export default function AppShell({ children }: AppShellProps) {
     const { isLoggedIn, toggleLogin } = useAuth();
     const { toasts, removeToast } = useUI();
+    const pathname = usePathname();
+    const isAdmin = pathname?.startsWith('/admin');
+
+    if (isAdmin) {
+        return (
+            <div className="admin-shell">
+                <main className="admin-content">
+                    {children}
+                </main>
+                <AnimatePresence>
+                    {toasts.map(toast => (
+                        <Toast 
+                            key={toast.id} 
+                            message={toast.message} 
+                            type={toast.type} 
+                            onClose={() => removeToast(toast.id)} 
+                        />
+                    ))}
+                </AnimatePresence>
+            </div>
+        );
+    }
 
     return (
         <>

@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import Navbar from '@/components/Navbar/Navbar';
 import GlassCard from '@/components/UI/GlassCard';
 import { 
     Activity, 
@@ -15,7 +14,11 @@ import {
     CreditCard,
     ArrowUpRight,
     ArrowDownRight,
-    Loader2
+    Loader2,
+    LayoutDashboard,
+    Settings,
+    LogOut,
+    Menu
 } from 'lucide-react';
 import styles from './page.module.css';
 
@@ -60,56 +63,99 @@ export default function AdminClient() {
 
     if (loading || !data) {
         return (
-            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', background: '#000', color: '#D4AF37' }}>
-                <Loader2 size={48} className="animate-spin" />
+            <div className={styles.loadingScreen}>
+                <Loader2 size={48} className={styles.spinner} />
+                <p>MoNo 통합 관제 시스템 시동 중...</p>
             </div>
         );
     }
 
     return (
-        <>
-            <Navbar />
-            <div className={styles.container}>
-                <header className={styles.header}>
-                    <div className={styles.titleArea}>
-                        <span className={styles.adminBadge}>SUPER ADMIN</span>
-                        <h1>MoNo Control Center</h1>
-                        <p>플랫폼 전체 데이터, 인력, 파트너 및 금융 흐름 통합 관제</p>
+        <div className={styles.adminLayout}>
+            {/* 1. Desktop Sidebar */}
+            <aside className={styles.sidebar}>
+                <div className={styles.logoArea}>
+                    <div className={styles.logoIcon}>M</div>
+                    <h2>MONO ADMIN</h2>
+                </div>
+
+                <nav className={styles.sideNav}>
+                    <button 
+                        className={`${styles.navItem} ${activeTab === 'overview' ? styles.active : ''}`}
+                        onClick={() => setActiveTab('overview')}
+                    >
+                        <LayoutDashboard size={20} />
+                        <span>대시보드 홈</span>
+                    </button>
+                    <button 
+                        className={`${styles.navItem} ${activeTab === 'workforce' ? styles.active : ''}`}
+                        onClick={() => setActiveTab('workforce')}
+                    >
+                        <Users size={20} />
+                        <span>파트너 & 인력</span>
+                    </button>
+                    <button 
+                        className={`${styles.navItem} ${activeTab === 'finance' ? styles.active : ''}`}
+                        onClick={() => setActiveTab('finance')}
+                    >
+                        <Wallet size={20} />
+                        <span>금융 & 정산</span>
+                    </button>
+                    <button 
+                        className={`${styles.navItem} ${activeTab === 'rental' ? styles.active : ''}`}
+                        onClick={() => setActiveTab('rental')}
+                    >
+                        <Wrench size={20} />
+                        <span>장비 렌탈</span>
+                    </button>
+                    <button 
+                        className={`${styles.navItem} ${activeTab === 'marketing' ? styles.active : ''}`}
+                        onClick={() => setActiveTab('marketing')}
+                    >
+                        <LineChart size={20} />
+                        <span>데이터 분석</span>
+                    </button>
+                </nav>
+
+                <div className={styles.sidebarFooter}>
+                    <div className={styles.adminUser}>
+                        <div className={styles.userAvatar}>JD</div>
+                        <div className={styles.userInfo}>
+                            <strong>정재도</strong>
+                            <span>System Admin</span>
+                        </div>
+                    </div>
+                    <button className={styles.logoutBtn}>
+                        <LogOut size={18} />
+                        <span>로그아웃</span>
+                    </button>
+                </div>
+            </aside>
+
+            {/* 2. Main Content Area */}
+            <main className={styles.mainContent}>
+                <header className={styles.topBar}>
+                    <div className={styles.searchBar}>
+                        <Menu size={20} className={styles.mobileOnly} />
+                        <input type="text" placeholder="파트너, 마스터, 현장 검색..." />
+                    </div>
+                    <div className={styles.topActions}>
+                        <div className={styles.systemStatus}>
+                            <div className={styles.pulse} />
+                            <span>System Live</span>
+                        </div>
+                        <button className={styles.settingsBtn}><Settings size={20} /></button>
                     </div>
                 </header>
 
-                <div className={styles.tabNav}>
-                    <button 
-                        className={`${styles.tabBtn} ${activeTab === 'overview' ? styles.active : ''}`}
-                        onClick={() => setActiveTab('overview')}
-                    >
-                        <Activity size={16} /> 플랫폼 현황
-                    </button>
-                    <button 
-                        className={`${styles.tabBtn} ${activeTab === 'workforce' ? styles.active : ''}`}
-                        onClick={() => setActiveTab('workforce')}
-                    >
-                        <Users size={16} /> 파트너 & 인력 관리
-                    </button>
-                    <button 
-                        className={`${styles.tabBtn} ${activeTab === 'finance' ? styles.active : ''}`}
-                        onClick={() => setActiveTab('finance')}
-                    >
-                        <Wallet size={16} /> 금융 & 에스크로
-                    </button>
-                    <button 
-                        className={`${styles.tabBtn} ${activeTab === 'rental' ? styles.active : ''}`}
-                        onClick={() => setActiveTab('rental')}
-                    >
-                        <Wrench size={16} /> 장비 렌탈 관리
-                    </button>
-                    <button 
-                        className={`${styles.tabBtn} ${activeTab === 'marketing' ? styles.active : ''}`}
-                        onClick={() => setActiveTab('marketing')}
-                    >
-                        <LineChart size={16} /> 마케팅 & 신용 평가
-                    </button>
-                </div>
+                <div className={styles.scrollArea}>
+                    <div className={styles.contentHeader}>
+                        <span className={styles.breadcrumb}>ADMIN / {activeTab.toUpperCase()}</span>
+                        <h1>{activeTab === 'overview' ? '플랫폼 통합 관제' : 
+                             activeTab === 'workforce' ? '인력 매칭 관리' :
+                             activeTab === 'finance' ? '자금 흐름 모니터링' :
+                             activeTab === 'rental' ? '장비 자산 관리' : '데이터 인사이트'}</h1>
+                    </div>
 
                 {/* OVERVIEW TAB */}
                 {activeTab === 'overview' && (
@@ -270,23 +316,10 @@ export default function AdminClient() {
                                 <div className={styles.statSub}>장비 금융 파트너사 연계 가능</div>
                             </GlassCard>
                         </div>
-                        <GlassCard className={styles.listCard} style={{ padding: '24px' }}>
-                            <h3 style={{ marginBottom: '16px' }}>진행 중인 데이터 마케팅 캠페인 (자동 생성)</h3>
-                            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                                {data.marketing.financeProducts.map(product => (
-                                    <div key={product.id} style={{ padding: '16px', background: 'rgba(255,255,255,0.05)', borderRadius: '12px' }}>
-                                        <h4 style={{ color: '#D4AF37', marginBottom: '8px' }}>{product.name} ({product.type})</h4>
-                                        <p style={{ fontSize: '0.9rem', color: '#ccc', lineHeight: '1.6' }}>
-                                            {product.description}<br/>
-                                            <strong>조건:</strong> Trust Score {product.minTrustScore}점 이상 / 금리 {product.interestRate}%
-                                        </p>
-                                    </div>
-                                ))}
-                            </div>
-                        </GlassCard>
                     </div>
                 )}
-            </div>
-        </>
+                </div>
+            </main>
+        </div>
     );
 }
