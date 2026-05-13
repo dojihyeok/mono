@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Navbar from '@/components/Navbar/Navbar';
 import GlassCard from '@/components/UI/GlassCard';
 import { 
@@ -14,41 +14,23 @@ import {
     ChevronRight,
     ClipboardCheck,
     Star,
-    CheckCircle2
+    CheckCircle2,
+    Loader2
 } from 'lucide-react';
 import styles from './page.module.css';
 
-interface SiteRequest {
-    id: string;
-    name: string;
-    location: string;
-    workersNeeded: number;
-    status: 'Matching' | 'Deployed' | 'Completed';
-    startDate: string;
+interface PartnerData {
+    partner: any;
+    sites: any[];
+    transactions: any[];
+    attendance: any[];
+    evaluations: any[];
 }
-
-const INITIAL_SITES: SiteRequest[] = [
-    {
-        id: 'REQ-2024-001',
-        name: '서울 강남구 하이엔드 오피스텔 내장공사',
-        location: '서울 강남구 역삼동',
-        workersNeeded: 5,
-        status: 'Deployed',
-        startDate: '2024.05.15'
-    },
-    {
-        id: 'REQ-2024-002',
-        name: '판교 테크노밸리 신축 사옥 타일 시공',
-        location: '경기 성남시 분당구',
-        workersNeeded: 3,
-        status: 'Matching',
-        startDate: '2024.05.20'
-    }
-];
 
 export default function PartnerClient() {
     const [activeTab, setActiveTab] = useState<'overview' | 'attendance' | 'settlement' | 'evaluation'>('overview');
-    const [sites, setSites] = useState<SiteRequest[]>(INITIAL_SITES);
+    const [data, setData] = useState<PartnerData | null>(null);
+    const [loading, setLoading] = useState(true);
     const [isModalOpen, setIsModalOpen] = useState(false);
     
     // Form state
@@ -60,27 +42,53 @@ export default function PartnerClient() {
         skillRequired: ''
     });
 
+    useEffect(() => {
+        const fetchPartnerData = async () => {
+            try {
+                const res = await fetch('/api/partner');
+                const json = await res.json();
+                setData(json);
+            } catch (error) {
+                console.error("Failed to fetch partner data", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchPartnerData();
+    }, []);
+
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
         setFormData(prev => ({ ...prev, [name]: value }));
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         
-        const newSite: SiteRequest = {
-            id: `REQ-${new Date().getFullYear()}-00${sites.length + 1}`,
-            name: formData.siteName,
+        // Optimistic UI update (in a real app, you'd POST this to the API)
+        const newSite = {
+            id: `REQ-${new Date().getFullYear()}-${Math.floor(Math.random() * 1000)}`,
+            title: formData.siteName,
             location: formData.location,
-            workersNeeded: parseInt(formData.workersCount) || 1,
+            dailyWage: 250000,
             status: 'Matching',
-            startDate: formData.startDate || new Date().toLocaleDateString()
+            createdAt: new Date().toISOString()
         };
 
-        setSites([newSite, ...sites]);
+        if (data) {
+            setData({ ...data, sites: [newSite, ...data.sites] });
+        }
         setIsModalOpen(false);
         setFormData({ siteName: '', location: '', workersCount: '', startDate: '', skillRequired: '' });
     };
+
+    if (loading || !data) {
+        return (
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', background: '#000', color: '#D4AF37' }}>
+                <Loader2 size={48} className="animate-spin" />
+            </div>
+        );
+    }
 
     return (
         <>
@@ -89,7 +97,7 @@ export default function PartnerClient() {
                 <header className={styles.header}>
                     <div className={styles.titleArea}>
                         <h1>MoNo Partner Portal</h1>
-                        <p>안전하고 투명한 글로벌 현장 인력 관리 센터</p>
+                        <p>{data.partner.companyName} 현장 및 인력 관리 대시보드</p>
                     </div>
                 </header>
 
@@ -128,7 +136,7 @@ export default function PartnerClient() {
                                     <span className={styles.statTitle}>진행 중인 현장</span>
                                     <div className={styles.statIcon}><Building2 size={20} /></div>
                                 </div>
-                                <div className={styles.statValue}>{sites.length}</div>
+                                <div className={styles.statValue}>{data.sites.filter(s => s.status !== 'Closed').length}</div>
                                 <div className={styles.statSub}>현재 매칭/투입 진행 중</div>
                             </GlassCard>
                             <GlassCard className={styles.statCard}>
@@ -137,16 +145,16 @@ export default function PartnerClient() {
                                     <div className={styles.statIcon}><Users size={20} /></div>
                                 </div>
                                 <div className={styles.statValue}>
-                                    {sites.filter(s => s.status === 'Deployed').reduce((acc, curr) => acc + curr.workersNeeded, 0)}
+                                    {data.sites.filter(s => s.status === 'Deployed').length * 2}
                                 </div>
                                 <div className={styles.statSub}>실시간 현장 출역 확인됨</div>
                             </GlassCard>
                             <GlassCard className={styles.statCard}>
                                 <div className={styles.statHeader}>
-                                    <span className={styles.statTitle}>예상 에스크로 정산액</span>
+                                    <span className={styles.statTitle}>결제 예정 (에스크로)</span>
                                     <div className={styles.statIcon}><Wallet size={20} /></div>
                                 </div>
-                                <div className={styles.statValue}>₩12,500,000</div>
+                                <div className={styles.statValue}>₩{(data.transactions.reduce((acc, curr) => acc + curr.amount, 0) / 1000000).toFixed(1)}M</div>
                                 <div className={styles.statSub}>MoNo 안전 결제 보호 중</div>
                             </GlassCard>
                         </div>
@@ -170,14 +178,14 @@ export default function PartnerClient() {
                         <section className={styles.siteListArea}>
                             <h3>현장 관리 현황</h3>
                             <div className={styles.siteGrid}>
-                                {sites.map(site => (
+                                {data.sites.map((site: any) => (
                                     <GlassCard key={site.id} className={styles.siteCard}>
                                         <div className={styles.siteInfo}>
-                                            <h4>{site.name}</h4>
+                                            <h4>{site.title}</h4>
                                             <div className={styles.siteMeta}>
                                                 <span><MapPin size={14} style={{ display: 'inline', marginRight: 4 }}/>{site.location}</span>
-                                                <span><Users size={14} style={{ display: 'inline', marginRight: 4 }}/>필요 인원: {site.workersNeeded}명</span>
-                                                <span><Calendar size={14} style={{ display: 'inline', marginRight: 4 }}/>투입 예정: {site.startDate}</span>
+                                                <span><Users size={14} style={{ display: 'inline', marginRight: 4 }}/>단가: ₩{site.dailyWage.toLocaleString()}</span>
+                                                <span><Calendar size={14} style={{ display: 'inline', marginRight: 4 }}/>생성일: {new Date(site.createdAt).toLocaleDateString()}</span>
                                             </div>
                                         </div>
                                         <div className={styles.siteStatus}>
@@ -199,26 +207,18 @@ export default function PartnerClient() {
                             <p>오늘 현장에 투입된 마스터들의 출근 여부를 확인하고 승인합니다.</p>
                         </div>
                         <GlassCard className={styles.listCard}>
-                            <div className={styles.listItem}>
-                                <div className={styles.itemInfo}>
-                                    <h4>Young-Hoon Kim (타일 마스터)</h4>
-                                    <p>서울 강남구 하이엔드 오피스텔 내장공사</p>
+                            {data.attendance.map((att: any) => (
+                                <div key={att.id} className={styles.listItem}>
+                                    <div className={styles.itemInfo}>
+                                        <h4>{att.name}</h4>
+                                        <p>{att.siteName}</p>
+                                    </div>
+                                    <div className={styles.itemActions}>
+                                        <span className={styles.timeTag}>{att.time}</span>
+                                        <button className={styles.approveBtn}><CheckCircle2 size={16}/> 출근 승인</button>
+                                    </div>
                                 </div>
-                                <div className={styles.itemActions}>
-                                    <span className={styles.timeTag}>07:50 AM 도착 확인됨</span>
-                                    <button className={styles.approveBtn}><CheckCircle2 size={16}/> 출근 승인</button>
-                                </div>
-                            </div>
-                            <div className={styles.listItem}>
-                                <div className={styles.itemInfo}>
-                                    <h4>Ji-Sung Park (설비 마스터)</h4>
-                                    <p>서울 강남구 하이엔드 오피스텔 내장공사</p>
-                                </div>
-                                <div className={styles.itemActions}>
-                                    <span className={styles.timeTag}>08:05 AM 도착 확인됨</span>
-                                    <button className={styles.approveBtn}><CheckCircle2 size={16}/> 출근 승인</button>
-                                </div>
-                            </div>
+                            ))}
                         </GlassCard>
                     </section>
                 )}
@@ -230,16 +230,18 @@ export default function PartnerClient() {
                             <p>MoNo 에스크로를 통해 안전하게 인건비를 결제하고 세금계산서를 발행합니다.</p>
                         </div>
                         <GlassCard className={styles.listCard}>
-                            <div className={styles.listItem}>
-                                <div className={styles.itemInfo}>
-                                    <h4>[정산 대기] 강남구 오피스텔 현장 (5월 1주차)</h4>
-                                    <p>투입 인원 5명 / 총 25공수</p>
+                            {data.transactions.map((tx: any) => (
+                                <div key={tx.id} className={styles.listItem}>
+                                    <div className={styles.itemInfo}>
+                                        <h4>[정산 대기] {tx.siteName}</h4>
+                                        <p>현장 결제 요청 - {new Date(tx.date).toLocaleDateString()}</p>
+                                    </div>
+                                    <div className={styles.itemActions}>
+                                        <span className={styles.amountText}>₩ {tx.amount.toLocaleString()}</span>
+                                        <button className={styles.payBtn}>에스크로 결제 승인</button>
+                                    </div>
                                 </div>
-                                <div className={styles.itemActions}>
-                                    <span className={styles.amountText}>₩ 8,750,000</span>
-                                    <button className={styles.payBtn}>에스크로 결제 승인</button>
-                                </div>
-                            </div>
+                            ))}
                         </GlassCard>
                     </section>
                 )}
@@ -251,22 +253,24 @@ export default function PartnerClient() {
                             <p>작업이 완료된 마스터를 평가하여 파트너사의 신뢰도를 높이고 우수 인력을 선점하세요.</p>
                         </div>
                         <GlassCard className={styles.listCard}>
-                            <div className={styles.listItem}>
-                                <div className={styles.itemInfo}>
-                                    <h4>Min-Soo Lee (인테리어 목수)</h4>
-                                    <p>판교 테크노밸리 신축 사옥 (작업 종료)</p>
-                                </div>
-                                <div className={styles.itemActions}>
-                                    <div className={styles.stars}>
-                                        <Star size={20} fill="#D4AF37" color="#D4AF37"/>
-                                        <Star size={20} fill="#D4AF37" color="#D4AF37"/>
-                                        <Star size={20} fill="#D4AF37" color="#D4AF37"/>
-                                        <Star size={20} fill="#D4AF37" color="#D4AF37"/>
-                                        <Star size={20} color="#D4AF37"/>
+                            {data.evaluations.map((ev: any) => (
+                                <div key={ev.id} className={styles.listItem}>
+                                    <div className={styles.itemInfo}>
+                                        <h4>{ev.name}</h4>
+                                        <p>{ev.siteName}</p>
                                     </div>
-                                    <button className={styles.reviewBtn}>평가 완료하기</button>
+                                    <div className={styles.itemActions}>
+                                        <div className={styles.stars}>
+                                            <Star size={20} fill="#D4AF37" color="#D4AF37"/>
+                                            <Star size={20} fill="#D4AF37" color="#D4AF37"/>
+                                            <Star size={20} fill="#D4AF37" color="#D4AF37"/>
+                                            <Star size={20} fill="#D4AF37" color="#D4AF37"/>
+                                            <Star size={20} color="#D4AF37"/>
+                                        </div>
+                                        <button className={styles.reviewBtn}>평가 완료하기</button>
+                                    </div>
                                 </div>
-                            </div>
+                            ))}
                         </GlassCard>
                     </section>
                 )}
