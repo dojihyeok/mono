@@ -19,6 +19,7 @@ export default function AppShell({ children }: AppShellProps) {
     const { toasts, removeToast } = useUI();
     const pathname = usePathname();
     const isAuthPage = pathname === '/login';
+    const isAdmin = pathname?.startsWith('/admin');
 
     if (isAdmin) {
         return (
