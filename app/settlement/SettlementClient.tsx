@@ -5,6 +5,17 @@ import Navbar from '@/components/Navbar/Navbar';
 import GlassCard from '@/components/UI/GlassCard';
 import Button from '@/components/UI/Button';
 import styles from './page.module.css';
+import { motion, AnimatePresence } from 'framer-motion';
+import { 
+    BarChart, 
+    Bar, 
+    XAxis, 
+    YAxis, 
+    CartesianGrid, 
+    Tooltip, 
+    ResponsiveContainer,
+    Cell
+} from 'recharts';
 import { 
   ShieldCheck, 
   Lock, 
@@ -13,7 +24,11 @@ import {
   PiggyBank,
   Landmark,
   Activity,
-  ChevronRight
+  ChevronRight,
+  TrendingUp,
+  FileText,
+  X,
+  CheckCircle2
 } from 'lucide-react';
 
 interface SettlementClientProps {
@@ -22,13 +37,21 @@ interface SettlementClientProps {
 
 export default function SettlementClient({ initialTransactions }: SettlementClientProps) {
     const [isTransferring, setIsTransferring] = useState(false);
+    const [showWithdrawalSuccess, setShowWithdrawalSuccess] = useState(false);
 
-    const { availableBalance, lockedEscrow, pendingSites, history } = useMemo(() => {
+    const { availableBalance, lockedEscrow, pendingSites, history, chartData } = useMemo(() => {
         const settled = initialTransactions.filter(t => t.status === 'Settled');
         const pending = initialTransactions.filter(t => t.status !== 'Settled');
         
         const available = settled.reduce((acc, t) => acc + t.amount, 0);
         const locked = pending.reduce((acc, t) => acc + t.amount, 0);
+
+        // Generate chart data for the last 7 days/transactions
+        const last7 = [...settled].reverse().slice(0, 7).map(t => ({
+            name: t.date.toLocaleDateString('ko-KR', { month: 'short', day: 'numeric' }),
+            amount: t.amount / 10000, // Show in 10k units for cleaner UI
+            rawAmount: t.amount
+        }));
 
         return {
             availableBalance: available.toLocaleString(),
@@ -46,82 +69,178 @@ export default function SettlementClient({ initialTransactions }: SettlementClie
                 date: t.date.toLocaleDateString(),
                 amount: t.amount.toLocaleString(),
                 status: 'Settled'
-            }))
+            })),
+            chartData: last7
         };
     }, [initialTransactions]);
 
     const handleTransfer = () => {
         setIsTransferring(true);
         setTimeout(() => {
-            alert('요청하신 금액이 등록된 계좌로 즉시 출금되었습니다.');
             setIsTransferring(false);
-        }, 1500);
+            setShowWithdrawalSuccess(true);
+        }, 2000);
     };
 
     return (
         <div className={styles.pageWrap}>
             <Navbar />
+
+            <AnimatePresence>
+                {showWithdrawalSuccess && (
+                    <motion.div 
+                        className={styles.modalOverlay}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        onClick={() => setShowWithdrawalSuccess(false)}
+                    >
+                        <motion.div 
+                            className={styles.successModal}
+                            initial={{ scale: 0.9, y: 20 }}
+                            animate={{ scale: 1, y: 0 }}
+                            exit={{ scale: 0.9, y: 20 }}
+                            onClick={e => e.stopPropagation()}
+                        >
+                            <button className={styles.closeModal} onClick={() => setShowWithdrawalSuccess(false)}><X size={20} /></button>
+                            <div className={styles.successIcon}>
+                                <CheckCircle2 size={64} color="#3182f6" />
+                            </div>
+                            <h2>출금 신청 완료</h2>
+                            <p>요청하신 정산금이 등록된 계좌로<br/>즉시 이체되었습니다.</p>
+                            <div className={styles.withdrawalDetail}>
+                                <div className={styles.detailRow}>
+                                    <span>입금 계좌</span>
+                                    <strong>국민은행 479202-**-***</strong>
+                                </div>
+                                <div className={styles.detailRow}>
+                                    <span>출금 금액</span>
+                                    <strong style={{ color: '#fff' }}>{availableBalance}원</strong>
+                                </div>
+                            </div>
+                            <button className={styles.confirmBtn} onClick={() => setShowWithdrawalSuccess(false)}>확인</button>
+                        </motion.div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
             
             <main className={styles.main}>
                 <header className={styles.header}>
-                    <div className={styles.brandBadge}>내 돈 관리 및 정산 센터</div>
-                    <h1 className={styles.title}>내 수고비 확인하기</h1>
-                    <p className={styles.subtitle}>기술자님의 소중한 땀방울이 안전하게 관리되고 있습니다.</p>
+                    <div className={styles.brandBadge}>MONO Real-time Settlement Center</div>
+                    <h1 className={styles.title}>내 수고비 지갑</h1>
+                    <p className={styles.subtitle}>기술자님의 소중한 정산 데이터가 자산이 되는 공간입니다.</p>
                 </header>
 
                 <div className={styles.topSection}>
-                    <GlassCard className={styles.walletCard}>
-                        <div className={styles.walletHeader}>
-                            <div className={styles.walletLabelBox}>
-                                <Wallet size={16} />
-                                <span className={styles.label}>지금 바로 내 통장으로 보낼 수 있는 돈</span>
+                    <motion.div 
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5 }}
+                    >
+                        <GlassCard className={styles.walletCard}>
+                            <div className={styles.walletHeader}>
+                                <div className={styles.walletLabelBox}>
+                                    <Wallet size={16} />
+                                    <span className={styles.label}>출금 가능 금액</span>
+                                </div>
+                                <span className={styles.dotLive}>LIVE</span>
                             </div>
-                            <span className={styles.dotLive}>지금 가능</span>
-                        </div>
-                        <h2 className={styles.balance}>{availableBalance}원</h2>
-                        <div className={styles.accountInfo}>
-                            <Building2 size={14} />
-                            <span className={styles.bankTag}>국민은행</span>
-                            <span className={styles.accountNum}>479202-04-******</span>
-                        </div>
-                        <Button 
-                            className={styles.transferBtn} 
-                            onClick={handleTransfer}
-                            disabled={isTransferring}
-                        >
-                            {isTransferring ? '안전하게 보내는 중...' : '지금 바로 출금하기'}
-                        </Button>
-                        <div className={styles.securitySeal}>
-                            <ShieldCheck size={12} />
-                            <span>MONO 분리형 에스크로 계좌로 보호받고 있습니다.</span>
-                        </div>
-                    </GlassCard>
+                            <h2 className={styles.balance}>{availableBalance}원</h2>
+                            <div className={styles.accountInfo}>
+                                <Building2 size={14} />
+                                <span className={styles.bankTag}>국민은행</span>
+                                <span className={styles.accountNum}>479202-04-******</span>
+                            </div>
+                            <Button 
+                                className={styles.transferBtn} 
+                                onClick={handleTransfer}
+                                disabled={isTransferring || availableBalance === '0'}
+                            >
+                                {isTransferring ? '보안 통신 중...' : '지금 바로 내 계좌로 보내기'}
+                            </Button>
+                            <div className={styles.securitySeal}>
+                                <ShieldCheck size={12} />
+                                <span>1금융권 수준의 보안으로 보호 중</span>
+                            </div>
+                        </GlassCard>
+                    </motion.div>
 
-                    <GlassCard className={styles.escrowCard}>
-                        <div className={styles.escrowHeader}>
-                            <div className={styles.escrowLabelBox}>
-                                <Lock size={16} color="#FF6B00" />
-                                <span className={styles.label}>아직 확인 중인 돈 (보관 중)</span>
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5, delay: 0.1 }}
+                    >
+                        <GlassCard className={styles.escrowCard}>
+                            <div className={styles.escrowHeader}>
+                                <div className={styles.escrowLabelBox}>
+                                    <Lock size={16} color="#FF6B00" />
+                                    <span className={styles.label}>에스크로 보관 (검수 중)</span>
+                                </div>
+                                <div className={styles.secureBadge}>안전 보관됨</div>
                             </div>
-                            <div className={styles.secureBadge}>안전하게 보관됨</div>
-                        </div>
-                        <h2 className={styles.lockedAmount}>{lockedEscrow}원</h2>
-                        <div className={styles.safetyNetBox}>
-                            <div className={styles.netItem}>
-                                <label>산재보험 적립</label>
-                                <span>3.4%</span>
+                            <h2 className={styles.lockedAmount}>{lockedEscrow}원</h2>
+                            <div className={styles.safetyNetBox}>
+                                <div className={styles.netItem}>
+                                    <label>적립된 산재보험료</label>
+                                    <span>3.4%</span>
+                                </div>
+                                <div className={styles.netItem}>
+                                    <label>플랫폼 수수료</label>
+                                    <span style={{ color: '#30d158' }}>0원 (마스터 등급 혜택)</span>
+                                </div>
                             </div>
-                            <div className={styles.netItem}>
-                                <label>기술 수수료</label>
-                                <span>0% (면제)</span>
+                            <div className={styles.progressTrack}>
+                                <div className={styles.progressBar} style={{width: '65%'}}></div>
+                                <span className={styles.progressLabel}>최종 검수 65% 진행 중</span>
                             </div>
-                        </div>
-                        <div className={styles.progressTrack}>
-                            <div className={styles.progressBar} style={{width: '65%'}}></div>
-                            <span className={styles.progressLabel}>검수 진행률 65%</span>
-                        </div>
-                    </GlassCard>
+                        </GlassCard>
+                    </motion.div>
                 </div>
+
+                <section className={styles.analyticsSection}>
+                    <div className={styles.sectionHeader}>
+                        <h3 className={styles.sectionTitle}>📅 최근 수익 분석 (일일 평균)</h3>
+                        <div className={styles.trendBadge}>
+                            <TrendingUp size={12} />
+                            지난주 대비 +12%
+                        </div>
+                    </div>
+                    <GlassCard className={styles.chartCard}>
+                        <div style={{ width: '100%', height: 180 }}>
+                            <ResponsiveContainer width="100%" height="100%">
+                                <BarChart data={chartData}>
+                                    <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" vertical={false} />
+                                    <XAxis 
+                                        dataKey="name" 
+                                        axisLine={false} 
+                                        tickLine={false} 
+                                        tick={{ fill: 'rgba(255,255,255,0.3)', fontSize: 10 }}
+                                        dy={10}
+                                    />
+                                    <Tooltip 
+                                        cursor={{ fill: 'rgba(255,255,255,0.05)' }}
+                                        contentStyle={{ 
+                                            background: '#111', 
+                                            border: '1px solid rgba(255,255,255,0.1)',
+                                            borderRadius: '8px',
+                                            fontSize: '12px'
+                                        }}
+                                        itemStyle={{ color: '#D4AF37' }}
+                                    />
+                                    <Bar dataKey="amount" radius={[4, 4, 0, 0]}>
+                                        {chartData.map((entry, index) => (
+                                            <Cell 
+                                                key={`cell-${index}`} 
+                                                fill={index === chartData.length - 1 ? '#3182f6' : 'rgba(212, 175, 55, 0.4)'} 
+                                            />
+                                        ))}
+                                    </Bar>
+                                </BarChart>
+                            </ResponsiveContainer>
+                        </div>
+                        <p className={styles.chartLegend}>단위: 만원 (최근 7회 정산 기준)</p>
+                    </GlassCard>
+                </section>
 
                 <section className={styles.financeSection}>
                     <h3 className={styles.sectionTitle}>💰 정산 이력으로 만드는 내 금융 자산</h3>
