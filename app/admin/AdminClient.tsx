@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Navbar from '@/components/Navbar/Navbar';
 import GlassCard from '@/components/UI/GlassCard';
 import { 
@@ -14,12 +14,57 @@ import {
     ShieldCheck,
     CreditCard,
     ArrowUpRight,
-    ArrowDownRight
+    ArrowDownRight,
+    Loader2
 } from 'lucide-react';
 import styles from './page.module.css';
 
+interface AdminData {
+    overview: {
+        totalGMV: number;
+        totalPartners: number;
+        totalTechnicians: number;
+        partners: any[];
+    };
+    finance: {
+        pendingEscrow: number;
+        totalSettled: number;
+        transactions: any[];
+    };
+    rentals: any[];
+    marketing: {
+        financeProducts: any[];
+        eligibleUsersCount: number;
+    };
+}
+
 export default function AdminClient() {
     const [activeTab, setActiveTab] = useState<'overview' | 'workforce' | 'finance' | 'rental' | 'marketing'>('overview');
+    const [data, setData] = useState<AdminData | null>(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchAdminData = async () => {
+            try {
+                const res = await fetch('/api/admin');
+                const json = await res.json();
+                setData(json);
+            } catch (error) {
+                console.error("Failed to fetch admin data", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchAdminData();
+    }, []);
+
+    if (loading || !data) {
+        return (
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', background: '#000', color: '#D4AF37' }}>
+                <Loader2 size={48} className="animate-spin" />
+            </div>
+        );
+    }
 
     return (
         <>
@@ -75,7 +120,7 @@ export default function AdminClient() {
                                     <span className={styles.statTitle}>MoNo 총 누적 거래액 (GMV)</span>
                                     <div className={styles.statIcon}><TrendingUp size={20} /></div>
                                 </div>
-                                <div className={styles.statValue}>₩ 12.8B</div>
+                                <div className={styles.statValue}>₩ {(data.overview.totalGMV / 1000000).toFixed(1)}M</div>
                                 <div className={styles.statSub}>
                                     <span className={styles.trendUp}><ArrowUpRight size={14} /> +15.2%</span> 이번 달
                                 </div>
@@ -85,7 +130,7 @@ export default function AdminClient() {
                                     <span className={styles.statTitle}>등록 파트너사 (건설/시공)</span>
                                     <div className={styles.statIcon}><Building2 size={20} /></div>
                                 </div>
-                                <div className={styles.statValue}>142</div>
+                                <div className={styles.statValue}>{data.overview.totalPartners}</div>
                                 <div className={styles.statSub}>
                                     <span className={styles.trendUp}><ArrowUpRight size={14} /> +8</span> 이번 달 신규 등록
                                 </div>
@@ -95,7 +140,7 @@ export default function AdminClient() {
                                     <span className={styles.statTitle}>인증 마스터 인력</span>
                                     <div className={styles.statIcon}><ShieldCheck size={20} /></div>
                                 </div>
-                                <div className={styles.statValue}>3,450</div>
+                                <div className={styles.statValue}>{data.overview.totalTechnicians}</div>
                                 <div className={styles.statSub}>
                                     <span className={styles.trendUp}><ArrowUpRight size={14} /> +124</span> 이번 달 신규 인증
                                 </div>
@@ -112,32 +157,21 @@ export default function AdminClient() {
                             <p>활성 파트너사의 인력 요청 상태 및 투입 현황을 모니터링합니다.</p>
                         </div>
                         <GlassCard className={styles.listCard}>
-                            <div className={styles.listItem}>
-                                <div className={styles.itemMain}>
-                                    <div className={styles.itemAvatar}>SD</div>
-                                    <div className={styles.itemInfo}>
-                                        <h4>(주)성도디엔씨 (Tier 1 파트너)</h4>
-                                        <p>진행 중 현장 4곳 · 매칭 필요 인력 12명</p>
+                            {data.overview.partners.map(partner => (
+                                <div key={partner.id} className={styles.listItem}>
+                                    <div className={styles.itemMain}>
+                                        <div className={styles.itemAvatar}>{partner.companyName.substring(0, 2)}</div>
+                                        <div className={styles.itemInfo}>
+                                            <h4>{partner.companyName} ({partner.tier} 파트너)</h4>
+                                            <p>진행 중 현장 {partner.activeSites}곳 · 누적 결제액 ₩{(partner.totalPaid/1000000).toFixed(1)}M</p>
+                                        </div>
+                                    </div>
+                                    <div className={styles.itemMeta}>
+                                        <span className={`${styles.statusBadge} ${styles.active}`}>우수 파트너</span>
+                                        <button className={styles.actionBtn}>매칭 지원하기</button>
                                     </div>
                                 </div>
-                                <div className={styles.itemMeta}>
-                                    <span className={`${styles.statusBadge} ${styles.active}`}>우수 파트너</span>
-                                    <button className={styles.actionBtn}>매칭 지원하기</button>
-                                </div>
-                            </div>
-                            <div className={styles.listItem}>
-                                <div className={styles.itemMain}>
-                                    <div className={styles.itemAvatar}>GS</div>
-                                    <div className={styles.itemInfo}>
-                                        <h4>GS건설 리모델링 본부</h4>
-                                        <p>진행 중 현장 2곳 · 매칭 필요 인력 5명</p>
-                                    </div>
-                                </div>
-                                <div className={styles.itemMeta}>
-                                    <span className={`${styles.statusBadge} ${styles.active}`}>활성</span>
-                                    <button className={styles.actionBtn}>매칭 지원하기</button>
-                                </div>
-                            </div>
+                            ))}
                         </GlassCard>
                     </div>
                 )}
@@ -154,29 +188,31 @@ export default function AdminClient() {
                                 <div className={styles.statHeader}>
                                     <span className={styles.statTitle}>에스크로 보관 (결제 대기)</span>
                                 </div>
-                                <div className={styles.statValue}>₩ 850M</div>
+                                <div className={styles.statValue}>₩ {(data.finance.pendingEscrow / 1000000).toFixed(1)}M</div>
                             </GlassCard>
                             <GlassCard className={styles.statCard}>
                                 <div className={styles.statHeader}>
-                                    <span className={styles.statTitle}>이번 주 정산 완료 금액</span>
+                                    <span className={styles.statTitle}>누적 정산 완료 금액</span>
                                 </div>
-                                <div className={styles.statValue}>₩ 120M</div>
+                                <div className={styles.statValue}>₩ {(data.finance.totalSettled / 1000000).toFixed(1)}M</div>
                             </GlassCard>
                         </div>
                         <GlassCard className={styles.listCard}>
-                            <div className={styles.listItem}>
-                                <div className={styles.itemMain}>
-                                    <div className={styles.itemAvatar}><Wallet size={20}/></div>
-                                    <div className={styles.itemInfo}>
-                                        <h4>강남 오피스텔 내장공사 정산 건</h4>
-                                        <p>청구액: ₩ 8,750,000 · 출역 승인 완료</p>
+                            {data.finance.transactions.map(tx => (
+                                <div key={tx.id} className={styles.listItem}>
+                                    <div className={styles.itemMain}>
+                                        <div className={styles.itemAvatar}><Wallet size={20}/></div>
+                                        <div className={styles.itemInfo}>
+                                            <h4>{tx.siteName} 정산 건</h4>
+                                            <p>청구액: ₩ {tx.amount.toLocaleString()} · 상태: {tx.status}</p>
+                                        </div>
+                                    </div>
+                                    <div className={styles.itemMeta}>
+                                        <span className={`${styles.statusBadge} ${tx.status === 'Locked' ? styles.warning : styles.active}`}>{tx.status}</span>
+                                        {tx.status === 'Locked' && <button className={`${styles.actionBtn} ${styles.primaryBtn}`}>지급 승인 (플랫폼)</button>}
                                     </div>
                                 </div>
-                                <div className={styles.itemMeta}>
-                                    <span className={`${styles.statusBadge} ${styles.warning}`}>정산 대기</span>
-                                    <button className={`${styles.actionBtn} ${styles.primaryBtn}`}>지급 승인 (플랫폼)</button>
-                                </div>
-                            </div>
+                            ))}
                         </GlassCard>
                     </div>
                 )}
@@ -189,32 +225,22 @@ export default function AdminClient() {
                             <p>신용 점수가 높은 마스터에게 대여된 하이엔드 공구 및 장비를 관리합니다.</p>
                         </div>
                         <GlassCard className={styles.listCard}>
-                            <div className={styles.listItem}>
-                                <div className={styles.itemMain}>
-                                    <div className={styles.itemAvatar}><Wrench size={20}/></div>
-                                    <div className={styles.itemInfo}>
-                                        <h4>Hilti 레이저 레벨기 (PM 30-MG)</h4>
-                                        <p>대여자: Young-Hoon Kim (Trust: 96) · 기간: 2024.05.01 - 05.31</p>
+                            {data.rentals.map(rental => (
+                                <div key={rental.id} className={styles.listItem}>
+                                    <div className={styles.itemMain}>
+                                        <div className={styles.itemAvatar}><Wrench size={20}/></div>
+                                        <div className={styles.itemInfo}>
+                                            <h4>{rental.equipmentName}</h4>
+                                            <p>대여자: {rental.technician ? rental.technician.name : 'MoNo 보관중'} · 상태: {rental.status}</p>
+                                        </div>
+                                    </div>
+                                    <div className={styles.itemMeta}>
+                                        <span className={`${styles.statusBadge} ${rental.status === 'Rented' ? styles.rented : styles.active}`}>{rental.status}</span>
+                                        {rental.status === 'Rented' && <span style={{ fontSize: '0.85rem', color: '#00f2ff' }}>월 렌탈료: ₩ {rental.monthlyFee.toLocaleString()}</span>}
+                                        {rental.status === 'Available' && <button className={styles.actionBtn}>대여 등록</button>}
                                     </div>
                                 </div>
-                                <div className={styles.itemMeta}>
-                                    <span className={`${styles.statusBadge} ${styles.rented}`}>대여 중</span>
-                                    <span style={{ fontSize: '0.85rem', color: '#00f2ff' }}>월 렌탈료: ₩ 45,000</span>
-                                </div>
-                            </div>
-                            <div className={styles.listItem}>
-                                <div className={styles.itemMain}>
-                                    <div className={styles.itemAvatar}><Wrench size={20}/></div>
-                                    <div className={styles.itemInfo}>
-                                        <h4>Rubi TX-1250 타일 절단기</h4>
-                                        <p>보관 위치: MoNo 강남 물류센터</p>
-                                    </div>
-                                </div>
-                                <div className={styles.itemMeta}>
-                                    <span className={`${styles.statusBadge} ${styles.active}`}>대여 가능</span>
-                                    <button className={styles.actionBtn}>대여 등록</button>
-                                </div>
-                            </div>
+                            ))}
                         </GlassCard>
                     </div>
                 )}
@@ -232,8 +258,8 @@ export default function AdminClient() {
                                     <span className={styles.statTitle}>MoNo 금융 상품 타겟 대상자</span>
                                     <div className={styles.statIcon}><CreditCard size={20} /></div>
                                 </div>
-                                <div className={styles.statValue}>1,240 명</div>
-                                <div className={styles.statSub}>신용 평점 (Trust Score) 85점 이상</div>
+                                <div className={styles.statValue}>{data.marketing.eligibleUsersCount} 명</div>
+                                <div className={styles.statSub}>신용 평점 (Trust Score) 85점 이상 기준</div>
                             </GlassCard>
                             <GlassCard className={styles.statCard}>
                                 <div className={styles.statHeader}>
@@ -245,13 +271,17 @@ export default function AdminClient() {
                             </GlassCard>
                         </div>
                         <GlassCard className={styles.listCard} style={{ padding: '24px' }}>
-                            <h3 style={{ marginBottom: '16px' }}>진행 중인 데이터 마케팅 캠페인</h3>
-                            <div style={{ padding: '16px', background: 'rgba(255,255,255,0.05)', borderRadius: '12px' }}>
-                                <h4 style={{ color: '#D4AF37', marginBottom: '8px' }}>"마스터 신용 대출 연계" 캠페인 (진행중)</h4>
-                                <p style={{ fontSize: '0.9rem', color: '#ccc', lineHeight: '1.6' }}>
-                                    MoNo 에스크로 정산 내역 3개월 이상 확인된 기술자를 대상으로, 제휴 은행의 '직장인 신용대출' 수준의 저금리 상품 안내 푸시 발송.
-                                    현재 전환율 4.2%.
-                                </p>
+                            <h3 style={{ marginBottom: '16px' }}>진행 중인 데이터 마케팅 캠페인 (자동 생성)</h3>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                                {data.marketing.financeProducts.map(product => (
+                                    <div key={product.id} style={{ padding: '16px', background: 'rgba(255,255,255,0.05)', borderRadius: '12px' }}>
+                                        <h4 style={{ color: '#D4AF37', marginBottom: '8px' }}>{product.name} ({product.type})</h4>
+                                        <p style={{ fontSize: '0.9rem', color: '#ccc', lineHeight: '1.6' }}>
+                                            {product.description}<br/>
+                                            <strong>조건:</strong> Trust Score {product.minTrustScore}점 이상 / 금리 {product.interestRate}%
+                                        </p>
+                                    </div>
+                                ))}
                             </div>
                         </GlassCard>
                     </div>
