@@ -26,7 +26,7 @@ const GLOBAL_PROJECTS = [
         krwEquivalent: 585000,
         period: '3 Months',
         tags: ['비자 지원', '숙소 제공', 'Tier 1'],
-        image: 'https://images.unsplash.com/photo-1502005229762-de13393962b3?w=500&q=80',
+        image: '/global/sydney.png',
         requirement: 'Master Tiler (5yr+)',
         trustScoreMin: 85
     },
@@ -40,7 +40,7 @@ const GLOBAL_PROJECTS = [
         krwEquivalent: 510000,
         period: '6 Months',
         tags: ['Red Seal 우대', '항공권 지원'],
-        image: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=500&q=80',
+        image: '/global/vancouver.png',
         requirement: 'HVAC Specialist',
         trustScoreMin: 90
     },
@@ -54,7 +54,7 @@ const GLOBAL_PROJECTS = [
         krwEquivalent: 610000,
         period: '1 Year',
         tags: ['블루카드 지원', '팀 단위 가능'],
-        image: 'https://images.unsplash.com/photo-1504328156602-ff144ced4d47?w=500&q=80',
+        image: '/global/berlin.png',
         requirement: 'TIG/Mig Welder',
         trustScoreMin: 88
     }

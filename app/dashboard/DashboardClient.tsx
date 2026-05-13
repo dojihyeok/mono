@@ -232,6 +232,68 @@ export default function DashboardClient({ technician, transactions }: DashboardC
                     </div>
                 </section>
 
+                {/* Equipment Investment (Funding) - Moved from Shop */}
+                <section className={styles.missionSection}>
+                    <div className={styles.sectionHeader}>
+                        <h3 className={styles.sectionTitle}>장비 지분 투자 & 공동 소유 (Personal Growth)</h3>
+                        <Link href="/shop" className={styles.viewShopLink}>전문 장비 구매하러 가기 <ChevronRight size={14} /></Link>
+                    </div>
+                    <div className={styles.investmentGrid}>
+                        {[
+                            { 
+                                id: 4, 
+                                name: 'Hilti PM 30-MG 레이저 레벨기', 
+                                price: '₩ 10,000 / 1지분', 
+                                desc: '렌탈 수익 공유형 공동 소유권. 총 150지분 펀딩 진행 중.',
+                                yield: '예상 연 수익률 12.4%',
+                                progress: 80,
+                                investors: 42,
+                                current: 120,
+                                total: 150,
+                                image: '/shop/laser.png'
+                            },
+                            { 
+                                id: 5, 
+                                name: 'Rubi TX-1250 MAX 타일 절단기', 
+                                price: '₩ 50,000 / 1지분', 
+                                desc: '초대형 타일 커팅용 고가 장비. B2B 파트너 우선 대여 배정.',
+                                yield: '예상 연 수익률 15.2%',
+                                progress: 40,
+                                investors: 14,
+                                current: 20,
+                                total: 50,
+                                image: '/shop/cutter.png'
+                            }
+                        ].map(item => (
+                            <GlassCard key={item.id} className={styles.investmentCard}>
+                                <div className={styles.investmentVisual}>
+                                    <Image src={item.image} alt={item.name} fill style={{ objectFit: 'cover', opacity: 0.6 }} />
+                                    <div className={styles.yieldBadge}>{item.yield}</div>
+                                </div>
+                                <div className={styles.investmentContent}>
+                                    <h4 className={styles.investmentName}>{item.name}</h4>
+                                    <p className={styles.investmentDesc}>{item.desc}</p>
+                                    
+                                    <div className={styles.fundingMeta}>
+                                        <div className={styles.fundingHeader}>
+                                            <span className={styles.fundingPercent}>{item.progress}% 달성</span>
+                                            <span className={styles.fundingAmount}>{item.current} / {item.total} 지분</span>
+                                        </div>
+                                        <div className={styles.fundingBar}>
+                                            <div className={styles.fundingFill} style={{ width: `${item.progress}%` }}></div>
+                                        </div>
+                                        <div className={styles.fundingFooter}>
+                                            <span>{item.investors}명의 마스터 참여 중</span>
+                                            <span className={styles.sharePrice}>{item.price}</span>
+                                        </div>
+                                    </div>
+                                    <Button variant="primary" style={{ width: '100%', marginTop: '1rem' }}>지분 투자하기</Button>
+                                </div>
+                            </GlassCard>
+                        ))}
+                    </div>
+                </section>
+
                 <div className={styles.lowerGrid}>
                     <GlassCard className={styles.gearCard}>
                         <h3 className={styles.cardTitle}>보유 전문 장비 목록</h3>
