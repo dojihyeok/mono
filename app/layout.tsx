@@ -3,6 +3,8 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import AppShell from "@/components/AppShell";
 import { AuthProvider } from "@/context/AuthContext";
+import { UIProvider } from "@/context/UIContext";
+import SplashScreen from "@/components/UI/SplashScreen";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -43,9 +45,12 @@ export default function RootLayout({
       <body suppressHydrationWarning>
         <div className={`${inter.className} app-shell`}>
           <AuthProvider>
-            <AppShell>
-              {children}
-            </AppShell>
+            <UIProvider>
+              <SplashScreen />
+              <AppShell>
+                {children}
+              </AppShell>
+            </UIProvider>
           </AuthProvider>
         </div>
       </body>

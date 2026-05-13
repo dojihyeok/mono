@@ -24,9 +24,12 @@ import {
     FileText,
     History
 } from 'lucide-react';
+import { useUI } from '@/context/UIContext';
+import styles from './page.module.css';
 
 export default function ProfileClient({ id }: { id: string }) {
     const [showProposal, setShowProposal] = useState(false);
+    const { showToast } = useUI();
     
     const MASTER = id === 'seo-jeong-feel-good' ? {
         name: '서정필굿',
@@ -136,7 +139,7 @@ export default function ProfileClient({ id }: { id: string }) {
                     <Activity size={20} color="#3182f6" />
                     <h3>360° 평판 분석 리포트</h3>
                 </div>
-                <GlassCard className={styles.chartCard}>
+                <div className={styles.chartCard}>
                     <div style={{ width: '100%', height: 250 }}>
                         <ResponsiveContainer width="100%" height="100%">
                             <RadarChart cx="50%" cy="50%" outerRadius="80%" data={reputationData}>
@@ -152,7 +155,7 @@ export default function ProfileClient({ id }: { id: string }) {
                             </RadarChart>
                         </ResponsiveContainer>
                     </div>
-                </GlassCard>
+                </div>
             </div>
 
             {/* 5. Reputation & History */}
@@ -225,7 +228,7 @@ export default function ProfileClient({ id }: { id: string }) {
                             </div>
                         </div>
                         <button className={styles.sendBtn} onClick={() => {
-                            alert('프로젝트 제안서가 마스터님께 정식으로 발송되었습니다.');
+                            showToast('프로젝트 제안서가 마스터님께 정식으로 발송되었습니다.', 'success');
                             setShowProposal(false);
                         }}>
                             제안서 최종 발송
