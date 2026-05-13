@@ -21,6 +21,7 @@
   --shadow-md: 0 12px 24px rgba(0, 0, 0, 0.2);
   --shadow-lg: 0 24px 48px rgba(0, 0, 0, 0.4);
   --app-max-width: 600px;
+  --glass: rgba(0, 0, 0, 0.85);
 }
 
 [data-theme='sky'] {
@@ -37,6 +38,7 @@
   --text-primary: #001a33;
   --text-secondary: #334d66;
   --text-tertiary: #668099;
+  --glass: rgba(240, 247, 255, 0.95);
 }
 
 [data-theme='recommend1'] {
@@ -53,6 +55,7 @@
   --text-primary: #1d1d1f;
   --text-secondary: #424245;
   --text-tertiary: #86868b;
+  --glass: rgba(245, 245, 247, 0.95);
 }
 
 [data-theme='recommend2'] {
@@ -69,6 +72,7 @@
   --text-primary: #2c2c2e;
   --text-secondary: #4a4a4c;
   --text-tertiary: #a1a1a6;
+  --glass: rgba(250, 250, 248, 0.95);
 }
 
 
