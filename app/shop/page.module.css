@@ -259,6 +259,44 @@
     to { opacity: 1; transform: translateY(0); }
 }
 
+/* Funding & Co-ownership */
+.fundingMeta {
+    margin: 1.5rem 0;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255,255,255,0.05);
+}
+
+.yieldText {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    font-weight: 800;
+    color: #30d158;
+    margin-bottom: 0.5rem;
+}
+
+.fundingProgress {
+    width: 100%;
+    height: 6px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 4px;
+    margin-bottom: 0.5rem;
+    overflow: hidden;
+}
+
+.fundingFill {
+    height: 100%;
+    background: linear-gradient(90deg, #D4AF37, #F2D06B);
+    border-radius: 4px;
+}
+
+.fundingDetail {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.5);
+}
+
 @media (max-width: 1024px) {
     .productGrid { grid-template-columns: repeat(2, 1fr); }
     .productVisual { height: 260px; }
