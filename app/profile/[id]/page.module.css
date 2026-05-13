@@ -78,7 +78,29 @@
     color: #D4AF37;
     font-weight: 700;
     display: block;
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+/* ── Verification Strip ── */
+.verifyStrip {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 3rem;
+    flex-wrap: wrap;
+}
+
+.verifyItem {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(49, 130, 246, 0.05);
+    border: 1px solid rgba(49, 130, 246, 0.1);
+    padding: 0.5rem 1rem;
+    border-radius: 100px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.6);
 }
 
 .quickStats {
@@ -93,145 +115,91 @@
     margin: 0 auto;
 }
 
-.qsItem {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 14px;
-    font-weight: 700;
-    color: rgba(255, 255, 255, 0.5);
-}
-
-.divider {
-    width: 1px;
-    height: 14px;
-    background: rgba(255, 255, 255, 0.1);
-}
-
-/* ── Asset Grid (Native Card Style) ───────── */
-.assetGrid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.5rem;
+/* ── Analytics & Radar ── */
+.analyticsSection {
     margin-bottom: 4rem;
 }
 
-.assetCard {
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    border-radius: 32px;
-    padding: 2.5rem;
+.chartCard {
+    background: #111 !important;
+    border: 1px solid rgba(255, 255, 255, 0.03) !important;
+    border-radius: 32px !important;
+    padding: 2.5rem !important;
 }
 
-.assetCard h3 {
-    font-size: 1rem;
-    font-weight: 800;
-    color: #fff;
-    margin-bottom: 2rem;
-    color: rgba(255, 255, 255, 0.3);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+/* ── Timeline Style History ── */
+.timeline {
+    position: relative;
+    padding-left: 2rem;
+    margin-top: 2rem;
 }
 
-.pillGrid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-}
-
-.skillPill {
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 4px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
     background: rgba(255, 255, 255, 0.05);
-    padding: 8px 16px;
-    border-radius: 10px;
-    font-size: 13px;
-    font-weight: 700;
-    color: #fff;
 }
 
-.equipmentInfo {
-    display: flex;
-    gap: 1.25rem;
-    align-items: center;
-}
-
-.eqText h4 {
-    font-size: 1.1rem;
-    font-weight: 800;
-    color: #fff;
-    margin-bottom: 4px;
-}
-
-.eqText span {
-    font-size: 12px;
-    color: rgba(255, 255, 255, 0.3);
-}
-
-/* ── History Section (Native Timeline) ─────── */
-.historySection {
-    background: rgba(255, 255, 255, 0.02);
-    border-radius: 40px;
-    padding: 3.5rem;
-    margin-bottom: 6rem;
-}
-
-.sectionHeader {
-    display: flex;
-    align-items: center;
-    gap: 12px;
+.timelineItem {
+    position: relative;
     margin-bottom: 3rem;
 }
 
-.sectionHeader h3 {
-    font-size: 1.25rem;
+.timelineItem:last-child {
+    margin-bottom: 0;
+}
+
+.timelineDot {
+    position: absolute;
+    left: -2rem;
+    top: 6px;
+    width: 10px;
+    height: 10px;
+    background: #D4AF37;
+    border-radius: 50%;
+    border: 2px solid #000;
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+    z-index: 1;
+}
+
+.timelineContent {
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 20px;
+    padding: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.timelineDate {
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: rgba(255, 255, 255, 0.2);
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+}
+
+.timelineContent h4 {
+    font-size: 1.15rem;
     font-weight: 800;
     color: #fff;
+    margin-bottom: 0.25rem;
 }
 
-.historyList {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
+.timelineContent p {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.5);
+    margin-bottom: 1rem;
 }
 
-.historyItem {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    padding-bottom: 2rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.histMain h4 {
-    font-size: 1.25rem;
-    font-weight: 800;
-    color: #fff;
-    margin-bottom: 6px;
-}
-
-.histMain span {
-    font-size: 14px;
-    color: rgba(255, 255, 255, 0.4);
-}
-
-.histScore {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background: rgba(212, 175, 55, 0.1);
-    padding: 6px 12px;
-    border-radius: 8px;
-    color: #D4AF37;
-    font-size: 11px;
-    font-weight: 800;
-}
-
-/* ── Floating Action (Native Premium CTA) ──── */
-.deploymentFixed {
-    position: fixed;
-    bottom: 3rem;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 1000;
+/* Existing Card Overrides */
+.assetCard {
+    background: #111 !important;
+    border: 1px solid rgba(255, 255, 255, 0.03) !important;
+    border-radius: 32px !important;
+    padding: 2.5rem !important;
 }
 
 .proposeBtn {
@@ -240,7 +208,7 @@
     padding: 1.25rem 3rem;
     border-radius: 24px;
     font-size: 1.1rem;
-    font-weight: 800;
+    font-weight: 900;
     display: flex;
     align-items: center;
     gap: 12px;
@@ -250,20 +218,14 @@
     transition: all 0.2s;
 }
 
-.proposeBtn:hover {
-    transform: translateX(-50%) translateY(-5px);
-    background: #f0f0f0;
-}
-
-/* ── Modal (Business Proposal Style) ───────── */
 .modalOverlay {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.8);
-    backdrop-filter: blur(10px);
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(15px);
     display: flex;
     justify-content: center;
     align-items: center;

@@ -1,7 +1,15 @@
 'use client';
 
 import { useState } from 'react';
-import styles from './page.module.css';
+import { motion } from 'framer-motion';
+import { 
+    Radar, 
+    RadarChart, 
+    PolarGrid, 
+    PolarAngleAxis, 
+    PolarRadiusAxis, 
+    ResponsiveContainer 
+} from 'recharts';
 import { 
     Award, 
     ShieldCheck, 
@@ -11,7 +19,10 @@ import {
     CheckCircle2,
     Briefcase,
     Activity,
-    ClipboardCheck
+    ClipboardCheck,
+    Fingerprint,
+    FileText,
+    History
 } from 'lucide-react';
 
 export default function ProfileClient({ id }: { id: string }) {
@@ -38,9 +49,17 @@ export default function ProfileClient({ id }: { id: string }) {
     const CORE_SKILLS = ['수중 용접', '유압 시스템 점검', '안전 관리 감독', '현장 총괄 매니지먼트'];
     
     const RECENT_HISTORY = [
-        { project: '사우디 네옴시티 (댐 공정)', role: '리드 전문 용접공', score: 99 },
-        { project: '삼성 평택 P4 반도체 현장', role: '현장 팀 리더', score: 97 },
-        { project: '호주 그린에너지 플랜트', role: '기술 지원 리더', score: 98 }
+        { project: '사우디 네옴시티 (댐 공정)', role: '리드 전문 용접공', score: 99, date: '2024 - 2025' },
+        { project: '삼성 평택 P4 반도체 현장', role: '현장 팀 리더', score: 97, date: '2023 - 2024' },
+        { project: '호주 그린에너지 플랜트', role: '기술 지원 리더', score: 98, date: '2022 - 2023' }
+    ];
+
+    const reputationData = [
+        { subject: '기술 숙련도', A: 95, fullMark: 100 },
+        { subject: '안전 관리', A: 98, fullMark: 100 },
+        { subject: '소통 능력', A: 92, fullMark: 100 },
+        { subject: '도구 활용', A: 88, fullMark: 100 },
+        { subject: '근태 신뢰', A: 99, fullMark: 100 },
     ];
 
     return (
@@ -50,7 +69,7 @@ export default function ProfileClient({ id }: { id: string }) {
                 <div className={styles.avatarWrap}>
                     <div className={styles.avatarRing}>
                         <div className={styles.imgCircle}>
-                             <div className={styles.placeholderImg}>MASTER</div>
+                             <div className={styles.placeholderImg}>{MASTER.name[0]}</div>
                         </div>
                     </div>
                     <div className={styles.trustBadge}>
@@ -73,7 +92,23 @@ export default function ProfileClient({ id }: { id: string }) {
                 </div>
             </div>
 
-            {/* 2. Professional Assets Grid */}
+            {/* 2. Verification Status */}
+            <div className={styles.verifyStrip}>
+                <div className={styles.verifyItem}>
+                    <Fingerprint size={16} color="#3182f6" />
+                    <span>신원 인증 완료</span>
+                </div>
+                <div className={styles.verifyItem}>
+                    <FileText size={16} color="#3182f6" />
+                    <span>국가기술자격 4건 인증</span>
+                </div>
+                <div className={styles.verifyItem}>
+                    <ShieldCheck size={16} color="#3182f6" />
+                    <span>안전보건교육 이수</span>
+                </div>
+            </div>
+
+            {/* 3. Professional Assets Grid */}
             <div className={styles.assetGrid}>
                 <div className={styles.assetCard}>
                     <h3>전문 보유 기술</h3>
@@ -84,33 +119,60 @@ export default function ProfileClient({ id }: { id: string }) {
                     </div>
                 </div>
                 <div className={styles.assetCard}>
-                    <h3>보유 장비 및 인프라</h3>
+                    <h3>보유 장비 인프라</h3>
                     <div className={styles.equipmentInfo}>
                         <Zap size={24} color="#D4AF37" />
                         <div className={styles.eqText}>
                             <h4>{MASTER.equipment}</h4>
-                            <span style={{color: '#22C55E', fontWeight: 700}}>최적 운용 상태 (A+ 등급)</span>
+                            <span style={{color: '#30d158', fontWeight: 800}}>실시간 가동 가능 (S급)</span>
                         </div>
                     </div>
                 </div>
             </div>
 
-            {/* 3. Reputation & History */}
+            {/* 4. Reputation Analytics */}
+            <div className={styles.analyticsSection}>
+                <div className={styles.sectionHeader}>
+                    <Activity size={20} color="#3182f6" />
+                    <h3>360° 평판 분석 리포트</h3>
+                </div>
+                <GlassCard className={styles.chartCard}>
+                    <div style={{ width: '100%', height: 250 }}>
+                        <ResponsiveContainer width="100%" height="100%">
+                            <RadarChart cx="50%" cy="50%" outerRadius="80%" data={reputationData}>
+                                <PolarGrid stroke="rgba(255,255,255,0.05)" />
+                                <PolarAngleAxis dataKey="subject" tick={{ fill: 'rgba(255,255,255,0.4)', fontSize: 10 }} />
+                                <Radar
+                                    name="Master Reputation"
+                                    dataKey="A"
+                                    stroke="#3182f6"
+                                    fill="#3182f6"
+                                    fillOpacity={0.2}
+                                />
+                            </RadarChart>
+                        </ResponsiveContainer>
+                    </div>
+                </GlassCard>
+            </div>
+
+            {/* 5. Reputation & History */}
             <div className={styles.historySection}>
                 <div className={styles.sectionHeader}>
-                    <ClipboardCheck size={20} color="#D4AF37" />
-                    <h3>최근 프로젝트 수행 이력</h3>
+                    <History size={20} color="#D4AF37" />
+                    <h3>글로벌 프로젝트 히스토리</h3>
                 </div>
-                <div className={styles.historyList}>
+                <div className={styles.timeline}>
                     {RECENT_HISTORY.map((hist, i) => (
-                        <div key={i} className={styles.historyItem}>
-                            <div className={styles.histMain}>
+                        <div key={i} className={styles.timelineItem}>
+                            <div className={styles.timelineDot} />
+                            <div className={styles.timelineContent}>
+                                <div className={styles.timelineDate}>{hist.date}</div>
                                 <h4>{hist.project}</h4>
-                                <span>{hist.role}</span>
-                            </div>
-                            <div className={styles.histScore}>
-                                <Star size={10} fill="#D4AF37" />
-                                <span>현장 평점 {hist.score}</span>
+                                <p>{hist.role}</p>
+                                <div className={styles.histScore}>
+                                    <Star size={12} fill="#D4AF37" color="#D4AF37" />
+                                    <span>현장 만족도 {hist.score}</span>
+                                </div>
                             </div>
                         </div>
                     ))}
