@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import styles from './Navbar.module.css';
 import AuthModal from '../AuthModal/AuthModal';
 import TacticalAlerts from '../TacticalAlerts/TacticalAlerts';
@@ -13,10 +14,14 @@ interface NavbarProps {
 
 export default function Navbar({ isLoggedIn = false, onToggleLogin }: NavbarProps) {
     const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+    const pathname = usePathname();
+
+    // Hide global Navbar on Home if logged in (Home has its own native header)
+    if (pathname === '/' && isLoggedIn) return null;
 
     return (
         <header className={styles.header}>
-            <div className={`container ${styles.navContainer}`}>
+            <div className={styles.navContainer}>
                 <Link href="/" className={styles.logo}>
                     MONO
                 </Link>
@@ -24,21 +29,14 @@ export default function Navbar({ isLoggedIn = false, onToggleLogin }: NavbarProp
                 <div className={styles.ctaGroup}>
                     {isLoggedIn ? (
                         <>
-                            {/* Tactical Alerts Center */}
                             <TacticalAlerts />
-                            
-                            {/* Profile Icon */}
-                            <button className={styles.iconButton} onClick={onToggleLogin} aria-label="로그아웃">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                    <circle cx="12" cy="12" r="10"></circle>
-                                    <path d="M12 16v-4"></path>
-                                    <path d="M12 8h.01"></path>
-                                </svg>
+                            <button className={styles.iconButton} onClick={onToggleLogin} aria-label="프로필">
+                                <div className={styles.profileCircle}>JD</div>
                             </button>
                         </>
                     ) : (
                         <button className={styles.loginBtn} onClick={() => setIsAuthModalOpen(true)}>
-                            로그인 / 가입
+                            시작하기
                         </button>
                     )}
                 </div>

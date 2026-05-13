@@ -6,19 +6,18 @@ import { usePathname } from 'next/navigation';
 import { 
     Home, 
     Briefcase, 
-    CalendarCheck, 
-    BrainCircuit, 
+    Users, 
     Wallet,
-    ShieldCheck
+    UserCircle
 } from 'lucide-react';
 import styles from './BottomNav.module.css';
 
 const NAV_ITEMS = [
     { label: '홈', icon: Home, href: '/' },
-    { label: '현장', icon: Briefcase, href: '/jobs' },
-    { label: '반장', icon: BrainCircuit, href: '/foreman' },
-    { label: '커리어', icon: ShieldCheck, href: '/career' },
-    { label: '정산', icon: Wallet, href: '/settlement' }
+    { label: '현장매칭', icon: Briefcase, href: '/jobs' },
+    { label: '커뮤니티', icon: Users, href: '/foreman' },
+    { label: '자산', icon: Wallet, href: '/settlement' },
+    { label: '내 정보', icon: UserCircle, href: '/career' }
 ];
 
 export default function BottomNav() {
@@ -26,27 +25,25 @@ export default function BottomNav() {
 
     return (
         <nav className={styles.bottomNav}>
-            {NAV_ITEMS.map((item) => {
-                const Icon = item.icon;
-                const isActive = pathname === item.href;
-                
-                return (
-                    <Link 
-                        key={item.label} 
-                        href={item.href} 
-                        className={`${styles.navItem} ${isActive ? styles.active : ''}`}
-                    >
-                        <div className={styles.iconWrapper}>
-                            {typeof Icon === 'string' ? (
-                                <span className={styles.customIcon}>{Icon}</span>
-                            ) : (
-                                <Icon size={24} />
-                            )}
-                        </div>
-                        <span className={styles.label}>{item.label}</span>
-                    </Link>
-                );
-            })}
+            <div className={styles.navContainer}>
+                {NAV_ITEMS.map((item) => {
+                    const Icon = item.icon;
+                    const isActive = pathname === item.href;
+                    
+                    return (
+                        <Link 
+                            key={item.label} 
+                            href={item.href} 
+                            className={`${styles.navItem} ${isActive ? styles.active : ''}`}
+                        >
+                            <div className={styles.iconBox}>
+                                <Icon size={26} strokeWidth={isActive ? 2.5 : 2} />
+                            </div>
+                            <span className={styles.label}>{item.label}</span>
+                        </Link>
+                    );
+                })}
+            </div>
         </nav>
     );
 }

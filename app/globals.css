@@ -1,54 +1,35 @@
 :root {
   --background: #000000;
   --foreground: #ffffff;
-
-  --primary: #ffffff;
-  --primary-foreground: #000000;
-
-  --accent: #D4AF37;
-  --accent-gold: #D4AF37;
-  --accent-soft: rgba(212, 175, 55, 0.1);
   
-  --card: rgba(255, 255, 255, 0.02);
+  /* Super App Palette */
+  --primary: #3182f6; /* Toss-style Blue */
+  --primary-soft: rgba(49, 130, 246, 0.1);
+  --accent: #D4AF37; /* Premium Gold */
+  
+  --surface: #0a0a0c;
+  --surface-raised: #141416;
+  --surface-overlay: rgba(255, 255, 255, 0.03);
+  
   --border: rgba(255, 255, 255, 0.05);
+  --border-strong: rgba(255, 255, 255, 0.1);
   
-  --font-sans: 'Inter', 'Pretendard Variable', 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+  --text-primary: #ffffff;
+  --text-secondary: rgba(255, 255, 255, 0.6);
+  --text-tertiary: rgba(255, 255, 255, 0.3);
   
-  --radius-lg: 32px;
-  --radius-md: 20px;
+  --font-sans: 'Pretendard Variable', 'Pretendard', 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  
+  --radius-xl: 32px;
+  --radius-lg: 24px;
+  --radius-md: 16px;
   --radius-sm: 12px;
   
-  --shadow-premium: 0 20px 40px rgba(0, 0, 0, 0.4);
+  --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 12px 24px rgba(0, 0, 0, 0.2);
+  --shadow-lg: 0 24px 48px rgba(0, 0, 0, 0.4);
 
-  /* Layout Variables */
   --app-max-width: 600px;
-  --nav-bg: rgba(0, 0, 0, 0.8);
-  --secondary: rgba(255, 255, 255, 0.6);
-}
-
-.app-shell {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
-.app-content {
-  flex: 1;
-  width: 100%;
-  max-width: var(--app-max-width);
-  margin: 0 auto;
-  padding-top: 72px; /* Navbar Height */
-  padding-bottom: 90px; /* Offset for BottomNav + Safety Margin */
-}
-
-@media (min-width: 768px) {
-  .app-content {
-    border-left: 1px solid rgba(255, 255, 255, 0.05);
-    border-right: 1px solid rgba(255, 255, 255, 0.05);
-    box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
-    min-height: 100vh;
-    background: #06070a; /* Ensure the frame has its own background */
-  }
 }
 
 * {
@@ -60,7 +41,7 @@
 }
 
 html {
-  font-size: 15px; /* Base size for rem units */
+  font-size: 15px;
   scroll-behavior: smooth;
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
@@ -69,15 +50,12 @@ html {
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+  html { font-size: 16px; }
 }
 
 body {
-  background-color: #020203;
-  background-image: radial-gradient(circle at 50% 0%, rgba(212, 175, 55, 0.03) 0%, transparent 60%);
-  color: var(--foreground);
+  background-color: #000;
+  color: var(--text-primary);
   font-family: var(--font-sans);
   line-height: 1.5;
   overflow-x: hidden;
@@ -104,69 +82,44 @@ body {
   -webkit-overflow-scrolling: touch;
 }
 
-/* ── Custom Scrollbar (Premium Dark) ─────── */
-::-webkit-scrollbar {
-  width: 8px;
+@media (min-width: 768px) {
+  .app-content {
+    border-left: 1px solid var(--border);
+    border-right: 1px solid var(--border);
+    background: #020203;
+  }
 }
 
-::-webkit-scrollbar-track {
-  background: #000;
-}
-
-::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 10px;
-  border: 2px solid #000;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.2);
-}
-
-/* ── Typography Refinement ───────────────── */
+/* ── Typography ────────────────────────── */
 h1, h2, h3, h4, h5, h6 {
   font-weight: 800;
-  letter-spacing: -0.03em;
-  line-height: 1.2;
+  letter-spacing: -0.04em;
+  line-height: 1.25;
 }
 
-h1 { font-size: 2rem; }
-h2 { font-size: 1.6rem; }
-h3 { font-size: 1.3rem; }
-h4 { font-size: 1.1rem; }
+h1 { font-size: 2.2rem; }
+h2 { font-size: 1.8rem; }
+h3 { font-size: 1.4rem; }
+h4 { font-size: 1.15rem; }
 
 p {
-  color: rgba(255, 255, 255, 0.6);
-  font-weight: 400;
-  letter-spacing: -0.01em;
+  color: var(--text-secondary);
+  font-weight: 500;
+  letter-spacing: -0.02em;
   line-height: 1.6;
-  font-size: 1rem;
 }
 
-@media (max-width: 768px) {
-  h1 { font-size: 1.8rem; }
-  h2 { font-size: 1.4rem; }
-  h3 { font-size: 1.2rem; }
-  
-  p {
-    letter-spacing: -0.01em;
-    line-height: 1.5;
-    font-size: 0.95rem;
-  }
+/* ── Native UI Elements ────────────────── */
+.super-app-card {
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  border: 1px solid var(--border);
+  transition: transform 0.2s cubic-bezier(0.2, 0, 0, 1);
 }
 
-/* ── Global Layout Utilities ────────────── */
-.container {
-  width: 100%;
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 0 1.25rem;
-}
-
-@media (min-width: 1024px) {
-  .container {
-    padding: 0 2.5rem;
-  }
+.super-app-card:active {
+  transform: scale(0.98);
 }
 
 .glass {
@@ -176,60 +129,60 @@ p {
   border: 1px solid var(--border);
 }
 
-/* ── Native App Button Styles ────────────── */
+/* ── Button System ─────────────────────── */
 .btn-primary {
-  background: #fff;
-  color: #000;
-  padding: 1rem 2rem;
+  background: var(--primary);
+  color: #fff;
+  padding: 1.25rem 2rem;
   border-radius: var(--radius-md);
   font-weight: 800;
+  font-size: 1.05rem;
   border: none;
-  cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  gap: 10px;
+  justify-content: center;
+  gap: 12px;
+  cursor: pointer;
 }
 
-.btn-primary:hover {
-  background: #f0f0f0;
-  transform: translateY(-2px);
-}
-
-.btn-outline {
-  background: transparent;
-  color: #fff;
-  border: 1px solid var(--border);
-  padding: 1rem 2rem;
+.btn-secondary {
+  background: var(--surface-raised);
+  color: var(--text-primary);
+  padding: 1.25rem 2rem;
   border-radius: var(--radius-md);
   font-weight: 700;
-  cursor: pointer;
-  transition: all 0.2s;
+  border: 1px solid var(--border);
 }
 
-.btn-outline:hover {
-  background: rgba(255, 255, 255, 0.05);
-  border-color: rgba(255, 255, 255, 0.2);
+/* ── Scrollbars ────────────────────────── */
+::-webkit-scrollbar { width: 0; height: 0; } /* Hide scrollbars for native look */
+
+/* ── Layout Utilities ──────────────────── */
+.container {
+  padding: 0 1.5rem;
 }
 
-/* ── Animations ────────────────────────── */
-@keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+.section-title {
+  margin-bottom: 1.25rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.animate-up {
-  animation: fadeInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+.section-title h3 {
+  font-size: 1.4rem;
+  color: var(--text-primary);
 }
 
-/* Selection Color */
-::selection {
-  background: var(--accent);
-  color: #000;
+.view-all {
+  font-size: 0.9rem;
+  color: var(--primary);
+  font-weight: 700;
+  text-decoration: none;
 }
 
-/* Remove default focus styles for a cleaner look */
-:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 4px;
-}
+/* Status Colors */
+.status-success { color: #30d158; }
+.status-warning { color: #ff9f0a; }
+.status-error { color: #ff453a; }
+.status-info { color: #0a84ff; }

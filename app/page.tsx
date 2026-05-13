@@ -5,15 +5,20 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { 
   Bell, 
+  Search, 
+  Wallet, 
+  Coins, 
   TrendingUp, 
   BrainCircuit, 
   CalendarCheck, 
   Wrench, 
   GraduationCap, 
-  MapPin, 
   Globe, 
   ChevronRight,
-  ShieldCheck
+  ShieldCheck,
+  Zap,
+  Briefcase,
+  Users
 } from 'lucide-react';
 import styles from './page.module.css';
 import { useAuth } from '@/context/AuthContext';
@@ -39,14 +44,12 @@ export default function Home() {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: {
-        staggerChildren: 0.1
-      }
+      transition: { staggerChildren: 0.08 }
     }
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
+    hidden: { opacity: 0, y: 15 },
     visible: { opacity: 1, y: 0 }
   };
 
@@ -57,114 +60,108 @@ export default function Home() {
       initial="hidden"
       animate="visible"
     >
-      <header className={styles.greetingSection}>
-        <div className={styles.greetingText}>
-          <div className={styles.levelBadge}>
-            <ShieldCheck size={12} />
-            <span>LEVEL 2 MASTER</span>
+      {/* 1. Super App Header */}
+      <header className={styles.nativeHeader}>
+        <div className={styles.headerLeft}>
+          <div className={styles.avatarMini}>
+            <div className={styles.avatarInner}>L</div>
           </div>
-          <h1>반갑습니다, 이마스터님</h1>
-          <p className={styles.greetingSub}>오늘도 최상의 컨디션으로 안전 작업하세요.</p>
+          <div className={styles.userInfo}>
+            <span className={styles.greetingText}>좋은 아침입니다!</span>
+            <div className={styles.userNameArea}>
+                <span className={styles.userName}>이종두</span>
+                <div className={styles.masterBadge}><ShieldCheck size={10} /> MASTER</div>
+            </div>
+          </div>
         </div>
-        <div className={styles.notifyBtn}>
-          <Bell size={22} />
-          <div className={styles.notifyDot} />
+        <div className={styles.headerRight}>
+          <button className={styles.iconBtn}><Search size={22} /></button>
+          <button className={styles.iconBtn}>
+            <Bell size={22} />
+            <div className={styles.notifyDot} />
+          </button>
         </div>
       </header>
 
-      {/* 2. Main Status Card */}
-      <motion.section variants={itemVariants}>
-        <div className={styles.statusCard}>
-          <div className={styles.statusHeader}>
-            <div>
-              <div className={styles.statusLabel}>나의 기술 신뢰도</div>
-              <h2 className={styles.statusValue}>865<span>점</span></h2>
+      {/* 2. Asset & Balance Card (Toss-Style) */}
+      <motion.section variants={itemVariants} className={styles.section}>
+        <div className={styles.assetCard}>
+            <div className={styles.assetItem}>
+                <div className={styles.assetInfo}>
+                    <div className={styles.assetLabel}><Wallet size={14} /> 나의 월간 예상 수익</div>
+                    <div className={styles.assetValue}>₩ 8,420,000</div>
+                </div>
+                <button className={styles.miniBtn}>정산</button>
             </div>
-            <div className={styles.statusIcon}>
-              <TrendingUp size={20} />
+            <div className={styles.divider} />
+            <div className={styles.assetItem}>
+                <div className={styles.assetInfo}>
+                    <div className={styles.assetLabel}><Coins size={14} /> 보유 모노포인트</div>
+                    <div className={styles.assetValue}>12,450 <span>P</span></div>
+                </div>
+                <button className={styles.miniBtnGhost}>교환</button>
             </div>
-          </div>
-          <div className={styles.progressBox}>
-            <div className={styles.progressTrack}>
-              <div className={styles.progressFill} style={{ width: '82%' }} />
-            </div>
-            <div className={styles.progressLabels}>
-              <span>상위 12% 마스터</span>
-              <span>다음 레벨까지 135점</span>
-            </div>
-          </div>
         </div>
       </motion.section>
 
-      {/* 3. AI Insights */}
-      <motion.section variants={itemVariants}>
-        <div className={styles.insightCard}>
-          <div className={styles.insightIcon}>
-            <BrainCircuit size={20} />
-          </div>
-          <div className={styles.insightContent}>
-            <h3>AI 정산 브리핑</h3>
-            <p>
-              이번 주 정산 예정 금액은 <strong>124만원</strong>입니다. 
-              기술 지표 분석 결과, 평택 P4 현장의 단가가 상향 조정되었습니다.
-            </p>
-          </div>
-          <ChevronRight size={16} className={styles.insightArrow} />
-        </div>
-      </motion.section>
-
-      {/* 4. Global Exploration */}
-      <motion.section variants={itemVariants}>
-        <Link href="/global-jobs" className={styles.globalBanner}>
-          <div className={styles.globalContent}>
-            <div className={styles.globalLabel}>GLOBAL MASTER PROJECT</div>
-            <h3>전 세계 마스터와 연결되세요</h3>
-            <p>사우디 네옴시티, 호주 플랜트 등 글로벌 현장 탐색</p>
-          </div>
-          <div className={styles.globalIcon}>
-            <Globe size={32} />
-          </div>
-        </Link>
-      </motion.section>
-
-      {/* 5. Highlighted Opportunity */}
-      <motion.section variants={itemVariants}>
-        <div className={styles.sectionHeader}>
-          <h2 className={styles.sectionTitle}>추천 매칭 현장</h2>
-          <Link href="/jobs" className={styles.seeAll}>전체보기</Link>
-        </div>
-        <div className={styles.jobCard}>
-          <div className={styles.jobInfo}>
-            <div className={styles.jobMatch}>98% 연결</div>
-            <h3 className={styles.jobTitle}>삼성 고덕 반도체 배관공</h3>
-            <p className={styles.jobLoc}>평택시 고덕동 · 일급 21만</p>
-          </div>
-          <div className={styles.jobAction}>
-            <button className={styles.applyBtn}>즉시 지원</button>
-          </div>
-        </div>
-      </motion.section>
-
-      {/* 6. Quick Service Grid */}
-      <motion.section variants={itemVariants} className={styles.quickSection}>
-        <h2 className={styles.sectionTitle}>주요 서비스</h2>
+      {/* 3. Quick Action Grid (4x2) */}
+      <motion.section variants={itemVariants} className={styles.section}>
         <div className={styles.quickGrid}>
-          <Link href="/attendance" className={styles.quickItem}>
-            <div className={styles.quickIconBox}><CalendarCheck size={24} /></div>
-            <span>출퇴근</span>
-          </Link>
-          <Link href="/settlement" className={styles.quickItem}>
-            <div className={styles.quickIconBox} style={{color: '#3182f6'}}><TrendingUp size={24} /></div>
-            <span>정산</span>
-          </Link>
-          <Link href="/academy" className={styles.quickItem}>
-            <div className={styles.quickIconBox} style={{color: '#30d158'}}><GraduationCap size={24} /></div>
-            <span>성장</span>
-          </Link>
-          <Link href="/shop" className={styles.quickItem}>
-            <div className={styles.quickIconBox} style={{color: '#D4AF37'}}><Wrench size={24} /></div>
-            <span>스토어</span>
-          </Link>
+          {[
+            { id: 'jobs', icon: Zap, label: '현장매칭', color: '#3182f6' },
+            { id: 'attendance', icon: CalendarCheck, label: '출퇴근', color: '#30d158' },
+            { id: 'settlement', icon: TrendingUp, label: '정산관리', color: '#ff9f0a' },
+            { id: 'academy', icon: GraduationCap, label: '성장코칭', color: '#af52de' },
+            { id: 'shop', icon: Wrench, label: '스토어', color: '#D4AF37' },
+            { id: 'global', icon: Globe, label: '해외파견', color: '#00c7be' },
+            { id: 'career', icon: Briefcase, label: '경력인증', color: '#5856d6' },
+            { id: 'community', icon: Users, label: '커뮤니티', color: '#ff453a' },
+          ].map(item => (
+            <Link href={`/${item.id}`} key={item.id} className={styles.quickItem}>
+              <div className={styles.quickIcon} style={{ background: `${item.color}15`, color: item.color }}>
+                <item.icon size={26} />
+              </div>
+              <span>{item.label}</span>
+            </Link>
+          ))}
+        </div>
+      </motion.section>
+
+      {/* 4. AI Insight Feed */}
+      <motion.section variants={itemVariants} className={styles.section}>
+        <div className={styles.feedCard}>
+            <div className={styles.feedIcon}><BrainCircuit size={20} /></div>
+            <div className={styles.feedContent}>
+                <span className={styles.feedTag}>AI 맞춤 제안</span>
+                <p>평택 P4 반도체 현장에서 마스터님의 기술을 필요로 합니다. <strong>일급 24만원</strong> 조정 가능.</p>
+            </div>
+            <ChevronRight size={18} className={styles.feedArrow} />
+        </div>
+      </motion.section>
+
+      {/* 5. Career Pulse */}
+      <motion.section variants={itemVariants} className={styles.section}>
+        <div className="section-title">
+            <h3>성장 및 매칭</h3>
+            <Link href="/matching" className="view-all">전체보기</Link>
+        </div>
+        <div className={styles.jobCardLarge}>
+            <div className={styles.jobBadge}>추천도 98%</div>
+            <div className={styles.jobMain}>
+                <div className={styles.jobInfo}>
+                    <h4>삼성전자 평택 배관공</h4>
+                    <p>평택시 고덕동 · 일급 22~24만</p>
+                </div>
+                <div className={styles.jobLogo}>S</div>
+            </div>
+            <div className={styles.jobFooter}>
+                <div className={styles.jobTags}>
+                    <span>#즉시투입</span>
+                    <span>#숙소제공</span>
+                    <span>#야간수당</span>
+                </div>
+                <button className={styles.applyBtn}>지원하기</button>
+            </div>
         </div>
       </motion.section>
     </motion.div>

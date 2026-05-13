@@ -1,20 +1,16 @@
-/* ─────────────────────────────────────────────
-   Navbar — Refined Premium Navigation
-───────────────────────────────────────────── */
-
 .header {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
-    height: 68px;
-    background: #06070a;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    height: 65px;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border-bottom: 1px solid var(--border);
     z-index: 1000;
     display: flex;
     align-items: center;
-    user-select: none;
-    -webkit-user-select: none;
 }
 
 .navContainer {
@@ -24,102 +20,56 @@
     width: 100%;
     max-width: var(--app-max-width);
     margin: 0 auto;
-    padding: 0 1.25rem;
+    padding: 0 1.5rem;
 }
 
-/* Logo */
 .logo {
-    font-size: 1.1rem;
+    font-size: 1rem;
     font-weight: 900;
-    color: #fff;
+    color: var(--text-primary);
     text-decoration: none;
-    letter-spacing: 0.12em;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    flex-shrink: 0;
+    letter-spacing: 0.1em;
 }
 
-.logo::before {
-    content: '';
-    width: 28px;
-    height: 28px;
-    background: linear-gradient(135deg, #D4AF37, #D4AF37);
-    border-radius: 8px;
-    box-shadow: 0 0 16px rgba(212, 175, 55, 0.3);
-}
-
-/* Nav Links */
-.navLinks {
-    display: flex;
-    align-items: center;
-    gap: 0.25rem;
-}
-
-.navLink {
-    font-size: 0.88rem;
-    font-weight: 600;
-    color: rgba(255, 255, 255, 0.45);
-    text-decoration: none;
-    padding: 0.5rem 0.875rem;
-    border-radius: 100px;
-    transition: all 0.2s;
-    white-space: nowrap;
-}
-
-.navLink:hover {
-    color: #fff;
-    background: rgba(255, 255, 255, 0.06);
-}
-
-/* CTA Group */
 .ctaGroup {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    flex-shrink: 0;
+    gap: 12px;
 }
 
 .iconButton {
     background: transparent;
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    width: 38px;
-    height: 38px;
-    border-radius: 12px;
-    color: rgba(255, 255, 255, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    border: none;
+    padding: 0;
     cursor: pointer;
-    transition: all 0.2s;
 }
 
-.iconButton:hover {
-    background: rgba(212, 175, 55, 0.1);
-    color: #D4AF37;
-    border-color: rgba(212, 175, 55, 0.25);
+.profileCircle {
+    width: 32px;
+    height: 32px;
+    background: var(--surface-raised);
+    border: 1px solid var(--border-strong);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    font-weight: 800;
+    color: var(--text-secondary);
 }
 
 .loginBtn {
-    background: #fff;
-    color: #000;
-    padding: 0.55rem 1.25rem;
-    border-radius: 100px;
+    background: var(--primary);
+    color: #fff;
+    padding: 8px 16px;
+    border-radius: 10px;
     font-size: 0.85rem;
     font-weight: 800;
     border: none;
     cursor: pointer;
-    transition: all 0.2s;
-    letter-spacing: -0.01em;
+    transition: transform 0.2s;
 }
 
-.loginBtn:hover {
-    background: #f0f0f0;
-    transform: translateY(-1px);
-    box-shadow: 0 6px 20px rgba(255, 255, 255, 0.12);
-}
-
-/* Responsive */
-@media (max-width: 1024px) {
-    .navLinks { display: none; }
+.loginBtn:active {
+    transform: scale(0.95);
 }
