@@ -101,7 +101,7 @@
 }
 
 .terminalCard {
-    background: rgba(0, 0, 0, 0.3);
+    background: var(--surface-overlay);
     border: 1px solid var(--border);
     border-radius: 20px;
     padding: 1.25rem;
@@ -204,7 +204,7 @@
 
 .secondaryBtn {
     background: var(--surface-raised);
-    color: #fff;
+    color: var(--text-primary);
     border: 1px solid var(--border);
     padding: 1.25rem 2.5rem;
     border-radius: 20px;
@@ -218,8 +218,8 @@
     justify-content: center;
     gap: 4rem;
     padding: 2.5rem;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    background: var(--surface-overlay);
+    border: 1px solid var(--border-strong);
     border-radius: 32px;
     backdrop-filter: blur(10px);
 }
