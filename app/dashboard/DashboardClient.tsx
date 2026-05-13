@@ -157,6 +157,81 @@ export default function DashboardClient({ technician, transactions }: DashboardC
                     </div>
                 </section>
 
+                {/* Growth & Missions Section */}
+                <section className={styles.missionSection}>
+                    <div className={styles.sectionHeader}>
+                        <h3 className={styles.sectionTitle}>MoNo 성장 미션 & 리워드</h3>
+                    </div>
+                    <GlassCard className={styles.missionCard}>
+                        <div className={styles.missionHeader}>
+                            <div className={styles.missionTitle}>
+                                <TrendingUp size={24} color="#D4AF37" />
+                                이 달의 청년 기술자 도약 미션
+                            </div>
+                            <span className={styles.missionBadge}>진행 중</span>
+                        </div>
+                        <p style={{ color: 'rgba(255,255,255,0.6)', marginBottom: '1rem' }}>
+                            한 달 동안 25공수 달성 시, 청년희망적금용 <strong>종잣돈 응원금 10만 원</strong>을 플랫폼에서 추가 지급합니다!
+                        </p>
+                        
+                        <div className={styles.progressWrapper}>
+                            <div className={styles.progressInfo}>
+                                <span>현재 달성률: 80%</span>
+                                <span>20 / 25 공수</span>
+                            </div>
+                            <div className={styles.progressBar}>
+                                <div className={styles.progressFill} style={{ width: '80%' }}></div>
+                            </div>
+                        </div>
+
+                        <div className={styles.rewardBox}>
+                            <p className={styles.rewardTitle}>예상 추가 리워드 달성 시</p>
+                            <p className={styles.rewardValue}>+ ₩ 100,000</p>
+                        </div>
+                    </GlassCard>
+                </section>
+
+                {/* Life-Care & Roadmap Section */}
+                <section className={styles.missionSection}>
+                    <div className={styles.sectionHeader}>
+                        <h3 className={styles.sectionTitle}>미래 성장 및 노후 준비 (Life-Care)</h3>
+                    </div>
+                    <div className={styles.lifeCareGrid}>
+                        {/* Youth: Education & Career */}
+                        <GlassCard className={styles.lifeCareCard}>
+                            <div>
+                                <div className={styles.lifeCareIcon}><BrainCircuit size={24} /></div>
+                                <h4 className={styles.lifeCareTitle}>마스터 성장 로드맵 (청년)</h4>
+                                <p className={styles.lifeCareDesc}>
+                                    국비 지원(내일배움카드)을 통해 프리미엄 기술을 연계 학습하세요. 교육 이수 시 단가가 상향된 현장에 우선 배정됩니다.
+                                </p>
+                                <div className={styles.roadmapPath}>
+                                    <span className={styles.roadmapStep}>일반 타일</span>
+                                    <ChevronRight className={styles.roadmapArrow} size={16} />
+                                    <span className={styles.roadmapStep} style={{ color: '#D4AF37' }}>대형 박판 타일 과정</span>
+                                </div>
+                            </div>
+                            <div className={styles.lifeCareAction}>
+                                <Button variant="secondary" style={{ width: '100%', marginTop: '1.5rem' }}>교육 과정 신청하기</Button>
+                            </div>
+                        </GlassCard>
+
+                        {/* Mid/Senior: Retirement */}
+                        <GlassCard className={styles.lifeCareCard}>
+                            <div>
+                                <div className={styles.lifeCareIcon}><CreditCard size={24} /></div>
+                                <h4 className={styles.lifeCareTitle}>노후 준비 든든 플랜 (중장년)</h4>
+                                <p className={styles.lifeCareDesc}>
+                                    에스크로 정산액의 5%를 자동으로 퇴직연금(IRP) 또는 국민 펀드 계좌로 이체하여 일하면서 자연스럽게 노후를 대비하세요.
+                                </p>
+                            </div>
+                            <div className={styles.lifeCareAction}>
+                                <Button variant="primary" style={{ width: '100%' }}>자동 저축 연동하기</Button>
+                            </div>
+                        </GlassCard>
+                    </div>
+                </section>
+
                 <div className={styles.lowerGrid}>
                     <GlassCard className={styles.gearCard}>
                         <h3 className={styles.cardTitle}>보유 전문 장비 목록</h3>
