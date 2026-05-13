@@ -8,6 +8,7 @@ import JobCard from '@/components/JobCard';
 import JobCardSkeleton from '@/components/JobCard/JobCardSkeleton';
 import JobFilter from '@/components/JobFilter/JobFilter';
 import OccupationGrid from '@/components/OccupationGrid/OccupationGrid';
+import JobMap from '@/components/JobMap/JobMap';
 import styles from './page.module.css';
 
 interface JobsClientProps {
@@ -297,15 +298,19 @@ export default function JobsClient({ initialJobs }: JobsClientProps) {
             )}
 
             {viewMode === 'location' && (
-                <div className={styles.locationSearch}>
-                    <div className={styles.nearMeBox}>
-                        <div className={styles.nearMeIcon}>📍</div>
-                        <h3>내 주변 일자리 찾기</h3>
-                        <p>실시간 위치 기반으로 가장 가까운 현장을 추천합니다.</p>
-                        <button className={styles.gpsBtn}>현재 위치로 검색</button>
-                    </div>
+                <motion.div 
+                    className={styles.locationSearch}
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.5 }}
+                >
+                    <JobMap 
+                        jobs={filteredJobs} 
+                        onSelectJob={(id) => handleApply(id)} 
+                    />
+                    
                     <div className={styles.regionList}>
-                        <h4 className={styles.regionTitle}>지역별 검색</h4>
+                        <h4 className={styles.regionTitle}>빠른 지역 이동</h4>
                         <div className={styles.chipGrid}>
                             {['서울', '경기', '인천', '부산', '대구', '강원', '전남', '제주'].map(reg => (
                                 <button 
@@ -323,7 +328,7 @@ export default function JobsClient({ initialJobs }: JobsClientProps) {
                             ))}
                         </div>
                     </div>
-                </div>
+                </motion.div>
             )}
 
             {viewMode === 'global' && (
