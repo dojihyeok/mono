@@ -257,6 +257,153 @@
     color: #D4AF37;
 }
 
+/* Tab Navigation */
+.tabNav {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 32px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 16px;
+    overflow-x: auto;
+}
+
+.tabBtn {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 1rem;
+    font-weight: 700;
+    padding: 8px 16px;
+    cursor: pointer;
+    border-radius: 100px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.tabBtn:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.tabBtn.active {
+    color: #000;
+    background: #D4AF37;
+}
+
+/* Tab Sections */
+.tabSection {
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.sectionHeader {
+    margin-bottom: 24px;
+}
+
+.sectionHeader h2 {
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin-bottom: 8px;
+}
+
+.sectionHeader p {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.95rem;
+}
+
+/* List Items (Attendance, Settlement, Evaluation) */
+.listCard {
+    padding: 0 !important;
+    overflow: hidden;
+}
+
+.listItem {
+    padding: 24px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+.listItem:last-child {
+    border-bottom: none;
+}
+
+.itemInfo h4 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 6px;
+}
+
+.itemInfo p {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.itemActions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.timeTag {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 600;
+}
+
+.approveBtn, .payBtn, .reviewBtn {
+    padding: 10px 20px;
+    border-radius: 100px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    cursor: pointer;
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: transform 0.2s;
+}
+
+.approveBtn {
+    background: #30d158;
+    color: #000;
+}
+
+.payBtn {
+    background: #00f2ff;
+    color: #000;
+}
+
+.reviewBtn {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.approveBtn:hover, .payBtn:hover, .reviewBtn:hover {
+    transform: translateY(-2px);
+}
+
+.amountText {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #00f2ff;
+}
+
+.stars {
+    display: flex;
+    gap: 4px;
+}
+
 @media (max-width: 768px) {
     .container {
         padding: 80px 16px 40px;
