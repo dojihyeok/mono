@@ -7,41 +7,96 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// ==========================================
+// 1. 인력 관리 (Workforce)
+// ==========================================
 model Technician {
-  id          Int      @id @default(autoincrement())
-  name        String
-  specialty   String   // e.g., 목수, 용접, 배관
-  experience  Int      // Years of experience
-  location    String
-  level       String   // Helper, Technician, Master
-  status      String   // Available, Working
-  verified    Boolean  @default(false)
-  avatar      String?
-  createdAt   DateTime @default(now())
+  id            Int      @id @default(autoincrement())
+  name          String
+  specialty     String   // e.g., 목수, 용접, 배관
+  experience    Int      // Years of experience
+  location      String
+  level         String   // Helper, Technician, Master
+  status        String   // Available, Working
+  verified      Boolean  @default(false)
+  avatar        String?
+  
+  // 금융 & 데이터 자산화 메트릭
+  trustScore    Int      @default(80) // 1~100 (근태, 평가 기반)
+  totalEarnings Int      @default(0)  // 누적 에스크로 정산액 (금융 한도 산정용)
+  
+  rentals       Rental[]
+  createdAt     DateTime @default(now())
 }
 
+// ==========================================
+// 2. 파트너/회사 관리 (B2B)
+// ==========================================
+model Partner {
+  id            Int      @id @default(autoincrement())
+  companyName   String
+  tier          String   @default("Standard") // Standard, Premium, Tier1
+  activeSites   Int      @default(0)
+  totalPaid     Int      @default(0)  // 에스크로로 지급한 총 누적 금액
+  createdAt     DateTime @default(now())
+}
+
+// ==========================================
+// 3. 현장 공고 (Jobs)
+// ==========================================
 model JobSite {
-  id          Int      @id @default(autoincrement())
-  title       String
-  location    String
-  dailyWage   Int      // KRW
-  specialty   String
-  description String
-  status      String   // Recruiting, Closed
-  category    String   @default("Construction") // Construction, AgriTech, OceanTech, DawnMarket
-  isUrgent    Boolean  @default(false)
-  hasCarpool  Boolean  @default(false)
+  id              Int      @id @default(autoincrement())
+  title           String
+  location        String
+  dailyWage       Int      // KRW
+  specialty       String
+  description     String
+  status          String   // Recruiting, Matching, Deployed, Closed
+  category        String   @default("Construction") // Construction, AgriTech, OceanTech, DawnMarket
+  isUrgent        Boolean  @default(false)
+  hasCarpool      Boolean  @default(false)
   carpoolLocation String?
-  date        DateTime @default(now())
-  createdAt   DateTime @default(now())
+  date            DateTime @default(now())
+  createdAt       DateTime @default(now())
 }
 
+// ==========================================
+// 4. 에스크로 결제 및 정산 (Finance/Escrow)
+// ==========================================
 model Transaction {
-  id          Int      @id @default(autoincrement())
+  id           Int      @id @default(autoincrement())
   technicianId Int
-  siteName    String
-  amount      Int
-  status      String   // Settled, Locked, Verifying
-  date        DateTime @default(now())
-  createdAt   DateTime @default(now())
+  siteName     String
+  amount       Int
+  status       String   // Settled, Locked, Verifying
+  date         DateTime @default(now())
+  createdAt    DateTime @default(now())
+}
+
+// ==========================================
+// 5. 장비 렌탈 현황 (Rental)
+// ==========================================
+model Rental {
+  id           Int      @id @default(autoincrement())
+  technicianId Int?
+  technician   Technician? @relation(fields: [technicianId], references: [id])
+  equipmentName String
+  monthlyFee   Int
+  status       String   // Available, Rented, Maintenance
+  startDate    DateTime?
+  endDate      DateTime?
+  createdAt    DateTime @default(now())
+}
+
+// ==========================================
+// 6. 금융/대출 상품 제안 (Marketing)
+// ==========================================
+model FinanceProduct {
+  id           Int      @id @default(autoincrement())
+  name         String
+  description  String
+  minTrustScore Int     // 해당 상품 가입을 위한 최소 트러스트 스코어
+  interestRate Float    // 적용 금리 (%)
+  type         String   // Loan, Lease, Insurance
+  createdAt    DateTime @default(now())
 }
