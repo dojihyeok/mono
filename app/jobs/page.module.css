@@ -512,3 +512,111 @@
 .recApply:hover {
     background: #ffd700;
 }
+
+/* ── Success Modal ──────────────── */
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(10px);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.successModal {
+    width: 100%;
+    max-width: 400px;
+    background: #111117;
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    border-radius: 2rem;
+    padding: 2.5rem;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8);
+}
+
+.closeModal {
+    position: absolute;
+    top: 1.25rem;
+    right: 1.25rem;
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.4);
+    cursor: pointer;
+}
+
+.successIcon {
+    margin-bottom: 1.5rem;
+    display: flex;
+    justify-content: center;
+    filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.3));
+}
+
+.successModal h2 {
+    font-size: 1.75rem;
+    font-weight: 900;
+    margin-bottom: 1rem;
+    color: #fff;
+}
+
+.successModal p {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.6);
+    line-height: 1.6;
+    margin-bottom: 2rem;
+}
+
+.nextStep {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 1.25rem;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    text-align: left;
+}
+
+.nextStep span {
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: #D4AF37;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    display: block;
+    margin-bottom: 0.75rem;
+}
+
+.stepInfo strong {
+    display: block;
+    font-size: 1.05rem;
+    color: #fff;
+    margin-bottom: 0.25rem;
+}
+
+.stepInfo p {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.4);
+    margin: 0;
+}
+
+.confirmBtn {
+    width: 100%;
+    padding: 1.25rem;
+    background: #fff;
+    color: #000;
+    border: none;
+    border-radius: 1.25rem;
+    font-weight: 900;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.confirmBtn:hover {
+    transform: scale(1.02);
+}

@@ -22,10 +22,11 @@ interface JobProps {
         isUrgent: boolean;
         hasCarpool: boolean;
         carpoolLocation?: string | null;
-    }
+    };
+    onApply?: (id: string) => void;
 }
 
-export default function JobCard({ job }: JobProps) {
+export default function JobCard({ job, onApply }: JobProps) {
     const [applyStatus, setApplyStatus] = useState<'IDLE' | 'CHECKING' | 'SUCCESS'>('IDLE');
 
     const matchScore = 85 + (job.id % 15);
@@ -34,29 +35,15 @@ export default function JobCard({ job }: JobProps) {
         e.preventDefault();
         e.stopPropagation();
         setApplyStatus('CHECKING');
-        setTimeout(() => setApplyStatus('SUCCESS'), 1800);
+        setTimeout(() => {
+            setApplyStatus('SUCCESS');
+            if (onApply) onApply(job.id.toString());
+        }, 1500);
     };
-
-    if (applyStatus === 'SUCCESS') {
-        return (
-            <div className={styles.successCard}>
-                <div className={styles.successContent}>
-                    <div className={styles.successIconWrapper}>
-                        <CheckCircle2 size={44} color="#22C55E" />
-                    </div>
-                    <h3>지원 완료!</h3>
-                    <p>전문가님의 기술 데이터가<br/>현장 관리자에게 안전하게 전달되었습니다.</p>
-                    <Link href="/attendance" className={styles.checkNextBtn}>
-                        출근 대기 목록 확인 <ArrowRight size={14} />
-                    </Link>
-                </div>
-            </div>
-        );
-    }
 
     return (
         <Link href={`/jobs/${job.id}`} className={styles.cardLink}>
-            <div className={`${styles.card} ${job.isUrgent ? styles.urgentCard : ''}`}>
+            <div className={`${styles.card} ${job.isUrgent ? styles.urgentCard : ''} ${applyStatus === 'SUCCESS' ? styles.appliedCard : ''}`}>
 
                 {/* Top accent line for urgent */}
                 {job.isUrgent && <div className={styles.urgentAccentLine} />}
@@ -126,18 +113,21 @@ export default function JobCard({ job }: JobProps) {
                     </div>
                 )}
 
-                {/* Description */}
-
                 {/* CTA */}
                 <button
-                    className={`${styles.applyBtn} ${job.isUrgent ? styles.urgentApplyBtn : ''}`}
-                    disabled={job.status !== 'Recruiting' || applyStatus === 'CHECKING'}
+                    className={`${styles.applyBtn} ${job.isUrgent ? styles.urgentApplyBtn : ''} ${applyStatus === 'SUCCESS' ? styles.appliedBtn : ''}`}
+                    disabled={job.status !== 'Recruiting' || applyStatus === 'CHECKING' || applyStatus === 'SUCCESS'}
                     onClick={handleApply}
                 >
                     {applyStatus === 'CHECKING' ? (
                         <>
                             <Loader2 size={16} className={styles.spin} />
                             기술 데이터 전송 중...
+                        </>
+                    ) : applyStatus === 'SUCCESS' ? (
+                        <>
+                            <CheckCircle2 size={16} />
+                            지원 완료됨
                         </>
                     ) : (
                         <>

@@ -2,7 +2,8 @@
 
 import { useState, useMemo, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { Zap, ShieldCheck } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Zap, ShieldCheck, CheckCircle2, ChevronRight, X } from 'lucide-react';
 import JobCard from '@/components/JobCard';
 import JobCardSkeleton from '@/components/JobCard/JobCardSkeleton';
 import JobFilter from '@/components/JobFilter/JobFilter';
@@ -24,6 +25,7 @@ export default function JobsClient({ initialJobs }: JobsClientProps) {
     const [searchTerm, setSearchTerm] = useState('');
     const [isFiltering, setIsFiltering] = useState(false);
     const [urgentOnly, setUrgentOnly] = useState(false);
+    const [appliedId, setAppliedId] = useState<string | null>(null);
 
     useEffect(() => {
         const filter = searchParams.get('filter');
@@ -51,6 +53,11 @@ export default function JobsClient({ initialJobs }: JobsClientProps) {
         setTimeout(() => setIsFiltering(false), 450);
     };
 
+    const handleApply = (id: string) => {
+        setAppliedId(id);
+        // In a real app, this would be an API call
+    };
+
     const filteredJobs = useMemo(() => {
         return initialJobs.filter((job) => {
             const matchesCat = category === '전체' || job.category === category;
@@ -73,6 +80,42 @@ export default function JobsClient({ initialJobs }: JobsClientProps) {
 
     return (
         <div className={styles.jobsContent}>
+            {/* Application Success Modal */}
+            <AnimatePresence>
+                {appliedId && (
+                    <motion.div 
+                        className={styles.modalOverlay}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        onClick={() => setAppliedId(null)}
+                    >
+                        <motion.div 
+                            className={styles.successModal}
+                            initial={{ scale: 0.9, y: 20 }}
+                            animate={{ scale: 1, y: 0 }}
+                            exit={{ scale: 0.9, y: 20 }}
+                            onClick={e => e.stopPropagation()}
+                        >
+                            <button className={styles.closeModal} onClick={() => setAppliedId(null)}><X size={20} /></button>
+                            <div className={styles.successIcon}>
+                                <CheckCircle2 size={64} color="#D4AF37" />
+                            </div>
+                            <h2>지원 완료!</h2>
+                            <p>마스터님의 기술 패스포트(데이터)가<br/>현장 관리자에게 즉시 전달되었습니다.</p>
+                            <div className={styles.nextStep}>
+                                <span>다음 예상 단계</span>
+                                <div className={styles.stepInfo}>
+                                    <strong>AI 서류 매칭 합격 알림</strong>
+                                    <p>보통 1~2시간 이내에 결과가 도착합니다.</p>
+                                </div>
+                            </div>
+                            <button className={styles.confirmBtn} onClick={() => setAppliedId(null)}>확인</button>
+                        </motion.div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
             <div className={styles.searchBar}>
                 <input 
                     type="text" 
@@ -106,7 +149,12 @@ export default function JobsClient({ initialJobs }: JobsClientProps) {
             </div>
 
             {viewMode === 'occupation' && (
-                <div className={styles.aiMatchSection}>
+                <motion.div 
+                    className={styles.aiMatchSection}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5 }}
+                >
                     <div className={styles.aiMatchHeader}>
                         <h2 className={styles.aiMatchTitle}>
                             <Zap size={20} fill="#FF6B00" color="#FF6B00" />
@@ -140,8 +188,14 @@ export default function JobsClient({ initialJobs }: JobsClientProps) {
                                 match: '91%',
                                 reason: '모노 AI가 분석한 글로벌 이력 데이터에 근거하여 고단가 프로젝트 매칭을 추천합니다.'
                             }
-                        ] as const).map((rec) => (
-                            <div key={rec.id} className={styles.recommendCard}>
+                        ] as const).map((rec, index) => (
+                            <motion.div 
+                                key={rec.id} 
+                                className={styles.recommendCard}
+                                initial={{ opacity: 0, x: -20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ delay: index * 0.1 }}
+                            >
                                 <div className={styles.matchBadge}>{rec.match} 연결</div>
                                 <div className={styles.passportConnected}>
                                     <ShieldCheck size={10} />
@@ -156,13 +210,13 @@ export default function JobsClient({ initialJobs }: JobsClientProps) {
                                 <p className={styles.aiReasoning}>
                                     <strong>맞춤 분석 결과:</strong> {rec.reason}
                                 </p>
-                                <button className={styles.recApply} onClick={() => alert('기술 데이터로 즉시 지원되었습니다.')}>
+                                <button className={styles.recApply} onClick={() => handleApply(rec.id)}>
                                     즉시 지원하기
                                 </button>
-                            </div>
+                            </motion.div>
                         ))}
                     </div>
-                </div>
+                </motion.div>
             )}
 
             {viewMode === 'occupation' && (
@@ -204,12 +258,33 @@ export default function JobsClient({ initialJobs }: JobsClientProps) {
                             }}>초기화</button>
                         )}
                     </div>
-                    <div className={styles.grid}>
+                    <motion.div 
+                        className={styles.grid}
+                        initial="hidden"
+                        animate="visible"
+                        variants={{
+                            hidden: { opacity: 0 },
+                            visible: {
+                                opacity: 1,
+                                transition: {
+                                    staggerChildren: 0.05
+                                }
+                            }
+                        }}
+                    >
                         {isFiltering ? (
                             Array(6).fill(0).map((_, i) => <JobCardSkeleton key={i} />)
                         ) : filteredJobs.length > 0 ? (
                             filteredJobs.map((job) => (
-                                <JobCard key={job.id} job={job} />
+                                <motion.div 
+                                    key={job.id}
+                                    variants={{
+                                        hidden: { opacity: 0, y: 10 },
+                                        visible: { opacity: 1, y: 0 }
+                                    }}
+                                >
+                                    <JobCard job={job} onApply={() => handleApply(job.id)} />
+                                </motion.div>
                             ))
                         ) : (
                             <div className={styles.noResults}>
@@ -217,7 +292,7 @@ export default function JobsClient({ initialJobs }: JobsClientProps) {
                                 <button className={styles.backBtn} onClick={() => setViewMode('occupation')}>다른 직업 둘러보기</button>
                             </div>
                         )}
-                    </div>
+                    </motion.div>
                 </>
             )}
 
