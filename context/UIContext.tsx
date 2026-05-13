@@ -25,8 +25,18 @@ export function UIProvider({ children }: { children: React.ReactNode }) {
     const [toasts, setToasts] = useState<ToastData[]>([]);
     const [theme, _setTheme] = useState<ThemeMode>('original');
 
+    // Load theme on mount
+    React.useEffect(() => {
+        const savedTheme = localStorage.getItem('mono-theme') as ThemeMode;
+        if (savedTheme) {
+            _setTheme(savedTheme);
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        }
+    }, []);
+
     const setTheme = useCallback((newTheme: ThemeMode) => {
         _setTheme(newTheme);
+        localStorage.setItem('mono-theme', newTheme);
         document.documentElement.setAttribute('data-theme', newTheme);
     }, []);
 

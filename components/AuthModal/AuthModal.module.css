@@ -1,8 +1,9 @@
 .overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.85);
+    background: var(--glass);
     backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -11,12 +12,12 @@
 }
 
 .modal {
-    background: #0d0e12;
+    background: var(--surface);
     width: 100%;
     max-width: 440px;
     padding: 3rem;
     border-radius: 32px;
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    border: 1px solid var(--border-strong);
     position: relative;
     box-shadow: 0 32px 64px rgba(0, 0, 0, 0.5);
     animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
@@ -26,8 +27,8 @@
     position: absolute;
     top: 1.5rem;
     right: 1.5rem;
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    background: var(--surface-overlay);
+    border: 1px solid var(--border);
     width: 36px;
     height: 36px;
     border-radius: 50%;
@@ -62,14 +63,14 @@
 .title {
     font-size: 1.5rem;
     font-weight: 800;
-    color: #fff;
+    color: var(--text-primary);
     margin-bottom: 0.75rem;
     letter-spacing: -0.025em;
 }
 
 .subtitle {
     font-size: 0.95rem;
-    color: rgba(255, 255, 255, 0.45);
+    color: var(--text-secondary);
     line-height: 1.6;
     font-weight: 400;
     word-break: keep-all;
@@ -98,8 +99,8 @@
 .phoneInput {
     display: flex;
     align-items: center;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: var(--surface-overlay);
+    border: 1px solid var(--border-strong);
     border-radius: 16px;
     padding: 0.5rem 1rem;
     transition: all 0.2s;
@@ -130,8 +131,8 @@
 }
 
 .submitBtn {
-    background: #fff;
-    color: #000;
+    background: var(--text-primary);
+    color: var(--background);
     padding: 1.1rem;
     border-radius: 16px;
     font-size: 1rem;
@@ -165,10 +166,10 @@
 
 .divider span {
     position: relative;
-    background: #0d0e12;
+    background: var(--surface);
     padding: 0 1rem;
     font-size: 0.8rem;
-    color: rgba(255, 255, 255, 0.25);
+    color: var(--text-tertiary);
     font-weight: 600;
 }
 
