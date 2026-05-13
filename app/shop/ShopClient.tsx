@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import styles from './page.module.css';
 import { 
     ShoppingBag, 
@@ -26,7 +27,8 @@ export default function ShopClient() {
             price: '₩ 485,000', 
             desc: '옵시디언 블랙 스트레치 원단, 내화 및 내마모 쉴드 적용.',
             tag: '전문가 전용',
-            rating: 5.0
+            rating: 5.0,
+            image: '/shop/workwear.png'
         },
         { 
             id: 2, 
@@ -35,7 +37,8 @@ export default function ShopClient() {
             price: '₩ 1,250,000', 
             desc: '티타늄 합금 기반, 모노 전문가 로고 레이저 각인.',
             tag: '프리미엄 세트',
-            rating: 4.9
+            rating: 4.9,
+            image: '/shop/tools.png'
         },
         { 
             id: 3, 
@@ -44,7 +47,8 @@ export default function ShopClient() {
             price: '₩ 242,000', 
             desc: '하자 보수 부업 전용, 수납 최적화 및 반사 광학 패치.',
             tag: 'SIDE-HUSTLE',
-            rating: 4.8
+            rating: 4.8,
+            image: '/shop/workwear.png'
         },
         { 
             id: 4, 
@@ -54,6 +58,7 @@ export default function ShopClient() {
             desc: '렌탈 수익 공유형 공동 소유권. 총 150지분 펀딩 진행 중.',
             tag: '공동소유 펀딩',
             rating: 5.0,
+            image: '/shop/laser.png',
             funding: {
                 current: 85,
                 total: 150,
@@ -69,6 +74,7 @@ export default function ShopClient() {
             desc: '초대형 타일 커팅용 고가 장비. B2B 파트너 우선 대여 배정.',
             tag: '공동소유 펀딩',
             rating: 4.9,
+            image: '/shop/cutter.png',
             funding: {
                 current: 20,
                 total: 50,
@@ -100,11 +106,14 @@ export default function ShopClient() {
                     <div key={product.id} className={styles.productCard}>
                         <div className={styles.productVisual}>
                             <div className={styles.productBadge} style={product.category === 'INVESTMENT' ? { background: '#30d158', color: '#000' } : {}}>{product.tag}</div>
-                            {/* Product Icon/Visual Placeholder */}
-                            <div className={styles.visualPlaceholder}>
-                                {product.category === 'FASHION' ? <Shirt size={48} /> : 
-                                 product.category === 'INVESTMENT' ? <Zap size={48} color="#30d158" /> : <Wrench size={48} />}
-                            </div>
+                            {product.image ? (
+                                <Image src={product.image} alt={product.name} fill style={{ objectFit: 'cover', opacity: 0.85 }} />
+                            ) : (
+                                <div className={styles.visualPlaceholder}>
+                                    {product.category === 'FASHION' ? <Shirt size={48} /> : 
+                                     product.category === 'INVESTMENT' ? <Zap size={48} color="#30d158" /> : <Wrench size={48} />}
+                                </div>
+                            )}
                         </div>
                         <div className={styles.productInfo}>
                             <div className={styles.metaRow}>
