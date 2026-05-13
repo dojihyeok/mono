@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useMemo } from 'react';
+import Link from 'next/link';
 import Navbar from '@/components/Navbar/Navbar';
 import GlassCard from '@/components/UI/GlassCard';
 import Button from '@/components/UI/Button';
@@ -185,7 +186,9 @@ export default function DashboardClient({ technician, transactions }: DashboardC
                                 </li>
                             ))}
                         </ul>
-                        <Button variant="ghost" size="sm" className={styles.moreBtn}>전체 보기</Button>
+                        <Link href="/reports/MN-2024-KIM-01" style={{ width: '100%' }}>
+                            <Button variant="ghost" size="sm" className={styles.moreBtn}>전체 보기</Button>
+                        </Link>
                     </GlassCard>
                 </div>
             </main>

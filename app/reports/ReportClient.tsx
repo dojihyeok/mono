@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import styles from './page.module.css';
 import { 
     Download, 
@@ -12,7 +13,9 @@ import {
     Globe, 
     QrCode,
     Camera,
-    HardHat
+    HardHat,
+    Share2,
+    Check
 } from 'lucide-react';
 
 const MASTER_DATA = {
@@ -38,15 +41,32 @@ const MASTER_DATA = {
 };
 
 export default function ReportClient() {
+    const router = useRouter();
+    const [copied, setCopied] = useState(false);
+
+    const handleShare = () => {
+        navigator.clipboard.writeText(window.location.href);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+    };
+
     return (
         <div className={styles.container}>
+            {/* Watermark Background */}
+            <div className={styles.watermark}>MONO OFFICIAL MASTER LOG</div>
+
             {/* Action Bar */}
             <div className={styles.actionBar}>
-                <button className={styles.backBtn}>←</button>
+                <button 
+                    className={styles.backBtn}
+                    onClick={() => router.back()}
+                >
+                    ←
+                </button>
                 <div className={styles.exportGroup}>
-                    <button className={styles.exportBtn}>
-                        <Download size={16} />
-                        Share
+                    <button className={styles.exportBtn} onClick={handleShare}>
+                        {copied ? <Check size={16} color="#30d158" /> : <Share2 size={16} />}
+                        {copied ? 'Copied!' : 'Share'}
                     </button>
                     <button className={`${styles.exportBtn} ${styles.primary}`}>
                         <FileText size={16} />
@@ -57,6 +77,8 @@ export default function ReportClient() {
 
             {/* Official Report Document */}
             <div className={styles.reportDocument}>
+                <div className={styles.securityStrip} />
+                
                 {/* Document Header */}
                 <header className={styles.reportHeader}>
                     <div className={styles.logoRow}>
@@ -78,6 +100,7 @@ export default function ReportClient() {
                 <section className={styles.identitySection}>
                     <div className={styles.masterPhoto}>
                         <img src="https://images.unsplash.com/photo-1548690312-e3b507d17a4d?w=200&q=80" alt="Master" />
+                        <div className={styles.photoOverlay} />
                     </div>
                     <div className={styles.idDetails}>
                         <div className={styles.detailRow}>
@@ -152,7 +175,7 @@ export default function ReportClient() {
                         <div className={styles.qrMock}>
                             <QrCode size={48} color="#000" />
                         </div>
-                        <p>Scan to verify real-time history<br />on <strong>mo-no.io/verify</strong></p>
+                        <p>Scan to verify real-time history<br />on <strong>mono.io/verify</strong></p>
                     </div>
                     <div className={styles.signatureArea}>
                         <div className={styles.stamp}>MONO GLOBAL</div>
