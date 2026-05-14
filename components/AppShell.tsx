@@ -43,7 +43,7 @@ export default function AppShell({ children }: AppShellProps) {
     }
 
     return (
-        <>
+        <div className="app-shell">
             <Navbar isLoggedIn={isLoggedIn} onToggleLogin={toggleLogin} />
             <main className="app-content">
                 {children}
@@ -62,6 +62,6 @@ export default function AppShell({ children }: AppShellProps) {
 
             <MoCulAssistant />
             <BottomNav />
-        </>
+        </div>
     );
 }

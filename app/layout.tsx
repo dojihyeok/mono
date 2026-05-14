@@ -59,7 +59,7 @@ export default function RootLayout({
         />
       </head>
       <body suppressHydrationWarning>
-        <div className={`${inter.className} app-shell`}>
+        <div className={inter.className}>
           <AuthProvider>
             <UIProvider>
               <SplashScreen />

@@ -116,6 +116,20 @@ body {
   overflow: hidden;
 }
 
+.web-standalone {
+  width: 100%;
+  min-height: 100vh;
+  display: block;
+  overflow: visible;
+  background-color: var(--background);
+}
+
+.web-content {
+  width: 100%;
+  min-height: 100vh;
+  overflow: visible;
+}
+
 .app-content {
   flex: 1;
   width: 100%;
