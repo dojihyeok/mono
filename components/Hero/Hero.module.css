@@ -171,6 +171,8 @@
     background: linear-gradient(to bottom, var(--text-primary) 40%, var(--text-secondary) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    word-break: keep-all;
+    word-wrap: break-word;
 }
 
 .subtitle {
@@ -180,6 +182,8 @@
     max-width: 600px;
     margin: 0 auto;
     line-height: 1.6;
+    word-break: keep-all;
+    word-wrap: break-word;
 }
 
 .actions {
@@ -239,7 +243,14 @@
 }
 
 @media (max-width: 768px) {
-    .title { font-size: 2.5rem; }
+    .title { 
+        font-size: 2.5rem; 
+        padding: 0 1rem;
+    }
+    .subtitle {
+        font-size: 1.1rem;
+        padding: 0 1.5rem;
+    }
     .actions { flex-direction: column; }
     .platformStats { flex-direction: column; gap: 2rem; }
 }

@@ -27,6 +27,8 @@
     font-weight: 900;
     letter-spacing: -0.04em;
     line-height: 1.2;
+    word-break: keep-all;
+    word-wrap: break-word;
 }
 
 .title span {
@@ -73,6 +75,7 @@
     font-weight: 900;
     margin-bottom: 1rem;
     letter-spacing: -0.02em;
+    word-break: keep-all;
 }
 
 .featureCard p {
@@ -80,6 +83,7 @@
     color: var(--text-secondary);
     line-height: 1.6;
     margin-bottom: 2rem;
+    word-break: keep-all;
 }
 
 .cardFooter {
@@ -111,12 +115,14 @@
     font-size: 2rem;
     font-weight: 900;
     margin-bottom: 1rem;
+    word-break: keep-all;
 }
 
 .showcaseContent p {
     font-size: 1.1rem;
     color: var(--text-secondary);
     margin-bottom: 2.5rem;
+    word-break: keep-all;
 }
 
 .ctaBtn {
