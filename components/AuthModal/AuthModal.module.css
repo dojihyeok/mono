@@ -52,28 +52,66 @@
 }
 
 .logoMark {
-    width: 40px;
-    height: 40px;
-    background: linear-gradient(135deg, #D4AF37, #D4AF37);
-    border-radius: 12px;
-    margin: 0 auto 1.5rem;
-    box-shadow: 0 0 24px rgba(212, 175, 55, 0.3);
+    width: 44px;
+    height: 44px;
+    background: linear-gradient(135deg, #ffd700 0%, #D4AF37 100%);
+    border-radius: 14px;
+    margin: 0 auto 1.25rem;
+    box-shadow: 0 0 30px rgba(212, 175, 55, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .title {
-    font-size: 1.5rem;
-    font-weight: 800;
+    font-size: 1.6rem;
+    font-weight: 900;
     color: var(--text-primary);
     margin-bottom: 0.75rem;
-    letter-spacing: -0.025em;
+    letter-spacing: -0.04em;
 }
 
 .subtitle {
-    font-size: 0.95rem;
-    color: var(--text-secondary);
-    line-height: 1.6;
-    font-weight: 400;
+    font-size: 0.9rem;
+    color: var(--text-tertiary);
+    line-height: 1.5;
+    font-weight: 500;
     word-break: keep-all;
+}
+
+.benefits {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-bottom: 2.5rem;
+    padding: 1.25rem;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.benefitItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    text-align: center;
+}
+
+.benefitIcon {
+    width: 32px;
+    height: 32px;
+    background: rgba(212, 175, 55, 0.1);
+    color: #D4AF37;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.benefitItem span {
+    font-size: 0.65rem;
+    font-weight: 800;
+    color: var(--text-tertiary);
+    letter-spacing: -0.01em;
 }
 
 .form {
