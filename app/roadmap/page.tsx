@@ -70,6 +70,13 @@ export default function RoadmapPage() {
         <div className={styles.pageWrap}>
             <div className={styles.bgGrid} />
             
+            <nav className={styles.standaloneNav}>
+                <Link href="/" className={styles.logo}>
+                    <span className={styles.logoText}>MO-NO</span>
+                </Link>
+                <Link href="/" className={styles.homeBtn}>메인으로 가기</Link>
+            </nav>
+
             <header className={styles.header}>
                 <div className={styles.badge}>중장기 발전 계획 2026-2030</div>
                 <h1 className={styles.title}>
