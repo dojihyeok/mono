@@ -1,6 +1,6 @@
 .pageWrap {
     padding-bottom: 6rem;
-    background: #000;
+    background: var(--background);
     min-height: 100vh;
 }
 
@@ -12,9 +12,10 @@
     padding: 1.5rem 1.5rem 1rem;
     position: sticky;
     top: 0;
-    background: rgba(0, 0, 0, 0.8);
+    background: var(--glass);
     backdrop-filter: blur(10px);
     z-index: 100;
+    border-bottom: 1px solid var(--border);
 }
 
 .headerTitle h1 {
@@ -26,7 +27,7 @@
 .iconBtn {
     background: transparent;
     border: none;
-    color: #fff;
+    color: var(--text-primary);
     cursor: pointer;
 }
 
@@ -75,8 +76,8 @@
 
 .actionBtnPrimary {
     flex: 1;
-    background: #fff;
-    color: #000;
+    background: var(--text-primary);
+    color: var(--background);
     border: none;
     padding: 1rem;
     border-radius: 16px;
@@ -88,7 +89,7 @@
     flex: 1;
     background: var(--surface-raised);
     border: 1px solid var(--border);
-    color: #fff;
+    color: var(--text-primary);
     padding: 1rem;
     border-radius: 16px;
     font-weight: 800;
@@ -144,7 +145,7 @@
 }
 
 .assetTab.active {
-    color: #fff;
+    color: var(--text-primary);
 }
 
 .assetTab.active::after {
@@ -154,7 +155,7 @@
     left: 0;
     right: 0;
     height: 3px;
-    background: #fff;
+    background: var(--primary);
     border-radius: 3px 3px 0 0;
 }
 
@@ -291,8 +292,8 @@
 .viewDetailBtn {
     width: 100%;
     background: var(--surface-raised);
-    border: none;
-    color: #fff;
+    border: 1px solid var(--border);
+    color: var(--text-primary);
     padding: 0.85rem;
     border-radius: 12px;
     font-weight: 800;
@@ -371,7 +372,8 @@
 }
 
 .bottomSheet {
-    background: #111;
+    background: var(--surface);
+    border-top: 1px solid var(--border-strong);
     border-radius: 32px 32px 0 0;
     padding: 1.5rem 1.5rem 3rem;
 }
@@ -421,8 +423,8 @@
 
 .confirmBtn {
     width: 100%;
-    background: #fff;
-    color: #000;
+    background: var(--text-primary);
+    color: var(--background);
     border: none;
     padding: 1.25rem;
     border-radius: 20px;

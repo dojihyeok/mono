@@ -100,7 +100,7 @@ export default function JobsClient({ initialJobs }: JobsClientProps) {
                         >
                             <button className={styles.closeModal} onClick={() => setAppliedId(null)}><X size={20} /></button>
                             <div className={styles.successIcon}>
-                                <CheckCircle2 size={64} color="#D4AF37" />
+                                <CheckCircle2 size={64} color="var(--primary)" />
                             </div>
                             <h2>지원 완료!</h2>
                             <p>마스터님의 기술 패스포트(데이터)가<br/>현장 관리자에게 즉시 전달되었습니다.</p>
@@ -140,10 +140,8 @@ export default function JobsClient({ initialJobs }: JobsClientProps) {
                 >
                     가까운 곳
                 </button>
-                <button 
                     className={`${styles.tab} ${viewMode === 'global' ? styles.active : ''}`}
                     onClick={() => setViewMode('global')}
-                    style={{ color: '#D4AF37' }}
                 >
                     글로벌
                 </button>

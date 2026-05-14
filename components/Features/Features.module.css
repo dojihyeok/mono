@@ -145,7 +145,13 @@
 }
 
 @media (max-width: 768px) {
-    .title { font-size: 2rem; }
+    .title { 
+        font-size: 3.2rem; 
+        padding: 0;
+        letter-spacing: -0.06em;
+        line-height: 1.1;
+        word-break: keep-all;
+    }
     .featureGrid { grid-template-columns: 1fr; }
     .showcaseBox { padding: 2.5rem; }
     .showcaseContent h3 { font-size: 1.5rem; }

@@ -31,7 +31,8 @@
     gap: 0.5rem;
     margin-bottom: 2rem;
     padding: 0.35rem;
-    background: rgba(255, 255, 255, 0.05);
+    background: var(--surface-raised);
+    border: 1px solid var(--border);
     border-radius: 1rem;
     max-width: 600px;
 }
@@ -50,9 +51,9 @@
 }
 
 .tab.active {
-    background: var(--accent);
-    color: #000;
-    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+    background: var(--primary);
+    color: var(--foreground);
+    box-shadow: var(--shadow-sm);
 }
 
 .grid {
@@ -72,10 +73,10 @@
     grid-column: 1 / -1;
     padding: 5rem 2rem;
     text-align: center;
-    color: var(--secondary);
-    background: rgba(255, 255, 255, 0.02);
+    color: var(--text-secondary);
+    background: var(--surface);
     border-radius: 1.5rem;
-    border: 1px dashed rgba(255, 255, 255, 0.1);
+    border: 1px dashed var(--border);
 }
 
 .searchBar {
@@ -87,15 +88,15 @@
 .searchInput {
     width: 100%;
     padding: 1.25rem 1.5rem;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: var(--surface);
+    border: 1px solid var(--border);
     border-radius: 1.25rem;
-    color: var(--foreground);
+    color: var(--text-primary);
     font-size: 1.1rem;
     font-weight: 500;
     transition: all 0.3s ease;
     outline: none;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    box-shadow: var(--shadow-md);
 }
 
 .searchInput:focus {
@@ -173,7 +174,7 @@
     font-size: 1.5rem;
     font-weight: 800;
     margin: 0;
-    color: #fff;
+    color: var(--text-primary);
 }
 
 .regionList {
@@ -203,10 +204,10 @@
 
 .regionChip {
     padding: 1rem;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: var(--surface);
+    border: 1px solid var(--border);
     border-radius: 1rem;
-    color: var(--foreground);
+    color: var(--text-primary);
     font-size: 1rem;
     font-weight: 700;
     cursor: pointer;
@@ -227,16 +228,16 @@
 }
 
 .regionChip.active {
-    background: var(--accent);
-    color: #000;
-    border-color: var(--accent);
-    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+    background: var(--primary);
+    color: var(--foreground);
+    border-color: var(--primary);
+    box-shadow: var(--shadow-sm);
 }
 
 .gpsBtn {
     padding: 1rem 2.5rem;
-    background: #fff;
-    color: #000;
+    background: var(--text-primary);
+    color: var(--background);
     border: none;
     border-radius: 3rem;
     font-weight: 800;
@@ -351,7 +352,7 @@
 .bannerContent h2 {
     font-size: 1.3rem;
     font-weight: 800;
-    color: #fff;
+    color: var(--text-primary);
     margin: 0;
     letter-spacing: -0.02em;
 }
@@ -400,7 +401,7 @@
     gap: 0.75rem;
     font-size: 1.25rem;
     font-weight: 800;
-    color: #fff;
+    color: var(--text-primary);
 }
 
 .aiRecommendGrid {
@@ -474,7 +475,7 @@
     font-size: 1.1rem;
     font-weight: 800;
     margin: 0.25rem 0;
-    color: #fff;
+    color: var(--text-primary);
 }
 
 .recMeta {
@@ -577,21 +578,21 @@
 .stepInfo strong {
     display: block;
     font-size: 1.05rem;
-    color: #fff;
+    color: var(--text-primary);
     margin-bottom: 0.25rem;
 }
 
 .stepInfo p {
     font-size: 0.85rem;
-    color: rgba(255, 255, 255, 0.4);
+    color: var(--text-secondary);
     margin: 0;
 }
 
 .confirmBtn {
     width: 100%;
     padding: 1.25rem;
-    background: #fff;
-    color: #000;
+    background: var(--text-primary);
+    color: var(--background);
     border: none;
     border-radius: 1.25rem;
     font-weight: 900;
