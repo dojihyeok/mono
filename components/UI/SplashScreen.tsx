@@ -47,7 +47,7 @@ export default function SplashScreen() {
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 1, duration: 0.5 }}
                         >
-                            글로벌 마스터 매칭 플랫폼
+                            온라인 현장 사무소 서비스
                         </motion.p>
                     </div>
                 </motion.div>
