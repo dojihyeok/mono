@@ -13,9 +13,9 @@ const features = [
         color: "#3182f6"
     },
     {
-        title: "중대재해 리스크 헷지",
-        description: "AI PPE 스캔과 모바일 안전 교육으로 기업의 법적 방어막을 제공하는 스마트 노무 관리 SaaS.",
-        icon: <Zap size={28} />,
+        title: "AI 현장 반장 (모컬 AI)",
+        description: "현장 은어 실시간 번역부터 생소한 공구 인식까지. 초보자가 마스터로 성장하도록 돕는 지능형 조력자입니다.",
+        icon: <BrainCircuit size={28} />,
         color: "#ff9f0a"
     },
     {

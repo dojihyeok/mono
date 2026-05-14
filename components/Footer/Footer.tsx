@@ -14,8 +14,8 @@ export default function Footer() {
                             <span className={styles.logoText}>MONO</span>
                         </div>
                         <p className={styles.brandDesc}>
-                            모노(MoNo)는 파편화된 현장 노동을 데이터로 기록하여 기술자의 생애 주기를 관리하는 통합 슈퍼앱이자,
-                            중대재해처벌법에 완벽 대응하는 기업용 안전 관리 플랫폼입니다.
+                            모노(MoNo)는 파편화된 현장 노동을 데이터로 기록하여 기술자의 경력 형성부터
+                            글로벌 진출까지 모든 생애 주기를 함께하는 통합 커리어 관리 플랫폼입니다.
                         </p>
                         <div className={styles.socialRow}>
                             <Link href="#" className={styles.socialBtn} aria-label="KakaoTalk">

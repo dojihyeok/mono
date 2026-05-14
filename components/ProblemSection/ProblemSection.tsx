@@ -30,8 +30,8 @@ const PROBLEMS = [
     },
     {
         icon: <ShieldAlert size={32} />,
-        title: "중대재해처벌법 공포와 행정 지옥",
-        desc: "수기 업무의 한계와 법적 리스크. 데이터로 증명하지 못하면 기업의 존립이 위태로워집니다."
+        title: "열악한 생활 환경과 소외된 복지",
+        desc: "타지 현장에서의 숙식 문제와 사고 시 대처의 어려움. 기술자의 삶을 지키는 촘촘한 생활 케어 생태계를 구축합니다."
     }
 ];
 
@@ -84,15 +84,6 @@ export default function ProblemSection() {
                         </motion.div>
                     ))}
                 </div>
-
-                <motion.div 
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    className={styles.quoteBox}
-                >
-                    <p>"10년을 현장에서 땀 흘렸지만, 은행에 가니 저는 대출이 불가능한 '무직자'였습니다."</p>
-                    <span>— 어느 현장 기술자의 인터뷰 중</span>
-                </motion.div>
             </div>
         </section>
     );
