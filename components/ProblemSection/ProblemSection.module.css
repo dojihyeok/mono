@@ -41,7 +41,7 @@
 }
 
 .highlight {
-    color: #ff453a; /* 강렬한 경고의 의미를 위해 레드는 유지하되 테마와 조율 */
+    color: var(--primary); /* 레드를 브랜드 블루로 변경하여 긍정적 강조 */
     position: relative;
 }
 
