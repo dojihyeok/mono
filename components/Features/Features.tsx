@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { LocateFixed, Globe, ShieldCheck, Zap, ArrowRight, CheckCircle2 } from 'lucide-react';
+import { LocateFixed, Globe, ShieldCheck, Zap, ArrowRight, CheckCircle2, BrainCircuit } from 'lucide-react';
 import styles from './Features.module.css';
 import { motion } from 'framer-motion';
 
