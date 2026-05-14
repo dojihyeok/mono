@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { LocateFixed, Globe, ShieldCheck, Zap, ArrowRight, CheckCircle2, BrainCircuit, Users } from 'lucide-react';
+import { LocateFixed, Globe, ShieldCheck, Zap, ArrowRight, BrainCircuit, Users } from 'lucide-react';
 import styles from './Features.module.css';
 import { motion } from 'framer-motion';
 
@@ -81,12 +81,6 @@ export default function Features() {
                             </div>
                             <h3>{feature.title}</h3>
                             <p>{feature.description}</p>
-                            <div className={styles.cardFooter}>
-                                <div className={styles.checkLine}>
-                                    <CheckCircle2 size={14} color="#30d158" />
-                                    <span>검증된 시스템</span>
-                                </div>
-                            </div>
                         </motion.div>
                     ))}
                 </div>
