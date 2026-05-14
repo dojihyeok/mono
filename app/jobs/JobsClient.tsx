@@ -140,6 +140,7 @@ export default function JobsClient({ initialJobs }: JobsClientProps) {
                 >
                     가까운 곳
                 </button>
+                <button 
                     className={`${styles.tab} ${viewMode === 'global' ? styles.active : ''}`}
                     onClick={() => setViewMode('global')}
                 >
