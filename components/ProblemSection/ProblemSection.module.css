@@ -1,6 +1,6 @@
 .problemSection {
     padding: 8rem 1.5rem;
-    background: #000000;
+    background: var(--background);
     position: relative;
     overflow: hidden;
 }
@@ -19,64 +19,65 @@
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    background: rgba(255, 69, 58, 0.1);
-    color: #ff453a;
+    background: var(--primary-soft);
+    color: var(--primary);
     padding: 0.6rem 1.2rem;
     border-radius: 9999px;
     font-size: 0.8rem;
     font-weight: 800;
     letter-spacing: 0.1em;
-    border: 1px solid rgba(255, 69, 58, 0.2);
+    border: 1px solid var(--border);
     margin-bottom: 2rem;
 }
 
 .title {
-    font-size: 3.5rem;
+    font-size: 3rem; /* 크기 하향 조정 */
     font-weight: 800;
-    line-height: 1.2;
-    color: #ffffff;
+    line-height: 1.3;
+    color: var(--text-primary);
     letter-spacing: -0.04em;
     margin-bottom: 2rem;
+    word-break: keep-all; /* 줄바꿈 방지 */
 }
 
 .highlight {
-    color: #ff453a;
+    color: #ff453a; /* 강렬한 경고의 의미를 위해 레드는 유지하되 테마와 조율 */
     position: relative;
 }
 
 .subtitle {
-    font-size: 1.25rem;
-    color: rgba(255, 255, 255, 0.6);
-    line-height: 1.7;
+    font-size: 1.15rem;
+    color: var(--text-secondary);
+    line-height: 1.8;
     font-weight: 500;
+    word-break: keep-all;
 }
 
 .grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 2rem;
-    margin-bottom: 5rem;
 }
 
 .problemCard {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    background: var(--surface);
+    border: 1px solid var(--border);
     padding: 3rem;
     border-radius: 2rem;
     transition: all 0.4s cubic-bezier(0.2, 0, 0, 1);
 }
 
 .problemCard:hover {
-    background: rgba(255, 255, 255, 0.05);
-    border-color: rgba(255, 69, 58, 0.3);
+    background: var(--surface-raised);
+    border-color: var(--primary);
     transform: translateY(-10px);
 }
 
 .iconWrapper {
     width: 64px;
     height: 64px;
-    background: rgba(255, 69, 58, 0.1);
-    color: #ff453a;
+    background: var(--primary-soft);
+    color: var(--primary);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -85,42 +86,30 @@
 }
 
 .problemCard h3 {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     font-weight: 700;
-    color: #ffffff;
+    color: var(--text-primary);
     margin-bottom: 1.25rem;
     letter-spacing: -0.02em;
 }
 
 .problemCard p {
-    font-size: 1rem;
-    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.95rem;
+    color: var(--text-secondary);
     line-height: 1.7;
     word-break: keep-all;
 }
 
-.quoteBox {
-    background: linear-gradient(135deg, rgba(49, 130, 246, 0.05) 0%, rgba(175, 82, 222, 0.05) 100%);
-    padding: 4rem;
-    border-radius: 2.5rem;
-    text-align: center;
-    border: 1px solid rgba(255, 255, 255, 0.05);
+@media (max-width: 992px) {
+    .title { font-size: 2.4rem; }
+    .grid { grid-template-columns: 1fr; }
+    .problemCard { padding: 2.5rem; }
 }
 
-.quoteBox p {
-    font-size: 1.75rem;
-    font-weight: 700;
-    color: #ffffff;
-    font-style: italic;
-    margin-bottom: 1.5rem;
-    line-height: 1.5;
-    word-break: keep-all;
-}
-
-.quoteBox span {
-    font-size: 1rem;
-    color: rgba(255, 255, 255, 0.4);
-    font-weight: 500;
+@media (max-width: 480px) {
+    .problemSection { padding: 5rem 1rem; }
+    .title { font-size: 1.8rem; }
+    .subtitle { font-size: 1rem; }
 }
 
 @media (max-width: 992px) {
