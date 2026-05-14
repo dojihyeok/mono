@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { LocateFixed, Globe, ShieldCheck, Zap, ArrowRight, CheckCircle2, BrainCircuit } from 'lucide-react';
+import { LocateFixed, Globe, ShieldCheck, Zap, ArrowRight, CheckCircle2, BrainCircuit, Users } from 'lucide-react';
 import styles from './Features.module.css';
 import { motion } from 'framer-motion';
 
@@ -19,6 +19,12 @@ const features = [
         color: "#ff9f0a"
     },
     {
+        title: "중대재해 리스크 헷지",
+        description: "AI PPE 스캔과 모바일 안전 교육으로 기업의 법적 방어막을 제공하는 스마트 노무 관리 SaaS.",
+        icon: <Zap size={28} />,
+        color: "#ff453a"
+    },
+    {
         title: "포용 금융 & 정산",
         description: "에스크로 기반 정산과 투명한 데이터를 활용한 대안 신용평가로 기술자 금융 소외를 해결합니다.",
         icon: <LocateFixed size={28} />,
@@ -29,6 +35,12 @@ const features = [
         description: "회사가 보유한 중장비를 무자본으로 배차받고, 장비 지분 소액 투자를 통해 자본가로 진화합니다.",
         icon: <Globe size={28} />,
         color: "#af52de"
+    },
+    {
+        title: "전방위 생활 밀착 지원",
+        description: "사고 발생 시 글로벌 전담 의료 지원부터 검증된 숙식 연계까지 기술자의 삶을 토탈 케어합니다.",
+        icon: <Users size={28} />,
+        color: "#00c7be"
     }
 ];
 
