@@ -24,11 +24,80 @@
     letter-spacing: -0.04em;
 }
 
+.escrowStatus {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(48, 209, 88, 0.1);
+    color: #30d158;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 800;
+}
+
 .iconBtn {
     background: transparent;
     border: none;
     color: var(--text-primary);
     cursor: pointer;
+}
+
+/* ── Score Section ── */
+.scoreSection {
+    padding: 1.5rem;
+}
+
+.scoreCard {
+    background: linear-gradient(135deg, var(--surface) 0%, var(--surface-raised) 100%);
+    border: 1px solid var(--border-strong);
+    border-radius: 24px;
+    padding: 1.5rem;
+    box-shadow: var(--shadow-sm);
+}
+
+.scoreLabel {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.85rem;
+    font-weight: 800;
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+}
+
+.scoreValue {
+    font-size: 2.5rem;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.5rem;
+}
+
+.scoreValue span {
+    font-size: 1.1rem;
+    color: var(--text-tertiary);
+    font-weight: 700;
+}
+
+.scoreDesc {
+    font-size: 0.85rem;
+    color: var(--primary);
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+}
+
+.scoreChart {
+    height: 8px;
+    background: var(--border-subtle);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.chartBar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary) 0%, #D4AF37 100%);
+    border-radius: 4px;
+    box-shadow: 0 0 12px rgba(212, 175, 55, 0.3);
 }
 
 /* ── Asset Overview ── */

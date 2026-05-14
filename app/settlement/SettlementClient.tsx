@@ -59,21 +59,44 @@ export default function SettlementClient({ initialTransactions }: SettlementClie
             {/* Native-style Header */}
             <header className={styles.settlementHeader}>
                 <div className={styles.headerTitle}>
-                    <h1>자산</h1>
+                    <h1>자산 관리</h1>
+                </div>
+                <div className={styles.escrowStatus}>
+                    <Lock size={12} fill="currentColor" />
+                    <span>에스크로 보호 중</span>
                 </div>
                 <div className={styles.headerActions}>
                     <button className={styles.iconBtn}><History size={20} /></button>
                 </div>
             </header>
 
+            {/* AI Credit Score Section (MoNo Score) */}
+            <section className={styles.scoreSection}>
+                <div className={styles.scoreCard}>
+                    <div className={styles.scoreInfo}>
+                        <div className={styles.scoreLabel}>
+                            <ShieldCheck size={16} color="var(--primary)" />
+                            MoNo AI 신용 스코어
+                        </div>
+                        <div className={styles.scoreValue}>
+                            842<span> / 1000</span>
+                        </div>
+                        <p className={styles.scoreDesc}>상위 5.2% · 1금융권 대출 한도 우대 대상</p>
+                    </div>
+                    <div className={styles.scoreChart}>
+                        <div className={styles.chartBar} style={{ width: '84.2%' }} />
+                    </div>
+                </div>
+            </section>
+
             {/* Asset Overview Card */}
             <section className={styles.assetOverview}>
                 <div className={styles.assetCard}>
                     <div className={styles.assetMain}>
-                        <div className={styles.label}>총 자산</div>
+                        <div className={styles.label}>정산 가능 잔액</div>
                         <div className={styles.amount}>
                             ₩ {availableBalance}
-                            <span className={styles.trend}>+12.4%</span>
+                            <span className={styles.trend}>연계 금융 혜택 적용 중</span>
                         </div>
                     </div>
                     <div className={styles.assetActions}>
