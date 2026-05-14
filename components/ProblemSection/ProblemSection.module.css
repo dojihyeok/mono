@@ -1,0 +1,137 @@
+.problemSection {
+    padding: 8rem 1.5rem;
+    background: #000000;
+    position: relative;
+    overflow: hidden;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 5rem;
+}
+
+.warningBadge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 69, 58, 0.1);
+    color: #ff453a;
+    padding: 0.6rem 1.2rem;
+    border-radius: 9999px;
+    font-size: 0.8rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    border: 1px solid rgba(255, 69, 58, 0.2);
+    margin-bottom: 2rem;
+}
+
+.title {
+    font-size: 3.5rem;
+    font-weight: 800;
+    line-height: 1.2;
+    color: #ffffff;
+    letter-spacing: -0.04em;
+    margin-bottom: 2rem;
+}
+
+.highlight {
+    color: #ff453a;
+    position: relative;
+}
+
+.subtitle {
+    font-size: 1.25rem;
+    color: rgba(255, 255, 255, 0.6);
+    line-height: 1.7;
+    font-weight: 500;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    margin-bottom: 5rem;
+}
+
+.problemCard {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 3rem;
+    border-radius: 2rem;
+    transition: all 0.4s cubic-bezier(0.2, 0, 0, 1);
+}
+
+.problemCard:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 69, 58, 0.3);
+    transform: translateY(-10px);
+}
+
+.iconWrapper {
+    width: 64px;
+    height: 64px;
+    background: rgba(255, 69, 58, 0.1);
+    color: #ff453a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 1.25rem;
+    margin-bottom: 2rem;
+}
+
+.problemCard h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 1.25rem;
+    letter-spacing: -0.02em;
+}
+
+.problemCard p {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.5);
+    line-height: 1.7;
+    word-break: keep-all;
+}
+
+.quoteBox {
+    background: linear-gradient(135deg, rgba(49, 130, 246, 0.05) 0%, rgba(175, 82, 222, 0.05) 100%);
+    padding: 4rem;
+    border-radius: 2.5rem;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.quoteBox p {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #ffffff;
+    font-style: italic;
+    margin-bottom: 1.5rem;
+    line-height: 1.5;
+    word-break: keep-all;
+}
+
+.quoteBox span {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.4);
+    font-weight: 500;
+}
+
+@media (max-width: 992px) {
+    .title { font-size: 2.5rem; }
+    .grid { grid-template-columns: 1fr; }
+    .problemCard { padding: 2rem; }
+    .quoteBox { padding: 2.5rem; }
+    .quoteBox p { font-size: 1.3rem; }
+}
+
+@media (max-width: 480px) {
+    .problemSection { padding: 5rem 1rem; }
+    .title { font-size: 2rem; }
+}

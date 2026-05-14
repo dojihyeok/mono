@@ -24,6 +24,7 @@ import styles from './page.module.css';
 import { useAuth } from '@/context/AuthContext';
 
 import Hero from '@/components/Hero/Hero';
+import ProblemSection from '@/components/ProblemSection/ProblemSection';
 import Features from '@/components/Features/Features';
 import Footer from '@/components/Footer/Footer';
 
@@ -34,6 +35,7 @@ export default function Home() {
     return (
       <div className="page-container">
         <Hero isLoggedIn={isLoggedIn} />
+        <ProblemSection />
         <Features />
         <Footer />
       </div>

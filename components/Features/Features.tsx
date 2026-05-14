@@ -7,28 +7,28 @@ import { motion } from 'framer-motion';
 
 const features = [
     {
-        title: "실시간 투명 정산",
-        description: "GPS 기반 출퇴근 인증과 AI 분석으로 임금 체불 걱정 없는 즉시 정산 시스템을 제공합니다.",
-        icon: <LocateFixed size={28} />,
-        color: "#30d158"
-    },
-    {
-        title: "디지털 기술 증명",
-        description: "현장 기록을 블록체인 데이터로 전환하여 복잡한 서류 없이 당신의 숙련도를 공식 증명합니다.",
+        title: "디지털 기술 여권",
+        description: "블록체인 기반의 위변조 불가능한 경력 인증. AI 기술 지수를 통해 글로벌 표준 기술자로 증명합니다.",
         icon: <ShieldCheck size={28} />,
         color: "#3182f6"
     },
     {
-        title: "글로벌 기술 여권",
-        description: "국내 경력을 글로벌 표준으로 인증하여 호주, 중동 등 해외 우수 현장 배정을 지원합니다.",
-        icon: <Globe size={28} />,
-        color: "#af52de"
-    },
-    {
-        title: "AI 매칭 엔진",
-        description: "당신의 숙련도와 위치에 최적화된 현장을 분석하여 실시간으로 일자리를 제안합니다.",
+        title: "중대재해 리스크 헷지",
+        description: "AI PPE 스캔과 모바일 안전 교육으로 기업의 법적 방어막을 제공하는 스마트 노무 관리 SaaS.",
         icon: <Zap size={28} />,
         color: "#ff9f0a"
+    },
+    {
+        title: "포용 금융 & 정산",
+        description: "에스크로 기반 정산과 투명한 데이터를 활용한 대안 신용평가로 기술자 금융 소외를 해결합니다.",
+        icon: <LocateFixed size={28} />,
+        color: "#30d158"
+    },
+    {
+        title: "무자본 일자리 (STO)",
+        description: "회사가 보유한 중장비를 무자본으로 배차받고, 장비 지분 소액 투자를 통해 자본가로 진화합니다.",
+        icon: <Globe size={28} />,
+        color: "#af52de"
     }
 ];
 
