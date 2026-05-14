@@ -40,15 +40,9 @@
 /* ── Feature Grid ── */
 .featureGrid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     gap: 2rem;
     margin-bottom: 5rem;
-}
-
-@media (max-width: 1100px) {
-    .featureGrid {
-        grid-template-columns: repeat(2, 1fr);
-    }
 }
 
 .featureCard {
