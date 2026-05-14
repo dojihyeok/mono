@@ -18,7 +18,9 @@ export default function AppShell({ children }: AppShellProps) {
     const { isLoggedIn, toggleLogin } = useAuth();
     const { toasts, removeToast } = useUI();
     const pathname = usePathname();
-    const isRoadmap = pathname === '/roadmap';
+    const isRoadmap = pathname === '/roadmap' || pathname?.startsWith('/roadmap/');
+    const isAuthPage = pathname === '/login';
+    const isAdmin = pathname?.startsWith('/admin');
 
     if (isAdmin || isAuthPage || isRoadmap) {
         return (
