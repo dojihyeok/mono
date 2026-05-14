@@ -10,6 +10,59 @@
     margin-bottom: 40px;
 }
 
+/* ── Skill Section ── */
+.skillSection {
+    margin-bottom: 40px;
+}
+
+.aiTag {
+    font-size: 10px;
+    font-weight: 900;
+    color: #00f2ff;
+    background: rgba(0, 242, 255, 0.1);
+    padding: 3px 8px;
+    border-radius: 4px;
+    text-transform: uppercase;
+}
+
+.skillGrid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 16px;
+}
+
+.skillItem {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.skillLabel {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    font-weight: 700;
+    color: #888;
+}
+
+.skillLabel strong {
+    color: #fff;
+}
+
+.skillBarBg {
+    height: 6px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.skillBarFill {
+    height: 100%;
+    border-radius: 3px;
+    box-shadow: 0 0 10px currentColor;
+}
+
 .headerTop {
     display: flex;
     align-items: center;

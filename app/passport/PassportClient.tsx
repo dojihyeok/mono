@@ -18,11 +18,11 @@ import {
 } from 'lucide-react';
 
 const GLOBAL_REPORT_DATA = {
-    userName: 'KIM MASTER',
-    role: 'Tier 1 Tiler & Layout Expert',
+    userName: 'KIM EXPERT',
+    role: 'Tier 1 Tiler & Layout Specialist',
     certifiedBy: 'MONO Global Agency',
     score: 96,
-    trustRank: 'Master (Global Top 5%)',
+    trustRank: 'Elite Expert (Global Top 5%)',
     verifiedProjects: 142,
     isoStandard: 'ISO 20001:2024 Optimized'
 };
@@ -50,7 +50,7 @@ export default function PassportClient() {
                 <div className={styles.headerTop}>
                     <Globe size={24} className={styles.globeSpin} />
                     <div className={styles.profileMeta}>
-                        <h2>GLOBAL MASTER PASSPORT</h2>
+                        <h2>GLOBAL TECHNICAL PASSPORT</h2>
                         <span>{GLOBAL_REPORT_DATA.isoStandard}</span>
                     </div>
                     <Share2 size={24} className={styles.iconBtn} />
@@ -104,6 +104,37 @@ export default function PassportClient() {
                     </div>
                 </div>
             </header>
+
+            {/* Technical Capability Index (New) */}
+            <section className={styles.skillSection}>
+                <div className={styles.sectionHeader}>
+                    <h3>TECHNICAL CAPABILITY INDEX</h3>
+                    <span className={styles.aiTag}>AI Verified</span>
+                </div>
+                <div className={styles.skillGrid}>
+                    {[
+                        { label: 'Layout Precision', value: 98, color: '#00f2ff' },
+                        { label: 'Material Knowledge', value: 94, color: '#3182f6' },
+                        { label: 'Safety Compliance', value: 100, color: '#30d158' },
+                        { label: 'Speed & Efficiency', value: 91, color: '#af52de' }
+                    ].map(skill => (
+                        <div key={skill.label} className={styles.skillItem}>
+                            <div className={styles.skillLabel}>
+                                <span>{skill.label}</span>
+                                <strong>{skill.value}%</strong>
+                            </div>
+                            <div className={styles.skillBarBg}>
+                                <motion.div 
+                                    className={styles.skillBarFill} 
+                                    initial={{ width: 0 }}
+                                    whileInView={{ width: `${skill.value}%` }}
+                                    style={{ background: skill.color }}
+                                />
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </section>
 
             {/* Target Countries Selection */}
             <section className={styles.countrySection}>
@@ -164,7 +195,7 @@ export default function PassportClient() {
                     <div className={styles.pipelineContent}>
                         <PlaneLanding size={28} className={styles.neonIcon} />
                         <div>
-                            <h4>호주 타일 마스터 파이프라인</h4>
+                            <h4>호주 타일 전문가 파이프라인</h4>
                             <p>비자 인터뷰 및 고용 계약 검토 중 (D-14)</p>
                         </div>
                     </div>
