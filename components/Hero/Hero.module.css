@@ -163,11 +163,12 @@
 }
 
 .title {
-    font-size: 3.5rem;
+    font-size: 3.2rem;
     font-weight: 900;
-    letter-spacing: -0.05em;
-    margin-bottom: 1.5rem;
-    line-height: 1.1;
+    letter-spacing: -0.06em;
+    margin: 0 auto 1.5rem auto;
+    max-width: 900px;
+    line-height: 1.2;
     background: linear-gradient(to bottom, var(--text-primary) 40%, var(--text-secondary) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -244,10 +245,10 @@
 
 @media (max-width: 768px) {
     .title { 
-        font-size: 3.2rem; 
+        font-size: 2rem; 
         padding: 0;
         letter-spacing: -0.06em;
-        line-height: 1.1;
+        line-height: 1.25;
     }
     .subtitle {
         font-size: 1.1rem;

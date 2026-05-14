@@ -31,13 +31,14 @@
 }
 
 .title {
-    font-size: 3rem; /* 크기 하향 조정 */
+    font-size: 2.8rem;
     font-weight: 800;
-    line-height: 1.3;
+    line-height: 1.2; /* 행간 축소 */
     color: var(--text-primary);
-    letter-spacing: -0.04em;
-    margin-bottom: 2rem;
-    word-break: keep-all; /* 줄바꿈 방지 */
+    letter-spacing: -0.05em; /* 자간 축소 */
+    margin: 0 auto 1.5rem auto; /* 중앙 정렬 및 하단 여백 조정 */
+    max-width: 800px; /* 너비 제한으로 균형 확보 */
+    word-break: keep-all; /* 단어 단위 줄바꿈 */
 }
 
 .highlight {

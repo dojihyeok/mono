@@ -52,7 +52,7 @@ export default function ProblemSection() {
                         whileInView={{ opacity: 1, y: 0 }}
                         className={styles.title}
                     >
-                        기술인의 땀방울이 <span className={styles.highlight}>정당한 가치</span>로<br />인정받는 세상을 만듭니다
+                        기술인의 땀방울이 <span className={styles.highlight}>정당한 가치</span>로 인정받는 세상을 만듭니다
                     </motion.h2>
                     <motion.p 
                         initial={{ opacity: 0, y: 20 }}
@@ -60,8 +60,7 @@ export default function ProblemSection() {
                         transition={{ delay: 0.1 }}
                         className={styles.subtitle}
                     >
-                        파편화된 현장 경험을 데이터로 연결하여 기술자의 생애 주기 전반을 혁신하고<br />
-                        더 나은 근로 환경과 전문적인 대우를 제공합니다.
+                        파편화된 현장 경험을 데이터로 연결하여 기술자의 생애 주기 전반을 혁신하고 더 나은 근로 환경과 전문적인 대우를 제공합니다.
                     </motion.p>
                 </header>
 
