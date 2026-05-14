@@ -14,7 +14,7 @@ const features = [
     },
     {
         title: "AI 현장 반장 (모컬 AI)",
-        description: "현장 은어 실시간 번역부터 생소한 공구 인식까지. 초보자가 마스터로 성장하도록 돕는 지능형 조력자입니다.",
+        description: "현장 은어 실시간 번역부터 생소한 공구 인식까지. 초보자가 전문가로 성장하도록 돕는 지능형 조력자입니다.",
         icon: <BrainCircuit size={28} />,
         color: "#ff9f0a"
     },
@@ -93,7 +93,7 @@ export default function Features() {
                 >
                     <div className={styles.showcaseContent}>
                         <h3>지금 바로 당신의 가치를 증명하세요</h3>
-                        <p>3,000명 이상의 마스터들이 모노와 함께 글로벌 시장으로 나아가고 있습니다.</p>
+                        <p>3,000명 이상의 전문가들이 모노와 함께 글로벌 시장으로 나아가고 있습니다.</p>
                         <button className={styles.ctaBtn}>
                             무료 가입하고 기술 인증 받기
                             <ArrowRight size={20} />

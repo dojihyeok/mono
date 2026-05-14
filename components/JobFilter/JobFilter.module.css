@@ -23,8 +23,13 @@
     text-transform: uppercase;
     letter-spacing: 0.1em;
     display: flex;
-    align-items: center;
+    align-items: center; /* 수평 정렬 */
     gap: 10px;
+    line-height: 1; /* 행간 고정으로 정렬 기준 확립 */
+}
+
+.filterLabel svg {
+    transform: translateY(1px); /* 아이콘을 아래로 내려 텍스트 중앙에 맞춤 */
 }
 
 .filterLabel::after {

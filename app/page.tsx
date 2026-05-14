@@ -135,7 +135,7 @@ export default function Home() {
             <div className={styles.feedIcon}><BrainCircuit size={20} /></div>
             <div className={styles.feedContent}>
                 <span className={styles.feedTag}>AI 맞춤 제안</span>
-                <p>평택 P4 반도체 현장에서 마스터님의 기술을 필요로 합니다. <strong>일급 24만원</strong> 조정 가능.</p>
+                <p>평택 P4 반도체 현장에서 전문가님의 기술을 필요로 합니다. <strong>일급 24만원</strong> 조정 가능.</p>
             </div>
             <ChevronRight size={18} className={styles.feedArrow} />
         </div>

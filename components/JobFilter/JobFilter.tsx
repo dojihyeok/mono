@@ -70,7 +70,7 @@ export default function JobFilter({
             <div className={styles.filterGroup}>
                 <h3 className={styles.filterLabel}>
                     <ShieldCheck size={18} color="#D4AF37" />
-                    마스터 서비스 영역
+                    기술 전문가 서비스 영역
                 </h3>
                 <div className={styles.chipGrid}>
                     {CATEGORIES.map((cat) => (

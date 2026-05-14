@@ -49,7 +49,7 @@ export default function TechnicianCard({ technician }: TechnicianProps) {
                             <h3 className={styles.name}>{technician.name}</h3>
                             <span className={styles.levelBadge}>{technician.level}</span>
                         </div>
-                        <p className={styles.expertTitle}>{technician.specialty} 마스터 · {technician.experience}년차</p>
+                        <p className={styles.expertTitle}>{technician.specialty} 전문가 · {technician.experience}년차</p>
                     </div>
                     <div className={styles.trustGroup}>
                         <div className={styles.trustRing}>

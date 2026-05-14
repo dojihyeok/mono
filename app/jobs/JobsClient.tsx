@@ -103,7 +103,7 @@ export default function JobsClient({ initialJobs }: JobsClientProps) {
                                 <CheckCircle2 size={64} color="var(--primary)" />
                             </div>
                             <h2>지원 완료!</h2>
-                            <p>마스터님의 기술 패스포트(데이터)가<br/>현장 관리자에게 즉시 전달되었습니다.</p>
+                            <p>전문가님의 기술 패스포트(데이터)가<br/>현장 관리자에게 즉시 전달되었습니다.</p>
                             <div className={styles.nextStep}>
                                 <span>다음 예상 단계</span>
                                 <div className={styles.stepInfo}>
