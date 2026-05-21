@@ -21,6 +21,7 @@ import {
     BrainCircuit,
     CheckCircle2
 } from 'lucide-react';
+import Image from 'next/image';
 import styles from './page.module.css';
 
 interface DashboardClientProps {
@@ -55,7 +56,7 @@ export default function DashboardClient({ technician, transactions }: DashboardC
         };
     }, [transactions]);
 
-    if (!technician) return <div>마스터 정보를 불러올 수 없습니다.</div>;
+    if (!technician) return <div>전문가 정보를 불러올 수 없습니다.</div>;
 
     return (
         <div className={styles.pageWrap}>
@@ -81,7 +82,7 @@ export default function DashboardClient({ technician, transactions }: DashboardC
                             <p className={styles.speciality}>{technician.specialty}</p>
                             <span className={styles.since}>
                                 <ShieldCheck size={14} color="#D4AF37" /> 
-                                MONO 마스터 인증됨 · 2023.05 가입
+                                MONO 기술 전문가 인증됨 · 2023.05 가입
                             </span>
                         </div>
                     </div>
@@ -91,7 +92,7 @@ export default function DashboardClient({ technician, transactions }: DashboardC
                 <div className={styles.dashboardGrid}>
                     <GlassCard className={styles.trustCard}>
                         <div className={styles.trustHeader}>
-                            <h3 className={styles.cardTitle}>Master Trust Score</h3>
+                            <h3 className={styles.cardTitle}>Expert Trust Score</h3>
                             <span className={styles.statusLive}>
                                 <span className={styles.pulseDot} />
                                 LIVE
@@ -108,10 +109,10 @@ export default function DashboardClient({ technician, transactions }: DashboardC
                             </svg>
                             <div className={styles.scoreText}>
                                 <span className={styles.scoreNumber}>{scoreAnim}</span>
-                                <span className={styles.scoreUnit}>Mastery</span>
+                                <span className={styles.scoreUnit}>Expertise</span>
                             </div>
                         </div>
-                        <p className={styles.trustDesc}>상위 3% 이내의 초숙련 마스터입니다.</p>
+                        <p className={styles.trustDesc}>상위 3% 이내의 초숙련 전문가입니다.</p>
                     </GlassCard>
 
                     <div className={styles.statColumn}>
@@ -129,7 +130,7 @@ export default function DashboardClient({ technician, transactions }: DashboardC
                                 <p className={styles.smallValue}>{stats.totalSites}</p>
                             </GlassCard>
                             <GlassCard className={styles.smallStat}>
-                                <p className={styles.statLabel}>마스터 평점</p>
+                                <p className={styles.statLabel}>전문가 평점</p>
                                 <p className={styles.smallValue}>4.9</p>
                             </GlassCard>
                         </div>
@@ -138,13 +139,13 @@ export default function DashboardClient({ technician, transactions }: DashboardC
 
                 <section className={styles.assetSection}>
                     <div className={styles.sectionHeader}>
-                        <h3 className={styles.sectionTitle}>마스터 공인 기술 자산 (경력인정)</h3>
+                        <h3 className={styles.sectionTitle}>전문 기술인 공인 기술 자산 (경력인정)</h3>
                     </div>
                     <div className={styles.badgeGrid}>
                         {[
                             { id: 'b1', name: '하이테크 플랜트 숙련', level: 'Level 5', icon: <Zap size={20} color="#D4AF37" /> },
                             { id: 'b2', name: '글로벌 안전 인증 (ISO)', level: 'Certified', icon: <ShieldCheck size={20} color="#D4AF37" /> },
-                            { id: 'b3', name: '전담 마스터 리더십', level: 'Leader', icon: <Award size={20} color="#D4AF37" /> },
+                            { id: 'b3', name: '전담 전문가 리더십', level: 'Leader', icon: <Award size={20} color="#D4AF37" /> },
                         ].map(badge => (
                             <div key={badge.id} className={styles.badgeItem}>
                                 <div className={styles.badgeIcon}>{badge.icon}</div>
@@ -201,7 +202,7 @@ export default function DashboardClient({ technician, transactions }: DashboardC
                         <GlassCard className={styles.lifeCareCard}>
                             <div>
                                 <div className={styles.lifeCareIcon}><BrainCircuit size={24} /></div>
-                                <h4 className={styles.lifeCareTitle}>마스터 성장 로드맵 (청년)</h4>
+                                <h4 className={styles.lifeCareTitle}>전문가 성장 로드맵 (청년)</h4>
                                 <p className={styles.lifeCareDesc}>
                                     국비 지원(내일배움카드)을 통해 프리미엄 기술을 연계 학습하세요. 교육 이수 시 단가가 상향된 현장에 우선 배정됩니다.
                                 </p>
@@ -283,7 +284,7 @@ export default function DashboardClient({ technician, transactions }: DashboardC
                                             <div className={styles.fundingFill} style={{ width: `${item.progress}%` }}></div>
                                         </div>
                                         <div className={styles.fundingFooter}>
-                                            <span>{item.investors}명의 마스터 참여 중</span>
+                                            <span>{item.investors}명의 전문가 참여 중</span>
                                             <span className={styles.sharePrice}>{item.price}</span>
                                         </div>
                                     </div>

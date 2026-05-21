@@ -23,14 +23,14 @@ import { motion, AnimatePresence } from 'framer-motion';
 export default function ForemanClient() {
     const [activeTab, setActiveTab] = useState<'network' | 'feed' | 'teams'>('network');
 
-    const MASTERS = [
-        { id: 1, name: '김마스터', role: '배관 특급', trust: 99, location: '평택 P4', tags: ['용접', '설계'], image: 'K' },
+    const EXPERTS = [
+        { id: 1, name: '김프로', role: '배관 특급', trust: 99, location: '평택 P4', tags: ['용접', '설계'], image: 'K' },
         { id: 2, name: '이팀장', role: '전기 숙련', trust: 96, location: '용인 클러스터', tags: ['자동화', 'PLC'], image: 'L' },
         { id: 3, name: '박반장', role: '플랜트 관리', trust: 94, location: '글로벌 파견', tags: ['ISO인증', 'PM'], image: 'P' },
     ];
 
     const TEAMS = [
-        { id: 1, title: '평택 P4 배관 A팀 모집', leader: '김마스터', members: 4, total: 6, urgent: true },
+        { id: 1, title: '평택 P4 배관 A팀 모집', leader: '김프로', members: 4, total: 6, urgent: true },
         { id: 2, title: '용인 클러스터 야간 긴급조', leader: '최명장', members: 2, total: 3, urgent: true },
     ];
 
@@ -44,11 +44,11 @@ export default function ForemanClient() {
                         1,240명의 전문가가 접속 중
                     </div>
                     <h1>기술 전문가들의 <span className="gradient-text">네트워킹</span></h1>
-                    <p>검증된 마스터들과 연결하고, 최강의 팀을 구성하세요.</p>
+                    <p>검증된 기술 전문가들과 연결하고, 최강의 팀을 구성하세요.</p>
                 </div>
                 <div className={styles.searchBox}>
                     <Search size={18} />
-                    <input type="text" placeholder="기술직군, 현장, 또는 마스터 이름 검색" />
+                    <input type="text" placeholder="기술직군, 현장, 또는 전문가 이름 검색" />
                 </div>
             </header>
 
@@ -58,7 +58,7 @@ export default function ForemanClient() {
                     className={`${styles.navTab} ${activeTab === 'network' ? styles.active : ''}`}
                     onClick={() => setActiveTab('network')}
                 >
-                    마스터 네트워크
+                    전문가 네트워크
                 </button>
                 <button 
                     className={`${styles.navTab} ${activeTab === 'feed' ? styles.active : ''}`}
@@ -84,7 +84,7 @@ export default function ForemanClient() {
                 >
                     {activeTab === 'network' && (
                         <div className={styles.masterGrid}>
-                            {MASTERS.map(master => (
+                            {EXPERTS.map(master => (
                                 <div key={master.id} className={styles.masterCard}>
                                     <div className={styles.masterHeader}>
                                         <div className={styles.masterAvatar}>{master.image}</div>
@@ -128,7 +128,7 @@ export default function ForemanClient() {
                                         <div className={styles.authorInfo}>
                                             <div className={styles.avatarMini}>K</div>
                                             <div>
-                                                <strong>김마스터</strong>
+                                                <strong>김프로</strong>
                                                 <span>12분 전 · 평택 P4</span>
                                             </div>
                                         </div>

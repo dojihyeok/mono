@@ -49,7 +49,7 @@ export default function EquipmentClient() {
             <header className={styles.header}>
                 <div className={styles.titleArea}>
                     <h1>EQUIPMENT & ASSETS</h1>
-                    <p>마스터의 강력한 도구, 최고의 컨디션으로 관리하세요.</p>
+                    <p>전문가의 강력한 도구, 최고의 컨디션으로 관리하세요.</p>
                 </div>
                 <button className={styles.addBtn} style={{ background: '#E2E8F0', color: '#020204' }}>
                     <Plus size={16} />
@@ -126,7 +126,7 @@ export default function EquipmentClient() {
             {/* Team Assets Preview */}
             <section className={styles.teamSection}>
                 <div className={styles.teamHeader}>
-                    <h2>ACTIVE MASTER TEAM</h2>
+                    <h2>ACTIVE EXPERT TEAM</h2>
                     <span>TEAM SYNERGY: <strong>94%</strong></span>
                 </div>
                 <div className={styles.teamAvatars}>
@@ -135,7 +135,7 @@ export default function EquipmentClient() {
                     <div className={styles.avatarBox}><img src="https://i.pravatar.cc/100?u=3" alt="T3" /></div>
                     <div className={styles.avatarAdd}>+4</div>
                 </div>
-                <p>총 7명의 마스터가 원 히트 팀(One Hit Team)으로 협업 중입니다.</p>
+                <p>총 7명의 기술 전문가가 원 히트 팀(One Hit Team)으로 협업 중입니다.</p>
                 <button className={styles.teamManageBtn}>팀 자금 및 로그 관리</button>
             </section>
         </div>

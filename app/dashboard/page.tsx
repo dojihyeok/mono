@@ -4,8 +4,8 @@ import { prisma } from '@/lib/prisma';
 export const dynamic = 'force-dynamic';
 
 export const metadata = {
-    title: 'Master Dashboard | MONO Technical Assetization',
-    description: '관리자 및 기술 마스터를 위한 경력 기반 디지털 자격 증명 대시보드.',
+    title: 'Expert Dashboard | MONO Technical Assetization',
+    description: '관리자 및 기술 전문가를 위한 경력 기반 디지털 자격 증명 대시보드.',
 };
 
 export default async function DashboardPage() {

@@ -31,7 +31,7 @@ export default function ProfileClient({ id }: { id: string }) {
     const [showProposal, setShowProposal] = useState(false);
     const { showToast } = useUI();
     
-    const MASTER = id === 'seo-jeong-feel-good' ? {
+    const EXPERT = id === 'seo-jeong-feel-good' ? {
         name: '서정필굿',
         specialty: '현장 운영 및 소통 전문가',
         trustIndex: 99.9,
@@ -41,7 +41,7 @@ export default function ProfileClient({ id }: { id: string }) {
         image: '/images/masters/profile_placeholder.png'
     } : {
         name: '이창근',
-        specialty: '수중 용접 & 산업 설비 마스터',
+        specialty: '수중 용접 & 산업 설비 핵심 전문가',
         trustIndex: 98.2,
         experience: '22년',
         projects: 142,
@@ -72,24 +72,24 @@ export default function ProfileClient({ id }: { id: string }) {
                 <div className={styles.avatarWrap}>
                     <div className={styles.avatarRing}>
                         <div className={styles.imgCircle}>
-                             <div className={styles.placeholderImg}>{MASTER.name[0]}</div>
+                             <div className={styles.placeholderImg}>{EXPERT.name[0]}</div>
                         </div>
                     </div>
                     <div className={styles.trustBadge}>
                         <ShieldCheck size={14} />
-                        <span>마스터 신뢰도 {MASTER.trustIndex}%</span>
+                        <span>전문가 신뢰도 {EXPERT.trustIndex}%</span>
                     </div>
                 </div>
                 <div className={styles.profileInfo}>
-                    <h1>{MASTER.name} 마스터</h1>
-                    <span className={styles.specialty}>{MASTER.specialty}</span>
+                    <h1>{EXPERT.name} 전문가</h1>
+                    <span className={styles.specialty}>{EXPERT.specialty}</span>
                     <div className={styles.quickStats}>
                         <div className={styles.qsItem}>
-                            <Briefcase size={14} /> <span>경력 {MASTER.experience}</span>
+                            <Briefcase size={14} /> <span>경력 {EXPERT.experience}</span>
                         </div>
                         <div className={styles.divider} />
                         <div className={styles.qsItem}>
-                            <Award size={14} /> <span>수행 프로젝트 {MASTER.projects}건+</span>
+                            <Award size={14} /> <span>수행 프로젝트 {EXPERT.projects}건+</span>
                         </div>
                     </div>
                 </div>
@@ -126,7 +126,7 @@ export default function ProfileClient({ id }: { id: string }) {
                     <div className={styles.equipmentInfo}>
                         <Zap size={24} color="#D4AF37" />
                         <div className={styles.eqText}>
-                            <h4>{MASTER.equipment}</h4>
+                            <h4>{EXPERT.equipment}</h4>
                             <span style={{color: '#30d158', fontWeight: 800}}>실시간 가동 가능 (S급)</span>
                         </div>
                     </div>
@@ -146,7 +146,7 @@ export default function ProfileClient({ id }: { id: string }) {
                                 <PolarGrid stroke="rgba(255,255,255,0.05)" />
                                 <PolarAngleAxis dataKey="subject" tick={{ fill: 'rgba(255,255,255,0.4)', fontSize: 10 }} />
                                 <Radar
-                                    name="Master Reputation"
+                                    name="Expert Reputation"
                                     dataKey="A"
                                     stroke="#3182f6"
                                     fill="#3182f6"
@@ -200,7 +200,7 @@ export default function ProfileClient({ id }: { id: string }) {
                         </div>
                         <div className={styles.proposalBody}>
                             <p style={{color: 'rgba(255,255,255,0.4)', marginBottom: '2rem', fontSize: '0.95rem'}}>
-                                {MASTER.name} 마스터님의 전문 역량을 고려하여<br/>아래 프로젝트에 최적의 조건으로 모시고자 합니다.
+                                {EXPERT.name} 전문가님의 전문 역량을 고려하여<br/>아래 프로젝트에 최적의 조건으로 모시고자 합니다.
                             </p>
                             
                             <div className={styles.inputGroup}>
@@ -224,11 +224,11 @@ export default function ProfileClient({ id }: { id: string }) {
                             </div>
                             <div className={styles.benefitRow}>
                                 <CheckCircle2 size={16} color="#D4AF37" />
-                                <span>모노 마스터 전용 상해/보상 보험 가입</span>
+                                <span>모노 전문가 전용 상해/보상 보험 가입</span>
                             </div>
                         </div>
                         <button className={styles.sendBtn} onClick={() => {
-                            showToast('프로젝트 제안서가 마스터님께 정식으로 발송되었습니다.', 'success');
+                            showToast('프로젝트 제안서가 전문가님께 정식으로 발송되었습니다.', 'success');
                             setShowProposal(false);
                         }}>
                             제안서 최종 발송

@@ -25,12 +25,12 @@ export async function GET() {
 
         // Mock data for attendance and evaluation that would normally be linked to JobSites
         const attendance = [
-            { id: 1, name: 'Young-Hoon Kim (타일 마스터)', siteName: '강남 고급 빌라 대형 타일 시공', time: '07:50 AM 도착 확인됨' },
+            { id: 1, name: 'Young-Hoon Kim (타일 전문가)', siteName: '강남 고급 빌라 대형 타일 시공', time: '07:50 AM 도착 확인됨' },
             { id: 2, name: 'Min-Soo Lee (목수)', siteName: '판교 테크노밸리 신축 사옥 설비', time: '08:05 AM 도착 확인됨' }
         ];
 
         const evaluations = [
-            { id: 1, name: 'Ji-Sung Park (설비 마스터)', siteName: '판교 테크노밸리 신축 사옥 설비 (작업 종료)' }
+            { id: 1, name: 'Ji-Sung Park (설비 전문가)', siteName: '판교 테크노밸리 신축 사옥 설비 (작업 종료)' }
         ];
 
         return NextResponse.json({

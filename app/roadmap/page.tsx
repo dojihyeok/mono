@@ -61,7 +61,7 @@ export default function RoadmapPage() {
             items: [
                 { icon: <Globe size={18} />, text: "세계 공용 기술 여권: 데이터를 국제 표준 증명서로 변환하여 기술 이민 연결" },
                 { icon: <Cpu size={18} />, text: "입는 로봇(Wearable) 개발: 현장 데이터를 기반으로 육체 노동 보조 기기 제조" },
-                { icon: <Globe size={18} />, text: "극한 환경 기술자 파견: 달 기지 건설 등 인류의 새로운 개척지에 마스터 송출" }
+                { icon: <Globe size={18} />, text: "극한 환경 기술자 파견: 달 기지 건설 등 인류의 새로운 개척지에 기술 전문가 송출" }
             ]
         }
     ];
@@ -85,7 +85,7 @@ export default function RoadmapPage() {
                 </h1>
                 <p className={styles.description}>
                     육체노동을 세계가 인정하는 경력 자산으로 전환하는 최고급 기술 플랫폼.<br />
-                    단순 중개를 넘어, 인류의 새로운 개척지를 짓는 마스터 생태계의 완성.
+                    단순 중개를 넘어, 인류의 새로운 개척지를 짓는 전문 기술인 생태계의 완성.
                 </p>
             </header>
 

@@ -1,59 +1,61 @@
 .container {
-    max-width: 1200px;
+    width: 100%;
     margin: 0 auto;
-    padding: 120px 1.5rem 100px;
-    min-height: 100vh;
-    background: #000;
+    padding: 1rem 1rem 3rem;
+    min-height: calc(100vh - 162px);
+    background: transparent;
 }
 
-/* ── Refined Header (Native Premium) ─────── */
+/* ── Refined Header (Compact & Premium) ─────── */
 .header {
-    margin-bottom: 4rem;
+    margin-bottom: 1.75rem;
 }
 
 .titleArea h1 {
-    font-size: 2.5rem;
-    font-weight: 800;
-    color: #fff;
-    margin-bottom: 1rem;
-    letter-spacing: -0.02em;
+    font-size: 1.8rem;
+    font-weight: 850;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.03em;
 }
 
 .titleArea p {
-    font-size: 1.15rem;
-    color: rgba(255, 255, 255, 0.4);
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
     font-weight: 500;
 }
 
 /* ── Deployment Readiness (Native Gauge) ──── */
 .statusBar {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    border-radius: 28px;
-    padding: 2.5rem 3.5rem;
+    background: var(--surface-raised);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 1.25rem 1.5rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 3rem;
+    margin-bottom: 2rem;
 }
 
 .statusInfo {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 4px;
 }
 
 .statusLabel {
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 800;
-    color: rgba(255, 255, 255, 0.2);
-    letter-spacing: 0.1em;
+    color: var(--text-tertiary);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
 }
 
 .statusValue {
-    font-size: 1.5rem;
-    font-weight: 800;
-    color: #fff;
+    font-size: 1.15rem;
+    font-weight: 900;
+    color: var(--text-primary);
     display: flex;
     align-items: center;
 }
@@ -61,187 +63,200 @@
 .readyBadge {
     display: flex;
     align-items: center;
-    gap: 10px;
-    background: #D4AF37;
-    color: #000;
-    padding: 12px 24px;
-    border-radius: 14px;
-    font-size: 14px;
-    font-weight: 800;
+    gap: 6px;
+    background: var(--accent);
+    color: var(--background);
+    padding: 8px 14px;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: 900;
 }
 
-/* ── Project Cards (Native Premium List) ──── */
+/* ── Project Cards (Mobile First Stack) ──── */
 .projectsGrid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
 }
 
 .projectCard {
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    border-radius: 40px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 24px;
     overflow: hidden;
-    display: grid;
-    grid-template-columns: 320px 1fr;
+    display: flex;
+    flex-direction: column;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
 }
 
 .projectCard:hover {
-    background: rgba(255, 255, 255, 0.04);
-    border-color: rgba(212, 175, 55, 0.2);
-    transform: translateY(-5px);
+    background: var(--surface-raised);
+    border-color: rgba(212, 175, 55, 0.3);
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
 }
 
 .cardBanner {
     position: relative;
-    height: 100%;
+    height: 180px;
+    width: 100%;
+    /* Premium visual fallback if images fail to load */
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.15) 0%, rgba(20, 20, 25, 0.75) 100%);
 }
 
 .cardBanner img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    opacity: 0.6;
+    opacity: 0.75;
+    display: block;
 }
 
 .matchScore {
     position: absolute;
-    top: 24px;
-    right: -24px;
-    width: 72px;
-    height: 72px;
-    background: #fff;
+    top: 14px;
+    right: 14px;
+    width: 58px;
+    height: 58px;
+    background: var(--surface);
     border-radius: 50%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    color: #000;
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+    color: var(--text-primary);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
     z-index: 10;
+    border: 2px solid var(--accent);
 }
 
 .matchScore strong {
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     font-weight: 900;
     line-height: 1;
 }
 
 .matchScore span {
-    font-size: 8px;
+    font-size: 7px;
     font-weight: 900;
     text-transform: uppercase;
+    color: var(--text-secondary);
 }
 
 .cardContent {
-    padding: 3.5rem;
+    padding: 1.5rem;
     display: flex;
     flex-direction: column;
+    gap: 0.75rem;
 }
 
 .location {
     display: flex;
     align-items: center;
-    gap: 8px;
-    font-size: 13px;
+    gap: 6px;
+    font-size: 12px;
     font-weight: 700;
-    color: #D4AF37;
-    margin-bottom: 1.5rem;
+    color: var(--accent);
 }
 
 .projectTitle h3 {
-    font-size: 2rem;
-    font-weight: 800;
-    color: #fff;
-    margin-bottom: 1.5rem;
-    letter-spacing: -0.02em;
+    font-size: 1.35rem;
+    font-weight: 850;
+    color: var(--text-primary);
+    letter-spacing: -0.03em;
+    line-height: 1.35;
+    word-break: keep-all;
 }
 
 .summary {
-    font-size: 1.1rem;
-    color: rgba(255, 255, 255, 0.4);
-    line-height: 1.7;
-    margin-bottom: 2.5rem;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
     font-weight: 500;
+    word-break: keep-all;
 }
 
 .pills {
     display: flex;
-    gap: 10px;
-    margin-bottom: 3rem;
+    flex-wrap: wrap;
+    gap: 8px;
 }
 
 .pill {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    color: rgba(255, 255, 255, 0.6);
-    padding: 6px 14px;
-    border-radius: 8px;
-    font-size: 11px;
+    background: var(--surface-overlay);
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+    padding: 5px 10px;
+    border-radius: 6px;
+    font-size: 10px;
     font-weight: 800;
     display: flex;
     align-items: center;
 }
 
-/* ── Card Footer (Native Style Actions) ───── */
+/* ── Card Footer ───── */
 .footer {
-    margin-top: auto;
+    margin-top: 0.5rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-top: 3rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--border);
+    gap: 1rem;
+}
+
+.reward {
+    display: flex;
+    flex-direction: column;
 }
 
 .rewardLabel {
     display: flex;
     align-items: center;
-    gap: 6px;
-    font-size: 11px;
+    gap: 5px;
+    font-size: 10px;
     font-weight: 800;
-    color: rgba(255, 255, 255, 0.2);
-    margin-bottom: 10px;
+    color: var(--text-tertiary);
+    margin-bottom: 2px;
 }
 
 .rewardValue {
-    font-size: 1.75rem;
-    font-weight: 800;
-    color: #fff;
+    font-size: 1.3rem;
+    font-weight: 900;
+    color: var(--text-primary);
     letter-spacing: -0.01em;
 }
 
 .applyBtn {
-    background: #fff;
-    color: #000;
-    padding: 1.25rem 2.5rem;
-    border-radius: 18px;
-    font-size: 16px;
-    font-weight: 800;
+    background: var(--text-primary);
+    color: var(--background);
+    padding: 0.85rem 1.5rem;
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: 900;
     border: none;
     cursor: pointer;
     display: flex;
     align-items: center;
     transition: all 0.2s;
+    white-space: nowrap;
 }
 
 .applyBtn:hover {
-    background: #f0f0f0;
-    transform: translateY(-2px);
+    opacity: 0.9;
+    transform: translateY(-1px);
 }
 
-/* Responsive */
-@media (max-width: 1024px) {
-    .projectCard { grid-template-columns: 1fr; }
-    .cardBanner { height: 240px; }
-    .matchScore { right: 24px; top: -36px; }
-    .cardContent { padding: 2.5rem; }
-}
-
-@media (max-width: 768px) {
-    .titleArea h1 { font-size: 2rem; }
-    .statusBar { flex-direction: column; text-align: center; gap: 2rem; padding: 2.5rem; }
-    .projectTitle h3 { font-size: 1.5rem; }
-    .footer { flex-direction: column; gap: 2rem; align-items: flex-start; }
-    .applyBtn { width: 100%; justify-content: center; }
+/* Compact layout for very small screens */
+@media (max-width: 400px) {
+    .footer {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 1rem;
+    }
+    .applyBtn {
+        width: 100%;
+        justify-content: center;
+    }
 }

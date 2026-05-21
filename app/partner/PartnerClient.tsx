@@ -124,7 +124,7 @@ export default function PartnerClient() {
                         className={`${styles.tabBtn} ${activeTab === 'evaluation' ? styles.active : ''}`}
                         onClick={() => setActiveTab('evaluation')}
                     >
-                        <Star size={16} /> 마스터 평가
+                        <Star size={16} /> 전문가 평가
                     </button>
                 </div>
 
@@ -141,7 +141,7 @@ export default function PartnerClient() {
                             </GlassCard>
                             <GlassCard className={styles.statCard}>
                                 <div className={styles.statHeader}>
-                                    <span className={styles.statTitle}>투입된 마스터 인력</span>
+                                    <span className={styles.statTitle}>투입된 기술 전문가</span>
                                     <div className={styles.statIcon}><Users size={20} /></div>
                                 </div>
                                 <div className={styles.statValue}>
@@ -163,7 +163,7 @@ export default function PartnerClient() {
                             <GlassCard className={styles.newRequestCard}>
                                 <div className={styles.actionText}>
                                     <h2>새로운 현장 인력 등록</h2>
-                                    <p>MoNo의 검증된 기술 마스터들을 현장에 매칭하세요.</p>
+                                    <p>MoNo의 검증된 기술 전문가들을 현장에 매칭하세요.</p>
                                 </div>
                                 <button 
                                     className={styles.actionBtn}
@@ -204,7 +204,7 @@ export default function PartnerClient() {
                     <section className={styles.tabSection}>
                         <div className={styles.sectionHeader}>
                             <h2>출역 및 근태 관리</h2>
-                            <p>오늘 현장에 투입된 마스터들의 출근 여부를 확인하고 승인합니다.</p>
+                            <p>오늘 현장에 투입된 전문가들의 출근 여부를 확인하고 승인합니다.</p>
                         </div>
                         <GlassCard className={styles.listCard}>
                             {data.attendance.map((att: any) => (
@@ -250,7 +250,7 @@ export default function PartnerClient() {
                     <section className={styles.tabSection}>
                         <div className={styles.sectionHeader}>
                             <h2>현장 인력 평가</h2>
-                            <p>작업이 완료된 마스터를 평가하여 파트너사의 신뢰도를 높이고 우수 인력을 선점하세요.</p>
+                            <p>작업이 완료된 전문가를 평가하여 파트너사의 신뢰도를 높이고 우수 인력을 선점하세요.</p>
                         </div>
                         <GlassCard className={styles.listCard}>
                             {data.evaluations.map((ev: any) => (

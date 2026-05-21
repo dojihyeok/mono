@@ -86,7 +86,7 @@ export default function AdminClient() {
                 <header className={styles.topBar}>
                     <div className={styles.searchBar}>
                         <Search size={18} />
-                        <input type="text" placeholder="현장, 마스터, 장비 검색..." />
+                        <input type="text" placeholder="현장, 전문가, 장비 검색..." />
                     </div>
                     <div className={styles.headerActions}>
                         <div className={styles.liveStatus}>
@@ -118,7 +118,7 @@ export default function AdminClient() {
                                         </div>
                                         <div className={styles.mapOverlay}>
                                             <h3>실시간 현장 활동</h3>
-                                            <p>현재 <strong>1,242명</strong>의 마스터가 <strong>142개</strong> 현장에서 활동 중</p>
+                                            <p>현재 <strong>1,242명</strong>의 기술 전문가가 <strong>142개</strong> 현장에서 활동 중</p>
                                         </div>
                                     </div>
                                 </section>
@@ -157,7 +157,7 @@ export default function AdminClient() {
                                         <Cpu size={24} color="#D4AF37" />
                                         <h3>AI 운영 가이드</h3>
                                     </div>
-                                    <p>다음 주 <strong>평택 지역</strong>의 배관 인력 수요가 15% 증가할 것으로 예측됩니다. 선제적으로 마스터 매칭을 준비하세요.</p>
+                                    <p>다음 주 <strong>평택 지역</strong>의 배관 인력 수요가 15% 증가할 것으로 예측됩니다. 선제적으로 전문가 매칭을 준비하세요.</p>
                                     <button className={styles.insightBtn}>예측 데이터 상세 보기 <ArrowUpRight size={14} /></button>
                                 </section>
                             </motion.div>

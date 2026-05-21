@@ -55,7 +55,7 @@ export default function MonetizeClient() {
     return (
         <div className={styles.pageWrap}>
             <header className={styles.header}>
-                <div className={styles.premiumBadge}>마스터 장비로 돈 벌기 센터</div>
+                <div className={styles.premiumBadge}>전문가 장비 및 기술 수익화 센터</div>
                 <h1>내 실력과 장비로 <span className={styles.goldText}>돈 벌기</span></h1>
                 <p className={styles.subtitle}>퇴근하고 잠깐 일해서 돈 벌고, 안 쓰는 내 연장 빌려주고 수익을 만드세요.</p>
             </header>

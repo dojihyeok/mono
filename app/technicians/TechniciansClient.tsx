@@ -46,8 +46,8 @@ export default function TechniciansClient({ initialTechnicians }: TechniciansCli
     return (
         <div className={styles.container}>
             <div className={styles.header}>
-                <h1 className={styles.title}>전문 기술 마스터 찾기</h1>
-                <p className={styles.subtitle}>검증된 숙련도와 신뢰도를 보유한 마스터 리스트</p>
+                <h1 className={styles.title}>전문 기술인 찾기</h1>
+                <p className={styles.subtitle}>검증된 숙련도와 신뢰도를 보유한 전문 기술 전문가 리스트</p>
             </div>
 
             <div className={styles.searchBar}>
@@ -88,7 +88,7 @@ export default function TechniciansClient({ initialTechnicians }: TechniciansCli
                 <>
                     <div className={styles.resultsInfo}>
                         <span className={styles.countText}>
-                            총 <strong>{filteredTechnicians.length}</strong>명의 마스터가 검색되었습니다.
+                            총 <strong>{filteredTechnicians.length}</strong>명의 기술 전문가가 검색되었습니다.
                         </span>
                         <button className={styles.backToGrid} onClick={() => setViewMode('occupation')}>
                             검색 초기화
@@ -103,7 +103,7 @@ export default function TechniciansClient({ initialTechnicians }: TechniciansCli
                             ))
                         ) : (
                             <div className={styles.noResults}>
-                                <p>해당 조건의 마스터를 찾을 수 없습니다.</p>
+                                <p>해당 조건의 기술 전문가를 찾을 수 없습니다.</p>
                                 <button className={styles.backBtn} onClick={() => setViewMode('occupation')}>다른 기술직종 보기</button>
                             </div>
                         )}
@@ -117,8 +117,8 @@ export default function TechniciansClient({ initialTechnicians }: TechniciansCli
                         <div className={styles.nearMeIcon}>
                             <LocateFixed size={64} color="#D4AF37" style={{margin: '0 auto'}} />
                         </div>
-                        <h3>내 주변 마스터 찾기</h3>
-                        <p>현재 위치 정보를 기반으로 근거리에서 활동 중인<br/>검증된 마스터들을 추천해 드립니다.</p>
+                        <h3>내 주변 기술 전문가 찾기</h3>
+                        <p>현재 위치 정보를 기반으로 근거리에서 활동 중인<br/>검증된 기술 전문가들을 추천해 드립니다.</p>
                         <button className={styles.gpsBtn}>현재 위치로 검색하기</button>
                     </div>
                 </div>

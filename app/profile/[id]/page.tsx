@@ -1,8 +1,8 @@
 import ProfileClient from './ProfileClient';
 
 export const metadata = {
-    title: 'Master Professional Profile | MONO Masters',
-    description: 'A premium professional profile for global masters showing trust, skills, and strategic deployment opportunities.',
+    title: 'Expert Professional Profile | MONO Experts',
+    description: 'A premium professional profile for global experts showing trust, skills, and strategic deployment opportunities.',
 };
 
 export default function ProfilePage({ params }: { params: { id: string } }) {

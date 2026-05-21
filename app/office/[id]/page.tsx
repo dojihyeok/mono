@@ -59,7 +59,7 @@ const OFFICE_DATA: Record<string, any> = {
   },
   busan: {
     id: 'busan',
-    name: '부산 오션 마스터 센터',
+    name: '부산 오션 전문가 센터',
     address: '부산광역시 영도구 남항로 89 (남항 시장 인근)',
     contact: '051-778-9900',
     manager: '최영도 소장',

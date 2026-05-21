@@ -31,10 +31,10 @@ export default function AdvisorClient() {
         return () => clearInterval(interval);
     }, []);
 
-    const MASTER_STATS = [
+    const EXPERT_STATS = [
         { label: '신뢰 지수', value: '98.5', color: '#D4AF37', trend: '+1.2' },
         { label: '장비 상태', value: '최상 (OPTIMAL)', color: '#10B981', trend: '정비 완료' },
-        { label: '글로벌 진출 준비도', value: '마스터 등급', color: '#E2E8F0', trend: 'ISO 국제 인증' }
+        { label: '글로벌 진출 준비도', value: '최상위 전문가', color: '#E2E8F0', trend: 'ISO 국제 인증' }
     ];
 
     const RECOMMENDATIONS = [
@@ -62,7 +62,7 @@ export default function AdvisorClient() {
                 <div className={styles.scanner}>
                     <BrainCircuit size={64} className={styles.scanIcon} />
                     <h2>모노 AI | 자산 정밀 분석 중</h2>
-                    <p>마스터의 기술 자산, 장비 상태 및 신용 리포트를 정밀 분석 중입니다.</p>
+                    <p>기술 전문가의 기술 자산, 장비 상태 및 신용 리포트를 정밀 분석 중입니다.</p>
                     <div className={styles.progressBar}>
                         <div className={styles.progressFill} style={{ width: `${progress}%` }} />
                     </div>
@@ -75,13 +75,13 @@ export default function AdvisorClient() {
     return (
         <div className={styles.pageWrap}>
             <header className={styles.header}>
-                <div className={styles.premiumBadge}>모노 AI | 마스터 커리어 어드바이저</div>
-                <h1>마스터 커리어 <span className={styles.goldText}>심층 분석 리포트</span></h1>
+                <div className={styles.premiumBadge}>모노 AI | 커리어 어드바이저</div>
+                <h1>전문가 커리어 <span className={styles.goldText}>심층 분석 리포트</span></h1>
                 <p className={styles.subtitle}>데이터 자산 분석 기반 글로벌 하이-벨류 프로젝트 매칭 제안</p>
             </header>
 
             <div className={styles.statsGrid}>
-                {MASTER_STATS.map((stat, i) => (
+                {EXPERT_STATS.map((stat, i) => (
                     <div key={i} className={styles.statCard}>
                         <span className={styles.statLabel}>{stat.label}</span>
                         <div className={styles.statValueRow}>
@@ -99,7 +99,7 @@ export default function AdvisorClient() {
                 </div>
                 <div className={styles.insightBox}>
                     <p>
-                        현재 마스터님의 **기술 자산(Passport)**과 **장비 상태(Equipment)**는 상위 2%의 글로벌 적합성을 보이고 있습니다. 
+                        현재 전문가님의 **기술 자산(Passport)**과 **장비 상태(Equipment)**는 상위 2%의 글로벌 적합성을 보이고 있습니다. 
                         특히 최근 ISO 보고서 인증을 통한 신용 점수 상승으로, 중동 및 유럽 지역의 **하이-스테이크(High-stakes) 현장** 투입 시 
                         평균 대비 15% 높은 우대 수당 확보가 가능합니다.
                     </p>
@@ -142,8 +142,8 @@ export default function AdvisorClient() {
             </section>
 
             <footer className={styles.footer}>
-                <p>본 리포트는 실시간 프로젝트 수급 데이터와 마스터 자산 가치를 기반으로 AI가 자동 생성한 맞춤형 제언입니다. </p>
-                <div className={styles.reportId}>리포트 번호: MA-ALPHA-7729</div>
+                <p>본 리포트는 실시간 프로젝트 수급 데이터와 전문가 자산 가치를 기반으로 AI가 자동 생성한 맞춤형 제언입니다. </p>
+                <div className={styles.reportId}>리포트 번호: EX-ALPHA-7729</div>
             </footer>
         </div>
     );

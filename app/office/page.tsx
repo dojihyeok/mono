@@ -29,7 +29,7 @@ const MANPOWER_OFFICES = [
     rating: 4.9,
     reviews: 128,
     distance: '1.2km',
-    activeMasters: 42,
+    activeExperts: 42,
     successRate: 98.8,
     jobs: [
       { id: 'j1', time: '04:30', title: '신축 현장 전기 결선', pay: '195,000', type: 'DAWN' },
@@ -44,7 +44,7 @@ const MANPOWER_OFFICES = [
     rating: 5.0,
     reviews: 412,
     distance: '45km',
-    activeMasters: 124,
+    activeExperts: 124,
     successRate: 100,
     jobs: [
       { id: 'j30', time: '04:00', title: '클린룸 공조 덕트 설비', pay: '245,000', type: 'DAWN' },
@@ -53,12 +53,12 @@ const MANPOWER_OFFICES = [
   },
   {
     id: 'busan',
-    name: '부산 오션 마스터 센터',
+    name: '부산 오션 전문가 센터',
     category: 'OCEANTECH',
     rating: 4.9,
     reviews: 215,
     distance: '320km',
-    activeMasters: 85,
+    activeExperts: 85,
     successRate: 99.2,
     jobs: [
       { id: 'j20', time: '05:00', title: '선조립 구역 수중 용접', pay: '320,000', type: 'DAWN' },
@@ -72,7 +72,7 @@ const MANPOWER_OFFICES = [
     rating: 4.7,
     reviews: 64,
     distance: '12km',
-    activeMasters: 28,
+    activeExperts: 28,
     successRate: 96.5,
     jobs: [
       { id: 'j10', time: '08:00', title: '스마트팜 수경배지 교체', pay: '155,000', type: 'NORMAL' },
@@ -209,7 +209,7 @@ export default function OnlineOfficePage() {
                 <div className={styles.activeWorkerInfo}>
                   <div className={styles.statItem}>
                     <Users size={12} />
-                    <span>{office.activeMasters || 12}명 대기 중</span>
+                    <span>{office.activeExperts || 12}명 대기 중</span>
                   </div>
                   <div className={styles.statItem}>
                     <ShieldCheck size={12} />

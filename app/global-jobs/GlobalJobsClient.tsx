@@ -27,7 +27,7 @@ const GLOBAL_PROJECTS = [
         period: '3 Months',
         tags: ['비자 지원', '숙소 제공', 'Tier 1'],
         image: '/global/sydney.png',
-        requirement: 'Master Tiler (5yr+)',
+        requirement: 'Senior Tiler (5yr+)',
         trustScoreMin: 85
     },
     {
@@ -97,7 +97,7 @@ export default function GlobalJobsClient() {
                     <div className={styles.analysisCard}>
                         <span className={styles.regionName}>Middle East (Saudi)</span>
                         <div className={styles.demandMeter}><div className={styles.demandLevel} style={{width: '95%'}}></div></div>
-                        <p>네옴시티 인프라 마스터 모집 | 비과세 혜택 극대화</p>
+                        <p>네옴시티 인프라 핵심 전문가 모집 | 비과세 혜택 극대화</p>
                     </div>
                 </div>
             </section>
@@ -174,7 +174,7 @@ export default function GlobalJobsClient() {
                                 <Plane size={14} />
                                 <span>Period: {project.period}</span>
                             </div>
-                            <button className={styles.applyBtn}>마스터 지원하기</button>
+                            <button className={styles.applyBtn}>전문가 지원하기</button>
                         </div>
                     </div>
                 ))}

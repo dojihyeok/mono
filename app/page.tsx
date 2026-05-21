@@ -72,7 +72,7 @@ export default function Home() {
             <span className={styles.greetingText}>좋은 아침입니다!</span>
             <div className={styles.userNameArea}>
                 <span className={styles.userName}>이종두</span>
-                <div className={styles.masterBadge}><ShieldCheck size={10} /> MASTER</div>
+                <div className={styles.masterBadge}><ShieldCheck size={10} /> EXPERT</div>
             </div>
           </div>
         </div>

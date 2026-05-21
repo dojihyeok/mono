@@ -65,7 +65,7 @@ export default function ShopClient() {
             target: '₩ 45,000,000',
             progress: 82,
             yield: '연 12.5%',
-            desc: '현장 마스터 전용 셔틀 운영 및 자산 공유 프로젝트.',
+            desc: '현장 전문가 전용 셔틀 운영 및 자산 공유 프로젝트.',
             tag: '모집중'
         }
     ];

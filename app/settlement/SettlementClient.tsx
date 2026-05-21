@@ -16,7 +16,8 @@ import {
     Lock,
     X,
     CheckCircle2,
-    PieChart
+    PieChart,
+    CalendarDays
 } from 'lucide-react';
 
 interface SettlementClientProps {
@@ -34,7 +35,7 @@ export default function SettlementClient({ initialTransactions }: SettlementClie
         
         return {
             availableBalance: available.toLocaleString(),
-            investedAmount: "1,250,000", // Dummy for funding assets
+            investedAmount: "1,250,000",
             history: settled.slice(0, 5).map(t => ({
                 id: t.id.toString(),
                 site: t.siteName,
@@ -59,53 +60,71 @@ export default function SettlementClient({ initialTransactions }: SettlementClie
             {/* Native-style Header */}
             <header className={styles.settlementHeader}>
                 <div className={styles.headerTitle}>
-                    <h1>자산 관리</h1>
+                    <h1>내 자산</h1>
                 </div>
                 <div className={styles.escrowStatus}>
                     <Lock size={12} fill="currentColor" />
-                    <span>에스크로 보호 중</span>
+                    <span>전액 에스크로 보호</span>
                 </div>
                 <div className={styles.headerActions}>
                     <button className={styles.iconBtn}><History size={20} /></button>
                 </div>
             </header>
 
-            {/* AI Credit Score Section (MoNo Score) */}
-            <section className={styles.scoreSection}>
-                <div className={styles.scoreCard}>
-                    <div className={styles.scoreInfo}>
-                        <div className={styles.scoreLabel}>
-                            <ShieldCheck size={16} color="var(--primary)" />
-                            MoNo AI 신용 스코어
-                        </div>
-                        <div className={styles.scoreValue}>
-                            842<span> / 1000</span>
-                        </div>
-                        <p className={styles.scoreDesc}>상위 5.2% · 1금융권 대출 한도 우대 대상</p>
-                    </div>
-                    <div className={styles.scoreChart}>
-                        <div className={styles.chartBar} style={{ width: '84.2%' }} />
-                    </div>
-                </div>
-            </section>
-
             {/* Asset Overview Card */}
             <section className={styles.assetOverview}>
-                <div className={styles.assetCard}>
+                <motion.div 
+                    className={styles.assetCard}
+                    initial={{ opacity: 0, y: 15 }}
+                    animate={{ opacity: 1, y: 0 }}
+                >
                     <div className={styles.assetMain}>
                         <div className={styles.label}>정산 가능 잔액</div>
                         <div className={styles.amount}>
                             ₩ {availableBalance}
-                            <span className={styles.trend}>연계 금융 혜택 적용 중</span>
+                            <span className={styles.trend}>1.2x 금융 혜택 적용</span>
                         </div>
                     </div>
                     <div className={styles.assetActions}>
                         <button className={styles.actionBtnPrimary} onClick={() => setShowWithdrawal(true)}>출금하기</button>
-                        <button className={styles.actionBtn}>내역보기</button>
+                        <button className={styles.actionBtn}>세금 계산</button>
                     </div>
-                </div>
+                </motion.div>
 
-                <div className={styles.assetGrid}>
+                {/* Toss-style Monthly Summary Widget */}
+                <motion.div 
+                    className={styles.summaryWidget}
+                    initial={{ opacity: 0, y: 15 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.1 }}
+                >
+                    <div className={styles.summaryHeader}>
+                        <div className={styles.summaryTitle}>
+                            <CalendarDays size={16} />
+                            <span>이번 달 총 예상 수입</span>
+                        </div>
+                        <strong>₩ 8,420,000</strong>
+                    </div>
+                    <div className={styles.summaryBreakdown}>
+                        <div className={styles.breakdownBar}>
+                            <div className={styles.breakdownFill1} style={{ width: '65%' }} />
+                            <div className={styles.breakdownFill2} style={{ width: '25%' }} />
+                            <div className={styles.breakdownFill3} style={{ width: '10%' }} />
+                        </div>
+                        <div className={styles.breakdownLegends}>
+                            <span><span className={styles.dot1}/> 기본급</span>
+                            <span><span className={styles.dot2}/> 연장수당</span>
+                            <span><span className={styles.dot3}/> 해외 파견금</span>
+                        </div>
+                    </div>
+                </motion.div>
+
+                <motion.div 
+                    className={styles.assetGrid}
+                    initial={{ opacity: 0, y: 15 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.2 }}
+                >
                     <div className={styles.assetItem}>
                         <div className={styles.itemHeader}>
                             <Coins size={16} color="#D4AF37" />
@@ -119,6 +138,25 @@ export default function SettlementClient({ initialTransactions }: SettlementClie
                             <span>펀딩 수익금</span>
                         </div>
                         <strong>₩ 45,200</strong>
+                    </div>
+                </motion.div>
+            </section>
+
+            {/* AI Credit Score Section (MoNo Score) */}
+            <section className={styles.scoreSection}>
+                <div className={styles.scoreCard}>
+                    <div className={styles.scoreInfo}>
+                        <div className={styles.scoreLabel}>
+                            <ShieldCheck size={16} color="var(--primary)" />
+                            전문가 AI 신용 스코어
+                        </div>
+                        <div className={styles.scoreValue}>
+                            842<span> / 1000</span>
+                        </div>
+                        <p className={styles.scoreDesc}>상위 5.2% · 1금융권 대출 한도 우대 대상</p>
+                    </div>
+                    <div className={styles.scoreChart}>
+                        <div className={styles.chartBar} style={{ width: '84.2%' }} />
                     </div>
                 </div>
             </section>
@@ -141,70 +179,84 @@ export default function SettlementClient({ initialTransactions }: SettlementClie
 
             {/* Dynamic Content Area */}
             <main className={styles.contentArea}>
-                {activeTab === 'wallet' ? (
-                    <div className={styles.transactionList}>
-                        <div className={styles.listHeader}>
-                            <h3>최근 활동</h3>
-                            <button className={styles.filterBtn}>전체 <ChevronRight size={14} /></button>
-                        </div>
-                        {history.length > 0 ? history.map(item => (
-                            <div key={item.id} className={styles.transactionItem}>
-                                <div className={styles.itemIcon}>
-                                    {item.type === 'IN' ? <ArrowDownLeft size={20} color="#30d158" /> : <ArrowUpRight size={20} color="#ff3b30" />}
-                                </div>
-                                <div className={styles.itemInfo}>
-                                    <strong>{item.site}</strong>
-                                    <span>{item.date} · {item.type === 'IN' ? '입금' : '출금'}</span>
-                                </div>
-                                <div className={`${styles.itemAmount} ${item.type === 'IN' ? styles.in : styles.out}`}>
-                                    {item.type === 'IN' ? '+' : '-'} {item.amount}
-                                </div>
+                <AnimatePresence mode="wait">
+                    {activeTab === 'wallet' ? (
+                        <motion.div 
+                            key="wallet"
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -10 }}
+                            className={styles.transactionList}
+                        >
+                            <div className={styles.listHeader}>
+                                <h3>최근 정산 내역</h3>
+                                <button className={styles.filterBtn}>전체 <ChevronRight size={14} /></button>
                             </div>
-                        )) : (
-                            <div className={styles.emptyState}>활동 내역이 없습니다.</div>
-                        )}
-                    </div>
-                ) : (
-                    <div className={styles.investmentView}>
-                        <div className={styles.investmentCard}>
-                            <div className={styles.cardHeader}>
-                                <div className={styles.iconBox}><BarChart3 size={20} /></div>
-                                <div>
-                                    <h4>장비 펀딩 자산</h4>
-                                    <p>현재 2개의 장비에 투자 중입니다.</p>
-                                </div>
-                            </div>
-                            <div className={styles.cardBody}>
-                                <div className={styles.statRow}>
-                                    <div className={styles.stat}>
-                                        <span>투자 원금</span>
-                                        <strong>₩ {investedAmount}</strong>
+                            {history.length > 0 ? history.map(item => (
+                                <div key={item.id} className={styles.transactionItem}>
+                                    <div className={styles.itemIcon}>
+                                        {item.type === 'IN' ? <ArrowDownLeft size={20} color="#30d158" /> : <ArrowUpRight size={20} color="#ff3b30" />}
                                     </div>
-                                    <div className={styles.stat}>
-                                        <span>평가 손익</span>
-                                        <strong className={styles.positive}>+ ₩ 45,200</strong>
+                                    <div className={styles.itemInfo}>
+                                        <strong>{item.site}</strong>
+                                        <span>{item.date} · {item.type === 'IN' ? '일당 정산' : '출금'}</span>
+                                    </div>
+                                    <div className={`${styles.itemAmount} ${item.type === 'IN' ? styles.in : styles.out}`}>
+                                        {item.type === 'IN' ? '+' : '-'} {item.amount}
                                     </div>
                                 </div>
-                                <button className={styles.viewDetailBtn}>투자 현황 상세 <ChevronRight size={14} /></button>
-                            </div>
-                        </div>
-                        
-                        <div className={styles.recommendSection}>
-                            <h3>추천 투자 상품</h3>
-                            <div className={styles.recommendCard}>
-                                <div className={styles.recBadge}>HOT</div>
-                                <h4>평택 P4 특수 배관 로봇 펀딩</h4>
-                                <div className={styles.recMeta}>
-                                    <span>목표 수익률 연 14%</span>
-                                    <span>92% 달성</span>
+                            )) : (
+                                <div className={styles.emptyState}>활동 내역이 없습니다.</div>
+                            )}
+                        </motion.div>
+                    ) : (
+                        <motion.div 
+                            key="assets"
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -10 }}
+                            className={styles.investmentView}
+                        >
+                            <div className={styles.investmentCard}>
+                                <div className={styles.cardHeader}>
+                                    <div className={styles.iconBox}><BarChart3 size={20} /></div>
+                                    <div>
+                                        <h4>장비 펀딩 자산</h4>
+                                        <p>현재 2개의 장비에 투자 중입니다.</p>
+                                    </div>
                                 </div>
-                                <div className={styles.progressBar}>
-                                    <div className={styles.progressFill} style={{ width: '92%' }} />
+                                <div className={styles.cardBody}>
+                                    <div className={styles.statRow}>
+                                        <div className={styles.stat}>
+                                            <span>투자 원금</span>
+                                            <strong>₩ {investedAmount}</strong>
+                                        </div>
+                                        <div className={styles.stat}>
+                                            <span>평가 손익</span>
+                                            <strong className={styles.positive}>+ ₩ 45,200</strong>
+                                        </div>
+                                    </div>
+                                    <button className={styles.viewDetailBtn}>투자 현황 상세 <ChevronRight size={14} /></button>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                )}
+                            
+                            <div className={styles.recommendSection}>
+                                <h3>추천 투자 상품</h3>
+                                <div className={styles.recommendCard}>
+                                    <div className={styles.recBadge}>HOT</div>
+                                    <h4>평택 P4 특수 배관 로봇 펀딩</h4>
+                                    <div className={styles.recMeta}>
+                                        <span>목표 수익률 연 14%</span>
+                                        <span>92% 달성</span>
+                                    </div>
+                                    <div className={styles.progressBar}>
+                                        <div className={styles.progressFill} style={{ width: '92%' }} />
+                                    </div>
+                                </div>
+                            </div>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
             </main>
 
             {/* Withdrawal Modal */}
@@ -252,4 +304,5 @@ export default function SettlementClient({ initialTransactions }: SettlementClie
         </div>
     );
 }
+
 

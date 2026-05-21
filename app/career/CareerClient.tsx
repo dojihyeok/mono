@@ -37,7 +37,7 @@ export default function CareerClient() {
                         <div className={styles.identity}>
                             <div className={styles.avatar}>K</div>
                             <div className={styles.nameInfo}>
-                                <h2>김마스터</h2>
+                                <h2>김프로</h2>
                                 <span>배관 특급 기술자</span>
                             </div>
                         </div>

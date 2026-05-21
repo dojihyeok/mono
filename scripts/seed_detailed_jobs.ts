@@ -73,7 +73,7 @@ async function main() {
     // 6. Seed Finance Products
     await prisma.financeProduct.create({
         data: {
-            name: '마스터 전용 직장인 신용대출 연계',
+            name: '전문가 전용 직장인 신용대출 연계',
             description: 'Trust Score 85점 이상 기술자 대상, 제휴 은행 연 4.5% 저금리 대출',
             minTrustScore: 85,
             interestRate: 4.5,

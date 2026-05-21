@@ -28,7 +28,7 @@ const MOCK_ALERTS: Alert[] = [
         id: '1',
         type: 'MATCH',
         title: '신규 글로벌 프로젝트 매칭',
-        desc: '시드니 도심 펜트하우스 타일링 마스터로 선정되었습니다.',
+        desc: '시드니 도심 펜트하우스 타일링 전문가로 선정되었습니다.',
         time: '방금 전',
         isUrgent: true
     },
@@ -43,7 +43,7 @@ const MOCK_ALERTS: Alert[] = [
     {
         id: '3',
         type: 'SYSTEM',
-        title: '마스터 신뢰 점수 업데이트',
+        title: '전문가 신뢰 점수 업데이트',
         desc: '최근 프로젝트 완수로 신뢰 점수가 94.8점으로 상승했습니다.',
         time: '2시간 전'
     }

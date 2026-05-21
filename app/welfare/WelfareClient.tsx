@@ -26,7 +26,7 @@ const FINANCE_DATA = {
     ],
     insurance: {
         provider: 'Allianz Global Care',
-        plan: '테크-마스터 프리미엄 (해외 파견 특약)',
+        plan: '테크-엑스퍼트 프리미엄 (해외 파견 특약)',
         validUntil: '2024.12.31',
         status: '정상 가입'
     },
@@ -43,10 +43,10 @@ export default function WelfareClient() {
             {/* Welfare Hero Header */}
             <header className={styles.header}>
                 <div className={styles.headerInfo}>
-                    <h1>글로벌 마스터 복지 허브</h1>
-                    <p>마스터의 수익과 안전, MONO가 끝까지 보호합니다.</p>
+                    <h1>글로벌 전문가 복지 허브</h1>
+                    <p>전문가의 수익과 안전, MONO가 끝까지 보호합니다.</p>
                 </div>
-                <div className={styles.premiumBadge}>마스터 케어+ (MASTER CARE+)</div>
+                <div className={styles.premiumBadge}>전문가 케어+ (EXPERT CARE+)</div>
             </header>
 
             {/* Financial Status Section */}

@@ -33,7 +33,7 @@ export default function JobDetailClient({ job }: JobDetailClientProps) {
     const router = useRouter();
 
     const handleApply = () => {
-        if (confirm('이 현장에 즉시 참여하시겠습니까? 확정 시 현장 관리자에게 마스터님의 위치와 경력 자산 프로필이 전송됩니다.')) {
+        if (confirm('이 현장에 즉시 참여하시겠습니까? 확정 시 현장 관리자에게 전문가님의 위치와 경력 자산 프로필이 전송됩니다.')) {
             // Simulate successful registration
             router.push('/attendance');
         }
@@ -97,7 +97,7 @@ export default function JobDetailClient({ job }: JobDetailClientProps) {
                             <div className={styles.infoItem}>
                                 <div className={styles.infoIcon}><ShieldCheck size={20} color="#22C55E" /></div>
                                 <div className={styles.infoLabel}>인증 상태</div>
-                                <div className={styles.infoVal}>모노 마스터 인증 업체</div>
+                                <div className={styles.infoVal}>모노 우수 전문가 인증 업체</div>
                             </div>
                         </div>
                     </GlassCard>
@@ -171,7 +171,7 @@ export default function JobDetailClient({ job }: JobDetailClientProps) {
                             </li>
                             <li>
                                 <CheckCircle2 size={16} color="#22C55E" />
-                                <span>작업 완료 후 '마스터 경력 지수' 0.5% 추가 적립 예정</span>
+                                <span>작업 완료 후 '전문가 경력 지수' 0.5% 추가 적립 예정</span>
                             </li>
                             <li>
                                 <AlertTriangle size={16} color="#ef4444" />
@@ -193,7 +193,7 @@ export default function JobDetailClient({ job }: JobDetailClientProps) {
                             <div className={styles.avatar}>JS</div>
                             <div className={styles.avatarEmpty}>+1</div>
                         </div>
-                        <p className={styles.matchingText}>경력 5년 이상의 마스터와 함께 팀을 이뤄 작업합니다.</p>
+                        <p className={styles.matchingText}>경력 5년 이상의 우수 기술 전문가와 함께 팀을 이뤄 작업합니다.</p>
                         
                         <Button 
                             className={styles.mainApplyBtn}
