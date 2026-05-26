@@ -1,5 +1,6 @@
 import SettlementClient from './SettlementClient';
 import { prisma } from '@/lib/prisma';
+import { Transaction } from '@prisma/client';
 
 export const dynamic = 'force-dynamic';
 
@@ -9,7 +10,7 @@ export const metadata = {
 };
 
 export default async function SettlementPage() {
-    let transactions: any[] = [];
+    let transactions: Transaction[] = [];
 
     try {
         const tech = await prisma.technician.findFirst();

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, ReactNode } from 'react';
 import styles from './JobFilter.module.css';
 import { 
     Wrench, 
@@ -22,7 +22,7 @@ interface JobFilterProps {
     onFilterChange: (category: string, occupation: string, region: string) => void;
 }
 
-const CATEGORY_ICONS: Record<string, any> = {
+const CATEGORY_ICONS: Record<string, ReactNode> = {
     '전체': <LayoutGrid size={16} />,
     'Heavy-Tech': <Construction size={16} />,
     'Equipment': <Wrench size={16} />,

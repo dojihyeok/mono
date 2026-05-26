@@ -6,7 +6,21 @@ import styles from './page.module.css';
 export const dynamic = 'force-dynamic';
 
 // Mock data for hardcoded u1, u2 from UrgentRecruitment
-const MOCK_URGENT_JOBS: Record<string, any> = {
+interface MockJob {
+    id: string;
+    title: string;
+    location: string;
+    pay: string;
+    dailyWage: number;
+    time: string;
+    category: string;
+    specialty: string;
+    description: string;
+    isUrgent: boolean;
+    status: string;
+}
+
+const MOCK_URGENT_JOBS: Record<string, MockJob> = {
     'u1': {
         id: 'u1',
         title: '성수동 카페거리 상가 폐기물 긴급 양중',

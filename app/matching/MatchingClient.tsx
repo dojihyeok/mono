@@ -53,7 +53,7 @@ export default function MatchingClient() {
     const [mounted, setMounted] = useState(false);
 
     useEffect(() => {
-        setMounted(true);
+        Promise.resolve().then(() => setMounted(true));
     }, []);
 
     if (!mounted) return null;

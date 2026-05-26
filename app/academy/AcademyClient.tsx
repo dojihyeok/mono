@@ -3,7 +3,6 @@
 import React, { useState, useEffect } from 'react';
 import styles from './page.module.css';
 import { 
-    BookOpen, 
     Zap, 
     Globe, 
     Award, 
@@ -68,7 +67,7 @@ export default function AcademyClient() {
     const [selectedTab, setSelectedTab] = useState('courses');
 
     useEffect(() => {
-        setMounted(true);
+        Promise.resolve().then(() => setMounted(true));
     }, []);
 
     if (!mounted) return null;
@@ -152,7 +151,7 @@ export default function AcademyClient() {
                         </div>
                         <div className={styles.aiSuggestion}>
                             <Zap size={28} color="#D4AF37" />
-                            <p><strong>AI 반장님의 추천:</strong><br/> 현재 '현장 영어' 역량을 조금 더 보완하시면, <strong>호주 브리즈번 High-Tech 공정</strong>의 전문가 추천 확률이 <strong>92%</strong>로 비약적으로 상승합니다.</p>
+                            <p><strong>AI 반장님의 추천:</strong><br/> 현재 &apos;현장 영어&apos; 역량을 조금 더 보완하시면, <strong>호주 브리즈번 High-Tech 공정</strong>의 전문가 추천 확률이 <strong>92%</strong>로 비약적으로 상승합니다.</p>
                         </div>
                     </div>
                 </div>
@@ -228,7 +227,7 @@ export default function AcademyClient() {
                             <Volume2 size={32} color="#D4AF37" />
                             <div>
                                 <h4>[오늘의 문장] 현장 실무 영어 기초</h4>
-                                <p>"The welding zone requires secondary gas verification."</p>
+                                <p>&quot;The welding zone requires secondary gas verification.&quot;</p>
                             </div>
                         </div>
                         <button style={{background: '#D4AF37', color: '#000', border: 'none', padding: '12px 24px', borderRadius: '12px', fontWeight: 800, cursor: 'pointer'}}>발음 연습하기</button>

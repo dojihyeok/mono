@@ -93,7 +93,7 @@ export default function OnlineOfficePage() {
   const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
-    setMounted(true);
+    Promise.resolve().then(() => setMounted(true));
   }, []);
 
   if (!mounted) return null;

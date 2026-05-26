@@ -25,8 +25,21 @@ import styles from './page.module.css';
 import GlassCard from '@/components/UI/GlassCard';
 import Button from '@/components/UI/Button';
 
+interface DetailedJob {
+    id: string;
+    title: string;
+    category?: string;
+    isUrgent?: boolean;
+    dailyWage?: number;
+    pay?: string;
+    location: string;
+    time?: string;
+    specialty: string;
+    description?: string;
+}
+
 interface JobDetailClientProps {
-    job: any;
+    job: DetailedJob;
 }
 
 export default function JobDetailClient({ job }: JobDetailClientProps) {
@@ -148,7 +161,7 @@ export default function JobDetailClient({ job }: JobDetailClientProps) {
                         <div className={styles.aiPredictionBanner}>
                             <div className={styles.predictionIcon}>⚡</div>
                             <div className={styles.predictionContent}>
-                                <strong>AI 경력 예측 :</strong> 이 현장 완료 시 <strong>"중량물 핸들링 숙련도"</strong> 지수가 12포인트 상승할 것으로 분석됩니다.
+                                <strong>AI 경력 예측 :</strong> 이 현장 완료 시 <strong>&quot;중량물 핸들링 숙련도&quot;</strong> 지수가 12포인트 상승할 것으로 분석됩니다.
                             </div>
                         </div>
                     </div>
@@ -171,7 +184,7 @@ export default function JobDetailClient({ job }: JobDetailClientProps) {
                             </li>
                             <li>
                                 <CheckCircle2 size={16} color="#22C55E" />
-                                <span>작업 완료 후 '전문가 경력 지수' 0.5% 추가 적립 예정</span>
+                                <span>작업 완료 후 &apos;전문가 경력 지수&apos; 0.5% 추가 적립 예정</span>
                             </li>
                             <li>
                                 <AlertTriangle size={16} color="#ef4444" />

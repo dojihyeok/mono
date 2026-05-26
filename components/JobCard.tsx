@@ -9,27 +9,31 @@ import {
     Loader2, MapPin, Wrench, Users, Zap 
 } from 'lucide-react';
 
+interface Job {
+    id: string | number;
+    title: string;
+    location: string;
+    dailyWage?: number;
+    pay?: string;
+    specialty: string;
+    description?: string;
+    status?: string;
+    category: string;
+    isUrgent?: boolean;
+    hasCarpool?: boolean;
+    carpoolLocation?: string | null;
+}
+
 interface JobProps {
-    job: {
-        id: number;
-        title: string;
-        location: string;
-        dailyWage: number;
-        specialty: string;
-        description: string;
-        status: string;
-        category: string;
-        isUrgent: boolean;
-        hasCarpool: boolean;
-        carpoolLocation?: string | null;
-    };
+    job: Job;
     onApply?: (id: string) => void;
 }
 
 export default function JobCard({ job, onApply }: JobProps) {
     const [applyStatus, setApplyStatus] = useState<'IDLE' | 'CHECKING' | 'SUCCESS'>('IDLE');
 
-    const matchScore = 85 + (job.id % 15);
+    const numId = typeof job.id === 'number' ? job.id : (job.id.charCodeAt(0) || 1);
+    const matchScore = 85 + (numId % 15);
 
     const handleApply = (e: React.MouseEvent) => {
         e.preventDefault();
@@ -94,7 +98,9 @@ export default function JobCard({ job, onApply }: JobProps) {
                         <span className={styles.wageLabel}>예상 일급</span>
                         <div className={styles.wageAmount}>
                             <span className={styles.wonSign}>₩</span>
-                            <strong>{job.dailyWage.toLocaleString()}</strong>
+                            <strong>
+                                {job.dailyWage ? job.dailyWage.toLocaleString() : (job.pay || '180,000')}
+                            </strong>
                         </div>
                     </div>
                     {job.hasCarpool && (

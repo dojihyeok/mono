@@ -19,12 +19,45 @@ import {
 } from 'lucide-react';
 import styles from './page.module.css';
 
+interface Partner {
+    companyName: string;
+}
+
+interface Site {
+    id: string;
+    title: string;
+    location: string;
+    dailyWage: number;
+    status: string;
+    createdAt: string;
+}
+
+interface PartnerTransaction {
+    id: string;
+    siteName: string;
+    date: string;
+    amount: number;
+}
+
+interface Attendance {
+    id: string;
+    name: string;
+    siteName: string;
+    time: string;
+}
+
+interface Evaluation {
+    id: string;
+    name: string;
+    siteName: string;
+}
+
 interface PartnerData {
-    partner: any;
-    sites: any[];
-    transactions: any[];
-    attendance: any[];
-    evaluations: any[];
+    partner: Partner;
+    sites: Site[];
+    transactions: PartnerTransaction[];
+    attendance: Attendance[];
+    evaluations: Evaluation[];
 }
 
 export default function PartnerClient() {
@@ -178,7 +211,7 @@ export default function PartnerClient() {
                         <section className={styles.siteListArea}>
                             <h3>현장 관리 현황</h3>
                             <div className={styles.siteGrid}>
-                                {data.sites.map((site: any) => (
+                                {data.sites.map((site: Site) => (
                                     <GlassCard key={site.id} className={styles.siteCard}>
                                         <div className={styles.siteInfo}>
                                             <h4>{site.title}</h4>
@@ -207,7 +240,7 @@ export default function PartnerClient() {
                             <p>오늘 현장에 투입된 전문가들의 출근 여부를 확인하고 승인합니다.</p>
                         </div>
                         <GlassCard className={styles.listCard}>
-                            {data.attendance.map((att: any) => (
+                            {data.attendance.map((att: Attendance) => (
                                 <div key={att.id} className={styles.listItem}>
                                     <div className={styles.itemInfo}>
                                         <h4>{att.name}</h4>
@@ -230,7 +263,7 @@ export default function PartnerClient() {
                             <p>MoNo 에스크로를 통해 안전하게 인건비를 결제하고 세금계산서를 발행합니다.</p>
                         </div>
                         <GlassCard className={styles.listCard}>
-                            {data.transactions.map((tx: any) => (
+                            {data.transactions.map((tx: PartnerTransaction) => (
                                 <div key={tx.id} className={styles.listItem}>
                                     <div className={styles.itemInfo}>
                                         <h4>[정산 대기] {tx.siteName}</h4>
@@ -253,7 +286,7 @@ export default function PartnerClient() {
                             <p>작업이 완료된 전문가를 평가하여 파트너사의 신뢰도를 높이고 우수 인력을 선점하세요.</p>
                         </div>
                         <GlassCard className={styles.listCard}>
-                            {data.evaluations.map((ev: any) => (
+                            {data.evaluations.map((ev: Evaluation) => (
                                 <div key={ev.id} className={styles.listItem}>
                                     <div className={styles.itemInfo}>
                                         <h4>{ev.name}</h4>

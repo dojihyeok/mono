@@ -11,28 +11,45 @@ import OccupationGrid from '@/components/OccupationGrid/OccupationGrid';
 import JobMap from '@/components/JobMap/JobMap';
 import styles from './page.module.css';
 
+interface Job {
+    id: string | number;
+    title: string;
+    company?: string;
+    pay?: string;
+    dailyWage?: number;
+    location: string;
+    specialty: string;
+    category: string;
+    isUrgent?: boolean;
+    time?: string;
+}
+
 interface JobsClientProps {
-    initialJobs: any[];
+    initialJobs: Job[];
 }
 
 type ViewMode = 'occupation' | 'location' | 'global' | 'details';
 
 export default function JobsClient({ initialJobs }: JobsClientProps) {
     const searchParams = useSearchParams();
-    const [viewMode, setViewMode] = useState<ViewMode>('occupation');
+    const isUrgentParam = searchParams ? searchParams.get('filter') === 'urgent' : false;
+    const [viewMode, setViewMode] = useState<ViewMode>(isUrgentParam ? 'details' : 'occupation');
     const [category, setCategory] = useState('전체');
     const [occupation, setOccupation] = useState('전체');
     const [region, setRegion] = useState('전체');
     const [searchTerm, setSearchTerm] = useState('');
     const [isFiltering, setIsFiltering] = useState(false);
-    const [urgentOnly, setUrgentOnly] = useState(false);
+    const [urgentOnly, setUrgentOnly] = useState(isUrgentParam);
     const [appliedId, setAppliedId] = useState<string | null>(null);
 
     useEffect(() => {
+        if (!searchParams) return;
         const filter = searchParams.get('filter');
         if (filter === 'urgent') {
-            setUrgentOnly(true);
-            setViewMode('details');
+            Promise.resolve().then(() => {
+                setUrgentOnly(true);
+                setViewMode('details');
+            });
         }
     }, [searchParams]);
 
@@ -73,7 +90,7 @@ export default function JobsClient({ initialJobs }: JobsClientProps) {
                                  job.specialty.toLowerCase().includes(searchTerm.toLowerCase()) ||
                                  job.location.toLowerCase().includes(searchTerm.toLowerCase());
             
-            const matchesUrgent = !urgentOnly || job.isUrgent || job.time === 'ASAP' || job.time.includes('즉시');
+            const matchesUrgent = !urgentOnly || job.isUrgent || job.time === 'ASAP' || (job.time ? job.time.includes('즉시') : false);
             
             return matchesCat && matchesOcc && matchesReg && matchesSearch && matchesUrgent;
         });
@@ -283,7 +300,7 @@ export default function JobsClient({ initialJobs }: JobsClientProps) {
                                         visible: { opacity: 1, y: 0 }
                                     }}
                                 >
-                                    <JobCard job={job} onApply={() => handleApply(job.id)} />
+                                    <JobCard job={job} onApply={() => handleApply(job.id.toString())} />
                                 </motion.div>
                             ))
                         ) : (

@@ -5,9 +5,7 @@ import styles from './page.module.css';
 import { 
     Moon, 
     RefreshCw, 
-    BarChart3, 
     Box, 
-    Zap, 
     ChevronRight, 
     ShieldCheck, 
     AlertCircle,
@@ -42,11 +40,21 @@ export default function MonetizeClient() {
         { id: 2, name: '용접기 (리바이브 TIG)', status: 'RENTING', yield: '12만원', owner: '이 씨' }
     ];
 
+    interface Equipment {
+        id: number;
+        name: string;
+        category?: string;
+        monthlyFee?: number;
+        dailyWage?: number;
+        status?: string;
+        image?: string;
+    }
+
     const [showExplorer, setShowExplorer] = useState(false);
-    const [selectedEq, setSelectedEq] = useState<any>(null);
+    const [selectedEq, setSelectedEq] = useState<Equipment | null>(null);
     const [showWizard, setShowWizard] = useState(false);
 
-    const handleEqSelect = (eq: any) => {
+    const handleEqSelect = (eq: Equipment) => {
         setSelectedEq(eq);
         setShowExplorer(false);
         setShowWizard(true);

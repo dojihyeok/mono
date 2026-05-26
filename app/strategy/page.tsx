@@ -48,7 +48,7 @@ export default function StrategyPage() {
   // Fix hydration mismatch by only rendering client-side content after mounting
   const [mounted, setMounted] = useState(false);
   useEffect(() => {
-    setMounted(true);
+    Promise.resolve().then(() => setMounted(true));
   }, []);
 
   const handleCardFlip = (index: number) => {
@@ -171,10 +171,10 @@ export default function StrategyPage() {
             <div className={styles.sectionLabel}>
               <span className={styles.num}>01</span> MoNo 서비스 소개 · The Platform
             </div>
-            <h2 className={`${styles.hDisplay} mt-4`}>
+            <h2 className={`${styles.hDisplay} ${styles.mt4}`}>
               일하는 사람과 찾는 회사가 한 플랫폼에서 만나 함께 성장합니다.
             </h2>
-            <p className={`${styles.bodyLg} mt-4`}>
+            <p className={`${styles.bodyLg} ${styles.mt5}`}>
               현장 근무자에게는 오래 함께 가는 <strong>디지털 인력사무소</strong>를, 공급사에게는 검증된 인력을 곧바로 부를 수 있는 <strong>현장 인력 관제 플랫폼</strong>을. MoNo는 개인 근무자와 기업 고객을 같은 데이터 위에 묶어, 인력 시장 전체를 하나로 연결합니다.
             </p>
           </motion.div>
@@ -297,10 +297,10 @@ export default function StrategyPage() {
             <div className={styles.sectionLabel}>
               <span className={styles.num}>02</span> MoNo 브랜드 철학 · The Life Cycle
             </div>
-            <h2 className={`${styles.hDisplay} mt-4`}>
+            <h2 className={`${styles.hDisplay} ${styles.mt4}`}>
               땀 흘리며 일하는 즐거움을 아는 사람들, 우리가 함께 Tech-Blue의 미래를 만듭니다.
             </h2>
-            <p className={`${styles.bodyLg} mt-4`}>
+            <p className={`${styles.bodyLg} ${styles.mt5}`}>
               MO-NO는 현장에 남은 낡은 관행을 지우고, 사람의 땀방울·데이터·기술로 새로운 ‘미래 현장(Tech-Blue)’을 오케스트레이션하는 플랫폼입니다. 청년·워홀러·노마드·외국인·은퇴자 다섯 세대의 삶을 같은 데이터 경제권 위에서 끌어안고, 그들의 사회적 인식과 가치를 수직 상승시키는 라이프 사이클 브랜드.
             </p>
           </motion.div>
@@ -781,10 +781,10 @@ export default function StrategyPage() {
             <div className={styles.sectionLabel}>
               <span className={styles.num}>03</span> MoNo가 해결하고 싶은 과제들 · Problem & Solution
             </div>
-            <h2 className={`${styles.hDisplay} mt-4`}>
+            <h2 className={`${styles.hDisplay} ${styles.mt4}`}>
               현장의 네 가지 한계, MoNo의 네 가지 해결책.
             </h2>
-            <p className={`${styles.bodyLg} mt-4`}>
+            <p className={`${styles.bodyLg} ${styles.mt5}`}>
               각 카드를 클릭하면 문제와 해결이 같은 자리에서 마주 보도록 뒤집힙니다. 4개의 카드는 현장·공급사·미래 산업·규제라는 네 가지 한계를 어떻게 풀어내는지 보여줍니다.
             </p>
             <div className={`${styles.mono} text-[12px] flex items-center gap-1.5 mt-4 text-[var(--primary)]`}>
@@ -966,10 +966,10 @@ export default function StrategyPage() {
             <div className={styles.sectionLabel}>
               <span className={styles.num}>04</span> MoNo 단계별 GTM 전략 · Tournament & Founding Strategy
             </div>
-            <h2 className={`${styles.hDisplay} mt-4`}>
+            <h2 className={`${styles.hDisplay} ${styles.mt4}`}>
               모두의 창업 1라운드부터 우승까지, 단계별 통과 전략.
             </h2>
-            <p className={`${styles.bodyLg} mt-4`}>
+            <p className={`${styles.bodyLg} ${styles.mt5}`}>
               라운드마다 자금 규모·돌파 액션·규제 대응을 하나의 도면 위에 정렬했습니다. 4단계 라운드를 단계별 타임라인으로 투명하게 공개합니다.
             </p>
           </motion.div>
@@ -1251,10 +1251,10 @@ export default function StrategyPage() {
             <div className={styles.sectionLabel}>
               <span className={styles.num}>05</span> 기업 가치 극대화 전략 · Business Model & Valuation
             </div>
-            <h2 className={`${styles.hDisplay} mt-4`}>
+            <h2 className={`${styles.hDisplay} ${styles.mt4}`}>
               VC가 보는 네 갈래 수익 구조.
             </h2>
-            <p className={`${styles.bodyLg} mt-4`}>
+            <p className={`${styles.bodyLg} ${styles.mt5}`}>
               노동 데이터를 중심으로 금융·SaaS·O2O·커머스가 동시에 점화됩니다. 같은 데이터에서 네 갈래의 매출이 동시에 흘러나오는 구조 — 이것이 MoNo의 기업 가치 극대화 전략입니다.
             </p>
           </motion.div>
@@ -1460,10 +1460,10 @@ export default function StrategyPage() {
             <div className={styles.sectionLabel} style={{ color: '#22D3EE' }}>
               <span className={styles.num} style={{ color: '#22D3EE', borderColor: 'rgba(34, 211, 238, 0.3)', background: 'rgba(10, 15, 26, 0.6)' }}>06</span> MoNo가 그리는 미래 · The Tech-Blue Vision
             </div>
-            <h2 className={`text-3xl lg:text-4xl font-extrabold mt-4 leading-tight ${styles.visionTextPrimary}`}>
+            <h2 className={`text-3xl lg:text-4xl font-extrabold ${styles.mt4} leading-tight ${styles.visionTextPrimary}`}>
               사람의 데이터로 로봇과 미래 산업을 만듭니다.
             </h2>
-            <p className={`text-[15.5px] mt-4 leading-relaxed max-w-3xl ${styles.visionTextSecondary}`}>
+            <p className={`text-[15.5px] ${styles.mt5} leading-relaxed max-w-3xl ${styles.visionTextSecondary}`}>
               근무 데이터가 모이면, 그것은 곧 다음 세대 산업의 도면이 됩니다. MoNo의 끝점은 더 이상 ‘인력 플랫폼’이 아닌, 노동·로보틱스·자본을 잇는 Tech-Blue 인프라 기업입니다.
             </p>
           </motion.div>

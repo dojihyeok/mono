@@ -23,7 +23,29 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 
-const OFFICE_DATA: Record<string, any> = {
+interface JobItem {
+  id: string;
+  time: string;
+  title: string;
+  pay: string;
+  type: string;
+  location: string;
+}
+
+interface Office {
+  id: string;
+  name: string;
+  address: string;
+  contact: string;
+  manager: string;
+  rating: number;
+  reviews: number;
+  activeWorkers: number;
+  trustScore: number;
+  jobs: JobItem[];
+}
+
+const OFFICE_DATA: Record<string, Office> = {
   seongsu: {
     id: 'seongsu',
     name: '성수 테크니컬 인력',
@@ -130,7 +152,7 @@ export default function OfficeDetailPage() {
   const office = OFFICE_DATA[officeId] || OFFICE_DATA.seongsu;
 
   useEffect(() => {
-    setMounted(true);
+    Promise.resolve().then(() => setMounted(true));
   }, []);
 
   if (!mounted) return null;
@@ -207,7 +229,7 @@ export default function OfficeDetailPage() {
           </div>
 
           <div className={styles.jobGrid}>
-            {office.jobs.map((job: any) => (
+            {office.jobs.map((job: JobItem) => (
               <div key={job.id} className={styles.jobCard}>
                 <div className={styles.jobBadgeRow}>
                   {job.type === 'DAWN' ? (

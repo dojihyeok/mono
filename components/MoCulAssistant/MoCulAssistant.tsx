@@ -23,6 +23,12 @@ interface Message {
     sender: 'user' | 'ai';
 }
 
+let messageCounter = 0;
+function generateMsgId(): string {
+    messageCounter += 1;
+    return `msg-${messageCounter}`;
+}
+
 export default function MoCulAssistant() {
     const [isOpen, setIsOpen] = useState(false);
     const [showBadge, setShowBadge] = useState(false);
@@ -58,7 +64,7 @@ export default function MoCulAssistant() {
         if (!inputValue.trim()) return;
 
         const newUserMsg: Message = {
-            id: Date.now().toString(),
+            id: generateMsgId(),
             text: inputValue,
             sender: 'user'
         };
@@ -70,7 +76,7 @@ export default function MoCulAssistant() {
         // Simulate AI Response
         setTimeout(() => {
             const aiResponse: Message = {
-                id: (Date.now() + 1).toString(),
+                id: generateMsgId(),
                 text: getMockResponse(newUserMsg.text),
                 sender: 'ai'
             };

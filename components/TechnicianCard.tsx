@@ -3,7 +3,7 @@ import Link from 'next/link';
 import styles from './TechnicianCard.module.css';
 import GlassCard from './UI/GlassCard';
 import Button from './UI/Button';
-import { Star, ShieldCheck, MapPin, User } from 'lucide-react';
+import { Star, ShieldCheck, MapPin, User, ChevronRight } from 'lucide-react';
 
 interface TechnicianProps {
     technician: {
@@ -22,8 +22,8 @@ interface TechnicianProps {
 
 export default function TechnicianCard({ technician }: TechnicianProps) {
     const trustScore = useMemo(() => 
-        technician.trustScore || Math.floor(Math.random() * 20) + 80, 
-        [technician.trustScore]
+        technician.trustScore || ((technician.id % 20) + 80), 
+        [technician.trustScore, technician.id]
     );
 
     const rating = technician.rating || 4.8;

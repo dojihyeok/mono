@@ -1,11 +1,12 @@
 import { prisma } from '@/lib/prisma';
 import styles from './page.module.css';
 import JobsClient from './JobsClient';
+import { JobSite } from '@prisma/client';
 
 export const dynamic = 'force-dynamic';
 
 export default async function JobsPage() {
-    let initialJobs: any[] = [];
+    let initialJobs: JobSite[] = [];
 
     try {
         initialJobs = await prisma.jobSite.findMany({

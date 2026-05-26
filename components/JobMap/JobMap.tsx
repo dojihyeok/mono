@@ -4,8 +4,15 @@ import { motion } from 'framer-motion';
 import { MapPin, Zap, Navigation } from 'lucide-react';
 import styles from './JobMap.module.css';
 
+interface Job {
+    id: string | number;
+    title: string;
+    dailyWage: number;
+    isUrgent?: boolean;
+}
+
 interface JobMapProps {
-    jobs: any[];
+    jobs: Job[];
     onSelectJob: (id: string) => void;
 }
 

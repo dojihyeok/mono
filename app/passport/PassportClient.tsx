@@ -149,7 +149,7 @@ export default function PassportClient() {
                             key={country.id} 
                             className={`${styles.countryCard} ${selectedCountry.id === country.id ? styles.activeCountry : ''}`}
                             onClick={() => setSelectedCountry(country)}
-                            style={{ '--color': country.color } as any}
+                            style={{ '--color': country.color } as React.CSSProperties}
                         >
                             <span className={styles.flag}>{country.flag}</span>
                             <div className={styles.countryInfo}>

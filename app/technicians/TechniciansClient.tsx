@@ -7,8 +7,21 @@ import JobCardSkeleton from '@/components/JobCard/JobCardSkeleton';
 import styles from './page.module.css';
 import { Search, MapPin, Grid, LocateFixed, ArrowLeft } from 'lucide-react';
 
+interface Technician {
+    id: number;
+    name: string;
+    specialty: string;
+    experience: number;
+    location: string;
+    level: string;
+    status: string;
+    verified: boolean;
+    trustScore?: number;
+    rating?: number;
+}
+
 interface TechniciansClientProps {
-    initialTechnicians: any[];
+    initialTechnicians: Technician[];
 }
 
 type ViewMode = 'occupation' | 'location' | 'details';

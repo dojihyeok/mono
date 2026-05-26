@@ -24,9 +24,25 @@ import {
 import Image from 'next/image';
 import styles from './page.module.css';
 
+interface Technician {
+    id: number;
+    name: string;
+    specialty: string;
+    level: string;
+    verified: boolean;
+}
+
+interface Transaction {
+    id: string | number;
+    status: string;
+    amount: number;
+    siteName: string;
+    date: Date;
+}
+
 interface DashboardClientProps {
-    technician: any;
-    transactions: any[];
+    technician: Technician;
+    transactions: Transaction[];
 }
 
 export default function DashboardClient({ technician, transactions }: DashboardClientProps) {

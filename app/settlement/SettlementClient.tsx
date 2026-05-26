@@ -20,8 +20,16 @@ import {
     CalendarDays
 } from 'lucide-react';
 
+interface Transaction {
+    id: string | number;
+    status: string;
+    amount: number;
+    siteName: string;
+    date: Date;
+}
+
 interface SettlementClientProps {
-    initialTransactions: any[];
+    initialTransactions: Transaction[];
 }
 
 export default function SettlementClient({ initialTransactions }: SettlementClientProps) {
