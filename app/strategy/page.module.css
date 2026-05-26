@@ -1,0 +1,959 @@
+/* app/strategy/page.module.css */
+
+.pageWrap {
+  min-height: 100vh;
+  background-color: var(--background);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* ---------- Typography & Base Utility ---------- */
+.hEyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.hEyebrowLine {
+  display: inline-block;
+  width: 24px;
+  height: 1px;
+  background-color: var(--primary);
+}
+
+.hDisplay {
+  font-size: clamp(1.8rem, 3.6vw, 2.8rem);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1.2;
+  text-wrap: balance;
+  color: var(--text-primary);
+}
+
+.bodyLg {
+  font-size: 1.0625rem;
+  line-height: 1.78;
+  color: var(--text-secondary);
+  letter-spacing: -0.005em;
+}
+
+.bodyMd {
+  font-size: 0.9375rem;
+  line-height: 1.72;
+  color: var(--text-secondary);
+  letter-spacing: -0.005em;
+}
+
+.bodySm {
+  font-size: 0.8125rem;
+  line-height: 1.65;
+  color: var(--text-tertiary);
+}
+
+.numDisplay {
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: -0.04em;
+  font-weight: 700;
+}
+
+.mono {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* ---------- Blueprint Grid Pattern Background ---------- */
+.blueprintBg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.15;
+  background-image:
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+.grainBg {
+  background-image:
+    radial-gradient(1200px 600px at 8% -10%, rgba(6, 182, 212, 0.08), transparent 60%),
+    radial-gradient(900px 500px at 110% 10%, rgba(212, 175, 55, 0.05), transparent 60%),
+    radial-gradient(700px 400px at 50% 110%, rgba(49, 130, 246, 0.06), transparent 60%);
+}
+
+/* ---------- Standalone Header ---------- */
+.standaloneNav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 68px;
+  background-color: var(--glass);
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  border-b: 1px solid var(--border);
+  z-index: 50;
+  border-bottom: 1px solid var(--border);
+}
+
+.navContainer {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 24px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: var(--text-primary);
+}
+
+.logoBox {
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  background-color: var(--text-primary);
+  color: var(--background);
+  border-radius: 4px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 800;
+  font-size: 15px;
+  border: 1px solid var(--primary);
+  transition: all 0.3s ease;
+}
+
+.logoText {
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+}
+
+.logo:hover .logoBox {
+  background-color: var(--primary);
+  color: #ffffff;
+}
+
+.navMenu {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .navMenu {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+  }
+}
+
+.navLink {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-decoration: none;
+  position: relative;
+  padding: 6px 0;
+  transition: color 0.25s ease;
+}
+
+.navLink:hover {
+  color: var(--text-primary);
+}
+
+.navLink::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 2px;
+  background-color: var(--primary);
+  transition: width 0.35s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.navLink:hover::after,
+.navLinkActive::after {
+  width: 100%;
+}
+
+.navLinkActive {
+  color: var(--text-primary) !important;
+}
+
+.navActions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.navBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background-color: var(--text-primary);
+  color: var(--background);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  font-weight: 600;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.navBtn:hover {
+  background-color: var(--primary);
+  color: #ffffff;
+  border-color: var(--primary);
+}
+
+/* ---------- L-Corner Styling (Premium Frame Accents) ---------- */
+.lcorner {
+  position: relative;
+}
+
+.lcorner::before,
+.lcorner::after {
+  content: '';
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-color: var(--border-strong);
+  border-style: solid;
+  pointer-events: none;
+}
+
+.lcorner::before {
+  top: -1px;
+  left: -1px;
+  border-width: 1.5px 0 0 1.5px;
+}
+
+.lcorner::after {
+  bottom: -1px;
+  right: -1px;
+  border-width: 0 1.5px 1.5px 0;
+}
+
+.lcornerTech::before,
+.lcornerTech::after {
+  border-color: var(--primary) !important;
+}
+
+/* ---------- Divider Stripe ---------- */
+.tapeDivider {
+  height: 6px;
+  background: repeating-linear-gradient(
+    135deg,
+    var(--border-strong) 0 12px,
+    var(--primary-soft) 12px 24px
+  );
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+/* ---------- Layout Containers ---------- */
+.section {
+  position: relative;
+  padding: 80px 0;
+}
+
+@media (min-width: 1024px) {
+  .section {
+    padding: 110px 0;
+  }
+}
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.heroIntro {
+  max-width: 72rem;
+  margin-bottom: 48px;
+}
+
+/* ---------- Chips & Badges ---------- */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 2px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border: 1px solid var(--border);
+}
+
+.chipRound {
+  border-radius: 999px;
+  padding: 4px 12px;
+}
+
+.chipPrimary {
+  background-color: var(--primary-soft);
+  color: var(--primary);
+  border-color: rgba(6, 182, 212, 0.2);
+}
+
+.chipSafety {
+  background-color: #ffd200;
+  color: #000000;
+  border-color: #ffd200;
+}
+
+.chipDark {
+  background-color: var(--surface-raised);
+  color: var(--text-primary);
+  border-color: var(--border);
+}
+
+/* ---------- Spec List Table (Premium Look) ---------- */
+.specList {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  width: 100%;
+}
+
+.specRow {
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  column-gap: 16px;
+  padding: 10px 0;
+  border-top: 1px dashed var(--border);
+  color: var(--text-secondary);
+}
+
+.specRow:first-child {
+  border-top: 0;
+}
+
+.specKey {
+  color: var(--primary);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.specVal {
+  color: var(--text-primary);
+}
+
+/* ---------- Section 1: Dual Grid ---------- */
+.dualGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  margin-top: 48px;
+}
+
+@media (min-width: 768px) {
+  .dualGrid {
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+}
+
+.cardB2C {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  padding: 28px;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.cardB2B {
+  background-color: var(--surface-raised);
+  border: 1px solid var(--border-strong);
+  padding: 28px;
+  box-shadow: var(--shadow-md);
+  transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.hoverLift:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--primary);
+}
+
+.dataStrip {
+  margin-top: 40px;
+  border: 1px solid var(--border);
+  background-color: var(--surface-raised);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  border-radius: 4px;
+}
+
+@media (min-width: 1024px) {
+  .dataStrip {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.stripLeft {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.stripIconBox {
+  width: 42px;
+  height: 42px;
+  background-color: var(--text-primary);
+  color: var(--background);
+  display: grid;
+  place-items: center;
+  border-radius: 4px;
+}
+
+/* ---------- Section 2: Persona Showcase ---------- */
+.tabContainer {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 12px;
+  margin-bottom: 28px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.tabBtn {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 18px;
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.2, 0, 0, 1);
+}
+
+.tabBtn:hover {
+  border-color: var(--border-strong);
+  color: var(--text-primary);
+}
+
+.tabBtnActive {
+  background-color: var(--text-primary) !important;
+  color: var(--background) !important;
+  border-color: var(--text-primary) !important;
+}
+
+.tabBtnActive .tabNum {
+  color: var(--primary) !important;
+}
+
+.tabNum {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--text-tertiary);
+}
+
+.personaCard {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  padding: 28px;
+  box-shadow: var(--shadow-sm);
+}
+
+@media (min-width: 1024px) {
+  .personaCard {
+    padding: 40px;
+  }
+}
+
+.personaGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+}
+
+@media (min-width: 1024px) {
+  .personaGrid {
+    grid-template-columns: 7fr 5fr;
+    gap: 48px;
+  }
+}
+
+.personaQuoteBox {
+  margin-top: 24px;
+  padding: 18px;
+  background-color: var(--surface-raised);
+  border-left: 3px solid var(--primary);
+}
+
+/* ---------- Section 3: Flip Cards ---------- */
+.cardGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  margin-top: 40px;
+}
+
+@media (min-width: 768px) {
+  .cardGrid {
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+}
+
+.flipCard {
+  perspective: 1400px;
+  height: 340px;
+  cursor: pointer;
+}
+
+.flipInner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.7s cubic-bezier(0.23, 1, 0.32, 1);
+  transform-style: preserve-3d;
+}
+
+.flipCardFlipped .flipInner {
+  transform: rotateY(180deg);
+}
+
+.flipFace {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: 28px;
+  border-radius: 4px;
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.flipFront {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+}
+
+.flipBack {
+  background-color: var(--surface-raised);
+  border: 2px solid var(--primary);
+  transform: rotateY(180deg);
+}
+
+.flipFooter {
+  margin-top: auto;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11.5px;
+  color: var(--text-tertiary);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* ---------- Section 4: Vertical Timeline ---------- */
+.timeline {
+  position: relative;
+  padding-left: 48px;
+  margin-top: 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+@media (min-width: 1024px) {
+  .timeline {
+    padding-left: 64px;
+    gap: 40px;
+  }
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 14px;
+  top: 12px;
+  bottom: 12px;
+  width: 2px;
+  background: repeating-linear-gradient(
+    180deg,
+    var(--border-strong) 0 8px,
+    transparent 8px 16px
+  );
+}
+
+@media (min-width: 1024px) {
+  .timeline::before {
+    left: 22px;
+  }
+}
+
+.timelineItem {
+  position: relative;
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  padding: 24px;
+  box-shadow: var(--shadow-sm);
+}
+
+@media (min-width: 1024px) {
+  .timelineItem {
+    padding: 32px;
+  }
+}
+
+.timelineDot {
+  position: absolute;
+  left: -48px;
+  top: 18px;
+  width: 30px;
+  height: 30px;
+  border-radius: 4px;
+  background-color: var(--text-primary);
+  color: var(--background);
+  display: grid;
+  place-items: center;
+  font-family: 'Space Grotesk', monospace;
+  font-size: 11px;
+  font-weight: 800;
+  box-shadow: 0 0 0 6px var(--background);
+  z-index: 2;
+  transition: all 0.3s ease;
+}
+
+@media (min-width: 1024px) {
+  .timelineDot {
+    left: -64px;
+    width: 46px;
+    height: 30px;
+  }
+}
+
+.timelineItemActive .timelineDot {
+  background-color: var(--primary);
+  color: #ffffff;
+}
+
+.timelineGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+
+@media (min-width: 1024px) {
+  .timelineGrid {
+    grid-template-columns: 5fr 7fr;
+    gap: 32px;
+  }
+}
+
+.timelineMetrics {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.metricBox {
+  background-color: var(--surface-raised);
+  border: 1px solid var(--border);
+  padding: 16px;
+  border-radius: 4px;
+}
+
+.metricBoxDark {
+  background-color: rgba(255, 255, 255, 0.02) !important;
+  border-color: rgba(255, 255, 255, 0.05) !important;
+}
+
+/* ---------- Section 4: Milestones Table ---------- */
+.milestonesContainer {
+  margin-top: 48px;
+}
+
+.milestonesHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 24px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+.milestonesGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  background-color: var(--border);
+  border: 1px solid var(--border);
+  gap: 1px;
+}
+
+@media (min-width: 768px) {
+  .milestonesGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .milestonesGrid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.milestoneCell {
+  background-color: var(--surface);
+  padding: 24px;
+}
+
+.milestoneCellActive {
+  background-color: var(--surface-raised) !important;
+  border: 1px solid var(--primary);
+}
+
+/* ---------- Section 5: BM Charts ---------- */
+.chartsGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
+@media (min-width: 1024px) {
+  .chartsGrid {
+    grid-template-columns: 5fr 7fr;
+    gap: 32px;
+  }
+}
+
+.chartCard {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  padding: 24px;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+}
+
+.chartHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+  gap: 16px;
+}
+
+.chartWrapper {
+  height: 280px;
+  position: relative;
+  width: 100%;
+}
+
+@media (min-width: 1024px) {
+  .chartWrapper {
+    height: 320px;
+  }
+}
+
+/* 4-Axis Cards */
+.bmBarIndicator {
+  height: 6px;
+  margin-bottom: 16px;
+  border-radius: 1px;
+}
+
+.valuationBox {
+  background-color: var(--surface-raised);
+  border: 1px solid var(--border-strong);
+  padding: 28px;
+  border-radius: 4px;
+  margin-top: 40px;
+}
+
+.valGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 28px;
+}
+
+@media (min-width: 1024px) {
+  .valGrid {
+    grid-template-columns: 8fr 4fr;
+    gap: 40px;
+    align-items: center;
+  }
+}
+
+.valStats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.valStatCard {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  padding: 20px;
+  text-align: center;
+  border-radius: 4px;
+}
+
+/* ---------- Section 6: Future Vision (Cinematic Dark Section) ---------- */
+.visionSection {
+  background-color: #06070a;
+  color: #ffffff;
+  padding: 90px 0;
+  position: relative;
+  overflow: hidden;
+}
+
+@media (min-width: 1024px) {
+  .visionSection {
+    padding: 120px 0;
+  }
+}
+
+.visionGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  margin-top: 48px;
+}
+
+@media (min-width: 768px) {
+  .visionGrid {
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+}
+
+.visionCard {
+  background: linear-gradient(180deg, rgba(15, 58, 77, 0.25) 0%, rgba(10, 15, 26, 0.5) 100%);
+  border: 1px solid rgba(6, 182, 212, 0.25);
+  padding: 28px;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.visionCard:hover {
+  border-color: var(--primary);
+  transform: translateY(-5px);
+  background: linear-gradient(180deg, rgba(15, 58, 77, 0.4) 0%, rgba(10, 15, 26, 0.7) 100%);
+}
+
+.visionNum {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(2.2rem, 4.5vw, 3rem);
+  font-weight: 800;
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(6, 182, 212, 0.45);
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.visionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.manifestoBox {
+  margin-top: 64px;
+  border: 1px solid rgba(6, 182, 212, 0.3);
+  background-color: rgba(6, 7, 10, 0.7);
+  backdrop-filter: blur(12px);
+  padding: 32px;
+  border-radius: 4px;
+}
+
+@media (min-width: 1024px) {
+  .manifestoBox {
+    padding: 48px;
+  }
+}
+
+.manifestoGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+}
+
+@media (min-width: 1024px) {
+  .manifestoGrid {
+    grid-template-columns: 7fr 5fr;
+    gap: 48px;
+  }
+}
+
+.manifestoDivider {
+  margin-top: 36px;
+  padding-top: 28px;
+  border-top: 1px solid rgba(6, 182, 212, 0.2);
+}
+
+/* ---------- Footer ---------- */
+.footer {
+  background-color: var(--surface);
+  border-top: 1px solid var(--border);
+  padding: 40px 0;
+}
+
+.footerContainer {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+@media (min-width: 768px) {
+  .footerContainer {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+/* ---------- Common Interactive Animations ---------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.revealActive {
+  animation: revealUp 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+}
+
+@keyframes revealUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

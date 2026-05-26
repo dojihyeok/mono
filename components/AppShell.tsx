@@ -21,8 +21,9 @@ export default function AppShell({ children }: AppShellProps) {
     const isRoadmap = pathname === '/roadmap' || pathname?.startsWith('/roadmap/');
     const isAuthPage = pathname === '/login';
     const isAdmin = pathname?.startsWith('/admin');
+    const isStrategy = pathname === '/strategy' || pathname?.startsWith('/strategy');
 
-    if (isAdmin || isAuthPage || isRoadmap) {
+    if (isAdmin || isAuthPage || isRoadmap || isStrategy) {
         return (
             <div className={isAdmin ? "admin-shell" : isAuthPage ? "auth-shell" : "web-standalone"}>
                 <main className={isAdmin ? "admin-content" : isAuthPage ? "auth-content" : "web-content"}>
