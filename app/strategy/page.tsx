@@ -7,20 +7,19 @@ import {
   ArrowRight, 
   Database, 
   RotateCw, 
-  TrendingUp, 
   Coins, 
   Cpu, 
   Truck, 
   Construction, 
-  CheckCircle2, 
   ArrowDown,
-  LineChart,
-  UserCheck,
-  Building,
-  Handshake,
-  Layers,
   Sparkles,
-  BookOpen
+  Trophy,
+  ShieldCheck,
+  Globe,
+  Award,
+  Compass,
+  MapPin,
+  Laptop
 } from 'lucide-react';
 import Link from 'next/link';
 import { useUI } from '@/context/UIContext';
@@ -169,14 +168,14 @@ export default function StrategyPage() {
             viewport={{ once: true }}
             transition={{ duration: 0.7 }}
           >
-            <div className={styles.hEyebrow}>
-              <span className={styles.hEyebrowLine}></span>제1막 · MoNo 서비스 소개
+            <div className={styles.sectionLabel}>
+              <span className={styles.num}>01</span> MoNo 서비스 소개 · The Platform
             </div>
-            <h2 className={`${styles.hDisplay} mt-3`}>
-              일하는 사람과 사람을 찾는 회사를 한 곳에서 잇습니다.
+            <h2 className={`${styles.hDisplay} mt-4`}>
+              일하는 사람과 찾는 회사가 한 플랫폼에서 만나 함께 성장합니다.
             </h2>
             <p className={`${styles.bodyLg} mt-4`}>
-              현장 근무자에게는 평생 가는 <strong>디지털 인력사무소</strong>를, 공급사에게는 검증된 인력을 즉각 호출하는 <strong>현장 인력 관제 플랫폼</strong>을. MoNo는 B2C와 B2B를 같은 데이터 레이어 위에 묶어, 인력 시장 전체를 단일 그래프로 만듭니다.
+              현장 근무자에게는 오래 함께 가는 <strong>디지털 인력사무소</strong>를, 공급사에게는 검증된 인력을 곧바로 부를 수 있는 <strong>현장 인력 관제 플랫폼</strong>을. MoNo는 개인 근무자와 기업 고객을 같은 데이터 위에 묶어, 인력 시장 전체를 하나로 연결합니다.
             </p>
           </motion.div>
 
@@ -190,12 +189,12 @@ export default function StrategyPage() {
               transition={{ duration: 0.6, delay: 0.1 }}
             >
               <div className="flex items-center gap-3 mb-5 flex-wrap">
-                <span className={`${styles.chip} ${styles.chipPrimary}`}>B2C · 현장 근무자</span>
+                <span className={`${styles.chip} ${styles.chipPrimary}`}>개인 근무자용</span>
                 <span className={`${styles.mono} text-[11.5px] var(--text-secondary)`}>/ 디지털 인력사무소</span>
               </div>
               <h3 className="text-xl font-extrabold mb-3">어디서든 일하고, 내 기술이 자산이 되는 디지털 인력사무소.</h3>
               <p className={`${styles.bodyMd} mb-5`}>
-                세계 어디에서 일하든 출역·기술·안전 데이터가 내 이름으로 기록됩니다. 그 데이터는 곧 금융·이주·교육으로 이어지는 통행증이 되어, 단발성 일용 노동을 한 사람의 평생 커리어로 잇습니다.
+                세계 어디에서 일하든 출역·기술·안전 데이터가 내 이름으로 기록됩니다. 그 데이터는 곧 금융·이주·교육으로 이어지는 신분증이 되어, 짧게 끊기던 일용직 경력을 한 사람의 평생 커리어로 이어줍니다.
               </p>
               <div className={styles.specList}>
                 <div className={styles.specRow}>
@@ -227,12 +226,12 @@ export default function StrategyPage() {
               transition={{ duration: 0.6, delay: 0.2 }}
             >
               <div className="flex items-center gap-3 mb-5 flex-wrap">
-                <span className={`${styles.chip} ${styles.chipSafety}`}>B2B · 공급사 (원/하청)</span>
+                <span className={`${styles.chip} ${styles.chipSafety}`}>기업 고객용 (원청·하청)</span>
                 <span className={`${styles.mono} text-[11.5px] text-yellow-500`}>/ 인력 관제 플랫폼</span>
               </div>
               <h3 className="text-xl font-extrabold mb-3">필요한 시간, 원하는 장소에서 검증된 인력을 즉각 호출.</h3>
               <p className={`${styles.bodyMd} mb-5`}>
-                인력 모집·계약·정산·안전 관리가 한 대시보드에 모입니다. 현장 단위 관제 SaaS로 카르텔을 거치지 않고 검증 인력에 직접 닿고, 작업 효율은 데이터로 측정됩니다.
+                인력 모집·계약·정산·안전 관리가 한 대시보드에 모입니다. 현장 단위 관제 프로그램(월구독형)으로 카르텔을 거치지 않고 검증 인력에 직접 닿고, 작업 효율은 데이터로 측정됩니다.
               </p>
               <div className={styles.specList}>
                 <div className={styles.specRow}>
@@ -241,7 +240,7 @@ export default function StrategyPage() {
                 </div>
                 <div className={styles.specRow}>
                   <div className={styles.specKey}>정산</div>
-                  <div className={styles.specVal}>스마트 에스크로 · 퇴근 즉시 일급 지급</div>
+                  <div className={styles.specVal}>안전 예치 계좌(에스크로) · 퇴근 즉시 일급 지급</div>
                 </div>
                 <div className={styles.specRow}>
                   <div className={styles.specKey}>안전</div>
@@ -250,7 +249,7 @@ export default function StrategyPage() {
               </div>
               <div className="flex flex-wrap gap-2 mt-5">
                 <span className={`${styles.chip} ${styles.chipRound} ${styles.chipDark}`}>실시간 매칭</span>
-                <span className={`${styles.chip} ${styles.chipRound} ${styles.chipDark}`}>에스크로 정산</span>
+                <span className={`${styles.chip} ${styles.chipRound} ${styles.chipDark}`}>안전 예치 정산</span>
                 <span className={`${styles.chip} ${styles.chipRound} ${styles.chipDark}`}>안전 자동화</span>
               </div>
             </motion.article>
@@ -269,16 +268,16 @@ export default function StrategyPage() {
                 <Database size={20} />
               </div>
               <div>
-                <div className={styles.hEyebrow}>단일 데이터 레이어</div>
+                <div className={styles.hEyebrow}>하나의 데이터 위에서</div>
                 <p className={`${styles.bodyMd} mt-1`}>
-                  B2C와 B2B는 분리된 두 시장이 아니라, 같은 그래프 위에서 서로의 신뢰를 만들어내는 한 쌍의 노드입니다.
+                  현장 근무자와 공급사는 서로 다른 두 시장이 아닙니다. MoNo는 같은 데이터 위에서 서로의 신뢰를 쌓아가는 한 쌍의 파트너로 두 그룹을 연결합니다.
                 </p>
               </div>
             </div>
-            <div className="flex items-center gap-3 font-mono text-[11.5px]">
-              <span className="px-3 py-1.5 bg-[var(--surface)] border border-[var(--border)] rounded">현장 근무자 노드</span>
+            <div className="flex items-center gap-3 font-mono text-[11.5px] flex-wrap">
+              <span className="px-3 py-1.5 bg-[var(--surface)] border border-[var(--border)] rounded">현장 근무자</span>
               <span className="text-[var(--primary)] font-bold">⇄</span>
-              <span className="px-3 py-1.5 bg-[var(--surface)] border border-[var(--border)] rounded">공급사 노드</span>
+              <span className="px-3 py-1.5 bg-[var(--surface)] border border-[var(--border)] rounded">공급사</span>
             </div>
           </motion.div>
         </div>
@@ -295,16 +294,56 @@ export default function StrategyPage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <div className={styles.hEyebrow}>
-              <span className={styles.hEyebrowLine}></span>제2막 · MoNo 브랜드 철학
+            <div className={styles.sectionLabel}>
+              <span className={styles.num}>02</span> MoNo 브랜드 철학 · The Life Cycle
             </div>
-            <h2 className={`${styles.hDisplay} mt-3`}>
-              청년·워홀러·노마드·외국인·은퇴자, 모두를 위한 한 플랫폼.
+            <h2 className={`${styles.hDisplay} mt-4`}>
+              땀 흘리며 일하는 즐거움을 아는 사람들, 우리가 함께 Tech-Blue의 미래를 만듭니다.
             </h2>
             <p className={`${styles.bodyLg} mt-4`}>
-              20대 자립부터 은퇴 후 현장까지, 한 사람의 인생 사이클을 그대로 받아내는 플랫폼. MoNo는 다섯 명의 다른 인생을 같은 데이터 경제권 위에서 만나게 합니다.
+              MO-NO는 현장에 남은 낡은 관행을 지우고, 사람의 땀방울·데이터·기술로 새로운 ‘미래 현장(Tech-Blue)’을 오케스트레이션하는 플랫폼입니다. 청년·워홀러·노마드·외국인·은퇴자 다섯 세대의 삶을 같은 데이터 경제권 위에서 끌어안고, 그들의 사회적 인식과 가치를 수직 상승시키는 라이프 사이클 브랜드.
             </p>
           </motion.div>
+
+          {/* 4대 핵심 미션 */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
+            <div className={`bg-[var(--surface)] border border-[var(--border)] ${styles.lcorner} p-6`}>
+              <div className={`${styles.hEyebrow} mb-2`}>Mission 01</div>
+              <h4 className="text-md font-extrabold mb-2 text-[var(--text-primary)]">지속 가능한 환경·성장</h4>
+              <p className={styles.bodySm}>땀 흘려 일하는 사람들이 걱정 없이 계속 일할 수 있는 현장을 만들고, 기술자로서의 평생 성장을 설계합니다.</p>
+            </div>
+            <div className={`bg-[var(--surface)] border border-[var(--border)] ${styles.lcorner} p-6`}>
+              <div className={`${styles.hEyebrow} mb-2`}>Mission 02</div>
+              <h4 className="text-md font-extrabold mb-2 text-[var(--text-primary)]">땀방울의 금융 데이터화</h4>
+              <p className={styles.bodySm}>흘린 땀만큼 온전한 자산이 되도록, 노동을 ‘대안 금융 데이터’로 전환해 금융 소외를 끝냅니다.</p>
+            </div>
+            <div className={`bg-[var(--surface)] border border-[var(--border)] ${styles.lcorner} p-6`}>
+              <div className={`${styles.hEyebrow} mb-2`}>Mission 03</div>
+              <h4 className="text-md font-extrabold mb-2 text-[var(--text-primary)]">데이터 기반 안전·효율 혁신</h4>
+              <p className={styles.bodySm}>축적된 현장 데이터로 작업은 더 빠르고 효율적이면서도, 생명을 지키는 완벽한 안전을 함께 설계합니다.</p>
+            </div>
+            <div className={`bg-[var(--surface-raised)] border border-[var(--border-strong)] ${styles.lcorner} ${styles.lcornerTech} p-6`}>
+              <div className={`${styles.hEyebrow} mb-2`} style={{ color: 'var(--primary)' }}>Mission 04</div>
+              <h4 className="text-md font-extrabold mb-2 text-[var(--primary)]">미래 산업의 주역</h4>
+              <p className={styles.bodySm}>단순 육체노동을 넘어, 데이터와 로보틱스 기술로 끊임없이 진화하는 진정한 Tech-Blue 플랫폼.</p>
+            </div>
+          </div>
+
+          {/* 듀얼 슬로건 */}
+          <div className="grid lg:grid-cols-2 gap-4 mb-12">
+            <div className={`bg-[var(--surface)] border-l-4 border-[var(--primary)] ${styles.lcorner} p-6`}>
+              <div className={styles.hEyebrow}>For Public · 대국민 슬로건</div>
+              <p className="text-[15.5px] font-extrabold text-[var(--text-primary)] mt-2">
+                “땀 흘리는 즐거움을 아는 사람들, 우리가 함께 Tech-Blue의 미래를 만듭니다.”
+              </p>
+            </div>
+            <div className={`bg-[var(--surface-raised)] border-l-4 border-[var(--border-strong)] ${styles.lcorner} p-6`}>
+              <div className={styles.hEyebrow}>For Investors · 투자자 슬로건</div>
+              <p className="text-[15.5px] font-extrabold text-[var(--text-primary)] mt-2">
+                “노동을 데이터로, 데이터를 금융과 미래 기술(Robotics)로.”
+              </p>
+            </div>
+          </div>
 
           {/* Persona Tab Bar */}
           <div className={styles.tabContainer}>
@@ -312,31 +351,31 @@ export default function StrategyPage() {
               onClick={() => setActivePersona('youth')} 
               className={`${styles.tabBtn} ${styles.lcorner} ${activePersona === 'youth' ? styles.tabBtnActive : ''}`}
             >
-              <span className={styles.tabNum}>01</span> 20대 청년 · 자립
+              <span className={styles.tabNum}>01</span> The Seed Camp · 20대 청년
             </button>
             <button 
               onClick={() => setActivePersona('workholiday')} 
               className={`${styles.tabBtn} ${styles.lcorner} ${activePersona === 'workholiday' ? styles.tabBtnActive : ''}`}
             >
-              <span className={styles.tabNum}>02</span> 해외 워홀러 · Tech-Passport
+              <span className={styles.tabNum}>02</span> Global Tech-Passport · 워홀러
             </button>
             <button 
               onClick={() => setActivePersona('workation')} 
               className={`${styles.tabBtn} ${styles.lcorner} ${activePersona === 'workation' ? styles.tabBtnActive : ''}`}
             >
-              <span className={styles.tabNum}>03</span> 워케이션 노마드
+              <span className={styles.tabNum}>03</span> Work-&-Live · 워케이션 노마드
             </button>
             <button 
               onClick={() => setActivePersona('foreign')} 
               className={`${styles.tabBtn} ${styles.lcorner} ${activePersona === 'foreign' ? styles.tabBtnActive : ''}`}
             >
-              <span className={styles.tabNum}>04</span> 외국인 근로자 · K-Work
+              <span className={styles.tabNum}>04</span> K-Work Experience · 외국인 전문가
             </button>
             <button 
               onClick={() => setActivePersona('retire')} 
               className={`${styles.tabBtn} ${styles.lcorner} ${activePersona === 'retire' ? styles.tabBtnActive : ''}`}
             >
-              <span className={styles.tabNum}>05</span> 은퇴 세대 · 레거시 전문가
+              <span className={styles.tabNum}>05</span> Legacy Expert · 은퇴 장인
             </button>
           </div>
 
@@ -353,35 +392,38 @@ export default function StrategyPage() {
               {activePersona === 'youth' && (
                 <div className={styles.personaGrid}>
                   <div>
-                    <span className={`${styles.chip} ${styles.chipSafety} mb-4`}>청년 · 10–20대</span>
-                    <h3 className="text-2xl font-extrabold mb-3">수능 끝, 첫 종잣돈 800만 원을 내 손으로.</h3>
+                    <div className="flex flex-wrap items-center gap-2 mb-4">
+                      <span className={`${styles.chip} ${styles.chipSafety}`}>청년 · 10–20대</span>
+                      <span className={`${styles.chip} ${styles.chipPrimary}`}>The Seed Camp</span>
+                    </div>
+                    <h3 className="text-2xl font-extrabold mb-3 text-[var(--text-primary)]">수능 끝, 내 손으로 첫 종잣돈을 만든다.</h3>
                     <p className={styles.bodyMd}>
-                      의미 없는 단기 알바 대신 4주 라이프 테크 학습과 8주 집중 출역으로 종잣돈을 모읍니다. 등록금·창업 자금·세계일주 자금의 자립적 해방구. 노동이 처음으로 ‘내 자산’이 되는 경험을 만듭니다.
+                      운전면허·편의점 알바로 흩어지던 청년의 시간을 <strong>모노 자립 아카데미</strong>로 모읍니다. 4주 단기 라이프 스킬 코스(도배·전기·스마트 도구 조작)와 8주 평택·용인 현장 전문가 실습을 거쳐, 등록금·창업 자금·세계여행 자금이 되는 800만 원의 종잣돈(Seed Money)을 내 손으로 만들어냅니다. <em>“진짜 어른이 되는 해방구”</em> — 그것이 The Seed Camp의 약속입니다.
                     </p>
                     <div className="flex flex-wrap gap-2 mt-5">
-                      <span className={`${styles.chip} ${styles.chipRound} ${styles.chipPrimary}`}>시드 캠프</span>
-                      <span className={`${styles.chip} ${styles.chipRound} ${styles.chipPrimary}`}>라이프 테크</span>
-                      <span className={`${styles.chip} ${styles.chipRound} ${styles.chipPrimary}`}>자립 아카데미</span>
+                      <span className={`${styles.chip} ${styles.chipRound} ${styles.chipPrimary}`}>Adulting 101</span>
+                      <span className={`${styles.chip} ${styles.chipRound} ${styles.chipPrimary}`}>모노 자립 아카데미</span>
+                      <span className={`${styles.chip} ${styles.chipRound} ${styles.chipPrimary}`}>800만 원 종잣돈</span>
                     </div>
                   </div>
                   <div>
                     <div className={styles.specList}>
                       <div className={styles.specRow}>
                         <div className={styles.specKey}>학습</div>
-                        <div className={styles.specVal}>4주 라이프 테크 · 안전·세무·금융</div>
+                        <div className={styles.specVal}>4주 라이프 스킬 코스 · 도배·전기·스마트 도구</div>
                       </div>
                       <div className={styles.specRow}>
                         <div className={styles.specKey}>출역</div>
-                        <div className={styles.specVal}>8주 집중 출역 → 종잣돈 800만 원</div>
+                        <div className={styles.specVal}>8주 평택·용인 현장 전문가 실습 → 800만 원</div>
                       </div>
                       <div className={styles.specRow}>
                         <div className={styles.specKey}>전환</div>
-                        <div className={styles.specVal}>등록금·창업 자금·세계일주 자금</div>
+                        <div className={styles.specVal}>대학 등록금 · 창업 자금 · 세계 여행 자금</div>
                       </div>
                     </div>
                     <div className={`${styles.personaQuoteBox} ${styles.lcorner} ${styles.lcornerTech}`}>
                       <div className={styles.hEyebrow}>대표 슬로건</div>
-                      <div className="text-[14.5px] font-bold mt-1">알바 대신 MoNo. 첫 종잣돈, 내 손으로 짓는다.</div>
+                      <div className="text-[14.5px] font-bold mt-1 text-[var(--text-primary)]">수능 끝, 알바몬 대신 모노전문가로 내 인생의 진짜 독립 자금을 설계하라.</div>
                     </div>
                   </div>
                 </div>
@@ -390,35 +432,38 @@ export default function StrategyPage() {
               {activePersona === 'workholiday' && (
                 <div className={styles.personaGrid}>
                   <div>
-                    <span className={`${styles.chip} ${styles.chipPrimary} mb-4`}>해외 워홀러 · 20–30대</span>
-                    <h3 className="text-2xl font-extrabold mb-3">내 기술 데이터가, 그대로 글로벌 통행증이 된다.</h3>
+                    <div className="flex flex-wrap items-center gap-2 mb-4">
+                      <span className={`${styles.chip} ${styles.chipSafety}`}>해외 워홀러 · 20–30대</span>
+                      <span className={`${styles.chip} ${styles.chipPrimary}`}>Global Tech-Passport</span>
+                    </div>
+                    <h3 className="text-2xl font-extrabold mb-3 text-[var(--text-primary)]">카페 서빙 대신, 내 기술로 시급 $35를 번다.</h3>
                     <p className={styles.bodyMd}>
-                      한국에서 쌓은 출역·기술 데이터를 호주·캐나다·일본 현장에서 그대로 사용합니다. 시급 35달러 워킹홀리데이를 단발성 경험이 아닌 정식 커리어로 잇는 글로벌 노마드 트랙입니다.
+                      농장·카페 최저임금에 갇히던 워킹홀리데이를 글로벌 기술 무대로 끌어올립니다. 국내 현장에서 쌓은 용접·조적·배관 경력 데이터를 글로벌 스탠다드 영문 이력서로 자동 변환하는 <strong>Tech-Passport(기술 여권)</strong>. 호주·캐나다·영국 현지 빌더 협회와 다이렉트 매칭되어, 도착 첫 주부터 시간당 $35~50의 합법 전문직군으로 출근할 수 있습니다.
                     </p>
                     <div className="flex flex-wrap gap-2 mt-5">
-                      <span className={`${styles.chip} ${styles.chipRound} ${styles.chipPrimary}`}>글로벌 기술 여권</span>
-                      <span className={`${styles.chip} ${styles.chipRound} ${styles.chipPrimary}`}>국가 간 기술 증명</span>
-                      <span className={`${styles.chip} ${styles.chipRound} ${styles.chipPrimary}`}>시급 35달러</span>
+                      <span className={`${styles.chip} ${styles.chipRound} ${styles.chipPrimary}`}>Tech-Passport</span>
+                      <span className={`${styles.chip} ${styles.chipRound} ${styles.chipPrimary}`}>ISO 글로벌 자격 연계</span>
+                      <span className={`${styles.chip} ${styles.chipRound} ${styles.chipPrimary}`}>시급 $35~50</span>
                     </div>
                   </div>
                   <div>
                     <div className={styles.specList}>
                       <div className={styles.specRow}>
                         <div className={styles.specKey}>여권</div>
-                        <div className={styles.specVal}>출역·기술 데이터 → 다국가 호환</div>
+                        <div className={styles.specVal}>경력 데이터 → 영문 이력서 자동 변환</div>
                       </div>
                       <div className={styles.specRow}>
                         <div className={styles.specKey}>시급</div>
-                        <div className={styles.specVal}>호주·캐나다 현장 평균 35달러</div>
+                        <div className={styles.specVal}>호주·캐나다·영국 현장 $35~50</div>
                       </div>
                       <div className={styles.specRow}>
-                        <div className={styles.specKey}>표준</div>
-                        <div className={styles.specVal}>한·호·캐·일 기술 인증 상호 인정</div>
+                        <div className={styles.specKey}>매칭</div>
+                        <div className={styles.specVal}>HIA 등 현지 빌더 협회 다이렉트 연동</div>
                       </div>
                     </div>
                     <div className={`${styles.personaQuoteBox} ${styles.lcorner} ${styles.lcornerTech}`}>
                       <div className={styles.hEyebrow}>대표 슬로건</div>
-                      <div className="text-[14.5px] font-bold mt-1">한국에서 쌓은 땀, 시드니 현장에서 다시 빛난다.</div>
+                      <div className="text-[14.5px] font-bold mt-1 text-[var(--text-primary)]">어학연수 가서 커피만 탈 건가요? 테크 패스포트 하나로 전 세계 현장을 지휘하는 글로벌 전문가가 되세요.</div>
                     </div>
                   </div>
                 </div>
@@ -427,35 +472,38 @@ export default function StrategyPage() {
               {activePersona === 'workation' && (
                 <div className={styles.personaGrid}>
                   <div>
-                    <span className={`${styles.chip} ${styles.chipPrimary} mb-4`}>워케이션 노마드 · 20–40대</span>
-                    <h3 className="text-2xl font-extrabold mb-3">제주 오전 현장, 오후 서핑. 한 달살이가 커리어가 된다.</h3>
+                    <div className="flex flex-wrap items-center gap-2 mb-4">
+                      <span className={`${styles.chip} ${styles.chipSafety}`}>워케이션 노마드 · 20–40대</span>
+                      <span className={`${styles.chip} ${styles.chipPrimary}`}>Work-&-Live</span>
+                    </div>
+                    <h3 className="text-2xl font-extrabold mb-3 text-[var(--text-primary)]">낮에는 바람을 가르고, 밤에는 파도 소리를 들으며 일한다.</h3>
                     <p className={styles.bodyMd}>
-                      강원·제주·여수 등 권역별 현장과 워케이션 숙소를 묶은 워크 앤 라이브 패키지. 하루·한 달·일 년 단위로 머물면서 일하는 새로운 삶의 방식이 가능해집니다.
+                      제주·강원·남해의 스마트 로컬 하도급 현장과 한달살기 거점을 묶은 <strong>Work-&-Live(워케이션) 패키지</strong>. 오전 4시간 단기 고단가 근무로 일급을 즉시 정산받고, 오후엔 서핑·카페·로컬 라이프를 만끽하는 ‘에셋라이트 셔틀 패키지’가 디지털 노무 노마드의 일상을 받쳐줍니다.
                     </p>
                     <div className="flex flex-wrap gap-2 mt-5">
-                      <span className={`${styles.chip} ${styles.chipRound} ${styles.chipPrimary}`}>워크 앤 라이브</span>
-                      <span className={`${styles.chip} ${styles.chipRound} ${styles.chipPrimary}`}>권역 거주 패키지</span>
-                      <span className={`${styles.chip} ${styles.chipRound} ${styles.chipPrimary}`}>테크웨어</span>
+                      <span className={`${styles.chip} ${styles.chipRound} ${styles.chipPrimary}`}>한달살기 챌린지</span>
+                      <span className={`${styles.chip} ${styles.chipRound} ${styles.chipPrimary}`}>에셋라이트 셔틀</span>
+                      <span className={`${styles.chip} ${styles.chipRound} ${styles.chipPrimary}`}>오전 4h · 일급 즉시 정산</span>
                     </div>
                   </div>
                   <div>
                     <div className={styles.specList}>
                       <div className={styles.specRow}>
                         <div className={styles.specKey}>권역</div>
-                        <div className={styles.specVal}>제주·강원·여수·부산 워케이션 거점</div>
+                        <div className={styles.specVal}>제주·강원·남해 스마트 로컬 거점</div>
                       </div>
                       <div className={styles.specRow}>
                         <div className={styles.specKey}>패키지</div>
-                        <div className={styles.specVal}>오전 현장 + 오후 워케이션 · 일/월/년 단위</div>
+                        <div className={styles.specVal}>오전 4h 현장 + 오후 자유 · 일/월/년</div>
                       </div>
                       <div className={styles.specRow}>
-                        <div className={styles.specKey}>장비</div>
-                        <div className={styles.specVal}>현장 안전 테크웨어 · 통근 셔틀</div>
+                        <div className={styles.specKey}>정산</div>
+                        <div className={styles.specVal}>일급 즉시 정산 · 통근 셔틀 · 테크웨어</div>
                       </div>
                     </div>
                     <div className={`${styles.personaQuoteBox} ${styles.lcorner} ${styles.lcornerTech}`}>
                       <div className={styles.hEyebrow}>대표 슬로건</div>
-                      <div className="text-[14.5px] font-bold mt-1">돈 벌면서 한달살이. 한 도시가, 한 시즌이 된다.</div>
+                      <div className="text-[14.5px] font-bold mt-1 text-[var(--text-primary)]">돈 쓰면서 한달살기 하세요? 우리는 벌면서 자유롭게 살아갑니다. MO-NO와 함께하는 노마드 라이프.</div>
                     </div>
                   </div>
                 </div>
@@ -464,35 +512,38 @@ export default function StrategyPage() {
               {activePersona === 'foreign' && (
                 <div className={styles.personaGrid}>
                   <div>
-                    <span className={`${styles.chip} ${styles.chipPrimary} mb-4`}>외국인 근로자 · 숙련기능비자</span>
-                    <h3 className="text-2xl font-extrabold mb-3">브로커 없는 현장, 합법적 K-Work 생태계.</h3>
+                    <div className="flex flex-wrap items-center gap-2 mb-4">
+                      <span className={`${styles.chip} ${styles.chipSafety}`}>외국인 근로자 · 숙련기능비자</span>
+                      <span className={`${styles.chip} ${styles.chipPrimary}`}>K-Work Experience</span>
+                    </div>
+                    <h3 className="text-2xl font-extrabold mb-3 text-[var(--text-primary)]">K-스마트 기술을 배우고, 내 노동의 존엄을 지킨다.</h3>
                     <p className={styles.bodyMd}>
-                      깜깜이 인력시장을 데이터로 투명화하고, 성실도·기술 데이터가 E-7-4 숙련기능비자 가점으로 연계되는 합법 트랙. 외국인 전문가에게 ‘가장 안전하고 자랑스러운 현장’을 제공합니다.
+                      불법 체류·브로커의 그늘에 가려졌던 외국인 인력을 합법적이고 자랑스러운 <strong>‘글로벌 장인 인프라’</strong>로 양성화합니다. 모노 앱에 쌓이는 성실도 데이터는 법무부 E-7-4 숙련기능비자 가점으로 자동 에스코트되고, 다국어 AI 안전 비서가 언어 사각지대를 지웁니다. 본국 송금은 수수료 1% 미만의 다이렉트 금융으로 이어집니다. 외국인 전문가에게 ‘가장 안전하고 자랑스러운 현장’을 제공합니다.
                     </p>
                     <div className="flex flex-wrap gap-2 mt-5">
-                      <span className={`${styles.chip} ${styles.chipRound} ${styles.chipPrimary}`}>케이워크 경험</span>
-                      <span className={`${styles.chip} ${styles.chipRound} ${styles.chipPrimary}`}>비자 가점 연계</span>
-                      <span className={`${styles.chip} ${styles.chipRound} ${styles.chipPrimary}`}>존엄 노동</span>
+                      <span className={`${styles.chip} ${styles.chipRound} ${styles.chipPrimary}`}>K-Tech 연수</span>
+                      <span className={`${styles.chip} ${styles.chipRound} ${styles.chipPrimary}`}>E-7-4 가점 에스코트</span>
+                      <span className={`${styles.chip} ${styles.chipRound} ${styles.chipPrimary}`}>다국어 AI 안전 비서</span>
                     </div>
                   </div>
                   <div>
                     <div className={styles.specList}>
                       <div className={styles.specRow}>
                         <div className={styles.specKey}>연수</div>
-                        <div className={styles.specVal}>한국 기술 안전 연수 · 다국어 매뉴얼</div>
+                        <div className={styles.specVal}>K-Tech 안전 연수 · 다국어 매뉴얼</div>
                       </div>
                       <div className={styles.specRow}>
                         <div className={styles.specKey}>비자</div>
-                        <div className={styles.specVal}>성실도 지표 → E-7-4 숙련기능비자 가점</div>
+                        <div className={styles.specVal}>성실도 데이터 → E-7-4 가점 무상 에스코트</div>
                       </div>
                       <div className={styles.specRow}>
-                        <div className={styles.specKey}>정산</div>
-                        <div className={styles.specVal}>본국 송금까지 자동 처리 · 브로커 차단</div>
+                        <div className={styles.specKey}>송금</div>
+                        <div className={styles.specVal}>수수료 1% 미만 본국 다이렉트 송금</div>
                       </div>
                     </div>
                     <div className={`${styles.personaQuoteBox} ${styles.lcorner} ${styles.lcornerTech}`}>
                       <div className={styles.hEyebrow}>대표 슬로건</div>
-                      <div className="text-[14.5px] font-bold mt-1">가장 안전한 현장, 가장 자랑스러운 외국인 전문가.</div>
+                      <div className="text-[14.5px] font-bold mt-1 text-[var(--text-primary)]">한국에서의 땀방울이 고국의 내 가족을 지킵니다. 가장 안전하고 정직한 파트너, 외국인 전문가의 동반자 MO-NO.</div>
                     </div>
                   </div>
                 </div>
@@ -501,41 +552,218 @@ export default function StrategyPage() {
               {activePersona === 'retire' && (
                 <div className={styles.personaGrid}>
                   <div>
-                    <span className={`${styles.chip} ${styles.chipPrimary} mb-4`}>은퇴 세대 · 50–60대</span>
-                    <h3 className="text-2xl font-extrabold mb-3">갑작스러운 은퇴 대신, 베테랑의 손을 로봇 감리로.</h3>
+                    <div className="flex flex-wrap items-center gap-2 mb-4">
+                      <span className={`${styles.chip} ${styles.chipSafety}`}>은퇴 세대 · 50–60대</span>
+                      <span className={`${styles.chip} ${styles.chipPrimary}`}>Legacy Expert</span>
+                    </div>
+                    <h3 className="text-2xl font-extrabold mb-3 text-[var(--text-primary)]">은퇴는 끝이 아닌, 내 평생 기술의 시작이다.</h3>
                     <p className={styles.bodyMd}>
-                      30년 손결을 디지털화하고, 본사 정직원 PM으로 현장을 감리하며 평생직장을 이어갑니다. 보유 장비는 STO로 자산화하여, 일하지 않을 때도 안정적인 임대 수익이 들어옵니다.
+                      30년 손결을 디지털로 옮기고, 모노 정직원 PM·온사이트 OJT 교관으로 직무를 전환합니다. 무거운 자재 운반은 Tech-Blue 로봇이 맡고, 베테랑은 스마트 디바이스로 정밀 시공을 감리하는 <strong>시니어 마에스트로</strong>로 격상됩니다. 보유 장비는 조각 투자(디지털 증권화)로 자산화되어, 일하지 않을 때도 안정적인 임대 수익이 들어옵니다 — 레전드에서 레거시 전문가로의 귀환.
                     </p>
                     <div className="flex flex-wrap gap-2 mt-5">
                       <span className={`${styles.chip} ${styles.chipRound} ${styles.chipPrimary}`}>레거시 전문가</span>
-                      <span className={`${styles.chip} ${styles.chipRound} ${styles.chipPrimary}`}>로봇 감리 PM</span>
-                      <span className={`${styles.chip} ${styles.chipRound} ${styles.chipPrimary}`}>장비 STO</span>
+                      <span className={`${styles.chip} ${styles.chipRound} ${styles.chipPrimary}`}>시니어 마에스트로</span>
+                      <span className={`${styles.chip} ${styles.chipRound} ${styles.chipPrimary}`}>장비 조각 투자</span>
                     </div>
                   </div>
                   <div>
                     <div className={styles.specList}>
                       <div className={styles.specRow}>
                         <div className={styles.specKey}>계약</div>
-                        <div className={styles.specVal}>본사 정직원 PM · 4대보험·퇴직금 보장</div>
+                        <div className={styles.specVal}>모노 정직원 PM·OJT 교관 · 4대보험·퇴직금</div>
                       </div>
                       <div className={styles.specRow}>
                         <div className={styles.specKey}>기록</div>
-                        <div className={styles.specVal}>장인의 손결·판단·노하우 데이터화</div>
+                        <div className={styles.specVal}>장인의 손길·판단·노하우 데이터화</div>
                       </div>
                       <div className={styles.specRow}>
                         <div className={styles.specKey}>자산</div>
-                        <div className={styles.specVal}>장비 STO 조각 등록 → 임대 수익</div>
+                        <div className={styles.specVal}>장비 조각 투자 등록 → 임대 수익</div>
                       </div>
                     </div>
                     <div className={`${styles.personaQuoteBox} ${styles.lcorner} ${styles.lcornerTech}`}>
                       <div className={styles.hEyebrow}>대표 슬로건</div>
-                      <div className="text-[14.5px] font-bold mt-1">레전드에서 레거시로. 로봇과 동행하는 평생 현장.</div>
+                      <div className="text-[14.5px] font-bold mt-1 text-[var(--text-primary)]">당신의 30년 현장 노하우는 대한민국의 유산입니다. 은퇴 없는 평생의 전문직, MO-NO 레전드가 지켜드립니다.</div>
                     </div>
                   </div>
                 </div>
               )}
             </motion.div>
           </AnimatePresence>
+
+          {/* ============================== MISSING SECTION A: BRAND REPOSITIONING ============================== */}
+          <motion.div 
+            className="mt-16 lg:mt-20 mb-6 flex items-end justify-between gap-6 flex-wrap"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+          >
+            <div className="flex items-center gap-3">
+              <span className={`${styles.chip} ${styles.chipPrimary}`}>Brand Repositioning</span>
+              <h3 className="text-xl font-extrabold text-[var(--text-primary)]">파견·중개가 아닌, 연대·자산화·최첨단으로.</h3>
+            </div>
+            <div className={`${styles.mono} text-[11.5px] text-[var(--text-tertiary)]`}>
+              기존 노동시장 (AS-IS) → MO-NO 포지셔닝 (TO-BE)
+            </div>
+          </motion.div>
+
+          <motion.div 
+            className="mb-16 bg-[var(--surface)] border border-[var(--border)] rounded overflow-hidden shadow-sm"
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            {/* Table Header */}
+            <div className="grid grid-cols-12 bg-[var(--text-primary)] text-[var(--background)] text-[12px] font-mono uppercase tracking-[0.12em] rounded-t">
+              <div className="col-span-3 px-5 py-3 border-r border-[var(--background)]/10 font-bold">구분</div>
+              <div className="col-span-4 px-5 py-3 border-r border-[var(--background)]/10 text-[var(--background)]/70">기존 노동시장 · AS-IS</div>
+              <div className="col-span-5 px-5 py-3 text-[var(--primary)] font-bold">MO-NO 포지셔닝 · TO-BE</div>
+            </div>
+            {/* Table Body */}
+            <div className="divide-y divide-[var(--border)]">
+              {/* Row 1 */}
+              <div className="grid grid-cols-12 items-stretch">
+                <div className="col-span-3 px-5 py-5 bg-[var(--surface-raised)] border-r border-[var(--border)] flex flex-col justify-center">
+                  <div className={`${styles.hEyebrow}`}>01</div>
+                  <div className="font-bold text-sm text-[var(--text-primary)] mt-1">작업자 지위</div>
+                </div>
+                <div className="col-span-4 px-5 py-5 border-r border-[var(--border)] flex items-center">
+                  <p className={`${styles.bodyMd} text-[var(--text-secondary)]/80`}>언제든 대체 가능한 일회성 소모품</p>
+                </div>
+                <div className="col-span-5 px-5 py-5 flex items-center">
+                  <p className={`${styles.bodyMd} text-[var(--text-primary)]`}>땀의 가치를 증명하는 <strong>독립 기술 전문가(Expert)</strong></p>
+                </div>
+              </div>
+              {/* Row 2 */}
+              <div className="grid grid-cols-12 items-stretch">
+                <div className="col-span-3 px-5 py-5 bg-[var(--surface-raised)] border-r border-[var(--border)] flex flex-col justify-center">
+                  <div className={`${styles.hEyebrow}`}>02</div>
+                  <div className="font-bold text-sm text-[var(--text-primary)] mt-1">보상과 금융</div>
+                </div>
+                <div className="col-span-4 px-5 py-5 border-r border-[var(--border)] flex items-center">
+                  <p className={`${styles.bodyMd} text-[var(--text-secondary)]/80`}>현금 박치기 · 신용 불량 · 임금 체불</p>
+                </div>
+                <div className="col-span-5 px-5 py-5 flex items-center">
+                  <p className={`${styles.bodyMd} text-[var(--text-primary)]`}>에스크로 당일 정산 · <strong>1금융권 대출 가능한 금융 자산</strong></p>
+                </div>
+              </div>
+              {/* Row 3 */}
+              <div className="grid grid-cols-12 items-stretch">
+                <div className="col-span-3 px-5 py-5 bg-[var(--surface-raised)] border-r border-[var(--border)] flex flex-col justify-center">
+                  <div className={`${styles.hEyebrow}`}>03</div>
+                  <div className="font-bold text-sm text-[var(--text-primary)] mt-1">기업의 역할</div>
+                </div>
+                <div className="col-span-4 px-5 py-5 border-r border-[var(--border)] flex items-center">
+                  <p className={`${styles.bodyMd} text-[var(--text-secondary)]/80`}>인력을 넘기고 수수료만 떼는 브로커</p>
+                </div>
+                <div className="col-span-5 px-5 py-5 flex items-center">
+                  <p className={`${styles.bodyMd} text-[var(--text-primary)]`}>행정·법률·교육·장비를 전방위 지원하는 <strong>상생 매니지먼트</strong></p>
+                </div>
+              </div>
+              {/* Row 4 */}
+              <div className="grid grid-cols-12 items-stretch">
+                <div className="col-span-3 px-5 py-5 bg-[var(--text-primary)] text-[var(--background)] border-r border-[var(--background)]/10 flex flex-col justify-center">
+                  <div className={`${styles.hEyebrow}`} style={{ color: 'var(--primary)' }}>04</div>
+                  <div className="font-bold text-sm text-[var(--background)] mt-1">미래 비전</div>
+                </div>
+                <div className="col-span-4 px-5 py-5 bg-[var(--text-primary)] text-[var(--background)]/75 border-r border-[var(--background)]/10 flex items-center">
+                  <p className={`${styles.bodyMd}`}>몸이 망가지면 끝나는 유한한 육체노동</p>
+                </div>
+                <div className="col-span-5 px-5 py-5 bg-[var(--text-primary)] text-[var(--background)] flex items-center">
+                  <p className={`${styles.bodyMd} text-white`}>로봇을 통제하고 <strong className="text-[var(--primary)]">조각 투자(STO)</strong>로 배당받는 <strong className="text-[var(--primary)] font-semibold">Tech-Blue</strong></p>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* ============================== MISSING SECTION B: PREMIUM BRAND BUILD-UP ============================== */}
+          <motion.div 
+            className="mb-6 flex items-end justify-between gap-6 flex-wrap"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+          >
+            <div className="flex items-center gap-3">
+              <span className={`${styles.chip} ${styles.chipPrimary}`}>Premium Brand Build-up</span>
+              <h3 className="text-xl font-extrabold text-[var(--text-primary)]">노가다의 흔적을 지우고, 최첨단 브랜드 테크로 정렬한다.</h3>
+            </div>
+            <div className={`${styles.mono} text-[11.5px] text-[var(--text-tertiary)]`}>
+              시각 자산 · 거점 공간 · 커뮤니티
+            </div>
+          </motion.div>
+
+          <div className="grid lg:grid-cols-3 gap-4 mb-12">
+            <motion.article 
+              className={`bg-[var(--surface)] border border-[var(--border)] ${styles.lcorner} p-6 lg:p-7 shadow-sm`}
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+            >
+              <div className={`${styles.hEyebrow} mb-2`}>01 · Visual Identity</div>
+              <h4 className="text-md font-extrabold mb-3 text-[var(--text-primary)]">테크웨어 &amp; 한정판 굿즈.</h4>
+              <p className={`${styles.bodySm} mb-4`}>투박한 작업복 대신 블랙·사이언 톤의 고기능성 <strong>MO-NO Tech-wear</strong>. 캠프 수료 시 스페셜 뱃지와 한정판 가죽 수공구 벨트로 인증·확산을 설계합니다.</p>
+              <ul className={`${styles.bodySm} list-disc pl-5 space-y-1 text-[var(--text-secondary)]`}>
+                <li>Tech-wear 안전 의류 · 커스텀 보호구 패키지</li>
+                <li>스페셜 뱃지 · 한정판 가죽 수공구 벨트</li>
+                <li>인스타그램·숏폼 인증 자산화</li>
+              </ul>
+            </motion.article>
+
+            <motion.article 
+              className={`bg-[var(--surface)] border border-[var(--border)] ${styles.lcorner} p-6 lg:p-7 shadow-sm`}
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+            >
+              <div className={`${styles.hEyebrow} mb-2`}>02 · O4O Base Camp</div>
+              <h4 className="text-md font-extrabold mb-3 text-[var(--text-primary)]">프리미엄 모노 베이스캠프.</h4>
+              <p className={`${styles.bodySm} mb-4`}>어둡고 칙칙한 인력 대기소 대신, 스틸·사이언 라이팅의 <strong>프리미엄 라운지</strong>. 대기 시간 자체를 ‘대우받는 전문가의 시간’으로 바꿉니다.</p>
+              <ul className={`${styles.bodySm} list-disc pl-5 space-y-1 text-[var(--text-secondary)]`}>
+                <li>에스프레소 카페바 · 스마트 샤워룸 · 세탁실</li>
+                <li>3D 프린터 자재 출력실 · 공구 대여 라운지</li>
+                <li>거점별 모듈러 베이스캠프 표준 패키지</li>
+              </ul>
+            </motion.article>
+
+            <motion.article 
+              className={`bg-[var(--text-primary)] text-[var(--background)] ${styles.lcorner} ${styles.lcornerTech} p-6 lg:p-7 shadow-md`}
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+            >
+              <div className={`${styles.hEyebrow} mb-2`} style={{ color: 'var(--primary)' }}>03 · Experts Club</div>
+              <h4 className="text-md font-extrabold mb-3 text-white">엑스퍼트 어워즈 &amp; 데모데이.</h4>
+              <p className="text-[13px] leading-relaxed text-slate-300 mb-4">연말 <strong>MO-NO Experts Tech Demo Day</strong>. 청년 전문가·실버 레전드·우수 글로벌 기술자를 무대 위로 올리고, 그들의 성장 서사를 다큐 영상으로 확산합니다.</p>
+              <ul className="text-[12px] leading-relaxed text-slate-400 list-disc pl-5 space-y-1">
+                <li>골든 웰딩·플라스터 어워즈 시상식</li>
+                <li>4R 우승팀 합동 데모데이 · 라이브 중계</li>
+                <li>다큐멘터리 콘텐츠 · 유튜브 시즌 시리즈</li>
+              </ul>
+            </motion.article>
+          </div>
+
+          {/* ============================== MISSING SECTION C: ACT 2 CLOSING CARD ============================== */}
+          <motion.div 
+            className={`bg-[var(--surface)] border border-[var(--border)] ${styles.lcorner} p-6 lg:p-8 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 shadow-sm`}
+            initial={{ opacity: 0, scale: 0.98 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+          >
+            <div>
+              <div className={`${styles.hEyebrow} mb-2`}>2막 클로징</div>
+              <p className="text-[15.5px] leading-relaxed text-[var(--text-primary)]">
+                <strong>“가장 성실한 청년·은퇴 장인·외국인 엘리트를 가장 비용 효율적으로 락인하는 전문가 홀더(Expert Holder)”</strong> — 브랜딩으로 락인된 인력 인프라가, 5막의 자본 가치와 6막의 미래 인프라로 그대로 이어집니다.
+              </p>
+            </div>
+            <div className="shrink-0 flex items-center gap-3">
+              <a href="#problem" className={styles.navBtn} style={{ background: 'var(--text-primary)', color: 'var(--background)' }}>
+                3막 · 해결 과제로 <ArrowRight size={13} />
+              </a>
+            </div>
+          </motion.div>
         </div>
       </section>
 
@@ -550,14 +778,14 @@ export default function StrategyPage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <div className={styles.hEyebrow}>
-              <span className={styles.hEyebrowLine}></span>제3막 · MoNo가 해결하고 싶은 과제들
+            <div className={styles.sectionLabel}>
+              <span className={styles.num}>03</span> MoNo가 해결하고 싶은 과제들 · Problem & Solution
             </div>
-            <h2 className={`${styles.hDisplay} mt-3`}>
+            <h2 className={`${styles.hDisplay} mt-4`}>
               현장의 네 가지 한계, MoNo의 네 가지 해결책.
             </h2>
             <p className={`${styles.bodyLg} mt-4`}>
-              각 카드를 클릭하면, 문제(Problem)와 해결(Solution)이 같은 페이지 위에서 만나도록 뒤집힙니다. 4개의 카드는 현장·공급사·미래 산업·규제라는 네 갈래의 한계와, MoNo가 그 위에 덮는 새 도면을 보여줍니다.
+              각 카드를 클릭하면 문제와 해결이 같은 자리에서 마주 보도록 뒤집힙니다. 4개의 카드는 현장·공급사·미래 산업·규제라는 네 가지 한계를 어떻게 풀어내는지 보여줍니다.
             </p>
             <div className={`${styles.mono} text-[12px] flex items-center gap-1.5 mt-4 text-[var(--primary)]`}>
               <Sparkles size={14} /> 카드를 탭하면 해결책이 뒤집혀서 노출됩니다.
@@ -735,10 +963,10 @@ export default function StrategyPage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <div className={styles.hEyebrow}>
-              <span className={styles.hEyebrowLine}></span>제4막 · MoNo GTM 전략
+            <div className={styles.sectionLabel}>
+              <span className={styles.num}>04</span> MoNo 단계별 GTM 전략 · Tournament & Founding Strategy
             </div>
-            <h2 className={`${styles.hDisplay} mt-3`}>
+            <h2 className={`${styles.hDisplay} mt-4`}>
               모두의 창업 1라운드부터 우승까지, 단계별 통과 전략.
             </h2>
             <p className={`${styles.bodyLg} mt-4`}>
@@ -957,8 +1185,10 @@ export default function StrategyPage() {
           <div className={styles.milestonesContainer}>
             <div className={styles.milestonesHeader}>
               <div>
-                <div className={styles.hEyebrow}>제4막 · 기업 가치 제고</div>
-                <h3 className="text-2xl font-extrabold mt-2">대회 통과가 아니라, 기업 가치 사다리.</h3>
+                <div className={styles.sectionLabel} style={{ marginBottom: '8px' }}>
+                  <span className={styles.num}>04+</span> 기업 가치 제고
+                </div>
+                <h3 className="text-2xl font-extrabold text-[var(--text-primary)]">대회 통과가 아니라, 기업 가치 사다리.</h3>
                 <p className={`${styles.bodyMd} mt-2`}>
                   라운드마다 MoNo의 기업 가치는 한 단씩 올라서야 합니다. 지표, 고객, 규제 해자를 다차원적으로 빌드합니다.
                 </p>
@@ -989,11 +1219,13 @@ export default function StrategyPage() {
               </div>
             </div>
 
-            <div className="mt-8 border border-[var(--border)] bg-[var(--surface-raised)] px-6 py-5 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 rounded">
+            <div className="mt-8 border border-[var(--border)] bg-[var(--surface-raised)] px-6 py-5 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 rounded animate-fade-in">
               <div className="flex items-center gap-3 flex-wrap">
                 <span className="w-10 h-10 bg-[var(--text-primary)] text-[var(--background)] grid place-items-center rounded"><ArrowDown size={18} /></span>
                 <div>
-                  <div className={styles.hEyebrow}>GTM 종료 → 투자 전략 개시</div>
+                  <div className={styles.sectionLabel} style={{ marginBottom: '2px' }}>
+                    GTM 종료 → 수익 구조 개시
+                  </div>
                   <p className={`${styles.bodyMd} mt-0.5`}>대회에서 확보한 증명·고객·규제 사다리 위에, 이제 VC·FI가 투자를 확신할 수 있는 BM 4축 수익 망을 펼칩니다.</p>
                 </div>
               </div>
@@ -1016,10 +1248,10 @@ export default function StrategyPage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <div className={styles.hEyebrow}>
-              <span className={styles.hEyebrowLine}></span>제5막 · VC & FI 투자를 받기 위한 전략
+            <div className={styles.sectionLabel}>
+              <span className={styles.num}>05</span> 기업 가치 극대화 전략 · Business Model & Valuation
             </div>
-            <h2 className={`${styles.hDisplay} mt-3`}>
+            <h2 className={`${styles.hDisplay} mt-4`}>
               VC가 보는 네 갈래 수익 구조.
             </h2>
             <p className={`${styles.bodyLg} mt-4`}>
@@ -1214,9 +1446,10 @@ export default function StrategyPage() {
         </div>
       </section>
 
-      {/* ============================== S6 · VISION (CINEMATIC DARK VIEW) ============================== */}
+      {/* ============================== S6 · VISION (THEME-ADAPTIVE CLIMAX) ============================== */}
       <section id="vision" className={styles.visionSection}>
-        <div className={styles.blueprintBg} style={{ opacity: 0.12 }} />
+        <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(900px 500px at 80% 10%, rgba(34,211,238,0.18), transparent 60%), radial-gradient(700px 400px at 10% 90%, rgba(242,194,0,0.10), transparent 60%)' }} />
+        <div className={styles.blueprintBg} />
         <div className={styles.container}>
           <motion.div 
             className={styles.heroIntro}
@@ -1224,100 +1457,104 @@ export default function StrategyPage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <div className={styles.hEyebrow} style={{ color: 'var(--primary)' }}>
-              <span className={styles.hEyebrowLine} style={{ backgroundColor: 'var(--primary)' }}></span>제6막 · MoNo가 그리는 미래
+            <div className={styles.sectionLabel} style={{ color: '#22D3EE' }}>
+              <span className={styles.num} style={{ color: '#22D3EE', borderColor: 'rgba(34, 211, 238, 0.3)', background: 'rgba(10, 15, 26, 0.6)' }}>06</span> MoNo가 그리는 미래 · The Tech-Blue Vision
             </div>
-            <h2 className="text-3xl lg:text-4xl font-extrabold mt-3 text-white leading-tight">
+            <h2 className={`text-3xl lg:text-4xl font-extrabold mt-4 leading-tight ${styles.visionTextPrimary}`}>
               사람의 데이터로 로봇과 미래 산업을 만듭니다.
             </h2>
-            <p className="text-slate-300 mt-4 leading-relaxed max-w-3xl">
+            <p className={`text-[15.5px] mt-4 leading-relaxed max-w-3xl ${styles.visionTextSecondary}`}>
               근무 데이터가 모이면, 그것은 곧 다음 세대 산업의 도면이 됩니다. MoNo의 끝점은 더 이상 ‘인력 플랫폼’이 아닌, 노동·로보틱스·자본을 잇는 Tech-Blue 인프라 기업입니다.
             </p>
           </motion.div>
 
           <div className={styles.visionGrid}>
-            <article className={`${styles.visionCard} ${styles.lcorner} ${styles.lcornerTech}`}>
+            {/* Vision Card 1 */}
+            <article className={`${styles.visionCard} ${styles.lcorner} ${styles.visionLcornerTech}`}>
               <div className={styles.visionHeader}>
                 <span className={styles.visionNum}>01</span>
-                <span className="text-[var(--primary)]"><Cpu size={24} /></span>
+                <span style={{ color: '#22D3EE' }}><Cpu size={24} /></span>
               </div>
-              <div className={styles.hEyebrow} style={{ color: 'var(--primary)' }}>Tech-Blue Robotics</div>
-              <h3 className="text-lg font-extrabold text-white mt-1 mb-2">현장의 데이터로 로봇 R&D.</h3>
-              <p className="text-[13.5px] leading-relaxed text-slate-300">
-                현장의 동작·판단·노하우 데이터를 로보틱스 R&D에 직접 흘려보냅니다. 로봇은 더 정밀해지고, 작업자는 더 안전한 방향으로 진화합니다.
+              <div className={styles.hEyebrow} style={{ color: '#22D3EE' }}>Tech-Blue Robotics</div>
+              <h3 className={`text-lg font-extrabold mt-1 mb-2 ${styles.visionTextPrimary}`}>현장의 데이터로 로봇 R&amp;D.</h3>
+              <p className={`text-[13.5px] leading-relaxed ${styles.visionTextSecondary}`}>
+                현장의 동작·판단·노하우 데이터를 로보틱스 R&amp;D에 직접 흘려보냅니다. 로봇은 더 정밀해지고, 작업자는 더 안전한 방향으로 진화합니다.
               </p>
             </article>
 
-            <article className={`${styles.visionCard} ${styles.lcorner} ${styles.lcornerTech}`}>
+            {/* Vision Card 2 */}
+            <article className={`${styles.visionCard} ${styles.lcorner} ${styles.visionLcornerTech}`}>
               <div className={styles.visionHeader}>
                 <span className={styles.visionNum}>02</span>
-                <span className="text-[var(--primary)]"><Truck size={24} /></span>
+                <span style={{ color: '#22D3EE' }}><Truck size={24} /></span>
               </div>
-              <div className={styles.hEyebrow} style={{ color: 'var(--primary)' }}>스마트 운송·미래 장비</div>
-              <h3 className="text-lg font-extrabold text-white mt-1 mb-2">운송망 × 판매·대여 서비스.</h3>
-              <p className="text-[13.5px] leading-relaxed text-slate-300">
+              <div className={styles.hEyebrow} style={{ color: '#22D3EE' }}>스마트 운송·미래 장비</div>
+              <h3 className={`text-lg font-extrabold mt-1 mb-2 ${styles.visionTextPrimary}`}>운송망 × 판매·대여 서비스.</h3>
+              <p className={`text-[13.5px] leading-relaxed ${styles.visionTextSecondary}`}>
                 인력·장비의 흐름을 실시간으로 잇는 스마트 운송망과, 미래형 건설/산업 장비의 RaaS(Robot as a Service) 구독 모델을 구축합니다.
               </p>
             </article>
 
-            <article className={`${styles.visionCard} ${styles.lcorner} ${styles.lcornerTech}`}>
+            {/* Vision Card 3 */}
+            <article className={`${styles.visionCard} ${styles.lcorner} ${styles.visionLcornerTech}`}>
               <div className={styles.visionHeader}>
                 <span className={styles.visionNum}>03</span>
-                <span className="text-[var(--primary)]"><Construction size={24} /></span>
+                <span style={{ color: '#22D3EE' }}><Construction size={24} /></span>
               </div>
-              <div className={styles.hEyebrow} style={{ color: 'var(--primary)' }}>Tech-Blue 엔지니어링 현장 근무자</div>
-              <h3 className="text-lg font-extrabold text-white mt-1 mb-2">데이터를 통제하는 현장 근무자.</h3>
-              <p className="text-[13.5px] leading-relaxed text-slate-300">
+              <div className={styles.hEyebrow} style={{ color: '#22D3EE' }}>Tech-Blue 엔지니어링 현장 근무자</div>
+              <h3 className={`text-lg font-extrabold mt-1 mb-2 ${styles.visionTextPrimary}`}>데이터를 통제하는 현장 근무자.</h3>
+              <p className={`text-[13.5px] leading-relaxed ${styles.visionTextSecondary}`}>
                 육체노동자가 아니라, 데이터를 보며 로봇을 지휘하고 공정을 통제하는 ‘Tech-Blue 엔지니어링 현장 근무자’를 길러냅니다.
               </p>
             </article>
 
-            <article className={`${styles.visionCard} ${styles.lcorner} ${styles.lcornerTech}`}>
+            {/* Vision Card 4 */}
+            <article className={`${styles.visionCard} ${styles.lcorner} ${styles.visionLcornerTech}`}>
               <div className={styles.visionHeader}>
                 <span className={styles.visionNum}>04</span>
-                <span className="text-[var(--primary)]"><Coins size={24} /></span>
+                <span style={{ color: '#22D3EE' }}><Coins size={24} /></span>
               </div>
-              <div className={styles.hEyebrow} style={{ color: 'var(--primary)' }}>Tech-Blue 펀딩 · STO</div>
-              <h3 className="text-lg font-extrabold text-white mt-1 mb-2">고가 장비를 쪼개서 사고, 대여 수익.</h3>
-              <p className="text-[13.5px] leading-relaxed text-slate-300">
+              <div className={styles.hEyebrow} style={{ color: '#22D3EE' }}>Tech-Blue 펀딩 · STO</div>
+              <h3 className={`text-lg font-extrabold mt-1 mb-2 ${styles.visionTextPrimary}`}>고가 장비를 쪼개서 사고, 대여 수익.</h3>
+              <p className={`text-[13.5px] leading-relaxed ${styles.visionTextSecondary}`}>
                 개인이 사기 힘든 수억 원대 로봇·중장비를 STO로 조각 소유. 직접 일하지 않아도 장비 임대 수익이 들어오는, 노동과 자본의 결합형 금융 생태계를 완성합니다.
               </p>
             </article>
           </div>
 
           {/* Manifesto Box */}
-          <div className={`${styles.manifestoBox} ${styles.lcorner} ${styles.lcornerTech}`}>
+          <div className={`${styles.manifestoBox} ${styles.lcorner} ${styles.visionLcornerTech}`}>
             <div className={styles.manifestoGrid}>
               <div>
-                <div className={styles.hEyebrow} style={{ color: 'var(--primary)' }}>우리의 약속</div>
-                <h3 className="text-2xl lg:text-3xl font-extrabold mt-3 text-white leading-snug">
-                  우리는 현장에서 <span className="text-[var(--primary)]">답</span>을 찾습니다. <br />
-                  당신의 땀은 <span className="text-[var(--primary)]">헛되지 않습니다</span>.
+                <div className={styles.hEyebrow} style={{ color: '#22D3EE' }}>우리의 약속</div>
+                <h3 className={`text-2xl lg:text-3xl font-extrabold mt-3 leading-snug ${styles.visionTextPrimary}`}>
+                  우리는 현장에서 <span className={styles.visionPrimaryAccent}>답</span>을 찾습니다. <br />
+                  당신의 땀은 <span className={styles.visionPrimaryAccent}>헛되지 않습니다</span>.
                 </h3>
-                <p className="text-slate-300 mt-5 leading-relaxed">
-                  거친 손등 위에 맺힌 땀방울 하나하나가 곧 데이터가 되고, 그 데이터가 로봇의 <span className="text-[var(--primary)] font-semibold">신경계</span>가 되어 현장을 더 안전하고 효율적으로 바꿉니다. 우리는 단순한 로봇 회사가 아닙니다.
+                <p className={`mt-5 leading-relaxed ${styles.visionTextSecondary}`}>
+                  거친 손등 위에 맺힌 땀방울 하나하나가 곧 데이터가 되고, 그 데이터가 로봇의 <span className={`${styles.visionPrimaryAccent} font-semibold`}>신경계</span>가 되어 현장을 더 안전하고 효율적으로 바꿉니다. 우리는 단순한 로봇 회사가 아닙니다.
                 </p>
               </div>
               <div>
-                <div className="border-l-2 border-[var(--primary)] pl-5 space-y-4">
-                  <p className="text-[14.5px] text-slate-300 leading-relaxed">
-                    MoNo는 현장 근무자가 기술의 주인으로 우뚝 서고, 자신이 쌓아 올린 기술적 가치만큼 <span className="text-[var(--primary)] font-semibold">금융적 자유</span>를 보장받는 새로운 생태계를 만드는 기술 동반자입니다.
+                <div className={`border-l-2 ${styles.visionBorderAccent} pl-5 space-y-4`}>
+                  <p className={`text-[14.5px] leading-relaxed ${styles.visionTextSecondary}`}>
+                    MoNo는 현장 근무자가 기술의 주인으로 우뚝 서고, 자신이 쌓아 올린 기술적 가치만큼 <span className={`${styles.visionPrimaryAccent} font-semibold`}>금융적 자유</span>를 보장받는 새로운 생태계를 만드는 기술 동반자입니다.
                   </p>
-                  <p className="text-[14.5px] text-slate-300 leading-relaxed">
-                    당신의 땀은 미래를 설계하는 로보틱스의 <span className="text-[var(--primary)] font-semibold">설계도</span>이자, 당신의 삶을 더 자유롭게 할 가장 확실한 <span className="text-[var(--primary)] font-semibold">투자</span>입니다.
+                  <p className={`text-[14.5px] leading-relaxed ${styles.visionTextSecondary}`}>
+                    당신의 땀은 미래를 설계하는 로보틱스의 <span className={`${styles.visionPrimaryAccent} font-semibold`}>설계도</span>이자, 당신의 삶을 더 자유롭게 할 가장 확실한 <span className={`${styles.visionPrimaryAccent} font-semibold`}>투자</span>입니다.
                   </p>
                 </div>
                 <div className="flex flex-wrap gap-2 mt-6">
-                  <span className={`${styles.chip} ${styles.chipRound}`} style={{ color: 'var(--primary)', borderColor: 'rgba(6, 182, 212, 0.3)', background: 'rgba(6, 182, 212, 0.05)' }}>현장의 데이터화</span>
-                  <span className={`${styles.chip} ${styles.chipRound}`} style={{ color: 'var(--primary)', borderColor: 'rgba(6, 182, 212, 0.3)', background: 'rgba(6, 182, 212, 0.05)' }}>금융의 자유</span>
-                  <span className={`${styles.chip} ${styles.chipRound}`} style={{ color: 'var(--primary)', borderColor: 'rgba(6, 182, 212, 0.3)', background: 'rgba(6, 182, 212, 0.05)' }}>Tech-Blue 진화</span>
-                  <span className={`${styles.chip} ${styles.chipRound}`} style={{ color: 'var(--primary)', borderColor: 'rgba(6, 182, 212, 0.3)', background: 'rgba(6, 182, 212, 0.05)' }}>E-7-4 샌드박스 1호</span>
+                  <span className={styles.visionChip}>현장의 데이터화</span>
+                  <span className={styles.visionChip}>금융의 자유</span>
+                  <span className={styles.visionChip}>Tech-Blue 진화</span>
+                  <span className={styles.visionChip}>E-7-4 샌드박스 1호</span>
                 </div>
               </div>
             </div>
             <div className={styles.manifestoDivider}>
-              <div className="font-sans font-extrabold text-xl lg:text-2xl text-white tracking-tight">
-                Welcome to <span className="text-[var(--primary)]">MoNo</span>, Welcome to <span class="text-[var(--primary)]">Tech-Blue</span>.
+              <div className={`font-sans font-extrabold text-xl lg:text-2xl tracking-tight ${styles.visionTextPrimary}`}>
+                Welcome to <span className={styles.visionPrimaryAccent}>MoNo</span>, Welcome to <span className={styles.visionPrimaryAccent}>Tech-Blue</span>.
               </div>
             </div>
           </div>
