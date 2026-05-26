@@ -111,6 +111,13 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  transition: padding 0.3s ease;
+}
+
+@media (min-width: 1024px) {
+  .navContainer {
+    padding: 0 40px;
+  }
 }
 
 .logo {
@@ -306,12 +313,13 @@
 /* ---------- Layout Containers ---------- */
 .section {
   position: relative;
-  padding: 80px 0;
+  padding: 112px 0;
+  transition: padding 0.3s ease;
 }
 
 @media (min-width: 1024px) {
   .section {
-    padding: 110px 0;
+    padding: 144px 0;
   }
 }
 
@@ -319,6 +327,13 @@
   max-width: 1280px;
   margin: 0 auto;
   padding: 0 24px;
+  transition: padding 0.3s ease;
+}
+
+@media (min-width: 1024px) {
+  .container {
+    padding: 0 40px;
+  }
 }
 
 .heroIntro {
@@ -863,14 +878,15 @@
 .visionSection {
   background-color: #0A0F1A !important;
   color: #F8FAFC !important;
-  padding: 90px 0;
+  padding: 112px 0;
   position: relative;
   overflow: hidden;
+  transition: padding 0.3s ease;
 }
 
 @media (min-width: 1024px) {
   .visionSection {
-    padding: 120px 0;
+    padding: 144px 0;
   }
 }
 
@@ -1016,6 +1032,13 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
+  transition: padding 0.3s ease;
+}
+
+@media (min-width: 1024px) {
+  .footerContainer {
+    padding: 0 40px;
+  }
 }
 
 @media (min-width: 768px) {
