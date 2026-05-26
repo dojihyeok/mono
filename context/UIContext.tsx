@@ -9,7 +9,7 @@ interface ToastData {
     type: ToastType;
 }
 
-export type ThemeMode = 'original' | 'sky' | 'recommend1' | 'recommend2';
+export type ThemeMode = 'original' | 'sky' | 'recommend1' | 'recommend2' | 'pitch';
 
 interface UIContextType {
     toasts: ToastData[];

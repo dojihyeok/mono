@@ -14,7 +14,8 @@ export default function ThemeSwitcher() {
         { id: 'original', label: '기존 (Dark)', color: '#000000' },
         { id: 'sky', label: '옅은 하늘', color: '#f0f7ff' },
         { id: 'recommend1', label: '추천 1 (Silver)', color: '#f5f5f7' },
-        { id: 'recommend2', label: '추천 2 (Cream)', color: '#fafaf8' }
+        { id: 'recommend2', label: '추천 2 (Cream)', color: '#fafaf8' },
+        { id: 'pitch', label: '오리지널 피치 (Tech-Blue)', color: '#F4EFE6' }
     ];
 
     return (

@@ -75,6 +75,23 @@
   --glass: rgba(250, 250, 248, 0.98);
 }
 
+[data-theme='pitch'] {
+  --background: #F4EFE6;
+  --foreground: #0A0F1A;
+  --primary: #0E7490;
+  --primary-soft: rgba(14, 116, 144, 0.1);
+  --accent: #FFD200;
+  --surface: #EBE3D2;
+  --surface-raised: #DCD0B6;
+  --surface-overlay: rgba(10, 15, 26, 0.05);
+  --border: rgba(10, 15, 26, 0.12);
+  --border-strong: rgba(10, 15, 26, 0.28);
+  --text-primary: #0A0F1A;
+  --text-secondary: #1B2436;
+  --text-tertiary: #475569;
+  --glass: rgba(244, 239, 230, 0.98);
+}
+
 
 * {
   box-sizing: border-box;
