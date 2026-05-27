@@ -5,13 +5,19 @@ import { useEffect, useState } from 'react';
 import styles from './SplashScreen.module.css';
 
 export default function SplashScreen() {
-    const [isVisible, setIsVisible] = useState(true);
+    const [isVisible, setIsVisible] = useState(false);
 
     useEffect(() => {
-        const timer = setTimeout(() => {
-            setIsVisible(false);
-        }, 2500);
-        return () => clearTimeout(timer);
+        // Check if splash has already been shown in this session
+        const hasShown = sessionStorage.getItem('mono-splash-shown');
+        if (!hasShown) {
+            setIsVisible(true);
+            const timer = setTimeout(() => {
+                setIsVisible(false);
+                sessionStorage.setItem('mono-splash-shown', 'true');
+            }, 2500);
+            return () => clearTimeout(timer);
+        }
     }, []);
 
     return (
