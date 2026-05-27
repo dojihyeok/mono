@@ -29,23 +29,23 @@
     width: 100%;
     max-width: var(--app-max-width);
     margin: 0 auto;
-    padding: 0 0.75rem;
+    padding: 0 0.5rem;
 }
 
 .logo {
     display: flex;
     align-items: center;
-    gap: 10px;
-    font-size: 1.35rem;
+    gap: 6px;
+    font-size: 1.6rem;
     font-weight: 900;
     color: var(--text-primary);
     text-decoration: none;
-    letter-spacing: 0.05em;
+    letter-spacing: -0.02em;
 }
 
 .logoIcon {
-    width: 34px;
-    height: 34px;
+    width: 44px;
+    height: 44px;
     object-fit: cover;
     border-radius: 8px;
     background-color: transparent;
