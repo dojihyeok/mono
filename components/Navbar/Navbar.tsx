@@ -20,7 +20,7 @@ export default function Navbar({ isLoggedIn = false, onToggleLogin }: NavbarProp
     const pathname = usePathname();
 
     useEffect(() => {
-        setMounted(true);
+        Promise.resolve().then(() => setMounted(true));
     }, []);
 
     // Prevent hydration mismatch by deferring rendering until mounted

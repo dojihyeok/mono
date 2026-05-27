@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     title: "MONO",
   },
   icons: {
-    icon: "/favicon.ico",
+    icon: "/apple-touch-icon.png",
     apple: "/apple-touch-icon.png",
   },
 };
