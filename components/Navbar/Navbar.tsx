@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import styles from './Navbar.module.css';
@@ -16,7 +16,15 @@ import ThemeSwitcher from '../ThemeSwitcher/ThemeSwitcher';
 
 export default function Navbar({ isLoggedIn = false, onToggleLogin }: NavbarProps) {
     const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+    const [mounted, setMounted] = useState(false);
     const pathname = usePathname();
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
+
+    // Prevent hydration mismatch by deferring rendering until mounted
+    if (!mounted) return null;
 
     // Hide global Navbar on Home if logged in (Home has its own native header)
     if (pathname === '/' && isLoggedIn) return null;
