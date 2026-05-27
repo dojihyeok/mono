@@ -12,19 +12,21 @@ export default function SplashScreen() {
     useEffect(() => {
         // Only show splash screen on the root home page ("/")
         if (pathname !== '/') {
-            setIsVisible(false);
+            Promise.resolve().then(() => setIsVisible(false));
             return;
         }
 
         // Check if splash has already been shown in this session
         const hasShown = sessionStorage.getItem('mono-splash-shown');
         if (!hasShown) {
-            setIsVisible(true);
+            Promise.resolve().then(() => setIsVisible(true));
             const timer = setTimeout(() => {
                 setIsVisible(false);
                 sessionStorage.setItem('mono-splash-shown', 'true');
             }, 2500);
             return () => clearTimeout(timer);
+        } else {
+            Promise.resolve().then(() => setIsVisible(false));
         }
     }, [pathname]);
 

@@ -86,9 +86,17 @@ export default function MoCulAssistant() {
     };
 
     const getMockResponse = (input: string) => {
-        if (input.includes('비') || input.includes('수당')) return "비가 오면 현장 안전 수침에 따라 작업 중단 여부가 결정됩니다. 대기 수당은 소속 계약 조건에 따라 다를 수 있으니 일당 계산기에서 '우천 할증'을 확인해 보세요.";
-        if (input.includes('안전') || input.includes('비계')) return "비계 작업 시에는 반드시 안전 고리를 체결하고 하부 통제 구역을 설정해야 합니다. 자세한 수칙은 '안전 체크리스트'를 확인해 주세요.";
-        return "전문가님의 질문을 확인 중입니다. 현장 매뉴얼에 따르면 해당 공정은 숙련도 Level 3 이상의 지침을 권장합니다. 더 자세한 내용은 '가이드' 섹션을 추천해 드립니다.";
+        const lower = input.toLowerCase();
+        if (lower.includes('hello') || lower.includes('hi') || lower.includes('help')) {
+            return "Hello! I am MoCall AI, your real-time translation and safety companion. How can I assist you on the site today? (안녕하세요! 실시간 통역 및 안전 비서 MoCall AI입니다. 오늘 현장에서 어떤 도움이 필요하신가요?)";
+        }
+        if (lower.includes('안전') || lower.includes('safety') || lower.includes('harness')) {
+            return "Safety First! [EN] Please ensure your safety harness is securely fastened to the life line. [KO] 비계 작업 및 고소 작업 시에는 구명줄에 안전 고리를 반드시 체결해 주십시오.";
+        }
+        if (lower.includes('비') || lower.includes('rain') || lower.includes('weather')) {
+            return "Weather Alert: Rain detected. [EN] Under heavy rain, site operations may pause. Please check safety instructions. [KO] 강우 시 현장 안전 수칙에 따라 야외 작업이 중단될 수 있습니다. 대시보드의 실시간 대기 정보를 조회하십시오.";
+        }
+        return "Checking real-time site manuals... [EN] Your query has been logged. We recommend reviewing the K-Tech Safety Standard guide for your specialty. [KO] 질문이 접수되었습니다. 전문가님의 공종에 적합한 글로벌 기술 안전 가이드북을 추천해 드립니다.";
     };
 
     if (isForemanPage) return null;
@@ -101,8 +109,8 @@ export default function MoCulAssistant() {
                     <div className={styles.headerTitle}>
                         <BrainCircuit size={20} className={styles.brainIcon} />
                         <div>
-                            <h4>Mo-Cul AI</h4>
-                            <span>현장 실시간 반장</span>
+                            <h4>AI 현장 반장 (MoCall)</h4>
+                            <span>실시간 다국어 안전 비서</span>
                         </div>
                     </div>
                     <button onClick={toggleAssistant} className={styles.closeBtn}>
@@ -187,7 +195,7 @@ export default function MoCulAssistant() {
             <button 
                 onClick={toggleAssistant} 
                 className={`${styles.toggleBtn} ${showBadge ? styles.hasBadge : ''}`}
-                aria-label="Mo-Cul Assistant"
+                aria-label="MoCall Assistant"
             >
                 <div className={styles.glow} />
                 <BrainCircuit size={28} className={styles.mainIcon} />
