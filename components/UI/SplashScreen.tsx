@@ -2,12 +2,20 @@
 
 import { motion, AnimatePresence } from 'framer-motion';
 import { useEffect, useState } from 'react';
+import { usePathname } from 'next/navigation';
 import styles from './SplashScreen.module.css';
 
 export default function SplashScreen() {
+    const pathname = usePathname();
     const [isVisible, setIsVisible] = useState(false);
 
     useEffect(() => {
+        // Only show splash screen on the root home page ("/")
+        if (pathname !== '/') {
+            setIsVisible(false);
+            return;
+        }
+
         // Check if splash has already been shown in this session
         const hasShown = sessionStorage.getItem('mono-splash-shown');
         if (!hasShown) {
@@ -18,7 +26,7 @@ export default function SplashScreen() {
             }, 2500);
             return () => clearTimeout(timer);
         }
-    }, []);
+    }, [pathname]);
 
     return (
         <AnimatePresence>
