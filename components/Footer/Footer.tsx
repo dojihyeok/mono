@@ -10,7 +10,7 @@ export default function Footer() {
                     {/* Brand */}
                     <div className={styles.brandCol}>
                         <div className={styles.brandLogo}>
-                            <div className={styles.logoMark} />
+                            <img src="/apple-touch-icon.png" className={styles.logoIcon} alt="MoNo Logo" />
                             <span className={styles.logoText}>MONO</span>
                         </div>
                         <p className={styles.brandDesc}>

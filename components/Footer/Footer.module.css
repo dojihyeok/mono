@@ -36,12 +36,15 @@
     margin-bottom: 1.5rem;
 }
 
-.logoMark {
+.logoIcon {
     width: 32px;
     height: 32px;
-    background: linear-gradient(135deg, #D4AF37, #D4AF37);
-    border-radius: 10px;
-    box-shadow: 0 0 20px rgba(212, 175, 55, 0.25);
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1.5px solid var(--border-strong);
+    background-color: var(--surface);
+    padding: 2px;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .logoText {

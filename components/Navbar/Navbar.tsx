@@ -25,7 +25,8 @@ export default function Navbar({ isLoggedIn = false, onToggleLogin }: NavbarProp
         <header className={styles.header}>
             <div className={styles.navContainer}>
                 <Link href="/" className={styles.logo}>
-                    MONO
+                    <img src="/apple-touch-icon.png" className={styles.logoIcon} alt="MoNo" />
+                    <span>MONO</span>
                 </Link>
 
                 <div className={styles.ctaGroup}>
