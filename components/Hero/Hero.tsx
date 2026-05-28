@@ -105,11 +105,11 @@ export default function Hero({ isLoggedIn = false }: HeroProps) {
                         <div className={styles.actions}>
                             <Link href="/login" className={styles.primaryBtn}>
                                 지금 바로 시작하기
-                                <ArrowRight size={18} style={{ marginLeft: '6px' }} />
+                                <ArrowRight size={18} />
                             </Link>
                             <Link href="#features" className={styles.secondaryBtn}>
                                 서비스 둘러보기
-                                <Compass size={18} style={{ marginLeft: '6px' }} />
+                                <Compass size={18} />
                             </Link>
                         </div>
 

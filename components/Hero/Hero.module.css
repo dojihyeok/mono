@@ -202,8 +202,9 @@
     font-weight: 900;
     font-size: 1.1rem;
     text-decoration: none;
-    display: flex;
+    display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 8px;
 }
 
@@ -216,6 +217,10 @@
     font-weight: 800;
     font-size: 1.1rem;
     text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
 }
 
 .platformStats {
