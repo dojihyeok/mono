@@ -10,15 +10,16 @@ import {
     ShieldCheck,
     Globe,
     Users,
-    TrendingUp
+    TrendingUp,
+    Compass
 } from 'lucide-react';
 import styles from './Hero.module.css';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const HERO_SLOGANS = [
     {
-        main: "MO-NO는 땀 흘리며 일하는 즐거움을 아는 사람들이 모여, 그 흘린 땀으로 함께 미래를 만들어 가는 스마트 일자리 플랫폼입니다.",
-        sub: "기술자가 AI와 로봇의 과실을 함께 소유하는 상생의 미래. 현장의 모든 가치를 투명한 스펙과 금융 자산으로 바꾸는 대한민국 No.1 플랫폼, MoNo입니다."
+        main: "일하는 즐거움을 아는 사람들이 모여 미래를 함께",
+        sub: "현장의 모든 가치를 투명한 스펙과 금융 자산으로 바꾸는 대한민국 No.1 플랫폼, MoNo"
     },
     {
         main: "기술이 정당한 가치로 인정받는 세상",
@@ -104,9 +105,12 @@ export default function Hero({ isLoggedIn = false }: HeroProps) {
                         <div className={styles.actions}>
                             <Link href="/login" className={styles.primaryBtn}>
                                 지금 바로 시작하기
-                                <ChevronRight size={18} />
+                                <ArrowRight size={18} style={{ marginLeft: '6px' }} />
                             </Link>
-                            <Link href="#features" className={styles.secondaryBtn}>서비스 둘러보기</Link>
+                            <Link href="#features" className={styles.secondaryBtn}>
+                                서비스 둘러보기
+                                <Compass size={18} style={{ marginLeft: '6px' }} />
+                            </Link>
                         </div>
 
                         <div className={styles.platformStats}>
