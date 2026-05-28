@@ -116,7 +116,7 @@
   }
   .lcorner::before { top: -1px; left: -1px; border-width: 1.5px 0 0 1.5px; }
   .lcorner::after  { bottom: -1px; right: -1px; border-width: 0 1.5px 1.5px 0; }
-  .lcorner-tech::before, .lcorner-tech::after { border-color: #06B6D4; }
+  .lcorner-tech::before, .lcorner-tech::after { border-color: rgba(14, 116, 144, 0.45); }
 
   /* Chip */
   .chip { display:inline-flex; align-items:center; gap:.4rem; padding:.26rem .55rem; border-radius: 2px; font-family:'JetBrains Mono',monospace; font-size: 10.5px; font-weight: 600; letter-spacing:.12em; text-transform: uppercase; }
@@ -195,6 +195,97 @@
   ::-webkit-scrollbar { width: 10px; height: 10px; }
   ::-webkit-scrollbar-thumb { background: #D8CFBE; border-radius: 999px; }
   ::-webkit-scrollbar-thumb:hover { background: #06B6D4; }
+
+  /* Tech-Blue Hyper-Callout System */
+  .hyper-glow-box {
+    position: relative;
+    background: linear-gradient(135deg, rgba(251, 249, 244, 0.93) 0%, rgba(244, 239, 230, 0.96) 100%);
+    border: 1px solid rgba(14, 116, 144, 0.16);
+    box-shadow: 
+      0 1px 3px rgba(10, 15, 26, 0.04), 
+      0 10px 30px -10px rgba(14, 116, 144, 0.07);
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  .hyper-glow-box::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(135deg, rgba(34, 211, 238, 0.35) 0%, rgba(14, 116, 144, 0.04) 50%, rgba(34, 211, 238, 0.08) 100%);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+    opacity: 0.85;
+    transition: opacity 0.5s ease;
+  }
+
+  .hyper-glow-box:hover {
+    transform: translateY(-4px);
+    border-color: rgba(6, 182, 212, 0.35);
+    box-shadow: 
+      0 20px 48px -12px rgba(14, 116, 144, 0.18), 
+      0 0 28px -4px rgba(34, 211, 238, 0.15),
+      inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  }
+
+  .hyper-glow-box:hover::before {
+    opacity: 1;
+    background: linear-gradient(135deg, rgba(14, 116, 144, 0.5) 0%, rgba(6, 182, 212, 0.1) 50%, rgba(14, 116, 144, 0.3) 100%);
+  }
+
+  /* Cyber Text Gradient */
+  .text-cyber-glow {
+    background: linear-gradient(135deg, #0A0F1A 30%, #0E7490 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* Technical Corner Markings */
+  .tech-corner-mark {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+  .tech-corner-mark::before, .tech-corner-mark::after {
+    content: '';
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    border-color: rgba(14, 116, 144, 0.35);
+    border-style: solid;
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .tech-corner-mark::before { top: -1px; left: -1px; border-width: 1.5px 0 0 1.5px; }
+  .tech-corner-mark::after  { bottom: -1px; right: -1px; border-width: 0 1.5px 1.5px 0; }
+
+  .hyper-glow-box:hover .tech-corner-mark::before {
+    top: -3px;
+    left: -3px;
+    border-color: rgba(14, 116, 144, 0.75);
+  }
+  .hyper-glow-box:hover .tech-corner-mark::after {
+    bottom: -3px;
+    right: -3px;
+    border-color: rgba(14, 116, 144, 0.75);
+  }
+
+  /* Glow spheres */
+  .glow-sphere {
+    position: absolute;
+    width: 320px;
+    height: 320px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(34, 211, 238, 0.08) 0%, transparent 70%);
+    filter: blur(60px);
+    pointer-events: none;
+    z-index: 1;
+    transition: transform 0.8s ease;
+  }
 </style>
 <meta property="og:type" content="website">
 		<meta property="og:url" content="https://monotechbp-mrhvwatf.manus.space/pitch.html">
@@ -230,7 +321,7 @@
       <a class="nav-link" href="#lifecycle">MoNo 브랜드 철학</a>
       <a class="nav-link" href="#vision">Next MONO</a>
     </nav>
-    <a href="#vision" class="hidden sm:inline-flex items-center gap-2 px-3.5 py-2 bg-ink-900 text-tech-300 text-[12.5px] font-mono tracking-wider lcorner lcorner-tech hover:bg-ink-800 transition-colors">
+    <a href="#vision" class="hidden sm:inline-flex items-center gap-2 px-3.5 py-2 bg-ink-800 border border-ink-700/50 text-warm-100 text-[12.5px] font-mono tracking-wider lcorner hover:bg-ink-700 transition-colors">
       <i class="fa-solid fa-arrow-right text-[10px]"></i> Next MONO
     </a>
   </div>
@@ -244,25 +335,34 @@
   <div class="max-w-7xl mx-auto px-6 lg:px-10">
 
     <!-- ✅ Task 3: 브랜드 철학 Hero 배너 (웜 슬레이트 톤) -->
-    <div class="reveal mb-14 relative overflow-hidden rounded-none lcorner" style="background: linear-gradient(135deg, #F0E9DC 0%, #E8DFD0 40%, #EAE4D8 100%); border: 1px solid rgba(10,15,26,0.12); box-shadow: 0 4px 32px rgba(10,15,26,0.07);">
-      <!-- Warm radial glow -->
-      <div class="absolute inset-0 pointer-events-none" style="background: radial-gradient(ellipse 70% 60% at 15% 50%, rgba(215,176,120,0.18) 0%, transparent 70%), radial-gradient(ellipse 50% 80% at 85% 30%, rgba(14,116,144,0.06) 0%, transparent 70%);"></div>
+    <div class="reveal mb-14 hyper-glow-box overflow-hidden">
+      <!-- Technical corners -->
+      <div class="tech-corner-mark"></div>
+      
+      <!-- Warm radial glow & extra cyber blue spheres -->
+      <div class="absolute inset-0 pointer-events-none" style="background: radial-gradient(ellipse 70% 60% at 15% 50%, rgba(215,176,120,0.14) 0%, transparent 70%), radial-gradient(ellipse 50% 80% at 85% 30%, rgba(34,211,238,0.06) 0%, transparent 70%);"></div>
+      <div class="glow-sphere -top-10 -right-20"></div>
+      <div class="glow-sphere -bottom-20 -left-20" style="background: radial-gradient(circle, rgba(14,116,144,0.05) 0%, transparent 70%);"></div>
+      
       <!-- Blueprint grid overlay -->
       <div class="absolute inset-0 blueprint opacity-15 pointer-events-none"></div>
 
       <div class="relative z-10 px-8 py-10 md:px-12 md:py-14">
         <!-- Top label -->
-        <div class="flex items-center gap-3 mb-6">
-          <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-ink-900/90 text-tech-300 text-[11px] font-mono tracking-widest lcorner">
-            <span class="w-1.5 h-1.5 bg-tech-400 rounded-full animate-pulse"></span>
-            MoNo &middot; 디지털 인력사무소
-          </span>
-          <span class="hidden sm:inline text-[12px] text-ink-500 font-medium">스마트 일자리 플랫폼 &middot; 대한민국 No.1 기술노동자 플랫폼</span>
+        <div class="flex items-center justify-between flex-wrap gap-3 mb-6">
+          <div class="flex items-center gap-3">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-ink-800/90 border border-ink-700/40 text-warm-100 text-[11px] font-mono tracking-widest lcorner">
+              <span class="w-1.5 h-1.5 bg-warm-300 rounded-full animate-pulse"></span>
+              MoNo &middot; 디지털 인력사무소
+            </span>
+            <span class="hidden sm:inline text-[12px] text-ink-500 font-medium">스마트 일자리 플랫폼 &middot; 대한민국 No.1 기술노동자 플랫폼</span>
+          </div>
+          <span class="mono text-[10px] text-tech-700/60 font-semibold bg-tech-50 px-2 py-0.5 border border-tech-500/10">[ BP_SYS.REF // EST.2026 ]</span>
         </div>
 
         <!-- Main copy -->
         <h1 class="hero-headline text-ink-900 mb-5" style="font-size: clamp(1.6rem, 3.2vw, 2.75rem); line-height: 1.22; word-break: keep-all; text-wrap: balance;">
-          MO-NO는 <span style="color:#0E7490;">땀 흘리며 일하는 즐거움</span>을 아는 사람들이 모여,<br class="hidden md:inline" />
+          MO-NO는 <span class="text-cyber-glow font-extrabold">땀 흘리며 일하는 즐거움</span>을 아는 사람들이 모여,<br class="hidden md:inline" />
           그 흘린 땀으로 함께 미래를 만들어 가는 <strong>스마트 일자리 플랫폼</strong>입니다.
         </h1>
 
@@ -273,12 +373,12 @@
 
         <!-- Tech-Blue 정의 + CTA row -->
         <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-5">
-          <div class="flex items-start gap-2.5 text-[13px] font-semibold text-tech-700 bg-white/50 border border-tech-500/20 px-4 py-3 lcorner max-w-2xl" style="backdrop-filter: blur(8px);">
+          <div class="flex items-start gap-2.5 text-[13px] font-semibold text-tech-700 bg-white/40 border border-tech-500/15 px-4 py-3 lcorner max-w-2xl" style="backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);">
             <span class="w-1.5 h-1.5 bg-tech-500 rounded-full mt-1 shrink-0 animate-pulse"></span>
             <span>※ <strong>Tech-Blue</strong>란? 단순 육체노동을 넘어, <em>데이터로 현장을 지휘</em>하고 <em>AI와 로봇의 경제적 성과를 함께 소유</em>하는 미래 기술 장인입니다.</span>
           </div>
           <div class="flex items-center gap-3">
-            <a href="#platform" class="px-4 py-2.5 bg-ink-900 text-tech-300 text-[13px] font-mono tracking-wider lcorner hover:bg-ink-800 transition-colors flex items-center gap-2">
+            <a href="#platform" class="px-4 py-2.5 bg-ink-800 border border-ink-700/50 text-warm-100 text-[13px] font-mono tracking-wider lcorner hover:bg-ink-700 transition-colors flex items-center gap-2">
               <i class="fa-solid fa-arrow-down text-[10px]"></i> 서비스 살펴보기
             </a>
             <a href="#vision" class="px-4 py-2.5 bg-transparent border border-ink-900/30 text-ink-700 text-[13px] font-medium lcorner hover:border-tech-700 hover:text-tech-700 transition-colors">
@@ -339,18 +439,23 @@
     </div>
 
     <!-- Data layer bottom strip -->
-    <div class="mt-10 border border-ink-900/15 bg-warm-100/60 px-6 py-5 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 reveal">
-      <div class="flex items-center gap-4">
-        <span class="w-10 h-10 bg-ink-900 text-tech-300 grid place-items-center lcorner lcorner-tech"><i class="fa-solid fa-database"></i></span>
+    <div class="mt-10 hyper-glow-box px-6 py-5 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 reveal overflow-hidden group">
+      <!-- Technical corners -->
+      <div class="tech-corner-mark"></div>
+      
+      <div class="flex items-center gap-4 relative z-10">
+        <span class="w-10 h-10 bg-ink-800 border border-ink-700/50 text-warm-100 grid place-items-center lcorner group-hover:scale-110 group-hover:bg-tech-700 group-hover:text-warm-50 transition-all duration-300">
+          <i class="fa-solid fa-database group-hover:rotate-12 transition-transform duration-300"></i>
+        </span>
         <div>
-          <div class="h-eyebrow mb-1">하나의 데이터 위에서</div>
+          <div class="h-eyebrow text-tech-700 mb-1 group-hover:text-tech-600 transition-colors">하나의 데이터 위에서</div>
           <p class="body-md text-ink-700">현장 근무자와 공급사는 서로 다른 두 시장이 아닙니다. MoNo는 같은 데이터 위에서 서로의 신뢰를 쌓아가는 한 쌍의 파트너로 두 그룹을 연결합니다.</p>
         </div>
       </div>
-      <div class="flex items-center gap-3 mono text-[12px] text-ink-700">
-        <span class="px-2.5 py-1 bg-warm-50 border border-ink-900/15">현장 근무자</span>
-        <i class="fa-solid fa-right-left text-tech-700"></i>
-        <span class="px-2.5 py-1 bg-warm-50 border border-ink-900/15">공급사</span>
+      <div class="flex items-center gap-3 mono text-[12px] text-ink-700 relative z-10 shrink-0">
+        <span class="px-2.5 py-1 bg-warm-50 border border-ink-900/15 group-hover:border-tech-500 group-hover:text-tech-700 transition-colors duration-300">현장 근무자</span>
+        <i class="fa-solid fa-right-left text-tech-700 group-hover:rotate-180 transition-transform duration-500"></i>
+        <span class="px-2.5 py-1 bg-warm-50 border border-ink-900/15 group-hover:border-tech-500 group-hover:text-tech-700 transition-colors duration-300">공급사</span>
       </div>
     </div>
   </div>
@@ -369,25 +474,29 @@
 
     <div class="grid lg:grid-cols-2 gap-8 stagger mb-12">
       <!-- Card 1: Co-prosperity & Finance -->
-      <article class="flex flex-col bg-warm-50 border border-ink-900/15 lcorner shadow-blueprint overflow-hidden transition-all hover:shadow-neo-hover reveal">
+      <article class="flex flex-col h-full bg-warm-50 border border-ink-900/15 lcorner shadow-blueprint overflow-hidden transition-all hover:shadow-neo-hover reveal">
         <!-- Problem Area -->
-        <div class="p-6 md:p-8 bg-warm-100/30 border-b border-ink-900/10 flex-1">
-          <div class="flex items-center gap-2.5 mb-4">
-            <span class="px-2.5 py-0.5 text-[11px] font-mono font-bold bg-ink-900/10 text-ink-700 lcorner">PROBLEM 01</span>
-            <h4 class="text-[12px] font-bold text-ink-500 font-mono">/ 상생 생태계 구축과 포용적 금융의 필요성</h4>
+        <div class="p-6 md:p-8 bg-warm-100/30 border-b border-ink-900/10 flex-1 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center gap-2.5 mb-4">
+              <span class="px-2.5 py-0.5 text-[11px] font-mono font-bold bg-ink-900/10 text-ink-700 lcorner">PROBLEM 01</span>
+              <h4 class="text-[12px] font-bold text-ink-500 font-mono">/ 상생 생태계 구축과 포용적 금융의 필요성</h4>
+            </div>
+            <h3 class="text-[18px] md:text-[20px] font-extrabold text-ink-900 mb-3" style="word-break: keep-all;">상생 자금의 현장 도달 단절 및 금융 소외</h3>
           </div>
-          <h3 class="text-[18px] md:text-[20px] font-extrabold text-ink-900 mb-3" style="word-break: keep-all;">상생 자금의 현장 도달 단절 및 금융 소외</h3>
-          <p class="body-md text-ink-700">최근 대기업을 중심으로 협력사 동반 성장과 ESG 경영 투자가 대폭 확대되고 있습니다. 그러나 원청의 상생 자금과 정책이 2·3차 협력사 현장의 근로자에게까지 투명하게 도달하고 체감될 수 있는 디지털 연결망이 부재한 상황입니다.</p>
+          <p class="body-md text-ink-700 mt-2">최근 대기업을 중심으로 협력사 동반 성장과 ESG 경영 투자가 대폭 확대되고 있습니다. 그러나 원청의 상생 자금과 정책이 2·3차 협력사 현장의 근로자에게까지 투명하게 도달하고 체감될 수 있는 디지털 연결망이 부재한 상황입니다.</p>
         </div>
         <!-- Solution Area -->
-        <div class="p-6 md:p-8 bg-tech-50/45 border-t border-ink-900/10 relative">
+        <div class="p-6 md:p-8 bg-tech-50/45 border-t border-ink-900/10 relative flex-1 flex flex-col">
           <div class="absolute inset-0 blueprint opacity-15 pointer-events-none"></div>
-          <div class="relative z-10">
-            <div class="flex items-center gap-2 mb-4 flex-wrap">
-              <span class="px-2.5 py-0.5 text-[11px] font-mono font-bold bg-tech-700 text-warm-50 lcorner">MONO SOLUTION</span>
-              <h4 class="text-[12.5px] font-bold text-tech-800 font-mono">/ 에스크로 기반의 투명한 상생 인프라 제공</h4>
+          <div class="relative z-10 flex-1 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center gap-2 mb-4 flex-wrap">
+                <span class="px-2.5 py-0.5 text-[11px] font-mono font-bold bg-tech-700 text-warm-50 lcorner">MONO SOLUTION</span>
+                <h4 class="text-[12.5px] font-bold text-tech-800 font-mono">/ 에스크로 기반의 투명한 상생 인프라 제공</h4>
+              </div>
+              <p class="body-md text-ink-700 mb-5">MoNo는 에스크로 기반의 정산 시스템을 통해 원청의 상생 의지가 현장 근로자에게 지연 없이 투명하게 전달되도록 돕습니다. 또한 축적된 노동 데이터를 바탕으로 1금융권 대출을 연계하여, 근로자의 금융 소외를 해결하는 '포용적 금융'을 실현합니다.</p>
             </div>
-            <p class="body-md text-ink-700 mb-5">MoNo는 에스크로 기반의 정산 시스템을 통해 원청의 상생 의지가 현장 근로자에게 지연 없이 투명하게 전달되도록 돕습니다. 또한 축적된 노동 데이터를 바탕으로 1금융권 대출을 연계하여, 근로자의 금융 소외를 해결하는 '포용적 금융'을 실현합니다.</p>
             <div class="flex flex-wrap gap-1.5 pt-3 border-t border-ink-900/10">
               <span class="chip chip-round bg-warm-50 text-tech-700 border border-tech-700/20">에스크로 상생 정산</span>
               <span class="chip chip-round bg-warm-50 text-tech-700 border border-tech-700/20">1금융권 대출 연계</span>
@@ -398,25 +507,29 @@
       </article>
 
       <!-- Card 2: Ageing & Talent -->
-      <article class="flex flex-col bg-warm-50 border border-ink-900/15 lcorner shadow-blueprint overflow-hidden transition-all hover:shadow-neo-hover reveal">
+      <article class="flex flex-col h-full bg-warm-50 border border-ink-900/15 lcorner shadow-blueprint overflow-hidden transition-all hover:shadow-neo-hover reveal">
         <!-- Problem Area -->
-        <div class="p-6 md:p-8 bg-warm-100/30 border-b border-ink-900/10 flex-1">
-          <div class="flex items-center gap-2.5 mb-4">
-            <span class="px-2.5 py-0.5 text-[11px] font-mono font-bold bg-ink-900/10 text-ink-700 lcorner">PROBLEM 02</span>
-            <h4 class="text-[12px] font-bold text-ink-500 font-mono">/ 현장의 초고령화 및 미래 인재 부족</h4>
+        <div class="p-6 md:p-8 bg-warm-100/30 border-b border-ink-900/10 flex-1 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center gap-2.5 mb-4">
+              <span class="px-2.5 py-0.5 text-[11px] font-mono font-bold bg-ink-900/10 text-ink-700 lcorner">PROBLEM 02</span>
+              <h4 class="text-[12px] font-bold text-ink-500 font-mono">/ 현장의 초고령화 및 미래 인재 부족</h4>
+            </div>
+            <h3 class="text-[18px] md:text-[20px] font-extrabold text-ink-900 mb-3" style="word-break: keep-all;">청년 유입 기근과 대기업 인재 육성 비전의 공백</h3>
           </div>
-          <h3 class="text-[18px] md:text-[20px] font-extrabold text-ink-900 mb-3" style="word-break: keep-all;">청년 유입 기근과 대기업 인재 육성 비전의 공백</h3>
-          <p class="body-md text-ink-700">국가 기간산업 현장의 평균 연령이 지속 상승하며 심각한 청년 인재 기근에 시달리고 있습니다. 대기업의 '미래 인재 육성' 비전을 뒷받침할 젊고 숙련된 기술 인력 풀(Pool) 확보가 시급한 시점입니다.</p>
+          <p class="body-md text-ink-700 mt-2">국가 기간산업 현장의 평균 연령이 지속 상승하며 심각한 청년 인재 기근에 시달리고 있습니다. 대기업의 '미래 인재 육성' 비전을 뒷받침할 젊고 숙련된 기술 인력 풀(Pool) 확보가 시급한 시점입니다.</p>
         </div>
         <!-- Solution Area -->
-        <div class="p-6 md:p-8 bg-tech-50/45 border-t border-ink-900/10 relative">
+        <div class="p-6 md:p-8 bg-tech-50/45 border-t border-ink-900/10 relative flex-1 flex flex-col">
           <div class="absolute inset-0 blueprint opacity-15 pointer-events-none"></div>
-          <div class="relative z-10">
-            <div class="flex items-center gap-2 mb-4 flex-wrap">
-              <span class="px-2.5 py-0.5 text-[11px] font-mono font-bold bg-tech-700 text-warm-50 lcorner">MONO SOLUTION</span>
-              <h4 class="text-[12.5px] font-bold text-tech-800 font-mono">/ 'Tech-Blue' 브랜딩 및 1인 기술 기업가 육성</h4>
+          <div class="relative z-10 flex-1 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center gap-2 mb-4 flex-wrap">
+                <span class="px-2.5 py-0.5 text-[11px] font-mono font-bold bg-tech-700 text-warm-50 lcorner">MONO SOLUTION</span>
+                <h4 class="text-[12.5px] font-bold text-tech-800 font-mono">/ 'Tech-Blue' 브랜딩 및 1인 기술 기업가 육성</h4>
+              </div>
+              <p class="body-md text-ink-700 mb-5">현장 노동을 로봇과 데이터를 지휘하는 'Tech-Blue(미래 기술 장인)' 직무로 재정의하여 청년층의 자발적 유입을 이끌어냅니다. 체계적인 훈련을 통해 청년들을 1인 기술 기업가로 성장시키며, 국가 산업을 이끌어갈 차세대 인재를 육성합니다.</p>
             </div>
-            <p class="body-md text-ink-700 mb-5">현장 노동을 로봇과 데이터를 지휘하는 'Tech-Blue(미래 기술 장인)' 직무로 재정의하여 청년층의 자발적 유입을 이끌어냅니다. 체계적인 훈련을 통해 청년들을 1인 기술 기업가로 성장시키며, 국가 산업을 이끌어갈 차세대 인재를 육성합니다.</p>
             <div class="flex flex-wrap gap-1.5 pt-3 border-t border-ink-900/10">
               <span class="chip chip-round bg-warm-50 text-tech-700 border border-tech-700/20">미래 기술 장인 Tech-Blue</span>
               <span class="chip chip-round bg-warm-50 text-tech-700 border border-tech-700/20">1인 기술 기업가</span>
@@ -427,25 +540,29 @@
       </article>
 
       <!-- Card 3: Global Talent & Quality -->
-      <article class="flex flex-col bg-warm-50 border border-ink-900/15 lcorner shadow-blueprint overflow-hidden transition-all hover:shadow-neo-hover reveal">
+      <article class="flex flex-col h-full bg-warm-50 border border-ink-900/15 lcorner shadow-blueprint overflow-hidden transition-all hover:shadow-neo-hover reveal">
         <!-- Problem Area -->
-        <div class="p-6 md:p-8 bg-warm-100/30 border-b border-ink-900/10 flex-1">
-          <div class="flex items-center gap-2.5 mb-4">
-            <span class="px-2.5 py-0.5 text-[11px] font-mono font-bold bg-ink-900/10 text-ink-700 lcorner">PROBLEM 03</span>
-            <h4 class="text-[12px] font-bold text-ink-500 font-mono">/ 글로벌 인력 유입에 따른 소통 장벽 및 품질 관리</h4>
+        <div class="p-6 md:p-8 bg-warm-100/30 border-b border-ink-900/10 flex-1 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center gap-2.5 mb-4">
+              <span class="px-2.5 py-0.5 text-[11px] font-mono font-bold bg-ink-900/10 text-ink-700 lcorner">PROBLEM 03</span>
+              <h4 class="text-[12px] font-bold text-ink-500 font-mono">/ 글로벌 인력 유입에 따른 소통 장벽 및 품질 관리</h4>
+            </div>
+            <h3 class="text-[18px] md:text-[20px] font-extrabold text-ink-900 mb-3" style="word-break: keep-all;">언어 장벽으로 인한 안전 리스크와 시공 품질 우려</h3>
           </div>
-          <h3 class="text-[18px] md:text-[20px] font-extrabold text-ink-900 mb-3" style="word-break: keep-all;">언어 장벽으로 인한 안전 리스크와 시공 품질 우려</h3>
-          <p class="body-md text-ink-700">현장 내 외국인 근로자 비중이 증가함에 따라 언어 장벽으로 인한 소통의 한계가 발생하고 있으며, 이는 곧 현장의 안전 리스크 증가와 시공 품질 저하 우려로 직결되고 있습니다.</p>
+          <p class="body-md text-ink-700 mt-2">현장 내 외국인 근로자 비중이 증가함에 따라 언어 장벽으로 인한 소통의 한계가 발생하고 있으며, 이는 곧 현장의 안전 리스크 증가와 시공 품질 저하 우려로 직결되고 있습니다.</p>
         </div>
         <!-- Solution Area -->
-        <div class="p-6 md:p-8 bg-tech-50/45 border-t border-ink-900/10 relative">
+        <div class="p-6 md:p-8 bg-tech-50/45 border-t border-ink-900/10 relative flex-1 flex flex-col">
           <div class="absolute inset-0 blueprint opacity-15 pointer-events-none"></div>
-          <div class="relative z-10">
-            <div class="flex items-center gap-2 mb-4 flex-wrap">
-              <span class="px-2.5 py-0.5 text-[11px] font-mono font-bold bg-tech-700 text-warm-50 lcorner">MONO SOLUTION</span>
-              <h4 class="text-[12.5px] font-bold text-tech-800 font-mono">/ AI 다국어 반장 및 데이터 기반 정밀 매칭</h4>
+          <div class="relative z-10 flex-1 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center gap-2 mb-4 flex-wrap">
+                <span class="px-2.5 py-0.5 text-[11px] font-mono font-bold bg-tech-700 text-warm-50 lcorner">MONO SOLUTION</span>
+                <h4 class="text-[12.5px] font-bold text-tech-800 font-mono">/ AI 다국어 반장 및 데이터 기반 정밀 매칭</h4>
+              </div>
+              <p class="body-md text-ink-700 mb-5">'AI 다국어 안전 비서'가 실시간 소통을 지원하여 현장의 안전사고를 선제적으로 예방합니다. 동시에, 과거 평점이 투명하게 누적된 데이터 기반 매칭을 통해 언어와 국적을 초월하여 현장의 시공 품질을 최상으로 유지합니다.</p>
             </div>
-            <p class="body-md text-ink-700 mb-5">'AI 다국어 안전 비서'가 실시간 소통을 지원하여 현장의 안전사고를 선제적으로 예방합니다. 동시에, 과거 평점이 투명하게 누적된 데이터 기반 매칭을 통해 언어와 국적을 초월하여 현장의 시공 품질을 최상으로 유지합니다.</p>
             <div class="flex flex-wrap gap-1.5 pt-3 border-t border-ink-900/10">
               <span class="chip chip-round bg-warm-50 text-tech-700 border border-tech-700/20">AI 다국어 안전 비서</span>
               <span class="chip chip-round bg-warm-50 text-tech-700 border border-tech-700/20">실시간 소통 지원</span>
@@ -456,25 +573,29 @@
       </article>
 
       <!-- Card 4: Compliance & Regulation -->
-      <article class="flex flex-col bg-warm-50 border border-ink-900/15 lcorner shadow-blueprint overflow-hidden transition-all hover:shadow-neo-hover reveal">
+      <article class="flex flex-col h-full bg-warm-50 border border-ink-900/15 lcorner shadow-blueprint overflow-hidden transition-all hover:shadow-neo-hover reveal">
         <!-- Problem Area -->
-        <div class="p-6 md:p-8 bg-warm-100/30 border-b border-ink-900/10 flex-1">
-          <div class="flex items-center gap-2.5 mb-4">
-            <span class="px-2.5 py-0.5 text-[11px] font-mono font-bold bg-ink-900/10 text-ink-700 lcorner">PROBLEM 04</span>
-            <h4 class="text-[12px] font-bold text-ink-500 font-mono">/ 안전 컴플라이언스(Compliance) 및 규제 대응 한계</h4>
+        <div class="p-6 md:p-8 bg-warm-100/30 border-b border-ink-900/10 flex-1 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center gap-2.5 mb-4">
+              <span class="px-2.5 py-0.5 text-[11px] font-mono font-bold bg-ink-900/10 text-ink-700 lcorner">PROBLEM 04</span>
+              <h4 class="text-[12px] font-bold text-ink-500 font-mono">/ 안전 컴플라이언스(Compliance) 및 규제 대응 한계</h4>
+            </div>
+            <h3 class="text-[18px] md:text-[20px] font-extrabold text-ink-900 mb-3" style="word-break: keep-all;">중대재해처벌법 강화와 협력사 검증 행정 부담</h3>
           </div>
-          <h3 class="text-[18px] md:text-[20px] font-extrabold text-ink-900 mb-3" style="word-break: keep-all;">중대재해처벌법 강화와 협력사 검증 행정 부담</h3>
-          <p class="body-md text-ink-700">중대재해처벌법 등 강화된 안전 규제 환경 속에서, 협력사 인력의 출역 및 안전 교육 상태를 일일이 검증해야 하는 원청 및 하청 기업의 컴플라이언스(법규 준수) 관리 부담이 가중되고 있습니다.</p>
+          <p class="body-md text-ink-700 mt-2">중대재해처벌법 등 강화된 안전 규제 환경 속에서, 협력사 인력의 출역 및 안전 교육 상태를 일일이 검증해야 하는 원청 및 하청 기업의 컴플라이언스(법규 준수) 관리 부담이 가중되고 있습니다.</p>
         </div>
         <!-- Solution Area -->
-        <div class="p-6 md:p-8 bg-tech-50/45 border-t border-ink-900/10 relative">
+        <div class="p-6 md:p-8 bg-tech-50/45 border-t border-ink-900/10 relative flex-1 flex flex-col">
           <div class="absolute inset-0 blueprint opacity-15 pointer-events-none"></div>
-          <div class="relative z-10">
-            <div class="flex items-center gap-2 mb-4 flex-wrap">
-              <span class="px-2.5 py-0.5 text-[11px] font-mono font-bold bg-tech-700 text-warm-50 lcorner">MONO SOLUTION</span>
-              <h4 class="text-[12.5px] font-bold text-tech-800 font-mono">/ 스마트 노무 SaaS 및 완벽한 법적 방어망</h4>
+          <div class="relative z-10 flex-1 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center gap-2 mb-4 flex-wrap">
+                <span class="px-2.5 py-0.5 text-[11px] font-mono font-bold bg-tech-700 text-warm-50 lcorner">MONO SOLUTION</span>
+                <h4 class="text-[12.5px] font-bold text-tech-800 font-mono">/ 스마트 노무 SaaS 및 완벽한 법적 방어망</h4>
+              </div>
+              <p class="body-md text-ink-700 mb-5">MoNo 플랫폼은 출퇴근 위치 인증 및 모바일 안전 교육 이수 데이터를 실시간으로 클라우드에 로깅(Logging)합니다. 기업은 MoNo 도입만으로 복잡한 행정 업무를 자동화하고, 확실한 안전 관리 증빙 데이터를 확보하여 규제 리스크를 완벽히 해소할 수 있습니다.</p>
             </div>
-            <p class="body-md text-ink-700 mb-5">MoNo 플랫폼은 출퇴근 위치 인증 및 모바일 안전 교육 이수 데이터를 실시간으로 클라우드에 로깅(Logging)합니다. 기업은 MoNo 도입만으로 복잡한 행정 업무를 자동화하고, 확실한 안전 관리 증빙 데이터를 확보하여 규제 리스크를 완벽히 해소할 수 있습니다.</p>
             <div class="flex flex-wrap gap-1.5 pt-3 border-t border-ink-900/10">
               <span class="chip chip-round bg-warm-50 text-tech-700 border border-tech-700/20">스마트 노무 SaaS</span>
               <span class="chip chip-round bg-warm-50 text-tech-700 border border-tech-700/20">중대재해처벌법 대응</span>
@@ -486,38 +607,57 @@
     </div>
     
     <!-- ✅ Task 5: 대기업 상생 ESG 솔루션 킬러 하이라이트 (VC 설득용) -->
-    <div class="reveal mt-10 relative overflow-hidden lcorner" style="background: linear-gradient(135deg, #F0E9DC 0%, #EAE3D8 100%); border: 2px solid rgba(14,116,144,0.18); box-shadow: 0 8px 40px rgba(14,116,144,0.10);">
+    <div class="reveal mt-10 hyper-glow-box overflow-hidden group">
+      <!-- Technical corners -->
+      <div class="tech-corner-mark"></div>
+      
+      <!-- Cyan glowing sphere -->
+      <div class="glow-sphere -top-20 -left-20" style="background: radial-gradient(circle, rgba(34,211,238,0.06) 0%, transparent 70%);"></div>
       <div class="absolute inset-0 blueprint opacity-10 pointer-events-none"></div>
-      <!-- Accent bar -->
-      <div class="absolute left-0 top-0 bottom-0 w-1.5 bg-gradient-to-b from-tech-500 to-tech-700"></div>
+
+      <!-- Accent glowing bar -->
+      <div class="absolute left-0 top-0 bottom-0 w-[4px] bg-gradient-to-b from-tech-400 via-tech-500 to-tech-700 group-hover:from-tech-300 group-hover:via-tech-400 group-hover:to-tech-600 transition-all duration-500 shadow-[0_0_12px_rgba(34,211,238,0.3)]"></div>
+
+      <!-- Schematic background vector -->
+      <svg class="absolute right-0 bottom-0 w-72 h-72 text-tech-500 opacity-[0.03] pointer-events-none group-hover:opacity-[0.08] group-hover:scale-105 transition-all duration-700" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="0.5">
+        <circle cx="85" cy="85" r="50" stroke-dasharray="2, 2" />
+        <circle cx="85" cy="85" r="35" />
+        <circle cx="85" cy="85" r="20" />
+        <line x1="85" y1="20" x2="85" y2="95" />
+        <line x1="20" y1="85" x2="95" y2="85" />
+        <polygon points="85,35 95,50 75,50" stroke-dasharray="1, 1" />
+      </svg>
 
       <div class="relative z-10 px-8 py-8 md:px-10 md:py-10 pl-10 md:pl-12">
         <!-- ESG Badge -->
-        <div class="flex flex-wrap items-center gap-3 mb-5">
-          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-tech-700 text-warm-50 text-[11px] font-mono tracking-widest lcorner font-bold">
-            <i class="fa-solid fa-handshake-simple text-tech-300 text-[10px]"></i> 대기업 상생 솔루션
-          </span>
-          <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-warm-50/80 border border-tech-700/20 text-tech-700 text-[11px] font-mono lcorner">For VC · 투자 핵심 논거</span>
+        <div class="flex flex-wrap items-center justify-between gap-3 mb-5">
+          <div class="flex items-center gap-3">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-tech-700 text-warm-50 text-[11px] font-mono tracking-widest lcorner lcorner-tech font-bold">
+              <i class="fa-solid fa-handshake-simple text-tech-300 text-[10px]"></i> 대기업 상생 솔루션
+            </span>
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-white/70 border border-tech-700/20 text-tech-700 text-[11px] font-mono lcorner">For VC · 투자 핵심 논거</span>
+          </div>
+          <span class="mono text-[9px] text-tech-700/60 font-semibold uppercase">[ compl.sys // code_esg ]</span>
         </div>
 
         <!-- Blockquote killer message -->
         <blockquote class="mb-6">
           <p class="text-[1.15rem] md:text-[1.35rem] font-extrabold text-ink-900 leading-snug" style="word-break: keep-all; text-wrap: balance;">
             "대기업 원청이 수조 원을 들여 구축하려는<br class="hidden sm:inline" />
-            <span style="color: #0E7490;">'상생 생태계 조성'</span>과 <span style="color: #0E7490;">'미래 인재 육성'</span>의 숙제,<br class="hidden sm:inline" />
-            <strong>MoNo 플랫폼 도입 하나로 완벽히 해결됩니다.</strong>"
+            <span class="text-cyber-glow font-extrabold">'상생 생태계 조성'</span>과 <span class="text-cyber-glow font-extrabold">'미래 인재 육성'</span>의 숙제,<br class="hidden sm:inline" />
+            <strong class="text-tech-700 group-hover:text-tech-600 transition-colors">MoNo 플랫폼 도입 하나로 완벽히 해결됩니다.</strong>"
           </p>
         </blockquote>
 
         <!-- Supporting stats chips + explanation -->
-        <div class="flex flex-col md:flex-row items-start md:items-center gap-6">
+        <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
           <div class="flex flex-wrap gap-2">
-            <span class="px-3 py-1.5 bg-ink-900 text-tech-300 text-[12px] font-mono font-bold lcorner">삼성전자 · 5조 ESG 펀드</span>
-            <span class="px-3 py-1.5 bg-ink-900 text-tech-300 text-[12px] font-mono font-bold lcorner">SK · 협력사 상생</span>
-            <span class="px-3 py-1.5 bg-ink-900 text-tech-300 text-[12px] font-mono font-bold lcorner">중대재해처벌법 리스크</span>
+            <span class="px-3 py-1.5 bg-ink-800 border border-ink-700/50 text-warm-100 text-[12px] font-mono font-bold lcorner group-hover:border-warm-400/30 transition-colors duration-300">삼성전자 · 5조 ESG 펀드</span>
+            <span class="px-3 py-1.5 bg-ink-800 border border-ink-700/50 text-warm-100 text-[12px] font-mono font-bold lcorner group-hover:border-warm-400/30 transition-colors duration-300">SK · 협력사 상생</span>
+            <span class="px-3 py-1.5 bg-ink-800 border border-ink-700/50 text-warm-100 text-[12px] font-mono font-bold lcorner group-hover:border-warm-400/30 transition-colors duration-300">중대재해처벌법 리스크</span>
           </div>
-          <p class="body-sm text-ink-700 max-w-sm">
-            중대재해처벌법 대응, ESG 공시 의무화, 상생 협력법. 대기업이 매년 수조 원을 쏟아붓는 이 세 숙제를 MoNo B2B SaaS 단일 솔루션이 한꺼번에 해결합니다.
+          <p class="body-sm text-ink-700 max-w-xl">
+            중대재해처벌법 대응, ESG 공시 의무화, 상생 협력법. 대기업이 매년 수조 원을 쏟아붓는 이 세 숙제를 MoNo B2B SaaS 단일 솔루션이 한꺼번에 해결하며, 청중의 신뢰도를 수직으로 이끕니다.
           </p>
         </div>
       </div>
@@ -560,13 +700,13 @@
       </div>
 
       <!-- Center Callout Banner -->
-      <div class="reveal mb-12 p-8 bg-warm-50 border border-ink-900/15 lcorner lcorner-tech flex flex-col items-center justify-center text-center relative overflow-hidden shadow-neo-soft">
+      <div class="reveal mb-12 p-8 bg-warm-50 border border-ink-900/15 lcorner flex flex-col items-center justify-center text-center relative overflow-hidden shadow-neo-soft">
         <div class="absolute inset-0 blueprint opacity-15 pointer-events-none"></div>
-        <span class="h-eyebrow text-tech-700 mb-3">MONO Co-Prosperity Philosophy</span>
+        <span class="h-eyebrow text-ink-700 mb-3">MONO Co-Prosperity Philosophy</span>
         <h3 class="text-xl md:text-3xl font-extrabold text-ink-900 leading-snug tracking-tight mb-4" style="word-break: keep-all; text-wrap: balance;">
-          &#8220;지속 가능한 산업 경쟁력은 기술자를 비용이 아닌<br class="hidden sm:inline" /> <span style="color:#0E7490;">'함께 성장할 파트너'</span>로 바라볼 때 시작됩니다.&#8221;
+          &#8220;지속 가능한 산업 경쟁력은 기술자를 비용이 아닌<br class="hidden sm:inline" /> <span style="color:#C0563B;">'함께 성장할 파트너'</span>로 바라볼 때 시작됩니다.&#8221;
         </h3>
-        <div class="w-24 h-[2px] bg-tech-500/30 mb-6"></div>
+        <div class="w-24 h-[2px] bg-ink-900/10 mb-6"></div>
         <p class="body-md text-ink-700 max-w-4xl" style="word-break: keep-all; text-wrap: balance;">
           단기적인 노사 갈등이나 단발성 생산 차질 최소화의 차원을 넘어, 미래 세대에 적합한 지속 가능한 산업 경쟁력의 정답을 제시합니다. MONO는 기득권과 대립하거나 <strong>단순히 사람을 대체하는 자동화가 아닌</strong>, <strong>노동 친화, 기업 친화, 미래 친화</strong>가 모두 공존하는 진정한 국가적 상생 데이터 생태계를 선도합니다.
         </p>
@@ -652,7 +792,7 @@
           <!-- Phase 2: NEXT -->
           <div class="relative md:px-3 pb-6 md:pb-0">
             <div class="flex items-center gap-3 mb-4">
-              <div class="w-[52px] h-[52px] shrink-0 grid place-items-center bg-ink-900 text-tech-300 lcorner font-mono font-bold text-[18px] z-10">02</div>
+              <div class="w-[52px] h-[52px] shrink-0 grid place-items-center bg-ink-800 border border-ink-700/40 text-warm-100 lcorner font-mono font-bold text-[18px] z-10">02</div>
               <div>
                 <div class="text-[10px] font-mono tracking-widest text-ink-500 font-bold">NEXT · 3년 내</div>
                 <div class="text-[11px] text-ink-500">B2B SaaS &amp; 협력사 상생</div>
@@ -675,24 +815,24 @@
           <!-- Phase 3: FUTURE -->
           <div class="relative md:pl-6">
             <div class="flex items-center gap-3 mb-4">
-              <div class="w-[52px] h-[52px] shrink-0 grid place-items-center bg-tech-700 text-warm-50 lcorner font-mono font-bold text-[18px] z-10">03</div>
+              <div class="w-[52px] h-[52px] shrink-0 grid place-items-center bg-ink-800 text-warm-50 lcorner font-mono font-bold text-[18px] z-10">03</div>
               <div>
-                <div class="text-[10px] font-mono tracking-widest text-tech-800 font-bold">FUTURE · 5년+</div>
+                <div class="text-[10px] font-mono tracking-widest text-ink-700 font-bold">FUTURE · 5년+</div>
                 <div class="text-[11px] text-ink-500">Tech-Blue 로보틱스 &amp; 수익 공유</div>
               </div>
             </div>
-            <div class="bg-tech-50/45 text-ink-900 border-t-4 border-t-tech-700 lcorner p-5 flex flex-col h-full hover-lift transition-transform relative overflow-hidden">
+            <div class="bg-warm-100/40 text-ink-900 border-t-4 border-t-ink-700 lcorner p-5 flex flex-col h-full hover-lift transition-transform relative overflow-hidden">
               <div class="absolute inset-0 blueprint opacity-15 pointer-events-none"></div>
               <div class="relative z-10 flex flex-col h-full">
                 <div class="flex items-center gap-2 mb-3">
-                  <i class="fa-solid fa-robot text-tech-700 text-lg"></i>
+                  <i class="fa-solid fa-robot text-ink-700 text-lg"></i>
                   <h4 class="text-[15px] font-bold text-ink-900">Tech-Blue 로보틱스 생태계</h4>
                 </div>
                 <p class="body-sm text-ink-700 mb-4">현장 데이터를 활용한 로보틱스 R&amp;D 및 고위험 작업 대체. 근로자가 협업 로봇에 수익을 공유하는 진정한 Tech-Blue 생태계를 완성합니다.</p>
-                <ul class="body-sm space-y-2 mt-auto border-t border-tech-700/20 pt-4 text-ink-700">
-                  <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-tech-700 rounded-full shrink-0"></span> 현장 협업 로봇(Physical AI) R&amp;D · 위험 작업 대체</li>
-                  <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-tech-700 rounded-full shrink-0"></span> 근로자의 장기 로봇 수익 공유 모델 론칭</li>
-                  <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-tech-700 rounded-full shrink-0"></span> 진정한 Tech-Blue 생태계 완성</li>
+                <ul class="body-sm space-y-2 mt-auto border-t border-ink-900/5 pt-4 text-ink-700">
+                  <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-ink-700 rounded-full shrink-0"></span> 현장 협업 로봇(Physical AI) R&amp;D · 위험 작업 대체</li>
+                  <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-ink-700 rounded-full shrink-0"></span> 근로자의 장기 로봇 수익 공유 모델 론칭</li>
+                  <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-ink-700 rounded-full shrink-0"></span> 진정한 Tech-Blue 생태계 완성</li>
                 </ul>
               </div>
             </div>
@@ -707,7 +847,7 @@
     <!-- 트랙 헤더 1 -->
     <div class="reveal mb-6 flex items-end justify-between gap-6 flex-wrap">
       <div class="flex items-center gap-3">
-        <span class="chip bg-ink-900 text-tech-300">Track 1 · R1 → R4</span>
+        <span class="chip bg-ink-800 text-warm-200 border border-ink-700/40">Track 1 · R1 → R4</span>
         <h3 class="h-section text-ink-900">모두의 창업 라운드 단계 전략.</h3>
       </div>
       <div class="mono text-[11.5px] text-ink-500">2026.05 → 2026.12 &nbsp;·&nbsp; 4,000 → 5</div>
@@ -718,7 +858,7 @@
       <article class="relative bg-warm-50 border border-ink-900/15 lcorner p-6 lg:p-8 shadow-blueprint">
         <div class="grid lg:grid-cols-12 gap-6">
           <div class="lg:col-span-5">
-            <div class="chip bg-ink-900 text-tech-300 mb-3">R1 · 관찰평가</div>
+            <div class="chip bg-ink-800 text-warm-200 border border-ink-700/40 mb-3">R1 · 관찰평가</div>
             <div class="mono text-[11.5px] text-ink-500 mb-2">2026.05–07</div>
             <h3 class="h-section text-ink-900">성실한 도전자의 일지.</h3>
             <p class="body-md mt-3">책임멘토의 관찰·서면 평가에 대응하는 단계. 인력시장의 해상도와 정량 지표를 담은 현장 보고서를 매주 제출해, 4,000팀 중 가장 부지런한 도전자로 각인됩니다.</p>
@@ -758,7 +898,7 @@
       <article class="relative bg-warm-50 border border-ink-900/15 lcorner p-6 lg:p-8 shadow-blueprint">
         <div class="grid lg:grid-cols-12 gap-6">
           <div class="lg:col-span-5">
-            <div class="chip bg-ink-900 text-tech-300 mb-3">R2 · 지역 공개 IR</div>
+            <div class="chip bg-ink-800 text-warm-200 border border-ink-700/40 mb-3">R2 · 지역 공개 IR</div>
             <div class="mono text-[11.5px] text-ink-500 mb-2">2026.08–09</div>
             <h3 class="h-section text-ink-900">작동하는 연결의 첫 증명.</h3>
             <p class="body-md mt-3">인력 사무소장을 적이 아닌 동료로 끌어들이는 단계. 무상 관리 프로그램을 배포해 기존 오프라인 인력사무소들과 상생 파트너십을 구축하고, 동남권 현장 시범 현장에서 실시간 매칭을 현장 시연합니다.</p>
@@ -798,7 +938,7 @@
       <article class="relative bg-warm-50 border border-ink-900/15 lcorner p-6 lg:p-8 shadow-blueprint">
         <div class="grid lg:grid-cols-12 gap-6">
           <div class="lg:col-span-5">
-            <div class="chip bg-ink-900 text-tech-300 mb-3">R3 · 권역 비공개 IR</div>
+            <div class="chip bg-ink-800 text-warm-200 border border-ink-700/40 mb-3">R3 · 권역 비공개 IR</div>
             <div class="mono text-[11.5px] text-ink-500 mb-2">2026.10–11</div>
             <h3 class="h-section text-ink-900">고수익률 인프라 구조 · 자본 효율의 증명.</h3>
             <p class="body-md mt-3"><strong>VC(벤처캐피탈)·FI(금융투자사)</strong> 대상 비공개 IR(투자설명회). 이종창업에 대한 법적 불확실성 해소와 고가의 물리 장비를 직접 매입하지 않는 <strong>초기 자본금 제로 모델(파트너십 기반 렌탈망 및 장기 로봇 수익 공유 구조)</strong>을 공개해, 동일 자본 대비 극대화된 자본 효율성(ROI)을 증명합니다.</p>
@@ -838,7 +978,7 @@
       <article class="relative bg-warm-100/50 border border-ink-900/15 lcorner p-6 lg:p-8 shadow-blueprint">
         <div class="grid lg:grid-cols-12 gap-6">
           <div class="lg:col-span-5">
-            <div class="chip bg-tech-700 text-warm-50 mb-3">R4 · 대국민 IR</div>
+            <div class="chip bg-ink-900 text-warm-100 mb-3">R4 · 대국민 IR</div>
             <div class="mono text-[11.5px] text-ink-500 mb-2">2026.12–</div>
             <h3 class="h-section text-ink-900">감동 서사 × 첨단 기술의 피날레.</h3>
             <p class="body-md text-ink-700 mt-3">대국민 투표와 심사단의 마음을 동시에 얻기 위한 마지막 단계. <strong>Tech-Blue 상생 비전</strong>을 선포하고, 외국인 비자 규제 샌드박스 1호를 공식 제안합니다.</p>
@@ -846,13 +986,13 @@
           <div class="lg:col-span-7">
             <div class="grid sm:grid-cols-2 gap-4 mb-5">
               <div class="bg-warm-50 border border-ink-900/15 p-4">
-                <div class="h-eyebrow text-tech-700 mb-1">최종 실탄</div>
-                <div class="num-display text-2xl text-tech-700 font-bold">최대 10억</div>
+                <div class="h-eyebrow text-ink-700 mb-1">최종 실탄</div>
+                <div class="num-display text-2xl text-ink-900 font-bold">최대 10억</div>
                 <div class="body-sm text-ink-700">우승 직접 사업 자금</div>
               </div>
               <div class="bg-warm-50 border border-ink-900/15 p-4">
-                <div class="h-eyebrow text-tech-700 mb-1">최종 진출</div>
-                <div class="num-display text-2xl text-tech-700 font-bold">20 → 5</div>
+                <div class="h-eyebrow text-ink-700 mb-1">최종 진출</div>
+                <div class="num-display text-2xl text-ink-900 font-bold">20 → 5</div>
                 <div class="body-sm text-ink-700">대국민 IR 최종 우승팀</div>
               </div>
             </div>
@@ -1054,7 +1194,7 @@
           <h3 class="h-section text-ink-900">대회 통과가 아니라, 기업 가치 사다리.</h3>
           <p class="body-md mt-3">라운드마다 MoNo의 기업 가치는 한 단씩 올라서야 합니다. 자금 규모뿐 아니라 증명한 지표·확보한 고객·돌파한 규제까지 사다리를 종합적으로 쌓아 올립니다.</p>
         </div>
-        <div class="chip bg-ink-900 text-tech-300">Top 10 · 우승 트랙</div>
+        <div class="chip bg-ink-800 text-warm-200 border border-ink-700/40">Top 10 · 우승 트랙</div>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-ink-900/10 border border-ink-900/15">
         <div class="bg-warm-50 p-5">
@@ -1072,24 +1212,29 @@
           <div class="num-display text-2xl text-ink-900">초기 자본금 제로</div>
           <div class="body-sm text-ink-500 mt-2">RaaS 로봇 구독 및 파트너십 렌탈망으로 초기 투자 비용 82% 절감. 동일 자본으로 더 넓은 시장을 커버하는 고수익률 인프라 구조 증명.</div>
         </div>
-        <div class="bg-ink-900 text-warm-50 p-5 lcorner lcorner-tech">
-          <div class="mono text-[11px] text-tech-300 mb-2">R4 우승</div>
-          <div class="num-display text-2xl text-tech-300">규제 샌드박스</div>
+        <div class="bg-ink-900 text-warm-50 p-5 lcorner">
+          <div class="mono text-[11px] text-warm-200 mb-2">R4 우승</div>
+          <div class="num-display text-2xl text-warm-100">규제 샌드박스</div>
           <div class="body-sm text-warm-50/75 mt-2">외국인 비자 규제 샌드박스 1호 공식 제안 + 대국민 IR 통과로, 경쟁사가 복제할 수 없는 규제 해자 확보.</div>
         </div>
       </div>
 
       <!-- 연결부 카피 — Tournament → BM -->
-      <div class="mt-8 border border-ink-900/15 bg-warm-100/60 px-6 py-5 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
-        <div class="flex items-center gap-3">
-          <span class="w-10 h-10 bg-ink-900 text-tech-300 grid place-items-center lcorner lcorner-tech"><i class="fa-solid fa-arrow-down"></i></span>
+      <div class="mt-8 hyper-glow-box px-6 py-5 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 overflow-hidden group">
+        <!-- Technical corners -->
+        <div class="tech-corner-mark"></div>
+        
+        <div class="flex items-center gap-3 relative z-10">
+          <span class="w-10 h-10 bg-ink-800 border border-ink-700/50 text-warm-100 grid place-items-center lcorner group-hover:bg-tech-700 group-hover:text-warm-50 transition-all duration-300">
+            <i class="fa-solid fa-arrow-down group-hover:translate-y-1 transition-transform duration-300"></i>
+          </span>
           <div>
-            <div class="section-label mb-1">GTM 종료 → 수익 구조 개시</div>
+            <div class="section-label mb-1 text-tech-700 group-hover:text-tech-600 transition-colors">GTM 종료 → 수익 구조 개시</div>
             <p class="body-md">대회에서 확보한 증명·고객·규제 사다리 위에, 이제 VC·FI가 추가 자본을 얹을 수 있는 4축 수익 구조를 펼칩니다.</p>
           </div>
         </div>
-        <a href="#invest" class="inline-flex items-center gap-2 px-4 py-2.5 bg-ink-900 text-warm-50 text-[12.5px] font-medium lcorner lcorner-tech hover:bg-ink-800 transition-colors">
-          5막 · 기업 가치 극대화 전략으로 <i class="fa-solid fa-arrow-right text-[10px]"></i>
+        <a href="#invest" class="inline-flex items-center gap-2 px-4 py-2.5 bg-ink-900 text-warm-50 text-[12.5px] font-medium lcorner lcorner-tech hover:bg-tech-700 hover:text-warm-50 transition-all duration-300 group/btn shrink-0 relative z-10">
+          5막 · 기업 가치 극대화 전략으로 <i class="fa-solid fa-arrow-right text-[10px] group-hover/btn:translate-x-1 transition-transform duration-300"></i>
         </a>
       </div>
     </div>
@@ -1136,39 +1281,39 @@
     </div>
 
     <!-- Alternative CB Pipeline Visualized -->
-    <div class="reveal mb-10 p-6 lg:p-8 bg-[#0A0F1A] text-warm-50 border border-tech-300/20 lcorner lcorner-tech shadow-neo-hover">
-      <div class="h-eyebrow text-tech-300 mb-2">Data Monetization Pipeline · 데이터 머니타이제이션</div>
+    <div class="reveal mb-10 p-6 lg:p-8 bg-[#0A0F1A] text-warm-50 border border-ink-800 lcorner shadow-neo-hover">
+      <div class="h-eyebrow text-warm-200 mb-2">Data Monetization Pipeline · 데이터 머니타이제이션</div>
       <h3 class="text-xl font-bold text-warm-50 mb-6" style="word-break: keep-all; text-wrap: balance;">
-        핀테크 기업가치를 10배 견인하는 <span class="text-tech-300">대안 신용평가(Alternative CB) 파이프라인</span>
+        핀테크 기업가치를 10배 견인하는 <span class="text-warm-100 font-extrabold underline decoration-warm-500/30 decoration-2 underline-offset-4">대안 신용평가(Alternative CB) 파이프라인</span>
       </h3>
       <div class="grid grid-cols-1 md:grid-cols-7 gap-3 items-center text-center">
         <!-- Step 1 -->
-        <div class="bg-ink-800 border border-tech-300/10 p-4 lcorner">
-          <div class="num-display text-tech-300 text-lg font-bold">STEP 01</div>
+        <div class="bg-ink-900/40 border border-ink-800/80 p-4 lcorner">
+          <div class="num-display text-warm-200 text-lg font-bold">STEP 01</div>
           <div class="text-[13.5px] font-bold text-warm-50 mt-1">출퇴근/이력 로그</div>
           <p class="text-[11.5px] text-warm-50/70 mt-1">성실도·축적 경력 데이터</p>
         </div>
         <!-- Arrow -->
-        <div class="hidden md:block text-tech-300"><i class="fa-solid fa-chevron-right text-lg"></i></div>
+        <div class="hidden md:block text-warm-300/50"><i class="fa-solid fa-chevron-right text-lg"></i></div>
         <!-- Step 2 -->
-        <div class="bg-ink-800 border border-tech-300/10 p-4 lcorner">
-          <div class="num-display text-tech-300 text-lg font-bold">STEP 02</div>
+        <div class="bg-ink-900/40 border border-ink-800/80 p-4 lcorner">
+          <div class="num-display text-warm-200 text-lg font-bold">STEP 02</div>
           <div class="text-[13.5px] font-bold text-warm-50 mt-1">안전/기술 점수화</div>
           <p class="text-[11.5px] text-warm-50/70 mt-1">AI 반장 분석·평정 점수</p>
         </div>
         <!-- Arrow -->
-        <div class="hidden md:block text-tech-300"><i class="fa-solid fa-chevron-right text-lg"></i></div>
+        <div class="hidden md:block text-warm-300/50"><i class="fa-solid fa-chevron-right text-lg"></i></div>
         <!-- Step 3 -->
-        <div class="bg-ink-800 border border-tech-300/10 p-4 lcorner">
-          <div class="num-display text-tech-300 text-lg font-bold">STEP 03</div>
+        <div class="bg-ink-900/40 border border-ink-800/80 p-4 lcorner">
+          <div class="num-display text-warm-200 text-lg font-bold">STEP 03</div>
           <div class="text-[13.5px] font-bold text-warm-50 mt-1">대안 신용등급 책정</div>
           <p class="text-[11.5px] text-warm-50/70 mt-1">1금융권 승인 금융 모델</p>
         </div>
         <!-- Arrow -->
-        <div class="hidden md:block text-tech-300"><i class="fa-solid fa-chevron-right text-lg"></i></div>
+        <div class="hidden md:block text-warm-300/50"><i class="fa-solid fa-chevron-right text-lg"></i></div>
         <!-- Step 4 -->
-        <div class="bg-tech-700/20 border border-tech-300/40 p-4 lcorner lcorner-tech">
-          <div class="num-display text-tech-300 text-lg font-bold">STEP 04</div>
+        <div class="bg-tech-950/65 border border-tech-800/50 p-4 lcorner">
+          <div class="num-display text-warm-200 text-lg font-bold">STEP 04</div>
           <div class="text-[13.5px] font-bold text-warm-50 mt-1">제도권 금융 연계</div>
           <p class="text-[11.5px] text-warm-50/70 mt-1">우대 대출·보험 연계 수익</p>
         </div>
@@ -1204,21 +1349,29 @@
     </div>
 
     <!-- Valuation note -->
-    <div class="mt-10 border border-ink-900/15 bg-warm-100/50 text-ink-900 p-6 lg:p-8 lcorner reveal">
-      <div class="grid lg:grid-cols-12 gap-6 items-center">
-        <div class="lg:col-span-8">
-          <div class="h-eyebrow text-tech-700 mb-2">VC·FI 핵심 포인트</div>
-          <h3 class="h-section text-ink-900">에이스 기술자의 안정적인 장기 참여 유도와 유지율 극대화.</h3>
+    <div class="mt-10 hyper-glow-box p-6 lg:p-8 reveal overflow-hidden group">
+      <!-- Technical corners -->
+      <div class="tech-corner-mark"></div>
+      
+      <!-- Cyan radial glow -->
+      <div class="glow-sphere -bottom-10 -right-10" style="background: radial-gradient(circle, rgba(34,211,238,0.05) 0%, transparent 70%);"></div>
+      <div class="absolute inset-0 blueprint opacity-10 pointer-events-none"></div>
+
+      <div class="grid lg:grid-cols-12 gap-6 items-center relative z-10">
+        <div class="lg:col-span-8 relative">
+          <div class="h-eyebrow text-tech-700 mb-2 group-hover:text-tech-600 transition-colors">VC·FI 핵심 포인트</div>
+          <h3 class="h-section text-ink-900 font-extrabold leading-tight">에이스 기술자의 안정적인 장기 참여 유도와 유지율 극대화.</h3>
           <p class="body-md text-ink-700 mt-3">&ldquo;정직원 기본급 + 현장 일당 더블 페이&rdquo; 구조와 &ldquo;에스크로 당일 안전 정산&rdquo;을 결합해 우수 기술자가 자발적으로 이탈하지 않고 유지되는 장기 사용자 유지 구조(Retention)를 확보했습니다. 한 사람의 출역 데이터는 금융·SaaS·상생·커머스로 자연스럽게 연계되며, 단순 알선을 넘어서는 지속 가능한 사업 구조를 구축합니다.</p>
+          <span class="mono text-[9px] text-tech-700/60 font-semibold absolute top-0 right-0 hidden md:inline">[ VAL_SYS.EST.2026 ]</span>
         </div>
-        <div class="lg:col-span-4 grid grid-cols-2 gap-3">
-          <div class="bg-warm-50 border border-ink-900/15 p-4">
-            <div class="h-eyebrow text-tech-700 mb-1">유지율 (Retention)</div>
-            <div class="num-display text-2xl text-tech-700 font-bold">×7배</div>
+        <div class="lg:col-span-4 grid grid-cols-2 gap-3 relative z-10">
+          <div class="bg-white/60 backdrop-blur-md border border-tech-500/20 p-4 lcorner lcorner-tech group-hover:scale-105 group-hover:border-tech-400 group-hover:shadow-[0_0_15px_rgba(34,211,238,0.1)] transition-all duration-300 flex flex-col justify-between">
+            <div class="h-eyebrow text-tech-700 mb-1 text-[10px]">유지율 (Retention)</div>
+            <div class="num-display text-3xl text-tech-700 font-bold tracking-tight mt-1">×7배</div>
           </div>
-          <div class="bg-warm-50 border border-ink-900/15 p-4">
-            <div class="h-eyebrow text-tech-700 mb-1">매칭 리스크</div>
-            <div class="num-display text-2xl text-tech-700 font-bold">−60%</div>
+          <div class="bg-white/60 backdrop-blur-md border border-tech-500/20 p-4 lcorner lcorner-tech group-hover:scale-105 group-hover:border-tech-400 group-hover:shadow-[0_0_15px_rgba(34,211,238,0.1)] transition-all duration-300 flex flex-col justify-between">
+            <div class="h-eyebrow text-tech-700 mb-1 text-[10px]">매칭 리스크</div>
+            <div class="num-display text-3xl text-tech-700 font-bold tracking-tight mt-1">−60%</div>
           </div>
         </div>
       </div>
@@ -1277,21 +1430,27 @@
     </div>
 
     <!-- 브랜드 철학 핵심 매니페스토 -->
-    <div class="reveal mb-12 p-8 md:p-10 bg-warm-50 border border-ink-900/15 lcorner lcorner-tech flex flex-col items-center justify-center text-center relative overflow-hidden shadow-neo-soft">
+    <div class="reveal mb-12 p-8 md:p-10 hyper-glow-box flex flex-col items-center justify-center text-center relative overflow-hidden group">
+      <!-- Technical corners -->
+      <div class="tech-corner-mark"></div>
+      
       <div class="absolute inset-0 blueprint opacity-25 pointer-events-none"></div>
       
-      <!-- Subtle accent background highlight -->
-      <div class="absolute w-[300px] h-[300px] rounded-full bg-tech-400/5 blur-[80px] -top-20 -left-20 pointer-events-none"></div>
+      <!-- Ambient glows -->
+      <div class="glow-sphere -top-20 -left-20" style="background: radial-gradient(circle, rgba(34,211,238,0.08) 0%, transparent 70%);"></div>
+      <div class="glow-sphere -bottom-20 -right-20" style="background: radial-gradient(circle, rgba(14,116,144,0.05) 0%, transparent 70%);"></div>
       
-      <span class="h-eyebrow text-tech-700 mb-4 tracking-widest">MO-NO의 세계관 &amp; 핵심 철학</span>
-      <h3 class="text-xl md:text-3xl font-extrabold text-ink-900 leading-snug tracking-tight mb-4" style="word-break: keep-all; text-wrap: balance;">
-        &#8220;AI가 기술자를 대체하는 시대가 아니라,<br class="hidden sm:inline" /> <span style="color:#0E7490;">AI의 경제적 과실을 기술자가 함께 소유하는</span> 시대&#8221;
-      </h3>
-      <div class="w-16 h-[2px] bg-tech-500/30 mb-5"></div>
-      <p class="body-lg text-ink-700 max-w-4xl" style="word-break: keep-all; text-wrap: balance;">
-        숫련 장인의 노하우 데이터를 바탕으로 AI와 <strong>현장 협업 로봇(Physical AI)</strong>이 더 안전하게 일할 수 있도록 돕고, 기술자 개개인이 그 <em>기술 생산성의 결실과 부(Wealth)를 정당하게 나누어 가집니다.</em><br class="hidden sm:inline" />
-        로봇이 위험한 일을 다양하고, 기술자는 <strong>더 안전하게 더 높은 가치로</strong> 일합니다. 이것이 MoNo가 구축하는 <strong>미래 인재 육성 &amp; 상생 생태계</strong>의 진수입니다.
-      </p>
+      <div class="relative z-10">
+        <span class="h-eyebrow text-tech-700 mb-4 tracking-widest block group-hover:text-tech-600 transition-colors">MO-NO의 세계관 &amp; 핵심 철학</span>
+        <h3 class="text-xl md:text-3xl font-extrabold text-ink-900 leading-snug tracking-tight mb-4" style="word-break: keep-all; text-wrap: balance;">
+          &#8220;AI가 기술자를 대체하는 시대가 아니라,<br class="hidden sm:inline" /> <span class="text-cyber-glow font-extrabold">AI의 경제적 과실을 기술자가 함께 소유하는</span> 시대&#8221;
+        </h3>
+        <div class="w-16 h-[2px] bg-gradient-to-r from-tech-400 to-tech-600 mx-auto mb-5 group-hover:w-24 transition-all duration-500"></div>
+        <p class="body-lg text-ink-700 max-w-4xl mx-auto" style="word-break: keep-all; text-wrap: balance;">
+          숙련 장인의 노하우 데이터를 바탕으로 AI와 <strong>현장 협업 로봇(Physical AI)</strong>이 더 안전하게 일할 수 있도록 돕고, 기술자 개개인이 그 <em>기술 생산성의 결실과 부(Wealth)를 정당하게 나누어 가집니다.</em><br class="hidden sm:inline" />
+          로봇이 위험한 일을 대신하고, 기술자는 <strong>더 안전하게 더 높은 가치로</strong> 일합니다. 이것이 MoNo가 구축하는 <strong>미래 인재 육성 &amp; 상생 생태계</strong>의 진수입니다.
+        </p>
+      </div>
     </div>
 
     <!-- 4대 핵심 미션 -->
@@ -1381,7 +1540,7 @@
       <div data-persona="workholiday" class="ppanel hidden lg:col-span-12 bg-warm-50 border border-ink-900/15 lcorner p-7 lg:p-9 shadow-blueprint">
         <div class="grid lg:grid-cols-12 gap-8">
           <div class="lg:col-span-7">
-            <div class="flex flex-wrap items-center gap-2 mb-4"><div class="chip bg-tech-700 text-warm-50">해외 워홀러 · 20–30대</div><div class="chip bg-ink-900 text-tech-300">Global Tech-Passport</div></div>
+            <div class="flex flex-wrap items-center gap-2 mb-4"><div class="chip bg-tech-700 text-warm-50">해외 워홀러 · 20–30대</div><div class="chip bg-ink-800 text-warm-200 border border-ink-700/40">Global Tech-Passport</div></div>
             <h3 class="h-section text-ink-900 mb-3">카페 서빙 대신, 내 기술로 시급 $35를 번다.</h3>
             <p class="body-md">농장·카페 최저임금에 갇히던 워킹홀리데이를 글로벌 기술 무대로 끌어올립니다. 국내 현장에서 쌓은 용접·조적·배관 경력 데이터를 글로벌 스탠다드 영문 이력서로 자동 변환하는 <strong>Tech-Passport(기술 여권)</strong>. 호주·캐나다·영국 현지 빌더 협회와 다이렉트 매칭되어, 도착 첫 주부터 시간당 $35~50의 합법 전문직군으로 출근할 수 있습니다.</p>
             <div class="mt-6 flex flex-wrap gap-1.5">
@@ -1433,7 +1592,7 @@
       <div data-persona="foreign" class="ppanel hidden lg:col-span-12 bg-warm-50 border border-ink-900/15 lcorner p-7 lg:p-9 shadow-blueprint">
         <div class="grid lg:grid-cols-12 gap-8">
           <div class="lg:col-span-7">
-            <div class="flex flex-wrap items-center gap-2 mb-4"><div class="chip bg-tech-300 text-ink-900">외국인 근로자 · 숙련기능비자</div><div class="chip bg-ink-900 text-tech-300">K-Work Experience</div></div>
+            <div class="flex flex-wrap items-center gap-2 mb-4"><div class="chip bg-tech-300 text-ink-900">외국인 근로자 · 숙련기능비자</div><div class="chip bg-ink-800 text-warm-200 border border-ink-700/40">K-Work Experience</div></div>
             <h3 class="h-section text-ink-900 mb-3">K-스마트 기술을 배우고, 내 노동의 존엄을 지킨다.</h3>
             <p class="body-md">불법 체류·브로커의 그늘에 가려졌던 외국인 인력을 합법적이고 자랑스러운 <strong>‘글로벌 장인 인프라’</strong>로 양성화합니다. 모노 앱에 쌓이는 성실도 데이터는 법무부 <strong class="text-ink-900">E-7-4 숙련기능비자</strong> 가점으로 자동 에스코트되고, 다국어 AI 안전 비서가 언어 사각지대를 지웁니다. 본국 송금은 수수료 1% 미만의 다이렉트 금융으로 이어집니다.</p>
             <div class="mt-6 flex flex-wrap gap-1.5">
@@ -1487,7 +1646,7 @@
     <div class="reveal mt-8 border border-tech-300/30 bg-warm-50 p-6 lg:p-8 lcorner shadow-neo-soft">
       <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
         <div class="flex items-start gap-4">
-          <span class="w-12 h-12 bg-ink-900 text-tech-300 grid place-items-center lcorner lcorner-tech shrink-0"><i class="fa-solid fa-people-arrows text-lg"></i></span>
+          <span class="w-12 h-12 bg-ink-800 border border-ink-700/50 text-warm-100 grid place-items-center lcorner shrink-0"><i class="fa-solid fa-people-arrows text-lg"></i></span>
           <div>
             <div class="h-eyebrow text-tech-700 mb-1">Generation Link · 세대를 잇는 기술의 사다리</div>
             <h3 class="text-lg font-bold text-ink-900" style="word-break: keep-all; text-wrap: balance;">수능을 막 마친 20대 청년과 30년 노하우의 60대 은퇴 장인의 뭉클한 협업</h3>
@@ -1502,7 +1661,7 @@
     <!-- AS-IS → TO-BE 포지셔닝 매트릭스 -->
     <div class="reveal mt-16 lg:mt-20 mb-6 flex items-end justify-between gap-6 flex-wrap">
       <div class="flex items-center gap-3">
-        <span class="chip bg-ink-900 text-tech-300">Brand Repositioning</span>
+        <span class="chip bg-ink-800 text-warm-200 border border-ink-700/40">Brand Repositioning</span>
         <h3 class="h-section text-ink-900">파견·중개가 아닌, 연대·자산화·최첨단으로.</h3>
       </div>
       <div class="mono text-[11.5px] text-ink-500">기존 노동시장 (AS-IS) → MO-NO 포지셔닝 (TO-BE)</div>
@@ -1541,7 +1700,7 @@
     <!-- 프리미엄 브랜드 구현 3블록 -->
     <div class="reveal mb-6 flex items-end justify-between gap-6 flex-wrap">
       <div class="flex items-center gap-3">
-        <span class="chip bg-ink-900 text-tech-300">Premium Brand Build-up</span>
+        <span class="chip bg-ink-800 text-warm-200 border border-ink-700/40">Premium Brand Build-up</span>
         <h3 class="h-section text-ink-900">현장 직종의 흔적을 지우고, 최첨단 브랜드 테크로 정렬한다.</h3>
       </div>
       <div class="mono text-[11.5px] text-ink-500">시각 자산 · 거점 공간 · 커뮤니티</div>
@@ -1568,8 +1727,8 @@
           <li>거점별 모듈러 베이스캠프 표준 패키지</li>
         </ul>
       </article>
-      <article class="bg-ink-900 text-warm-50 lcorner lcorner-tech p-6 lg:p-7">
-        <div class="h-eyebrow text-tech-300 mb-2">03 · Masters Club</div>
+      <article class="bg-ink-900 text-warm-50 lcorner p-6 lg:p-7">
+        <div class="h-eyebrow text-warm-200 mb-2">03 · Masters Club</div>
         <h4 class="h-card text-warm-50 mb-3">마스터즈 어워즈 &amp; 데모데이.</h4>
         <p class="body-md text-warm-50/85 mb-4">연말 <strong class="text-warm-50">MO-NO Masters Tech Demo Day</strong>. 청년 마스터·실버 레전드·우수 글로벌 기술자를 무대 위로 올리고, 그들의 성장 서사를 다큐 영상으로 확산합니다.</p>
         <ul class="body-sm list-disc pl-5 space-y-1 text-warm-50/80">
@@ -1587,7 +1746,7 @@
         <p class="body-lg text-ink-900"><strong>“가장 성실한 청년·은퇴 장인·외국인 엘리트를 가장 안정적으로 함께 일할 수 있는 마스터 홀더(Master Holder)”</strong> — 신뢰로 연결된 인력 인프라가, 5막의 자본 가치와 6막의 미래 인프라로 그대로 이어집니다.</p>
       </div>
       <div class="shrink-0 flex items-center gap-3">
-        <a href="#problem" class="chip bg-ink-900 text-tech-300">3막 · 해결 과제로 →</a>
+        <a href="#problem" class="chip bg-ink-800 text-warm-200 border border-ink-700/40 hover:bg-ink-700 transition-colors">3막 · 해결 과제로 →</a>
       </div>
     </div>
   </div>
@@ -1651,12 +1810,18 @@
 
     <!-- Manifesto -->
     <div class="mt-16 lg:mt-20 reveal">
-      <div class="border border-ink-900/15 bg-warm-100/60 p-8 lg:p-12 lcorner">
+      <div class="hyper-glow-box p-8 lg:p-12 overflow-hidden group">
+        <!-- Technical corners -->
+        <div class="tech-corner-mark"></div>
+        
         <div class="absolute inset-0 blueprint opacity-10 pointer-events-none"></div>
+        <div class="glow-sphere -top-10 -right-20" style="background: radial-gradient(circle, rgba(34,211,238,0.06) 0%, transparent 70%);"></div>
+        <div class="glow-sphere -bottom-20 -left-20" style="background: radial-gradient(circle, rgba(14,116,144,0.05) 0%, transparent 70%);"></div>
+
         <div class="grid lg:grid-cols-12 gap-8 items-start relative z-10">
           <div class="lg:col-span-7">
-            <div class="h-eyebrow text-tech-700 mb-3">우리의 약속</div>
-            <h3 class="h-display text-ink-900 leading-tight" style="word-break: keep-all; text-wrap: balance;">우리는 현장에서 <span class="text-tech-700 font-bold">답</span>을 찾습니다. <br class="hidden sm:inline" />당신의 땀은 <span class="text-tech-700 font-bold">헛되지 않습니다</span>.</h3>
+            <div class="h-eyebrow text-tech-700 mb-3 group-hover:text-tech-600 transition-colors">우리의 약속</div>
+            <h3 class="h-display text-ink-900 leading-tight" style="word-break: keep-all; text-wrap: balance;">우리는 현장에서 <span class="text-cyber-glow font-extrabold">답</span>을 찾습니다. <br class="hidden sm:inline" />당신의 땀은 <span class="text-cyber-glow font-extrabold">헛되지 않습니다</span>.</h3>
             <p class="body-lg text-ink-700 mt-5">거친 손등 위에 맺힌 땀방울 하나하나가 곧 데이터가 되고, 그 데이터가 로봇의 <span class="text-tech-700 font-bold">신경계</span>가 되어 현장을 더 안전하고 효율적으로 바꿉니다. 우리는 단순한 로봇 회사가 아닙니다.</p>
           </div>
           <div class="lg:col-span-5">
@@ -1666,10 +1831,10 @@
               <p class="body-md text-ink-700 mt-4">당신의 땀은 미래를 설계하는 로보틱스의 <span class="text-tech-700 font-semibold">설계도</span>이자, 당신의 삶을 더 자유롭게 할 가장 확실한 <span class="text-tech-700 font-semibold">투자</span>입니다.</p>
             </div>
             <div class="flex flex-wrap gap-2 mt-6">
-              <span class="chip chip-round bg-warm-50 text-tech-700 border border-tech-700/20">현장의 데이터화</span>
-              <span class="chip chip-round bg-warm-50 text-tech-700 border border-tech-700/20">금융의 자유</span>
-              <span class="chip chip-round bg-warm-50 text-tech-700 border border-tech-700/20">Tech-Blue 진화</span>
-              <span class="chip chip-round bg-warm-50 text-tech-700 border border-tech-700/20">E-7-4 샌드박스 1호</span>
+              <span class="chip chip-round bg-white/60 text-tech-700 border border-tech-500/20 group-hover:border-tech-400 group-hover:scale-105 transition-all duration-300">현장의 데이터화</span>
+              <span class="chip chip-round bg-white/60 text-tech-700 border border-tech-500/20 group-hover:border-tech-400 group-hover:scale-105 transition-all duration-300">금융의 자유</span>
+              <span class="chip chip-round bg-white/60 text-tech-700 border border-tech-500/20 group-hover:border-tech-400 group-hover:scale-105 transition-all duration-300">Tech-Blue 진화</span>
+              <span class="chip chip-round bg-white/60 text-tech-700 border border-tech-500/20 group-hover:border-tech-400 group-hover:scale-105 transition-all duration-300">E-7-4 샌드박스 1호</span>
             </div>
           </div>
         </div>
