@@ -73,6 +73,7 @@ export default function StrategyPage() {
           border: 'none',
           display: 'block',
         }}
+        scrolling="yes"
         title="MoNo 6막 통합 전략서"
       />
     </div>
