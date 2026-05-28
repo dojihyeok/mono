@@ -88,7 +88,7 @@
   h1,h2,h3,h4,h5,h6,p,li,span,div,strong,a,blockquote,em {
     word-break: keep-all;
     overflow-wrap: break-word;
-    text-wrap: pretty;
+    
   }
 
   /* ---------- Typography ---------- */
@@ -97,12 +97,12 @@
   .section-label .num { font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 700; color: #0E7490; padding: 2.5px 8px; border: 1px solid rgba(14,116,144,0.35); border-radius: 2px; background: rgba(14,116,144,0.05); }
   .section-label--dark { color: #C5A880; }
   .section-label--dark .num { color: #C5A880; border-color: rgba(197,168,128,0.45); background: rgba(197,168,128,0.08); }
-  .h-section  { font-family: 'Pretendard','Noto Sans KR',sans-serif; font-size: clamp(1.35rem, 2.8vw, 2.4rem); font-weight: 800; letter-spacing: -0.03em; line-height: 1.25; text-wrap: balance; word-break: keep-all; }
+  .h-section  { font-family: 'Pretendard','Noto Sans KR',sans-serif; font-size: clamp(1.35rem, 2.8vw, 2.4rem); font-weight: 800; letter-spacing: -0.03em; line-height: 1.25;  word-break: keep-all; }
   .h-card     { font-size: 1.15rem; font-weight: 700; letter-spacing: -0.018em; color: #0A0F1A; line-height: 1.4; }
-  .h-display  { font-family: 'Pretendard','Noto Sans KR',sans-serif; font-size: clamp(1.65rem, 3.8vw, 3.2rem); font-weight: 800; letter-spacing: -0.035em; line-height: 1.18; text-wrap: balance; word-break: keep-all; }
-  .body-lg    { font-size: 1.125rem; line-height: 1.78; color: #1B2436; letter-spacing: -0.005em; word-break: keep-all; overflow-wrap: break-word; text-wrap: pretty; }
-  .body-md    { font-size: 1.025rem; line-height: 1.75; color: #475569; letter-spacing: -0.005em; word-break: keep-all; overflow-wrap: break-word; text-wrap: pretty; }
-  .body-sm    { font-size: 0.925rem; line-height: 1.7; color: #64748B; word-break: keep-all; overflow-wrap: break-word; text-wrap: pretty; }
+  .h-display  { font-family: 'Pretendard','Noto Sans KR',sans-serif; font-size: clamp(1.65rem, 3.8vw, 3.2rem); font-weight: 800; letter-spacing: -0.035em; line-height: 1.18;  word-break: keep-all; }
+  .body-lg    { font-size: 1.125rem; line-height: 1.78; color: #1B2436; letter-spacing: -0.005em; word-break: keep-all; overflow-wrap: break-word;  }
+  .body-md    { font-size: 1.025rem; line-height: 1.75; color: #475569; letter-spacing: -0.005em; word-break: keep-all; overflow-wrap: break-word;  }
+  .body-sm    { font-size: 0.925rem; line-height: 1.7; color: #64748B; word-break: keep-all; overflow-wrap: break-word;  }
   .num-display{ font-family: 'JetBrains Mono','Space Grotesk',monospace; font-feature-settings: "tnum","ss01"; letter-spacing: -0.04em; font-weight: 700; }
   .mono       { font-family: 'JetBrains Mono', monospace; font-feature-settings: "tnum"; }
   .stencil    { font-family: 'Archivo Black','JetBrains Mono',sans-serif; letter-spacing: 0.04em; text-transform: uppercase; }
@@ -183,7 +183,7 @@
   .spec-list .k { color:#0E7490; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600; }
 
   /* Hero typo */
-  .hero-headline { font-family: 'Pretendard','Noto Sans KR',sans-serif; font-weight: 800; letter-spacing:-0.035em; line-height: 1.14; font-size: clamp(1.85rem, 3.55vw, 3.1rem); max-width: 80rem; text-wrap: balance; }
+  .hero-headline { font-family: 'Pretendard','Noto Sans KR',sans-serif; font-weight: 800; letter-spacing:-0.035em; line-height: 1.14; font-size: clamp(1.85rem, 3.55vw, 3.1rem); max-width: 80rem;  }
   .hero-sub { max-width: 64rem; line-height: 1.78; letter-spacing:-0.005em; }
   @media (max-width: 768px) { .hero-headline { font-size: clamp(1.55rem, 5.6vw, 2.2rem); } }
 
@@ -445,7 +445,7 @@
   <div class="max-w-7xl mx-auto px-6 lg:px-10">
     <div class="max-w-6xl mb-12 reveal">
       <div class="section-label mb-4"><span class="num">02</span> MONO가 해결하는 과제 · Problems &amp; Solutions</div>
-      <h2 class="h-display text-ink-900" style="word-break: keep-all; text-wrap: pretty;">MONO가 해결하는 과제: 산업의 상생과 미래 인재 육성</h2>
+      <h2 class="h-display text-ink-900" style="word-break: keep-all; ">MONO가 해결하는 과제: 산업의 상생과 미래 인재 육성</h2>
       <p class="body-lg mt-5" style="color: #0E7490; font-weight: 700; word-break: keep-all;">"협력사와의 동반 성장부터 Tech-Blue 인재 육성까지, MONO는 대기업 상생 비전을 실현하는 완벽한 디지털 인프라입니다."</p>
     </div>
 
@@ -618,7 +618,7 @@
 
         <!-- Blockquote killer message -->
         <blockquote class="mb-6">
-          <p class="text-[1.15rem] md:text-[1.35rem] font-extrabold text-ink-900 leading-snug" style="word-break: keep-all; text-wrap: balance;">
+          <p class="text-[1.15rem] md:text-[1.35rem] font-extrabold text-ink-900 leading-snug" style="word-break: keep-all; ">
             "대기업 원청이 수조 원을 들여 구축하려는<br class="hidden sm:inline" />
             <span class="text-cyber-glow font-extrabold">'상생 생태계 조성'</span>과 <span class="text-cyber-glow font-extrabold">'미래 인재 육성'</span>의 숙제,<br class="hidden sm:inline" />
             <strong class="text-tech-700 group-hover:text-tech-600 transition-colors">MONO 플랫폼 도입 하나로 완벽히 해결됩니다.</strong>"
@@ -679,11 +679,11 @@
       <div class="reveal mb-12 p-8 bg-warm-50 border border-ink-900/15 lcorner flex flex-col items-center justify-center text-center relative overflow-hidden shadow-neo-soft">
         <div class="absolute inset-0 blueprint opacity-15 pointer-events-none"></div>
         <span class="h-eyebrow text-ink-700 mb-3">MONO Co-Prosperity Philosophy</span>
-        <h3 class="text-xl md:text-3xl font-extrabold text-ink-900 leading-snug tracking-tight mb-4" style="word-break: keep-all; text-wrap: balance;">
+        <h3 class="text-xl md:text-3xl font-extrabold text-ink-900 leading-snug tracking-tight mb-4" style="word-break: keep-all; ">
           &#8220;지속 가능한 산업 경쟁력은 기술자를 비용이 아닌<br class="hidden sm:inline" /> <span style="color:#C0563B;">'함께 성장할 파트너'</span>로 바라볼 때 시작됩니다.&#8221;
         </h3>
         <div class="w-24 h-[2px] bg-ink-900/10 mb-6"></div>
-        <p class="body-lg text-ink-700 max-w-5xl" style="word-break: keep-all; text-wrap: pretty;">
+        <p class="body-lg text-ink-700 max-w-5xl" style="word-break: keep-all; ">
           단기적인 노사 갈등이나 단발성 생산 차질 최소화의 차원을 넘어, 미래 세대에 적합한 지속 가능한 산업 경쟁력의 정답을 제시합니다. MONO는 기득권과 대립하거나 <strong>단순히 사람을 대체하는 자동화가 아닌</strong>, <strong>노동 친화, 기업 친화, 미래 친화</strong>가 모두 공존하는 진정한 국가적 상생 데이터 생태계를 선도합니다.
         </p>
       </div>
@@ -1257,7 +1257,7 @@
     <!-- Alternative CB Pipeline Visualized -->
     <div class="reveal mb-10 p-6 lg:p-8 bg-warm-50 text-ink-900 border border-ink-900/15 lcorner shadow-neo-soft">
       <div class="h-eyebrow text-tech-700 mb-2">Data Monetization Pipeline · 데이터 머니타이제이션</div>
-      <h3 class="text-xl font-bold text-ink-900 mb-6" style="word-break: keep-all; text-wrap: balance;">
+      <h3 class="text-xl font-bold text-ink-900 mb-6" style="word-break: keep-all; ">
         핀테크 기업가치를 10배 견인하는 <span class="text-tech-700 font-extrabold underline decoration-tech-700/30 decoration-2 underline-offset-4">대안 신용평가(Alternative CB) 파이프라인</span>
       </h3>
       <div class="grid grid-cols-1 md:grid-cols-7 gap-3 items-center text-center">
@@ -1398,7 +1398,7 @@
   <div class="max-w-7xl mx-auto px-6 lg:px-10 relative">
     <div class="max-w-6xl mb-12 reveal">
       <div class="section-label mb-4"><span class="num">05</span> MONO 브랜드 철학 · 스마트 일자리 플랫폼</div>
-      <h2 class="h-display text-ink-900" style="word-break: keep-all; text-wrap: pretty; text-align: justify;">땀 흘리며 일하는 즐거움을 아는 사람들, 우리가 함께 기술 장인 Tech-Blue의 미래를 만듭니다.</h2>
+      <h2 class="h-display text-ink-900" style="word-break: keep-all;  text-align: justify;">땀 흘리며 일하는 즐거움을 아는 사람들, 우리가 함께 기술 장인 Tech-Blue의 미래를 만듭니다.</h2>
       <p class="body-lg mt-5">MO-NO는 현장에 남은 낡은 관행을 지우고, 사람의 땀방울·데이터·기술로 새로운 ‘미래 기술 장인(Tech-Blue)’과 함께 상생하고 성장하는 스마트 일자리 플랫폼입니다. 청년·워홀러·노마드·외국인·은퇴자 다섯 세대의 삶을 같은 데이터 신뢰 경제권 위에서 끌어안고, 그들의 사회적 인식과 가치를 수직 상승시키는 라이프 사이클 브랜드.</p>
     </div>
 
@@ -1415,11 +1415,11 @@
       
       <div class="relative z-10">
         <span class="h-eyebrow text-tech-700 mb-4 tracking-widest block group-hover:text-tech-600 transition-colors">MO-NO의 세계관 &amp; 핵심 철학</span>
-        <h3 class="text-xl md:text-3xl font-extrabold text-ink-900 leading-snug tracking-tight mb-4" style="word-break: keep-all; text-wrap: balance;">
+        <h3 class="text-xl md:text-3xl font-extrabold text-ink-900 leading-snug tracking-tight mb-4" style="word-break: keep-all; ">
           &#8220;AI가 기술자를 대체하는 시대가 아니라,<br class="hidden sm:inline" /> <span class="text-cyber-glow font-extrabold">AI의 경제적 과실을 기술자가 함께 소유하는</span> 시대&#8221;
         </h3>
         <div class="w-16 h-[2px] bg-gradient-to-r from-tech-400 to-tech-600 mx-auto mb-5 group-hover:w-24 transition-all duration-500"></div>
-        <p class="body-lg text-ink-700 max-w-4xl mx-auto" style="word-break: keep-all; text-wrap: balance;">
+        <p class="body-lg text-ink-700 max-w-4xl mx-auto" style="word-break: keep-all; ">
           숙련 장인의 노하우 데이터를 바탕으로 AI와 <strong>현장 협업 로봇(Physical AI)</strong>이 더 안전하게 일할 수 있도록 돕고, 기술자 개개인이 그 <em>기술 생산성의 결실과 부(Wealth)를 정당하게 나누어 가집니다.</em><br class="hidden sm:inline" />
           로봇이 위험한 일을 대신하고, 기술자는 <strong>더 안전하게 더 높은 가치로</strong> 일합니다. 이것이 MONO가 구축하는 <strong>미래 인재 육성 &amp; 상생 생태계</strong>의 진수입니다.
         </p>
@@ -1622,8 +1622,8 @@
           <span class="w-12 h-12 bg-ink-800 border border-ink-700/50 text-warm-100 grid place-items-center lcorner shrink-0"><i class="fa-solid fa-people-arrows text-lg"></i></span>
           <div>
             <div class="h-eyebrow text-tech-700 mb-1">Generation Link · 세대를 잇는 기술의 사다리</div>
-            <h3 class="text-lg font-bold text-ink-900" style="word-break: keep-all; text-wrap: balance;">수능을 막 마친 20대 청년과 30년 노하우의 60대 은퇴 장인의 뭉클한 협업</h3>
-            <p class="body-md text-ink-700 mt-2" style="word-break: keep-all; text-wrap: balance;">
+            <h3 class="text-lg font-bold text-ink-900" style="word-break: keep-all; ">수능을 막 마친 20대 청년과 30년 노하우의 60대 은퇴 장인의 뭉클한 협업</h3>
+            <p class="body-md text-ink-700 mt-2" style="word-break: keep-all; ">
               수능 직후 첫 독립 종잣돈(1,000만 원)을 마련하는 <strong>20대 청년</strong>이 모노 아카데미에서 배운 스마트 패드로 협업 로봇을 세팅하고 공정을 제어하면, 30년 노하우의 <strong>60대 은퇴 장인</strong>은 온사이트 OJT 교관으로서 30년간 쌓아온 장인의 감각과 판단 노하우로 최종 마감을 정밀 감리합니다. 위험하고 고된 육체노동은 모노의 <strong>현장 협업 로봇(Physical AI)</strong>이 든든하게 받쳐줍니다. 세대를 넘어 장인의 기술이 평생의 자산으로 이어지는 곳 — 이것이 MO-NO가 대국민 공감 투표를 통해 이뤄낼 따뜻한 미래 현장의 진짜 모습입니다.
             </p>
           </div>
@@ -1792,13 +1792,13 @@
         <div class="grid lg:grid-cols-12 gap-8 items-start relative z-10">
           <div class="lg:col-span-7">
             <div class="h-eyebrow text-tech-700 mb-3 group-hover:text-tech-600 transition-colors">우리의 약속</div>
-            <h3 class="h-display text-ink-900 leading-tight" style="word-break: keep-all; text-wrap: balance;">우리는 현장에서 <span class="text-cyber-glow font-extrabold">답</span>을 찾습니다. <br class="hidden sm:inline" />당신의 땀은 <span class="text-cyber-glow font-extrabold">헛되지 않습니다</span>.</h3>
+            <h3 class="h-display text-ink-900 leading-tight" style="word-break: keep-all; ">우리는 현장에서 <span class="text-cyber-glow font-extrabold">답</span>을 찾습니다. <br class="hidden sm:inline" />당신의 땀은 <span class="text-cyber-glow font-extrabold">헛되지 않습니다</span>.</h3>
             <p class="body-lg text-ink-700 mt-5">거친 손등 위에 맺힌 땀방울 하나하나가 곧 데이터가 되고, 그 데이터가 로봇의 <span class="text-tech-700 font-bold">신경계</span>가 되어 현장을 더 안전하고 효율적으로 바꿉니다. 우리는 단순한 로봇 회사가 아닙니다.</p>
           </div>
           <div class="lg:col-span-5">
             <div class="border-l-2 border-tech-700/30 pl-5">
               <p class="body-md text-ink-700">MONO는 현장 근무자가 기술의 주인으로 우뚝 서고, 자신이 쌓아 올린 기술적 가치만큼 <span class="text-tech-700 font-semibold">금융적 자유</span>를 보장받는 새로운 생태계를 만드는 기술 동반자입니다.</p>
-              <p class="body-md text-tech-700 font-bold mt-4" style="word-break: keep-all; text-wrap: balance;">“AI가 기술자를 대체하는 시대가 아니라, 기술자가 AI 생산성을 함께 소유하는 시대”</p>
+              <p class="body-md text-tech-700 font-bold mt-4" style="word-break: keep-all; ">“AI가 기술자를 대체하는 시대가 아니라, 기술자가 AI 생산성을 함께 소유하는 시대”</p>
               <p class="body-md text-ink-700 mt-4">당신의 땀은 미래를 설계하는 로보틱스의 <span class="text-tech-700 font-semibold">설계도</span>이자, 당신의 삶을 더 자유롭게 할 가장 확실한 <span class="text-tech-700 font-semibold">투자</span>입니다.</p>
             </div>
             <div class="flex flex-wrap gap-2 mt-6">
