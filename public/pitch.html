@@ -92,7 +92,7 @@
   }
 
   /* ---------- Typography ---------- */
-  .h-eyebrow  { font-family: 'JetBrains Mono', monospace; font-size: 12.5px; font-weight: 600; letter-spacing: 0.32em; text-transform: uppercase; color: #0E7490; }
+  .h-eyebrow  { font-family: 'Pretendard', 'JetBrains Mono', monospace; font-size: 15px; font-weight: 850; letter-spacing: 0.04em; text-transform: uppercase; color: #0E7490; }
   .section-label { font-family: 'Pretendard', sans-serif; font-size: 18px; font-weight: 700; color: #0E7490; letter-spacing: -0.01em; display: inline-flex; align-items: center; gap: 0.625rem; }
   .section-label .num { font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 700; color: #0E7490; padding: 2.5px 8px; border: 1px solid rgba(14,116,144,0.35); border-radius: 2px; background: rgba(14,116,144,0.05); }
   .section-label--dark { color: #C5A880; }
@@ -615,9 +615,9 @@
         <polygon points="85,35 95,50 75,50" stroke-dasharray="1, 1" />
       </svg>
 
-      <div class="relative z-10 px-8 py-8 md:px-10 md:py-10 pl-10 md:pl-12">
+      <div class="relative z-10 px-6 py-8 md:px-10 md:py-10">
         <!-- ESG Badge -->
-        <div class="flex flex-wrap items-center justify-between gap-3 mb-5">
+        <div class="flex flex-wrap items-center justify-between gap-3 mb-6">
           <div class="flex items-center gap-3">
             <span class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-tech-700 text-warm-50 text-[11px] font-mono tracking-widest lcorner font-bold">
               <i class="fa-solid fa-handshake-simple text-warm-100 text-[10px]"></i> 대기업 상생 솔루션
@@ -626,23 +626,50 @@
           </div>
         </div>
 
-        <!-- Blockquote killer message -->
-        <blockquote class="mb-6">
-          <p class="text-[1.15rem] md:text-[1.35rem] font-extrabold text-ink-900 leading-snug" style="word-break: keep-all; ">
-            "대기업 원청이 수조 원을 들여 구축하려는 <span class="text-cyber-glow font-extrabold">'상생 생태계 조성'</span>과 <span class="text-cyber-glow font-extrabold">'미래 인재 육성'</span>의 숙제, <strong class="text-tech-700 group-hover:text-tech-600 transition-colors">MONO 플랫폼 도입 하나로 완벽히 해결됩니다.</strong>"
-          </p>
-        </blockquote>
+        <div class="grid lg:grid-cols-12 gap-8 items-stretch">
+          <!-- Left side: News Clipping UI (7 cols) -->
+          <div class="lg:col-span-7 bg-white border border-ink-900/10 shadow-sm lcorner overflow-hidden flex flex-col">
+            <!-- News Header (전자신문) -->
+            <div class="px-5 py-4 bg-gray-50/50 flex flex-wrap items-center justify-between gap-3 border-b-2 border-[#C80150]">
+              <div class="flex items-center gap-2">
+                <!-- 로고 모양 벡터 심볼 -->
+                <div class="flex gap-0.5 items-center">
+                  <span class="w-2.5 h-2.5 bg-[#C80150] inline-block transform rotate-12"></span>
+                  <span class="w-1.5 h-1.5 bg-[#C80150]/70 inline-block transform -rotate-12"></span>
+                  <span class="w-2 h-2 bg-[#C80150] inline-block"></span>
+                </div>
+                <span class="text-[15px] font-extrabold text-[#111111] tracking-tight">전자신문</span>
+              </div>
+              <span class="text-[13px] font-bold text-ink-900 tracking-tight">삼성전자, 5년간 5조원 상생 투자 선언…임협 타결 직후 '쇄신' 천명</span>
+            </div>
 
-        <!-- Supporting stats chips + explanation -->
-        <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
-          <div class="flex flex-wrap gap-2">
-            <span class="px-3 py-1.5 bg-ink-800 border border-ink-700/50 text-warm-100 text-[12px] font-mono font-bold lcorner group-hover:border-warm-400/30 transition-colors duration-300">삼성전자 · 5조 ESG 펀드</span>
-            <span class="px-3 py-1.5 bg-ink-800 border border-ink-700/50 text-warm-100 text-[12px] font-mono font-bold lcorner group-hover:border-warm-400/30 transition-colors duration-300">SK · 협력사 상생</span>
-            <span class="px-3 py-1.5 bg-ink-800 border border-ink-700/50 text-warm-100 text-[12px] font-mono font-bold lcorner group-hover:border-warm-400/30 transition-colors duration-300">중대재해처벌법 리스크</span>
+            <!-- News Content -->
+            <div class="p-6 flex-grow flex flex-col justify-between gap-4 font-sans text-ink-850 text-[14px] leading-relaxed">
+              <p class="text-ink-700" style="word-break: keep-all;">
+                삼성전자가 향후 5년간 5조원 규모 자금을 상생 사업에 투입한다. 27일 노동조합과 임금협약 타결 직후 나온 선언으로 대규모 사회적 투자로 분위기 전환을 꾀하는 동시에, 경영 쇄신 의지를 대내외에 천명한 것으로 해석된다.
+              </p>
+              
+              <div class="h-px bg-ink-900/5 my-2"></div>
+              
+              <p class="text-ink-900 font-medium bg-[#C80150]/5 p-4 border-l-2 border-[#C80150]/60 rounded-r" style="word-break: keep-all;">
+                삼성전자는 5년간 총 5조원을 투자 재원을 조성할 계획이다. 투자 방향을 크게 <strong class="bg-yellow-100/90 text-[#111111] px-1 py-0.5 rounded font-bold">'상생 및 건전한 생태계 조성'</strong>과 <strong class="bg-yellow-100/90 text-[#111111] px-1 py-0.5 rounded font-bold">'미래 인재 육성'</strong> 두 축으로 제시했다. 구체적으로 2·3차 협력사 중심 중소기업 지원과 산업재해기금 조성, 취약계층·영세 자영업자를 위한 포용적 금융 확대 등을 검토 대상에 포함한다.
+              </p>
+            </div>
           </div>
-          <p class="body-sm text-ink-700 max-w-xl">
-            중대재해처벌법 대응, ESG 공시 의무화, 상생 협력법. 대기업이 매년 수조 원을 쏟아붓는 이 세 숙제를 MONO B2B SaaS 단일 솔루션이 한꺼번에 해결하며, 청중의 신뢰도를 수직으로 이끕니다.
-          </p>
+
+          <!-- Right side: Commentary & Callout (5 cols) -->
+          <div class="lg:col-span-5 flex flex-col justify-center gap-5">
+            <!-- Blockquote killer message -->
+            <blockquote class="relative pl-4 border-l-2 border-tech-600">
+              <p class="text-[1.25rem] md:text-[1.4rem] font-black text-ink-900 leading-snug tracking-tight" style="word-break: keep-all;">
+                "대기업 원청이 수조 원을 들여 구축하려는 <span class="bg-tech-50 text-tech-900 font-extrabold px-1.5 py-0.5 rounded">'상생 생태계 조성'</span>과 <span class="bg-tech-50 text-tech-900 font-extrabold px-1.5 py-0.5 rounded">'미래 인재 육성'</span>의 숙제, <br class="hidden xl:inline" /><strong class="text-tech-700 font-black">MONO 플랫폼 도입 하나로 완벽히 해결됩니다.</strong>"
+              </p>
+            </blockquote>
+
+            <p class="body-md text-ink-700 leading-relaxed" style="word-break: keep-all;">
+              중대재해처벌법 대응, ESG 공시 의무화, 상생 협력법. 대기업이 매년 수조 원을 쏟아붓는 이 무거운 숙제들을 MONO B2B SaaS 단일 솔루션이 완벽하게 자동화하여 해결합니다.
+            </p>
+          </div>
         </div>
       </div>
     </div>
@@ -691,8 +718,9 @@
           &#8220;지속 가능한 산업 경쟁력은 기술자를 비용이 아닌<br class="hidden sm:inline" /> <span style="color:#C0563B;">'함께 성장할 파트너'</span>로 바라볼 때 시작됩니다.&#8221;
         </h3>
         <div class="w-24 h-[2px] bg-ink-900/10 mb-6"></div>
-        <p class="body-lg text-ink-700 max-w-5xl" style="word-break: keep-all; ">
-          단기적인 노사 갈등이나 단발성 생산 차질 최소화의 차원을 넘어, 미래 세대에 적합한 지속 가능한 산업 경쟁력의 정답을 제시합니다. MONO는 기득권과 대립하거나 <strong>단순히 사람을 대체하는 자동화가 아닌</strong>, <strong>노동 친화, 기업 친화, 미래 친화</strong>가 모두 공존하는 진정한 국가적 상생 데이터 생태계를 선도합니다.
+        <p class="body-lg text-ink-700 max-w-4xl mx-auto leading-relaxed" style="word-break: keep-all; ">
+          단기적 갈등과 생산 차질 최소화를 넘어, 미래 세대를 위한 지속 가능한 산업 경쟁력의 정답을 제시합니다.<br />
+          MONO는 단순히 사람을 대체하는 자동화가 아닌, <strong>노동·기업·미래가 공존하는 국가적 상생 데이터 생태계</strong>를 선도합니다.
         </p>
       </div>
 
@@ -1270,34 +1298,34 @@
       </h3>
       <div class="grid grid-cols-1 md:grid-cols-7 gap-3 items-center text-center">
         <!-- Step 1 -->
-        <div class="bg-warm-100/50 border border-ink-900/10 p-4 lcorner">
-          <div class="num-display text-tech-700 text-lg font-bold">STEP 01</div>
-          <div class="text-[13.5px] font-bold text-ink-900 mt-1">출퇴근/이력 로그</div>
-          <p class="text-[11.5px] text-ink-500 mt-1">성실도·축적 경력 데이터</p>
+        <div class="bg-warm-100/50 border border-ink-900/10 p-4.5 lcorner">
+          <div class="num-display text-tech-700 text-[16px] font-extrabold">STEP 01</div>
+          <div class="text-[15px] font-black text-ink-900 mt-1.5">출퇴근/이력 로그</div>
+          <p class="text-[13px] text-ink-700 font-semibold mt-1">성실도·축적 경력 데이터</p>
         </div>
         <!-- Arrow -->
         <div class="hidden md:block text-ink-400/50"><i class="fa-solid fa-chevron-right text-lg"></i></div>
         <!-- Step 2 -->
-        <div class="bg-warm-100/50 border border-ink-900/10 p-4 lcorner">
-          <div class="num-display text-tech-700 text-lg font-bold">STEP 02</div>
-          <div class="text-[13.5px] font-bold text-ink-900 mt-1">안전/기술 점수화</div>
-          <p class="text-[11.5px] text-ink-500 mt-1">AI 반장 분석·평정 점수</p>
+        <div class="bg-warm-100/50 border border-ink-900/10 p-4.5 lcorner">
+          <div class="num-display text-tech-700 text-[16px] font-extrabold">STEP 02</div>
+          <div class="text-[15px] font-black text-ink-900 mt-1.5">안전/기술 점수화</div>
+          <p class="text-[13px] text-ink-700 font-semibold mt-1">AI 반장 분석·평정 점수</p>
         </div>
         <!-- Arrow -->
         <div class="hidden md:block text-ink-400/50"><i class="fa-solid fa-chevron-right text-lg"></i></div>
         <!-- Step 3 -->
-        <div class="bg-warm-100/50 border border-ink-900/10 p-4 lcorner">
-          <div class="num-display text-tech-700 text-lg font-bold">STEP 03</div>
-          <div class="text-[13.5px] font-bold text-ink-900 mt-1">대안 신용등급 책정</div>
-          <p class="text-[11.5px] text-ink-500 mt-1">1금융권 승인 금융 모델</p>
+        <div class="bg-warm-100/50 border border-ink-900/10 p-4.5 lcorner">
+          <div class="num-display text-tech-700 text-[16px] font-extrabold">STEP 03</div>
+          <div class="text-[15px] font-black text-ink-900 mt-1.5">대안 신용등급 책정</div>
+          <p class="text-[13px] text-ink-700 font-semibold mt-1">1금융권 승인 금융 모델</p>
         </div>
         <!-- Arrow -->
         <div class="hidden md:block text-ink-400/50"><i class="fa-solid fa-chevron-right text-lg"></i></div>
         <!-- Step 4 -->
-        <div class="bg-tech-50/70 border border-tech-700/25 p-4 lcorner">
-          <div class="num-display text-tech-700 text-lg font-bold">STEP 04</div>
-          <div class="text-[13.5px] font-bold text-tech-900 mt-1">제도권 금융 연계</div>
-          <p class="text-[11.5px] text-tech-600 mt-1">우대 대출·보험 연계 수익</p>
+        <div class="bg-tech-50/70 border border-tech-700/25 p-4.5 lcorner">
+          <div class="num-display text-tech-700 text-[16px] font-extrabold">STEP 04</div>
+          <div class="text-[15px] font-black text-tech-950 mt-1.5">제도권 금융 연계</div>
+          <p class="text-[13px] text-tech-800 font-bold mt-1">우대 대출·보험 연계 수익</p>
         </div>
       </div>
     </div>
@@ -1401,6 +1429,9 @@
 </section>
 
 <!-- ============================== S2 · LIFE CYCLE ============================== -->
+<!-- Industrial Hazard Stripe Divider -->
+<div class="w-full h-3 bg-[repeating-linear-gradient(-45deg,#facc15,#facc15_12px,#1c1917_12px,#1c1917_24px)] opacity-90 shadow-inner"></div>
+
 <section id="lifecycle" class="relative py-24 lg:py-32 grain-bg">
   <div class="absolute inset-0 blueprint opacity-30 pointer-events-none"></div>
   <div class="max-w-7xl mx-auto px-6 lg:px-10 relative">
