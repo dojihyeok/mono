@@ -151,7 +151,17 @@
 
   /* Chip */
   .chip { display:inline-flex; align-items:center; gap:.4rem; padding:.26rem .55rem; border-radius: 2px; font-family:'JetBrains Mono',monospace; font-size: 11.5px; font-weight: 600; letter-spacing:.12em; text-transform: uppercase; }
-  .chip-round { border-radius: 999px; padding:.26rem .7rem; }
+  .chip-round {
+    border-radius: 999px;
+    padding: 0.35rem 0.85rem !important;
+    background-color: rgba(14, 116, 144, 0.08) !important; /* Soft distinct Tech-Blue tint */
+    color: #0c4a6e !important; /* Very dark rich high-contrast blue */
+    border: 1.5px solid rgba(14, 116, 144, 0.35) !important; /* Rich robust border */
+    font-weight: 700 !important; /* Bold, highly legible letters */
+    font-size: 13.5px !important; /* Increased font size for maximum legibility */
+    letter-spacing: -0.018em !important;
+    box-shadow: 0 1px 2px rgba(14, 116, 144, 0.05) !important;
+  }
 
   /* Nav */
   .nav-blur { backdrop-filter: blur(18px) saturate(160%); -webkit-backdrop-filter: blur(18px) saturate(160%); }
