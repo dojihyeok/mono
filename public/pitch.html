@@ -1357,23 +1357,23 @@
     </div>
 
     <!-- ============================== MOMO 데이터 인프라 흐름도 ============================== -->
-    <div class="reveal mb-12 p-6 md:p-10 border border-ink-900/15 bg-slate-950 lcorner shadow-neo-soft relative overflow-hidden text-slate-100" style="background-color: #0B0F19;">
-      <!-- Blueprint grid for dark premium technical theme -->
-      <div class="absolute inset-0 opacity-20 pointer-events-none" style="background-image: linear-gradient(rgba(34,211,238,0.15) 1px, transparent 1px), linear-gradient(90deg, rgba(34,211,238,0.15) 1px, transparent 1px); background-size: 24px 24px;"></div>
-      <div class="absolute -top-40 -left-40 w-96 h-96 bg-cyan-500/10 rounded-full blur-[120px] pointer-events-none"></div>
-      <div class="absolute -bottom-40 -right-40 w-96 h-96 bg-[#C0563B]/10 rounded-full blur-[120px] pointer-events-none"></div>
+    <div class="reveal mb-12 p-6 md:p-10 border border-ink-900/15 bg-warm-50 lcorner shadow-neo-soft relative overflow-hidden text-ink-900">
+      <!-- Blueprint grid for warm premium technical theme -->
+      <div class="absolute inset-0 opacity-10 pointer-events-none" style="background-image: linear-gradient(rgba(14,116,144,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(14,116,144,0.06) 1px, transparent 1px); background-size: 24px 24px;"></div>
+      <div class="absolute -top-40 -left-40 w-96 h-96 bg-tech-400/5 rounded-full blur-[120px] pointer-events-none"></div>
+      <div class="absolute -bottom-40 -right-40 w-96 h-96 bg-[#C0563B]/5 rounded-full blur-[120px] pointer-events-none"></div>
 
       <div class="relative z-10">
         
         <!-- Header -->
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-10 pb-6 border-b border-slate-800">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-10 pb-6 border-b border-ink-900/10">
           <div>
-            <span class="chip bg-cyan-950 text-cyan-400 border border-cyan-800/50 font-bold px-3 py-1 text-xs uppercase tracking-wider">Data Pipeline Architecture</span>
-            <h3 class="text-2xl md:text-3xl font-black text-white mt-2">MoNo 데이터 인프라 흐름도</h3>
-            <p class="text-slate-300 text-sm mt-1">현장 데이터 수집부터 대안 신용(CB) 생성, B2B SaaS 활용, 그리고 미래 협업 로보틱스 R&amp;D까지 실시간 연결되는 순환 구조</p>
+            <span class="chip bg-tech-50 text-tech-900 border border-tech-600/35 font-bold px-3 py-1 text-xs uppercase tracking-wider">Data Pipeline Architecture</span>
+            <h3 class="text-2xl md:text-3xl font-black text-ink-900 mt-2">MoNo 데이터 인프라 흐름도</h3>
+            <p class="text-ink-700 text-sm mt-1">현장 데이터 수집부터 대안 신용(CB) 생성, B2B SaaS 활용, 그리고 미래 협업 로보틱스 R&amp;D까지 실시간 연결되는 순환 구조</p>
           </div>
           <div class="flex items-center gap-2 shrink-0">
-            <span class="px-2.5 py-1 bg-slate-900 text-[#22D3EE] border border-[#22D3EE]/35 rounded text-[11px] font-mono font-bold tracking-widest uppercase animate-pulse">REAL-TIME FLYWHEEL ACTIVE</span>
+            <span class="px-2.5 py-1 bg-tech-500/10 text-tech-800 border border-tech-600/30 rounded text-[11px] font-mono font-bold tracking-widest uppercase animate-pulse">REAL-TIME FLYWHEEL ACTIVE</span>
           </div>
         </div>
 
@@ -1385,34 +1385,31 @@
             }
           }
           .flow-line-blue {
-            stroke: #22D3EE;
+            stroke: #0E7490;
             stroke-dasharray: 8 4;
-            animation: flowDash 1.2s linear infinite;
+            animation: flowDash 1.5s linear infinite;
           }
           .flow-line-coral {
             stroke: #C0563B;
             stroke-dasharray: 8 4;
-            animation: flowDash 1.2s linear infinite;
-          }
-          .flow-line-gray {
-            stroke: #94A3B8;
-            stroke-dasharray: 8 4;
             animation: flowDash 1.5s linear infinite;
           }
           .flow-card {
-            background: rgba(15, 23, 42, 0.85);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: #FFFFFF;
+            border: 1px solid rgba(14, 116, 144, 0.15);
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
           }
           .flow-card:hover {
-            border-color: rgba(34, 211, 238, 0.6);
+            border-color: #0E7490;
             transform: translateY(-2px);
-            box-shadow: 0 10px 25px -5px rgba(34, 211, 238, 0.2), 0 8px 10px -6px rgba(34, 211, 238, 0.2);
+            box-shadow: 0 10px 20px -5px rgba(14, 116, 144, 0.1), 0 8px 8px -6px rgba(14, 116, 144, 0.1);
+          }
+          .flow-card-coral {
+            border: 1px solid rgba(192, 86, 59, 0.2);
           }
           .flow-card-coral:hover {
-            border-color: rgba(192, 86, 59, 0.6);
-            box-shadow: 0 10px 25px -5px rgba(192, 86, 59, 0.2), 0 8px 10px -6px rgba(192, 86, 59, 0.2);
+            border-color: #C0563B;
+            box-shadow: 0 10px 20px -5px rgba(192, 86, 59, 0.1), 0 8px 8px -6px rgba(192, 86, 59, 0.1);
           }
         </style>
 
@@ -1422,51 +1419,48 @@
             <defs>
               <!-- Markers -->
               <marker id="arrow-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-                <path d="M 0 0 L 10 5 L 0 10 z" fill="#22D3EE"/>
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#0E7490"/>
               </marker>
               <marker id="arrow-coral" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
                 <path d="M 0 0 L 10 5 L 0 10 z" fill="#C0563B"/>
               </marker>
-              <marker id="arrow-gray" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-                <path d="M 0 0 L 10 5 L 0 10 z" fill="#94A3B8"/>
-              </marker>
             </defs>
 
-            <!-- 1. DATA SOURCES -> PROCESSING Lines -->
-            <path d="M 315 145 C 360 145, 360 195, 410 195" stroke="rgba(34, 211, 238, 0.3)" stroke-width="2" fill="none" />
-            <path d="M 315 145 C 360 145, 360 195, 410 195" class="flow-line-blue" stroke-width="2" fill="none" marker-end="url(#arrow-blue)" />
+            <!-- 1. DATA SOURCES -> PROCESSING Lines (Strict boundaries, never crossing text) -->
+            <path d="M 305 152 C 340 152, 360 200, 400 200" stroke="rgba(14, 116, 144, 0.2)" stroke-width="2" fill="none" />
+            <path d="M 305 152 C 340 152, 360 200, 400 200" class="flow-line-blue" stroke-width="2" fill="none" marker-end="url(#arrow-blue)" />
             
-            <path d="M 315 285 C 360 285, 360 220, 410 220" stroke="rgba(34, 211, 238, 0.3)" stroke-width="2" fill="none" />
-            <path d="M 315 285 C 360 285, 360 220, 410 220" class="flow-line-blue" stroke-width="2" fill="none" marker-end="url(#arrow-blue)" />
+            <path d="M 305 288 L 400 288" stroke="rgba(14, 116, 144, 0.2)" stroke-width="2" fill="none" />
+            <path d="M 305 288 L 400 288" class="flow-line-blue" stroke-width="2" fill="none" marker-end="url(#arrow-blue)" />
 
-            <path d="M 315 425 C 370 425, 370 245, 410 245" stroke="rgba(34, 211, 238, 0.3)" stroke-width="2" fill="none" />
-            <path d="M 315 425 C 370 425, 370 245, 410 245" class="flow-line-blue" stroke-width="2" fill="none" marker-end="url(#arrow-blue)" />
+            <path d="M 305 425 C 340 425, 360 376, 400 376" stroke="rgba(14, 116, 144, 0.2)" stroke-width="2" fill="none" />
+            <path d="M 305 425 C 340 425, 360 376, 400 376" class="flow-line-blue" stroke-width="2" fill="none" marker-end="url(#arrow-blue)" />
 
             <!-- 2. PROCESSING -> CORE Ingestion Lines -->
-            <path d="M 500 250 L 500 290" stroke="rgba(34, 211, 238, 0.4)" stroke-width="2.5" fill="none" marker-end="url(#arrow-blue)" />
-            <path d="M 690 250 L 690 290" stroke="rgba(34, 211, 238, 0.4)" stroke-width="2.5" fill="none" marker-end="url(#arrow-blue)" />
+            <path d="M 490 328 L 490 358" stroke="rgba(14, 116, 144, 0.3)" stroke-width="2.5" fill="none" marker-end="url(#arrow-blue)" />
+            <path d="M 685 328 L 685 358" stroke="rgba(14, 116, 144, 0.3)" stroke-width="2.5" fill="none" marker-end="url(#arrow-blue)" />
 
             <!-- 3. CORE (Data Moat) -> BUSINESS MODEL (Right) -->
-            <path d="M 765 355 C 800 355, 800 230, 835 230" stroke="rgba(192, 86, 59, 0.3)" stroke-width="2" fill="none" />
-            <path d="M 765 355 C 800 355, 800 230, 835 230" class="flow-line-coral" stroke-width="2" fill="none" marker-end="url(#arrow-coral)" />
+            <path d="M 765 410 C 800 410, 800 240, 835 240" stroke="rgba(192, 86, 59, 0.2)" stroke-width="2" fill="none" />
+            <path d="M 765 410 C 800 410, 800 240, 835 240" class="flow-line-coral" stroke-width="2" fill="none" marker-end="url(#arrow-coral)" />
 
-            <path d="M 765 415 C 800 415, 800 480, 835 480" stroke="rgba(192, 86, 59, 0.3)" stroke-width="2" fill="none" />
-            <path d="M 765 415 C 800 415, 800 480, 835 480" class="flow-line-coral" stroke-width="2" fill="none" marker-end="url(#arrow-coral)" />
+            <path d="M 765 460 C 800 460, 800 480, 835 480" stroke="rgba(192, 86, 59, 0.2)" stroke-width="2" fill="none" />
+            <path d="M 765 460 C 800 460, 800 480, 835 480" class="flow-line-coral" stroke-width="2" fill="none" marker-end="url(#arrow-coral)" />
 
-            <!-- 4. CORE -> ANALYSIS HUB (Greenish path) -->
-            <path d="M 455 450 C 425 450, 425 570, 460 570" stroke="rgba(34, 211, 238, 0.3)" stroke-width="2" fill="none" />
-            <path d="M 455 450 C 425 450, 425 570, 460 570" class="flow-line-blue" stroke-width="2" fill="none" marker-end="url(#arrow-blue)" />
+            <!-- 4. CORE -> ANALYSIS HUB -->
+            <path d="M 450 495 C 410 495, 410 595, 450 595" stroke="rgba(14, 116, 144, 0.2)" stroke-width="2" fill="none" />
+            <path d="M 450 495 C 410 495, 410 595, 450 595" class="flow-line-blue" stroke-width="2" fill="none" marker-end="url(#arrow-blue)" />
 
             <!-- 5. ANALYSIS HUB -> BUSINESS MODEL -->
-            <path d="M 735 595 C 800 595, 800 520, 835 520" stroke="rgba(34, 211, 238, 0.3)" stroke-width="2" fill="none" />
-            <path d="M 735 595 C 800 595, 800 520, 835 520" class="flow-line-blue" stroke-width="2" fill="none" marker-end="url(#arrow-blue)" />
+            <path d="M 735 605 C 800 605, 800 520, 835 520" stroke="rgba(14, 116, 144, 0.2)" stroke-width="2" fill="none" />
+            <path d="M 735 605 C 800 605, 800 520, 835 520" class="flow-line-blue" stroke-width="2" fill="none" marker-end="url(#arrow-blue)" />
 
             <!-- 6. FUTURE VISION (Bottom R&D) -> [DATA SOURCES] (Flywheel) -->
-            <path d="M 230 730 C 20 730, 20 280, 45 280" stroke="rgba(34, 211, 238, 0.3)" stroke-width="2" fill="none" />
-            <path d="M 230 730 C 20 730, 20 280, 45 280" class="flow-line-blue" stroke-width="2" fill="none" marker-end="url(#arrow-blue)" />
+            <path d="M 230 730 C 20 730, 20 288, 45 288" stroke="rgba(14, 116, 144, 0.2)" stroke-width="2" fill="none" />
+            <path d="M 230 730 C 20 730, 20 288, 45 288" class="flow-line-blue" stroke-width="2" fill="none" marker-end="url(#arrow-blue)" />
 
             <!-- 7. BUSINESS MODEL -> FUTURE VISION (Feedback/Virtuous Cycle Loop) -->
-            <path d="M 1155 355 C 1195 355, 1195 730, 970 730" stroke="rgba(192, 86, 59, 0.3)" stroke-width="2" fill="none" />
+            <path d="M 1155 355 C 1195 355, 1195 730, 970 730" stroke="rgba(192, 86, 59, 0.2)" stroke-width="2" fill="none" />
             <path d="M 1155 355 C 1195 355, 1195 730, 970 730" class="flow-line-coral" stroke-width="2" fill="none" marker-end="url(#arrow-coral)" />
           </svg>
         </div>
@@ -1476,35 +1470,35 @@
           
           <!-- ==================== [DATA SOURCES] (Left - Cols 3) ==================== -->
           <div class="lg:col-span-3 flex flex-col justify-between gap-5 relative">
-            <div class="absolute -left-2 top-3 w-1 h-6 bg-[#22D3EE]"></div>
+            <div class="absolute -left-2 top-3 w-1 h-6 bg-[#0E7490]"></div>
             
             <div class="mb-1">
-              <span class="px-2 py-0.5 text-[10px] font-mono font-bold bg-cyan-950 text-cyan-400 border border-cyan-800/40 lcorner">[DATA SOURCES]</span>
-              <h4 class="text-lg font-black text-white mt-1">1단계 · 데이터 소스</h4>
+              <span class="px-2.5 py-0.5 text-[10px] font-mono font-bold bg-tech-50 text-tech-900 border border-tech-600/35 lcorner">[DATA SOURCES]</span>
+              <h4 class="text-lg font-black text-ink-900 mt-1.5">1단계 · 데이터 소스</h4>
             </div>
 
             <!-- 1) Mobile App Card -->
             <div class="flow-card p-4 lcorner relative">
-              <div class="text-[12.5px] font-extrabold text-white mb-2 flex items-center gap-2">
-                <span class="w-5 h-5 rounded-full bg-cyan-500/20 flex items-center justify-center text-[10.5px] text-[#22D3EE] font-mono font-bold">1</span>
-                <i class="fa-solid fa-mobile-screen text-[#22D3EE]"></i> 모바일 앱
+              <div class="text-[12.5px] font-black text-ink-900 mb-2 flex items-center gap-2">
+                <span class="w-5 h-5 rounded-full bg-tech-500/10 flex items-center justify-center text-[10.5px] text-tech-800 font-mono font-bold">1</span>
+                <i class="fa-solid fa-mobile-screen text-tech-700"></i> 모바일 앱
               </div>
-              <p class="text-[10px] text-slate-400 font-mono mb-2">(작업자 인터페이스)</p>
-              <ul class="text-[11px] text-slate-200 space-y-1.5 pl-1 list-inside list-disc">
+              <p class="text-[10px] text-ink-500 font-mono mb-2">(작업자 인터페이스)</p>
+              <ul class="text-[11px] text-ink-800 space-y-1.5 pl-1 list-inside list-disc">
                 <li>출질 로그 / 상호작용 로그</li>
-                <li class="text-[#22D3EE] font-bold text-[11.5px] bg-[#22D3EE]/10 px-1 py-0.5 rounded-sm">출결 로그 (성실도 데이터)</li>
-                <li class="text-[#22D3EE] font-bold text-[11.5px] bg-[#22D3EE]/10 px-1 py-0.5 rounded-sm">안전 점검 로그 (안전 준수 체크)</li>
+                <li class="text-tech-900 font-extrabold text-[11.5px] bg-tech-50 border border-tech-500/20 px-1.5 py-0.5 rounded-sm block mt-1">출결 로그 (성실도 데이터)</li>
+                <li class="text-tech-900 font-extrabold text-[11.5px] bg-tech-50 border border-tech-500/20 px-1.5 py-0.5 rounded-sm block mt-1">안전 점검 로그 (안전 준수 체크)</li>
               </ul>
             </div>
 
             <!-- 2) Server Logs Card -->
             <div class="flow-card p-4 lcorner relative">
-              <div class="text-[12.5px] font-extrabold text-white mb-2 flex items-center gap-2">
-                <span class="w-5 h-5 rounded-full bg-cyan-500/20 flex items-center justify-center text-[10.5px] text-[#22D3EE] font-mono font-bold">2</span>
-                <i class="fa-solid fa-server text-[#22D3EE]"></i> 서버 로그
+              <div class="text-[12.5px] font-black text-ink-900 mb-2 flex items-center gap-2">
+                <span class="w-5 h-5 rounded-full bg-tech-500/10 flex items-center justify-center text-[10.5px] text-tech-800 font-mono font-bold">2</span>
+                <i class="fa-solid fa-server text-tech-700"></i> 서버 로그
               </div>
-              <p class="text-[10px] text-slate-400 font-mono mb-2">(시스템 활동)</p>
-              <ul class="text-[11px] text-slate-200 space-y-1 pl-1 list-inside list-disc">
+              <p class="text-[10px] text-ink-500 font-mono mb-2">(시스템 활동)</p>
+              <ul class="text-[11px] text-ink-800 space-y-1 pl-1 list-inside list-disc">
                 <li>사용자 활동</li>
                 <li>거래 로그</li>
               </ul>
@@ -1512,107 +1506,107 @@
 
             <!-- 3) API & IoT Card -->
             <div class="flow-card p-4 lcorner relative">
-              <div class="text-[12.5px] font-extrabold text-white mb-2 flex items-center gap-2">
-                <span class="w-5 h-5 rounded-full bg-cyan-500/20 flex items-center justify-center text-[10.5px] text-[#22D3EE] font-mono font-bold">3</span>
-                <i class="fa-solid fa-satellite-dish text-[#22D3EE]"></i> API 및 IoT
+              <div class="text-[12.5px] font-black text-ink-900 mb-2 flex items-center gap-2">
+                <span class="w-5 h-5 rounded-full bg-tech-500/10 flex items-center justify-center text-[10.5px] text-tech-800 font-mono font-bold">3</span>
+                <i class="fa-solid fa-satellite-dish text-tech-700"></i> API 및 IoT
               </div>
-              <p class="text-[10px] text-slate-400 font-mono mb-2">(현장 데이터)</p>
-              <ul class="text-[11px] text-slate-200 space-y-1 pl-1 list-inside list-disc">
+              <p class="text-[10px] text-ink-500 font-mono mb-2">(현장 데이터)</p>
+              <ul class="text-[11px] text-ink-800 space-y-1 pl-1 list-inside list-disc">
                 <li>실시간 현장 데이터</li>
                 <li>장비 상태</li>
               </ul>
             </div>
             
             <!-- Mobile Connector icon -->
-            <div class="flex lg:hidden justify-center my-1 text-[#22D3EE] text-xl animate-bounce">➔</div>
+            <div class="flex lg:hidden justify-center my-1 text-tech-700 text-xl animate-bounce">➔</div>
           </div>
 
           <!-- ==================== [PROCESSING & CORE & HUB] (Center - Cols 5) ==================== -->
           <div class="lg:col-span-5 flex flex-col gap-5 relative justify-between">
-            <div class="absolute -left-2 top-3 w-1 h-6 bg-[#22D3EE]"></div>
+            <div class="absolute -left-2 top-3 w-1 h-6 bg-[#0E7490]"></div>
             
             <div class="mb-1">
-              <span class="px-2 py-0.5 text-[10px] font-mono font-bold bg-cyan-950 text-cyan-400 border border-cyan-800/40 lcorner">[PROCESSING]</span>
-              <h4 class="text-lg font-black text-white mt-1">2단계 · 데이터 수집 및 처리</h4>
+              <span class="px-2.5 py-0.5 text-[10px] font-mono font-bold bg-tech-50 text-tech-900 border border-tech-600/35 lcorner">[PROCESSING]</span>
+              <h4 class="text-lg font-black text-ink-900 mt-1.5">2단계 · 데이터 수집 및 처리</h4>
             </div>
 
             <!-- Ingestion: Streaming / Batch Inflow Card -->
             <div class="flow-card p-4 lcorner">
               <div class="grid grid-cols-2 gap-4">
-                <div class="border-r border-slate-800 pr-2">
-                  <div class="text-[11.5px] font-black text-[#22D3EE] flex items-center gap-1.5 mb-1">
-                    <i class="fa-solid fa-bolt"></i> 스트리밍 수집
+                <div class="border-r border-ink-200 pr-2">
+                  <div class="text-[11.5px] font-black text-tech-800 flex items-center gap-1.5 mb-1">
+                    <i class="fa-solid fa-bolt text-tech-600"></i> 스트리밍 수집
                   </div>
-                  <div class="text-[10px] font-mono text-slate-400 mb-1.5">(예: Kafka / Kinesis)</div>
-                  <p class="text-[11px] text-slate-200 font-medium">실시간 스트림</p>
+                  <div class="text-[10px] font-mono text-ink-500 mb-1.5">(예: Kafka / Kinesis)</div>
+                  <p class="text-[11px] text-ink-800 font-bold">실시간 스트림</p>
                 </div>
                 <div class="pl-2">
-                  <div class="text-[11.5px] font-black text-[#22D3EE] flex items-center gap-1.5 mb-1">
-                    <i class="fa-solid fa-calendar-days"></i> 배치 수집
+                  <div class="text-[11.5px] font-black text-tech-800 flex items-center gap-1.5 mb-1">
+                    <i class="fa-solid fa-calendar-days text-tech-600"></i> 배치 수집
                   </div>
-                  <div class="text-[10px] font-mono text-slate-400 mb-1.5">(예: Glue / EMR)</div>
-                  <p class="text-[11px] text-slate-200 font-medium">예약된 데이터 전송</p>
+                  <div class="text-[10px] font-mono text-ink-500 mb-1.5">(예: Glue / EMR)</div>
+                  <p class="text-[11px] text-ink-800 font-bold">예약된 데이터 전송</p>
                 </div>
               </div>
             </div>
 
             <!-- Core Data Lake & ML Engine (Data Moat) Container -->
-            <div class="p-4 border border-cyan-500/25 bg-slate-900/90 lcorner relative overflow-hidden" style="background: rgba(15, 23, 42, 0.95); border: 1px solid rgba(34, 211, 238, 0.25);">
+            <div class="p-4 border border-tech-500/20 bg-warm-100/30 lcorner relative overflow-hidden" style="background: rgba(245, 245, 244, 0.7); border: 1px solid rgba(14, 116, 144, 0.18);">
               <div class="absolute inset-0 blueprint opacity-5 pointer-events-none"></div>
               
               <div class="relative z-10">
-                <div class="text-center pb-2 border-b border-[#22D3EE]/25 mb-3 flex items-center justify-between">
-                  <span class="text-[10px] font-mono font-bold bg-[#22D3EE]/15 text-[#22D3EE] px-1.5 py-0.5 rounded-sm border border-[#22D3EE]/30">[CORE]</span>
-                  <div class="text-[12.5px] font-extrabold text-white"><i class="fa-solid fa-box-archive mr-1.5 text-[#22D3EE]"></i>데이터 레이크</div>
-                  <span class="text-[9.5px] font-mono text-slate-400">Integrated Storage</span>
+                <div class="text-center pb-2 border-b border-ink-900/10 mb-3 flex items-center justify-between">
+                  <span class="text-[10px] font-mono font-bold bg-tech-50 text-tech-900 px-1.5 py-0.5 rounded-sm border border-tech-500/20">[CORE]</span>
+                  <div class="text-[12.5px] font-black text-ink-900"><i class="fa-solid fa-box-archive mr-1.5 text-tech-700"></i>데이터 레이크</div>
+                  <span class="text-[9.5px] font-mono text-ink-500">Integrated Storage</span>
                 </div>
 
                 <div class="grid grid-cols-2 gap-3 mt-3">
                   <!-- CB Scoring Engine -->
-                  <div class="flow-card p-3 rounded-sm border border-white/10 bg-slate-950/90">
-                    <div class="text-[11px] font-black text-white flex items-center gap-1 mb-1">
-                      <i class="fa-solid fa-id-card text-yellow-400"></i> CB 스코어링 엔진
+                  <div class="flow-card p-3 rounded-sm border border-ink-900/10 shadow-sm">
+                    <div class="text-[11px] font-black text-ink-900 flex items-center gap-1 mb-1">
+                      <i class="fa-solid fa-id-card text-[#C0563B]"></i> CB 스코어링 엔진
                     </div>
-                    <div class="text-[9px] font-mono text-slate-400 mb-2">(Credit Bureau)</div>
-                    <div class="text-[10.5px] text-[#22D3EE] font-extrabold">대안 금융 데이터 산출</div>
+                    <div class="text-[9px] font-mono text-ink-500 mb-2">(Credit Bureau)</div>
+                    <div class="text-[11px] text-tech-800 font-extrabold">대안 금융 데이터 산출</div>
                   </div>
 
                   <!-- AI Matching -->
-                  <div class="flow-card p-3 rounded-sm border border-white/10 bg-slate-950/90">
-                    <div class="text-[11px] font-black text-white flex items-center gap-1 mb-1">
-                      <i class="fa-solid fa-arrows-spin text-cyan-400 animate-spin-slow"></i> AI 매칭 알고리즘
+                  <div class="flow-card p-3 rounded-sm border border-ink-900/10 shadow-sm">
+                    <div class="text-[11px] font-black text-ink-900 flex items-center gap-1 mb-1">
+                      <i class="fa-solid fa-arrows-spin text-tech-700 animate-spin-slow"></i> AI 매칭 알고리즘
                     </div>
-                    <div class="text-[9px] font-mono text-slate-400 mb-2">Smart Allocation</div>
-                    <div class="text-[10.5px] text-[#22D3EE] font-extrabold">최적의 일자리/작업자</div>
+                    <div class="text-[9px] font-mono text-ink-500 mb-2">Smart Allocation</div>
+                    <div class="text-[11px] text-tech-800 font-extrabold">최적의 일자리/작업자</div>
                   </div>
                 </div>
 
                 <!-- Footer label -->
-                <div class="mt-3 pt-2.5 border-t border-[#22D3EE]/15 flex items-center justify-between text-[11px]">
-                  <span class="font-mono text-slate-400">Proprietary Technology</span>
-                  <span class="font-extrabold text-white uppercase tracking-wider flex items-center gap-1">
-                    <span class="w-1.5 h-1.5 bg-[#22D3EE] rounded-full animate-ping"></span>
-                    데이터 해자 <span class="text-[#22D3EE] font-mono font-bold">DATA MOAT</span>
+                <div class="mt-3 pt-2.5 border-t border-ink-900/10 flex items-center justify-between text-[11px]">
+                  <span class="font-mono text-ink-500">Proprietary Technology</span>
+                  <span class="font-black text-tech-900 uppercase tracking-wider flex items-center gap-1">
+                    <span class="w-1.5 h-1.5 bg-tech-600 rounded-full animate-ping"></span>
+                    데이터 해자 <span class="text-tech-700 font-mono font-black">DATA MOAT</span>
                   </span>
                 </div>
               </div>
             </div>
 
             <!-- Analysis Hub Card -->
-            <div class="flow-card p-4 lcorner border border-emerald-500/30 bg-emerald-950/30" style="background: rgba(4, 120, 87, 0.15);">
+            <div class="flow-card p-4 lcorner border border-emerald-500/25 bg-emerald-500/[0.04]" style="background: rgba(16, 185, 129, 0.04); border-color: rgba(16, 185, 129, 0.2);">
               <div class="flex items-center gap-2 mb-2">
-                <span class="px-1.5 py-0.5 text-[9px] font-mono font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 lcorner">[ANALYSIS HUB]</span>
-                <div class="text-[13px] font-black text-white flex items-center gap-1.5">
-                  <i class="fa-solid fa-network-wired text-emerald-400"></i> 데이터 웨어하우스
+                <span class="px-1.5 py-0.5 text-[9px] font-mono font-bold bg-emerald-50 text-emerald-800 border border-emerald-500/30 lcorner">[ANALYSIS HUB]</span>
+                <div class="text-[13px] font-black text-ink-900 flex items-center gap-1.5">
+                  <i class="fa-solid fa-network-wired text-emerald-600"></i> 데이터 웨어하우스
                 </div>
               </div>
-              <p class="text-[11px] text-slate-200 leading-normal font-medium">
+              <p class="text-[11px] text-ink-800 leading-normal font-medium">
                 비즈니스 인텔리전스, 정밀 분석 및 <strong>데이터 기반 인사이트</strong>를 도출하여 핀테크 스케일업과 사업 다각화의 고정밀 기지로 활용합니다.
               </p>
             </div>
             
             <!-- Mobile Connector icon -->
-            <div class="flex lg:hidden justify-center my-1 text-[#22D3EE] text-xl animate-bounce">➔</div>
+            <div class="flex lg:hidden justify-center my-1 text-tech-700 text-xl animate-bounce">➔</div>
           </div>
 
           <!-- ==================== [BUSINESS MODEL] (Right - Cols 4) ==================== -->
@@ -1620,24 +1614,24 @@
             <div class="absolute -left-2 top-3 w-1 h-6 bg-[#C0563B]"></div>
             
             <div class="mb-1">
-              <span class="px-2 py-0.5 text-[10px] font-mono font-bold bg-red-950/60 text-red-400 border border-red-800/40 lcorner">[BUSINESS MODEL]</span>
-              <h4 class="text-lg font-black text-white mt-1">3단계 · 가치 창출 &amp; Serving</h4>
+              <span class="px-2.5 py-0.5 text-[10px] font-mono font-bold bg-red-50 text-[#C0563B] border border-[#C0563B]/20 lcorner">[BUSINESS MODEL]</span>
+              <h4 class="text-lg font-black text-ink-900 mt-1.5">3단계 · 가치 창출 &amp; Serving</h4>
             </div>
 
             <!-- [4.1] B2C Card -->
             <div class="flow-card flow-card-coral p-5 lcorner relative border-l-2 border-l-yellow-500">
               <div class="flex items-center justify-between mb-2">
-                <div class="text-[13px] font-black text-white flex items-center gap-2">
-                  <i class="fa-solid fa-user-shield text-yellow-500"></i> [4.1] 숙련 근로자를 위한 가치 (B2C)
+                <div class="text-[13px] font-black text-ink-900 flex items-center gap-2">
+                  <i class="fa-solid fa-user-shield text-yellow-600"></i> [4.1] 숙련 근로자를 위한 가치 (B2C)
                 </div>
               </div>
               
-              <div class="p-2.5 bg-yellow-500/10 border border-yellow-500/30 rounded-sm mb-3 text-center">
-                <span class="text-[10px] text-yellow-400 font-mono font-black uppercase tracking-wider block">SWEAT TO CREDIT</span>
-                <span class="text-[11px] text-white font-extrabold">노동 기반 신용 스코어화</span>
+              <div class="p-2.5 bg-yellow-500/10 border border-yellow-500/20 rounded-sm mb-3 text-center">
+                <span class="text-[10px] text-yellow-700 font-mono font-black uppercase tracking-wider block">SWEAT TO CREDIT</span>
+                <span class="text-[11.5px] text-ink-900 font-black">노동 기반 신용 스코어화</span>
               </div>
               
-              <p class="text-[11px] text-slate-200 leading-relaxed">
+              <p class="text-[11px] text-ink-800 leading-relaxed">
                 출퇴근 데이터와 성실도가 <strong>대안 금융(CB 스코어)</strong>으로 변환됩니다. 1금융권의 대출 및 스마트 보험 상품과 직결되어 블루칼라를 위한 금융 포용을 구현합니다.
               </p>
             </div>
@@ -1645,18 +1639,18 @@
             <!-- [4.2] B2B SaaS Card -->
             <div class="flow-card flow-card-coral p-5 lcorner relative border-l-2 border-l-[#C0563B]">
               <div class="flex items-center justify-between mb-2">
-                <div class="text-[13px] font-black text-white flex items-center gap-2">
+                <div class="text-[13px] font-black text-ink-900 flex items-center gap-2">
                   <i class="fa-solid fa-building-shield text-[#C0563B]"></i> [4.2] 기업을 위한 가치 (B2B SaaS / 인프라)
                 </div>
               </div>
               
               <div class="grid grid-cols-3 gap-1.5 text-center text-[10px] font-black text-white mb-3">
-                <span class="p-1 bg-[#C0563B]/20 border border-[#C0563B]/30 rounded-sm">원청/하청 기업</span>
-                <span class="p-1 bg-[#C0563B]/20 border border-[#C0563B]/30 rounded-sm">현장 관리자</span>
-                <span class="p-1 bg-[#C0563B]/20 border border-[#C0563B]/30 rounded-sm">전략적 파트너</span>
+                <span class="p-1 bg-[#C0563B]/90 rounded-sm">원청/하청 기업</span>
+                <span class="p-1 bg-[#C0563B]/90 rounded-sm">현장 관리자</span>
+                <span class="p-1 bg-[#C0563B]/90 rounded-sm">전략적 파트너</span>
               </div>
               
-              <p class="text-[11px] text-slate-200 leading-relaxed">
+              <p class="text-[11px] text-ink-800 leading-relaxed">
                 <strong>리스크 방어 (중대재해처벌법 대응):</strong> 현장 데이터를 실시간 관리하여 컴플라이언스 위험을 통제하고 효율성과 기업 평판을 제고합니다. 대기업의 '상생 생태계 조성' 및 '미래 인재 육성' 명분을 완벽 소명합니다.
               </p>
             </div>
@@ -1666,32 +1660,32 @@
         </div><!-- /Columns Grid -->
 
         <!-- ==================== [FUTURE] (Bottom Row - Full Width) ==================== -->
-        <div class="mt-8 p-6 bg-slate-900/90 border border-cyan-500/30 lcorner relative overflow-hidden group hover:border-[#22D3EE]/50 transition-all duration-300" style="background-color: rgba(15, 23, 42, 0.95);">
+        <div class="mt-8 p-6 bg-white border border-tech-500/25 lcorner relative overflow-hidden group hover:border-tech-600 transition-all duration-300 shadow-blueprint-sm">
           <div class="absolute inset-0 blueprint opacity-5 pointer-events-none"></div>
           
           <div class="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6">
             <div class="flex items-center gap-4">
-              <div class="w-12 h-12 rounded-sm bg-cyan-500/20 text-[#22D3EE] flex items-center justify-center text-xl shrink-0"><i class="fa-solid fa-robot"></i></div>
+              <div class="w-12 h-12 rounded-sm bg-tech-50 text-tech-800 border border-tech-500/20 flex items-center justify-center text-xl shrink-0"><i class="fa-solid fa-robot animate-bounce"></i></div>
               <div>
-                <span class="text-[#22D3EE] text-[10.5px] font-mono tracking-widest font-bold uppercase block">[FUTURE] 장기 비전 및 R&amp;D (미래)</span>
-                <h4 class="text-[16px] font-black text-white mt-1">R&amp;D 및 생태계: 기술노동 환경의 로보틱스 혁신</h4>
-                <p class="text-slate-200 text-xs mt-1.5 leading-relaxed max-w-4xl break-keep font-medium" style="word-break: keep-all;">
+                <span class="text-tech-800 text-[10.5px] font-mono tracking-widest font-bold uppercase block">[FUTURE] 장기 비전 및 R&amp;D (미래)</span>
+                <h4 class="text-[16px] font-black text-ink-900 mt-1">R&amp;D 및 생태계: 기술노동 환경의 로보틱스 혁신</h4>
+                <p class="text-ink-800 text-xs mt-1.5 leading-relaxed max-w-4xl break-keep font-medium" style="word-break: keep-all;">
                   MOMO 인프라가 실시간 축적한 현장 가공 데이터를 기반으로 <strong>정밀 용접 및 마무리/미장 매칭 시스템</strong>을 구축합니다. 고위험 현장 작업을 안전하게 대체하는 <strong>협업 로봇 고도화 R&amp;D</strong>를 선도하고, 산업적 상생 생태계의 완전한 디지털 전환을 완성합니다.
                 </p>
               </div>
             </div>
-            <span class="chip bg-slate-950 text-[#22D3EE] border border-[#22D3EE]/40 text-xs font-mono shrink-0 py-2 px-4 shadow rounded uppercase tracking-wider font-bold">2030+ Roadmap</span>
+            <span class="chip bg-tech-50 text-tech-900 border border-tech-500/40 text-xs font-mono shrink-0 py-2 px-4 shadow rounded uppercase tracking-wider font-bold">2030+ Roadmap</span>
           </div>
         </div>
 
         <!-- Flow labels inside container for visual helper (Only visible on desktop) -->
-        <div class="absolute hidden lg:block text-[11px] font-mono font-black uppercase pointer-events-none" style="top: 48%; left: 4%; transform: rotate(-90deg); z-index: 10;">
-          <span class="bg-slate-950/90 text-[#22D3EE] border border-[#22D3EE]/30 px-2 py-1 rounded backdrop-blur-sm shadow-md flex items-center gap-1">
+        <div class="absolute hidden lg:block text-[11px] font-mono font-black uppercase pointer-events-none" style="top: 48%; left: 1.5%; transform: rotate(-90deg); z-index: 10;">
+          <span class="bg-white text-tech-900 border border-tech-300/80 px-2.5 py-1 rounded shadow-neo-soft flex items-center gap-1">
             <i class="fa-solid fa-rotate-left"></i> 데이터 플라이휠
           </span>
         </div>
-        <div class="absolute hidden lg:block text-[11px] font-mono font-black uppercase pointer-events-none" style="top: 48%; right: 3%; transform: rotate(90deg); z-index: 10;">
-          <span class="bg-slate-950/90 text-[#C0563B] border border-[#C0563B]/30 px-2 py-1 rounded backdrop-blur-sm shadow-md flex items-center gap-1">
+        <div class="absolute hidden lg:block text-[11px] font-mono font-black uppercase pointer-events-none" style="top: 48%; right: 1.5%; transform: rotate(90deg); z-index: 10;">
+          <span class="bg-white text-[#C0563B] border border-[#C0563B]/30 px-2.5 py-1 rounded shadow-neo-soft flex items-center gap-1">
             선순환 <i class="fa-solid fa-arrow-down-long"></i>
           </span>
         </div>
