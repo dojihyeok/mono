@@ -894,96 +894,166 @@
       <p class="body-lg mt-5" style="font-size: 1.2rem; line-height: 1.75;">MONO의 GTM은 두 구간으로 나뉘어 흐릅니다. <strong>트랙 1</strong>은 모두의 창업 라운드(R1→R4)를 통과해 1위 우승과 규제 사다리를 선점하는 과정, <strong>트랙 2</strong>는 우승 직후 창업 준비·초기 단계(S1→S4)에서 시장을 장악하는 실행 로드맵입니다.</p>
     </div>
 
-    <!-- ✅ Task 4: NOW-NEXT-FUTURE 3단계 스케일업 로드맵 (전면 개편) -->
-    <div class="reveal mb-16 border border-ink-900/15 bg-warm-50 lcorner shadow-neo-soft relative overflow-hidden">
-      <div class="absolute inset-0 blueprint opacity-20 pointer-events-none"></div>
-      <div class="relative z-10 p-8">
-        <!-- Header -->
-        <div class="flex flex-col sm:flex-row items-start sm:items-center gap-3 mb-8">
-          <span class="chip bg-tech-700 text-warm-50">사업 스케일업 로드맵 · NOW → NEXT → FUTURE</span>
-          <h3 class="text-xl font-bold text-ink-900">"모든 것을 한 번에 하지 않습니다" — 3단계 현실적 확장 전략</h3>
+    <!-- ✅ Task 4: NOW-NEXT-FUTURE 3단계 스케일업 로드맵 (디자인 전면 개편) -->
+    <div class="reveal mb-16 relative overflow-hidden">
+      <!-- Ambient high-fidelity background glow spheres -->
+      <div class="absolute -top-16 -right-16 w-80 h-80 bg-tech-400/10 rounded-full filter blur-3xl pointer-events-none"></div>
+      <div class="absolute -bottom-16 -left-16 w-80 h-80 bg-safety-amber/5 rounded-full filter blur-3xl pointer-events-none"></div>
+
+      <!-- Main panel wrap -->
+      <div class="border border-ink-900/15 bg-warm-50/90 backdrop-blur-md lcorner shadow-neo-soft p-6 md:p-8 relative overflow-hidden">
+        <div class="absolute inset-0 blueprint opacity-20 pointer-events-none"></div>
+        
+        <!-- Header: premium technical border bottom and side accents -->
+        <div class="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-10 border-b border-ink-900/10 pb-6">
+          <div class="flex items-center gap-3">
+            <span class="w-2.5 h-6 bg-tech-700 rounded-sm"></span>
+            <h3 class="text-xl md:text-2xl font-black text-ink-900 tracking-tight text-cyber-glow">"모든 것을 한 번에 하지 않습니다" — 3단계 현실적 확장 전략</h3>
+          </div>
+          <span class="chip bg-tech-800 text-warm-50 text-[12px] font-bold px-3 py-1 lcorner border border-tech-700/20">사업 스케일업 로드맵 · NOW ➔ NEXT ➔ FUTURE</span>
         </div>
 
-        <!-- Roadmap: 3 Phases with connector -->
-        <div class="relative grid md:grid-cols-3 gap-0">
+        <!-- Roadmap Grid with animated connector -->
+        <div class="relative grid md:grid-cols-3 gap-6 lg:gap-8 z-10">
 
-          <!-- Connector line (desktop only) -->
-          <div class="hidden md:block absolute top-[52px] left-[16.66%] right-[16.66%] h-[2px] pointer-events-none" style="background: repeating-linear-gradient(90deg, #0E7490 0 12px, transparent 12px 20px);"></div>
+          <!-- Glowing timeline pipeline connector (desktop only) -->
+          <div class="hidden md:block absolute top-[20px] left-[15%] right-[15%] h-[2px] pointer-events-none bg-gradient-to-r from-tech-700/30 via-tech-800/40 to-tech-500/20 z-0"></div>
 
           <!-- Phase 1: NOW -->
-          <div class="relative md:pr-6 pb-6 md:pb-0">
-            <!-- Step indicator -->
-            <div class="flex items-center gap-3 mb-4">
-              <div class="w-[52px] h-[52px] shrink-0 grid place-items-center bg-tech-700 text-warm-50 lcorner font-mono font-bold text-[18px] z-10 shadow-sm">01</div>
-              <div>
-                <div class="text-[11px] font-mono tracking-widest text-tech-700 font-bold">NOW · 현재</div>
-                <div class="text-[12px] text-ink-600 font-semibold">디지털 인력사무소 &amp; 포용 금융</div>
-              </div>
-            </div>
-            <div class="bg-white/95 border border-ink-900/10 border-t-4 border-t-tech-700 lcorner p-5 md:p-6 flex flex-col h-full hover-lift transition-transform shadow-blueprint-sm relative overflow-hidden">
-              <div class="absolute inset-0 blueprint opacity-[0.03] pointer-events-none"></div>
-              <div class="relative z-10 flex flex-col h-full">
-                <div class="flex items-center gap-2 mb-3">
-                  <i class="fa-solid fa-mobile-screen text-tech-700 text-lg"></i>
-                  <h4 class="text-[16px] font-extrabold text-ink-900">스마트 일자리 플랫폼</h4>
+          <div class="relative flex flex-col group/card">
+            <!-- Step Badge & Header -->
+            <div class="flex items-center justify-between mb-4 px-2 z-10">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-tech-700/15 border border-tech-700/40 flex items-center justify-center text-tech-800 font-mono font-black text-base shadow-sm group-hover/card:bg-tech-700 group-hover/card:text-warm-50 transition-all duration-300">01</div>
+                <div>
+                  <div class="text-[10px] font-mono tracking-widest text-tech-700 font-extrabold uppercase">NOW · 현재</div>
+                  <div class="text-[13px] text-ink-800 font-bold">디지털 인력사무소 &amp; 포용 금융</div>
                 </div>
-                <p class="text-[14px] leading-relaxed text-ink-800 mb-4">당장의 현장 문제를 해결하는 온·오프라인 현장 밀착 인프라. 에스크로 당일 정산, 출역 데이터 기반 포용 금융의 초석을 놓습니다.</p>
-                <ul class="text-[13.5px] leading-relaxed space-y-2 mt-4 border-t border-ink-900/5 pt-4 text-ink-700">
-                  <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-tech-700 rounded-full shrink-0"></span> 에이스 기술자 실시간 매칭 · 즉시 출역</li>
-                  <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-tech-700 rounded-full shrink-0"></span> 에스크로 당일 정산 · 노무 행정 자동화</li>
-                  <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-tech-700 rounded-full shrink-0"></span> 노동 데이터 기반 1금융권 대출 연계</li>
+              </div>
+              <span class="w-2.5 h-2.5 rounded-full bg-tech-500 animate-pulse"></span>
+            </div>
+
+            <!-- Card Body -->
+            <div class="hyper-glow-box bg-white/95 lcorner p-6 flex flex-col h-full hover-lift transition-all duration-300 flex-1 justify-between shadow-blueprint-sm min-h-[300px]">
+              <div class="tech-corner-mark"></div>
+              <div class="relative z-10 flex flex-col h-full justify-between">
+                <div>
+                  <div class="flex items-center gap-2.5 mb-3 border-b border-ink-900/5 pb-2.5">
+                    <div class="w-7 h-7 rounded-sm bg-tech-50 flex items-center justify-center text-tech-700 border border-tech-700/10">
+                      <i class="fa-solid fa-mobile-screen text-[14px]"></i>
+                    </div>
+                    <h4 class="text-[16px] font-black text-ink-900">스마트 일자리 플랫폼</h4>
+                  </div>
+                  <p class="text-[13.5px] leading-relaxed text-ink-800 font-medium">당장의 현장 문제를 해결하는 온·오프라인 현장 밀착 인프라. 에스크로 당일 정산, 출역 데이터 기반 포용 금융의 초석을 놓습니다.</p>
+                </div>
+                
+                <ul class="text-[13.5px] leading-relaxed space-y-2.5 mt-5 border-t border-ink-900/5 pt-4 text-ink-700 font-semibold">
+                  <li class="flex items-start gap-2.5">
+                    <i class="fa-solid fa-circle-check text-tech-600 text-sm mt-0.5 shrink-0"></i>
+                    <span>에이스 기술자 실시간 매칭 · 즉시 출역</span>
+                  </li>
+                  <li class="flex items-start gap-2.5">
+                    <i class="fa-solid fa-circle-check text-tech-600 text-sm mt-0.5 shrink-0"></i>
+                    <span>에스크로 당일 정산 · 노무 행정 자동화</span>
+                  </li>
+                  <li class="flex items-start gap-2.5">
+                    <i class="fa-solid fa-circle-check text-tech-600 text-sm mt-0.5 shrink-0"></i>
+                    <span>노동 데이터 기반 1금융권 대출 연계</span>
+                  </li>
                 </ul>
               </div>
             </div>
           </div>
 
           <!-- Phase 2: NEXT -->
-          <div class="relative md:px-3 pb-6 md:pb-0">
-            <div class="flex items-center gap-3 mb-4">
-              <div class="w-[52px] h-[52px] shrink-0 grid place-items-center bg-tech-800 text-warm-50 lcorner font-mono font-bold text-[18px] z-10 shadow-sm">02</div>
-              <div>
-                <div class="text-[11px] font-mono tracking-widest text-tech-800 font-bold">NEXT · 3년 내</div>
-                <div class="text-[12px] text-ink-600 font-semibold">B2B SaaS &amp; 협력사 상생</div>
-              </div>
-            </div>
-            <div class="bg-tech-50/25 border border-tech-700/15 border-t-4 border-t-tech-800 lcorner p-5 md:p-6 flex flex-col h-full hover-lift transition-transform shadow-blueprint-sm relative overflow-hidden">
-              <div class="absolute inset-0 blueprint opacity-[0.05] pointer-events-none"></div>
-              <div class="relative z-10 flex flex-col h-full">
-                <div class="flex items-center gap-2 mb-3">
-                  <i class="fa-solid fa-building text-tech-800 text-lg"></i>
-                  <h4 class="text-[16px] font-extrabold text-ink-900">B2B SaaS &amp; 대기업 상생</h4>
+          <div class="relative flex flex-col group/card">
+            <!-- Step Badge & Header -->
+            <div class="flex items-center justify-between mb-4 px-2 z-10">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-tech-800/15 border border-tech-800/40 flex items-center justify-center text-tech-900 font-mono font-black text-base shadow-sm group-hover/card:bg-tech-800 group-hover/card:text-warm-50 transition-all duration-300">02</div>
+                <div>
+                  <div class="text-[10px] font-mono tracking-widest text-tech-800 font-extrabold uppercase">NEXT · 3년 내</div>
+                  <div class="text-[13px] text-ink-800 font-bold">B2B SaaS &amp; 협력사 상생</div>
                 </div>
-                <p class="text-[14px] leading-relaxed text-ink-800 mb-4">대기업(원청/하청)에 현장 관제 솔루션을 제공합니다. <strong>중대재해법 방어</strong>와 <strong>ESG 상생 산업 인프라 조성</strong>이라는 대기업의 절박한 숙제를 MONO 하나로 해결합니다.</p>
-                <ul class="text-[13.5px] leading-relaxed space-y-2 mt-4 border-t border-tech-700/10 pt-4 text-ink-700">
-                  <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-tech-800 rounded-full shrink-0"></span> 중대재해처벌법 면책 데이터 자동 생성</li>
-                  <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-tech-800 rounded-full shrink-0"></span> 미래 인재 육성 · 상생 산업 인프라 조성 솔루션</li>
-                  <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-tech-800 rounded-full shrink-0"></span> B2B 월정액 SaaS · 온·오프라인 현장 인프라</li>
+              </div>
+              <span class="w-2 h-2 rounded-full bg-tech-600"></span>
+            </div>
+
+            <!-- Card Body -->
+            <div class="hyper-glow-box bg-white/95 lcorner p-6 flex flex-col h-full hover-lift transition-all duration-300 flex-1 justify-between shadow-blueprint-sm min-h-[300px]">
+              <div class="tech-corner-mark"></div>
+              <div class="relative z-10 flex flex-col h-full justify-between">
+                <div>
+                  <div class="flex items-center gap-2.5 mb-3 border-b border-ink-900/5 pb-2.5">
+                    <div class="w-7 h-7 rounded-sm bg-tech-50 flex items-center justify-center text-tech-800 border border-tech-800/10">
+                      <i class="fa-solid fa-building text-[14px]"></i>
+                    </div>
+                    <h4 class="text-[16px] font-black text-ink-900">B2B SaaS &amp; 대기업 상생</h4>
+                  </div>
+                  <p class="text-[13.5px] leading-relaxed text-ink-800 font-medium">대기업(원청/하청)에 현장 관제 솔루션을 제공합니다. <strong>중대재해법 방어</strong>와 <strong>ESG 상생 산업 인프라 조성</strong>이라는 대기업의 절박한 숙제를 MONO 하나로 해결합니다.</p>
+                </div>
+                
+                <ul class="text-[13.5px] leading-relaxed space-y-2.5 mt-5 border-t border-ink-900/5 pt-4 text-ink-700 font-semibold">
+                  <li class="flex items-start gap-2.5">
+                    <i class="fa-solid fa-circle-check text-tech-700 text-sm mt-0.5 shrink-0"></i>
+                    <span>중대재해처벌법 면책 데이터 자동 생성</span>
+                  </li>
+                  <li class="flex items-start gap-2.5">
+                    <i class="fa-solid fa-circle-check text-tech-700 text-sm mt-0.5 shrink-0"></i>
+                    <span>미래 인재 육성 · 상생 산업 인프라 조성 솔루션</span>
+                  </li>
+                  <li class="flex items-start gap-2.5">
+                    <i class="fa-solid fa-circle-check text-tech-700 text-sm mt-0.5 shrink-0"></i>
+                    <span>B2B 월정액 SaaS · 온·오프라인 현장 인프라</span>
+                  </li>
                 </ul>
               </div>
             </div>
           </div>
 
           <!-- Phase 3: FUTURE -->
-          <div class="relative md:pl-6">
-            <div class="flex items-center gap-3 mb-4">
-              <div class="w-[52px] h-[52px] shrink-0 grid place-items-center bg-tech-900 text-warm-50 lcorner font-mono font-bold text-[18px] z-10 shadow-sm">03</div>
-              <div>
-                <div class="text-[11px] font-mono tracking-widest text-tech-900 font-bold">FUTURE · 5년+</div>
-                <div class="text-[12px] text-ink-600 font-semibold">협업 로보틱스 &amp; 수익 공유</div>
-              </div>
-            </div>
-            <div class="bg-tech-50/65 border border-tech-700/25 border-t-4 border-t-tech-500 lcorner p-5 md:p-6 flex flex-col h-full hover-lift transition-transform relative overflow-hidden shadow-blueprint-sm">
-              <div class="absolute inset-0 blueprint opacity-[0.08] pointer-events-none"></div>
-              <div class="relative z-10 flex flex-col h-full">
-                <div class="flex items-center gap-2 mb-3">
-                  <i class="fa-solid fa-robot text-tech-900 text-lg"></i>
-                  <h4 class="text-[16px] font-extrabold text-tech-950 font-black">협업 로보틱스 산업 인프라</h4>
+          <div class="relative flex flex-col group/card">
+            <!-- Step Badge & Header -->
+            <div class="flex items-center justify-between mb-4 px-2 z-10">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-tech-500/20 border border-tech-500/40 flex items-center justify-center text-tech-400 font-mono font-black text-base shadow-sm group-hover/card:bg-tech-500 group-hover/card:text-ink-900 transition-all duration-300">03</div>
+                <div>
+                  <div class="text-[10px] font-mono tracking-widest text-tech-400 font-extrabold uppercase">FUTURE · 5년+</div>
+                  <div class="text-[13px] text-ink-900 font-black">협업 로보틱스 &amp; 수익 공유</div>
                 </div>
-                <p class="text-[14px] leading-relaxed text-ink-800 mb-4">현장 데이터를 활용한 로보틱스 R&amp;D 및 고위험 작업 대체. 근로자가 협업 로봇에 수익을 공유하는 진정한 상생 산업 인프라를 완성합니다.</p>
-                <ul class="text-[13.5px] leading-relaxed space-y-2 mt-4 border-t border-tech-700/15 pt-4 text-ink-700">
-                  <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-tech-600 rounded-full shrink-0"></span> 현장 협업 로봇 R&amp;D · 위험 대체</li>
-                  <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-tech-600 rounded-full shrink-0"></span> 근로자의 장기 로봇 수익 공유 모델 론칭</li>
-                  <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-tech-600 rounded-full shrink-0"></span> 진정한 상생 산업 인프라 완성</li>
+              </div>
+              <span class="w-2.5 h-2.5 rounded-full bg-safety-amber animate-ping"></span>
+            </div>
+
+            <!-- Card Body: Premium Cyber blueprint dark card for futuristic visual pop -->
+            <div class="hyper-glow-box text-warm-50 lcorner p-6 flex flex-col h-full hover-lift transition-all duration-300 flex-1 justify-between border-tech-500/30 min-h-[300px]" style="background: linear-gradient(135deg, #0A0F1A 0%, #111827 100%);">
+              <div class="tech-corner-mark border-tech-500/40"></div>
+              <div class="absolute inset-0 blueprint-dark opacity-10 pointer-events-none"></div>
+              
+              <div class="relative z-10 flex flex-col h-full justify-between">
+                <div>
+                  <div class="flex items-center gap-2.5 mb-3 border-b border-warm-100/10 pb-2.5">
+                    <div class="w-7 h-7 rounded-sm bg-tech-950 flex items-center justify-center text-tech-300 border border-tech-500/20">
+                      <i class="fa-solid fa-robot text-[14px]"></i>
+                    </div>
+                    <h4 class="text-[16px] font-black text-warm-50">협업 로보틱스 산업 인프라</h4>
+                  </div>
+                  <p class="text-[13.5px] leading-relaxed text-warm-100/80 font-medium">현장 데이터를 활용한 로보틱스 R&amp;D 및 고위험 작업 대체. 근로자가 협업 로봇에 수익을 공유하는 진정한 상생 산업 인프라를 완성합니다.</p>
+                </div>
+                
+                <ul class="text-[13.5px] leading-relaxed space-y-2.5 mt-5 border-t border-warm-100/10 pt-4 text-tech-200/90 font-semibold">
+                  <li class="flex items-start gap-2.5">
+                    <i class="fa-solid fa-circle-check text-tech-400 text-sm mt-0.5 shrink-0"></i>
+                    <span>현장 협업 로봇 R&amp;D · 위험 대체</span>
+                  </li>
+                  <li class="flex items-start gap-2.5">
+                    <i class="fa-solid fa-circle-check text-tech-400 text-sm mt-0.5 shrink-0"></i>
+                    <span>근로자의 장기 로봇 수익 공유 모델 론칭</span>
+                  </li>
+                  <li class="flex items-start gap-2.5">
+                    <i class="fa-solid fa-circle-check text-tech-400 text-sm mt-0.5 shrink-0"></i>
+                    <span>진정한 상생 산업 인프라 완성</span>
+                  </li>
                 </ul>
               </div>
             </div>
