@@ -1357,185 +1357,339 @@
     </div>
 
     <!-- ============================== MOMO 데이터 인프라 흐름도 ============================== -->
-    <div class="reveal mb-12 p-6 md:p-10 border border-ink-900/15 bg-warm-50 lcorner shadow-neo-soft relative overflow-hidden">
-      <!-- Blueprint tech lines -->
-      <div class="absolute inset-0 blueprint opacity-20 pointer-events-none"></div>
-      
+    <div class="reveal mb-12 p-6 md:p-10 border border-ink-900/15 bg-ink-950 lcorner shadow-neo-soft relative overflow-hidden text-warm-50">
+      <!-- Blueprint grid for dark premium technical theme -->
+      <div class="absolute inset-0 opacity-15 pointer-events-none" style="background-image: linear-gradient(rgba(34,211,238,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(34,211,238,0.1) 1px, transparent 1px); background-size: 24px 24px;"></div>
+      <div class="absolute -top-40 -left-40 w-96 h-96 bg-tech-500/10 rounded-full blur-[120px] pointer-events-none"></div>
+      <div class="absolute -bottom-40 -right-40 w-96 h-96 bg-[#C0563B]/10 rounded-full blur-[120px] pointer-events-none"></div>
+
       <div class="relative z-10">
         
         <!-- Header -->
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-10 pb-6 border-b border-ink-900/10">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-10 pb-6 border-b border-warm-50/10">
           <div>
-            <span class="chip bg-tech-700 text-warm-50 font-bold px-3 py-1 text-xs uppercase tracking-wider">Data Pipeline Architecture</span>
-            <h3 class="text-2xl md:text-3xl font-black text-ink-900 mt-2">MoNo 데이터 인프라 흐름도</h3>
-            <p class="text-ink-700 text-sm mt-1">현장 데이터 수집부터 대안 신용(CB) 생성, B2B SaaS 활용, 그리고 미래 협업 로보틱스 R&amp;D까지 잇는 핵심 데이터 파이프라인</p>
+            <span class="chip bg-tech-600 text-warm-50 font-bold px-3 py-1 text-xs uppercase tracking-wider">Data Pipeline Architecture</span>
+            <h3 class="text-2xl md:text-3xl font-black text-white mt-2">MoNo 데이터 인프라 흐름도</h3>
+            <p class="text-warm-200 text-sm mt-1">현장 데이터 수집부터 대안 신용(CB) 생성, B2B SaaS 활용, 그리고 미래 협업 로보틱스 R&amp;D까지 실시간 연결되는 순환 구조</p>
           </div>
           <div class="flex items-center gap-2 shrink-0">
-            <span class="px-2.5 py-1 bg-tech-50 text-tech-800 border border-tech-700/35 rounded text-[11px] font-mono font-bold tracking-widest uppercase">REAL-TIME DATA LAYER</span>
+            <span class="px-2.5 py-1 bg-tech-950 text-[#22D3EE] border border-[#22D3EE]/35 rounded text-[11px] font-mono font-bold tracking-widest uppercase animate-pulse">REAL-TIME FLYWHEEL ACTIVE</span>
           </div>
         </div>
 
+        <!-- CSS Styles for Diagram Animations -->
+        <style>
+          @keyframes flowDash {
+            to {
+              stroke-dashoffset: -40;
+            }
+          }
+          .flow-line-blue {
+            stroke: #22D3EE;
+            stroke-dasharray: 8 4;
+            animation: flowDash 1.2s linear infinite;
+          }
+          .flow-line-coral {
+            stroke: #C0563B;
+            stroke-dasharray: 8 4;
+            animation: flowDash 1.2s linear infinite;
+          }
+          .flow-line-gray {
+            stroke: #94A3B8;
+            stroke-dasharray: 8 4;
+            animation: flowDash 1.5s linear infinite;
+          }
+          .flow-card {
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          }
+          .flow-card:hover {
+            border-color: rgba(34, 211, 238, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(34, 211, 238, 0.1), 0 8px 10px -6px rgba(34, 211, 238, 0.1);
+          }
+          .flow-card-coral:hover {
+            border-color: rgba(192, 86, 59, 0.4);
+            box-shadow: 0 10px 25px -5px rgba(192, 86, 59, 0.1), 0 8px 10px -6px rgba(192, 86, 59, 0.1);
+          }
+        </style>
+
+        <!-- SVG Flow Lines (Hidden on Mobile, Perfect Match on Desktop) -->
+        <div class="absolute inset-0 pointer-events-none hidden lg:block" style="z-index: 1;">
+          <svg class="w-full h-full" viewBox="0 0 1200 800" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <!-- Markers -->
+              <marker id="arrow-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#22D3EE"/>
+              </marker>
+              <marker id="arrow-coral" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#C0563B"/>
+              </marker>
+              <marker id="arrow-gray" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#94A3B8"/>
+              </marker>
+            </defs>
+
+            <!-- 1. DATA SOURCES -> PROCESSING Lines -->
+            <path d="M 315 145 C 360 145, 360 195, 410 195" stroke="rgba(34, 211, 238, 0.3)" stroke-width="2" fill="none" />
+            <path d="M 315 145 C 360 145, 360 195, 410 195" class="flow-line-blue" stroke-width="2" fill="none" marker-end="url(#arrow-blue)" />
+            
+            <path d="M 315 285 C 360 285, 360 220, 410 220" stroke="rgba(34, 211, 238, 0.3)" stroke-width="2" fill="none" />
+            <path d="M 315 285 C 360 285, 360 220, 410 220" class="flow-line-blue" stroke-width="2" fill="none" marker-end="url(#arrow-blue)" />
+
+            <path d="M 315 425 C 370 425, 370 245, 410 245" stroke="rgba(34, 211, 238, 0.3)" stroke-width="2" fill="none" />
+            <path d="M 315 425 C 370 425, 370 245, 410 245" class="flow-line-blue" stroke-width="2" fill="none" marker-end="url(#arrow-blue)" />
+
+            <!-- 2. PROCESSING -> CORE Ingestion Lines -->
+            <path d="M 500 250 L 500 290" stroke="rgba(34, 211, 238, 0.4)" stroke-width="2.5" fill="none" marker-end="url(#arrow-blue)" />
+            <path d="M 690 250 L 690 290" stroke="rgba(34, 211, 238, 0.4)" stroke-width="2.5" fill="none" marker-end="url(#arrow-blue)" />
+
+            <!-- 3. CORE (Data Moat) -> BUSINESS MODEL (Right) -->
+            <path d="M 765 355 C 800 355, 800 230, 835 230" stroke="rgba(192, 86, 59, 0.3)" stroke-width="2" fill="none" />
+            <path d="M 765 355 C 800 355, 800 230, 835 230" class="flow-line-coral" stroke-width="2" fill="none" marker-end="url(#arrow-coral)" />
+
+            <path d="M 765 415 C 800 415, 800 480, 835 480" stroke="rgba(192, 86, 59, 0.3)" stroke-width="2" fill="none" />
+            <path d="M 765 415 C 800 415, 800 480, 835 480" class="flow-line-coral" stroke-width="2" fill="none" marker-end="url(#arrow-coral)" />
+
+            <!-- 4. CORE -> ANALYSIS HUB (Greenish path) -->
+            <path d="M 455 450 C 425 450, 425 570, 460 570" stroke="rgba(34, 211, 238, 0.3)" stroke-width="2" fill="none" />
+            <path d="M 455 450 C 425 450, 425 570, 460 570" class="flow-line-blue" stroke-width="2" fill="none" marker-end="url(#arrow-blue)" />
+
+            <!-- 5. ANALYSIS HUB -> BUSINESS MODEL -->
+            <path d="M 735 595 C 800 595, 800 520, 835 520" stroke="rgba(34, 211, 238, 0.3)" stroke-width="2" fill="none" />
+            <path d="M 735 595 C 800 595, 800 520, 835 520" class="flow-line-blue" stroke-width="2" fill="none" marker-end="url(#arrow-blue)" />
+
+            <!-- 6. FUTURE VISION (Bottom R&D) -> [DATA SOURCES] (Flywheel) -->
+            <path d="M 230 730 C 20 730, 20 280, 45 280" stroke="rgba(34, 211, 238, 0.3)" stroke-width="2" fill="none" />
+            <path d="M 230 730 C 20 730, 20 280, 45 280" class="flow-line-blue" stroke-width="2" fill="none" marker-end="url(#arrow-blue)" />
+
+            <!-- 7. BUSINESS MODEL -> FUTURE VISION (Feedback/Virtuous Cycle Loop) -->
+            <path d="M 1155 355 C 1195 355, 1195 730, 970 730" stroke="rgba(192, 86, 59, 0.3)" stroke-width="2" fill="none" />
+            <path d="M 1155 355 C 1195 355, 1195 730, 970 730" class="flow-line-coral" stroke-width="2" fill="none" marker-end="url(#arrow-coral)" />
+          </svg>
+        </div>
+
         <!-- 3-Column Pipeline Grid (Left, Center, Right) -->
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch relative">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch relative" style="z-index: 2;">
           
-          <!-- [NOW] 1. DATA SOURCES (Left Column - Cols 3) -->
-          <div class="lg:col-span-3 bg-white border border-ink-900/10 p-5 lcorner flex flex-col justify-between hover-lift shadow-blueprint-sm relative">
-            <div class="absolute -left-2 top-6 w-[4px] h-12 bg-tech-600"></div>
-            <div>
-              <div class="flex items-center gap-2.5 mb-5 pb-3 border-b border-ink-900/5">
-                <span class="px-2 py-0.5 text-[10px] font-mono font-bold bg-[#C0563B]/10 text-[#C0563B] lcorner">NOW · STEP 1</span>
-                <h4 class="text-sm font-black text-ink-900">데이터 소스 (DATA SOURCES)</h4>
+          <!-- ==================== [DATA SOURCES] (Left - Cols 3) ==================== -->
+          <div class="lg:col-span-3 flex flex-col justify-between gap-5 relative">
+            <div class="absolute -left-2 top-3 w-1 h-6 bg-[#22D3EE]"></div>
+            
+            <div class="mb-1">
+              <span class="px-2 py-0.5 text-[10px] font-mono font-bold bg-[#22D3EE]/10 text-[#22D3EE] lcorner">[DATA SOURCES]</span>
+              <h4 class="text-lg font-black text-white mt-1">1단계 · 데이터 소스</h4>
+            </div>
+
+            <!-- 1) Mobile App Card -->
+            <div class="flow-card p-4 lcorner relative">
+              <div class="text-[12.5px] font-extrabold text-white mb-2 flex items-center gap-2">
+                <span class="w-5 h-5 rounded-full bg-[#22D3EE]/10 flex items-center justify-center text-[10px] text-[#22D3EE] font-mono">1</span>
+                <i class="fa-solid fa-mobile-screen text-[#22D3EE]"></i> 모바일 앱
               </div>
-              <p class="text-xs text-ink-700 leading-relaxed mb-6"><strong>수집의 시작:</strong> MOMO 플랫폼의 핵심 데이터가 생성되는 지점입니다. 기술노동자의 행동 데이터와 현장 컴플라이언스 이력이 실시간으로 수집됩니다.</p>
-              
-              <ul class="space-y-4">
-                <li class="p-3 bg-warm-50/60 border border-ink-900/5 lcorner relative group">
-                  <div class="text-[12.5px] font-extrabold text-ink-900 mb-1 flex items-center gap-2">
-                    <i class="fa-solid fa-mobile-screen text-[#C0563B]"></i> 모바일 앱 (User Interaction Logs)
-                  </div>
-                  <p class="text-[11px] text-ink-700 leading-normal">근무자의 실시간 <strong>성실도 데이터(출퇴근 로그)</strong> 및 <strong>안전 준수 체크 로그</strong> 수집</p>
-                </li>
-                <li class="p-3 bg-warm-50/60 border border-ink-900/5 lcorner relative group">
-                  <div class="text-[12.5px] font-extrabold text-ink-900 mb-1 flex items-center gap-2">
-                    <i class="fa-solid fa-server text-[#C0563B]"></i> 서버 로그 (Server Logs)
-                  </div>
-                  <p class="text-[11px] text-ink-700 leading-normal">기업 포털의 요청 이력, 계약서 매칭 로그, 노무 행정 데이터 적재</p>
-                </li>
-                <li class="p-3 bg-warm-50/60 border border-ink-900/5 lcorner relative group">
-                  <div class="text-[12.5px] font-extrabold text-ink-900 mb-1 flex items-center gap-2">
-                    <i class="fa-solid fa-satellite-dish text-[#C0563B]"></i> 외부 API &amp; 현장 IoT 센서
-                  </div>
-                  <p class="text-[11px] text-ink-700 leading-normal">유해 감지 IoT 비콘 센서 연동 및 출입국관리소 비자 API 연동 실시간 검증</p>
-                </li>
+              <p class="text-[10px] text-warm-300 font-mono mb-2">(작업자 인터페이스)</p>
+              <ul class="text-[11px] text-warm-200 space-y-1 pl-1 list-inside list-disc">
+                <li>출질 로그 / 상호작용 로그</li>
+                <li class="text-[#22D3EE] font-medium">출결 로그 (성실도 데이터)</li>
+                <li class="text-[#22D3EE] font-medium">안전 점검 로그 (안전 준수 체크)</li>
+              </ul>
+            </div>
+
+            <!-- 2) Server Logs Card -->
+            <div class="flow-card p-4 lcorner relative">
+              <div class="text-[12.5px] font-extrabold text-white mb-2 flex items-center gap-2">
+                <span class="w-5 h-5 rounded-full bg-[#22D3EE]/10 flex items-center justify-center text-[10px] text-[#22D3EE] font-mono">2</span>
+                <i class="fa-solid fa-server text-[#22D3EE]"></i> 서버 로그
+              </div>
+              <p class="text-[10px] text-warm-300 font-mono mb-2">(시스템 활동)</p>
+              <ul class="text-[11px] text-warm-200 space-y-1 pl-1 list-inside list-disc">
+                <li>사용자 활동</li>
+                <li>거래 로그</li>
+              </ul>
+            </div>
+
+            <!-- 3) API & IoT Card -->
+            <div class="flow-card p-4 lcorner relative">
+              <div class="text-[12.5px] font-extrabold text-white mb-2 flex items-center gap-2">
+                <span class="w-5 h-5 rounded-full bg-[#22D3EE]/10 flex items-center justify-center text-[10px] text-[#22D3EE] font-mono">3</span>
+                <i class="fa-solid fa-satellite-dish text-[#22D3EE]"></i> API 및 IoT
+              </div>
+              <p class="text-[10px] text-warm-300 font-mono mb-2">(현장 데이터)</p>
+              <ul class="text-[11px] text-warm-200 space-y-1 pl-1 list-inside list-disc">
+                <li>실시간 현장 데이터</li>
+                <li>장비 상태</li>
               </ul>
             </div>
             
-            <div class="mt-6 pt-4 border-t border-ink-900/5 bg-[#C0563B]/5 p-3 rounded-sm">
-              <span class="text-[10px] font-bold text-[#C0563B] font-mono block uppercase mb-1">Key Leverage</span>
-              <p class="text-[11px] text-ink-800 leading-normal">여기서 실시간으로 수집되는 <strong>'성실도 데이터(출퇴근 로그)'</strong>와 <strong>'안전 준수 체크 로그'</strong>는 향후 1금융권 연계를 위한 <strong>대안 '신용(CB)' 데이터</strong>로 활용됩니다.</p>
-            </div>
+            <!-- Mobile Connector icon -->
+            <div class="flex lg:hidden justify-center my-1 text-[#22D3EE] text-xl animate-bounce">➔</div>
           </div>
 
-          <!-- Connector Arrow 1 -->
-          <div class="hidden lg:flex items-center justify-center lg:col-span-1 text-tech-600 font-bold select-none text-2xl animate-pulse">➔</div>
+          <!-- ==================== [PROCESSING & CORE & HUB] (Center - Cols 5) ==================== -->
+          <div class="lg:col-span-5 flex flex-col gap-5 relative justify-between">
+            <div class="absolute -left-2 top-3 w-1 h-6 bg-[#22D3EE]"></div>
+            
+            <div class="mb-1">
+              <span class="px-2 py-0.5 text-[10px] font-mono font-bold bg-[#22D3EE]/10 text-[#22D3EE] lcorner">[PROCESSING]</span>
+              <h4 class="text-lg font-black text-white mt-1">2단계 · 데이터 수집 및 처리</h4>
+            </div>
 
-          <!-- 2. DATA INGESTION & PROCESSING (Center Column - Cols 4) -->
-          <div class="lg:col-span-4 bg-white border border-ink-900/10 p-5 lcorner flex flex-col justify-between hover-lift shadow-blueprint-sm relative">
-            <div>
-              <div class="flex items-center gap-2.5 mb-5 pb-3 border-b border-ink-900/5">
-                <span class="px-2 py-0.5 text-[10px] font-mono font-bold bg-tech-700 text-warm-50 lcorner">CORE · STEP 2</span>
-                <h4 class="text-sm font-black text-ink-900">데이터 수집 및 처리 (DATA INGESTION &amp; PROCESSING)</h4>
-              </div>
-              <p class="text-xs text-ink-700 leading-relaxed mb-6"><strong>실시간 및 배치 수집:</strong> 데이터는 실시간 스트리밍 수집과 대량 배치 처리를 통해 파이프라인으로 정밀 인입됩니다.</p>
- 
-              <!-- Stream & Batch Block -->
-              <div class="grid grid-cols-2 gap-3 mb-4">
-                <div class="p-2.5 bg-tech-50/40 border border-tech-700/20 text-center rounded-sm">
-                  <div class="text-[11px] font-bold text-tech-800 font-mono">Kafka / Kinesis</div>
-                  <div class="text-[10px] text-ink-700 mt-1">실시간 스트리밍 수집</div>
-                </div>
-                <div class="p-2.5 bg-tech-50/40 border border-tech-700/20 text-center rounded-sm">
-                  <div class="text-[11px] font-bold text-tech-800 font-mono">Glue / EMR</div>
-                  <div class="text-[10px] text-ink-700 mt-1">대량 배치 수집/처리</div>
-                </div>
-              </div>
- 
-              <!-- Storage Box -->
-              <div class="p-3 bg-warm-50 border border-ink-900/10 mb-4 lcorner text-center">
-                <div class="text-[10px] uppercase font-bold text-ink-500 font-mono mb-1">데이터 저장소 (CORE Data Lake)</div>
-                <div class="text-xs font-black text-ink-900"><i class="fa-solid fa-box-archive text-tech-600 mr-1.5"></i> Amazon S3 / Google Cloud Storage</div>
-              </div>
- 
-              <!-- Core Machine Learning Core (Data Moat) -->
-              <div class="p-4 bg-ink-900 text-warm-50 border border-tech-600 lcorner relative overflow-hidden">
-                <div class="absolute inset-0 blueprint opacity-20 pointer-events-none"></div>
-                <div class="relative z-10 text-center">
-                  <div class="text-[10px] font-mono text-[#22D3EE] font-black uppercase mb-1">핵심 처리 및 머신러닝</div>
-                  <div class="text-[13px] font-extrabold text-white mb-2">데이터 해자 (Data Moat) 구축</div>
-                  <p class="text-[10px] text-warm-200 leading-normal mb-3">단순 저장을 넘어, 핵심 기술 경쟁력이 되는 독자적 알고리즘 가공 레이어</p>
-                  
-                  <div class="flex items-center justify-around gap-2 text-xs font-mono font-bold text-warm-100 bg-white/10 p-2 rounded-sm">
-                    <span class="flex items-center gap-1"><i class="fa-solid fa-award text-yellow-400"></i> CB 스코어링 엔진</span>
-                    <span class="text-tech-600">|</span>
-                    <span class="flex items-center gap-1"><i class="fa-solid fa-arrows-spin text-tech-400"></i> AI 매칭 알고리즘</span>
+            <!-- Ingestion: Streaming / Batch Inflow Card -->
+            <div class="flow-card p-4 lcorner">
+              <div class="grid grid-cols-2 gap-4">
+                <div class="border-r border-warm-50/10 pr-2">
+                  <div class="text-[11.5px] font-extrabold text-[#22D3EE] flex items-center gap-1.5 mb-1">
+                    <i class="fa-solid fa-bolt"></i> 스트리밍 수집
                   </div>
+                  <div class="text-[10px] font-mono text-warm-400 mb-1.5">(예: Kafka / Kinesis)</div>
+                  <p class="text-[10.5px] text-warm-200">실시간 스트림</p>
+                </div>
+                <div class="pl-2">
+                  <div class="text-[11.5px] font-extrabold text-[#22D3EE] flex items-center gap-1.5 mb-1">
+                    <i class="fa-solid fa-calendar-days"></i> 배치 수집
+                  </div>
+                  <div class="text-[10px] font-mono text-warm-400 mb-1.5">(예: Glue / EMR)</div>
+                  <p class="text-[10.5px] text-warm-200">예약된 데이터 전송</p>
                 </div>
               </div>
-
-              <!-- Center Bottom: Data Warehouse & Analytics Hub -->
-              <div class="mt-4 p-3 bg-warm-100/50 border border-ink-900/10 lcorner">
-                <div class="text-[10px] uppercase font-bold text-ink-600 font-mono mb-1"><i class="fa-solid fa-network-wired text-tech-700 mr-1"></i> Data Warehouse &amp; Analytics Hub</div>
-                <p class="text-[11px] text-ink-800 leading-normal">
-                  처리된 데이터는 <strong>데이터 웨어하우스(Redshift / BigQuery / Snowflake)</strong>로 이동하여 정제된 <strong>비즈니스 인텔리전스 및 분석 허브</strong>가 됩니다. 이 정제된 데이터는 단순 수수료 비즈니스를 넘어 핀테크/데이터 기업으로 도약하기 위한 기반이 됩니다.
-                </p>
-              </div>
-
             </div>
-          </div>
 
-          <!-- Connector Arrow 2 -->
-          <div class="hidden lg:flex items-center justify-center lg:col-span-1 text-tech-600 font-bold select-none text-2xl animate-pulse">➔</div>
-
-          <!-- [BUSINESS MODEL] 3. DATA SERVING (Right Column - Cols 3) -->
-          <div class="lg:col-span-3 bg-white border border-ink-900/10 p-5 lcorner flex flex-col justify-between hover-lift shadow-blueprint-sm relative">
-            <div class="absolute -right-2 top-6 w-[4px] h-12 bg-tech-600"></div>
-            <div>
-              <div class="flex items-center gap-2.5 mb-5 pb-3 border-b border-ink-900/5">
-                <span class="px-2 py-0.5 text-[10px] font-mono font-bold bg-tech-700 text-warm-50 lcorner">BM · STEP 3</span>
-                <h4 class="text-sm font-black text-ink-900">데이터 활용 및 가치 창출 (SERVING)</h4>
-              </div>
-              <p class="text-xs text-ink-700 leading-relaxed mb-6">정제된 데이터 해자(Data Moat)는 두 그룹에 즉각적인 상생 자산과 규제 면책력으로 변환됩니다.</p>
+            <!-- Core Data Lake & ML Engine (Data Moat) Container -->
+            <div class="p-4 border border-tech-500/25 bg-tech-950/40 lcorner relative overflow-hidden" style="background: rgba(8, 47, 73, 0.45);">
+              <div class="absolute inset-0 blueprint opacity-5 pointer-events-none"></div>
               
-              <ul class="space-y-4">
-                <!-- B2C Serving -->
-                <li class="p-3 bg-tech-50/20 border border-tech-700/15 lcorner">
-                  <div class="text-[12.5px] font-extrabold text-ink-900 mb-1 flex items-center justify-between">
-                    <span class="flex items-center gap-2"><i class="fa-solid fa-user-shield text-tech-700"></i> B2C · 대안 금융</span>
-                    <span class="text-[9px] uppercase font-bold text-tech-700 bg-tech-500/10 px-1.5 rounded-sm">For Worker</span>
+              <div class="relative z-10">
+                <div class="text-center pb-2 border-b border-[#22D3EE]/15 mb-3 flex items-center justify-between">
+                  <span class="text-[10px] font-mono font-bold bg-[#22D3EE]/15 text-[#22D3EE] px-1.5 py-0.5 rounded-sm">[CORE]</span>
+                  <div class="text-[12px] font-extrabold text-white"><i class="fa-solid fa-box-archive mr-1.5 text-[#22D3EE]"></i>데이터 레이크</div>
+                  <span class="text-[9px] font-mono text-warm-400">Integrated Storage</span>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3 mt-3">
+                  <!-- CB Scoring Engine -->
+                  <div class="flow-card p-3 rounded-sm border border-white/5 bg-slate-900/80">
+                    <div class="text-[11px] font-black text-white flex items-center gap-1 mb-1">
+                      <i class="fa-solid fa-id-card text-yellow-400"></i> CB 스코어링 엔진
+                    </div>
+                    <div class="text-[9px] font-mono text-warm-400 mb-2">(Credit Bureau)</div>
+                    <div class="text-[10px] text-[#22D3EE] font-bold">대안 금융 데이터 산출</div>
                   </div>
-                  <p class="text-[11px] text-ink-700 leading-normal">
-                    기술노동자를 위해 땀방울이 데이터를 거쳐 <strong>대안 금융 데이터(CB 스코어)</strong>로 승화됩니다. 이를 통해 1금융권의 대출 및 보험 상품을 연결하여 블루칼라 포용 금융 모델을 완성합니다.
-                  </p>
-                </li>
-                
-                <!-- B2B Serving -->
-                <li class="p-3 bg-[#C0563B]/5 border border-[#C0563B]/20 lcorner">
-                  <div class="text-[12.5px] font-extrabold text-ink-900 mb-1 flex items-center justify-between">
-                    <span class="flex items-center gap-2"><i class="fa-solid fa-building-shield text-[#C0563B]"></i> B2B SaaS · 산업 인프라</span>
-                    <span class="text-[9px] uppercase font-bold text-[#C0563B] bg-[#C0563B]/10 px-1.5 rounded-sm">For Corporate</span>
+
+                  <!-- AI Matching -->
+                  <div class="flow-card p-3 rounded-sm border border-white/5 bg-slate-900/80">
+                    <div class="text-[11px] font-black text-white flex items-center gap-1 mb-1">
+                      <i class="fa-solid fa-arrows-spin text-tech-400 animate-spin-slow"></i> AI 매칭 알고리즘
+                    </div>
+                    <div class="text-[9px] font-mono text-warm-400 mb-2">Smart Allocation</div>
+                    <div class="text-[10px] text-[#22D3EE] font-bold">최적의 일자리/작업자</div>
                   </div>
-                  <p class="text-[11px] text-ink-700 leading-normal">
-                    원청 기업이 겪는 <strong>중대재해처벌법</strong> 리스크를 방어하는 킬러 솔루션입니다. MoNo의 데이터는 원청 기업에 <strong>B2B SaaS 컴플라이언스 관리</strong> 및 <strong>법적 면책 데이터 지원</strong>이라는 압도적인 효율을 제공하며, '상생·건전한 생태계 조성'과 '미래 인재 육성'이라는 명분을 대기업 SI 투자자 🏗️들에게 완벽하게 어필합니다.
-                  </p>
-                </li>
-              </ul>
+                </div>
+
+                <!-- Footer label -->
+                <div class="mt-3 pt-2.5 border-t border-[#22D3EE]/10 flex items-center justify-between text-[10.5px]">
+                  <span class="font-mono text-warm-400">Proprietary Technology</span>
+                  <span class="font-extrabold text-white uppercase tracking-wider flex items-center gap-1">
+                    <span class="w-1.5 h-1.5 bg-[#22D3EE] rounded-full animate-ping"></span>
+                    데이터 해자 <span class="text-[#22D3EE] font-mono font-normal">Data Moat</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Analysis Hub Card -->
+            <div class="flow-card p-4 lcorner border border-emerald-500/20 bg-emerald-950/15" style="background: rgba(6, 78, 59, 0.15);">
+              <div class="flex items-center gap-2 mb-2">
+                <span class="px-1.5 py-0.5 text-[9px] font-mono font-bold bg-emerald-500/20 text-emerald-400 lcorner">[ANALYSIS HUB]</span>
+                <div class="text-[12.5px] font-extrabold text-white flex items-center gap-1.5">
+                  <i class="fa-solid fa-network-wired text-emerald-400"></i> 데이터 웨어하우스
+                </div>
+              </div>
+              <p class="text-[11px] text-warm-200 leading-normal">
+                비즈니스 인텔리전스, 정밀 분석 및 <strong>데이터 기반 인사이트</strong>를 도출하여 핀테크 스케일업과 사업 다각화의 고정밀 기지로 활용합니다.
+              </p>
             </div>
             
-            <div class="mt-6 pt-4 border-t border-ink-900/5 text-center text-xs font-mono text-ink-600">
-              실제 현장 문제와 금융의 영리한 결속
+            <!-- Mobile Connector icon -->
+            <div class="flex lg:hidden justify-center my-1 text-[#22D3EE] text-xl animate-bounce">➔</div>
+          </div>
+
+          <!-- ==================== [BUSINESS MODEL] (Right - Cols 4) ==================== -->
+          <div class="lg:col-span-4 flex flex-col justify-between gap-5 relative">
+            <div class="absolute -left-2 top-3 w-1 h-6 bg-[#C0563B]"></div>
+            
+            <div class="mb-1">
+              <span class="px-2 py-0.5 text-[10px] font-mono font-bold bg-[#C0563B]/20 text-[#C0563B] lcorner">[BUSINESS MODEL]</span>
+              <h4 class="text-lg font-black text-white mt-1">3단계 · 가치 창출 &amp; Serving</h4>
             </div>
+
+            <!-- [4.1] B2C Card -->
+            <div class="flow-card flow-card-coral p-5 lcorner relative border-l-2 border-l-yellow-500/50">
+              <div class="flex items-center justify-between mb-2">
+                <div class="text-[13px] font-extrabold text-white flex items-center gap-2">
+                  <i class="fa-solid fa-user-shield text-yellow-500"></i> [4.1] 숙련 근로자를 위한 가치 (B2C)
+                </div>
+              </div>
+              
+              <div class="p-2.5 bg-yellow-500/5 border border-yellow-500/10 rounded-sm mb-3 text-center">
+                <span class="text-[10px] text-yellow-500 font-mono font-black uppercase tracking-wider block">Sweat to Credit</span>
+                <span class="text-[11px] text-white font-extrabold">노동 기반 신용 스코어화</span>
+              </div>
+              
+              <p class="text-[11px] text-warm-200 leading-relaxed">
+                출퇴근 데이터와 성실도가 <strong>대안 금융(CB 스코어)</strong>으로 변환됩니다. 1금융권의 대출 및 스마트 보험 상품과 직결되어 블루칼라를 위한 금융 포용을 구현합니다.
+              </p>
+            </div>
+
+            <!-- [4.2] B2B SaaS Card -->
+            <div class="flow-card flow-card-coral p-5 lcorner relative border-l-2 border-l-[#C0563B]">
+              <div class="flex items-center justify-between mb-2">
+                <div class="text-[13px] font-extrabold text-white flex items-center gap-2">
+                  <i class="fa-solid fa-building-shield text-[#C0563B]"></i> [4.2] 기업을 위한 가치 (B2B SaaS / 인프라)
+                </div>
+              </div>
+              
+              <div class="grid grid-cols-3 gap-1 text-center text-[10px] font-bold text-warm-300 mb-3">
+                <span class="p-1 bg-[#C0563B]/10 rounded-sm">원청/하청 기업</span>
+                <span class="p-1 bg-[#C0563B]/10 rounded-sm">현장 관리자</span>
+                <span class="p-1 bg-[#C0563B]/10 rounded-sm">전략적 파트너</span>
+              </div>
+              
+              <p class="text-[11px] text-warm-200 leading-relaxed">
+                <strong>리스크 방어 (중대재해처벌법 대응):</strong> 현장 데이터를 실시간 관리하여 컴플라이언스 위험을 통제하고 효율성과 기업 평판을 제고합니다. 대기업의 '상생 생태계 조성' 및 '미래 인재 육성' 명분을 완벽 소명합니다.
+              </p>
+            </div>
+            
           </div>
 
         </div><!-- /Columns Grid -->
 
-        <!-- [FUTURE] 4. FUTURE VISION (Bottom Row - Full Width) -->
-        <div class="mt-8 p-6 bg-ink-900 text-warm-50 border border-tech-500 lcorner relative overflow-hidden group hover:shadow-neo-hover transition-all">
-          <div class="absolute inset-0 blueprint opacity-20 pointer-events-none"></div>
-          <div class="absolute top-[-20%] left-[-10%] w-[120%] h-[150%] bg-[#0E7490] opacity-10 rounded-full blur-[90px] pointer-events-none"></div>
+        <!-- ==================== [FUTURE] (Bottom Row - Full Width) ==================== -->
+        <div class="mt-8 p-6 bg-slate-900/80 border border-tech-500/25 lcorner relative overflow-hidden group hover:border-[#22D3EE]/40 transition-all duration-300">
+          <div class="absolute inset-0 blueprint opacity-5 pointer-events-none"></div>
           
           <div class="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6">
             <div class="flex items-center gap-4">
               <div class="w-12 h-12 rounded-sm bg-tech-500/20 text-[#22D3EE] flex items-center justify-center text-xl shrink-0"><i class="fa-solid fa-robot"></i></div>
               <div>
-                <span class="text-[#22D3EE] text-[10px] font-mono tracking-widest font-bold uppercase">FUTURE VISION &amp; LONG-TERM PMF</span>
-                <h4 class="text-[17px] font-extrabold text-white mt-1">데이터 R&amp;D 기반의 로보틱스 R&amp;D 및 정밀 매칭 (장기 비전)</h4>
-                <p class="text-warm-200 text-xs mt-1.5 leading-relaxed max-w-4xl break-keep" style="word-break: keep-all;">
-                  추상적 공상을 걷어내고, MOMO 인프라가 축적한 정밀 노하우 데이터를 활용해 고위험 현장 작업을 대체하는 <strong>작업용 협업 로봇 R&amp;D</strong>를 주도합니다. 데이터 기반의 정밀 용접, 조적, 미장 로봇 매칭 인프라를 통해 대한민국 기술노동 생산성을 완성해 갑니다.
+                <span class="text-[#22D3EE] text-[10px] font-mono tracking-widest font-bold uppercase block">[FUTURE] 장기 비전 및 R&amp;D (미래)</span>
+                <h4 class="text-[16px] font-extrabold text-white mt-1">R&amp;D 및 생태계: 기술노동 환경의 로보틱스 혁신</h4>
+                <p class="text-warm-300 text-xs mt-1.5 leading-relaxed max-w-4xl break-keep" style="word-break: keep-all;">
+                  MOMO 인프라가 실시간 축적한 현장 가공 데이터를 기반으로 <strong>정밀 용접 및 마무리/미장 매칭 시스템</strong>을 구축합니다. 고위험 현장 작업을 안전하게 대체하는 <strong>협업 로봇 고도화 R&amp;D</strong>를 선도하고, 산업적 상생 생태계의 완전한 디지털 전환을 완성합니다.
                 </p>
               </div>
             </div>
-            <span class="chip bg-tech-700 text-[#22D3EE] border border-tech-600 text-xs font-mono shrink-0 py-2 px-4 shadow rounded uppercase">2030+ Roadmap</span>
+            <span class="chip bg-tech-950 text-[#22D3EE] border border-[#22D3EE]/30 text-xs font-mono shrink-0 py-2 px-4 shadow rounded uppercase tracking-wider">2030+ Roadmap</span>
           </div>
+        </div>
+
+        <!-- Flow labels inside container for visual helper (Only visible on desktop) -->
+        <div class="absolute hidden lg:block text-[11px] font-mono font-extrabold uppercase pointer-events-none" style="top: 48%; left: 6%; color: #22D3EE; transform: rotate(-90deg); z-index: 10;">
+          <i class="fa-solid fa-rotate-left mr-1"></i> 데이터 플라이휠
+        </div>
+        <div class="absolute hidden lg:block text-[11px] font-mono font-extrabold uppercase pointer-events-none" style="top: 48%; right: 5%; color: #C0563B; transform: rotate(90deg); z-index: 10;">
+          선순환 <i class="fa-solid fa-arrow-down-long ml-1"></i>
         </div>
 
       </div>
