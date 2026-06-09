@@ -418,34 +418,34 @@
 <div class="tape-divider"></div>
 
 <!-- ============================== HERO SECTION ============================== -->
-<section id="hero" class="relative pt-24 pb-20 md:pt-32 md:pb-28 bg-ink-900 text-warm-50 overflow-hidden">
-  <!-- Background Glow -->
-  <div class="absolute inset-0 pointer-events-none" style="background: radial-gradient(circle at 50% 20%, rgba(14, 116, 144, 0.4), transparent 60%);"></div>
+<section id="hero" class="relative pt-24 pb-20 md:pt-32 md:pb-28 bg-warm-50 text-ink-900 overflow-hidden">
+  <!-- Background Effect -->
+  <div class="absolute inset-0 pointer-events-none grain-bg opacity-70"></div>
   
   <div class="relative max-w-7xl mx-auto px-6 lg:px-10 z-10 flex flex-col items-center text-center mt-10 md:mt-16">
     
     <!-- Switcher Toggle -->
-    <div class="mb-10 inline-flex items-center p-1 bg-ink-800 rounded-full border border-ink-700/50 relative">
+    <div class="mb-10 inline-flex items-center p-1 bg-white rounded-full border border-ink-900/10 shadow-sm relative">
       <div id="heroToggleBg" class="absolute left-1 top-1 bottom-1 w-[calc(50%-4px)] bg-tech-600 rounded-full transition-transform duration-300"></div>
-      <button id="heroBtnA" class="relative z-10 px-6 py-2 text-[14px] md:text-base font-bold text-warm-50 transition-colors w-1/2">플랫폼 중심</button>
-      <button id="heroBtnB" class="relative z-10 px-6 py-2 text-[14px] md:text-base font-bold text-ink-300 hover:text-warm-50 transition-colors w-1/2">인프라 중심</button>
+      <button id="heroBtnA" class="relative z-10 px-6 py-2 text-[14px] md:text-base font-bold text-white transition-colors w-1/2">플랫폼 중심</button>
+      <button id="heroBtnB" class="relative z-10 px-6 py-2 text-[14px] md:text-base font-bold text-ink-500 hover:text-ink-900 transition-colors w-1/2">인프라 중심</button>
     </div>
 
     <!-- Content Container -->
     <div id="heroContentWrapper" class="relative min-h-[140px] md:min-h-[160px] w-full flex justify-center transition-opacity duration-500">
       <div id="heroContentA" class="absolute inset-x-0 top-0 transition-opacity duration-500 opacity-100 flex flex-col items-center">
-        <h1 class="hero-headline text-warm-50 mb-6 drop-shadow-lg leading-tight" style="word-break: keep-all;">
-          기술자와 AI가 함께 성장하는<br class="hidden md:block"/> <span class="text-tech-400">미래 기술노동 플랫폼</span>
+        <h1 class="hero-headline text-ink-900 mb-6 drop-shadow-sm leading-tight" style="word-break: keep-all;">
+          기술자와 AI가 함께 성장하는<br class="hidden md:block"/> <span class="text-tech-600">미래 기술노동 플랫폼</span>
         </h1>
       </div>
       <div id="heroContentB" class="absolute inset-x-0 top-0 transition-opacity duration-500 opacity-0 pointer-events-none flex flex-col items-center">
-        <h1 class="hero-headline text-warm-50 mb-6 drop-shadow-lg leading-tight" style="word-break: keep-all;">
-          기술자의 경험이 AI 자산이 되는<br class="hidden md:block"/> <span class="text-tech-400">미래 산업 혁신 인프라</span>
+        <h1 class="hero-headline text-ink-900 mb-6 drop-shadow-sm leading-tight" style="word-break: keep-all;">
+          기술자의 경험이 AI 자산이 되는<br class="hidden md:block"/> <span class="text-tech-600">미래 산업 혁신 인프라</span>
         </h1>
       </div>
     </div>
 
-    <p class="hero-sub text-ink-300 text-base md:text-xl max-w-3xl mx-auto mt-2" style="word-break: keep-all;">
+    <p class="hero-sub text-ink-600 text-base md:text-xl max-w-3xl mx-auto mt-2" style="word-break: keep-all;">
       현장의 경험을 데이터로 기록하고, AI와 협업 기술이 더 안전하고 생산적으로 일할 수 있는 미래를 만듭니다.
     </p>
 
@@ -462,10 +462,10 @@
     if(btnA && btnB) {
       btnA.addEventListener('click', () => {
         toggleBg.style.transform = 'translateX(0)';
-        btnA.classList.add('text-warm-50');
-        btnA.classList.remove('text-ink-300');
-        btnB.classList.add('text-ink-300');
-        btnB.classList.remove('text-warm-50');
+        btnA.classList.add('text-white');
+        btnA.classList.remove('text-ink-500');
+        btnB.classList.add('text-ink-500');
+        btnB.classList.remove('text-white');
         
         contentA.classList.remove('opacity-0', 'pointer-events-none');
         contentA.classList.add('opacity-100');
@@ -475,10 +475,10 @@
 
       btnB.addEventListener('click', () => {
         toggleBg.style.transform = 'translateX(100%)';
-        btnB.classList.add('text-warm-50');
-        btnB.classList.remove('text-ink-300');
-        btnA.classList.add('text-ink-300');
-        btnA.classList.remove('text-warm-50');
+        btnB.classList.add('text-white');
+        btnB.classList.remove('text-ink-500');
+        btnA.classList.add('text-ink-500');
+        btnA.classList.remove('text-white');
         
         contentB.classList.remove('opacity-0', 'pointer-events-none');
         contentB.classList.add('opacity-100');
@@ -2635,25 +2635,25 @@
 </section>
 
 <!-- Task 8: Startup Round Banner & Task 9: CTA -->
-<div class="py-16 md:py-24 bg-ink-900 text-warm-50 relative overflow-hidden group border-t border-ink-800">
-  <!-- Background Glow to match Hero -->
-  <div class="absolute inset-0 pointer-events-none" style="background: radial-gradient(circle at 50% 50%, rgba(14, 116, 144, 0.4), transparent 70%);"></div>
+<div class="py-16 md:py-24 bg-warm-50 text-ink-900 relative overflow-hidden group border-t border-ink-900/10">
+  <!-- Background Glow to match light theme -->
+  <div class="absolute inset-0 pointer-events-none grain-bg"></div>
   
   <div class="max-w-4xl mx-auto px-6 text-center relative z-10">
-    <div class="mb-6 inline-block px-3 py-1 bg-ink-800 text-warm-50 text-xs font-mono tracking-widest border border-ink-700/50 rounded-full">
+    <div class="mb-6 inline-block px-3 py-1 bg-white text-ink-700 text-xs font-mono tracking-widest border border-ink-900/10 rounded-full shadow-sm">
       모두의 창업 프로젝트
     </div>
-    <h2 class="hero-headline text-warm-50 mb-4 drop-shadow-lg leading-tight" style="word-break: keep-all;">
+    <h2 class="hero-headline text-ink-900 mb-4 drop-shadow-sm leading-tight" style="word-break: keep-all;">
       MONO와 함께 미래 기술노동 생태계를 구축할<br class="hidden md:inline" /> 전략적 파트너를 모십니다.
     </h2>
-    <p class="hero-sub text-ink-300 text-base md:text-xl max-w-3xl mx-auto mt-2 mb-10" style="word-break: keep-all;">혁신적 건설·조선사, 선도적 금융기관, 뜻있는 투자자의 합류를 기다립니다.</p>
+    <p class="hero-sub text-ink-600 text-base md:text-xl max-w-3xl mx-auto mt-2 mb-10" style="word-break: keep-all;">혁신적 건설·조선사, 선도적 금융기관, 뜻있는 투자자의 합류를 기다립니다.</p>
     
     <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
       <!-- Task 9: CTA 수정 -->
-      <button class="w-full sm:w-auto px-8 py-4 bg-tech-600 hover:bg-tech-500 text-warm-50 font-black text-lg transition-colors lcorner shadow-[0_0_20px_rgba(14,116,144,0.4)] flex items-center justify-center gap-2">
+      <button class="w-full sm:w-auto px-8 py-4 bg-tech-600 hover:bg-tech-500 text-white font-black text-lg transition-colors lcorner shadow-md flex items-center justify-center gap-2">
         미래 노동 동맹 서명하기 <i class="fa-solid fa-arrow-right"></i>
       </button>
-      <button class="w-full sm:w-auto px-8 py-4 bg-transparent border border-ink-600 text-ink-300 font-bold text-lg hover:text-warm-50 hover:bg-ink-800 transition-colors lcorner flex items-center justify-center gap-2">
+      <button class="w-full sm:w-auto px-8 py-4 bg-white border border-ink-200 text-ink-700 font-bold text-lg hover:text-ink-900 hover:bg-warm-100 transition-colors lcorner shadow-sm flex items-center justify-center gap-2">
         투자/제휴 문의안내 <i class="fa-solid fa-file-signature"></i>
       </button>
     </div>
