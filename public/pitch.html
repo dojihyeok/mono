@@ -422,24 +422,11 @@
   <div class="absolute inset-0 pointer-events-none grain-bg mix-blend-multiply opacity-40"></div>
   
   <div class="relative max-w-7xl mx-auto px-6 lg:px-10 z-10 flex flex-col items-center text-center mt-10 md:mt-16">
-    
-    <!-- Switcher Toggle -->
-    <div class="mb-10 inline-flex items-center p-1 bg-warm-50 rounded-full border border-ink-900/10 shadow-sm relative">
-      <div id="heroToggleBg" class="absolute left-1 top-1 bottom-1 w-[calc(50%-4px)] bg-tech-600 rounded-full transition-transform duration-300"></div>
-      <button id="heroBtnA" class="relative z-10 px-6 py-2 text-[14px] md:text-base font-bold text-white transition-colors w-1/2">플랫폼 중심</button>
-      <button id="heroBtnB" class="relative z-10 px-6 py-2 text-[14px] md:text-base font-bold text-ink-500 hover:text-ink-900 transition-colors w-1/2">인프라 중심</button>
-    </div>
-
     <!-- Content Container -->
-    <div id="heroContentWrapper" class="relative min-h-[140px] md:min-h-[160px] w-full flex justify-center transition-opacity duration-500">
-      <div id="heroContentA" class="absolute inset-x-0 top-0 transition-opacity duration-500 opacity-100 flex flex-col items-center">
+    <div id="heroContentWrapper" class="relative w-full flex justify-center mt-6">
+      <div id="heroContentA" class="flex flex-col items-center">
         <h1 class="hero-headline text-ink-900 mb-6 drop-shadow-sm leading-tight" style="word-break: keep-all;">
           기술자와 AI가 함께 성장하는<br class="hidden md:block"/> <span class="text-tech-600">미래 기술노동 플랫폼</span>
-        </h1>
-      </div>
-      <div id="heroContentB" class="absolute inset-x-0 top-0 transition-opacity duration-500 opacity-0 pointer-events-none flex flex-col items-center">
-        <h1 class="hero-headline text-ink-900 mb-6 drop-shadow-sm leading-tight" style="word-break: keep-all;">
-          기술자의 경험이 AI 자산이 되는<br class="hidden md:block"/> <span class="text-tech-600">미래 산업 혁신 인프라</span>
         </h1>
       </div>
     </div>
@@ -450,43 +437,7 @@
 
   </div>
 </section>
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const btnA = document.getElementById('heroBtnA');
-    const btnB = document.getElementById('heroBtnB');
-    const toggleBg = document.getElementById('heroToggleBg');
-    const contentA = document.getElementById('heroContentA');
-    const contentB = document.getElementById('heroContentB');
 
-    if(btnA && btnB) {
-      btnA.addEventListener('click', () => {
-        toggleBg.style.transform = 'translateX(0)';
-        btnA.classList.add('text-white');
-        btnA.classList.remove('text-ink-500');
-        btnB.classList.add('text-ink-500');
-        btnB.classList.remove('text-white');
-        
-        contentA.classList.remove('opacity-0', 'pointer-events-none');
-        contentA.classList.add('opacity-100');
-        contentB.classList.remove('opacity-100');
-        contentB.classList.add('opacity-0', 'pointer-events-none');
-      });
-
-      btnB.addEventListener('click', () => {
-        toggleBg.style.transform = 'translateX(100%)';
-        btnB.classList.add('text-white');
-        btnB.classList.remove('text-ink-500');
-        btnA.classList.add('text-ink-500');
-        btnA.classList.remove('text-white');
-        
-        contentB.classList.remove('opacity-0', 'pointer-events-none');
-        contentB.classList.add('opacity-100');
-        contentA.classList.remove('opacity-100');
-        contentA.classList.add('opacity-0', 'pointer-events-none');
-      });
-    }
-  });
-</script>
 
 <!-- ============================== S1 · THE PLATFORM ============================== -->
 <section id="platform" class="relative pt-12 sm:pt-16 md:pt-24 lg:pt-28 pb-14 sm:pb-20 md:pb-24 lg:pb-32 bg-warm-50">
@@ -2521,8 +2472,8 @@
       
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 relative">
         <!-- Connecting Line (Desktop) -->
-        <div class="hidden lg:block absolute top-[4.5rem] left-[10%] right-[10%] h-1 bg-ink-900/10 z-0"></div>
-        <div class="hidden lg:block absolute top-[4.5rem] left-[10%] w-[15%] h-1 bg-tech-600 z-0"></div>
+        <div class="hidden lg:block absolute top-[3rem] left-[10%] right-[10%] h-1 bg-ink-900/10 z-0"></div>
+        <div class="hidden lg:block absolute top-[3rem] left-[10%] w-[15%] h-1 bg-tech-600 z-0"></div>
 
         <!-- Phase 1 -->
         <div class="relative z-10 bg-warm-50 border border-ink-900/15 lcorner p-6 hover-lift shadow-blueprint">
@@ -2623,8 +2574,9 @@
         <i class="fa-solid fa-people-group"></i>
       </div>
       <h3 class="text-xl md:text-2xl font-black text-ink-900 mb-4 tracking-tight">Built by T-Rive</h3>
-      <p class="body-lg text-ink-700 leading-relaxed max-w-2xl mx-auto mb-8 text-justify" style="word-break:keep-all;">
-        우리는 사람을 대체하는 기술이 아니라, 사람의 가치를 증명하고 보호하는 기술(Human-Centric Technology)을 만듭니다. 기술노동자의 땀방울이 온전한 데이터 자산으로 인정받는 세상을 향해 <strong>T-Rive 팀</strong>이 함께합니다.
+      <p class="body-lg text-ink-700 leading-relaxed max-w-2xl mx-auto mb-8 flex flex-col gap-1 items-center">
+        <span>우리는 사람을 대체하는 기술이 아니라, 사람의 가치를 증명하고 보호하는 기술(Human-Centric Technology)을 만듭니다.</span>
+        <span>기술노동자의 땀방울이 온전한 데이터 자산으로 인정받는 세상을 향해 <strong>T-Rive 팀</strong>이 함께합니다.</span>
       </p>
       <a href="mailto:contact@t-rive.io" class="inline-flex items-center justify-center gap-2 px-6 py-3 bg-warm-50 border border-ink-900/20 text-ink-900 font-bold hover:bg-ink-900 hover:text-warm-50 transition-colors lcorner shadow-sm group">
         <i class="fa-solid fa-envelope text-tech-600 group-hover:text-tech-400"></i> 팀과 대화하기
