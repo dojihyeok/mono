@@ -251,7 +251,7 @@
   ::-webkit-scrollbar-thumb:hover { background: #06B6D4; }
 
   /* Tech-Blue Hyper-Callout System */
-  .hyper-glow-box {
+  . {
     position: relative;
     background: linear-gradient(135deg, rgba(251, 249, 244, 0.93) 0%, rgba(244, 239, 230, 0.96) 100%);
     border: 1px solid rgba(14, 116, 144, 0.16);
@@ -263,7 +263,7 @@
     -webkit-backdrop-filter: blur(12px);
   }
 
-  .hyper-glow-box::before {
+  .::before {
     content: '';
     position: absolute;
     inset: 0;
@@ -278,7 +278,7 @@
     transition: opacity 0.5s ease;
   }
 
-  .hyper-glow-box:hover {
+  .:hover {
     transform: translateY(-4px);
     border-color: rgba(6, 182, 212, 0.35);
     box-shadow: 
@@ -287,13 +287,13 @@
       inset 0 1px 0 rgba(255, 255, 255, 0.6);
   }
 
-  .hyper-glow-box:hover::before {
+  .:hover::before {
     opacity: 1;
     background: linear-gradient(135deg, rgba(14, 116, 144, 0.5) 0%, rgba(6, 182, 212, 0.1) 50%, rgba(14, 116, 144, 0.3) 100%);
   }
 
   /* Cyber Text Gradient */
-  .text-cyber-glow {
+  .text-tech-600 {
     background: linear-gradient(135deg, #0A0F1A 30%, #0E7490 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -317,12 +317,12 @@
   .tech-corner-mark::before { top: -1px; left: -1px; border-width: 1.5px 0 0 1.5px; }
   .tech-corner-mark::after  { bottom: -1px; right: -1px; border-width: 0 1.5px 1.5px 0; }
 
-  .hyper-glow-box:hover .tech-corner-mark::before {
+  .:hover .tech-corner-mark::before {
     top: -3px;
     left: -3px;
     border-color: rgba(14, 116, 144, 0.75);
   }
-  .hyper-glow-box:hover .tech-corner-mark::after {
+  .:hover .tech-corner-mark::after {
     bottom: -3px;
     right: -3px;
     border-color: rgba(14, 116, 144, 0.75);
@@ -568,7 +568,7 @@
     </div>
 
     <!-- Data layer bottom strip -->
-    <div class="mt-10 w-full mx-auto hyper-glow-box px-6 py-5 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 overflow-hidden group">
+    <div class="mt-10 w-full mx-auto  px-6 py-5 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 overflow-hidden group">
       <!-- Technical corners -->
       <div class="tech-corner-mark"></div>
       <div class="flex items-center gap-3 relative z-10">
@@ -726,16 +726,16 @@
         </p>
       </div>
 <!-- ✅ Task 5: 대기업 상생 ESG 솔루션 킬러 하이라이트 (VC 설득용) -->
-    <div class="reveal mt-10 hyper-glow-box overflow-hidden group">
+    <div class="reveal mt-10  overflow-hidden group">
       <!-- Technical corners -->
       <div class="tech-corner-mark"></div>
       
       <!-- Cyan glowing sphere -->
-      <div class="glow-sphere -top-20 -left-20" style="background: radial-gradient(circle, rgba(34,211,238,0.06) 0%, transparent 70%);"></div>
+      
       <div class="absolute inset-0 blueprint opacity-10 pointer-events-none"></div>
 
       <!-- Accent glowing bar -->
-      <div class="absolute left-0 top-0 bottom-0 w-[4px] bg-gradient-to-b from-tech-400 via-tech-500 to-tech-700 group-hover:from-tech-300 group-hover:via-tech-400 group-hover:to-tech-600 transition-all duration-500 shadow-[0_0_12px_rgba(34,211,238,0.3)]"></div>
+      <div class="absolute left-0 top-0 bottom-0 w-[4px] bg-gradient-to-b from-tech-400 via-tech-500 to-tech-700 group-hover:from-tech-300 group-hover:via-tech-400 group-hover:to-tech-600 transition-all duration-500 shadow-sm"></div>
 
       <!-- Schematic background vector -->
       <svg class="absolute right-0 bottom-0 w-72 h-72 text-tech-500 opacity-[0.03] pointer-events-none group-hover:opacity-[0.08] group-hover:scale-105 transition-all duration-700" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="0.5">
@@ -811,16 +811,16 @@
 
 
       <!-- ✅ Task 5: Why MONO Matters (새로운 기술 인재 유입 & ESG 인프라) -->
-      <div id="why-mono-matters-esg" class="reveal mt-10 mb-12 hyper-glow-box overflow-hidden group text-ink-900">
+      <div id="why-mono-matters-esg" class="reveal mt-10 mb-12  overflow-hidden group text-ink-900">
         <!-- Technical corners -->
         <div class="tech-corner-mark"></div>
         
         <!-- Cyan glowing sphere -->
-        <div class="glow-sphere -bottom-20 -left-20" style="background: radial-gradient(circle, rgba(14,116,144,0.06) 0%, transparent 70%);"></div>
+        
         <div class="absolute inset-0 blueprint opacity-10 pointer-events-none"></div>
 
         <!-- Accent glowing bar -->
-        <div class="absolute left-0 top-0 bottom-0 w-[4px] bg-gradient-to-b from-tech-400 via-tech-500 to-tech-700 group-hover:from-tech-300 group-hover:via-tech-400 group-hover:to-tech-600 transition-all duration-500 shadow-[0_0_12px_rgba(34,211,238,0.3)]"></div>
+        <div class="absolute left-0 top-0 bottom-0 w-[4px] bg-gradient-to-b from-tech-400 via-tech-500 to-tech-700 group-hover:from-tech-300 group-hover:via-tech-400 group-hover:to-tech-600 transition-all duration-500 shadow-sm"></div>
 
         <div class="relative z-10 px-6 py-8 md:px-10 md:py-10">
           <!-- Header -->
@@ -1187,7 +1187,7 @@
               01
             </div>
           </div>
-          <div class="hyper-glow-box bg-warm-50/95 lcorner p-6 md:p-8 flex-1 shadow-blueprint border border-ink-900/10 relative">
+          <div class=" bg-warm-50/95 lcorner p-6 md:p-8 flex-1 shadow-blueprint border border-ink-900/10 relative">
             <div class="absolute w-0 h-0 border-t-[10px] border-t-transparent border-r-[15px] border-r-warm-50/95 border-b-[10px] border-b-transparent -left-[15px] top-5 hidden md:block drop-shadow-sm"></div>
             <div class="flex items-center gap-2 mb-2">
               <span class="chip bg-warm-50 text-ink-900 border border-ink-200">첫걸음</span>
@@ -1208,7 +1208,7 @@
               02
             </div>
           </div>
-          <div class="hyper-glow-box bg-warm-50/95 lcorner p-6 md:p-8 flex-1 shadow-blueprint border border-ink-900/10 relative">
+          <div class=" bg-warm-50/95 lcorner p-6 md:p-8 flex-1 shadow-blueprint border border-ink-900/10 relative">
             <div class="absolute w-0 h-0 border-t-[10px] border-t-transparent border-r-[15px] border-r-warm-50/95 border-b-[10px] border-b-transparent -left-[15px] top-5 hidden md:block drop-shadow-sm"></div>
             <div class="flex items-center gap-2 mb-2">
               <span class="chip bg-warm-50 text-ink-900 border border-ink-200">연결 & 동행</span>
@@ -1228,7 +1228,7 @@
               03
             </div>
           </div>
-          <div class="hyper-glow-box bg-warm-50/95 lcorner p-6 md:p-8 flex-1 shadow-blueprint border border-ink-900/10 relative">
+          <div class=" bg-warm-50/95 lcorner p-6 md:p-8 flex-1 shadow-blueprint border border-ink-900/10 relative">
             <div class="absolute w-0 h-0 border-t-[10px] border-t-transparent border-r-[15px] border-r-warm-50/95 border-b-[10px] border-b-transparent -left-[15px] top-5 hidden md:block drop-shadow-sm"></div>
             <div class="flex items-center gap-2 mb-2">
               <span class="chip bg-warm-50 text-ink-900 border border-ink-200">상생</span>
@@ -1251,7 +1251,7 @@
               04
             </div>
           </div>
-          <div class="hyper-glow-box bg-warm-50/95 lcorner p-6 md:p-8 flex-1 shadow-blueprint border border-ink-900/10 relative">
+          <div class=" bg-warm-50/95 lcorner p-6 md:p-8 flex-1 shadow-blueprint border border-ink-900/10 relative">
             <div class="absolute w-0 h-0 border-t-[10px] border-t-transparent border-r-[15px] border-r-warm-50/95 border-b-[10px] border-b-transparent -left-[15px] top-5 hidden md:block drop-shadow-sm"></div>
             <div class="flex items-center gap-2 mb-2">
               <span class="chip bg-safety-tape text-ink-900 border border-safety-amber/50 font-bold">현장 지원</span>
@@ -1274,7 +1274,7 @@
               05
             </div>
           </div>
-          <div class="hyper-glow-box bg-warm-50/95 lcorner p-6 md:p-8 flex-1 shadow-blueprint border border-ink-900/10 relative">
+          <div class=" bg-warm-50/95 lcorner p-6 md:p-8 flex-1 shadow-blueprint border border-ink-900/10 relative">
             <div class="absolute w-0 h-0 border-t-[10px] border-t-transparent border-r-[15px] border-r-warm-50/95 border-b-[10px] border-b-transparent -left-[15px] top-5 hidden md:block drop-shadow-sm"></div>
             <div class="flex items-center gap-2 mb-2">
               <span class="chip bg-warm-50 text-ink-900 border border-ink-200">성장</span>
@@ -1295,7 +1295,7 @@
               06
             </div>
           </div>
-          <div class="hyper-glow-box bg-warm-50/95 lcorner p-6 md:p-8 flex-1 shadow-blueprint border border-ink-200 relative">
+          <div class=" bg-warm-50/95 lcorner p-6 md:p-8 flex-1 shadow-blueprint border border-ink-200 relative">
             <div class="absolute w-0 h-0 border-t-[10px] border-t-transparent border-r-[15px] border-r-tech-50/95 border-b-[10px] border-b-transparent -left-[15px] top-5 hidden md:block drop-shadow-sm"></div>
             <div class="flex items-center gap-2 mb-2">
               <span class="chip bg-warm-500 text-ink-900 font-bold border border-ink-900">도약</span>
@@ -1552,20 +1552,20 @@
     </div>
 
     <!-- 브랜드 철학 핵심 매니페스토 -->
-    <div class="reveal mb-12 p-8 md:p-10 hyper-glow-box flex flex-col items-center justify-center text-center relative overflow-hidden group">
+    <div class="reveal mb-12 p-8 md:p-10  flex flex-col items-center justify-center text-center relative overflow-hidden group">
       <!-- Technical corners -->
       <div class="tech-corner-mark"></div>
       
       <div class="absolute inset-0 blueprint opacity-25 pointer-events-none"></div>
       
       <!-- Ambient glows -->
-      <div class="glow-sphere -top-20 -left-20" style="background: radial-gradient(circle, rgba(34,211,238,0.08) 0%, transparent 70%);"></div>
-      <div class="glow-sphere -bottom-20 -right-20" style="background: radial-gradient(circle, rgba(14,116,144,0.05) 0%, transparent 70%);"></div>
+      
+      
       
       <div class="relative z-10">
         <span class="h-eyebrow text-ink-900 mb-4 tracking-widest block group-hover:text-tech-600 transition-colors">MONO의 세계관 &amp; 핵심 철학</span>
         <h3 class="text-xl md:text-3xl font-extrabold text-ink-900 leading-snug tracking-tight mb-4" style="word-break: keep-all; ">
-          &#8220;<span class="text-cyber-glow font-extrabold">대한민국 산업 경쟁력의 시작은 기술자입니다.</span>&#8221;
+          &#8220;<span class="text-tech-600 font-extrabold">대한민국 산업 경쟁력의 시작은 기술자입니다.</span>&#8221;
         </h3>
         <div class="w-16 h-[2px] bg-gradient-to-r from-tech-400 to-tech-600 mx-auto mb-5 group-hover:w-24 transition-all duration-500"></div>
         <p class="hidden md:block body-lg text-ink-700 w-full" style="word-break: keep-all; ">
@@ -1843,23 +1843,23 @@
 
 <div class="tape-divider"></div>
 
-<!-- ============================== S6 · VISION (DARK) ============================== -->
-<section id="vision" class="relative py-24 lg:py-32 bg-ink-900 text-warm-50 overflow-hidden">
+<!-- ============================== S6 · VISION (LIGHT) ============================== -->
+<section id="vision" class="relative py-24 lg:py-32 bg-warm-50 text-ink-900 overflow-hidden">
   <div class="absolute inset-0 blueprint opacity-20 pointer-events-none mix-blend-overlay"></div>
-  <div class="absolute inset-0 bg-gradient-to-b from-ink-900 via-ink-800 to-ink-900 opacity-90 pointer-events-none"></div>
+  <div class="absolute inset-0 bg-gradient-to-b from-warm-50 via-warm-100/50 to-warm-50 opacity-50 pointer-events-none"></div>
   
   <div class="max-w-7xl mx-auto px-6 lg:px-10 relative z-10">
     <div class="max-w-4xl mx-auto text-center mb-16 reveal">
       <div class="section-label mb-4"><span class="num">07</span> Next MONO : 현장 맞춤형 Tech-Blue 인프라</div>
-      <h2 class="h-display text-white leading-tight tracking-tight mb-6" style="word-break: keep-all;">
+      <h2 class="h-display text-ink-900 leading-tight tracking-tight mb-6" style="word-break: keep-all;">
         기술자의 경험은 사라져야 할 노동이 아니라,<br class="hidden md:block" />
-        <span class="text-tech-400">다음 세대 산업을 움직이는 자산</span>입니다.
+        <span class="text-tech-600">다음 세대 산업을 움직이는 자산</span>입니다.
       </h2>
-      <p class="body-lg text-warm-200" style="word-break: keep-all;">
+      <p class="body-lg text-ink-700" style="word-break: keep-all;">
         MONO는 기술자의 경험과 숙련을 기록하고 연결하여 더 안전한 현장, 더 나은 성장 기회, 그리고 대한민국 산업 경쟁력의 미래를 만들어 갑니다.
       </p>
       <!-- Evolution diagram image from previous step -->
-      <div class="mt-8 relative w-full rounded-lg overflow-hidden border border-warm-200/20 shadow-2xl">
+      <div class="mt-8 relative w-full rounded-lg overflow-hidden border border-ink-900/15 shadow-2xl">
         <img src="images/next_mono_evolution.jpg" alt="NEXT MONO EVOLUTION" class="w-full h-auto object-cover" />
       </div>
     </div>
@@ -1871,67 +1871,67 @@
       <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
         
         <!-- STEP 01 -->
-        <article class="bg-ink-800/80 border border-warm-200/10 p-6 rounded-lg hover:border-tech-500/50 transition-colors relative group">
+        <article class="bg-warm-50 border border-ink-900/15 shadow-sm p-6 rounded-lg hover:border-tech-500/50 transition-colors relative group">
           <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-30 transition-opacity"><i class="fa-solid fa-clipboard-list text-4xl"></i></div>
-          <div class="text-tech-400 font-mono font-bold text-sm mb-2 tracking-widest">STEP 01</div>
-          <h3 class="text-xl font-black text-white mb-4">기술자 경험 기록</h3>
-          <ul class="space-y-1 mb-4 text-sm text-warm-200/80 font-mono">
+          <div class="text-tech-600 font-mono font-bold text-sm mb-2 tracking-widest">STEP 01</div>
+          <h3 class="text-xl font-black text-ink-900 mb-4">기술자 경험 기록</h3>
+          <ul class="space-y-1 mb-4 text-sm text-ink-600 font-mono">
             <li>· 근무 이력</li>
             <li>· 기술 경력</li>
             <li>· 교육 이력</li>
             <li>· 안전 이력</li>
             <li>· 장비 사용 이력</li>
           </ul>
-          <div class="h-px w-full bg-gradient-to-r from-warm-200/20 to-transparent my-4"></div>
-          <p class="text-sm text-warm-100 leading-relaxed" style="word-break:keep-all;">기술자의 경험과 숙련을 디지털 자산으로 기록</p>
+          <div class="h-px w-full bg-gradient-to-r from-ink-900/15 to-transparent my-4"></div>
+          <p class="text-sm text-ink-800 leading-relaxed" style="word-break:keep-all;">기술자의 경험과 숙련을 디지털 자산으로 기록</p>
         </article>
 
         <!-- STEP 02 -->
-        <article class="bg-ink-800/80 border border-warm-200/10 p-6 rounded-lg hover:border-tech-500/50 transition-colors relative group">
+        <article class="bg-warm-50 border border-ink-900/15 shadow-sm p-6 rounded-lg hover:border-tech-500/50 transition-colors relative group">
           <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-30 transition-opacity"><i class="fa-solid fa-database text-4xl"></i></div>
-          <div class="text-tech-400 font-mono font-bold text-sm mb-2 tracking-widest">STEP 02</div>
-          <h3 class="text-xl font-black text-white mb-4">기술 경험 자산화</h3>
-          <ul class="space-y-1 mb-4 text-sm text-warm-200/80 font-mono">
+          <div class="text-tech-600 font-mono font-bold text-sm mb-2 tracking-widest">STEP 02</div>
+          <h3 class="text-xl font-black text-ink-900 mb-4">기술 경험 자산화</h3>
+          <ul class="space-y-1 mb-4 text-sm text-ink-600 font-mono">
             <li>· 숙련도 분석</li>
             <li>· 경력 인증</li>
             <li>· 기술 포트폴리오</li>
             <li>· 작업 패턴 분석</li>
           </ul>
-          <div class="h-px w-full bg-gradient-to-r from-warm-200/20 to-transparent my-4"></div>
-          <p class="text-sm text-warm-100 leading-relaxed" style="word-break:keep-all;">사라지는 경험을 산업 자산으로 전환</p>
+          <div class="h-px w-full bg-gradient-to-r from-ink-900/15 to-transparent my-4"></div>
+          <p class="text-sm text-ink-800 leading-relaxed" style="word-break:keep-all;">사라지는 경험을 산업 자산으로 전환</p>
         </article>
 
         <!-- STEP 03 -->
-        <article class="bg-ink-800/80 border border-warm-200/10 p-6 rounded-lg hover:border-tech-500/50 transition-colors relative group">
+        <article class="bg-warm-50 border border-ink-900/15 shadow-sm p-6 rounded-lg hover:border-tech-500/50 transition-colors relative group">
           <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-30 transition-opacity"><i class="fa-solid fa-chart-line text-4xl"></i></div>
-          <div class="text-tech-400 font-mono font-bold text-sm mb-2 tracking-widest">STEP 03</div>
-          <h3 class="text-xl font-black text-white mb-4">현장 최적화 분석</h3>
-          <ul class="space-y-1 mb-4 text-sm text-warm-200/80 font-mono">
+          <div class="text-tech-600 font-mono font-bold text-sm mb-2 tracking-widest">STEP 03</div>
+          <h3 class="text-xl font-black text-ink-900 mb-4">현장 최적화 분석</h3>
+          <ul class="space-y-1 mb-4 text-sm text-ink-600 font-mono">
             <li>· 반복 작업 분석</li>
             <li>· 위험 작업 분석</li>
             <li>· 생산성 분석</li>
             <li>· 작업 환경 분석</li>
           </ul>
-          <div class="h-px w-full bg-gradient-to-r from-warm-200/20 to-transparent my-4"></div>
-          <p class="text-sm text-warm-100 leading-relaxed" style="word-break:keep-all;">현장 데이터를 기반으로 작업 환경 개선</p>
+          <div class="h-px w-full bg-gradient-to-r from-ink-900/15 to-transparent my-4"></div>
+          <p class="text-sm text-ink-800 leading-relaxed" style="word-break:keep-all;">현장 데이터를 기반으로 작업 환경 개선</p>
         </article>
 
         <!-- STEP 04 -->
-        <article class="bg-ink-800/80 border border-tech-500/30 p-6 rounded-lg hover:border-tech-400 transition-colors relative group shadow-[0_0_15px_rgba(34,211,238,0.1)]">
-          <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-30 transition-opacity"><i class="fa-solid fa-vr-cardboard text-4xl text-tech-400"></i></div>
-          <div class="text-tech-400 font-mono font-bold text-sm mb-2 tracking-widest flex items-center justify-between">
+        <article class="bg-warm-100 border border-tech-600/30 p-6 rounded-lg hover:border-tech-400 transition-colors relative group shadow-sm">
+          <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-30 transition-opacity"><i class="fa-solid fa-vr-cardboard text-4xl text-tech-600"></i></div>
+          <div class="text-tech-600 font-mono font-bold text-sm mb-2 tracking-widest flex items-center justify-between">
             STEP 04
-            <span class="text-[10px] bg-tech-900/50 text-tech-400 px-2 py-0.5 rounded border border-tech-500/30">조선·건설·플랜트·방산</span>
+            <span class="text-[10px] bg-tech-900/50 text-tech-600 px-2 py-0.5 rounded border border-tech-600/30">조선·건설·플랜트·방산</span>
           </div>
-          <h3 class="text-xl font-black text-white mb-4">맞춤 장비 & 웨어러블</h3>
-          <ul class="space-y-1 mb-4 text-sm text-warm-200/80 font-mono">
+          <h3 class="text-xl font-black text-ink-900 mb-4">맞춤 장비 & 웨어러블</h3>
+          <ul class="space-y-1 mb-4 text-sm text-ink-600 font-mono">
             <li>· 스마트 공구</li>
             <li>· 스마트 안전장비</li>
             <li>· 착용형 보조장치</li>
             <li>· 웨어러블 로봇</li>
           </ul>
           <div class="h-px w-full bg-gradient-to-r from-tech-500/50 to-transparent my-4"></div>
-          <p class="text-sm text-tech-100 leading-relaxed" style="word-break:keep-all;">기술자의 신체 부담을 줄이고 생산성과 안전성을 향상</p>
+          <p class="text-sm text-ink-800 leading-relaxed" style="word-break:keep-all;">기술자의 신체 부담을 줄이고 생산성과 안전성을 향상</p>
         </article>
       </div>
 
@@ -1939,50 +1939,50 @@
       <div class="grid md:grid-cols-3 gap-6">
         
         <!-- STEP 05 -->
-        <article class="bg-ink-800/80 border border-warm-200/10 p-6 rounded-lg hover:border-tech-500/50 transition-colors relative group">
+        <article class="bg-warm-50 border border-ink-900/15 shadow-sm p-6 rounded-lg hover:border-tech-500/50 transition-colors relative group">
           <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-30 transition-opacity"><i class="fa-solid fa-user-astronaut text-4xl"></i></div>
-          <div class="text-tech-400 font-mono font-bold text-sm mb-2 tracking-widest">STEP 05</div>
-          <h3 class="text-xl font-black text-white mb-4">Tech-Blue</h3>
-          <ul class="space-y-1 mb-4 text-sm text-warm-200/80 font-mono">
+          <div class="text-tech-600 font-mono font-bold text-sm mb-2 tracking-widest">STEP 05</div>
+          <h3 class="text-xl font-black text-ink-900 mb-4">Tech-Blue</h3>
+          <ul class="space-y-1 mb-4 text-sm text-ink-600 font-mono">
             <li>· 디지털 기술자</li>
             <li>· AI 협업</li>
             <li>· 스마트 현장 운영</li>
           </ul>
-          <div class="h-px w-full bg-gradient-to-r from-warm-200/20 to-transparent my-4"></div>
-          <p class="text-sm text-warm-100 leading-relaxed" style="word-break:keep-all;">사람과 기술이 함께 성장하는 미래 기술자 모델</p>
+          <div class="h-px w-full bg-gradient-to-r from-ink-900/15 to-transparent my-4"></div>
+          <p class="text-sm text-ink-800 leading-relaxed" style="word-break:keep-all;">사람과 기술이 함께 성장하는 미래 기술자 모델</p>
         </article>
 
         <!-- STEP 06 -->
-        <article class="bg-ink-800/80 border border-warm-200/10 p-6 rounded-lg hover:border-tech-500/50 transition-colors relative group">
+        <article class="bg-warm-50 border border-ink-900/15 shadow-sm p-6 rounded-lg hover:border-tech-500/50 transition-colors relative group">
           <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-30 transition-opacity"><i class="fa-solid fa-robot text-4xl"></i></div>
-          <div class="text-tech-400 font-mono font-bold text-sm mb-2 tracking-widest">STEP 06</div>
-          <h3 class="text-xl font-black text-white mb-4">협업 로봇(Cobot)</h3>
-          <ul class="space-y-1 mb-4 text-sm text-warm-200/80 font-mono">
+          <div class="text-tech-600 font-mono font-bold text-sm mb-2 tracking-widest">STEP 06</div>
+          <h3 class="text-xl font-black text-ink-900 mb-4">협업 로봇(Cobot)</h3>
+          <ul class="space-y-1 mb-4 text-sm text-ink-600 font-mono">
             <li>· 용접 보조</li>
             <li>· 도장 보조</li>
             <li>· 검사 보조</li>
             <li>· 물류 보조</li>
           </ul>
-          <div class="h-px w-full bg-gradient-to-r from-warm-200/20 to-transparent my-4"></div>
-          <p class="text-sm text-warm-100 leading-relaxed" style="word-break:keep-all;">위험 작업은 로봇이 보조하고 기술자는 고부가가치 업무에 집중</p>
+          <div class="h-px w-full bg-gradient-to-r from-ink-900/15 to-transparent my-4"></div>
+          <p class="text-sm text-ink-800 leading-relaxed" style="word-break:keep-all;">위험 작업은 로봇이 보조하고 기술자는 고부가가치 업무에 집중</p>
         </article>
 
         <!-- STEP 07 -->
-        <article class="bg-gradient-to-br from-ink-800 to-tech-900/40 border border-tech-500/50 p-6 rounded-lg hover:border-tech-400 transition-colors relative group shadow-[0_0_25px_rgba(34,211,238,0.15)]">
-          <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-30 transition-opacity"><i class="fa-solid fa-city text-4xl text-tech-400"></i></div>
-          <div class="text-tech-400 font-mono font-bold text-sm mb-2 tracking-widest">STEP 07</div>
-          <h3 class="text-xl font-black text-white mb-4">MONO 산업 인프라 플랫폼</h3>
-          <ul class="space-y-1 mb-4 text-sm text-warm-100 font-mono grid grid-cols-2 gap-x-2">
+        <article class="bg-warm-100 border border-tech-500/50 p-6 rounded-lg hover:border-tech-400 transition-colors relative group shadow-sm">
+          <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-30 transition-opacity"><i class="fa-solid fa-city text-4xl text-tech-600"></i></div>
+          <div class="text-tech-600 font-mono font-bold text-sm mb-2 tracking-widest">STEP 07</div>
+          <h3 class="text-xl font-black text-ink-900 mb-4">MONO 산업 인프라 플랫폼</h3>
+          <ul class="space-y-1 mb-4 text-sm text-ink-800 font-mono grid grid-cols-2 gap-x-2">
             <li>· 일자리</li>
             <li>· 금융</li>
             <li>· 교육</li>
             <li>· 복지</li>
             <li>· 글로벌 인력</li>
-            <li class="col-span-2 mt-1 pt-1 border-t border-tech-500/30 text-tech-300">· 장비 구독(EaaS)</li>
+            <li class="col-span-2 mt-1 pt-1 border-t border-tech-600/30 text-tech-300">· 장비 구독(EaaS)</li>
             <li class="col-span-2 text-tech-300">· 로보틱스 서비스(RaaS)</li>
           </ul>
           <div class="h-px w-full bg-gradient-to-r from-tech-500/50 to-transparent my-4"></div>
-          <p class="text-sm text-tech-100 leading-relaxed font-bold" style="word-break:keep-all;">기술자의 경험을 산업의 자산으로 연결하는 통합 플랫폼</p>
+          <p class="text-sm text-ink-800 leading-relaxed font-bold" style="word-break:keep-all;">기술자의 경험을 산업의 자산으로 연결하는 통합 플랫폼</p>
         </article>
       </div>
 
