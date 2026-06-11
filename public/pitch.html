@@ -105,7 +105,8 @@
 
   /* ---------- Typography ---------- */
   .h-eyebrow  { font-family: 'Pretendard', 'JetBrains Mono', monospace; font-size: 15px; font-weight: 850; letter-spacing: 0.04em; text-transform: uppercase; color: #0E7490; }
-  .section-label { font-family: 'Pretendard', sans-serif; font-size: 18px; font-weight: 700; color: #0E7490; letter-spacing: -0.01em; display: inline-flex; flex-wrap: wrap; align-items: center; gap: 0.625rem; max-width: 100%; }
+  .section-label { font-family: 'Pretendard', sans-serif; font-size: 16px; font-weight: 800; color: #0E7490; letter-spacing: -0.01em; display: flex; flex-direction: row; flex-wrap: wrap; align-items: center; gap: 0.5rem; max-width: 100%; word-break: keep-all; line-height: 1.4; }
+@media (min-width: 768px) { .section-label { font-size: 18px; } }
   .section-label .num { font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 700; color: #0E7490; padding: 2.5px 8px; border: 1px solid rgba(14,116,144,0.35); border-radius: 2px; background: rgba(14,116,144,0.05); }
   .section-label--dark { color: #C5A880; }
   .section-label--dark .num { color: #C5A880; border-color: rgba(197,168,128,0.45); background: rgba(197,168,128,0.08); }
@@ -443,7 +444,7 @@
 
 
     <div class="max-w-6xl mb-12 reveal">
-      <div class="section-label text-xl md:text-2xl font-black mb-6"><span class="num text-[16px] md:text-[18px] px-3 py-1">01</span> MONO 서비스 소개 · 스마트 일자리 플랫폼</div>
+      <div class="section-label mb-6"><span class="num">01</span> MONO 서비스 소개 · 스마트 일자리 플랫폼</div>
       <h2 class="h-display text-ink-900 leading-[1.2] md:leading-tight tracking-tight">기술노동자를 위한 디지털 인력사무소, MONO</h2>
       <p class="body-lg mt-4 font-bold text-ink-900" style="font-size: 1.35rem; line-height: 1.4;">기술자의 경험이 자산이 되고, 근무기록이 신뢰가 되는 스마트 현장 플랫폼</p>
       <p class="hidden md:block body-lg mt-4 text-justify" style="font-size: 1.15rem; line-height: 1.75; color: #1B2436;">
@@ -646,10 +647,10 @@
 <div class="tape-divider"></div>
 
 <!-- ============================== S2 · 해결 과제 & 상생 산업 인프라 ============================== -->
-<section id="problem" class="relative py-12 sm:py-16 md:py-24 lg:py-32 bg-warm-50">
+<section id="problem" class="relative py-12 sm:py-16 md:py-16 md:py-24 lg:py-32 bg-warm-50">
   <div class="max-w-7xl mx-auto px-6 lg:px-10">
     <div class="max-w-6xl mb-12 reveal">
-      <div class="section-label text-xl md:text-2xl font-black mb-6"><span class="num text-[16px] md:text-[18px] px-3 py-1">02</span> MONO가 만들고 싶은 변화</div>
+      <div class="section-label mb-6"><span class="num">02</span> MONO가 만들고 싶은 변화</div>
       <h2 class="h-display text-ink-900 leading-[1.2] md:leading-tight tracking-tight mb-8" style="word-break: keep-all; ">대한민국 산업 경쟁력의 핵심인 기술과 숙련이 다음 세대로 이어질 수 있도록</h2>
       <div class="mb-12">
         <p class="body-md text-ink-700 leading-relaxed" style="word-break:keep-all;">
@@ -1026,7 +1027,7 @@
 <div class="tape-divider"></div>
 
 <!-- ============================== S3 · STARTUP ============================== -->
-<section id="startup" class="relative py-24 lg:py-32 grain-bg">
+<section id="startup" class="relative py-16 md:py-24 lg:py-32 grain-bg">
   <div class="absolute inset-0 blueprint opacity-30 pointer-events-none"></div>
   <div class="max-w-7xl mx-auto px-6 lg:px-10 relative">
     <div class="max-w-6xl mb-12 reveal">
@@ -1255,7 +1256,7 @@
 <div class="tape-divider"></div>
 
 <!-- ============================== S4 · STRATEGY ============================== -->
-<section id="gtm" class="relative py-24 lg:py-32 grain-bg">
+<section id="gtm" class="relative py-16 md:py-24 lg:py-32 grain-bg">
   <div class="absolute inset-0 blueprint opacity-30 pointer-events-none"></div>
   <div class="max-w-7xl mx-auto px-6 lg:px-10 relative">
     <div class="max-w-6xl mb-12 reveal">
@@ -1346,7 +1347,7 @@
           <div class=" bg-warm-50/95 lcorner p-6 md:p-8 flex-1 shadow-blueprint border border-ink-900/10 relative">
             <div class="absolute w-0 h-0 border-t-[10px] border-t-transparent border-r-[15px] border-r-warm-50/95 border-b-[10px] border-b-transparent -left-[15px] top-5 hidden md:block drop-shadow-sm"></div>
             <div class="flex items-center gap-2 mb-2">
-              <span class="chip bg-safety-tape text-ink-900 border border-safety-amber/50 font-bold">현장 지원</span>
+              <span class="chip bg-safety-yellow text-ink-900 font-bold border border-ink-900/10 shadow-sm">현장 지원</span>
             </div>
             <h3 class="text-xl md:text-2xl font-black text-ink-900 mb-3 tracking-tight">현장 생활 지원</h3>
             <p class="body-md text-ink-800 font-bold mb-3">목적: 기술자의 하루를 지원하는 생활 인프라 구축</p>
@@ -1439,7 +1440,7 @@
 <div class="tape-divider"></div>
 
 <!-- ============================== S5 · BM ============================== -->
-<section id="bm" class="relative py-24 lg:py-32 bg-warm-50">
+<section id="bm" class="relative py-16 md:py-24 lg:py-32 bg-warm-50">
   <div class="max-w-7xl mx-auto px-6 lg:px-10 relative z-10">
     <div class="max-w-6xl mb-12 reveal">
       <div class="section-label mb-4"><span class="num">05</span> MONO 비즈니스 모델 · Business Model</div>
@@ -1665,7 +1666,7 @@
 <!-- Industrial Hazard Stripe Divider -->
 <div class="w-full h-3 bg-[repeating-linear-gradient(-45deg,#facc15,#facc15_12px,#1c1917_12px,#1c1917_24px)] opacity-90 shadow-inner"></div>
 
-<section id="lifecycle" class="relative py-12 sm:py-16 md:py-24 lg:py-32 grain-bg">
+<section id="lifecycle" class="relative py-12 sm:py-16 md:py-16 md:py-24 lg:py-32 grain-bg">
   <div class="absolute inset-0 blueprint opacity-30 pointer-events-none"></div>
   <div class="max-w-7xl mx-auto px-6 lg:px-10 relative">
     <div class="max-w-6xl mb-12 reveal">
@@ -1971,7 +1972,7 @@
 <div class="tape-divider"></div>
 
 <!-- ============================== S6 · VISION (LIGHT) ============================== -->
-<section id="vision" class="relative py-24 lg:py-32 bg-warm-50 text-ink-900 overflow-hidden">
+<section id="vision" class="relative py-16 md:py-24 lg:py-32 bg-warm-50 text-ink-900 overflow-hidden">
   <div class="absolute inset-0 blueprint opacity-20 pointer-events-none mix-blend-overlay"></div>
   <div class="absolute inset-0 bg-gradient-to-b from-warm-50 via-warm-100/50 to-warm-50 opacity-50 pointer-events-none"></div>
   
