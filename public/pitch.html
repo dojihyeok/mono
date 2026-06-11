@@ -1337,7 +1337,7 @@
       <p class="body-lg text-ink-800 font-bold max-w-4xl leading-relaxed" style="word-break: keep-all;">"MONO는 기술자의 근무 경험을 신뢰 데이터로 축적하고, 이를 일자리·금융·교육·복지·미래 자산으로 연결하는 기술자 생애주기 플랫폼입니다."</p>
       
       <!-- Flow / Pipeline visual -->
-      <div class="flex flex-wrap items-center gap-2 md:gap-4 mt-6 text-sm md:text-base font-bold font-mono tracking-tight text-ink-800">
+      <div class="hidden md:flex flex-wrap items-center gap-2 md:gap-4 mt-6 text-sm md:text-base font-bold font-mono tracking-tight text-ink-800">
         <span class="bg-warm-100 text-ink-800 px-3 py-1.5 rounded-sm border border-ink-900/10">사람</span>
         <i class="fa-solid fa-arrow-right text-ink-800"></i>
         <span class="bg-warm-100 text-ink-800 px-3 py-1.5 rounded-sm border border-ink-900/10">데이터</span>
@@ -1348,9 +1348,55 @@
         <i class="fa-solid fa-arrow-right text-ink-800"></i>
         <span class="bg-warm-50 text-ink-900 px-3 py-1.5 rounded-sm border border-ink-900">미래 기술</span>
       </div>
+      <!-- Mobile Only: Vertical Flow -->
+      <div class="block md:hidden mt-6 bg-warm-100 border border-ink-900/10 p-5 lcorner shadow-sm">
+        <ul class="space-y-3 font-mono font-bold text-sm text-ink-800">
+          <li class="flex items-center gap-3"><i class="fa-solid fa-user text-tech-600 w-4"></i> 사람 (기술자)</li>
+          <li class="flex items-center gap-3"><i class="fa-solid fa-arrow-down text-ink-400 w-4"></i></li>
+          <li class="flex items-center gap-3"><i class="fa-solid fa-database text-tech-600 w-4"></i> 데이터 축적</li>
+          <li class="flex items-center gap-3"><i class="fa-solid fa-arrow-down text-ink-400 w-4"></i></li>
+          <li class="flex items-center gap-3"><i class="fa-solid fa-shield-halved text-tech-600 w-4"></i> 신뢰 및 금융</li>
+          <li class="flex items-center gap-3"><i class="fa-solid fa-arrow-down text-ink-400 w-4"></i></li>
+          <li class="flex items-center gap-3 text-ink-900"><i class="fa-solid fa-robot text-tech-600 w-4"></i> 미래 기술 기반</li>
+        </ul>
+      </div>
+
     </div>
 
-    <div class="grid lg:grid-cols-3 gap-6 mb-12 reveal stagger">
+    
+    <!-- Mobile Only: Simplified BM -->
+    <div class="block md:hidden space-y-6 mb-12 reveal">
+      <!-- CORE BM -->
+      <div class="bg-warm-100 border border-ink-200 border-t-4 border-t-tech-700 lcorner p-5 shadow-sm">
+        <div class="text-ink-900 font-mono font-bold text-xs mb-1">CORE BM (핵심 수익 구조)</div>
+        <ul class="space-y-3 mt-4">
+          <li class="text-[13px] font-bold"><i class="fa-solid fa-building-user text-tech-600 w-5"></i>현장관리 SaaS & 안심 정산</li>
+          <li class="text-[13px] font-bold"><i class="fa-solid fa-handshake text-tech-600 w-5"></i>채용 및 인력 매칭</li>
+          <li class="text-[13px] font-bold"><i class="fa-solid fa-wallet text-tech-600 w-5"></i>신용지갑 & 금융 연계</li>
+        </ul>
+      </div>
+      <!-- GROWTH BM -->
+      <div class="bg-warm-100 border border-ink-200 border-t-4 border-t-tech-500 lcorner p-5 shadow-sm">
+        <div class="text-tech-500 font-mono font-bold text-xs mb-1">GROWTH BM (중장기)</div>
+        <ul class="space-y-3 mt-4">
+          <li class="text-[13px] font-bold"><i class="fa-solid fa-person-chalkboard text-tech-500 w-5"></i>교육 및 주거 플랫폼</li>
+          <li class="text-[13px] font-bold"><i class="fa-solid fa-id-badge text-tech-500 w-5"></i>복지 멤버십 (MONO Pass)</li>
+          <li class="text-[13px] font-bold"><i class="fa-solid fa-globe text-tech-500 w-5"></i>외국인 기술자 통합 관리</li>
+        </ul>
+      </div>
+      <!-- FUTURE BM -->
+      <div class="bg-warm-100 border border-ink-200 border-t-4 border-t-ink-900 lcorner p-5 shadow-sm">
+        <div class="text-ink-800 font-mono font-bold text-xs mb-1">FUTURE BM (미래 가치)</div>
+        <div class="flex flex-wrap gap-2 mt-4">
+          <span class="bg-warm-200 text-ink-900 text-[11px] px-2 py-1 font-bold rounded-sm border border-ink-900/10">신용 데이터</span>
+          <span class="bg-warm-200 text-ink-900 text-[11px] px-2 py-1 font-bold rounded-sm border border-ink-900/10">AI 현장 비서</span>
+          <span class="bg-warm-200 text-ink-900 text-[11px] px-2 py-1 font-bold rounded-sm border border-ink-900/10">Tech Pension</span>
+          <span class="bg-warm-200 text-ink-900 text-[11px] px-2 py-1 font-bold rounded-sm border border-ink-900/10">협업 로봇 (RaaS)</span>
+          <span class="bg-warm-200 text-ink-900 text-[11px] px-2 py-1 font-bold rounded-sm border border-ink-900/10">EaaS 구독</span>
+        </div>
+      </div>
+    </div>
+<div class="hidden md:grid lg:grid-cols-3 gap-6 mb-12 reveal stagger">
       <!-- 1. Core BM -->
       <div class="bg-warm-100 border border-ink-200 lcorner p-8 hover-lift shadow-sm flex flex-col relative overflow-hidden group border-t-4 border-t-tech-700">
         <div class="absolute top-0 right-0 w-24 h-24 bg-warm-500/10 rounded-full blur-xl pointer-events-none group-hover:scale-150 transition-transform"></div>
@@ -1803,7 +1849,7 @@
       </div>
 
       <!-- Evolution Image -->
-      <div class="mt-12 mb-4 relative z-10 w-full overflow-hidden lcorner border border-ink-900/15 shadow-blueprint bg-white">
+      <div class="hidden md:block mt-12 mb-4 relative z-10 w-full overflow-hidden lcorner border border-ink-900/15 shadow-blueprint bg-white">
         <img src="/images/next_mono_evolution.jpg" alt="NEXT MONO EVOLUTION" class="w-full h-auto object-contain">
       </div>
 
