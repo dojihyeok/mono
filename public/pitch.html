@@ -340,6 +340,9 @@
     z-index: 1;
     transition: transform 0.8s ease;
   }
+  /* Scrollbar hide for mobile tabs */
+  .scrollbar-hide::-webkit-scrollbar { display: none; }
+  .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
 </style>
 <meta property="og:type" content="website">
 		<meta property="og:url" content="https://monotechbp-mrhvwatf.manus.space/pitch.html">
@@ -1655,20 +1658,21 @@
     </div>
 
     <!-- Persona tab bar -->
-    <div id="personaTabs" class="flex gap-2 overflow-x-auto pb-3 -mx-1 px-1 mb-6 reveal">
-      <button data-persona="youth"     class="ptab active shrink-0 inline-flex items-center gap-2 px-4 py-2.5 bg-warm-50 border border-ink-900/15 text-[13px] font-medium text-ink-700 lcorner">
+    <h3 class="text-xl md:text-2xl font-black text-ink-900 mb-4 reveal" style="word-break:keep-all;">MONO와 함께 만들어 가는 순간들</h3>
+    <div id="personaTabs" class="flex gap-2 overflow-x-auto pb-3 -mx-6 px-6 md:-mx-0 md:px-0 mb-6 reveal scrollbar-hide" style="scroll-snap-type: x mandatory;">
+      <button data-persona="youth"     class="ptab active shrink-0 inline-flex snap-start items-center gap-2 px-4 py-2.5 bg-warm-50 border border-ink-900/15 text-[13px] font-medium text-ink-700 lcorner">
         <span class="ptab-num mono text-[11px] text-ink-500">01</span> The Seed Camp(청년 육성) · 20대 청년
       </button>
-      <button data-persona="workholiday" class="ptab shrink-0 inline-flex items-center gap-2 px-4 py-2.5 bg-warm-50 border border-ink-900/15 text-[13px] font-medium text-ink-700 lcorner">
+      <button data-persona="workholiday" class="ptab shrink-0 inline-flex snap-start items-center gap-2 px-4 py-2.5 bg-warm-50 border border-ink-900/15 text-[13px] font-medium text-ink-700 lcorner">
         <span class="ptab-num mono text-[11px] text-ink-500">02</span> Global Tech-Passport · 워홀러
       </button>
-      <button data-persona="workation" class="ptab shrink-0 inline-flex items-center gap-2 px-4 py-2.5 bg-warm-50 border border-ink-900/15 text-[13px] font-medium text-ink-700 lcorner">
+      <button data-persona="workation" class="ptab shrink-0 inline-flex snap-start items-center gap-2 px-4 py-2.5 bg-warm-50 border border-ink-900/15 text-[13px] font-medium text-ink-700 lcorner">
         <span class="ptab-num mono text-[11px] text-ink-500">03</span> Work-&-Live · 워케이션 노마드
       </button>
-      <button data-persona="foreign"   class="ptab shrink-0 inline-flex items-center gap-2 px-4 py-2.5 bg-warm-50 border border-ink-900/15 text-[13px] font-medium text-ink-700 lcorner">
+      <button data-persona="foreign"   class="ptab shrink-0 inline-flex snap-start items-center gap-2 px-4 py-2.5 bg-warm-50 border border-ink-900/15 text-[13px] font-medium text-ink-700 lcorner">
         <span class="ptab-num mono text-[11px] text-ink-500">04</span> K-Work Experience · 외국인 마스터
       </button>
-      <button data-persona="retire"    class="ptab shrink-0 inline-flex items-center gap-2 px-4 py-2.5 bg-warm-50 border border-ink-900/15 text-[13px] font-medium text-ink-700 lcorner">
+      <button data-persona="retire"    class="ptab shrink-0 inline-flex snap-start items-center gap-2 px-4 py-2.5 bg-warm-50 border border-ink-900/15 text-[13px] font-medium text-ink-700 lcorner">
         <span class="ptab-num mono text-[11px] text-ink-500">05</span> Legacy Master · 은퇴 장인
       </button>
     </div>
