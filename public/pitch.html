@@ -105,7 +105,7 @@
 
   /* ---------- Typography ---------- */
   .h-eyebrow  { font-family: 'Pretendard', 'JetBrains Mono', monospace; font-size: 15px; font-weight: 850; letter-spacing: 0.04em; text-transform: uppercase; color: #0E7490; }
-  .section-label { font-family: 'Pretendard', sans-serif; font-size: 18px; font-weight: 700; color: #0E7490; letter-spacing: -0.01em; display: inline-flex; align-items: center; gap: 0.625rem; }
+  .section-label { font-family: 'Pretendard', sans-serif; font-size: 18px; font-weight: 700; color: #0E7490; letter-spacing: -0.01em; display: inline-flex; flex-wrap: wrap; align-items: center; gap: 0.625rem; max-width: 100%; }
   .section-label .num { font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 700; color: #0E7490; padding: 2.5px 8px; border: 1px solid rgba(14,116,144,0.35); border-radius: 2px; background: rgba(14,116,144,0.05); }
   .section-label--dark { color: #C5A880; }
   .section-label--dark .num { color: #C5A880; border-color: rgba(197,168,128,0.45); background: rgba(197,168,128,0.08); }
@@ -579,7 +579,7 @@
       <!-- Technical corners -->
       <div class="tech-corner-mark"></div>
       <div class="flex items-center gap-3 relative z-10">
-        <span class="w-10 h-10 bg-warm-50 border border-ink-900/10 text-ink-900 grid place-items-center lcorner group-hover:bg-tech-700 group-hover:text-ink-900 transition-all duration-300">
+        <span class="shrink-0 w-10 h-10 bg-warm-50 border border-ink-900/10 text-ink-900 grid place-items-center lcorner group-hover:bg-tech-700 group-hover:text-ink-900 transition-all duration-300">
           <i class="fa-solid fa-database group-hover:rotate-180 transition-transform duration-500"></i>
         </span>
         <div>
