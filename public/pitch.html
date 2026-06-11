@@ -1083,29 +1083,38 @@
 
         <!-- Strategy Summary Box (Full width bottom) -->
         <div class="mt-8 pt-7 border-t border-ink-900/10">
-          <div class="flex items-center justify-between mb-5">
-            <span class="text-[17px] font-black text-ink-900">1라운드 준비 전략</span>
-            <button onclick="document.getElementById('r1-strategy-modal').showModal()" class="text-[15px] font-bold text-tech-700 hover:text-tech-600 underline flex items-center gap-1.5 transition-colors">
-              <i class="fa-solid fa-arrow-up-right-from-square"></i> 상세 보기
-            </button>
-          </div>
-          <div class="bg-transparent">
-            <ul class="text-[16px] text-ink-800 space-y-3.5 list-none p-0 m-0">
+          <div class="flex items-center 
               <li class="flex items-start gap-2.5">
                 <span class="text-tech-500 mt-2 text-[10px]">●</span>
-                <span class="leading-relaxed"><strong class="text-ink-900 font-bold">핵심 목표:</strong> 완성된 서비스보다 빠르게 배우고 성장하는 과정을 증명</span>
+                <span class="leading-relaxed"><strong class="text-ink-900 font-bold">1. 핵심 목표:</strong> 완성된 서비스보다 빠르게 배우고 성장하는 과정을 증명</span>
               </li>
               <li class="flex items-start gap-2.5">
                 <span class="text-tech-500 mt-2 text-[10px]">●</span>
-                <span class="leading-relaxed"><strong class="text-ink-900 font-bold">멘토링 전략:</strong> 적극적인 피드백 반영 루프 구축 및 실행</span>
+                <span class="leading-relaxed"><strong class="text-ink-900 font-bold">2. 멘토링 활용 전략:</strong> 적극적인 피드백 반영 루프 구축 및 실행</span>
               </li>
               <li class="flex items-start gap-2.5">
                 <span class="text-tech-500 mt-2 text-[10px]">●</span>
-                <span class="leading-relaxed"><strong class="text-ink-900 font-bold">규제·투자·네트워크:</strong> 사전 규제 대응 / VC·SI 연계 / 공공·민간 파트너십 구축</span>
+                <span class="leading-relaxed"><strong class="text-ink-900 font-bold">3. 규제 및 혁신 검토 과제:</strong> 사전 규제 대응 및 혁신 서비스 활용 준비</span>
               </li>
               <li class="flex items-start gap-2.5">
                 <span class="text-tech-500 mt-2 text-[10px]">●</span>
-                <span class="leading-relaxed"><strong class="text-ink-900 font-bold">MVP 및 지원금:</strong> 1R 200만원(MVP 검증) / 2R 진출 시 1,000만원(실제 서비스 검증)</span>
+                <span class="leading-relaxed"><strong class="text-ink-900 font-bold">4. 투자 전략 수립:</strong> 전략적 VC 및 SI 네트워크 연계 방안 마련</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <span class="text-tech-500 mt-2 text-[10px]">●</span>
+                <span class="leading-relaxed"><strong class="text-ink-900 font-bold">5. 정부/파트너 협력 전략:</strong> 공공 및 민간 파트너십 구축 추진</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <span class="text-tech-500 mt-2 text-[10px]">●</span>
+                <span class="leading-relaxed"><strong class="text-ink-900 font-bold">6. MVP 방향성 및 공유:</strong> 지속적인 프로덕트 고도화 및 투명한 과정 공유</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <span class="text-tech-500 mt-2 text-[10px]">●</span>
+                <span class="leading-relaxed"><strong class="text-ink-900 font-bold">7. 1라운드 지원금 활용:</strong> 200만원을 통한 MVP 핵심 기능 검증 및 시연 준비</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <span class="text-tech-500 mt-2 text-[10px]">●</span>
+                <span class="leading-relaxed"><strong class="text-ink-900 font-bold">8. 2라운드 지원금 연계:</strong> 진출 시 1,000만원을 통한 실제 필드 테스트 및 서비스 고도화</span>
               </li>
             </ul>
           </div>
@@ -2258,7 +2267,7 @@
     <!-- R1 Strategy Modal -->
     <dialog id="r1-strategy-modal" class="bg-transparent w-full h-full p-0 m-0 fixed inset-0 z-50 backdrop:bg-ink-900/50">
       <div class="fixed inset-0 bg-ink-900/50 flex items-center justify-center p-4 z-50 overflow-y-auto" onclick="document.getElementById('r1-strategy-modal').close()">
-        <div class="bg-white rounded-lg shadow-2xl max-w-5xl w-full my-8 relative" onclick="event.stopPropagation()">
+        <div class="bg-transparent rounded-lg shadow-2xl max-w-5xl w-full my-8 relative" onclick="event.stopPropagation()">
           <button onclick="document.getElementById('r1-strategy-modal').close()" class="absolute top-4 right-4 w-10 h-10 flex items-center justify-center rounded-full bg-warm-100 hover:bg-warm-200 text-ink-900 transition-colors z-10">
             <i class="fa-solid fa-xmark text-xl"></i>
           </button>
@@ -2281,7 +2290,7 @@
                 <p class="body-md">1라운드의 핵심은 "멘토의 조언을 얼마나 적극적으로 반영하며 성장하는가"를 보여주는 과정입니다. 따라서 T-Rive 팀은 적극적인 멘토링 참여와 빠른 실행을 통해 아이디어를 실제 제품으로 발전시키는 과정을 투명하게 공유하며 2라운드 진출을 준비하겠습니다.</p>
               </div>
 
-              <div class="bg-white border border-ink-900/10 p-6 md:p-8 shadow-blueprint">
+              <div class="bg-transparent border border-ink-900/10 p-6 md:p-8 shadow-blueprint">
                 <div class="h-eyebrow mb-2">2. 멘토링 활용 전략</div>
                 <h4 class="text-lg font-bold text-ink-900 mb-3">적극적인 피드백 반영 루프</h4>
                 <ul class="body-md list-disc pl-5 space-y-1 mb-4 text-ink-800">
@@ -2295,7 +2304,7 @@
                 </div>
               </div>
 
-              <div class="bg-white border border-ink-900/10 p-6 md:p-8 shadow-blueprint">
+              <div class="bg-transparent border border-ink-900/10 p-6 md:p-8 shadow-blueprint">
                 <div class="h-eyebrow mb-2">3. 규제 및 혁신 검토 과제</div>
                 <h4 class="text-lg font-bold text-ink-900 mb-3">사전 규제 대응 및 혁신 서비스 활용</h4>
                 <ul class="body-md list-disc pl-5 space-y-1 text-ink-800">
@@ -2307,7 +2316,7 @@
                 </ul>
               </div>
 
-              <div class="bg-white border border-ink-900/10 p-6 md:p-8 shadow-blueprint">
+              <div class="bg-transparent border border-ink-900/10 p-6 md:p-8 shadow-blueprint">
                 <div class="h-eyebrow mb-2">4. 투자 전략 수립</div>
                 <h4 class="text-lg font-bold text-ink-900 mb-3">VC 및 SI 전략적 접근</h4>
                 <div class="space-y-4">
@@ -2322,7 +2331,7 @@
                 </div>
               </div>
 
-              <div class="bg-white border border-ink-900/10 p-6 md:p-8 shadow-blueprint">
+              <div class="bg-transparent border border-ink-900/10 p-6 md:p-8 shadow-blueprint">
                 <div class="h-eyebrow mb-2">5. 정부/파트너 협력 전략</div>
                 <h4 class="text-lg font-bold text-ink-900 mb-3">공공·민간 네트워크 구축</h4>
                 <p class="body-md text-ink-800 mb-2">고용노동부, 중소벤처기업부, 산업통상자원부, 한국산업인력공단, 근로복지공단, 기술 관련 협회 등 대상 검토</p>
@@ -2332,7 +2341,7 @@
                 </div>
               </div>
 
-              <div class="bg-white border border-ink-900/10 p-6 md:p-8 shadow-blueprint">
+              <div class="bg-transparent border border-ink-900/10 p-6 md:p-8 shadow-blueprint">
                 <div class="h-eyebrow mb-2">6. MVP 방향 및 공유</div>
                 <h4 class="text-lg font-bold text-ink-900 mb-3">지속적인 프로덕트 고도화</h4>
                 <ul class="body-md list-decimal pl-5 space-y-1 text-ink-800 mb-4">
