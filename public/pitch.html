@@ -474,7 +474,7 @@
       </div>
     </div>
 
-    <div class="grid md:grid-cols-2 gap-6 lg:gap-8 stagger">
+    <div class="hidden md:grid md:grid-cols-2 gap-6 lg:gap-8 stagger">
       <!-- B2C Card -->
       <article class="relative bg-warm-50 border border-ink-900/15 lcorner hover-lift p-7 lg:p-9 shadow-blueprint">
         <div class="flex items-center gap-3 mb-6">
@@ -517,7 +517,7 @@
     </div>
 
     <!-- Task 5: B2B ERP Dashboard -->
-    <div class="mt-12 mb-10 stagger w-full mx-auto">
+    <div class="hidden md:block mt-12 mb-10 stagger w-full mx-auto">
 
       <!-- B2B ERP Dashboard -->
       <div class="relative bg-warm-50 border border-ink-900/15 lcorner p-8 overflow-hidden group shadow-blueprint">
@@ -575,7 +575,54 @@
     </div>
 
     <!-- Data layer bottom strip -->
-    <div class="mt-10 w-full mx-auto  px-6 py-5 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 overflow-hidden group">
+    
+    <!-- Mobile Only: 6 Simple Cards (from mono_test.html) -->
+    <div class="block md:hidden grid grid-cols-1 gap-4 mt-8">
+      <div class="bg-white p-5 rounded-2xl border border-ink-900/10 shadow-sm space-y-3">
+        <div class="p-2.5 bg-tech-50 text-tech-700 rounded-lg w-fit border border-tech-100">
+          <i class="fa-solid fa-file-signature text-lg"></i>
+        </div>
+        <h3 class="text-base font-black text-ink-900">근무기록 관리</h3>
+        <p class="text-[13px] text-ink-700 leading-relaxed word-keep">수기 영수증이나 종이 장부 대신, 언제 어디서 일했는지 성실한 경력 내역을 스마트폰에 투명하게 영구 기록합니다.</p>
+      </div>
+      <div class="bg-white p-5 rounded-2xl border border-ink-900/10 shadow-sm space-y-3">
+        <div class="p-2.5 bg-tech-50 text-tech-700 rounded-lg w-fit border border-tech-100">
+          <i class="fa-solid fa-database text-lg"></i>
+        </div>
+        <h3 class="text-base font-black text-ink-900">출역 데이터 축적</h3>
+        <p class="text-[13px] text-ink-700 leading-relaxed word-keep">위치(GPS) 인증을 연동해 위변조가 불가능한 일용직 출퇴근 근무기록을 축적하여 일터 신뢰 장부의 근간을 이룹니다.</p>
+      </div>
+      <div class="bg-white p-5 rounded-2xl border border-ink-900/10 shadow-sm space-y-3">
+        <div class="p-2.5 bg-tech-50 text-tech-700 rounded-lg w-fit border border-tech-100">
+          <i class="fa-solid fa-shield-halved text-lg"></i>
+        </div>
+        <h3 class="text-base font-black text-ink-900">안전 연동 및 안심 정산</h3>
+        <p class="text-[13px] text-ink-700 leading-relaxed word-keep">출근 전 간편 안전 교육 이수 로그를 실시간 남기고, 정산 체계를 에스크로(안전지갑)로 묶어 임금 체불 공포를 완전히 해결합니다.</p>
+      </div>
+      <div class="bg-white p-5 rounded-2xl border border-ink-900/10 shadow-sm space-y-3">
+        <div class="p-2.5 bg-tech-50 text-tech-700 rounded-lg w-fit border border-tech-100">
+          <i class="fa-solid fa-user-check text-lg"></i>
+        </div>
+        <h3 class="text-base font-black text-ink-900">현장 평판 및 신뢰 데이터</h3>
+        <p class="text-[13px] text-ink-700 leading-relaxed word-keep">무단결근 배제율과 현장 반장/소장의 상호 평점 결과를 수치화하여 기술자 고유의 대안 신뢰 점수(S-Core)를 보증합니다.</p>
+      </div>
+      <div class="bg-white p-5 rounded-2xl border border-ink-900/10 shadow-sm space-y-3">
+        <div class="p-2.5 bg-tech-50 text-tech-700 rounded-lg w-fit border border-tech-100">
+          <i class="fa-solid fa-building-columns text-lg"></i>
+        </div>
+        <h3 class="text-base font-black text-ink-900">금융 및 혜택 연결</h3>
+        <p class="text-[13px] text-ink-700 leading-relaxed word-keep">그동안 일회성이라 금융에서 소외받던 성실 근로자들에게 1금융권 저금리 전세 대출 한도와 단체 상해보험을 연계합니다.</p>
+      </div>
+      <div class="bg-white p-5 rounded-2xl border border-ink-900/10 shadow-sm space-y-3">
+        <div class="p-2.5 bg-tech-50 text-tech-700 rounded-lg w-fit border border-tech-100">
+          <i class="fa-solid fa-laptop-code text-lg"></i>
+        </div>
+        <h3 class="text-base font-black text-ink-900">기업용 서비스 (SaaS)</h3>
+        <p class="text-[13px] text-ink-700 leading-relaxed word-keep">하청 소장의 골머리를 썩이던 4대 보험 신고, 세무 신고, 출역 관제 복잡성을 마우스 클릭 한 번으로 자동 대행해 줍니다.</p>
+      </div>
+    </div>
+
+    <div class="hidden md:flex mt-10 w-full mx-auto  px-6 py-5 flex-col lg:flex-row items-start lg:items-center justify-between gap-4 overflow-hidden group">
       <!-- Technical corners -->
       <div class="tech-corner-mark"></div>
       <div class="flex items-center gap-3 relative z-10">
@@ -615,7 +662,7 @@
       </div>
     </div>
 
-    <div class="reveal">
+    <div class="reveal hidden md:block">
       <div class="mt-16 mb-12">
         <h3 class="text-xl md:text-2xl font-black text-ink-900 mb-8 flex items-center gap-3">
           <i class="fa-solid fa-triangle-exclamation text-tech-600"></i> 현장이 직면한 5가지 핵심 과제와 MONO의 역할
@@ -718,6 +765,36 @@
 </div>
         </div>
       </div>
+      
+    <!-- Mobile Only: 4 Simple Problem Cards (from mono_test.html) -->
+    <div class="block md:hidden grid grid-cols-1 gap-4 mt-8 mb-12">
+      <h3 class="text-xl font-black text-ink-900 mb-2">대한민국 산업 경쟁력 위기 4대 지표</h3>
+      <div class="bg-white p-5 rounded-2xl border border-ink-900/10 shadow-sm space-y-2">
+        <div class="text-tech-700 text-sm font-bold flex items-center gap-2">
+          <i class="fa-solid fa-user-slash"></i> 숙련 기술자 고령화
+        </div>
+        <p class="text-[13px] text-ink-700 leading-relaxed word-keep">현장을 지탱하던 50대 이상의 숙련공들이 빠르게 은퇴하며 노하우 손실이 급증하고 있습니다.</p>
+      </div>
+      <div class="bg-white p-5 rounded-2xl border border-ink-900/10 shadow-sm space-y-2">
+        <div class="text-tech-700 text-sm font-bold flex items-center gap-2">
+          <i class="fa-solid fa-person-falling-burst"></i> 청년 기술자 감소
+        </div>
+        <p class="text-[13px] text-ink-700 leading-relaxed word-keep">가혹하고 위험한 노동 환경으로 인해 2030 젊은 층의 일터 진입률이 매년 급감하는 상황입니다.</p>
+      </div>
+      <div class="bg-white p-5 rounded-2xl border border-ink-900/10 shadow-sm space-y-2">
+        <div class="text-tech-700 text-sm font-bold flex items-center gap-2">
+          <i class="fa-solid fa-globe"></i> 외국인 인력 증가
+        </div>
+        <p class="text-[13px] text-ink-700 leading-relaxed word-keep">부족한 내국인 자리를 메우는 외국인 근로자들의 소통 장벽과 비자 수속 비효율이 극대화되고 있습니다.</p>
+      </div>
+      <div class="bg-white p-5 rounded-2xl border border-ink-900/10 shadow-sm space-y-2">
+        <div class="text-tech-700 text-sm font-bold flex items-center gap-2">
+          <i class="fa-solid fa-layer-group"></i> 기술 전수 체계 부족
+        </div>
+        <p class="text-[13px] text-ink-700 leading-relaxed word-keep">현장 장인들의 숙련 기술을 공식적인 매뉴얼이나 시스템으로 축적할 수 있는 표준 디지털 망이 부재합니다.</p>
+      </div>
+    </div>
+
       <!-- Closing Message Box -->
       <div class="mt-8 mb-12 p-8 md:p-10 bg-warm-100 border border-ink-900/15 lcorner shadow-neo-soft relative overflow-hidden w-full">
         <i class="fa-solid fa-quote-left text-3xl text-ink-200 mb-6 block"></i>
@@ -732,7 +809,7 @@
         </p>
       </div>
 <!-- ✅ Task 5: 대기업 상생 ESG 솔루션 킬러 하이라이트 (VC 설득용) -->
-    <div class="reveal mt-10  overflow-hidden group">
+    <div class="reveal mt-10 hidden md:block overflow-hidden group">
       <!-- Technical corners -->
       <div class="tech-corner-mark"></div>
       
@@ -817,7 +894,7 @@
 
 
       <!-- ✅ Task 5: Why MONO Matters (새로운 기술 인재 유입 & ESG 인프라) -->
-      <div id="why-mono-matters-esg" class="reveal mt-10 mb-12  overflow-hidden group text-ink-900">
+      <div id="why-mono-matters-esg" class="reveal mt-10 mb-12 hidden md:block overflow-hidden group text-ink-900">
         <!-- Technical corners -->
         <div class="tech-corner-mark"></div>
         
@@ -919,7 +996,7 @@
       </div>
 
       <!-- 3 Message Cards -->
-      <div class="grid md:grid-cols-3 gap-6 stagger mt-4">
+      <div class="hidden md:grid md:grid-cols-3 gap-6 stagger mt-4">
         <div class="bg-white border border-ink-900/10 p-8 rounded-2xl hover:-translate-y-1 hover:shadow-xl transition-all duration-300 flex flex-col items-start text-left">
           <div class="w-12 h-12 rounded-xl bg-warm-50 text-tech-700 flex items-center justify-center text-2xl mb-6 shadow-sm border border-ink-900/5"><i class="fa-solid fa-seedling"></i></div>
           <h4 class="text-xl font-black text-ink-900 mb-4 leading-snug">미래 인재 육성과<br/>산업 인프라 설계</h4>
@@ -1188,7 +1265,7 @@
     </div>
 
     <!-- Timeline Stepper UI for 6 steps -->
-    <div class="relative w-full z-10 reveal">
+    <div class="relative w-full z-10 reveal hidden md:block">
       
       <!-- Vertical Line -->
       <div class="absolute left-[32px] md:left-[40px] top-[40px] bottom-[40px] w-[2px] bg-gradient-to-b from-tech-700/50 via-tech-500/30 to-warm-50/0 z-0 hidden md:block"></div>
@@ -1319,6 +1396,41 @@
             <p class="body-md text-ink-800 leading-relaxed font-bold">해외 일자리 연결, 비자 지원 정보 제공, 해외 정착 지원, 글로벌 경력 관리 연동.</p>
           </div>
         </div>
+
+
+    <!-- Mobile Only: Growth Strategy (from mono_test.html) -->
+    <div class="block md:hidden mt-8 mb-12">
+      <div class="space-y-4">
+        <div class="bg-white border border-ink-900/10 p-5 rounded-2xl shadow-sm flex gap-4 items-start">
+          <div class="bg-tech-50 text-tech-700 font-black text-lg w-10 h-10 rounded-full flex items-center justify-center shrink-0 border border-tech-100">1</div>
+          <div>
+            <h3 class="text-[15px] font-black text-ink-900 mb-1">현장 노무 & 정산 관리</h3>
+            <p class="text-[13px] text-ink-700 leading-relaxed word-keep">현장의 가장 고질적인 임금 체불과 수기 관리를 B2B SaaS로 자동화합니다.</p>
+          </div>
+        </div>
+        <div class="bg-white border border-ink-900/10 p-5 rounded-2xl shadow-sm flex gap-4 items-start">
+          <div class="bg-tech-50 text-tech-700 font-black text-lg w-10 h-10 rounded-full flex items-center justify-center shrink-0 border border-tech-100">2</div>
+          <div>
+            <h3 class="text-[15px] font-black text-ink-900 mb-1">기술자 생애주기 케어</h3>
+            <p class="text-[13px] text-ink-700 leading-relaxed word-keep">안전 교육, 출역 데이터, 생활 웰니스, 그리고 금융을 연결합니다.</p>
+          </div>
+        </div>
+        <div class="bg-white border border-ink-900/10 p-5 rounded-2xl shadow-sm flex gap-4 items-start">
+          <div class="bg-tech-50 text-tech-700 font-black text-lg w-10 h-10 rounded-full flex items-center justify-center shrink-0 border border-tech-100">3</div>
+          <div>
+            <h3 class="text-[15px] font-black text-ink-900 mb-1">글로벌 기술 영토 확장</h3>
+            <p class="text-[13px] text-ink-700 leading-relaxed word-keep">내국인 중심에서 외국인 비자 및 다국어 지원으로 생태계를 넓힙니다.</p>
+          </div>
+        </div>
+        <div class="bg-white border border-ink-900/10 p-5 rounded-2xl shadow-sm flex gap-4 items-start">
+          <div class="bg-tech-50 text-tech-700 font-black text-lg w-10 h-10 rounded-full flex items-center justify-center shrink-0 border border-tech-100">4</div>
+          <div>
+            <h3 class="text-[15px] font-black text-ink-900 mb-1">미래 기술 & 로보틱스</h3>
+            <p class="text-[13px] text-ink-700 leading-relaxed word-keep">데이터를 기반으로 현장 자동화 및 건설 로봇과 협업하는 인프라를 구축합니다.</p>
+          </div>
+        </div>
+      </div>
+    </div>
 
       </div>
   </div>
