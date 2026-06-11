@@ -196,7 +196,10 @@
 
   /* Spec list */
   .spec-list { font-family:'JetBrains Mono',monospace; font-size: 14px; }
-  .spec-list .row { display: grid; grid-template-columns: 96px 1fr; column-gap: 14px; padding: 8px 0; border-top: 1px dashed rgba(10,15,26,0.18); color:#1B2436; }
+  .spec-list .row { display: grid; grid-template-columns: 48px 1fr; column-gap: 12px; padding: 8px 0; border-top: 1px dashed rgba(10,15,26,0.18); color:#1B2436; }
+  @media (min-width: 768px) {
+    .spec-list .row { grid-template-columns: 56px 1fr; column-gap: 16px; }
+  }
   .spec-list .row:first-child { border-top: 0; }
   .spec-list .k { color:#0E7490; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600; }
 
@@ -445,22 +448,22 @@
       </p>
       
       <!-- Mobile Only Simplified Text (App Style) -->
-      <div class="block md:hidden mt-6 bg-white border border-ink-900/10 rounded-xl overflow-hidden shadow-sm">
+      <div class="block md:hidden mt-6 bg-warm-100/50 border border-ink-900/10 rounded-xl overflow-hidden shadow-sm">
         <div class="p-4 border-b border-ink-900/5 flex items-start gap-3">
-          <div class="bg-tech-100 w-6 h-6 rounded-full flex items-center justify-center shrink-0 mt-0.5">
-            <i class="fa-solid fa-check text-tech-600 text-[10px]"></i>
+          <div class="bg-ink-900/10 w-6 h-6 rounded-full flex items-center justify-center shrink-0 mt-0.5">
+            <i class="fa-solid fa-check text-ink-900 text-[10px]"></i>
           </div>
           <p class="text-[15px] font-medium text-ink-900 leading-[1.4] tracking-tight" style="word-break:keep-all;">국가 핵심 기술노동 산업 통합 <strong class="font-bold">디지털 인력사무소</strong></p>
         </div>
         <div class="p-4 border-b border-ink-900/5 flex items-start gap-3 bg-warm-50/50">
-          <div class="bg-tech-100 w-6 h-6 rounded-full flex items-center justify-center shrink-0 mt-0.5">
-            <i class="fa-solid fa-check text-tech-600 text-[10px]"></i>
+          <div class="bg-ink-900/10 w-6 h-6 rounded-full flex items-center justify-center shrink-0 mt-0.5">
+            <i class="fa-solid fa-check text-ink-900 text-[10px]"></i>
           </div>
           <p class="text-[15px] font-medium text-ink-900 leading-[1.4] tracking-tight" style="word-break:keep-all;">근무자에게는 <strong class="font-bold">스마트 일자리 플랫폼</strong> 제공</p>
         </div>
         <div class="p-4 flex items-start gap-3">
-          <div class="bg-tech-100 w-6 h-6 rounded-full flex items-center justify-center shrink-0 mt-0.5">
-            <i class="fa-solid fa-check text-tech-600 text-[10px]"></i>
+          <div class="bg-ink-900/10 w-6 h-6 rounded-full flex items-center justify-center shrink-0 mt-0.5">
+            <i class="fa-solid fa-check text-ink-900 text-[10px]"></i>
           </div>
           <p class="text-[15px] font-medium text-ink-900 leading-[1.4] tracking-tight" style="word-break:keep-all;">기업에게는 검증된 숙련 인력 <strong class="font-bold">즉시 배치</strong></p>
         </div>
@@ -1350,7 +1353,7 @@
     <!-- Mobile Only: Simplified BM (App Style) -->
     <div class="block md:hidden space-y-4 mb-12 reveal">
       <!-- CORE BM -->
-      <div class="bg-white border border-ink-900/10 rounded-xl overflow-hidden shadow-sm">
+      <div class="bg-warm-100/50 border border-ink-900/10 rounded-xl overflow-hidden shadow-sm">
         <div class="p-4 border-b border-ink-900/5 flex justify-between items-center bg-tech-50/50">
           <div class="text-ink-900 font-mono font-bold text-xs tracking-tight">CORE BM (핵심 수익)</div>
           <div class="w-2 h-2 rounded-full bg-tech-600"></div>
@@ -1380,7 +1383,7 @@
       </div>
 
       <!-- GROWTH BM -->
-      <div class="bg-white border border-ink-900/10 rounded-xl overflow-hidden shadow-sm">
+      <div class="bg-warm-100/50 border border-ink-900/10 rounded-xl overflow-hidden shadow-sm">
         <div class="p-4 border-b border-ink-900/5 flex justify-between items-center bg-warm-50/50">
           <div class="text-tech-500 font-mono font-bold text-xs tracking-tight">GROWTH BM (중장기)</div>
           <div class="w-2 h-2 rounded-full bg-tech-400"></div>
@@ -1410,7 +1413,7 @@
       </div>
 
       <!-- FUTURE BM -->
-      <div class="bg-white border border-ink-900/10 rounded-xl overflow-hidden shadow-sm">
+      <div class="bg-warm-100/50 border border-ink-900/10 rounded-xl overflow-hidden shadow-sm">
         <div class="p-4 border-b border-ink-900/5 flex justify-between items-center bg-warm-50/50">
           <div class="text-ink-800 font-mono font-bold text-xs tracking-tight">FUTURE BM (미래 가치)</div>
           <div class="w-2 h-2 rounded-full bg-ink-900"></div>
