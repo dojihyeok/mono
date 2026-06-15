@@ -2196,16 +2196,7 @@
   // Safety: reveal anything still hidden after 2.4s (in case observer misses)
   setTimeout(() => { document.querySelectorAll('.reveal:not(.in), .stagger:not(.in)').forEach(el => el.classList.add('in')); }, 2400);
 
-  // Persona tabs
-  const tabs = document.querySelectorAll('#personaTabs .ptab');
-  const panels = document.querySelectorAll('#personaPanels .ppanel');
-  tabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-      const key = tab.dataset.persona;
-      tabs.forEach(t => t.classList.toggle('active', t === tab));
-      panels.forEach(p => p.classList.toggle('hidden', p.dataset.persona !== key));
-    });
-  });
+  // Persona tabs – driven by switchPersona(n) called from onclick attrs
 
   // Flip cards
   document.querySelectorAll('[data-flip]').forEach(card => {
@@ -2284,6 +2275,18 @@
       setTimeout(() => scrollToSection(hash), 50);
     });
   });
+
+  // ── Persona 탭 전환 ────────────────────────────────────────
+  function switchPersona(n) {
+    // 탭 버튼 active 처리
+    document.querySelectorAll('#personaTabs .ptab').forEach((btn, i) => {
+      btn.classList.toggle('active', i + 1 === n);
+    });
+    // 패널 표시/숨김 (hidden 클래스 사용)
+    document.querySelectorAll('#personaPanels .ppanel').forEach((panel, i) => {
+      panel.classList.toggle('hidden', i + 1 !== n);
+    });
+  }
 
   </script>
 
