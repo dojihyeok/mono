@@ -1273,6 +1273,35 @@
             </div>
           </div>
         </div>
+        <!-- Strategy Summary Box (Full width bottom) -->
+        <div class="mt-8 pt-7 border-t border-ink-900/10">
+          <div class="flex items-center justify-start gap-4 mb-5">
+            <span class="text-[17px] font-black text-ink-900">3라운드 준비 전략</span>
+            <button onclick="document.getElementById('r3-strategy-modal').showModal()" class="text-[15px] font-bold text-tech-700 hover:text-tech-600 underline flex items-center gap-1.5 transition-colors">
+              <i class="fa-solid fa-arrow-up-right-from-square"></i> 상세 보기
+            </button>
+          </div>
+          <div class="bg-transparent">
+            <ul class="text-[16px] text-ink-800 space-y-3.5 list-none p-0 m-0">
+              <li class="flex items-start gap-2.5">
+                <span class="text-tech-500 mt-2 text-[10px]">●</span>
+                <span class="leading-relaxed"><strong class="text-ink-900 font-bold">핵심 역할:</strong> 2라운드 검증 데이터를 기반으로 산업 신뢰 인프라 확장 가능성 제시</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <span class="text-tech-500 mt-2 text-[10px]">●</span>
+                <span class="leading-relaxed"><strong class="text-ink-900 font-bold">핵심 지표:</strong> 기술자 신뢰 데이터 시장성, 기업 인력관리 수요, 산업 파트너 확장성 증명</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <span class="text-tech-500 mt-2 text-[10px]">●</span>
+                <span class="leading-relaxed"><strong class="text-ink-900 font-bold">투자 파트너십:</strong> VC, 금융권 SI, 산업계 SI 맞춤형 투자 구조 및 실증 사업 구축</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <span class="text-tech-500 mt-2 text-[10px]">●</span>
+                <span class="leading-relaxed"><strong class="text-ink-900 font-bold">사업화 자금 활용:</strong> MVP 고도화(30%), 데이터 인프라(20%), 산업 PoC(20%) 등 1억원 집행 계획</span>
+              </li>
+            </ul>
+          </div>
+        </div>
       </article>
 
       <!-- R4 -->
@@ -2782,6 +2811,292 @@
               <div class="bg-ink-900 text-warm-50 p-6 md:p-8 rounded-lg">
                 <div class="text-tech-400 font-mono text-[11px] font-bold tracking-widest mb-3 uppercase">최종 메시지</div>
                 <p class="text-lg md:text-xl font-black leading-relaxed" style="word-break:keep-all;">MONO는 단기적으로 구인구직 플랫폼을 만드는 것이 아니라, 산업 현장의 신뢰 데이터와 인력 운영 데이터를 축적하여 건설·조선·플랜트·제조 산업의 <strong class="text-tech-300">디지털 인력 인프라</strong>를 구축하는 것을 목표로 한다.</p>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </dialog>
+
+    <!-- R3 Strategy Modal -->
+    <dialog id="r3-strategy-modal" class="bg-transparent w-full h-full p-0 m-0 fixed inset-0 z-50 backdrop:bg-ink-900/50">
+      <div class="fixed inset-0 bg-ink-900/50 flex items-center justify-center p-4 z-50 overflow-y-auto" onclick="document.getElementById('r3-strategy-modal').close()">
+        <div class="bg-warm-50 rounded-lg shadow-2xl max-w-5xl w-full my-8 relative" onclick="event.stopPropagation()">
+          <button onclick="document.getElementById('r3-strategy-modal').close()" class="absolute top-4 right-4 w-10 h-10 flex items-center justify-center rounded-full bg-warm-100 hover:bg-warm-200 text-ink-900 transition-colors z-10">
+            <i class="fa-solid fa-xmark text-xl"></i>
+          </button>
+          <div class="p-8 md:p-12 h-full max-h-[85vh] overflow-y-auto">
+            <!-- Header -->
+            <div class="mb-10">
+              <div class="h-eyebrow mb-2 text-tech-700">3라운드 준비 전략</div>
+              <h2 class="text-3xl md:text-4xl font-black text-ink-900 leading-tight mb-4">기술자 신뢰 데이터에서 산업 인프라 투자 전략으로</h2>
+              <p class="body-lg text-ink-800 mb-6" style="word-break:keep-all;">MONO는 기술자 신뢰 데이터와 산업 현장 데이터를 기반으로 투자 가능성과 산업 확장성을 증명합니다. 2라운드에서 검증한 수요를 바탕으로 산업 파트너, 금융기관, 공공기관과 함께 실증 가능한 사업 구조를 제시합니다.</p>
+            </div>
+
+            <div class="space-y-8">
+              <!-- 5-1. 2라운드 검증 결과 활용 -->
+              <div class="border border-ink-900/15 p-6 md:p-8 rounded-lg bg-white">
+                <div class="h-eyebrow mb-4 text-tech-700">1. 2라운드 검증 결과 데이터 활용 계획</div>
+                <p class="body-md text-ink-700 mb-6" style="word-break:keep-all;">3라운드에서는 2라운드에서 확보한 사용자 행동 및 인터뷰 데이터를 핵심 증거로 삼아 비즈니스의 실증적 토대를 증명합니다.</p>
+                <div class="grid md:grid-cols-3 gap-6">
+                  <div class="bg-warm-50 p-5 rounded border border-ink-900/10">
+                    <div class="text-sm font-bold text-ink-900 mb-3 flex items-center gap-1.5"><i class="fa-solid fa-user-helmet-safety text-tech-600"></i> 기술자 검증 데이터</div>
+                    <ul class="body-md text-ink-800 space-y-1 text-[13px] list-disc pl-4">
+                      <li>기술자 심층 인터뷰 수</li>
+                      <li>MVP 체험 기술자 수</li>
+                      <li>프로필 작성 시작률 & 완성률</li>
+                      <li>경력 및 자격증 등록률</li>
+                      <li>주간/월간 재방문율</li>
+                      <li>Aha Moment 행동 지표</li>
+                    </ul>
+                  </div>
+                  <div class="bg-warm-50 p-5 rounded border border-ink-900/10">
+                    <div class="text-sm font-bold text-ink-900 mb-3 flex items-center gap-1.5"><i class="fa-solid fa-building text-tech-600"></i> 기업 검증 데이터</div>
+                    <ul class="body-md text-ink-800 space-y-1 text-[13px] list-disc pl-4">
+                      <li>수요처 기업 인터뷰 수</li>
+                      <li>MVP 기능 시연 기업 수</li>
+                      <li>기술자 데이터 조회 의향</li>
+                      <li>현장 시범 운영 참여 의사</li>
+                      <li>산업별 PoC 협의 진행 건수</li>
+                      <li>MOU 및 LOI 논의 현황</li>
+                    </ul>
+                  </div>
+                  <div class="bg-warm-50 p-5 rounded border border-ink-900/10">
+                    <div class="text-sm font-bold text-ink-900 mb-3 flex items-center gap-1.5"><i class="fa-solid fa-shield-halved text-tech-600"></i> 산업 검증 데이터</div>
+                    <ul class="body-md text-ink-800 space-y-1 text-[13px] list-disc pl-4">
+                      <li>산업별 협회 미팅 성과</li>
+                      <li>정부 및 공공기관 협의 건수</li>
+                      <li>금융기관 전략 미팅 진행 상황</li>
+                      <li>산업 분야별 적용 가능성 검토</li>
+                      <li>디지털 인력 인프라 실증사업 현황</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 5-2. 3라운드 IR 스토리 구조 -->
+              <div class="border border-ink-900/15 p-6 md:p-8 rounded-lg bg-white">
+                <div class="h-eyebrow mb-4 text-tech-700">2. 3라운드 IR 발표 시나리오 구조</div>
+                <div class="grid sm:grid-cols-2 lg:grid-cols-5 gap-4">
+                  <div class="p-4 bg-warm-50 rounded border border-ink-900/5">
+                    <span class="text-[10px] font-mono text-tech-600 font-bold block mb-1">STEP 01</span>
+                    <div class="text-xs font-bold text-ink-900 mb-1">문제 정의</div>
+                    <p class="text-[11px] text-ink-700 leading-relaxed">경력, 신뢰, 안전 이력이 파편화되어 자산화되지 못하는 구조적 한계</p>
+                  </div>
+                  <div class="p-4 bg-warm-50 rounded border border-ink-900/5">
+                    <span class="text-[10px] font-mono text-tech-600 font-bold block mb-1">STEP 02</span>
+                    <div class="text-xs font-bold text-ink-900 mb-1">산업 변화</div>
+                    <p class="text-[11px] text-ink-700 leading-relaxed">고령화, 청년 감소, 외국인 인력 증가에 따른 인력 관리 및 ESG 대응 수요</p>
+                  </div>
+                  <div class="p-4 bg-warm-50 rounded border border-ink-900/5">
+                    <span class="text-[10px] font-mono text-tech-600 font-bold block mb-1">STEP 03</span>
+                    <div class="text-xs font-bold text-ink-900 mb-1">MONO 해결 구조</div>
+                    <p class="text-[11px] text-ink-700 leading-relaxed">기술자 신뢰 프로필을 시작으로 기업 관리, 현장 데이터, 금융 인프라 확장</p>
+                  </div>
+                  <div class="p-4 bg-warm-50 rounded border border-ink-900/5">
+                    <span class="text-[10px] font-mono text-tech-600 font-bold block mb-1">STEP 04</span>
+                    <div class="text-xs font-bold text-ink-900 mb-1">2라운드 검증 결과</div>
+                    <p class="text-[11px] text-ink-700 leading-relaxed">실제 인터뷰와 데이터 분석을 통해 확인한 시장 수요 증명</p>
+                  </div>
+                  <div class="p-4 bg-warm-50 rounded border border-ink-900/5">
+                    <span class="text-[10px] font-mono text-tech-600 font-bold block mb-1">STEP 05</span>
+                    <div class="text-xs font-bold text-ink-900 mb-1">MVP & 대시보드</div>
+                    <p class="text-[11px] text-ink-700 leading-relaxed">사용자 행동 데이터 트래킹 및 검증 대시보드 시연</p>
+                  </div>
+                  <div class="p-4 bg-warm-50 rounded border border-ink-900/5">
+                    <span class="text-[10px] font-mono text-tech-600 font-bold block mb-1">STEP 06</span>
+                    <div class="text-xs font-bold text-ink-900 mb-1">비즈니스 모델</div>
+                    <p class="text-[11px] text-ink-700 leading-relaxed">Core SaaS BM, 포용금융 연계 BM, 산업계 SI 파트너십 BM 3대 축 제시</p>
+                  </div>
+                  <div class="p-4 bg-warm-50 rounded border border-ink-900/5">
+                    <span class="text-[10px] font-mono text-tech-600 font-bold block mb-1">STEP 07</span>
+                    <div class="text-xs font-bold text-ink-900 mb-1">투자 전략</div>
+                    <p class="text-[11px] text-ink-700 leading-relaxed">VC 재무적 투자 및 금융권/산업계/공공 파트너십 연계 전략 수립</p>
+                  </div>
+                  <div class="p-4 bg-warm-50 rounded border border-ink-900/5">
+                    <span class="text-[10px] font-mono text-tech-600 font-bold block mb-1">STEP 08</span>
+                    <div class="text-xs font-bold text-ink-900 mb-1">시장 확장 로드맵</div>
+                    <p class="text-[11px] text-ink-700 leading-relaxed">국내 산업 데이터 플랫폼에서 아시아 전역 기술 노동 인프라로 도약</p>
+                  </div>
+                  <div class="p-4 bg-warm-50 rounded border border-ink-900/5">
+                    <span class="text-[10px] font-mono text-tech-600 font-bold block mb-1">STEP 09</span>
+                    <div class="text-xs font-bold text-ink-900 mb-1">독점적 경쟁 우위</div>
+                    <p class="text-[11px] text-ink-700 leading-relaxed">경력·자격·안전·평판을 통합한 독보적인 기술노동 신뢰 데이터 자산</p>
+                  </div>
+                  <div class="p-4 bg-warm-50 rounded border border-ink-900/5">
+                    <span class="text-[10px] font-mono text-tech-600 font-bold block mb-1">STEP 10</span>
+                    <div class="text-xs font-bold text-ink-900 mb-1">최종 요청 사항</div>
+                    <p class="text-[11px] text-ink-700 leading-relaxed">사업화 자금 집행 계획, PoC 현장 확대, 금융사 및 기관 연계 파트너십</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 6. 투자 및 파트너십 전략 세분화 -->
+              <div class="grid md:grid-cols-2 gap-6">
+                <!-- VC & 금융권 -->
+                <div class="space-y-6">
+                  <div class="border border-ink-900/15 p-6 md:p-8 rounded-lg bg-white h-[calc(50%-12px)]">
+                    <div class="flex items-center gap-2 mb-3">
+                      <i class="fa-solid fa-chart-line text-tech-600 text-lg"></i>
+                      <div class="h-eyebrow">재무적 투자자 (VC) 전략</div>
+                    </div>
+                    <p class="text-[12px] text-ink-500 mb-4">"기술자 신뢰 데이터와 산업 현장 데이터를 기반으로 확장 가능한 플랫폼"</p>
+                    <ul class="body-md text-ink-800 list-disc pl-4 space-y-1 text-[13px]">
+                      <li><strong>데이터 네트워크 효과:</strong> 기술자와 기업이 서로의 신뢰 데이터를 축적하며 발생하는 락인(Lock-in) 효과</li>
+                      <li><strong>기술자 생애주기 플랫폼:</strong> 인재 유입, 교육, 경력 증명, 은퇴 관리까지 통합하는 생애주기 시스템</li>
+                      <li><strong>블루칼라 링크드인:</strong> 해외의 Blue-Collar LinkedIn(Workrise) 및 현장 노무 관리(ServiceTitan) 모델의 국내 산업 적용</li>
+                      <li><strong>글로벌 비전:</strong> 아시아 기술자 수급망을 표준화하는 글로벌 산업 인프라로의 확장</li>
+                    </ul>
+                  </div>
+
+                  <div class="border border-ink-900/15 p-6 md:p-8 rounded-lg bg-white h-[calc(50%-12px)]">
+                    <div class="flex items-center gap-2 mb-3">
+                      <i class="fa-solid fa-landmark text-tech-600 text-lg"></i>
+                      <div class="h-eyebrow">금융권 전략적 투자 (SI)</div>
+                    </div>
+                    <p class="text-[12px] text-ink-500 mb-4">"근무이력, 안전교육, 평판 데이터를 활용한 대안 신용평가 및 포용금융 검증"</p>
+                    <div class="grid grid-cols-2 gap-3 text-[12px]">
+                      <div>
+                        <div class="font-bold text-ink-900 mb-1">협력 대상</div>
+                        <p class="text-ink-700">시중 은행, 보험사, 카드사, 정책금융기관, 신용평가사(CB)</p>
+                      </div>
+                      <div>
+                        <div class="font-bold text-ink-900 mb-1">연계 영역</div>
+                        <p class="text-ink-700">포용금융 신용평가 모델, 생활안전자금 대출, 특화 보험 상품, 장비 리스 금융</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 산업계 & 공공 -->
+                <div class="space-y-6">
+                  <div class="border border-ink-900/15 p-6 md:p-8 rounded-lg bg-white h-[calc(50%-12px)]">
+                    <div class="flex items-center gap-2 mb-3">
+                      <i class="fa-solid fa-industry text-tech-600 text-lg"></i>
+                      <div class="h-eyebrow">산업계 전략적 투자 (SI)</div>
+                    </div>
+                    <p class="text-[12px] text-ink-500 mb-4">"원청, 협력사, 현장관리자, 기술자가 함께 활용하는 상생 산업 데이터 인프라"</p>
+                    <div class="grid grid-cols-2 gap-3 text-[12px]">
+                      <div>
+                        <div class="font-bold text-ink-900 mb-1">협력 대상</div>
+                        <p class="text-ink-700">건설사, 조선사, 플랜트 엔지니어링 기업, 중견 제조기업, 상생협력 조직</p>
+                      </div>
+                      <div>
+                        <div class="font-bold text-ink-900 mb-1">연계 영역</div>
+                        <p class="text-ink-700">협력사 노무 통합 관리, 숙련 기술 데이터 전수 표준화, 외국인 비자/경력 검증 PoC, 안전보건 및 ESG 공시 대응</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="border border-ink-900/15 p-6 md:p-8 rounded-lg bg-white h-[calc(50%-12px)]">
+                    <div class="flex items-center gap-2 mb-3">
+                      <i class="fa-solid fa-building-columns text-tech-600 text-lg"></i>
+                      <div class="h-eyebrow">공공 및 산업 협회 협력</div>
+                    </div>
+                    <p class="text-[12px] text-ink-500 mb-4">"디지털 인력 인프라 조성을 통한 국가 핵심 산업 경쟁력 지원"</p>
+                    <div class="grid grid-cols-2 gap-3 text-[12px]">
+                      <div>
+                        <div class="font-bold text-ink-900 mb-1">주요 부처/기관</div>
+                        <p class="text-ink-700">고용노동부, 국토교통부, 한국산업인력공단, 건설근로자공제회, 산업별 협회</p>
+                      </div>
+                      <div>
+                        <div class="font-bold text-ink-900 mb-1">추진 과제</div>
+                        <p class="text-ink-700">국가 자격·교육 데이터 연계, 정부 지원 경력인증 표준화 연구, 인력 시범 실증사업 공동 참여</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 7. 1억원 사업화 자금 활용 계획 -->
+              <div class="border border-ink-900/15 p-6 md:p-8 rounded-lg bg-white">
+                <div class="h-eyebrow mb-4 text-tech-700">3. 1억원 사업화 자금 집행 계획</div>
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+                  <div class="p-4 bg-warm-50 rounded border border-ink-900/5 text-center">
+                    <div class="text-lg font-black text-tech-700">30%</div>
+                    <div class="text-xs font-bold text-ink-900 mb-1">MVP 고도화</div>
+                    <p class="text-[10px] text-ink-600">기술자 프로필 세분화, 기업용 노무 관리 모듈 개발</p>
+                  </div>
+                  <div class="p-4 bg-warm-50 rounded border border-ink-900/5 text-center">
+                    <div class="text-lg font-black text-tech-700">20%</div>
+                    <div class="text-xs font-bold text-ink-900 mb-1">데이터 인프라</div>
+                    <p class="text-[10px] text-ink-600">이벤트 정밀 로깅, 리텐션 코호트 분석 툴 연계</p>
+                  </div>
+                  <div class="p-4 bg-warm-50 rounded border border-ink-900/5 text-center">
+                    <div class="text-lg font-black text-tech-700">20%</div>
+                    <div class="text-xs font-bold text-ink-900 mb-1">산업 PoC</div>
+                    <p class="text-[10px] text-ink-600">주요 건설·조선·제조 현장 시범 운영 인프라 지원</p>
+                  </div>
+                  <div class="p-4 bg-warm-50 rounded border border-ink-900/5 text-center">
+                    <div class="text-lg font-black text-tech-700">10%</div>
+                    <div class="text-xs font-bold text-ink-900 mb-1">보안·규제 검토</div>
+                    <p class="text-[10px] text-ink-600">개인정보보호 장치 설계, 노무/금융 데이터 적법성 진단</p>
+                  </div>
+                  <div class="p-4 bg-warm-50 rounded border border-ink-900/5 text-center">
+                    <div class="text-lg font-black text-tech-700">10%</div>
+                    <div class="text-xs font-bold text-ink-900 mb-1">영업·파트너십</div>
+                    <p class="text-[10px] text-ink-600">기관/금융사 전략 제휴 영업 및 공동 실증 기획</p>
+                  </div>
+                  <div class="p-4 bg-warm-50 rounded border border-ink-900/5 text-center">
+                    <div class="text-lg font-black text-tech-700">10%</div>
+                    <div class="text-xs font-bold text-ink-900 mb-1">IR·홍보</div>
+                    <p class="text-[10px] text-ink-600">3라운드 IR 자료 고도화, 데모 비디오, 파트너 제안서</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 8. 3라운드 성과 지표 (KPI) -->
+              <div class="border border-ink-900/15 p-6 md:p-8 rounded-lg bg-white">
+                <div class="h-eyebrow mb-4 text-tech-700">4. 라운드 통합 성과 지표 (KPI)</div>
+                <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                  <div class="p-4 bg-warm-50 rounded border border-ink-900/5">
+                    <div class="text-xs font-bold text-ink-900 mb-2 flex items-center gap-1.5"><i class="fa-solid fa-gears text-tech-600"></i> 제품 KPI</div>
+                    <ul class="text-[11px] text-ink-700 list-disc pl-4 space-y-0.5">
+                      <li>기술자 프로필 완성률</li>
+                      <li>경력 및 자격 데이터 등록률</li>
+                      <li>기업용 데이터 조회수</li>
+                      <li>관심 인력 저장 행동 수</li>
+                      <li>주간 코호트 리텐션 유지율</li>
+                    </ul>
+                  </div>
+                  <div class="p-4 bg-warm-50 rounded border border-ink-900/5">
+                    <div class="text-xs font-bold text-ink-900 mb-2 flex items-center gap-1.5"><i class="fa-solid fa-users text-tech-600"></i> 시장 KPI</div>
+                    <ul class="text-[11px] text-ink-700 list-disc pl-4 space-y-0.5">
+                      <li>기술자 대상 심층 면접 완료 수</li>
+                      <li>수요처 기업 인터뷰 수</li>
+                      <li>MVP 체험자 행동 지표</li>
+                      <li>현장 시범 운영 제안 수락률</li>
+                      <li>제품 추천 지수 (NPS)</li>
+                    </ul>
+                  </div>
+                  <div class="p-4 bg-warm-50 rounded border border-ink-900/5">
+                    <div class="text-xs font-bold text-ink-900 mb-2 flex items-center gap-1.5"><i class="fa-solid fa-network-wired text-tech-600"></i> 산업 KPI</div>
+                    <ul class="text-[11px] text-ink-700 list-disc pl-4 space-y-0.5">
+                      <li>시범 실증 PoC 진행 건수</li>
+                      <li>전략적 MOU 논의 및 진행 상황</li>
+                      <li>산업 협회·유관 기관 미팅 수</li>
+                      <li>금융 제휴 시범 회의 횟수</li>
+                      <li>산업별 확장 적용 가능성 지표</li>
+                    </ul>
+                  </div>
+                  <div class="p-4 bg-warm-50 rounded border border-ink-900/5">
+                    <div class="text-xs font-bold text-ink-900 mb-2 flex items-center gap-1.5"><i class="fa-solid fa-chart-pie text-tech-600"></i> 투자 KPI</div>
+                    <ul class="text-[11px] text-ink-700 list-disc pl-4 space-y-0.5">
+                      <li>VC 미팅 및 피드백 회수</li>
+                      <li>금융권 SI 투자 논의 진척률</li>
+                      <li>산업계 SI 투자 검토 제안</li>
+                      <li>투자 의향서(LOI) 확보 수</li>
+                      <li>후속 IR 미팅 전환율</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 최종 핵심 비전 메시지 -->
+              <div class="bg-ink-900 text-warm-50 p-6 md:p-8 rounded-lg text-center">
+                <div class="text-tech-400 font-mono text-[11px] font-bold tracking-widest mb-3 uppercase">3라운드 핵심 비전</div>
+                <p class="text-lg md:text-xl font-bold leading-relaxed" style="word-break:keep-all;">MONO는 기술자의 경험과 신뢰를 데이터로 연결하여 기업의 인력 운영, 금융권의 포용금융, 대기업의 상생 인프라, 국가의 미래 인재 육성을 함께 연결하는 산업 신뢰 인프라 플랫폼입니다.</p>
               </div>
 
             </div>
