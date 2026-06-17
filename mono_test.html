@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MONO - 기술자의 경험을 자산으로 만드는 플랫폼</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        mono: {
+                            dark: '#070a13',
+                            card: '#111827',
+                            border: '#1f2937',
+                            cyan: '#0891b2',
+                            cyanLight: '#0ea5e9',
+                            emerald: '#10b981',
+                            amber: '#f59e0b',
+                            stone: '#78716c',
+                            purple: '#8b5cf6'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700;800;900&display=swap');
+        body {
+            font-family: 'Pretendard', sans-serif;
+            background-color: #070a13;
+            color: #f3f4f6;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+        .glow-cyan {
+            box-shadow: 0 0 35px -5px rgba(8, 145, 178, 0.45);
+        }
+        .glow-emerald {
+            box-shadow: 0 0 30px -5px rgba(16, 185, 129, 0.3);
+        }
+        .glow-amber {
+            box-shadow: 0 0 30px -5px rgba(245, 158, 11, 0.3);
+        }
+        /* Accent Text Gradient */
+        .text-gradient-cyan {
+            background: linear-gradient(135deg, #0ea5e9, #0891b2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .text-gradient-purple {
+            background: linear-gradient(135deg, #a78bfa, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        /* Interactive Animation scale */
+        .hover-scale {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .hover-scale:hover {
+            transform: translateY(-4px);
+            border-color: rgba(8, 145, 178, 0.4);
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- 글로벌 네비게이션 GNB (목차 완벽 유지) -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-mono-dark/85 backdrop-blur-md border-b border-mono-border px-4 py-4">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <span class="text-2xl font-black tracking-tighter text-white">M<span class="text-mono-cyan">O</span>N<span class="text-mono-cyan">O</span></span>
+                <span class="hidden md:inline-block text-[10px] bg-mono-cyan/15 text-mono-cyanLight px-2.5 py-1 rounded-full border border-mono-cyan/30 font-bold uppercase tracking-widest">EXPERIENCE TO ASSET</span>
+            </div>
+            
+            <nav class="hidden lg:flex items-center space-x-5 text-xs xl:text-sm font-semibold text-slate-400">
+                <a href="#service-intro" class="hover:text-white transition-colors">서비스소개</a>
+                <a href="#problems" class="hover:text-white transition-colors">해결과제</a>
+                <a href="#modu-startup" class="hover:text-white transition-colors">모두의창업 GTM 전략</a>
+                <a href="#growth-strategy" class="hover:text-white transition-colors">MONO 성장 전략</a>
+                <a href="#philosophy" class="hover:text-white transition-colors">MONO 브랜드 철학</a>
+                <a href="#next-mono" class="hover:text-white transition-colors text-mono-cyanLight">Next MONO</a>
+            </nav>
+
+            <div class="flex items-center space-x-3">
+                <button onclick="openCreatorModal()" class="text-xs text-mono-cyanLight border border-mono-cyan/30 px-3 py-1.5 rounded-xl hover:bg-mono-cyan/10 transition-all font-semibold">
+                    T-Rive 크리에이터 소통관
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- 메인 콘텐츠 -->
+    <main class="pt-28 pb-24 px-4 max-w-7xl mx-auto space-y-24">
+
+        <!-- 01 HERO SECTION (핵심정의 단일 정렬 및 8단계 파이프라인 시각화, 제목 한 줄 피팅 조정) -->
+        <section id="hero-sec" class="relative overflow-hidden rounded-3xl border border-mono-border bg-gradient-to-b from-slate-900/40 via-mono-dark to-mono-dark p-8 md:p-16 text-center">
+            <div class="absolute inset-0 bg-[radial-gradient(#1e293b_1px,transparent_1px)] [background-size:24px_24px] opacity-15 pointer-events-none"></div>
+            <div class="absolute -top-32 -left-32 w-80 h-80 bg-mono-cyan/10 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute -bottom-32 -right-32 w-80 h-80 bg-mono-emerald/10 rounded-full blur-3xl pointer-events-none"></div>
+
+            <div class="relative z-10 max-w-5xl mx-auto space-y-8">
+                <div class="inline-flex items-center space-x-2 bg-slate-900 px-4 py-1.5 rounded-full border border-mono-border">
+                    <span class="flex h-2 w-2 rounded-full bg-mono-cyan"></span>
+                    <span class="text-xs font-black text-slate-300 uppercase tracking-widest">대한민국 최대 기술자 생활 인프라 표준</span>
+                </div>
+
+                <!-- 핵심 정의 통일 및 자간 극대화로 한 줄 피팅 확보 -->
+                <div class="space-y-4">
+                    <h1 class="text-xl sm:text-2xl md:text-4xl lg:text-5xl font-black tracking-tighter leading-tight">
+                        MONO는 <span class="text-gradient-cyan">기술자의 경험을 자산으로 만드는 플랫폼</span>입니다.
+                    </h1>
+                    <p class="text-xs md:text-sm text-slate-400 max-w-3xl mx-auto leading-relaxed font-medium">
+                        어렵고 거칠었던 일상의 노동을 가장 투명한 데이터 신뢰망으로 엮어내어, 더 나은 일자리, 성장, 금융, 그리고 글로벌 기회로 부드럽게 연동합니다.
+                    </p>
+                </div>
+
+                <!-- 모든 섹션 연결 방향 파이프라인 (경험 ➔ 기록 ➔ 신뢰 ➔ 경력 ➔ 금융 ➔ 성장 ➔ 글로벌 기회 ➔ 미래 산업) -->
+                <div class="bg-mono-card/60 p-6 rounded-2xl border border-mono-border max-w-4xl mx-auto">
+                    <p class="text-[10px] text-mono-cyan font-bold uppercase tracking-wider mb-4">MONO VALUE CHAIN PIPELINE</p>
+                    <div class="grid grid-cols-4 lg:grid-cols-8 gap-3 items-center">
+                        <div class="flex flex-col items-center">
+                            <span class="w-8 h-8 rounded-full bg-mono-cyan/20 text-mono-cyanLight flex items-center justify-center font-bold text-xs border border-mono-cyan/30">01</span>
+                            <span class="text-xs font-bold mt-2 text-slate-200">기술자 경험</span>
+                        </div>
+                        <div class="flex flex-col items-center">
+                            <span class="w-8 h-8 rounded-full bg-slate-800 text-slate-400 flex items-center justify-center font-bold text-xs">02</span>
+                            <span class="text-xs font-bold mt-2 text-slate-400">정밀 기록</span>
+                        </div>
+                        <div class="flex flex-col items-center">
+                            <span class="w-8 h-8 rounded-full bg-slate-800 text-slate-400 flex items-center justify-center font-bold text-xs">03</span>
+                            <span class="text-xs font-bold mt-2 text-slate-400">신뢰 확보</span>
+                        </div>
+                        <div class="flex flex-col items-center">
+                            <span class="w-8 h-8 rounded-full bg-slate-800 text-slate-400 flex items-center justify-center font-bold text-xs">04</span>
+                            <span class="text-xs font-bold mt-2 text-slate-400">인증 경력</span>
+                        </div>
+                        <div class="flex flex-col items-center mt-2 lg:mt-0">
+                            <span class="w-8 h-8 rounded-full bg-slate-800 text-slate-400 flex items-center justify-center font-bold text-xs">05</span>
+                            <span class="text-xs font-bold mt-2 text-slate-400">포용 금융</span>
+                        </div>
+                        <div class="flex flex-col items-center mt-2 lg:mt-0">
+                            <span class="w-8 h-8 rounded-full bg-slate-800 text-slate-400 flex items-center justify-center font-bold text-xs">06</span>
+                            <span class="text-xs font-bold mt-2 text-slate-400">직무 성장</span>
+                        </div>
+                        <div class="flex flex-col items-center mt-2 lg:mt-0">
+                            <span class="w-8 h-8 rounded-full bg-slate-800 text-slate-400 flex items-center justify-center font-bold text-xs">07</span>
+                            <span class="text-xs font-bold mt-2 text-slate-400">글로벌 기회</span>
+                        </div>
+                        <div class="flex flex-col items-center mt-2 lg:mt-0">
+                            <span class="w-8 h-8 rounded-full bg-mono-emerald/20 text-mono-emerald flex items-center justify-center font-bold text-xs border border-mono-emerald/30">08</span>
+                            <span class="text-xs font-bold mt-2 text-slate-200">미래 산업</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 01 [목차 1] 서비스소개 : 스마트 일자리 플랫폼 (현재 가치 우선 배치) -->
+        <section id="service-intro" class="scroll-mt-24 space-y-12">
+            <div class="text-center space-y-3">
+                <span class="text-xs font-black text-mono-cyan bg-mono-cyan/10 px-3 py-1 rounded-full border border-mono-cyan/30 uppercase tracking-widest">01. SERVICE INTRO</span>
+                <h2 class="text-xl sm:text-2xl md:text-3xl font-black tracking-tight text-white">경험이 곧 기술이 되고 신용이 되는 플랫폼</h2>
+                <p class="text-xs text-slate-400 max-w-2xl mx-auto">기존 일시적인 인력 알선의 한계를 지우고, 기술자와 기업이 동시에 만족하는 가장 확실한 현재 가치를 제공합니다.</p>
+            </div>
+
+            <!-- 현재 MONO가 제공하는 6대 실제 가치 (우선 배치) -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="bg-mono-card p-6 rounded-2xl border border-mono-border space-y-3 hover-scale">
+                    <div class="p-2.5 bg-mono-cyan/10 text-mono-cyanLight rounded-lg w-fit"><i class="fa-solid fa-file-signature text-lg"></i></div>
+                    <h3 class="text-base font-bold text-white">근무기록 관리</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">수기 영수증이나 종이 장부 대신, 언제 어디서 일했는지 성실한 경력 내역을 스마트폰에 투명하게 영구 기록합니다.</p>
+                </div>
+                <div class="bg-mono-card p-6 rounded-2xl border border-mono-border space-y-3 hover-scale">
+                    <div class="p-2.5 bg-mono-cyan/10 text-mono-cyanLight rounded-lg w-fit"><i class="fa-solid fa-database text-lg"></i></div>
+                    <h3 class="text-base font-bold text-white">출역 데이터 축적</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">위치(GPS) 인증을 연동해 위변조가 불가능한 일용직 출퇴근 근무기록을 축적하여 일터 신뢰 장부의 근간을 이룹니다.</p>
+                </div>
+                <div class="bg-mono-card p-6 rounded-2xl border border-mono-border space-y-3 hover-scale">
+                    <div class="p-2.5 bg-mono-cyan/10 text-mono-cyanLight rounded-lg w-fit"><i class="fa-solid fa-shield-halved text-lg"></i></div>
+                    <h3 class="text-base font-bold text-white">안전 연동 및 안심 정산</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">출근 전 간편 안전 교육 이수 로그를 실시간 남기고, 정산 체계를 에스크로(안전지갑)로 묶어 임금 체불 공포를 완전히 해결합니다.</p>
+                </div>
+                <div class="bg-mono-card p-6 rounded-2xl border border-mono-border space-y-3 hover-scale">
+                    <div class="p-2.5 bg-mono-cyan/10 text-mono-cyanLight rounded-lg w-fit"><i class="fa-solid fa-user-check text-lg"></i></div>
+                    <h3 class="text-base font-bold text-white">현장 평판 및 신뢰 데이터</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">무단결근 배제율과 현장 반장/소장의 상호 평점 결과를 수치화하여 기술자 고유의 대안 신뢰 점수(S-Core)를 보증합니다.</p>
+                </div>
+                <div class="bg-mono-card p-6 rounded-2xl border border-mono-border space-y-3 hover-scale">
+                    <div class="p-2.5 bg-mono-cyan/10 text-mono-cyanLight rounded-lg w-fit"><i class="fa-solid fa-building-columns text-lg"></i></div>
+                    <h3 class="text-base font-bold text-white">금융 및 혜택 연결</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">그동안 일회성이라 금융에서 소외받던 성실 근로자들에게 1금융권 저금리 전세 대출 한도와 단체 상해보험을 연계합니다.</p>
+                </div>
+                <div class="bg-mono-card p-6 rounded-2xl border border-mono-border space-y-3 hover-scale">
+                    <div class="p-2.5 bg-mono-cyan/10 text-mono-cyanLight rounded-lg w-fit"><i class="fa-solid fa-laptop-code text-lg"></i></div>
+                    <h3 class="text-base font-bold text-white">기업용 서비스 (SaaS)</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">하청 소장의 골머리를 썩이던 4대 보험 신고, 세무 신고, 출역 관제 복잡성을 마우스 클릭 한 번으로 자동 대행해 줍니다.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 02 [목차 2] 해결과제 : Why Now & 핵심 문제 정의 -->
+        <section id="problems" class="scroll-mt-24 space-y-12">
+            <div class="text-center space-y-3">
+                <span class="text-xs font-black text-mono-amber bg-mono-amber/10 px-3 py-1 rounded-full border border-mono-amber/20 uppercase tracking-widest">02. PROBLEMS & SOLUTIONS</span>
+                <!-- 자간 좁혀서 기기 불문 한 줄 피팅 확보 -->
+                <h2 class="text-lg sm:text-xl md:text-2xl lg:text-3xl font-black text-white tracking-tighter leading-tight">
+                    대한민국 산업 경쟁력의 기반인 기술과 숙련이 다음 세대로 이어지지 못하고 있습니다.
+                </h2>
+                <p class="text-xs text-slate-400 max-w-2xl mx-auto">
+                    현장의 거친 노동이 디지털 자산으로 전산화되지 않기 때문에 일터의 대가 끊어지고 인재들이 고립됩니다.
+                </p>
+            </div>
+
+            <!-- 세부 문제 그리드 (대한민국 산업 위기 4대 지표) -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <div class="bg-mono-card p-5 rounded-2xl border border-mono-border space-y-2">
+                    <div class="text-mono-amber text-sm font-bold"><i class="fa-solid fa-user-slash"></i> 숙련 기술자 고령화</div>
+                    <p class="text-xs text-slate-400 leading-relaxed">현장을 지탱하던 50대 이상의 숙련공들이 빠르게 은퇴하며 노하우 손실이 급증하고 있습니다.</p>
+                </div>
+                <div class="bg-mono-card p-5 rounded-2xl border border-mono-border space-y-2">
+                    <div class="text-mono-amber text-sm font-bold"><i class="fa-solid fa-person-falling-burst"></i> 청년 기술자 감소</div>
+                    <p class="text-xs text-slate-400 leading-relaxed">가혹하고 위험한 노동 환경으로 인해 2030 젊은 층의 일터 진입률이 매년 급감하는 상황입니다.</p>
+                </div>
+                <div class="bg-mono-card p-5 rounded-2xl border border-mono-border space-y-2">
+                    <div class="text-mono-amber text-sm font-bold"><i class="fa-solid fa-globe"></i> 외국인 인력 증가</div>
+                    <p class="text-xs text-slate-400 leading-relaxed">부족한 내국인 자리를 메우는 외국인 근로자들의 소통 장벽과 비자 수속 비효율이 극대화되고 있습니다.</p>
+                </div>
+                <div class="bg-mono-card p-5 rounded-2xl border border-mono-border space-y-2">
+                    <div class="text-mono-amber text-sm font-bold"><i class="fa-solid fa-layer-group"></i> 기술 전수 체계 부족</div>
+                    <p class="text-xs text-slate-400 leading-relaxed">현장 장인들의 숙련 기술을 공식적인 매뉴얼이나 시스템으로 축적할 수 있는 표준 디지털 망이 부재합니다.</p>
+                </div>
+            </div>
+
+            <!-- 핵심 문제 및 해결 방향 구조 대치 보드 -->
+            <div class="bg-gradient-to-r from-slate-900 to-mono-dark border border-mono-border rounded-3xl p-6 md:p-8 space-y-6">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                    <div class="lg:col-span-5 space-y-4">
+                        <span class="text-[10px] font-black text-red-400 uppercase tracking-widest">Core Industrial Obstacle</span>
+                        <h3 class="text-xl font-black text-white tracking-tight">핵심 문제: 기술자의 경험은 산업의 자산이지만 기록되지 않고 사라지고 있습니다.</h3>
+                        <p class="text-xs text-slate-400 leading-relaxed">
+                            노동자의 매일 매일의 시공 기록은 수기나 사장으로 흩어져, 10년이 지나도 경력이 증명되지 않는 악순환이 지속됩니다.
+                        </p>
+                    </div>
+                    <div class="lg:col-span-7 bg-mono-card p-5 rounded-2xl border border-mono-border space-y-3">
+                        <span class="text-[10px] font-black text-mono-cyan uppercase tracking-widest block">Detailed Pain points & MONO Resolution</span>
+                        <div class="space-y-2 text-xs">
+                            <div class="flex justify-between border-b border-mono-border/50 pb-2">
+                                <span class="text-slate-400">• 경력이 남지 않음</span>
+                                <span class="text-slate-400">• 금융 혜택을 받기 어려움</span>
+                            </div>
+                            <div class="flex justify-between border-b border-mono-border/50 pb-2">
+                                <span class="text-slate-400">• 검증된 인력 확보 어려움</span>
+                                <span class="text-slate-400">• 기술 전수가 어려움</span>
+                            </div>
+                            <div class="flex justify-between pb-1">
+                                <span class="text-slate-400">• 글로벌 경력 활용이 어려움</span>
+                                <span class="text-mono-cyan font-bold">➔ MONO: 기술자의 경험을 기록하고 신뢰 데이터로 전환</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Why Now 결론 문구 -->
+                <div class="p-4 bg-mono-cyan/5 rounded-2xl border border-mono-cyan/15 text-center text-xs md:text-sm text-slate-300 font-bold">
+                    💡 "MONO는 기술자의 경험과 숙련을 기록하고 연결하여 대한민국의 산업 경쟁력이 지속될 수 있는 기반을 안전하게 구축합니다."
+                </div>
+            </div>
+        </section>
+
+        <!-- 03 [목차 3] 모두의창업 GTM 전략 (Track 1 & 2 인터랙티브 스위처) -->
+        <section id="modu-startup" class="scroll-mt-24 space-y-12">
+            <div class="text-center space-y-3">
+                <span class="text-xs font-black text-mono-cyan bg-mono-cyan/10 px-3 py-1 rounded-full border border-mono-cyan/30 uppercase tracking-widest">03. GO-TO-MARKET</span>
+                <h2 class="text-xl sm:text-2xl md:text-3xl font-black tracking-tight text-white">대회 우승부터 시장 독점까지, 듀얼 트랙 로드맵</h2>
+                <p class="text-xs text-slate-400 max-w-2xl mx-auto">모두의 창업 서바이벌 라운드(Track 1)와 실제 독립 법인의 확장 스케일업 패스(Track 2)를 한눈에 대조하세요.</p>
+            </div>
+
+            <div class="flex justify-center">
+                <div class="bg-slate-900 p-1.5 rounded-2xl border border-mono-border inline-flex">
+                    <button onclick="switchTrack('track1')" id="btn-track1" class="px-5 py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-mono-cyan text-white transition-all duration-300">Track 1: 모두의 창업 서바이벌</button>
+                    <button onclick="switchTrack('track2')" id="btn-track2" class="px-5 py-2.5 rounded-xl font-bold text-xs sm:text-sm text-slate-400 hover:text-white transition-all duration-300">Track 2: 실전 시장 개척 및 확장</button>
+                </div>
+            </div>
+
+            <!-- 동적 JS 타임라인 로드 구동 -->
+            <div id="gtm-container" class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <!-- Javascript Injection -->
+            </div>
+        </section>
+
+        <!-- 05 [목차 4] MONO 성장 전략 (현재 ➔ 생애주기 ➔ 글로벌 ➔ Next MONO 단계적 발전 구조 시각화) -->
+        <section id="growth-strategy" class="scroll-mt-24 space-y-12">
+            <div class="text-center space-y-3">
+                <span class="text-xs font-black text-mono-cyan bg-mono-cyan/10 px-3 py-1 rounded-full border border-mono-cyan/30 uppercase tracking-widest">04. MONO EVOLUTION PATH</span>
+                <h2 class="text-xl sm:text-2xl md:text-3xl font-black tracking-tight text-white">MONO 생태계의 단계적 발전 패스</h2>
+                <p class="text-xs text-slate-400">단순 일자리 연결을 넘어, 생애주기를 돌보고 글로벌 무대를 개척하여 미래 산업과 공유하는 웅장한 가치 사슬입니다.</p>
+            </div>
+
+            <!-- 단계적 발전 구조 (현재 서비스 ➔ 기술자 생애주기 플랫폼 ➔ 글로벌 플랫폼 ➔ Next MONO) -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 relative">
+                <!-- 1 -->
+                <div class="bg-mono-card p-6 rounded-2xl border border-mono-border space-y-4 hover-scale">
+                    <div class="flex justify-between items-center">
+                        <span class="text-[10px] font-black text-mono-cyan bg-mono-cyan/10 px-2.5 py-0.5 rounded border border-mono-cyan/20">STEP 01</span>
+                        <span class="text-xs text-mono-cyanLight font-bold">현재 서비스</span>
+                    </div>
+                    <h3 class="text-base font-black text-white">현장 노무 & 정산 관리</h3>
+                    <ul class="space-y-1.5 text-xs text-slate-400 font-medium">
+                        <li>• 에스크로 기반 일급 안심 정산</li>
+                        <li>• 출역 데이터 축적 및 GPS 인증</li>
+                        <li>• 기업용 스마트 행정 SaaS 관리</li>
+                        <li>• 구인 구직 매칭 최적화</li>
+                    </ul>
+                </div>
+                <!-- 2 -->
+                <div class="bg-mono-card p-6 rounded-2xl border border-mono-border space-y-4 hover-scale">
+                    <div class="flex justify-between items-center">
+                        <span class="text-[10px] font-black text-mono-cyan bg-mono-cyan/10 px-2.5 py-0.5 rounded border border-mono-cyan/20">STEP 02</span>
+                        <span class="text-xs text-mono-cyanLight font-bold">생애주기 플랫폼</span>
+                    </div>
+                    <h3 class="text-base font-black text-white">기술자 생애주기 케어</h3>
+                    <ul class="space-y-1.5 text-xs text-slate-400 font-medium">
+                        <li>• 대안 신용 금융 한도 연결 (CB)</li>
+                        <li>• 스마트 숙소 및 식사 안심 복지</li>
+                        <li>• 모노 아카데미 전문 기술 교육</li>
+                        <li>• 공구/작업복 마스터 쇼핑몰</li>
+                    </ul>
+                </div>
+                <!-- 3 -->
+                <div class="bg-mono-card p-6 rounded-2xl border border-mono-border space-y-4 hover-scale">
+                    <div class="flex justify-between items-center">
+                        <span class="text-[10px] font-black text-mono-cyan bg-mono-cyan/10 px-2.5 py-0.5 rounded border border-mono-cyan/20">STEP 03</span>
+                        <span class="text-xs text-mono-cyanLight font-bold">글로벌 플랫폼</span>
+                    </div>
+                    <h3 class="text-base font-black text-white">글로벌 기술 영토 확장</h3>
+                    <ul class="space-y-1.5 text-xs text-slate-400 font-medium">
+                        <li>• 글로벌 기술 여권 발급 (ISO)</li>
+                        <li>• 외국인 근로자 체류 비자 가점</li>
+                        <li>• 가상자산 기반 고국 즉시 송금</li>
+                        <li>• 해외 고소득 매칭 송출 인프라</li>
+                    </ul>
+                </div>
+                <!-- 4 -->
+                <div class="bg-mono-card p-6 rounded-2xl border-t-4 border-mono-emerald space-y-4 hover-scale">
+                    <div class="flex justify-between items-center">
+                        <span class="text-[10px] font-black text-mono-emerald bg-mono-emerald/10 px-2.5 py-0.5 rounded border border-mono-emerald/20">STEP 04</span>
+                        <span class="text-xs text-mono-emerald font-bold">Next MONO</span>
+                    </div>
+                    <h3 class="text-base font-black text-white">미래 기술 & 로보틱스</h3>
+                    <ul class="space-y-1.5 text-xs text-slate-400 font-medium">
+                        <li>• Tech-Blue 구독형 협업 로봇 (RaaS)</li>
+                        <li>• 고가 장비 소액 조각투자 (STO)</li>
+                        <li>• 평생 연금 기반 기여 수익 배당</li>
+                        <li>• 은퇴 장인 무형 노하우 자산화</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 실시간 동적 ARR & 100조 기업가치 산출 시뮬레이터 -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 pt-6">
+                <!-- 시뮬레이터 입력단 -->
+                <div class="lg:col-span-5 bg-brand-card p-6 rounded-3xl border border-mono-border space-y-6">
+                    <h3 class="text-base font-bold text-white border-b border-mono-border pb-3">Ecosystem Dynamic ARR Simulator</h3>
+                    <!-- 1 -->
+                    <div class="space-y-2">
+                        <div class="flex justify-between text-xs font-bold">
+                            <span class="text-slate-300">플랫폼 활성 마스터 (MAU)</span>
+                            <span id="slider-mau-val" class="text-mono-cyanLight">50만 명</span>
+                        </div>
+                        <input type="range" id="slider-mau" min="10" max="300" value="50" step="5" oninput="calculateValuation()" class="w-full accent-mono-cyan bg-slate-800 rounded-lg h-1.5 appearance-none cursor-pointer">
+                    </div>
+                    <!-- 2 -->
+                    <div class="space-y-2">
+                        <div class="flex justify-between text-xs font-bold">
+                            <span class="text-slate-300">B2B SaaS (업무 행정) 월 사용 구독료</span>
+                            <span id="slider-fee-val" class="text-mono-cyanLight">15 만 원</span>
+                        </div>
+                        <input type="range" id="slider-fee" min="5" max="50" value="15" step="1" oninput="calculateValuation()" class="w-full accent-mono-cyan bg-slate-800 rounded-lg h-1.5 appearance-none cursor-pointer">
+                    </div>
+                    <!-- 3 -->
+                    <div class="space-y-2">
+                        <div class="flex justify-between text-xs font-bold">
+                            <span class="text-slate-300">Tech-Blue 로봇 보급 대수</span>
+                            <span id="slider-robot-val" class="text-mono-cyanLight">20,000 대</span>
+                        </div>
+                        <input type="range" id="slider-robot" min="5" max="100" value="20" step="5" oninput="calculateValuation()" class="w-full accent-mono-cyan bg-slate-800 rounded-lg h-1.5 appearance-none cursor-pointer">
+                    </div>
+                </div>
+
+                <!-- 시뮬레이터 차트 및 출력단 -->
+                <div class="lg:col-span-7 bg-brand-card p-6 rounded-3xl border border-mono-border flex flex-col justify-between space-y-6">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="p-4 bg-slate-900 rounded-xl border border-mono-border">
+                            <span class="text-[10px] text-slate-500 font-bold block mb-1">예상 플랫폼 연간 ARR 매출</span>
+                            <span id="out-arr" class="text-xl font-black text-white">4,050 억 원</span>
+                        </div>
+                        <div class="p-4 bg-slate-900 rounded-xl border border-mono-border">
+                            <span class="text-[10px] text-slate-500 font-bold block mb-1">핀테크 멀티플 15x 기업가치</span>
+                            <span id="out-val" class="text-xl font-black text-mono-emerald">6 조 750 억 원</span>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 items-center">
+                        <div class="h-44 relative"><canvas id="doughnutChart"></canvas></div>
+                        <div class="h-44 relative"><canvas id="barChart"></canvas></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 06 [목차 5] MONO 브랜드 철학 (투자자 메시지 강화 및 4대 타겟 페르소나) -->
+        <section id="philosophy" class="scroll-mt-24 space-y-12">
+            <div class="text-center space-y-3">
+                <span class="text-xs font-black text-mono-amber bg-mono-amber/10 px-3 py-1 rounded-full border border-mono-amber/20 uppercase tracking-widest">05. BRAND PHILOSOPHY</span>
+                <h2 class="text-xl sm:text-2xl md:text-3xl font-black tracking-tight text-white">땀 흘려 일하는 즐거움의 가치 복원</h2>
+                <p class="text-xs text-slate-400 max-w-2xl mx-auto">몸이 지치고 다쳐서 버려지는 노역이 아닌, 존중받는 최고의 스마트 기능 장인으로서의 라이프 사이클을 보호합니다.</p>
+            </div>
+
+            <!-- 투자자 및 심사위원 공감 최우선 메시지 앵커링 (기울임 제거) -->
+            <div class="bg-gradient-to-r from-slate-950 via-mono-card to-slate-950 border-l-4 border-mono-cyan p-6 md:p-8 rounded-r-2xl">
+                <div class="max-w-4xl space-y-3">
+                    <span class="text-[10px] font-black text-mono-cyanLight uppercase tracking-wider block">Investor & Judge Key Takeaway</span>
+                    <p class="text-lg md:text-xl font-extrabold text-white leading-relaxed not-italic">
+                        "기술자의 경험은 단순한 근무 기록이 아닙니다.<br>
+                        그 경험은 <span class="text-mono-cyanLight">신뢰</span>가 되고, 신뢰는 <span class="text-mono-cyanLight">경력</span>이 되며,<br>
+                        경력은 <span class="text-mono-cyanLight">금융과 성장의 기회</span>로 이어집니다.<br>
+                        MONO는 기술자의 경험이 산업의 자산이 되는 구조를 만듭니다."
+                    </p>
+                </div>
+            </div>
+
+            <!-- 4대 페르소나 중심 스토리보드 -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- 1 -->
+                <div class="bg-mono-card p-6 rounded-2xl border border-mono-border space-y-3 flex flex-col justify-between hover-scale">
+                    <div class="space-y-2">
+                        <span class="text-xs font-bold text-mono-cyanLight uppercase block">01 · 청년 기술자 (The Seed Camp)</span>
+                        <h4 class="text-base font-black text-white">수능 직후, 내 손으로 첫 종잣돈을 만드는 경험</h4>
+                        <p class="text-xs text-slate-400 leading-relaxed">
+                            알바 대신 스마트 도배 기술을 배운 20대 청년이, 8주간 땀 흘려 일해 자신의 힘으로 **첫 자립 종잣돈 1,000만 원**을 통장에 꽂기까지의 기적.
+                        </p>
+                    </div>
+                    <div class="pt-2 border-t border-mono-border/50 text-[10px] text-mono-cyanLight font-bold">
+                        👉 단순 노무 기피를 타파하고 청년 세대의 자발적 진입 유도
+                    </div>
+                </div>
+
+                <!-- 2 -->
+                <div class="bg-mono-card p-6 rounded-2xl border border-mono-border space-y-3 flex flex-col justify-between hover-scale">
+                    <div class="space-y-2">
+                        <span class="text-xs font-bold text-mono-cyanLight uppercase block">02 · 숙련 장인 (Tech-Passport)</span>
+                        <h4 class="text-base font-black text-white">내 무형의 판단 기술이 세계로 통하다</h4>
+                        <p class="text-xs text-slate-400 leading-relaxed">
+                            10년을 일해도 대출 한 장 안 나오던 현장 기술자가, MONO의 근무 데이터 덕분에 당당히 신용을 인정받고 집 보증금 대출을 받던 감동의 순간.
+                        </p>
+                    </div>
+                    <div class="pt-2 border-t border-mono-border/50 text-[10px] text-mono-cyanLight font-bold">
+                        👉 땀 흘린 성실 이력이 시중은행이 인정하는 포용적 금융 가치로 대환
+                    </div>
+                </div>
+
+                <!-- 3 -->
+                <div class="bg-mono-card p-6 rounded-2xl border border-mono-border space-y-3 flex flex-col justify-between hover-scale">
+                    <div class="space-y-2">
+                        <span class="text-xs font-bold text-mono-cyanLight uppercase block">03 · 외국인 기술자 (Safe K-Work)</span>
+                        <h4 class="text-base font-black text-white">언어 장벽을 넘어 안심하고 일하는 일터</h4>
+                        <p class="text-xs text-slate-400 leading-relaxed">
+                            언어가 안 통해 위험에 노출되던 이주 기술자에게 AI 번역 비서가 안전을 지켜주고, 성실한 경력을 법무부 비자 전환용 가점으로 연동해 준 안심 정착 일터.
+                        </p>
+                    </div>
+                    <div class="pt-2 border-t border-mono-border/50 text-[10px] text-mono-cyanLight font-bold">
+                        👉 국경 없는 숙련 인력 매니지먼트의 투명성 수립
+                    </div>
+                </div>
+
+                <!-- 4 -->
+                <div class="bg-mono-card p-6 rounded-2xl border border-mono-border space-y-3 flex flex-col justify-between hover-scale">
+                    <div class="space-y-2">
+                        <span class="text-xs font-bold text-mono-cyanLight uppercase block">04 · 은퇴 실버 기술자 (Legacy Master)</span>
+                        <h4 class="text-base font-black text-white">무거운 노동은 로봇이, 명장은 지혜로운 품질 감리를</h4>
+                        <p class="text-xs text-slate-400 leading-relaxed">
+                            나이 들고 몸이 아파 일터에서 쫓겨나는 대신, 무거운 짐은 로봇이 지고 자신은 스마트 패드로 시공 결과물을 꼼꼼히 검수하며 명장의 존엄을 지키는 노후.
+                        </p>
+                    </div>
+                    <div class="pt-2 border-t border-mono-border/50 text-[10px] text-mono-cyanLight font-bold">
+                        👉 수십 년 노하우가 사장되지 않고 로보틱스 R&D의 두뇌로 보존
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 07 [목차 6] Next MONO (대국민 복지 인프라 & 로보틱스 결합 비전) -->
+        <section id="next-mono" class="scroll-mt-24 bg-mono-card rounded-3xl border border-mono-border p-6 md:p-12 space-y-12 relative overflow-hidden">
+            <div class="absolute inset-0 bg-[radial-gradient(#1e293b_1px,transparent_1px)] [background-size:24px_24px] opacity-10 pointer-events-none"></div>
+
+            <div class="text-center space-y-2 border-b border-mono-border pb-6">
+                <span class="text-xs font-black text-mono-cyan bg-mono-cyan/10 px-3 py-1 rounded-full uppercase tracking-widest border border-mono-cyan/30">Next MONO Vision Block</span>
+                <h2 class="text-xl sm:text-2xl md:text-3xl font-black tracking-tight text-white">식사·숙소·의료까지 아우르는 웰니스 복지 인프라</h2>
+                <p class="text-xs text-slate-400">지방 현장과 1차 산업의 소외된 노동 환경에 인간 존엄의 스마트 웰페어 복지를 보급합니다.</p>
+            </div>
+
+            <!-- 웰니스 복지 3대 모듈 -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-mono-dark p-6 rounded-2xl border border-mono-border space-y-3 glow-emerald">
+                    <div class="text-3xl">🏠</div>
+                    <h3 class="text-lg font-bold text-white">스마트 숙소 모듈 (Sleep)</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        온습도와 공기 정화가 자동 조절되는 쾌적 가설 모듈러 하우스를 공급합니다. 기피 지역 오지에서도 안락한 수면과 사생활을 완전 보증합니다.
+                    </p>
+                </div>
+                <div class="bg-mono-dark p-6 rounded-2xl border border-mono-border space-y-3 glow-emerald">
+                    <div class="text-3xl">🍽️</div>
+                    <h3 class="text-lg font-bold text-white">위생 다이닝 모듈 (Dining)</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        도시락 예약, 단체 급식, 간식 배송 시스템이 자동 조리 설비와 연계된 조립식 현장 식당을 설치해 땀 흘린 마스터에게 따뜻한 한 끼를 대접합니다.
+                    </p>
+                </div>
+                <div class="bg-mono-dark p-6 rounded-2xl border border-mono-border space-y-3 glow-emerald">
+                    <div class="text-3xl">🩺</div>
+                    <h3 class="text-lg font-bold text-white">원격 웰페어 의료 부스 (Medical)</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        24시간 비대면 원격 진료와 스마트 응급 처치 포트가 구비되어 원거리 현장의 만성적인 의료 공백을 완벽히 지워냅니다.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Tech-Blue 모듈러 로보틱스 도킹 스테이션 (RaaS) -->
+            <div class="bg-mono-dark p-6 rounded-2xl border border-mono-border space-y-6">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                    <div class="space-y-1">
+                        <span class="text-xs font-black text-mono-emerald bg-mono-emerald/10 px-2.5 py-0.5 rounded-full uppercase">Tech-Blue & RaaS Attachment</span>
+                        <h4 class="text-xl font-bold text-white">Tech-Blue 모듈러 로보틱스 도킹 시뮬레이션</h4>
+                        <p class="text-xs text-slate-400">하나의 표준 기본 플랫폼(Tech-Core)에 말단 작업 모듈을 클릭하여 결합하는 모습을 체험해 보세요.</p>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <button onclick="dockRobot('welding', '조선소 곡블록 고소 용접 모듈')" id="btn-dock-welding" class="robot-btn px-4 py-2 rounded-xl text-xs font-extrabold border border-mono-cyan bg-mono-cyan text-white transition-all">정밀용접 모듈</button>
+                        <button onclick="dockRobot('lifting', '건설현장 고하중 자재 양중 모듈')" id="btn-dock-lifting" class="robot-btn px-4 py-2 rounded-xl text-xs font-extrabold border border-mono-border text-slate-400 hover:border-slate-500 hover:text-white transition-all">고하중 양중 모듈</button>
+                        <button onclick="dockRobot('inspection', '지하 챔버 밀폐구역 안전 진단 모듈')" id="btn-dock-inspection" class="robot-btn px-4 py-2 rounded-xl text-xs font-extrabold border border-mono-border text-slate-400 hover:border-slate-500 hover:text-white transition-all">안전진단 모듈</button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center bg-mono-card p-6 rounded-xl border border-mono-border/80">
+                    <div class="lg:col-span-4 flex flex-col items-center justify-center">
+                        <div class="relative w-40 h-44 flex items-center justify-center">
+                            <div class="absolute inset-0 rounded-full border-4 border-dashed border-slate-700 animate-spin" style="animation-duration: 15s"></div>
+                            <div class="absolute w-28 h-28 bg-mono-dark rounded-2xl border-2 border-mono-cyan flex flex-col items-center justify-center glow-cyan">
+                                <span class="text-[10px] text-slate-400 font-bold">BASE PLATFORM</span>
+                                <span class="text-xs font-black text-white mt-1">Tech-Core V1</span>
+                            </div>
+                            <div id="visual-module-tag" class="absolute -top-3 bg-mono-emerald text-mono-dark font-black px-2 py-0.5 rounded text-[10px] uppercase border border-white/20">WELDING ACTIVE</div>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-8 space-y-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div class="p-4 rounded-xl bg-mono-dark border border-mono-border space-y-1">
+                                <span class="text-[10px] text-slate-400 font-bold block">장착 모듈 명세</span>
+                                <span id="module-title" class="text-sm font-black text-white">조선소 곡블록 고소 용접 모듈</span>
+                            </div>
+                            <div class="p-4 rounded-xl bg-mono-dark border border-mono-border space-y-1">
+                                <span class="text-[10px] text-slate-400 font-bold block">5G 원격 지능 제어</span>
+                                <span id="module-sw" class="text-sm font-bold text-mono-cyanLight">용접 오차 자율 보정 알고리즘 무선 OTA 수신</span>
+                            </div>
+                        </div>
+                        <div class="p-4 bg-mono-dark/40 rounded-xl border border-mono-border/80">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Calibration & Telemetry Log</span>
+                                <span id="dock-progress-txt" class="text-[10px] font-bold text-mono-emerald">100% ONLINE</span>
+                            </div>
+                            <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
+                                <div id="dock-progress-bar" class="bg-mono-cyan h-full rounded-full transition-all duration-500" style="width: 100%"></div>
+                            </div>
+                        </div>
+                        <div class="p-4 bg-slate-950 rounded-xl border border-mono-border/60">
+                            <p id="module-desc" class="text-xs text-slate-400 leading-relaxed font-mono">
+                                [LOG] 조선소 곡블록 고소 용접 모드가 활성화되었습니다. 작업자의 숙련 데이터(용접 온도, 속도, 각도) 기반으로 궤적을 자율 보정하며 실시간 비전 열상 스캔을 감리합니다.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 자본과 노동이 공존하는 장기 비전 STO -->
+            <div class="p-6 bg-gradient-to-r from-slate-900 to-mono-dark rounded-2xl border border-mono-border text-center space-y-3">
+                <span class="text-[11px] font-black text-mono-amber bg-mono-amber/10 px-3 py-1 rounded-full uppercase tracking-wider border border-mono-amber/20">Long-term Vision 2030+</span>
+                <h4 class="text-lg font-bold text-white">로봇 지분을 조각 소유하는 미래 공유 연금망</h4>
+                <p class="text-xs text-slate-400 leading-relaxed max-w-3xl mx-auto">
+                    수억 원에 달하는 고가 장비를 개인이 빚내어 구매하지 않습니다. 기술자와 일반 대중이 투명한 안심 장부를 매개로 협업 장비의 지분을 소액 조각 투자해 공동 소유하고, 기계가 현장에서 벌어들이는 가동 생산성 마진을 평생 기술 로열티(연금)로 공평하게 나누어 갖는 상생 공유 복지 경제권을 실현합니다.
+                </p>
+            </div>
+        </section>
+
+        <!-- 최종 대국민 서약 CTA (T-Rive 연결 및 크리에이터 페이지 앵커링) -->
+        <section class="relative overflow-hidden rounded-3xl border border-mono-border bg-gradient-to-r from-slate-950 via-mono-card to-slate-950 p-8 md:p-12 text-center space-y-6">
+            <div class="absolute inset-0 bg-[radial-gradient(#1e293b_1px,transparent_1px)] [background-size:24px_24px] opacity-10 pointer-events-none"></div>
+            <div class="max-w-3xl mx-auto space-y-4">
+                <span class="text-xs font-black text-mono-purple bg-mono-purple/10 px-3 py-1 rounded-full uppercase tracking-widest border border-mono-purple/20">Built by T-Rive</span>
+                <h2 class="text-lg sm:text-xl md:text-2xl lg:text-3xl font-black tracking-tight text-white">MONO는 T-Rive가 만들어가는 첫 번째 플랫폼입니다.</h2>
+                <p class="text-slate-300 text-xs md:text-sm leading-relaxed">
+                    T-Rive는 사람들이 자신의 경험과 전문성을 바탕으로 성장할 수 있도록 돕습니다.<br>
+                    MONO는 그 첫 번째 시작으로, 기술자의 경험과 숙련이 자산이 되는 세상을 함께 만들어 갑니다.
+                </p>
+            </div>
+            
+            <div class="pt-2 flex flex-col sm:flex-row items-center justify-center gap-4">
+                <button onclick="openCreatorModal()" class="w-full sm:w-auto px-6 py-3 bg-mono-card border border-mono-cyan/30 text-mono-cyanLight hover:bg-mono-cyan/10 transition-all font-semibold rounded-xl text-xs sm:text-sm">
+                    T-Rive 크리에이터 페이지 바로가기 ➔
+                </button>
+                <button onclick="alert('대국민 노동 복지 지지 서명이 접수되었습니다. MONO의 상생에 연대해 주셔서 감사합니다!')" class="w-full sm:w-auto px-6 py-3 bg-mono-emerald hover:opacity-90 transition-all font-black text-slate-900 rounded-xl text-xs sm:text-sm">
+                    미래 노동 동맹 서명하기
+                </button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- T-Rive Creator Modal (HTML/JS 연결) -->
+    <div id="creatorModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4 transition-all duration-300">
+        <div class="bg-mono-card border border-mono-border rounded-3xl p-6 md:p-8 max-w-2xl w-full space-y-6 glow-cyan">
+            <div class="flex justify-between items-start border-b border-mono-border pb-4">
+                <div>
+                    <span class="text-[10px] font-black text-mono-purple uppercase">Creator Manifest</span>
+                    <h3 class="text-xl font-black text-white mt-1">T-Rive (티라이브) 철학과 비전</h3>
+                </div>
+                <button onclick="closeCreatorModal()" class="text-slate-400 hover:text-white text-lg"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            
+            <div class="space-y-4 text-xs md:text-sm text-slate-300 leading-relaxed">
+                <p>
+                    우리는 기술이 아무리 진화하더라도 세상의 모든 문명을 손끝으로 지어올리는 <strong>'인간의 땀방울과 육체 노동의 숭고함'</strong>만큼은 도태되어서는 안 된다고 확립합니다.
+                </p>
+                <p>
+                    T-Rive는 인공지능과 협업 하드웨어 인프라를 바탕으로 현장의 복잡성을 걷어내고, 근로자 개인이 오프라인에서 보낸 소중한 시간을 대안 신용과 글로벌 이주 패스포트로 고스란히 이관하는 <strong>상생 가치 분배 시스템</strong>을 설계합니다.
+                </p>
+                <p>
+                    그 가슴 떨리는 혁신의 첫 발자국이 바로 여기 서 있는 <strong>MONO</strong>입니다. 우리는 사람을 대체하는 기술이 아니라, 사람의 가치를 영구히 보존하고 지키는 위대한 테크의 길을 증명할 것입니다.
+                </p>
+            </div>
+
+            <div class="pt-4 border-t border-mono-border flex justify-between items-center text-xs text-slate-500">
+                <span>Leader & Engineer: T-Rive Core Team</span>
+                <span class="text-mono-cyanLight font-bold">WWW.MONO.DOJIUNG.COM</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 푸터 -->
+    <footer class="border-t border-mono-border bg-slate-950 py-12 px-4 text-center">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+            <span>© 2026 T-Rive Project Team. All Rights Reserved.</span>
+            <div class="flex space-x-4">
+                <span class="hover:text-slate-300 cursor-pointer">안전 관리 규정</span>
+                <span>|</span>
+                <span class="hover:text-slate-300 cursor-pointer">데이터 보안 연대</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- INTERACTIVE SCRIPT -->
+    <script>
+        // Creator Modal Open/Close Controls
+        function openCreatorModal() {
+            const modal = document.getElementById('creatorModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeCreatorModal() {
+            const modal = document.getElementById('creatorModal');
+            modal.classList.remove('flex');
+            modal.classList.add('hidden');
+        }
+
+        // GTM Track Switcher Data
+        const gtmData = {
+            track1: [
+                { phase: "1R 지역 예선", tag: "아이디어 관찰 심사", budget: "200만 원 지원", desc: "SaaS(기업용 업무관리 서비스)의 고도화된 정산 구조와 중처법 법적 의무 면책 가치를 부각하여 고득점으로 슈퍼패스를 달성했습니다." },
+                { phase: "2R 지역 오디션", tag: "MVP 필드 시범 시연", budget: "최대 1,000만 원", desc: "실제 당일 정산이 연동되는 모바일 프로토타입 시연 및 동네 인력사무소 상생 동맹 전략을 집중 배포하여 지역 무대를 압도합니다." },
+                { phase: "3R 권역 오디션", tag: "VC 비공개 IR 매칭", budget: "최대 1억 원", desc: "조각 투자를 활용한 Asset-Light(자산 경량화) 유통망을 증명하여 하드웨어 비용 리스크가 없는 스마트 렌탈 수익성을 공인받습니다." },
+                { phase: "4R 전국 파이널", tag: "대국민 경연 오디션", budget: "우승 최대 10억 원", desc: "청년들의 자립 지지 서약 및 외국인 정주 비자 가점(E-7-4) 발급 연동 데이터 가치를 선포하여 대국민 표심과 우승을 거머쥡니다." }
+            ],
+            track2: [
+                { phase: "S1. 법인 설립", tag: "Seed 5억 유치 목표", budget: "우승 직후 90일 이내", desc: "대회 우승 동력을 승계하여 Pre-Seed 라운드를 빠르게 종결시키고, 협력 인력사무소 10개 지점을 모노 정식 대리점으로 즉각 전환합니다." },
+                { phase: "S2. 베타 전개", tag: "Pre-A 20억 유치 목표", budget: "경기 남부/반도체 현장 타겟", desc: "B2B SaaS 기업 유료 구독 전환율 30%를 돌파하고, 100만 건의 근태 데이터를 달성하여 대안 CB 신용 평가 파일럿을 성공시킵니다." },
+                { phase: "S3. 전국 확장", tag: "Series A 100억 유치", budget: "전국 광역 유통망 완료", desc: "전국 17개 지자체와 스마트 노무 공무 행정 R&D 본사업을 체결하고, 전국 인력소 1,000개소를 모노 에이전시 파트너로 편입합니다." },
+                { phase: "S4. 글로벌 호환", tag: "Series B 300억 유치", budget: "글로벌 테크 노동 금융", desc: "한국-일본-호주 간의 글로벌 기술 여권(Tech-Passport)을 호환 적용하고, 장기 로봇 조각 펀딩 STO 수익 모델을 세계에 론칭합니다." }
+            ]
+        };
+
+        function switchTrack(trackType) {
+            const btn1 = document.getElementById('btn-track1');
+            const btn2 = document.getElementById('btn-track2');
+            const container = document.getElementById('gtm-container');
+
+            if (trackType === 'track1') {
+                btn1.className = "px-5 py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-mono-cyan text-white transition-all duration-300";
+                btn2.className = "px-5 py-2.5 rounded-xl font-bold text-xs sm:text-sm text-slate-400 hover:text-white transition-all duration-300";
+            } else {
+                btn2.className = "px-5 py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-mono-cyan text-white transition-all duration-300";
+                btn1.className = "px-5 py-2.5 rounded-xl font-bold text-xs sm:text-sm text-slate-400 hover:text-white transition-all duration-300";
+            }
+
+            const list = gtmData[trackType];
+            let html = "";
+            list.forEach((item, index) => {
+                html += `
+                    <div class="lg:col-span-3 bg-mono-card p-5 rounded-2xl border border-mono-border space-y-4 hover-scale flex flex-col justify-between">
+                        <div class="space-y-2">
+                            <div class="flex justify-between items-center">
+                                <span class="text-[10px] font-black text-mono-cyan bg-mono-cyan/10 px-2.5 py-0.5 rounded-full border border-mono-cyan/20">STAGE 0${index + 1}</span>
+                                <span class="text-[10px] text-slate-500 font-bold">${item.budget}</span>
+                            </div>
+                            <h3 class="text-base font-black text-white">${item.phase}</h3>
+                            <span class="text-[11px] text-mono-amber font-bold block">${item.tag}</span>
+                            <p class="text-xs text-slate-400 leading-relaxed pt-2">${item.desc}</p>
+                        </div>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        // Tech-Blue 로보틱스 모듈 장착 시뮬레이터
+        function dockRobot(moduleType, title) {
+            document.querySelectorAll('.robot-btn').forEach(btn => {
+                btn.className = "robot-btn px-4 py-2 rounded-xl text-xs font-extrabold border border-mono-border text-slate-400 hover:border-slate-500 hover:text-white transition-all";
+            });
+            event.currentTarget.className = "robot-btn px-4 py-2 rounded-xl text-xs font-extrabold border border-mono-cyan bg-mono-cyan text-white transition-all";
+
+            const tag = document.getElementById('visual-module-tag');
+            const modTitle = document.getElementById('module-title');
+            const modSW = document.getElementById('module-sw');
+            const modDesc = document.getElementById('module-desc');
+            const pBar = document.getElementById('dock-progress-bar');
+            const pTxt = document.getElementById('dock-progress-txt');
+
+            pBar.style.width = '0%';
+            pTxt.innerText = 'CALIBRATING...';
+            pTxt.className = 'text-[10px] font-bold text-mono-amber';
+
+            setTimeout(() => {
+                pBar.style.width = '100%';
+                pTxt.innerText = '100% ONLINE';
+                pTxt.className = 'text-[10px] font-bold text-mono-emerald';
+
+                tag.innerText = `${moduleType.toUpperCase()} ACTIVE`;
+                modTitle.innerText = title;
+
+                if (moduleType === 'welding') {
+                    modSW.innerText = "조선/용접 정밀 AI 알고리즘 OTA 탑재";
+                    modDesc.innerText = "[LOG] 조선소 곡블록 고소 용접 모드가 활성화되었습니다. 작업자의 숙련 데이터(용접 온도, 속도, 각도) 기반으로 궤적을 자율 보정하며 실시간 비전 열상 스캔을 감리합니다.";
+                } else if (moduleType === 'lifting') {
+                    modSW.innerText = "중량물 양중 인지 센서 S/W 업데이트";
+                    modDesc.innerText = "[LOG] 고하중 자재 양중 모드가 활성화되었습니다. LiDAR 센서 기반 장애물 회피 가동 및 지면 기울기 균형을 센싱하며, 최대 500kg의 중량 골조를 지정 구역으로 자율 이송합니다.";
+                } else {
+                    modSW.innerText = "유해가스 탐지 및 균열 스캔 AI 신경망 적용";
+                    modDesc.innerText = "[LOG] 밀폐 구역 안전 진단 모드가 활성화되었습니다. 실시간 황화수소 등 복합 가스를 정밀 측정하며 터널 벽체의 미세 크랙(Crack)을 딥러닝 영상 분석하여 무인 통제합니다.";
+                }
+            }, 350);
+        }
+
+        // 실시간 가치 산산 시뮬레이터 차트 및 로직 연동
+        let doughChart = null;
+        let barChartObj = null;
+
+        function calculateValuation() {
+            const mau = parseFloat(document.getElementById('slider-mau').value);
+            const fee = parseFloat(document.getElementById('slider-fee').value);
+            const robot = parseFloat(document.getElementById('slider-robot').value);
+
+            document.getElementById('slider-mau-val').innerText = `${mau} 만 명`;
+            document.getElementById('slider-fee-val').innerText = `${fee} 만 원`;
+            document.getElementById('slider-robot-val').innerText = `${(robot * 1000).toLocaleString()} 대`;
+
+            const saasRev = (mau * 10000) * (fee * 10000) * 12 * 0.05; // 5% 침투율 보수적 계산
+            const robotRev = (robot * 1000) * 20000000; // 대당 연 2천만 원
+            const totalArr = saasRev + robotRev;
+
+            const arrEok = Math.round(totalArr / 100000000);
+            document.getElementById('out-arr').innerText = `${arrEok.toLocaleString()} 억 원`;
+
+            const valEok = arrEok * 15; // 15배 테크 배수
+            document.getElementById('out-val').innerText = valEok >= 10000 ? `${(valEok / 10000).toFixed(2)} 조 원` : `${valEok.toLocaleString()} 억 원`;
+
+            const saasPct = Math.round((saasRev / totalArr) * 100);
+            const robotPct = 100 - saasPct;
+
+            if (doughChart) {
+                doughChart.data.datasets[0].data = [saasPct, robotPct];
+                doughChart.update();
+            }
+            if (barChartObj) {
+                barChartObj.data.datasets[0].data = [
+                    Math.round(arrEok * 0.15),
+                    Math.round(arrEok * 0.4),
+                    Math.round(arrEok * 0.7),
+                    arrEok
+                ];
+                barChartObj.update();
+            }
+        }
+
+        function initCharts() {
+            const ctxDoughnut = document.getElementById('doughnutChart').getContext('2d');
+            doughChart = new Chart(ctxDoughnut, {
+                type: 'doughnut',
+                data: {
+                    labels: ['SaaS 구독 매출 비중 (%)', '로보틱스 RaaS 비중 (%)'],
+                    datasets: [{
+                        data: [50, 50],
+                        backgroundColor: ['#0891b2', '#10b981'],
+                        borderColor: '#111827',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: { color: '#94a3b8', font: { size: 9, family: 'Pretendard' } }
+                        }
+                    }
+                }
+            });
+
+            const ctxBar = document.getElementById('barChart').getContext('2d');
+            barChartObj = new Chart(ctxBar, {
+                type: 'bar',
+                data: {
+                    labels: ['첫걸음 단계', '성장 단계', '안정 단계', '도약 단계'],
+                    datasets: [{
+                        label: '연도별 예상 ARR 매출 (단위: 억 원)',
+                        data: [100, 250, 500, 1000],
+                        backgroundColor: '#0ea5e9',
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            grid: { color: 'rgba(255,255,255,0.05)' },
+                            ticks: { color: '#94a3b8', font: { size: 9 } }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: { color: '#94a3b8', font: { size: 9, family: 'Pretendard' } }
+                        }
+                    },
+                    plugins: { legend: { display: false } }
+                }
+            });
+
+            calculateValuation();
+        }
+
+        window.onload = function() {
+            switchTrack('track1');
+            initCharts();
+        };
+    </script>
+</body>
+</html>
