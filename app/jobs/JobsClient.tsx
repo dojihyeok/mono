@@ -1,15 +1,17 @@
 'use client';
 
 import { useState, useMemo, useEffect } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Zap, ShieldCheck, CheckCircle2, ChevronRight, X } from 'lucide-react';
+import { Zap, ShieldCheck, CheckCircle2, ChevronRight, X, MapPin, Clock, Calendar, Shield, CreditCard, Award, HelpCircle } from 'lucide-react';
 import JobCard from '@/components/JobCard';
 import JobCardSkeleton from '@/components/JobCard/JobCardSkeleton';
 import JobFilter from '@/components/JobFilter/JobFilter';
 import OccupationGrid from '@/components/OccupationGrid/OccupationGrid';
 import JobMap from '@/components/JobMap/JobMap';
 import styles from './page.module.css';
+import { useDemo } from '@/context/DemoContext';
+import { useUI } from '@/context/UIContext';
 
 interface Job {
     id: string | number;
@@ -22,6 +24,10 @@ interface Job {
     category: string;
     isUrgent?: boolean;
     time?: string;
+    managerPhone?: string;
+    supplies?: string;
+    payoutDate?: string;
+    needSafety?: boolean;
 }
 
 interface JobsClientProps {
@@ -30,8 +36,64 @@ interface JobsClientProps {
 
 type ViewMode = 'occupation' | 'location' | 'global' | 'details';
 
+// Safe fallback job list if DB not seeded
+const LOCAL_MOCK_JOBS: Job[] = [
+    {
+        id: 'job-1',
+        title: '서초 반포 써밋팰리스 복합 신축현장',
+        company: '대우건설',
+        pay: '일당 235,000원',
+        dailyWage: 235000,
+        location: '서울 서초구 반포동',
+        specialty: '뼈대 튼튼 형틀목수',
+        category: '목공',
+        isUrgent: true,
+        time: '07:00 ~ 17:00',
+        managerPhone: '010-9876-5432',
+        supplies: '안전모, 안전화, 각반, 목공 개인 수공구',
+        payoutDate: '근무 당일 18시 이내 지급',
+        needSafety: true
+    },
+    {
+        id: 'job-2',
+        title: '청담 파크자이 현장 형틀목수',
+        company: 'GS건설(주)',
+        pay: '일당 240,000원',
+        dailyWage: 240000,
+        location: '서울 강남구 청담동',
+        specialty: '뼈대 튼튼 형틀목수',
+        category: '목공',
+        isUrgent: false,
+        time: '08:00 ~ 17:00',
+        managerPhone: '010-8888-9999',
+        supplies: '안전 장구류 일체 제공, 목공 벨트',
+        payoutDate: '익일 오전 10시 지급',
+        needSafety: true
+    },
+    {
+        id: 'job-3',
+        title: '여의도 파크원 타워 3차 긴급 형틀지원',
+        company: '포스코이앤씨',
+        pay: '일당 255,000원',
+        dailyWage: 255000,
+        location: '서울 영등포구 여의도동',
+        specialty: '뼈대 튼튼 형틀목수',
+        category: '목공',
+        isUrgent: true,
+        time: '07:30 ~ 18:00',
+        managerPhone: '010-7777-5555',
+        supplies: '안전모 및 개인 조각 도구',
+        payoutDate: '근무 익일 12시 지급',
+        needSafety: true
+    }
+];
+
 export default function JobsClient({ initialJobs }: JobsClientProps) {
     const searchParams = useSearchParams();
+    const router = useRouter();
+    const { state, applyJob, updateProfile } = useDemo();
+    const { addToast } = useUI();
+
     const isUrgentParam = searchParams ? searchParams.get('filter') === 'urgent' : false;
     const [viewMode, setViewMode] = useState<ViewMode>(isUrgentParam ? 'details' : 'occupation');
     const [category, setCategory] = useState('전체');
@@ -40,7 +102,30 @@ export default function JobsClient({ initialJobs }: JobsClientProps) {
     const [searchTerm, setSearchTerm] = useState('');
     const [isFiltering, setIsFiltering] = useState(false);
     const [urgentOnly, setUrgentOnly] = useState(isUrgentParam);
-    const [appliedId, setAppliedId] = useState<string | null>(null);
+    const [successModalOpen, setSuccessModalOpen] = useState(false);
+    
+    // Bottom sheet state
+    const [selectedJob, setSelectedJob] = useState<Job | null>(null);
+
+    const mergedJobs = useMemo(() => {
+        const dbJobs = initialJobs.map(job => ({
+            ...job,
+            pay: job.pay || `일당 ${job.dailyWage?.toLocaleString()}원`,
+            dailyWage: job.dailyWage || 220000,
+            time: job.time || '07:00 ~ 17:00',
+            supplies: job.supplies || '개인 안전장구',
+            payoutDate: job.payoutDate || '당일 정산',
+            needSafety: job.needSafety ?? true
+        }));
+        // Merge with our demo-specific local mock jobs to guarantee data availability
+        const merged = [...LOCAL_MOCK_JOBS];
+        dbJobs.forEach(dbJob => {
+            if (!merged.some(m => m.id === dbJob.id || m.title === dbJob.title)) {
+                merged.push(dbJob);
+            }
+        });
+        return merged;
+    }, [initialJobs]);
 
     useEffect(() => {
         if (!searchParams) return;
@@ -58,7 +143,6 @@ export default function JobsClient({ initialJobs }: JobsClientProps) {
         setCategory(cat);
         setOccupation(occ);
         setRegion(reg);
-        
         setTimeout(() => setIsFiltering(false), 350);
     };
 
@@ -67,23 +151,19 @@ export default function JobsClient({ initialJobs }: JobsClientProps) {
         setOccupation(specialty);
         setCategory('전체');
         setViewMode('details');
-        
         setTimeout(() => setIsFiltering(false), 450);
     };
 
-    const handleApply = (id: string) => {
-        setAppliedId(id);
-        localStorage.setItem('mono_demo_stage', 'APPLIED');
-        window.dispatchEvent(new Event('storage'));
+    const handleApply = (jobId: string) => {
+        applyJob(jobId);
+        setSelectedJob(null);
+        setSuccessModalOpen(true);
     };
 
     const filteredJobs = useMemo(() => {
-        return initialJobs.filter((job) => {
+        return mergedJobs.filter((job) => {
             const matchesCat = category === '전체' || job.category === category;
-            
-            const matchesOcc = occupation === '전체' || 
-                             job.specialty.includes(occupation);
-            
+            const matchesOcc = occupation === '전체' || job.specialty.includes(occupation);
             const matchesReg = region === '전체' || job.location.includes(region);
             
             const matchesSearch = searchTerm === '' || 
@@ -91,23 +171,82 @@ export default function JobsClient({ initialJobs }: JobsClientProps) {
                                  job.specialty.toLowerCase().includes(searchTerm.toLowerCase()) ||
                                  job.location.toLowerCase().includes(searchTerm.toLowerCase());
             
-            const matchesUrgent = !urgentOnly || job.isUrgent || job.time === 'ASAP' || (job.time ? job.time.includes('즉시') : false);
+            const matchesUrgent = !urgentOnly || job.isUrgent || (job.time ? job.time.includes('즉시') : false);
             
             return matchesCat && matchesOcc && matchesReg && matchesSearch && matchesUrgent;
         });
-    }, [initialJobs, category, occupation, region, searchTerm, urgentOnly]);
+    }, [mergedJobs, category, occupation, region, searchTerm, urgentOnly]);
+
+    // Check application button state and detail CTA constraints
+    const getCtaState = (job: Job) => {
+        const hasApplied = state.jobApplication.appliedJobId === job.id.toString();
+        const profilePercent = getProfilePercent();
+
+        if (hasApplied) {
+            return {
+                text: '신청 결과 기다리는 중',
+                action: () => {},
+                disabled: true,
+                style: styles.ctaDisabled
+            };
+        }
+
+        // 1. Safety Education Certificate missing
+        if (job.needSafety && !state.profile.safetyComplete) {
+            return {
+                text: '안전 확인하기',
+                action: () => {
+                    addToast('⚠️ 필수 서류 누락: 기초안전보건교육이수증 등록으로 연결합니다.', 'warning');
+                    router.push('/myinfo');
+                },
+                disabled: false,
+                style: styles.ctaAlert
+            };
+        }
+
+        // 2. Missing Account or Profile Complete
+        if (profilePercent < 100) {
+            return {
+                text: '필요한 정보 채우기',
+                action: () => {
+                    addToast('⚠️ 계좌 정보 또는 신분 확인이 필요합니다.', 'warning');
+                    router.push('/myinfo');
+                },
+                disabled: false,
+                style: styles.ctaWarning
+            };
+        }
+
+        // 3. Regular Apply
+        return {
+            text: '일하러 가기 신청',
+            action: () => handleApply(job.id.toString()),
+            disabled: false,
+            style: styles.ctaPrimary
+        };
+    };
+
+    const getProfilePercent = () => {
+        let count = 0;
+        if (state.profile.name) count += 20;
+        if (state.profile.regions.length > 0) count += 20;
+        if (state.profile.jobs.length > 0) count += 20;
+        if (state.profile.safetyComplete) count += 20;
+        if (state.profile.accountNumber) count += 20;
+        return count;
+    };
 
     return (
         <div className={styles.jobsContent}>
             {/* Application Success Modal */}
             <AnimatePresence>
-                {appliedId && (
+                {successModalOpen && (
                     <motion.div 
                         className={styles.modalOverlay}
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        onClick={() => setAppliedId(null)}
+                        onClick={() => setSuccessModalOpen(false)}
                     >
                         <motion.div 
                             className={styles.successModal}
@@ -116,22 +255,112 @@ export default function JobsClient({ initialJobs }: JobsClientProps) {
                             exit={{ scale: 0.9, y: 20 }}
                             onClick={e => e.stopPropagation()}
                         >
-                            <button className={styles.closeModal} onClick={() => setAppliedId(null)}><X size={20} /></button>
+                            <button className={styles.closeModal} onClick={() => setSuccessModalOpen(false)}><X size={20} /></button>
                             <div className={styles.successIcon}>
-                                <CheckCircle2 size={64} color="var(--primary)" />
+                                <CheckCircle2 size={64} color="#2563eb" />
                             </div>
-                            <h2>신청이 완료됐어요.</h2>
-                            <p>회사에서 신청 내역을 확인하고 있습니다.</p>
+                            <h2>일하러 가기 신청 완료</h2>
+                            <p>회사에서 이력서와 기술카드를 검수 중입니다.</p>
                             <div className={styles.nextStep}>
                                 <span>다음 예상 단계</span>
                                 <div className={styles.stepInfo}>
                                     <strong>회사 확인 및 확정 안내</strong>
-                                    <p>회사에서 확인하면 바로 알려드릴게요.</p>
+                                    <p>승인 결과는 홈 화면과 카톡 알림으로 신속하게 알려드려요.</p>
                                 </div>
                             </div>
-                            <button className={styles.confirmBtn} onClick={() => setAppliedId(null)}>확인</button>
+                            <button className={styles.confirmBtn} onClick={() => setSuccessModalOpen(false)}>확인</button>
                         </motion.div>
                     </motion.div>
+                )}
+            </AnimatePresence>
+
+            {/* Job Detail Bottom Sheet */}
+            <AnimatePresence>
+                {selectedJob && (
+                    <div className={styles.bottomSheetOverlay} onClick={() => setSelectedJob(null)}>
+                        <motion.div 
+                            className={styles.bottomSheet}
+                            initial={{ y: '100%' }}
+                            animate={{ y: 0 }}
+                            exit={{ y: '100%' }}
+                            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+                            onClick={e => e.stopPropagation()}
+                        >
+                            <div className={styles.sheetHeader}>
+                                <div className={styles.sheetHandle}></div>
+                                <button className={styles.sheetClose} onClick={() => setSelectedJob(null)}><X size={20} /></button>
+                            </div>
+
+                            <div className={styles.sheetBody}>
+                                <div className={styles.sheetTitleArea}>
+                                    <span className={styles.sheetCompany}>{selectedJob.company}</span>
+                                    <h2>{selectedJob.title}</h2>
+                                    <div className={styles.sheetPrice}>{selectedJob.pay}</div>
+                                </div>
+
+                                <div className={styles.detailGrid}>
+                                    <div className={styles.detailItem}>
+                                        <MapPin size={18} className={styles.detailIcon} />
+                                        <div>
+                                            <span>근무지</span>
+                                            <strong>{selectedJob.location}</strong>
+                                        </div>
+                                    </div>
+                                    <div className={styles.detailItem}>
+                                        <Clock size={18} className={styles.detailIcon} />
+                                        <div>
+                                            <span>근무 시간</span>
+                                            <strong>{selectedJob.time}</strong>
+                                        </div>
+                                    </div>
+                                    <div className={styles.detailItem}>
+                                        <CreditCard size={18} className={styles.detailIcon} />
+                                        <div>
+                                            <span>정산 및 지급 예정일</span>
+                                            <strong>{selectedJob.payoutDate}</strong>
+                                        </div>
+                                    </div>
+                                    <div className={styles.detailItem}>
+                                        <Shield size={18} className={styles.detailIcon} />
+                                        <div>
+                                            <span>보안 및 보증</span>
+                                            <strong className="text-emerald-500">MONO 에스크로 안전보관 보장</strong>
+                                        </div>
+                                    </div>
+                                    <div className={styles.detailItemFull}>
+                                        <Award size={18} className={styles.detailIcon} />
+                                        <div>
+                                            <span>준비물 및 자격요건</span>
+                                            <strong>{selectedJob.supplies}</strong>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className={styles.sheetMapArea}>
+                                    {/* Mock Map View */}
+                                    <div className={styles.mockMap}>
+                                        <MapPin size={24} color="#ff453a" className="animate-bounce" />
+                                        <span>지도 위치: {selectedJob.location}</span>
+                                    </div>
+                                </div>
+
+                                <div className={styles.sheetActions}>
+                                    {(() => {
+                                        const cta = getCtaState(selectedJob);
+                                        return (
+                                            <button 
+                                                onClick={cta.action} 
+                                                disabled={cta.disabled}
+                                                className={`${styles.sheetCta} ${cta.style}`}
+                                            >
+                                                {cta.text}
+                                            </button>
+                                        );
+                                    })()}
+                                </div>
+                            </div>
+                        </motion.div>
+                    </div>
                 )}
             </AnimatePresence>
 
@@ -176,60 +405,41 @@ export default function JobsClient({ initialJobs }: JobsClientProps) {
                     <div className={styles.aiMatchHeader}>
                         <h2 className={styles.aiMatchTitle}>
                             <Zap size={20} fill="#FF6B00" color="#FF6B00" />
-                            전문가님을 위해 준비한 추천 현장
+                            {state.profile.name} 반장님 추천 일자리
                         </h2>
                     </div>
                     
                     <div className={styles.aiRecommendGrid}>
-                        {([
-                            {
-                                id: 'rec-1',
-                                title: '평택 삼성전자 P4 신축 배관공',
-                                company: '삼성엔지니어링',
-                                pay: '일당 21만원',
-                                match: '98%',
-                                reason: '전문가님의 평택 P4 경력 및 배관 숙련도가 이 현장의 급수 배관 공정에 완벽하게 연결됩니다.'
-                            },
-                            {
-                                id: 'rec-2',
-                                title: '용인 반도체 클러스터 플랜트 팀장',
-                                company: 'SK에코플랜트',
-                                pay: '월 650만원+',
-                                match: '94%',
-                                reason: '안전 점수 상위 3% 기록이 플랜트 팀장 선임 기준을 충족합니다.'
-                            },
-                            {
-                                id: 'rec-3',
-                                title: '[해외] 사우디 네옴시티 배관 관리자',
-                                company: '현대건설(해외)',
-                                pay: '시급 $42 / hr',
-                                match: '91%',
-                                reason: '모노 AI가 분석한 글로벌 이력 데이터에 근거하여 고단가 프로젝트 매칭을 추천합니다.'
-                            }
-                        ] as const).map((rec, index) => (
+                        {filteredJobs.slice(0, 3).map((job, index) => (
                             <motion.div 
-                                key={rec.id} 
+                                key={job.id} 
                                 className={styles.recommendCard}
                                 initial={{ opacity: 0, x: -20 }}
                                 animate={{ opacity: 1, x: 0 }}
                                 transition={{ delay: index * 0.1 }}
+                                onClick={() => setSelectedJob(job)}
                             >
-                                <div className={styles.matchBadge}>{rec.match} 연결</div>
+                                <div className={styles.matchBadge}>98% 일치</div>
                                 <div className={styles.passportConnected}>
-                                    <ShieldCheck size={10} />
-                                    경력 데이터 연동됨
+                                    <ShieldCheck size={10} style={{ marginRight: '2px' }} />
+                                    데이터 공식 확인됨
                                 </div>
-                                <span className={styles.recLabel}>맞춤형 현장</span>
-                                <h3 className={styles.recTitle}>{rec.title}</h3>
+                                <span className={styles.recLabel}>{job.company}</span>
+                                <h3 className={styles.recTitle}>{job.title}</h3>
                                 <div className={styles.recMeta}>
-                                    <span>🏢 {rec.company}</span>
-                                    <span>💰 {rec.pay}</span>
+                                    <span>💰 {job.pay}</span>
                                 </div>
                                 <p className={styles.aiReasoning}>
-                                    <strong>맞춤 분석 결과:</strong> {rec.reason}
+                                    <strong>매칭 이유:</strong> 반장님의 {state.profile.jobs[0]} 및 {state.profile.experience.split(' ')[0]} 경력이 해당 {job.category} 공정에 완벽히 부합합니다.
                                 </p>
-                                <button className={styles.recApply} onClick={() => handleApply(rec.id)}>
-                                    즉시 지원하기
+                                <button 
+                                    className={styles.recApply} 
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        setSelectedJob(job);
+                                    }}
+                                >
+                                    상세 보기 & 신청
                                 </button>
                             </motion.div>
                         ))}
@@ -300,8 +510,9 @@ export default function JobsClient({ initialJobs }: JobsClientProps) {
                                         hidden: { opacity: 0, y: 10 },
                                         visible: { opacity: 1, y: 0 }
                                     }}
+                                    onClick={() => setSelectedJob(job)}
                                 >
-                                    <JobCard job={job} onApply={() => handleApply(job.id.toString())} />
+                                    <JobCard job={job} onApply={() => {}} />
                                 </motion.div>
                             ))
                         ) : (
@@ -323,7 +534,10 @@ export default function JobsClient({ initialJobs }: JobsClientProps) {
                 >
                     <JobMap 
                         jobs={filteredJobs} 
-                        onSelectJob={(id) => handleApply(id)} 
+                        onSelectJob={(id) => {
+                            const job = mergedJobs.find(m => m.id.toString() === id.toString());
+                            if (job) setSelectedJob(job);
+                        }} 
                     />
                     
                     <div className={styles.regionList}>
@@ -352,11 +566,11 @@ export default function JobsClient({ initialJobs }: JobsClientProps) {
                 <div className={styles.globalTeaser}>
                     <div className={styles.globalBanner}>
                         <div className={styles.bannerContent}>
-                            <div className={styles.premiumBadge}>해외 맞춤형 연결</div>
+                            <div className={styles.premiumBadge}>해외 맞춤형 연결 준비중</div>
                             <h2>글로벌 최고급 일자리</h2>
-                            <p>사우디 네옴시티, 호주 수소 플랜트 등 전 세계 대형 프로젝트가 당신을 기다립니다.</p>
-                            <button className={styles.globalCta} onClick={() => window.location.href = '/matching'}>
-                                프로젝트 탐색하기
+                            <p>사우디 네옴시티, 호주 수소 플랜트 등 전 세계 대형 프로젝트 협약 준비 중입니다.</p>
+                            <button className={styles.globalCta} onClick={() => addToast('🌍 글로벌 파견 서비스는 준비 중입니다.', 'info')}>
+                                공식 협의 사항 보기
                                 <span style={{ marginLeft: '8px' }}>→</span>
                             </button>
                         </div>

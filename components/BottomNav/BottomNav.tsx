@@ -16,8 +16,8 @@ const NAV_ITEMS = [
     { label: '홈', icon: Home, href: '/' },
     { label: '일자리', icon: Briefcase, href: '/jobs' },
     { label: '근무기록', icon: CalendarCheck, href: '/attendance' },
-    { label: '받을 돈', icon: Wallet, href: '/settlement' },
-    { label: '내 정보', icon: UserCircle, href: '/career' }
+    { label: 'MONO Wallet', icon: Wallet, href: '/wallet' },
+    { label: '내 정보', icon: UserCircle, href: '/myinfo' }
 ];
 
 export default function BottomNav() {

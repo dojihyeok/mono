@@ -4,6 +4,7 @@ import "./globals.css";
 import AppShell from "@/components/AppShell";
 import { AuthProvider } from "@/context/AuthContext";
 import { UIProvider } from "@/context/UIContext";
+import { DemoProvider } from "@/context/DemoContext";
 import SplashScreen from "@/components/UI/SplashScreen";
 
 const inter = Inter({
@@ -62,10 +63,12 @@ export default function RootLayout({
         <div className={inter.className}>
           <AuthProvider>
             <UIProvider>
-              <SplashScreen />
-              <AppShell>
-                {children}
-              </AppShell>
+              <DemoProvider>
+                <SplashScreen />
+                <AppShell>
+                  {children}
+                </AppShell>
+              </DemoProvider>
             </UIProvider>
           </AuthProvider>
         </div>
