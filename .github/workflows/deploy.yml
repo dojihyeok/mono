@@ -39,6 +39,7 @@ jobs:
         run: |
           # 3004 포트를 사용 중인 프로세스만 종료
           sudo fuser -k 3004/tcp || true
+          sleep 2
           
           # mono 프로세스만 삭제 후 재시작
           pm2 delete mono || true
