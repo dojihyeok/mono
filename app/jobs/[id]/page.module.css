@@ -456,3 +456,97 @@
     border-radius: 4px;
     font-family: monospace;
 }
+
+/* ── Success Modal ── */
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+    z-index: 3000;
+    display: flex;
+    align-items: flex-end;
+}
+
+.successModal {
+    width: 100%;
+    max-width: 480px;
+    margin: 0 auto;
+    background: var(--surface);
+    border-top-left-radius: var(--radius-xl);
+    border-top-right-radius: var(--radius-xl);
+    padding: 3rem 2rem 4rem;
+    text-align: center;
+}
+
+.successIcon {
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: center;
+}
+
+.successModal h2 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+}
+
+.successModal p {
+    font-size: 1rem;
+    margin-bottom: 2rem;
+    color: var(--text-secondary);
+}
+
+.nextStep {
+    background: var(--surface-raised);
+    padding: 1.5rem;
+    border-radius: var(--radius-lg);
+    text-align: left;
+    margin-bottom: 2.5rem;
+}
+
+.nextStep span {
+    font-size: 0.8rem;
+    color: var(--text-tertiary);
+    font-weight: 800;
+}
+
+.stepInfo strong {
+    display: block;
+    font-size: 1.05rem;
+    color: var(--text-primary);
+    margin-top: 0.5rem;
+    margin-bottom: 0.25rem;
+}
+
+.stepInfo p {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+.confirmBtn {
+    width: 100%;
+    padding: 1.25rem;
+    background: var(--text-primary);
+    color: var(--background);
+    border: none;
+    border-radius: 1.25rem;
+    font-weight: 900;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.closeModal {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    background: none;
+    border: none;
+    color: var(--text-tertiary);
+    cursor: pointer;
+}
+

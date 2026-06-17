@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { 
@@ -19,8 +19,10 @@ import {
     Navigation,
     Calendar,
     ChevronRight,
-    Trophy
+    Trophy,
+    X
 } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import styles from './page.module.css';
 import GlassCard from '@/components/UI/GlassCard';
 import Button from '@/components/UI/Button';
@@ -44,12 +46,17 @@ interface JobDetailClientProps {
 
 export default function JobDetailClient({ job }: JobDetailClientProps) {
     const router = useRouter();
+    const [showSuccessModal, setShowSuccessModal] = useState(false);
 
     const handleApply = () => {
-        if (confirm('이 현장에 즉시 참여하시겠습니까? 확정 시 현장 관리자에게 전문가님의 위치와 경력 자산 프로필이 전송됩니다.')) {
-            // Simulate successful registration
-            router.push('/attendance');
-        }
+        localStorage.setItem('mono_demo_stage', 'APPLIED');
+        window.dispatchEvent(new Event('storage'));
+        setShowSuccessModal(true);
+    };
+
+    const handleConfirm = () => {
+        setShowSuccessModal(false);
+        router.push('/');
     };
 
     return (
@@ -78,7 +85,7 @@ export default function JobDetailClient({ job }: JobDetailClientProps) {
                 </div>
                 <h1 className={styles.title}>{job.title}</h1>
                 <div className={styles.wageBox}>
-                    <span className={styles.wageLabel}>하루 일당 (즉시 정산)</span>
+                    <span className={styles.wageLabel}>하루 일당 (안전하게 확인 중)</span>
                     <div className={styles.wageValue}>
                         <span className={styles.currency}>₩</span>
                         <strong>{job.dailyWage?.toLocaleString() || job.pay}</strong>
@@ -93,12 +100,12 @@ export default function JobDetailClient({ job }: JobDetailClientProps) {
                     <GlassCard className={styles.detailCard}>
                         <div className={styles.gridInfo}>
                             <div className={styles.infoItem}>
-                                <div className={styles.infoIcon}><MapPin size={20} color="#FF6B00" /></div>
+                                <div className={styles.infoIcon}><MapPin size={20} color="#3182f6" /></div>
                                 <div className={styles.infoLabel}>작업 위치</div>
                                 <div className={styles.infoVal}>{job.location}</div>
                             </div>
                             <div className={styles.infoItem}>
-                                <div className={styles.infoIcon}><Clock size={20} color="#FF6B00" /></div>
+                                <div className={styles.infoIcon}><Clock size={20} color="#3182f6" /></div>
                                 <div className={styles.infoLabel}>집합 시간</div>
                                 <div className={styles.infoVal}>{job.time || '07:30 (협의 가능)'}</div>
                             </div>
@@ -108,30 +115,30 @@ export default function JobDetailClient({ job }: JobDetailClientProps) {
                                 <div className={styles.infoVal}>{job.specialty}</div>
                             </div>
                             <div className={styles.infoItem}>
-                                <div className={styles.infoIcon}><ShieldCheck size={20} color="#22C55E" /></div>
+                                <div className={styles.infoIcon}><ShieldCheck size={20} color="#30d158" /></div>
                                 <div className={styles.infoLabel}>인증 상태</div>
-                                <div className={styles.infoVal}>모노 우수 전문가 인증 업체</div>
+                                <div className={styles.infoVal}>확인된 회사예요</div>
                             </div>
                         </div>
                     </GlassCard>
 
-                    {/* AI Site Foreman (AI 현장 반장) Section */}
-                    <div className={styles.aiForemanSection}>
+                    {/* AI Site Foreman (AI 현장 반장) -> 현장 도움말 Section */}
+                    <div className={styles.aiForemanSection} style={{ border: '1px solid rgba(49, 130, 246, 0.2)' }}>
                         <div className={styles.aiForemanHeader}>
                             <div className={styles.aiForemanIdentity}>
-                                <div className={styles.aiAvatar}>
-                                    <div className={styles.aiCore} />
-                                    <Zap size={14} fill="#fff" />
+                                <div className={styles.aiAvatar} style={{ borderColor: '#3182f6' }}>
+                                    <div className={styles.aiCore} style={{ borderColor: '#3182f6' }} />
+                                    <Zap size={14} fill="#fff" color="#3182f6" />
                                 </div>
                                 <div className={styles.aiForemanTitle}>
-                                    <h4>AI 현장 반장 : MONO 브리핑</h4>
-                                    <div className={styles.aiStatus}>
-                                        <div className={styles.pulseDot} />
-                                        실시간 데이터 분석 중
+                                    <h4>현장 도움말</h4>
+                                    <div className={styles.aiStatus} style={{ color: '#3182f6' }}>
+                                        <div className={styles.pulseDot} style={{ background: '#3182f6' }} />
+                                        궁금한 현장 용어나 준비물을 쉽게 알려드릴게요
                                     </div>
                                 </div>
                             </div>
-                            <div className={styles.aiBadge}>PREDICTIVE CORE v4</div>
+                            <div className={styles.aiBadge} style={{ borderColor: '#3182f6', color: '#3182f6' }}>MONO 도움말</div>
                         </div>
 
                         <div className={styles.aiBriefingGrid}>
@@ -148,7 +155,7 @@ export default function JobDetailClient({ job }: JobDetailClientProps) {
                             </div>
                             <div className={styles.briefingItem}>
                                 <div className={styles.briefingLabel}>
-                                    <Clock size={14} color="#3b82f6" />
+                                    <Clock size={14} color="#3182f6" />
                                     <span>작업 효율 팁</span>
                                 </div>
                                 <p className={styles.briefingText}>
@@ -158,10 +165,10 @@ export default function JobDetailClient({ job }: JobDetailClientProps) {
                             </div>
                         </div>
                         
-                        <div className={styles.aiPredictionBanner}>
+                        <div className={styles.aiPredictionBanner} style={{ background: 'rgba(49, 130, 246, 0.05)', borderColor: 'rgba(49, 130, 246, 0.1)' }}>
                             <div className={styles.predictionIcon}>⚡</div>
                             <div className={styles.predictionContent}>
-                                <strong>AI 경력 예측 :</strong> 이 현장 완료 시 <strong>&quot;중량물 핸들링 숙련도&quot;</strong> 지수가 12포인트 상승할 것으로 분석됩니다.
+                                <strong>내 기술카드 :</strong> 이 현장 완료 시 근무 이력이 적립되어 <strong>내 기술 신뢰도</strong>가 상승합니다.
                             </div>
                         </div>
                     </div>
@@ -179,25 +186,25 @@ export default function JobDetailClient({ job }: JobDetailClientProps) {
                         <h3 className={styles.subTitle}>참여 전 체크리스트</h3>
                         <ul className={styles.checklist}>
                             <li>
-                                <CheckCircle2 size={16} color="#22C55E" />
-                                <span>본인만의 안전 장비(안전모, 안전화 등) 지참 필수</span>
+                                <CheckCircle2 size={16} color="#30d158" />
+                                <span>본인만의 보호구(안전모, 안전화 등) 지참 필수</span>
                             </li>
                             <li>
-                                <CheckCircle2 size={16} color="#22C55E" />
-                                <span>작업 완료 후 &apos;전문가 경력 지수&apos; 0.5% 추가 적립 예정</span>
+                                <CheckCircle2 size={16} color="#30d158" />
+                                <span>작업 완료 후 내 기술 신뢰도 지수 추가 적립 예정</span>
                             </li>
                             <li>
                                 <AlertTriangle size={16} color="#ef4444" />
-                                <span>노쇼(No-Show) 시 향후 30일간 작업 매칭이 제한될 수 있습니다.</span>
+                                <span>신청 승인 후 노쇼(No-Show) 시 향후 30일간 작업 매칭이 제한될 수 있습니다.</span>
                             </li>
                         </ul>
                     </section>
                 </div>
 
-                {/* Sticky Action Sidebar (Mobile bottom bar on phone) */}
+                {/* Sidebar */}
                 <div className={styles.sidebar}>
                     <GlassCard className={styles.summaryCard}>
-                        <div className={styles.summaryHeader}>
+                        <div className={styles.summaryHeader} style={{ color: '#ff6b00' }}>
                             <Users size={18} />
                             <span>현재 3명 모집 중 (2명 참여 중)</span>
                         </div>
@@ -212,14 +219,47 @@ export default function JobDetailClient({ job }: JobDetailClientProps) {
                             className={styles.mainApplyBtn}
                             onClick={handleApply}
                             fullWidth
+                            style={{ background: '#3182f6', color: '#fff' }}
                         >
-                            <Zap size={18} />
-                            현장 즉시 참여 확정하기
+                            일하러 가기 신청
                         </Button>
-                        <p className={styles.applyNote}>* 확정 시 모바일 배차권이 즉시 발급됩니다.</p>
+                        <p className={styles.applyNote}>* 신청 완료 후 회사에서 승인하면 즉시 안내해 드립니다.</p>
                     </GlassCard>
                 </div>
             </div>
+
+            {/* Application Success Modal */}
+            <AnimatePresence>
+                {showSuccessModal && (
+                    <div className={styles.modalOverlay} onClick={handleConfirm}>
+                        <motion.div 
+                            className={styles.successModal}
+                            initial={{ scale: 0.9, y: 20 }}
+                            animate={{ scale: 1, y: 0 }}
+                            exit={{ scale: 0.9, y: 20 }}
+                            onClick={e => e.stopPropagation()}
+                        >
+                            <button className={styles.closeModal} onClick={handleConfirm}><X size={20} /></button>
+                            <div className={styles.successIcon}>
+                                <CheckCircle2 size={64} color="#3182f6" />
+                            </div>
+                            <h2>신청이 완료됐어요.</h2>
+                            <p style={{ margin: '8px 0 24px 0' }}>회사에서 확인하면 바로 알려드릴게요.</p>
+                            
+                            <div className={styles.nextStep}>
+                                <span>신청 정보 요약</span>
+                                <div className={styles.stepInfo}>
+                                    <strong>{job.title}</strong>
+                                    <p>일할 날짜: 내일 (오전 07:30)</p>
+                                    <p>받을 예정 금액: ₩ {job.dailyWage?.toLocaleString() || job.pay}</p>
+                                    <p style={{ marginTop: '8px', color: '#ff6b00', fontWeight: 'bold' }}>회사 승인 대기 중 (약 5분 이내 처리)</p>
+                                </div>
+                            </div>
+                            <button className={styles.confirmBtn} onClick={handleConfirm} style={{ background: '#3182f6', color: '#fff' }}>확인</button>
+                        </motion.div>
+                    </div>
+                )}
+            </AnimatePresence>
         </main>
     );
 }

@@ -6,7 +6,7 @@ import { usePathname } from 'next/navigation';
 import { 
     Home, 
     Briefcase, 
-    Users, 
+    CalendarCheck, 
     Wallet,
     UserCircle
 } from 'lucide-react';
@@ -14,9 +14,9 @@ import styles from './BottomNav.module.css';
 
 const NAV_ITEMS = [
     { label: '홈', icon: Home, href: '/' },
-    { label: '현장매칭', icon: Briefcase, href: '/jobs' },
-    { label: '커뮤니티', icon: Users, href: '/foreman' },
-    { label: '자산', icon: Wallet, href: '/settlement' },
+    { label: '일자리', icon: Briefcase, href: '/jobs' },
+    { label: '근무기록', icon: CalendarCheck, href: '/attendance' },
+    { label: '받을 돈', icon: Wallet, href: '/settlement' },
     { label: '내 정보', icon: UserCircle, href: '/career' }
 ];
 

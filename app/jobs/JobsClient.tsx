@@ -73,7 +73,8 @@ export default function JobsClient({ initialJobs }: JobsClientProps) {
 
     const handleApply = (id: string) => {
         setAppliedId(id);
-        // In a real app, this would be an API call
+        localStorage.setItem('mono_demo_stage', 'APPLIED');
+        window.dispatchEvent(new Event('storage'));
     };
 
     const filteredJobs = useMemo(() => {
@@ -119,13 +120,13 @@ export default function JobsClient({ initialJobs }: JobsClientProps) {
                             <div className={styles.successIcon}>
                                 <CheckCircle2 size={64} color="var(--primary)" />
                             </div>
-                            <h2>지원 완료!</h2>
-                            <p>전문가님의 기술 패스포트(데이터)가<br/>현장 관리자에게 즉시 전달되었습니다.</p>
+                            <h2>신청이 완료됐어요.</h2>
+                            <p>회사에서 신청 내역을 확인하고 있습니다.</p>
                             <div className={styles.nextStep}>
                                 <span>다음 예상 단계</span>
                                 <div className={styles.stepInfo}>
-                                    <strong>AI 서류 매칭 합격 알림</strong>
-                                    <p>보통 1~2시간 이내에 결과가 도착합니다.</p>
+                                    <strong>회사 확인 및 확정 안내</strong>
+                                    <p>회사에서 확인하면 바로 알려드릴게요.</p>
                                 </div>
                             </div>
                             <button className={styles.confirmBtn} onClick={() => setAppliedId(null)}>확인</button>

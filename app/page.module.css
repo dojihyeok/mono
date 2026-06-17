@@ -336,3 +336,90 @@
     cursor: pointer;
 }
 
+/* ── 오늘의 상태 카드 ── */
+.statusCard {
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 1.25rem 1.5rem;
+    border: 1px solid var(--border-strong);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+    margin-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.statusHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.statusLabel {
+    font-size: 0.8rem;
+    font-weight: 800;
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.statusPill {
+    font-size: 0.75rem;
+    font-weight: 900;
+    padding: 4px 8px;
+    border-radius: 8px;
+}
+
+.statusContent {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.statusTitle {
+    font-size: 1.15rem;
+    font-weight: 900;
+    color: var(--text-primary);
+    letter-spacing: -0.02em;
+}
+
+.statusSubtitle {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.4;
+}
+
+.statusBtn {
+    width: 100%;
+    background: #3182f6;
+    color: #ffffff;
+    border: none;
+    padding: 12px;
+    border-radius: 14px;
+    font-size: 0.9rem;
+    font-weight: 800;
+    cursor: pointer;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: background-color 0.2s;
+    text-decoration: none;
+    box-sizing: border-box;
+}
+
+.statusBtn:hover {
+    background: #1b64da;
+}
+
+.statusBtnSecondary {
+    background: #f2f2f7;
+    color: #1c1c1e;
+}
+
+.statusBtnSecondary:hover {
+    background: #e5e5ea;
+}
+
+

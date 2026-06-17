@@ -57,7 +57,7 @@ export default function JobCard({ job, onApply }: JobProps) {
                     <div className={styles.headerLeft}>
                         <div className={styles.passportBadge}>
                             <ShieldCheck size={9} />
-                            SKILL VERIFIED
+                            확인된 회사예요
                         </div>
                         <span className={styles.categoryBadge}>
                             {CATEGORY_DISPLAY_MAP[job.category] || job.category}
@@ -71,7 +71,7 @@ export default function JobCard({ job, onApply }: JobProps) {
                             </span>
                         )}
                         <div className={styles.aiMatchBadge}>
-                            <span className={styles.aiMatchLabel}>AI MATCH</span>
+                            <span className={styles.aiMatchLabel}>내 조건과 잘 맞아요</span>
                             <span className={styles.aiMatchValue}>{matchScore}%</span>
                         </div>
                     </div>
@@ -128,16 +128,16 @@ export default function JobCard({ job, onApply }: JobProps) {
                     {applyStatus === 'CHECKING' ? (
                         <>
                             <Loader2 size={16} className={styles.spin} />
-                            기술 데이터 전송 중...
+                            신청 정보 전송 중...
                         </>
                     ) : applyStatus === 'SUCCESS' ? (
                         <>
                             <CheckCircle2 size={16} />
-                            지원 완료됨
+                            신청 완료
                         </>
                     ) : (
                         <>
-                            {job.isUrgent ? '즉시 지원하기' : '지원하기'}
+                            일하러 가기 신청
                             <ArrowRight size={16} />
                         </>
                     )}
