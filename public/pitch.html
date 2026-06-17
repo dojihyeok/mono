@@ -550,44 +550,206 @@
             </p>
           </div>
           <!-- Dashboard UI Mockup -->
-          <div class="mt-4 bg-warm-50 border border-ink-900/10 rounded shadow-sm overflow-hidden flex flex-col">
-            <div class="bg-warm-50 px-3 py-2 flex items-center gap-2">
-              <div class="flex gap-1.5"><div class="w-2 h-2 rounded-full bg-red-500"></div><div class="w-2 h-2 rounded-full bg-yellow-500"></div><div class="w-2 h-2 rounded-full bg-green-500"></div></div>
-              <div class="text-[10px] font-mono text-ink-400 mx-auto">MONO ERP Workspace</div>
+          <div class="mt-4 bg-[#FAF7F2] border border-ink-900/15 rounded-xl shadow-2xl overflow-hidden flex flex-col text-ink-900 font-sans">
+            <!-- Window Title Bar -->
+            <div class="bg-[#EBE3D2] px-4 py-3 flex items-center justify-between border-b border-ink-900/10">
+              <div class="flex items-center gap-2">
+                <div class="flex gap-1.5">
+                  <div class="w-3 h-3 rounded-full bg-[#EF4444] opacity-80 hover:opacity-100 transition-opacity cursor-pointer"></div>
+                  <div class="w-3 h-3 rounded-full bg-[#F59E0B] opacity-80 hover:opacity-100 transition-opacity cursor-pointer"></div>
+                  <div class="w-3 h-3 rounded-full bg-[#10B981] opacity-80 hover:opacity-100 transition-opacity cursor-pointer"></div>
+                </div>
+                <span class="text-[10px] font-mono text-ink-700 tracking-wider ml-2 bg-warm-50/50 px-2 py-0.5 rounded border border-ink-900/10">MONO Workspace v1.4</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-[#10B981] animate-pulse"></span>
+                <span class="text-[9px] font-mono text-ink-600 uppercase tracking-widest">Live Monitoring</span>
+              </div>
             </div>
-            <div class="p-4 grid grid-cols-3 gap-3">
-              <div class="col-span-2 bg-warm-50 border border-ink-900/10 p-3 lcorner">
-                <div class="text-[10px] font-bold text-ink-500 mb-2">금일 출역 현황</div>
-                <div class="flex items-end gap-2">
-                  <div class="text-2xl font-black text-ink-900 leading-none">124<span class="text-xs text-ink-600 font-normal">명</span></div>
-                  <div class="text-[10px] text-green-600"><i class="fa-solid fa-arrow-trend-up"></i> 12%</div>
+
+            <!-- Workspace Body -->
+            <div class="flex flex-row min-h-[300px]">
+              <!-- Sidebar Navigation -->
+              <div class="w-14 bg-[#EBE3D2]/70 border-r border-ink-900/10 py-4 flex flex-col items-center gap-5 justify-between">
+                <div class="flex flex-col gap-4 items-center">
+                  <!-- Logo Icon -->
+                  <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-[#06B6D4] to-[#0891B2] flex items-center justify-center shadow-lg shadow-[#06B6D4]/25">
+                    <span class="font-display font-black text-[13px] text-white tracking-widest">M</span>
+                  </div>
+                  <div class="h-[1px] w-6 bg-ink-900/10 my-1"></div>
+                  <!-- Menu Icons -->
+                  <button class="w-9 h-9 rounded-lg flex items-center justify-center text-[#0E7490] bg-[#0E7490]/10 transition-all border border-[#0E7490]/20"><i class="fa-solid fa-chart-pie text-sm"></i></button>
+                  <button class="w-9 h-9 rounded-lg flex items-center justify-center text-ink-500 hover:text-ink-900 hover:bg-ink-900/5 transition-all"><i class="fa-solid fa-users text-sm"></i></button>
+                  <button class="w-9 h-9 rounded-lg flex items-center justify-center text-ink-500 hover:text-ink-900 hover:bg-ink-900/5 transition-all"><i class="fa-solid fa-wallet text-sm"></i></button>
+                  <button class="w-9 h-9 rounded-lg flex items-center justify-center text-ink-500 hover:text-ink-900 hover:bg-ink-900/5 transition-all"><i class="fa-solid fa-shield-halved text-sm"></i></button>
                 </div>
-                <div class="mt-3 h-1 w-full bg-warm-50/10 rounded-full overflow-hidden">
-                  <div class="h-full bg-warm-500 w-[85%]"></div>
+                <div>
+                  <button class="w-9 h-9 rounded-lg flex items-center justify-center text-ink-500 hover:text-ink-900 hover:bg-ink-900/5 transition-all"><i class="fa-solid fa-gear text-sm"></i></button>
                 </div>
               </div>
-              <div class="bg-warm-50 border border-ink-900/10 p-3 lcorner flex flex-col justify-between">
-                <div class="text-[10px] font-bold text-ink-500">안전교육 이수</div>
-                <div class="text-lg font-black text-ink-900 text-right mt-1">98%</div>
-                <div class="text-[9px] text-red-500 text-right mt-1">미이수 2명</div>
-              </div>
-              <div class="col-span-3 bg-warm-50 border border-ink-900/10 p-3 lcorner">
-                <div class="text-[10px] font-bold text-ink-500 mb-2">실시간 에스크로 정산 내역</div>
-                <div class="flex flex-col gap-1.5">
-                  <div class="flex justify-between items-center text-[10px] border-b border-ink-900/5 pb-1">
-                    <span class="font-mono">A동 골조공사</span>
-                    <span class="font-bold text-ink-900">₩4,200,000</span>
-                    <span class="text-green-600 px-1.5 py-0.5 bg-green-100 rounded">지급완료</span>
+
+              <!-- Main Workspace Content -->
+              <div class="flex-grow p-4 flex flex-col justify-between gap-4 bg-[#FAF7F2]">
+                <!-- Stats Row (Grid) -->
+                <div class="grid grid-cols-3 gap-3">
+                  <!-- Attendance Card -->
+                  <div class="col-span-2 bg-[#FAF7F2] border border-ink-900/10 p-4 rounded-lg relative overflow-hidden group/card hover:border-[#0E7490]/30 transition-all duration-300 shadow-sm">
+                    <div class="absolute -right-6 -bottom-6 w-20 h-20 bg-[#06B6D4]/5 rounded-full blur-xl group-hover/card:bg-[#06B6D4]/10 transition-all duration-500"></div>
+                    <div class="flex justify-between items-start mb-2">
+                      <span class="text-[10px] font-bold text-ink-500 tracking-wider">금일 실시간 출역 현황</span>
+                      <span class="text-[10px] text-green-700 bg-green-50 border border-green-200 px-1.5 py-0.5 rounded-full font-bold flex items-center gap-1"><i class="fa-solid fa-arrow-trend-up"></i> +12%</span>
+                    </div>
+                    <div class="flex items-baseline gap-2 mt-1">
+                      <span class="text-3xl font-black tracking-tight text-ink-900 font-mono" id="live-attendance-count">124</span>
+                      <span class="text-xs text-ink-500 font-medium">명 active</span>
+                    </div>
+                    <!-- Sparkline SVG -->
+                    <div class="mt-3 h-10 w-full relative">
+                      <svg class="w-full h-full text-[#0E7490]" viewBox="0 0 160 40" preserveAspectRatio="none">
+                        <defs>
+                          <linearGradient id="sparkline-grad" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stop-color="rgba(14, 116, 144, 0.15)"/>
+                            <stop offset="100%" stop-color="rgba(14, 116, 144, 0)"/>
+                          </linearGradient>
+                        </defs>
+                        <path d="M 0 35 Q 20 28 40 32 T 80 18 T 120 12 T 160 5" fill="none" stroke="currentColor" stroke-width="2" class="drop-shadow-[0_1px_2px_rgba(14,116,144,0.2)]"/>
+                        <path d="M 0 35 Q 20 28 40 32 T 80 18 T 120 12 T 160 5 L 160 40 L 0 40 Z" fill="url(#sparkline-grad)"/>
+                      </svg>
+                    </div>
                   </div>
-                  <div class="flex justify-between items-center text-[10px]">
-                    <span class="font-mono">B동 전기설비</span>
-                    <span class="font-bold text-ink-900">₩1,850,000</span>
-                    <span class="text-yellow-600 px-1.5 py-0.5 bg-yellow-100 rounded">대기중</span>
+
+                  <!-- Safety Card -->
+                  <div class="bg-[#FAF7F2] border border-ink-900/10 p-4 rounded-lg flex flex-col justify-between items-center relative overflow-hidden group/card hover:border-[#0E7490]/30 transition-all duration-300 shadow-sm">
+                    <div class="w-full flex justify-between items-start mb-1">
+                      <span class="text-[10px] font-bold text-ink-500 tracking-wider">안전교육 이수</span>
+                      <span class="w-2 h-2 rounded-full bg-[#10B981]"></span>
+                    </div>
+                    <!-- Radial Gauge SVG -->
+                    <div class="relative w-16 h-16 flex items-center justify-center my-1">
+                      <svg class="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
+                        <path class="text-ink-900/10" stroke-width="3" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                        <path class="text-[#0E7490]" stroke-dasharray="98, 100" stroke-width="3" stroke-linecap="round" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                      </svg>
+                      <div class="absolute text-center">
+                        <span class="text-sm font-black tracking-tighter text-ink-900 font-mono">98%</span>
+                      </div>
+                    </div>
+                    <div class="text-[9px] text-[#EF4444] bg-red-50 border border-red-200 px-2 py-0.5 rounded-full font-bold animate-pulse">미이수 2명 경고</div>
                   </div>
+                </div>
+
+                <!-- Escrow Grid Table Card -->
+                <div class="bg-[#EBE3D2]/25 border border-ink-900/10 p-4 rounded-lg flex flex-col gap-3">
+                  <div class="flex justify-between items-center">
+                    <span class="text-[10px] font-bold text-ink-500 tracking-wider">실시간 에스크로 예치 및 정산 현황</span>
+                    <span class="text-[9px] text-[#0E7490] font-mono flex items-center gap-1"><i class="fa-solid fa-shield-check"></i> Escrow Secured</span>
+                  </div>
+                  <div class="flex flex-col gap-2">
+                    <!-- Row 1 -->
+                    <div class="flex justify-between items-center text-xs bg-[#FAF7F2] p-2.5 rounded border border-ink-900/5 hover:bg-white hover:shadow-sm transition-all cursor-default">
+                      <div class="flex items-center gap-3">
+                        <div class="w-7 h-7 rounded bg-[#10B981]/10 border border-[#10B981]/25 flex items-center justify-center text-[#10B981] font-mono font-bold text-[10px]">A</div>
+                        <div class="flex flex-col">
+                          <span class="font-bold text-ink-800">A동 골조공사</span>
+                          <span class="text-[9px] text-ink-500 font-mono">Contract: #MONO-2901</span>
+                        </div>
+                      </div>
+                      <div class="flex items-center gap-4">
+                        <span class="font-bold text-ink-900 font-mono">₩4,200,000</span>
+                        <span class="text-green-700 bg-green-50 border border-green-200 px-2.5 py-0.5 rounded text-[10px] font-bold flex items-center gap-1"><i class="fa-solid fa-circle-check"></i> 지급완료</span>
+                      </div>
+                    </div>
+                    <!-- Row 2 -->
+                    <div class="flex justify-between items-center text-xs bg-[#FAF7F2] p-2.5 rounded border border-ink-900/5 hover:bg-white hover:shadow-sm transition-all cursor-default">
+                      <div class="flex items-center gap-3">
+                        <div class="w-7 h-7 rounded bg-[#F59E0B]/10 border border-[#F59E0B]/25 flex items-center justify-center text-[#F59E0B] font-mono font-bold text-[10px]">B</div>
+                        <div class="flex flex-col">
+                          <span class="font-bold text-ink-800">B동 전기설비</span>
+                          <span class="text-[9px] text-ink-500 font-mono">Contract: #MONO-2908</span>
+                        </div>
+                      </div>
+                      <div class="flex items-center gap-4">
+                        <span class="font-bold text-ink-900 font-mono">₩1,850,000</span>
+                        <span class="text-yellow-700 bg-yellow-50 border border-yellow-200 px-2.5 py-0.5 rounded text-[10px] font-bold flex items-center gap-1 animate-pulse"><i class="fa-solid fa-arrows-rotate animate-spin"></i> 검수대기</span>
+                      </div>
+                    </div>
+                    <!-- Row 3 -->
+                    <div class="flex justify-between items-center text-xs bg-[#FAF7F2] p-2.5 rounded border border-ink-900/5 hover:bg-white hover:shadow-sm transition-all cursor-default">
+                      <div class="flex items-center gap-3">
+                        <div class="w-7 h-7 rounded bg-[#10B981]/10 border border-[#10B981]/25 flex items-center justify-center text-[#10B981] font-mono font-bold text-[10px]">C</div>
+                        <div class="flex flex-col">
+                          <span class="font-bold text-ink-800">C동 기계설비</span>
+                          <span class="text-[9px] text-ink-500 font-mono">Contract: #MONO-2915</span>
+                        </div>
+                      </div>
+                      <div class="flex items-center gap-4">
+                        <span class="font-bold text-ink-900 font-mono">₩2,900,000</span>
+                        <span class="text-green-700 bg-green-50 border border-green-200 px-2.5 py-0.5 rounded text-[10px] font-bold flex items-center gap-1"><i class="fa-solid fa-circle-check"></i> 지급완료</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Footer Console Log Feed -->
+                <div class="bg-[#EBE3D2]/40 border border-ink-900/10 px-3 py-2 rounded flex items-center justify-between text-[9px] font-mono text-ink-700">
+                  <div class="flex items-center gap-2">
+                    <span class="w-1.5 h-1.5 rounded-full bg-[#0E7490] animate-ping"></span>
+                    <span id="dashboard-console-log" class="transition-opacity duration-200">System Feed: [출역] 스마트 안전장비 GPS 페어링 완료...</span>
+                  </div>
+                  <span class="text-[#0E7490] opacity-80" id="dashboard-time-label">2026-06-17 11:24:08</span>
                 </div>
               </div>
             </div>
           </div>
+
+          <script>
+            (function() {
+              // Clock update
+              function updateClock() {
+                const el = document.getElementById('dashboard-time-label');
+                if (!el) return;
+                const now = new Date();
+                const pad = (n) => String(n).padStart(2, '0');
+                const dateStr = `${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())} ${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
+                el.textContent = dateStr;
+              }
+              setInterval(updateClock, 1000);
+              updateClock();
+
+              // Console log rotation
+              const logs = [
+                "[출역] 스마트 안전장비 GPS 페어링 완료...",
+                "[안전] C동 작업자 스마트 헬멧 착용 상태 감지됨",
+                "[출역] 신규 기능공 3명 게이트 출입 통과",
+                "[정산] B동 전기설비 안전 예치금 에스크로 스마트 계약 활성화",
+                "[시스템] 기술인력 데이터 S-Core 백업 동기화 완료",
+                "[안전] B동 밀폐공간 가스 농도 정상 수치 감지"
+              ];
+              let currentLogIdx = 0;
+              function rotateLogs() {
+                const el = document.getElementById('dashboard-console-log');
+                if (!el) return;
+                currentLogIdx = (currentLogIdx + 1) % logs.length;
+                el.style.opacity = 0;
+                setTimeout(() => {
+                  el.textContent = "System Feed: " + logs[currentLogIdx];
+                  el.style.opacity = 1;
+                }, 200);
+              }
+              setInterval(rotateLogs, 4000);
+
+              // Attendance count oscillation
+              let baseAttendance = 124;
+              function fluctuateAttendance() {
+                const el = document.getElementById('live-attendance-count');
+                if (!el) return;
+                const change = Math.floor(Math.random() * 3) - 1; // -1, 0, +1
+                baseAttendance = Math.max(120, Math.min(130, baseAttendance + change));
+                el.textContent = baseAttendance;
+              }
+              setInterval(fluctuateAttendance, 5000);
+            })();
+          </script>
         </div>
       </div>
     </div>
