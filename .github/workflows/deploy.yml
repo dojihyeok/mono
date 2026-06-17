@@ -27,9 +27,11 @@ jobs:
           DATABASE_URL: "file:./prisma/dev.db"
         run: |
           cd /root/mono
-          npx prisma generate
           rm -rf .next
-          npm run build
+          echo "=== Prisma Generate ===" > build_debug.log
+          npx prisma generate >> build_debug.log 2>&1 || { cat build_debug.log; exit 7; }
+          echo "=== Next.js Build ===" >> build_debug.log
+          npm run build >> build_debug.log 2>&1 || { cat build_debug.log; exit 7; }
 
       - name: 🔄 Restart PM2 (Port 3004 Only)
         env:
