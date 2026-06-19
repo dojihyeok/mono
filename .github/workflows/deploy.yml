@@ -9,6 +9,8 @@ jobs:
   deploy:
     name: 🚀 Deploy to Server
     runs-on: self-hosted
+    env:
+      PM2_HOME: "/root/.pm2"
 
     steps:
       - name: 📥 Pull latest code to /root/mono
