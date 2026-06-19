@@ -53,6 +53,12 @@ jobs:
         run: |
           echo "=== PM2 LIST ==="
           pm2 list || true
+          echo "=== PM2 SHOW MONO-NEW ==="
+          pm2 show mono-new || true
+          echo "=== PM2 ERROR LOG ==="
+          sudo cat /etc/.pm2/logs/mono-new-error.log || true
+          echo "=== PM2 OUT LOG ==="
+          sudo cat /etc/.pm2/logs/mono-new-out.log || true
           echo "=== LISTENING PORTS ==="
           sudo lsof -i -P -n | grep LISTEN || true
           echo "=== NGINX CONFIG ==="
