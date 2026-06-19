@@ -70,6 +70,12 @@ jobs:
           sudo cat /etc/.pm2/logs/mono-new-error.log || true
           echo "=== PM2 OUT LOG ==="
           sudo cat /etc/.pm2/logs/mono-new-out.log || true
+          echo "=== SS PORT 3006 ==="
+          sudo ss -tulpn | grep 3006 || true
+          echo "=== IPTABLES NAT ==="
+          sudo iptables -t nat -L -n -v || true
+          echo "=== ALL NODE PROCESSES ==="
+          ps aux | grep node || true
           echo "=== LISTENING PORTS ==="
           sudo lsof -i -P -n | grep LISTEN || true
           echo "=== NGINX CONFIG ==="
