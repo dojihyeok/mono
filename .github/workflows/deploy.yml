@@ -16,6 +16,7 @@ jobs:
           cd /root/mono
           git fetch origin main
           git reset --hard origin/main
+          git clean -fd
 
       - name: 📦 Install dependencies
         run: |
@@ -56,6 +57,8 @@ jobs:
           sudo lsof -i -P -n | grep LISTEN || true
           echo "=== NGINX CONFIG ==="
           sudo cat /etc/nginx/sites-enabled/* || true
+          echo "=== BUILD LOG ==="
+          cat /root/mono/build_debug.log || true
           echo "=== LOCALHOST 3006 HEADERS ==="
           curl -sI http://localhost:3006 || true
 
