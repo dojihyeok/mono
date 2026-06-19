@@ -48,6 +48,17 @@ jobs:
           pm2 save
           pm2 list
 
+      - name: 🔍 Diagnostics
+        run: |
+          echo "=== PM2 LIST ==="
+          pm2 list || true
+          echo "=== LISTENING PORTS ==="
+          sudo lsof -i -P -n | grep LISTEN || true
+          echo "=== NGINX CONFIG ==="
+          sudo cat /etc/nginx/sites-enabled/* || true
+          echo "=== LOCALHOST 3004 HEADERS ==="
+          curl -sI http://localhost:3004 || true
+
       - name: ✅ Health Check
         run: |
           sleep 5
