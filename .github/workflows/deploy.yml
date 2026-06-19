@@ -33,17 +33,17 @@ jobs:
           echo "=== Next.js Build ===" >> build_debug.log
           npm run build >> build_debug.log 2>&1 || { cat build_debug.log; exit 7; }
 
-      - name: 🔄 Restart PM2 (Port 3004 Only)
+      - name: 🔄 Restart PM2 (Port 3006 Only)
         env:
           DATABASE_URL: "file:./prisma/dev.db"
         run: |
-          # 3004 포트를 사용 중인 프로세스만 종료
-          sudo fuser -k 3004/tcp || true
+          # 3006 포트를 사용 중인 프로세스만 종료
+          sudo fuser -k 3006/tcp || true
           sleep 2
           
-          # mono 프로세스만 삭제 후 재시작
-          pm2 delete mono || true
-          PORT=3004 pm2 start npm --name "mono" --cwd /root/mono -- run start -- -p 3004
+          # mono-new 프로세스만 삭제 후 재시작
+          pm2 delete mono-new || true
+          PORT=3006 pm2 start npm --name "mono-new" --cwd /root/mono -- run start -- -p 3006
           
           pm2 save
           pm2 list
@@ -56,10 +56,10 @@ jobs:
           sudo lsof -i -P -n | grep LISTEN || true
           echo "=== NGINX CONFIG ==="
           sudo cat /etc/nginx/sites-enabled/* || true
-          echo "=== LOCALHOST 3004 HEADERS ==="
-          curl -sI http://localhost:3004 || true
+          echo "=== LOCALHOST 3006 HEADERS ==="
+          curl -sI http://localhost:3006 || true
 
       - name: ✅ Health Check
         run: |
           sleep 5
-          curl -f http://localhost:3004 || (echo "Health check failed!" && exit 1)
+          curl -f http://localhost:3006 || (echo "Health check failed!" && exit 1)
