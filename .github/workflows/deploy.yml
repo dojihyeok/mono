@@ -21,28 +21,6 @@ jobs:
           git reset --hard FETCH_HEAD
           git clean -fd
 
-      - name: 📝 Copy and Commit latest strategy.html from server mono-old
-        if: github.ref_name == 'main'
-        run: |
-          cd /root/mono
-          if [ -f "/root/mono-old/public/pitch.html" ]; then
-            echo "✔ Found latest pitch.html on server! Copying to web/public/strategy.html..."
-            cp /root/mono-old/public/pitch.html web/public/strategy.html
-            
-            git config --global user.name "Github Runner"
-            git config --global user.email "runner@dojiung.com"
-            git add web/public/strategy.html
-            
-            if ! git diff --cached --quiet; then
-              git commit -m "chore(deploy): sync web/public/strategy.html with server pitch.html"
-              git push origin main || true
-            else
-              echo "No changes in strategy.html, skipping commit."
-            fi
-          else
-            echo "⚠ /root/mono-old/public/pitch.html not found! Skipping copy."
-          fi
-
       # ============================== MIGRATE BRANCH WORKFLOW ==============================
       - name: ⚙ Run Server Migration (migrate branch only)
         if: github.ref_name == 'migrate'
@@ -123,16 +101,23 @@ jobs:
       - name: 🔄 Restart PM2 for new frontend (main branch only, Port 3004 Only)
         if: github.ref_name == 'main'
         run: |
+          echo "=== Deleting all legacy PM2 instances ==="
           pm2 delete mono || true
           pm2 delete mono-new || true
+          pm2 delete mono-strategy || true
+          pm2 delete mono-old-main || true
           sleep 5
-          PORT_PIDS=$(sudo lsof -t -i:3004)
+          
+          echo "=== Force killing all processes on ports 3004, 3006, 3007 ==="
+          PORT_PIDS=$(sudo lsof -t -i:3004 -i:3006 -i:3007)
           if [ ! -z "$PORT_PIDS" ]; then
-            echo "Killing remaining processes on port 3004: $PORT_PIDS"
+            echo "Killing remaining processes: $PORT_PIDS"
             sudo kill -9 $PORT_PIDS || true
             sleep 2
           fi
           sudo fuser -k 3004/tcp || true
+          sudo fuser -k 3006/tcp || true
+          sudo fuser -k 3007/tcp || true
           sleep 1
           
           API_URL="http://localhost:8001" pm2 start node_modules/next/dist/bin/next --name "mono" --cwd /root/mono/web -- start -p 3004
