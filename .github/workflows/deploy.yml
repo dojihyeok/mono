@@ -102,6 +102,10 @@ jobs:
           pm2 show mono-new || true
           pm2 show mono-strategy || true
           pm2 show mono-old-main || true
+          echo "=== PM2 MONO-STRATEGY ERROR LOG ==="
+          cat /root/.pm2/logs/mono-strategy-error.log | tail -n 100 || true
+          echo "=== PM2 MONO-OLD-MAIN ERROR LOG ==="
+          cat /root/.pm2/logs/mono-old-main-error.log | tail -n 100 || true
           echo "=== SS PORT LIST ==="
           sudo ss -tulpn | grep -E "3004|3005|3006|8000" || true
           echo "=== ALL NODE PROCESSES ==="
