@@ -64,9 +64,38 @@ const FOCUSABLE = 'a[href], button:not([disabled]), textarea:not([disabled]), in
 
 export default function MonoApp() {
   const [s, setS] = useState({ tab: 'card', variant: 0, flipped: false, checkedIn: false, settleOpen: false, modal: null, overlay: null, selJob: 0, applied: false, cardView: 'me', theme: 'mono' });
-  const { user, updateUser, setBasicProfile, registerInterest, interests,
+  const { user, updateUser, setBasicProfile, registerInterest, interests, completion,
     addCertificate, addEducation, certificates, educations,
-    careerCards, addCareerCard } = useProfile(); // 온보딩 프로필 + 관심/서류 + 현장 경력
+    careerCards, addCareerCard, reset, simulateState } = useProfile(); // 온보딩 프로필 + 관심/서류 + 현장 경력
+
+  const hasProfile = !!(user && user.jobType && user.jobType.length > 0 && user.careerYears && user.region && user.region.length > 0);
+
+  // 온보딩(프로필 미작성 시) 오버레이 시트 상태
+  const [openOnboardingSheet, setOpenOnboardingSheet] = useState(false);
+  const [onbStep, setOnbStep] = useState(0);
+  const [onbJobType, setOnbJobType] = useState<string[]>([]);
+  const [onbCareerYear, setOnbCareerYear] = useState<string | null>(null);
+  const [onbRegion, setOnbRegion] = useState<string[]>([]);
+
+  const handleOnboardingNext = () => {
+    if (onbStep < 2) {
+      setOnbStep((p) => p + 1);
+    } else {
+      if (onbJobType.length > 0 && onbCareerYear && onbRegion.length > 0) {
+        setBasicProfile({
+          jobType: onbJobType,
+          careerYears: onbCareerYear,
+          region: onbRegion,
+        });
+      }
+      setOpenOnboardingSheet(false);
+      setOnbStep(0);
+      setOnbJobType([]);
+      setOnbCareerYear(null);
+      setOnbRegion([]);
+    }
+  };
+
   const [openInterest, setOpenInterest] = useState(false); // 관심 기능 신청 시트
   const onPickInterest = (f) => {
     // 클릭 이벤트(개별 + 공통) → /api/events, 신규면 등록(InterestRegistration) + interest_submitted
@@ -184,7 +213,17 @@ export default function MonoApp() {
   const toggleSettle = () => set((st) => ({ settleOpen: !st.settleOpen }));
   const open = (m) => set({ modal: m });
   const close = () => set({ modal: null });
-  const openJob = (i) => set({ overlay: 'job', selJob: i, applied: false });
+  const openJob = (i) => {
+    if (!user) {
+      open('need_login');
+      return;
+    }
+    if (!hasProfile) {
+      open('need_profile');
+      return;
+    }
+    set({ overlay: 'job', selJob: i, applied: false });
+  };
   const closeOverlay = () => set({ overlay: null });
   const applyJob = () => set({ applied: true });
   const setCardView = (vw) => set({ cardView: vw });
@@ -329,7 +368,15 @@ export default function MonoApp() {
       toggleCheck:()=>toggleCheck(),
 
       homeJobs, jobs, chips, history, steps, meRows,
-      openCareer:()=>open('career'),
+      openCareer:() => {
+        if (!user) {
+          open('need_login');
+        } else if (!hasProfile) {
+          open('need_profile');
+        } else {
+          open('career');
+        }
+      },
       openFinance:()=>open('finance'),
       openShare:()=>open('share'),
       openScope:()=>open('scope'),
@@ -563,6 +610,77 @@ export default function MonoApp() {
             <div style={{ fontSize: "22px", fontWeight: "800", color: "#15211c" }}>경력카드</div>
             <span style={{ fontSize: "11.5px", fontWeight: "700", color: "var(--c3,#1a6b51)", background: "var(--soft,#e6efe9)", padding: "5px 10px", borderRadius: "9px", whiteSpace: "nowrap" }}>MoNo 인증</span>
           </div>
+
+          {!user ? (
+            <div style={{ position: "relative", marginTop: "13px" }}>
+              <div style={{ filter: "blur(4px)", pointerEvents: "none" }}>
+                <div style={{ display: "flex", gap: "4px", background: "#ece8dd", borderRadius: "13px", padding: "4px", marginTop: "13px", opacity: 0.5 }}>
+                  <button style={{ flex: "1", height: "38px", border: "none", borderRadius: "10px", background: "#fff", color: "#5d6b62", fontSize: "13px", fontWeight: "800" }}>내 경력카드</button>
+                  <button style={{ flex: "1", height: "38px", border: "none", borderRadius: "10px", background: "transparent", color: "#5d6b62", fontSize: "13px", fontWeight: "800" }}>기업이 보는 화면</button>
+                </div>
+                <div style={{ height: "228px", borderRadius: "22px", border: "1px solid #ece8dd", background: "#fbf7ec", marginTop: "14px" }}></div>
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "11px", marginTop: "18px" }}>
+                  <div style={{ background: "#fff", border: "1px solid #ece8dd", borderRadius: "16px", height: "60px" }}></div>
+                  <div style={{ background: "#fff", border: "1px solid #ece8dd", borderRadius: "16px", height: "60px" }}></div>
+                  <div style={{ background: "#fff", border: "1px solid #ece8dd", borderRadius: "16px", height: "60px" }}></div>
+                </div>
+                <div style={{ marginTop: "20px", height: "100px", border: "1px dashed #ece8dd", borderRadius: "16px" }}></div>
+              </div>
+              <div style={{ position: "absolute", inset: "0", display: "flex", alignItems: "center", justifyContent: "center", zIndex: "2" }}>
+                <button onClick={() => simulateState("no_profile")} style={{ background: "var(--c1,#0d3b2e)", border: "none", borderRadius: "12px", padding: "12px 24px", color: "#fff", fontSize: "14px", fontWeight: "800", fontFamily: "inherit", cursor: "pointer", boxShadow: "0 6px 16px rgba(13,59,46,0.3)" }}>로그인하고 카드 발급받기</button>
+              </div>
+            </div>
+          ) : !hasProfile ? (
+            <>
+              <div onClick={() => { setOnbStep(0); setOnbJobType([]); setOnbCareerYear(null); setOnbRegion([]); setOpenOnboardingSheet(true); }} style={{ cursor: "pointer", height: "228px", borderRadius: "22px", border: "2px dashed #cdbf9a", background: "#fbf7ec", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "20px", textAlign: "center", marginTop: "14px" }}>
+                <div style={{ fontSize: "16px", fontWeight: "800", color: "var(--ai,#9a6b16)" }}>💳 기술 경력카드 발급 대기</div>
+                <div style={{ fontSize: "12.5px", color: "#9a8a66", marginTop: "8px", lineHeight: "1.4" }}>프로필을 입력하여 건설 현장의 신뢰 등급을<br/>확인하고 경력카드를 받아보세요.</div>
+                <span style={{ display: "inline-block", marginTop: "16px", fontSize: "13px", color: "var(--c1,#0d3b2e)", fontWeight: "800" }}>프로필 작성하고 완성하기 →</span>
+              </div>
+
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "11px", marginTop: "18px" }}>
+                <div style={{ background: "#fff", border: "1px solid #ece8dd", borderRadius: "16px", padding: "14px 15px" }}><div style={{ fontSize: "11.5px", color: "#8a958d", fontWeight: "600" }}>현장 경력</div><div style={{ marginTop: "5px" }}><span className="mono" style={{ fontSize: "22px", fontWeight: "500", color: "#15211c" }}>{(careerCards || []).length}</span><span style={{ fontSize: "13px", color: "#8a958d", fontWeight: "600" }}>건</span></div></div>
+                <div style={{ background: "#fff", border: "1px solid #ece8dd", borderRadius: "16px", padding: "14px 15px" }}><div style={{ fontSize: "11.5px", color: "#8a958d", fontWeight: "600" }}>자격증</div><div style={{ marginTop: "5px" }}><span className="mono" style={{ fontSize: "22px", fontWeight: "500", color: "#15211c" }}>{(certificates || []).length}</span><span style={{ fontSize: "13px", color: "#8a958d", fontWeight: "600" }}>개</span></div></div>
+                <div style={{ background: "#fff", border: "1px solid #ece8dd", borderRadius: "16px", padding: "14px 15px" }}><div style={{ fontSize: "11.5px", color: "#8a958d", fontWeight: "600" }}>교육</div><div style={{ marginTop: "5px" }}><span className="mono" style={{ fontSize: "22px", fontWeight: "500", color: "#15211c" }}>{(educations || []).length}</span><span style={{ fontSize: "13px", color: "#8a958d", fontWeight: "600" }}>개</span></div></div>
+              </div>
+
+              <div style={{ marginTop: "20px" }}>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "10px" }}>
+                  <span style={{ fontSize: "15px", fontWeight: "800", color: "#15211c" }}>현장 경력</span>
+                  <button type="button" onClick={() => setOpenCareerSheet(true)} style={{ border: "none", background: "none", fontSize: "12.5px", color: "var(--c3,#1a6b51)", fontWeight: "800", fontFamily: "inherit", cursor: "pointer", padding: "4px 2px", WebkitTapHighlightColor: "transparent" }}>+ 경력 추가</button>
+                </div>
+                {(careerCards || []).length === 0 ? (
+                  <button type="button" onClick={() => setOpenCareerSheet(true)} style={{ width: "100%", textAlign: "left", border: "1px dashed #cdbf9a", borderRadius: "16px", background: "#fbf7ec", padding: "16px", cursor: "pointer", fontFamily: "inherit", WebkitTapHighlightColor: "transparent" }}>
+                    <div style={{ fontSize: "13.5px", fontWeight: "800", color: "var(--ai,#9a6b16)" }}>참여한 현장을 추가해 보세요</div>
+                    <div style={{ fontSize: "12.5px", color: "#9a8a66", fontWeight: "500", marginTop: "4px", lineHeight: "1.5" }}>현장명·기간·역할을 입력하면 공유 프로필에 바로 반영됩니다.</div>
+                  </button>
+                ) : (
+                  <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                    {(careerCards || []).map((c) => (
+                      <div key={c.id} style={{ background: "#fff", border: "1px solid #ece8dd", borderRadius: "16px", padding: "14px 15px" }}>
+                        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "8px" }}>
+                          <span style={{ fontSize: "14.5px", fontWeight: "800", color: "#15211c", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{c.siteName}</span>
+                          {c.field && (<span style={{ flex: "none", fontSize: "11px", fontWeight: "700", color: "var(--c1,#0d3b2e)", background: "var(--soft,#e6efe9)", padding: "3px 8px", borderRadius: "7px" }}>{c.field}</span>)}
+                        </div>
+                        {(c.startDate || c.endDate || c.role) && (
+                          <div style={{ fontSize: "12.5px", color: "#6c7a72", fontWeight: "600", marginTop: "5px" }}>{[fmtRange(c.startDate, c.endDate), c.role].filter(Boolean).join(" · ")}</div>
+                        )}
+                        {c.equipment && (<div style={{ fontSize: "12px", color: "#8a958d", fontWeight: "600", marginTop: "4px" }}>사용 장비 · {c.equipment}</div>)}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              <div style={{ marginTop: "16px", display: "flex", flexDirection: "column", gap: "9px" }}>
+                <button onClick={() => setOpenShareSheet(true)} style={{ height: "52px", border: "none", borderRadius: "15px", background: "linear-gradient(135deg,var(--c1,#0d3b2e),var(--c2,#114a39))", color: "#fff", fontSize: "15px", fontWeight: "800", fontFamily: "inherit", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: "8px" }}>
+                  <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M14 7a2.5 2.5 0 1 0-2.4-3.1L7.9 6A2.5 2.5 0 1 0 6 10c.6 0 1.2-.2 1.6-.6l3.9 2.3A2.5 2.5 0 1 0 14 13c-.7 0-1.3.3-1.7.7l-3.8-2.2c.1-.3.2-.6.2-.9l3.7-2.2c.4.4 1 .8 1.6.8Z" fill="var(--a1,#e8c34a)"></path></svg>
+                  경력카드 공유
+                </button>
+              </div>
+            </>
+          ) : (
+            <>
           
           <div style={{ display: "flex", gap: "4px", background: "#ece8dd", borderRadius: "13px", padding: "4px", marginTop: "13px" }}>
             <button onClick={v.setMyView} style={{ flex: "1", height: "38px", border: "none", borderRadius: "10px", background: v.viewMeBg, color: v.viewMeFg, fontSize: "13px", fontWeight: "800", fontFamily: "inherit", cursor: "pointer" }}>내 경력카드</button>
@@ -853,6 +971,8 @@ export default function MonoApp() {
             </div>
           </div>
           </>)}
+          </>
+          )}
         </div>
         </>)}
 
@@ -860,6 +980,28 @@ export default function MonoApp() {
         {(v.isWork) && (<>
         <div style={{ padding: "8px 20px 30px" }}>
           <div style={{ fontSize: "22px", fontWeight: "800", color: "#15211c" }}>출역 · 정산</div>
+
+          {!user ? (
+            <div style={{ position: "relative", marginTop: "14px" }}>
+              <div style={{ filter: "blur(4px)", pointerEvents: "none" }}>
+                <div style={{ borderRadius: "20px", background: "linear-gradient(150deg,var(--c2,#114a39),var(--c0,#0a2b21))", padding: "18px", color: "var(--t0,#eaf3ee)", height: "120px" }}></div>
+                <div style={{ background: "#fff", border: "1px solid #ece8dd", borderRadius: "20px", padding: "18px", marginTop: "14px", height: "200px" }}></div>
+              </div>
+              <div style={{ position: "absolute", inset: "0", display: "flex", alignItems: "center", justifyContent: "center", zIndex: "2" }}>
+                <button onClick={() => simulateState("no_profile")} style={{ background: "var(--c1,#0d3b2e)", border: "none", borderRadius: "12px", padding: "12px 24px", color: "#fff", fontSize: "14px", fontWeight: "800", fontFamily: "inherit", cursor: "pointer", boxShadow: "0 6px 16px rgba(13,59,46,0.3)" }}>
+                  로그인하고 출역 상태 확인하기
+                </button>
+              </div>
+            </div>
+          ) : !hasProfile ? (
+            <div onClick={() => { setOnbStep(0); setOnbJobType([]); setOnbCareerYear(null); setOnbRegion([]); setOpenOnboardingSheet(true); }} style={{ cursor: "pointer", marginTop: "14px", borderRadius: "20px", border: "2px dashed #cdbf9a", background: "#fbf7ec", padding: "30px 20px", textAlign: "center" }}>
+              <div style={{ fontSize: "24px", marginBottom: "8px" }}>📅</div>
+              <div style={{ fontSize: "15px", fontWeight: "800", color: "var(--ai,#9a6b16)" }}>예정된 출역이 없습니다</div>
+              <div style={{ fontSize: "12.5px", color: "#9a8a66", marginTop: "6px", lineHeight: "1.4" }}>프로필 작성 후 건설 현장에 출역을 신청할 수 있습니다.</div>
+              <span style={{ display: "inline-block", marginTop: "16px", fontSize: "13px", color: "var(--c1,#0d3b2e)", fontWeight: "800" }}>프로필 작성하고 신청하기 →</span>
+            </div>
+          ) : (
+            <>
 
           <div style={{ marginTop: "14px", borderRadius: "20px", background: "linear-gradient(150deg,var(--c2,#114a39),var(--c0,#0a2b21))", padding: "18px", color: "var(--t0,#eaf3ee)", position: "relative", overflow: "hidden" }}>
             <div style={{ position: "absolute", right: "-30px", top: "-30px", width: "130px", height: "130px", borderRadius: "50%", background: "radial-gradient(circle,rgba(232,195,74,.2),transparent 70%)" }}></div>
@@ -919,6 +1061,8 @@ export default function MonoApp() {
               <div style={{ textAlign: "right" }}><div className="mono" style={{ fontSize: "15px", fontWeight: "500", color: "#15211c" }}>{h.amount}</div><div style={{ fontSize: "10.5px", color: "var(--c3,#1a6b51)", fontWeight: "700", marginTop: "1px" }}>지급 완료</div></div>
             </div>
           </React.Fragment>))}
+            </>
+          )}
         </div>
         </>)}
 
@@ -926,18 +1070,29 @@ export default function MonoApp() {
         {(v.isMe) && (<>
         <div style={{ padding: "8px 20px 30px" }}>
           <div style={{ fontSize: "22px", fontWeight: "800", color: "#15211c" }}>내 정보</div>
-          <div style={{ marginTop: "14px", background: "linear-gradient(150deg,var(--c2,#114a39),var(--c0,#0a2b21))", borderRadius: "20px", padding: "20px", color: "var(--t0,#eaf3ee)", display: "flex", alignItems: "center", gap: "14px" }}>
-            <div style={{ width: "58px", height: "58px", borderRadius: "18px", background: "rgba(255,255,255,.1)", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--a1,#e8c34a)", fontSize: "22px", fontWeight: "800" }}>{v.initial}</div>
-            <div style={{ flex: "1" }}>
-              <div style={{ fontSize: "18px", fontWeight: "800" }}>{v.name}</div>
-              <div style={{ fontSize: "12.5px", color: "var(--t1,#9fd3bd)", fontWeight: "600", marginTop: "2px" }}>{v.myJob} · A등급 숙련 기술자</div>
-              <div style={{ display: "flex", alignItems: "center", gap: "5px", marginTop: "6px" }}><span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#5fd1a0" }}></span><span style={{ fontSize: "11.5px", color: "var(--t1,#cfe3da)", fontWeight: "600" }}>실명·계좌 인증 완료</span></div>
+          {!user ? (
+            <div style={{ marginTop: "14px", background: "linear-gradient(150deg,var(--c2,#114a39),var(--c0,#0a2b21))", borderRadius: "20px", padding: "20px", color: "var(--t0,#eaf3ee)", display: "flex", flexDirection: "column", gap: "14px" }}>
+              <div style={{ fontSize: "16px", fontWeight: "800" }}>로그인이 필요합니다</div>
+              <button onClick={() => simulateState("no_profile")} style={{ height: "42px", border: "none", borderRadius: "12px", background: "linear-gradient(135deg,var(--a1,#e8c34a),var(--a3,#d4a82f))", color: "var(--c1,#0d3b2e)", fontSize: "14px", fontWeight: "800", fontFamily: "inherit", cursor: "pointer" }}>로그인 / 회원가입하기</button>
             </div>
-          </div>
+          ) : (
+            <div style={{ marginTop: "14px", background: "linear-gradient(150deg,var(--c2,#114a39),var(--c0,#0a2b21))", borderRadius: "20px", padding: "20px", color: "var(--t0,#eaf3ee)", display: "flex", alignItems: "center", gap: "14px" }}>
+              <div style={{ width: "58px", height: "58px", borderRadius: "18px", background: "rgba(255,255,255,.1)", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--a1,#e8c34a)", fontSize: "22px", fontWeight: "800" }}>{v.initial}</div>
+              <div style={{ flex: "1" }}>
+                <div style={{ fontSize: "18px", fontWeight: "800" }}>{v.name}</div>
+                <div style={{ fontSize: "12.5px", color: "var(--t1,#9fd3bd)", fontWeight: "600", marginTop: "2px" }}>{v.myJob} · A등급 숙련 기술자</div>
+                <div style={{ display: "flex", alignItems: "center", gap: "5px", marginTop: "6px" }}><span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#5fd1a0" }}></span><span style={{ fontSize: "11.5px", color: "var(--t1,#cfe3da)", fontWeight: "600" }}>실명·계좌 인증 완료</span></div>
+              </div>
+            </div>
+          )}
 
           <div style={{ background: "#fff", border: "1px solid #ece8dd", borderRadius: "18px", padding: "14px 6px", marginTop: "14px" }}>
-            <div style={{ fontSize: "11px", fontWeight: "700", color: "#9aa39d", padding: "4px 14px 8px" }}>프로필 완성도 92% · 경력카드 신뢰도 우수</div>
-            <div style={{ height: "6px", background: "#eef0ea", borderRadius: "4px", margin: "0 14px 12px", overflow: "hidden" }}><div style={{ width: "92%", height: "100%", background: "linear-gradient(90deg,var(--c3,#1a6b51),var(--a1,#e8c34a))", borderRadius: "4px" }}></div></div>
+            <div style={{ fontSize: "11px", fontWeight: "700", color: "#9aa39d", padding: "4px 14px 8px" }}>
+              {!user ? "프로필 완성도 0%" : `프로필 완성도 ${completion}% ${completion >= 90 ? '· 경력카드 신뢰도 우수' : ''}`}
+            </div>
+            <div style={{ height: "6px", background: "#eef0ea", borderRadius: "4px", margin: "0 14px 12px", overflow: "hidden" }}>
+              <div style={{ width: !user ? "0%" : `${completion}%`, height: "100%", background: "linear-gradient(90deg,var(--c3,#1a6b51),var(--a1,#e8c34a))", borderRadius: "4px" }}></div>
+            </div>
             {(v.meRows || []).map((row, _i1) => (<React.Fragment key={_i1}>
               <div onClick={row.onClick} style={{ display: "flex", alignItems: "center", gap: "13px", padding: "13px 14px", cursor: "pointer" }}>
                 <div style={{ width: "34px", height: "34px", borderRadius: "11px", background: "#f1f4f0", display: "flex", alignItems: "center", justifyContent: "center", flex: "none" }}>{row.icon}</div>
@@ -960,25 +1115,21 @@ export default function MonoApp() {
           <span style={{ fontSize: "10.5px", fontWeight: v.wHome, letterSpacing: "-.2px", whiteSpace: "nowrap" }}>홈</span>
           <div style={{ width: "5px", height: "5px", borderRadius: "50%", background: v.dotHome }}></div>
         </button>
-        {/* 일자리 탭 — 아직 미구현/미연동이라 숨김(추후 활성화)
         <button onClick={v.goJobs} style={{ flex: "1", background: "none", border: "none", cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center", gap: "5px", paddingTop: "5px", color: v.cJobs, fontFamily: "inherit" }}>
           <svg width="25" height="25" viewBox="0 0 24 24" fill="none"><path d="M6 15.5a6 6 0 0 1 12 0" fill={v.fJobs} stroke="currentColor" strokeWidth="1.9"></path><path d="M3.5 15.5h17" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round"></path><path d="M10.4 9.8V7.4A1.6 1.6 0 0 1 12 5.8a1.6 1.6 0 0 1 1.6 1.6v2.4" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"></path><path d="M12 18.5v0" stroke="currentColor" strokeWidth="2" strokeLinecap="round"></path></svg>
           <span style={{ fontSize: "10.5px", fontWeight: v.wJobs, letterSpacing: "-.2px", whiteSpace: "nowrap" }}>일자리</span>
           <div style={{ width: "5px", height: "5px", borderRadius: "50%", background: v.dotJobs }}></div>
         </button>
-        */}
         <button onClick={v.goCard} style={{ flex: "1", background: "none", border: "none", cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center", gap: "5px", paddingTop: "5px", color: v.cCard, fontFamily: "inherit" }}>
           <svg width="25" height="25" viewBox="0 0 24 24" fill="none"><rect x="2.5" y="5.5" width="19" height="13" rx="3" fill={v.fCard} stroke="currentColor" strokeWidth="1.9"></rect><path d="M2.5 9.6h19" stroke="currentColor" strokeWidth="1.9"></path><rect x="5.8" y="12.3" width="5" height="3.6" rx="1" fill={v.chipCard}></rect><path d="M14 13.2h3.8M14 15.4h2.4" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round"></path></svg>
           <span style={{ fontSize: "10.5px", fontWeight: v.wCard, letterSpacing: "-.3px", whiteSpace: "nowrap" }}>경력카드</span>
           <div style={{ width: "5px", height: "5px", borderRadius: "50%", background: v.dotCard }}></div>
         </button>
-        {/* 출역·정산 탭 — 아직 미구현/미연동이라 숨김(추후 활성화)
         <button onClick={v.goWork} style={{ flex: "1", background: "none", border: "none", cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center", gap: "5px", paddingTop: "5px", color: v.cWork, fontFamily: "inherit" }}>
           <svg width="25" height="25" viewBox="0 0 24 24" fill="none"><rect x="4.5" y="4.5" width="15" height="16.5" rx="2.8" fill={v.fWork} stroke="currentColor" strokeWidth="1.9"></rect><rect x="8.5" y="2.6" width="7" height="3.6" rx="1.3" fill={v.clipWork} stroke="currentColor" strokeWidth="1.7"></rect><path d="m8.4 12.4 1.8 1.8 3.6-3.8" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"></path><path d="M8.6 17h6.8" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round"></path></svg>
           <span style={{ fontSize: "10.5px", fontWeight: v.wWork, letterSpacing: "-.3px", whiteSpace: "nowrap" }}>출역·정산</span>
           <div style={{ width: "5px", height: "5px", borderRadius: "50%", background: v.dotWork }}></div>
         </button>
-        */}
         <button onClick={v.goMe} style={{ flex: "1", background: "none", border: "none", cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center", gap: "5px", paddingTop: "5px", color: v.cMe, fontFamily: "inherit" }}>
           <svg width="25" height="25" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8.2" r="3.7" fill={v.fMe} stroke="currentColor" strokeWidth="1.9"></circle><path d="M4.8 20c.4-3.6 3.4-5.6 7.2-5.6s6.8 2 7.2 5.6Z" fill={v.fMe} stroke="currentColor" strokeWidth="1.9" strokeLinejoin="round"></path></svg>
           <span style={{ fontSize: "10.5px", fontWeight: v.wMe, letterSpacing: "-.2px", whiteSpace: "nowrap" }}>내 정보</span>
@@ -1354,6 +1505,163 @@ export default function MonoApp() {
               </div>
             </div>
             <button type="button" onClick={() => setOpenCareerSheet(false)} style={{ marginTop: "16px", flex: "none", height: "50px", border: "none", borderRadius: "14px", background: "linear-gradient(135deg,var(--c1,#0d3b2e),var(--c2,#114a39))", color: "#fff", fontSize: "15px", fontWeight: "800", fontFamily: "inherit", cursor: "pointer" }}>완료</button>
+          </div>
+        </div>
+      )}
+
+      {openOnboardingSheet && (
+        <div onClick={() => setOpenOnboardingSheet(false)} style={{ position: "absolute", inset: "0", zIndex: "60", background: "rgba(8,20,15,.55)", backdropFilter: "blur(3px)", display: "flex", alignItems: "flex-end", animation: "fadeIn .2s ease" }}>
+          <div onClick={(e) => e.stopPropagation()} style={{ width: "100%", background: "#fff", borderRadius: "28px 28px 0 0", padding: "22px 18px 26px", animation: "sheetUp .32s cubic-bezier(.22,1,.36,1)", maxHeight: "90%", display: "flex", flexDirection: "column", outline: "none" }}>
+            <div style={{ width: "40px", height: "4px", borderRadius: "2px", background: "#e0dccf", margin: "0 auto 16px" }}></div>
+            
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+              <div style={{ fontSize: "18px", fontWeight: "800", color: "#15211c" }}>
+                {onbStep === 0 && "직종 선택"}
+                {onbStep === 1 && "경력 연차 선택"}
+                {onbStep === 2 && "희망 지역 선택"}
+              </div>
+              <div style={{ fontSize: "13px", fontWeight: "700", color: "var(--c3,#1a6b51)", background: "var(--soft,#e6efe9)", padding: "4px 10px", borderRadius: "8px" }}>
+                {onbStep + 1} / 3 단계
+              </div>
+            </div>
+            
+            <div style={{ fontSize: "13px", color: "#8a958d", fontWeight: "500", marginTop: "4px", marginBottom: "16px" }}>
+              {onbStep === 0 && "주요 작업 분야를 선택해 주세요 (복수 선택 가능)"}
+              {onbStep === 1 && "해당 직종의 총 경력 기간을 선택해 주세요"}
+              {onbStep === 2 && "출역을 희망하는 근무 지역을 선택해 주세요 (복수 선택 가능)"}
+            </div>
+
+            <div className="scr" style={{ overflowY: "auto", flex: "1", minHeight: "0", display: "flex", flexDirection: "column", gap: "8px" }}>
+              {onbStep === 0 && (
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px" }}>
+                  {JOB_TYPES.map((opt) => {
+                    const sel = onbJobType.includes(opt);
+                    return (
+                      <button
+                        key={opt}
+                        type="button"
+                        onClick={() => {
+                          setOnbJobType(p => p.includes(opt) ? p.filter(x => x !== opt) : [...p, opt]);
+                        }}
+                        style={{
+                          height: "48px", border: "none", borderRadius: "12px",
+                          background: sel ? "var(--soft,#dde9f0)" : "#f6f4ed",
+                          color: sel ? "var(--c1,#163e57)" : "#15211c",
+                          fontWeight: sel ? "800" : "600", fontSize: "14px", fontFamily: "inherit",
+                          cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: "6px"
+                        }}
+                      >
+                        {opt}
+                        {sel && (
+                          <svg width="14" height="14" viewBox="0 0 20 20" fill="none">
+                            <path d="M5 10.5 8.5 14 15 6.5" stroke="var(--c1,#163e57)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"></path>
+                          </svg>
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
+
+              {onbStep === 1 && (
+                <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                  {CAREER_YEARS.map((opt) => {
+                    const sel = onbCareerYear === opt;
+                    return (
+                      <button
+                        key={opt}
+                        type="button"
+                        onClick={() => {
+                          setOnbCareerYear(opt);
+                        }}
+                        style={{
+                          height: "48px", border: "none", borderRadius: "12px",
+                          background: sel ? "var(--soft,#dde9f0)" : "#f6f4ed",
+                          color: sel ? "var(--c1,#163e57)" : "#15211c",
+                          fontWeight: sel ? "800" : "600", fontSize: "14px", fontFamily: "inherit",
+                          cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 16px"
+                        }}
+                      >
+                        <span>{opt}</span>
+                        {sel && (
+                          <svg width="14" height="14" viewBox="0 0 20 20" fill="none">
+                            <path d="M5 10.5 8.5 14 15 6.5" stroke="var(--c1,#163e57)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"></path>
+                          </svg>
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
+
+              {onbStep === 2 && (
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px" }}>
+                  {REGIONS.map((opt) => {
+                    const sel = onbRegion.includes(opt);
+                    return (
+                      <button
+                        key={opt}
+                        type="button"
+                        onClick={() => {
+                          setOnbRegion(p => p.includes(opt) ? p.filter(x => x !== opt) : [...p, opt]);
+                        }}
+                        style={{
+                          height: "48px", border: "none", borderRadius: "12px",
+                          background: sel ? "var(--soft,#dde9f0)" : "#f6f4ed",
+                          color: sel ? "var(--c1,#163e57)" : "#15211c",
+                          fontWeight: sel ? "800" : "600", fontSize: "14px", fontFamily: "inherit",
+                          cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: "6px"
+                        }}
+                      >
+                        {opt}
+                        {sel && (
+                          <svg width="14" height="14" viewBox="0 0 20 20" fill="none">
+                            <path d="M5 10.5 8.5 14 15 6.5" stroke="var(--c1,#163e57)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"></path>
+                          </svg>
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+
+            <div style={{ display: "flex", gap: "10px", marginTop: "20px" }}>
+              {onbStep > 0 && (
+                <button
+                  type="button"
+                  onClick={() => setOnbStep(p => p - 1)}
+                  style={{
+                    flex: "1", height: "50px", border: "1px solid #e0dccf", borderRadius: "14px",
+                    background: "#fff", color: "#5d6b62", fontSize: "15px", fontWeight: "700",
+                    fontFamily: "inherit", cursor: "pointer"
+                  }}
+                >
+                  이전 단계
+                </button>
+              )}
+              <button
+                type="button"
+                onClick={handleOnboardingNext}
+                disabled={
+                  (onbStep === 0 && onbJobType.length === 0) ||
+                  (onbStep === 1 && !onbCareerYear) ||
+                  (onbStep === 2 && onbRegion.length === 0)
+                }
+                style={{
+                  flex: "2", height: "50px", border: "none", borderRadius: "14px",
+                  background: "linear-gradient(135deg,var(--c1,#0d3b2e),var(--c2,#114a39))",
+                  color: "#fff", fontSize: "15px", fontWeight: "800", fontFamily: "inherit",
+                  cursor: "pointer", opacity: (
+                    (onbStep === 0 && onbJobType.length === 0) ||
+                    (onbStep === 1 && !onbCareerYear) ||
+                    (onbStep === 2 && onbRegion.length === 0)
+                  ) ? 0.5 : 1
+                }}
+              >
+                {onbStep === 2 ? "프로필 등록 완료" : "다음 단계"}
+              </button>
+            </div>
           </div>
         </div>
       )}

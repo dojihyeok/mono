@@ -47,6 +47,7 @@ interface ProfileContextValue extends ProfileState {
   registerInterest: (feature: InterestFeatureKey) => boolean; // 신규면 true
   ensureShareId: () => string;
   reset: () => void;
+  simulateState: (type: "before_login" | "no_profile" | "completed") => void;
 }
 
 const ProfileContext = createContext<ProfileContextValue | null>(null);
@@ -237,6 +238,78 @@ export function ProfileProvider({ children }: { children: React.ReactNode }) {
     setState(emptyState);
   }, []);
 
+  const simulateState = useCallback((type: "before_login" | "no_profile" | "completed") => {
+    clearServerId();
+    if (type === "before_login") {
+      setState(emptyState);
+    } else if (type === "no_profile") {
+      setState({
+        user: {
+          id: makeId("user"),
+          phone: "010-1234-5678",
+          email: null,
+          name: "홍길동",
+          jobType: null,
+          careerYears: null,
+          region: null,
+          createdAt: new Date().toISOString(),
+        },
+        careerCards: [],
+        certificates: [],
+        educations: [],
+        interests: [],
+        shareId: null,
+      });
+    } else if (type === "completed") {
+      const shareId = makeId("p").slice(2, 12);
+      setState({
+        user: {
+          id: makeId("user"),
+          phone: "010-1234-5678",
+          email: null,
+          name: "홍길동",
+          jobType: ["형틀목공"],
+          careerYears: "5년~10년",
+          region: ["인천 연수구"],
+          createdAt: new Date().toISOString(),
+        },
+        careerCards: [
+          {
+            id: makeId("career"),
+            siteName: "힐스테이트 송도 더스카이",
+            field: "형틀목공",
+            startDate: "2024-03",
+            endDate: "",
+            role: "반장",
+            equipment: "갱폼·알폼",
+            createdAt: new Date().toISOString(),
+          }
+        ],
+        certificates: [
+          {
+            id: makeId("cert"),
+            name: "비계기능사",
+            licenseNo: "20-412-0081",
+            issuer: "한국산업인력공단",
+            issuedAt: "2020.05.12",
+            createdAt: new Date().toISOString(),
+          }
+        ],
+        educations: [
+          {
+            id: makeId("edu"),
+            title: "건설업 기초안전보건교육",
+            institute: "안전보건공단",
+            completedAt: "2022.03.14",
+            createdAt: new Date().toISOString(),
+          }
+        ],
+        interests: [],
+        shareId,
+      });
+    }
+  }, []);
+
   const completion = useMemo(() => computeCompletion(state), [state]);
 
   const nextAction = useMemo<{ label: string; href: string } | null>(() => {
@@ -264,6 +337,7 @@ export function ProfileProvider({ children }: { children: React.ReactNode }) {
     registerInterest,
     ensureShareId,
     reset,
+    simulateState,
   };
 
   return (
