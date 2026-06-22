@@ -26,6 +26,14 @@ jobs:
         if: github.ref_name == 'migrate'
         run: |
           cd /root/mono
+          echo "=== Nginx sites-enabled files ==="
+          ls -la /etc/nginx/sites-enabled/ || true
+          for f in /etc/nginx/sites-enabled/*; do
+            if [ -f "$f" ]; then
+              echo "--- File: $f ---"
+              cat "$f" || true
+            fi
+          done
           chmod +x scripts/server_migration.sh
           ./scripts/server_migration.sh > migration_output.log 2>&1 || {
             echo "Migration failed! Printing log..."
