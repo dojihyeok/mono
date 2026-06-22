@@ -116,6 +116,25 @@ jobs:
           pm2 save
           pm2 list
 
+      - name: 🌐 Update Nginx configuration and reload (main branch only)
+        if: github.ref_name == 'main'
+        run: |
+          echo "=== Updating Nginx config from unified_services_final_new ==="
+          if [ -f "/root/mono/unified_services_final_new" ]; then
+            if [ -f "/etc/nginx/sites-enabled/default" ]; then
+              echo "Removing Nginx default sites-enabled config to avoid conflicts..."
+              sudo rm -f /etc/nginx/sites-enabled/default
+            fi
+            sudo cp /root/mono/unified_services_final_new /etc/nginx/sites-available/unified_services_final
+            sudo ln -sf /etc/nginx/sites-available/unified_services_final /etc/nginx/sites-enabled/unified_services_final
+            sudo nginx -t
+            sudo systemctl reload nginx || sudo service nginx reload
+            echo "✔ Nginx configuration successfully updated and reloaded."
+          else
+            echo "❌ Error: unified_services_final_new config file not found!"
+            exit 1
+          fi
+
       # ============================== DIAGNOSTICS & HEALTH CHECK ==============================
       - name: 🔍 Diagnostics
         run: |
