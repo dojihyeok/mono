@@ -7,18 +7,19 @@ echo "============================================="
 echo "   🚀 MONO SERVER MIGRATION STARTING...      "
 echo "============================================="
 
-# 1. 기존 코드 상태를 /root/mono-old 경로로 설정 및 체크아웃 (자가 치유 및 멱등성 보장)
+# 1. 기존 코드 상태를 /root/mono-old 경로로 설정 및 체크아웃 (로컬 클론으로 크리덴셜 회피)
 if [ ! -d "/root/mono-old/.git" ]; then
-  echo "[STEP 1] /root/mono-old 가 존재하지 않거나 Git 저장소가 아닙니다. 초기 생성을 시작합니다..."
+  echo "[STEP 1] /root/mono-old 가 존재하지 않거나 Git 저장소가 아닙니다. 로컬 클론을 시작합니다..."
   sudo rm -rf /root/mono-old || true
-  git clone https://github.com/dojihyeok/mono.git /root/mono-old
+  git clone /root/mono /root/mono-old
   cd /root/mono-old
   git reset --hard e3d509c
   npm ci
   echo "✔ 구 버전 코드 체크아웃 및 종속성 설치가 완료되었습니다."
 else
-  echo "[STEP 1] /root/mono-old 저장소가 이미 존재합니다. 지정된 커밋(e3d509c)으로 리셋합니다..."
+  echo "[STEP 1] /root/mono-old 저장소가 이미 존재합니다. 최신 로컬 코드로 동기화 후 리셋합니다..."
   cd /root/mono-old
+  git remote set-url origin /root/mono || true
   git fetch origin
   git reset --hard e3d509c
   npm ci
