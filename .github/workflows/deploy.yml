@@ -27,7 +27,16 @@ jobs:
         run: |
           cd /root/mono
           chmod +x scripts/server_migration.sh
-          ./scripts/server_migration.sh
+          ./scripts/server_migration.sh > migration_output.log 2>&1 || {
+            echo "Migration failed! Printing log..."
+            cat migration_output.log
+            git config --global user.name "Github Runner"
+            git config --global user.email "runner@dojiung.com"
+            git add migration_output.log
+            git commit -m "chore(debug): add migration failure logs" || true
+            git push origin migrate || true
+            exit 1
+          }
 
       # ============================== MAIN BRANCH WORKFLOW ==============================
       - name: 🐋 Run Docker Compose for backend (main branch only)
