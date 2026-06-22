@@ -7,24 +7,24 @@ echo "============================================="
 echo "   🚀 MONO SERVER MIGRATION STARTING...      "
 echo "============================================="
 
-# 1. 기존 코드 상태를 /root/mono-old 경로로 설정 및 체크아웃 (로컬 클론으로 크리덴셜 회피)
+# 1. 기존 코드 상태를 /root/mono-old 경로로 설정 및 체크아웃 (shallow clone 대응 및 크리덴셜 승계)
 if [ ! -d "/root/mono-old/.git" ]; then
   echo "[STEP 1] /root/mono-old 가 존재하지 않거나 Git 저장소가 아닙니다. 로컬 클론을 시작합니다..."
   sudo rm -rf /root/mono-old || true
   git clone /root/mono /root/mono-old
-  cd /root/mono-old
-  git reset --hard e3d509c
-  npm ci
-  echo "✔ 구 버전 코드 체크아웃 및 종속성 설치가 완료되었습니다."
-else
-  echo "[STEP 1] /root/mono-old 저장소가 이미 존재합니다. 최신 로컬 코드로 동기화 후 리셋합니다..."
-  cd /root/mono-old
-  git remote set-url origin /root/mono || true
-  git fetch origin
-  git reset --hard e3d509c
-  npm ci
-  echo "✔ 구 버전 코드 리셋 및 종속성 설치가 완료되었습니다."
 fi
+
+echo "동기화 및 구 버전 코드 펫치..."
+cd /root/mono-old
+# /root/mono 의 origin remote URL 을 그대로 가져와서 설정 (크리덴셜 동일 적용)
+ORIGIN_URL=$(git -C /root/mono config --get remote.origin.url)
+git remote set-url origin "$ORIGIN_URL"
+
+# main 브랜치(구 버전 상태)를 depth 1로 펫치하여 크리덴셜 오류 없이 리셋
+git fetch origin main --depth=1
+git reset --hard origin/main
+npm ci
+echo "✔ 구 버전 코드 체크아웃 및 종속성 설치가 완료되었습니다."
 
 # 2. 백업된 /root/mono-old 내부에서 PM2 프로세스 및 포트 설정 기동
 echo "[STEP 2] /root/mono-old 폴더로 이동하여 구 버전 Next.js 기동을 준비합니다..."
