@@ -1,0 +1,30 @@
+.wrap {
+  position: relative;
+  flex: none;
+}
+
+.svg {
+  transform: rotate(-90deg);
+}
+
+.center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 1px;
+}
+
+.num {
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  color: var(--app-text);
+}
+
+.pct {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--app-text-secondary);
+}

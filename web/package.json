@@ -1,0 +1,33 @@
+{
+  "name": "mono",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "postinstall": "prisma generate"
+  },
+  "engines": {
+    "node": ">=18.18.0"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.22.0",
+    "framer-motion": "^11.18.2",
+    "lucide-react": "^1.21.0",
+    "next": "^14.2.35",
+    "qrcode.react": "^3.2.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.43",
+    "@types/react": "^18.3.31",
+    "@types/react-dom": "^18.3.7",
+    "eslint": "^8.57.1",
+    "eslint-config-next": "^14.2.35",
+    "prisma": "^5.22.0",
+    "typescript": "^6.0.3"
+  }
+}

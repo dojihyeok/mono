@@ -1,0 +1,67 @@
+# MONO 로컬 개발용 인프라 (Docker Compose)
+# 로컬: `docker compose up -d` → Postgres(5432), Redis(6379)
+# EKS 이관 시: Postgres→RDS/Aurora PostgreSQL, Redis→ElastiCache (또는 StatefulSet) + Secret 으로 대체.
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: mono-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-mono}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-mono_dev_pw}
+      POSTGRES_DB: ${POSTGRES_DB:-mono}
+    ports:
+      - "5432:5432"
+    volumes:
+      - mono-db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-mono} -d ${POSTGRES_DB:-mono}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    container_name: mono-redis
+    restart: unless-stopped
+    command: ["redis-server", "--appendonly", "yes"] # 재시작 시 세션 유지(AOF)
+    ports:
+      - "6379:6379"
+    volumes:
+      - mono-redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  # 백엔드 API (NestJS + Prisma) — feat/api-nestjs
+  api:
+    build: ./api
+    container_name: mono-api
+    restart: unless-stopped
+    environment:
+      # 자격증명은 .env 의 POSTGRES_* 단일 소스에서 보간(${...}) — 비밀번호 중복 정의 없음.
+      # 컨테이너 네트워크에서 Postgres/Redis 호스트는 서비스명(db, redis)으로 접근.
+      DATABASE_URL: "postgresql://${POSTGRES_USER:-mono}:${POSTGRES_PASSWORD:-mono_dev_pw}@db:5432/${POSTGRES_DB:-mono}?schema=public"
+      REDIS_URL: "redis://redis:6379"
+      PORT: "8000"
+      # 로컬/dev: 컨테이너 시작 시 prisma migrate deploy 자동 적용(docs/migrations.md).
+      # 운영(EKS)에서는 0 으로 두고 별도 마이그레이션 Job 이 적용한다.
+      RUN_MIGRATIONS: "1"
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8000:8000"
+    healthcheck:
+      # /health(GET) → {status:"ok"} 200. 별도 도구 없이 node 내장 http 사용.
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:8000/health',r=>process.exit(r.statusCode===200?0:1)).on('error',()=>process.exit(1))"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
+volumes:
+  mono-db-data:
+  mono-redis-data:

@@ -1,0 +1,58 @@
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 54px;
+  padding: 0 22px;
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  transition:
+    transform 0.08s ease,
+    background 0.15s ease,
+    box-shadow 0.15s ease,
+    opacity 0.15s ease;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+.btn:active {
+  transform: scale(0.985);
+}
+
+.btn:disabled {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.full {
+  width: 100%;
+}
+
+.primary {
+  background: var(--app-accent);
+  color: #fff;
+  box-shadow: 0 8px 18px -8px rgba(15, 46, 64, 0.55);
+}
+.primary:hover {
+  background: var(--app-accent-press);
+}
+
+.secondary {
+  background: var(--app-accent-weak);
+  color: var(--app-accent);
+}
+.secondary:hover {
+  background: color-mix(in srgb, var(--app-accent-weak) 85%, var(--app-accent));
+}
+
+.ghost {
+  background: var(--app-surface);
+  color: var(--app-text);
+}
+.ghost:hover {
+  background: var(--app-border);
+}

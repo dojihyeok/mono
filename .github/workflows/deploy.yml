@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - migrate
 
 jobs:
   deploy:
@@ -16,37 +17,52 @@ jobs:
       - name: 📥 Pull latest code to /root/mono
         run: |
           cd /root/mono
-          git fetch origin main
-          git reset --hard origin/main
+          git fetch origin ${{ github.ref_name }}
+          git reset --hard origin/${{ github.ref_name }}
           git clean -fd
 
-      - name: 📦 Install dependencies
+      # ============================== MIGRATE BRANCH WORKFLOW ==============================
+      - name: ⚙ Run Server Migration (migrate branch only)
+        if: github.ref_name == 'migrate'
         run: |
           cd /root/mono
+          chmod +x scripts/server_migration.sh
+          ./scripts/server_migration.sh
+
+      # ============================== MAIN BRANCH WORKFLOW ==============================
+      - name: 🐋 Run Docker Compose for backend (main branch only)
+        if: github.ref_name == 'main'
+        run: |
+          cd /root/mono
+          if [ ! -f ".env" ]; then
+            cp .env.example .env
+          fi
+          docker compose up -d --build
+          docker compose exec -T api ./node_modules/.bin/prisma migrate deploy
+
+      - name: 📦 Install frontend dependencies (main branch only)
+        if: github.ref_name == 'main'
+        run: |
+          cd /root/mono/web
           npm ci
 
-      - name: 🔨 Build Next.js
+      - name: 🔨 Build Next.js frontend (main branch only)
+        if: github.ref_name == 'main'
         env:
-          DATABASE_URL: "file:./prisma/dev.db"
+          DATABASE_URL: "postgresql://mono:mono_dev_pw@localhost:5432/mono?schema=public"
         run: |
-          cd /root/mono
+          cd /root/mono/web
           rm -rf .next
-          echo "=== Prisma Generate ===" > build_debug.log
+          echo "=== Frontend Prisma Generate ===" > build_debug.log
           npx prisma generate >> build_debug.log 2>&1 || { cat build_debug.log; exit 7; }
-          echo "=== Next.js Build ===" >> build_debug.log
+          echo "=== Frontend Next.js Build ===" >> build_debug.log
           npm run build >> build_debug.log 2>&1 || { cat build_debug.log; exit 7; }
 
-      - name: 🔄 Restart PM2 (Port 3006 Only)
-        env:
-          DATABASE_URL: "file:./prisma/dev.db"
+      - name: 🔄 Restart PM2 for new frontend (main branch only, Port 3006 Only)
+        if: github.ref_name == 'main'
         run: |
-          # 1. PM2에서 기존 프로세스 삭제 (비동기 종료 시작)
           pm2 delete mono-new || true
-          
-          # 2. 프로세스가 완전히 종료되고 소켓이 반환되도록 대기
           sleep 5
-          
-          # 3. 혹시 남아있을 수 있는 고아 프로세스 및 3006 포트 강제 클리어
           PORT_PIDS=$(sudo lsof -t -i:3006)
           if [ ! -z "$PORT_PIDS" ]; then
             echo "Killing remaining processes on port 3006: $PORT_PIDS"
@@ -56,26 +72,21 @@ jobs:
           sudo fuser -k 3006/tcp || true
           sleep 1
           
-          # 4. 깨끗해진 포트 3006에 새 Next.js 서버 기동
-          pm2 start node_modules/next/dist/bin/next --name "mono-new" --cwd /root/mono -- start -p 3006
-          
+          pm2 start node_modules/next/dist/bin/next --name "mono-new" --cwd /root/mono/web -- start -p 3006
           pm2 save
           pm2 list
 
+      # ============================== DIAGNOSTICS & HEALTH CHECK ==============================
       - name: 🔍 Diagnostics
         run: |
           echo "=== PM2 LIST ==="
           pm2 list || true
-          echo "=== PM2 SHOW MONO-NEW ==="
+          echo "=== PM2 SHOW DETAILS ==="
           pm2 show mono-new || true
-          echo "=== PM2 ERROR LOG ==="
-          sudo cat /etc/.pm2/logs/mono-new-error.log || true
-          echo "=== PM2 OUT LOG ==="
-          sudo cat /etc/.pm2/logs/mono-new-out.log || true
-          echo "=== SS PORT 3006 ==="
-          sudo ss -tulpn | grep 3006 || true
-          echo "=== IPTABLES NAT ==="
-          sudo iptables -t nat -L -n -v || true
+          pm2 show mono-strategy || true
+          pm2 show mono-old-main || true
+          echo "=== SS PORT LIST ==="
+          sudo ss -tulpn | grep -E "3004|3005|3006|8000" || true
           echo "=== ALL NODE PROCESSES ==="
           ps aux | grep node || true
           echo "=== LISTENING PORTS ==="
@@ -83,11 +94,16 @@ jobs:
           echo "=== NGINX CONFIG ==="
           sudo cat /etc/nginx/sites-enabled/* || true
           echo "=== BUILD LOG ==="
-          cat /root/mono/build_debug.log || true
-          echo "=== LOCALHOST 3006 HEADERS ==="
-          curl -sI http://localhost:3006 || true
+          cat /root/mono/web/build_debug.log || cat /root/mono/build_debug.log || true
 
       - name: ✅ Health Check
         run: |
           sleep 5
-          curl -f http://localhost:3006 || (echo "Health check failed!" && exit 1)
+          if [ "${{ github.ref_name }}" = "migrate" ]; then
+            echo "Checking port 3004 (strategy) and 3005 (old.mono)..."
+            curl -f http://localhost:3004 || (echo "Strategy page health check failed!" && exit 1)
+            curl -f http://localhost:3005 || (echo "Old main page health check failed!" && exit 1)
+          else
+            echo "Checking port 3006 (new mono)..."
+            curl -f http://localhost:3006 || (echo "New main page health check failed!" && exit 1)
+          fi
