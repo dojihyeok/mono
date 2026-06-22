@@ -47,6 +47,29 @@ jobs:
           }
 
       # ============================== MAIN BRANCH WORKFLOW ==============================
+      - name: 🛠 Ensure Docker and Docker Compose are installed
+        if: github.ref_name == 'main'
+        run: |
+          echo "=== Checking Docker installation ==="
+          if ! command -v docker &> /dev/null; then
+            echo "Docker not found. Installing Docker..."
+            sudo apt-get update
+            sudo apt-get install -y docker.io
+          else
+            echo "Docker is already installed."
+          fi
+          
+          if ! docker compose version &> /dev/null; then
+            echo "Docker Compose plugin not found. Installing docker-compose-v2..."
+            sudo apt-get install -y docker-compose-v2 || sudo apt-get install -y docker-compose
+          else
+            echo "Docker Compose is already installed."
+          fi
+          
+          echo "=== Starting Docker Service ==="
+          sudo systemctl start docker || sudo service docker start || true
+          sudo systemctl enable docker || true
+
       - name: 🐋 Run Docker Compose for backend (main branch only)
         if: github.ref_name == 'main'
         run: |
@@ -66,7 +89,7 @@ jobs:
       - name: 🔨 Build Next.js frontend (main branch only)
         if: github.ref_name == 'main'
         env:
-          DATABASE_URL: "postgresql://mono:mono_dev_pw@localhost:5432/mono?schema=public"
+          DATABASE_URL: "postgresql://mono:mono_dev_pw@localhost:5433/mono?schema=public"
         run: |
           cd /root/mono/web
           rm -rf .next
@@ -89,7 +112,7 @@ jobs:
           sudo fuser -k 3006/tcp || true
           sleep 1
           
-          pm2 start node_modules/next/dist/bin/next --name "mono-new" --cwd /root/mono/web -- start -p 3006
+          API_URL="http://localhost:8001" pm2 start node_modules/next/dist/bin/next --name "mono-new" --cwd /root/mono/web -- start -p 3006
           pm2 save
           pm2 list
 
@@ -107,7 +130,7 @@ jobs:
           echo "=== PM2 MONO-OLD-MAIN ERROR LOG ==="
           cat /root/.pm2/logs/mono-old-main-error.log | tail -n 100 || true
           echo "=== SS PORT LIST ==="
-          sudo ss -tulpn | grep -E "3004|3005|3006|8000" || true
+          sudo ss -tulpn | grep -E "3004|3005|3006|3007|8000|8001|5433" || true
           echo "=== ALL NODE PROCESSES ==="
           ps aux | grep node || true
           echo "=== LISTENING PORTS ==="
@@ -125,6 +148,7 @@ jobs:
             curl -f http://localhost:3004/strategy || (echo "Strategy page health check failed!" && exit 1)
             curl -f http://localhost:3007 || (echo "Old main page health check failed!" && exit 1)
           else
-            echo "Checking port 3006 (new mono)..."
+            echo "Checking port 3006 (new mono) and port 8001 (api)..."
             curl -f http://localhost:3006 || (echo "New main page health check failed!" && exit 1)
+            curl -f http://localhost:8001/health || (echo "NestJS API health check failed!" && exit 1)
           fi
