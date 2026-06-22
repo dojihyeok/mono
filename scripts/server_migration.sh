@@ -7,13 +7,16 @@ echo "============================================="
 echo "   🚀 MONO SERVER MIGRATION STARTING...      "
 echo "============================================="
 
-# 1. 기존 /root/mono 폴더를 /root/mono-old 경로로 백업 복사 (최초 1회 실행)
+# 1. 기존 코드 상태를 /root/mono-old 경로로 설정 및 체크아웃 (최초 1회 실행)
 if [ ! -d "/root/mono-old" ]; then
-  echo "[STEP 1] /root/mono-old 폴더가 존재하지 않아 기존 /root/mono의 백업 복사를 시작합니다..."
-  cp -r /root/mono /root/mono-old
-  echo "✔ 백업 복사가 완료되었습니다 (/root/mono-old)."
+  echo "[STEP 1] /root/mono-old 폴더가 존재하지 않아 생성을 진행합니다..."
+  git clone https://github.com/dojihyeok/mono.git /root/mono-old
+  cd /root/mono-old
+  git reset --hard e3d509c
+  npm ci
+  echo "✔ 구 버전 코드 체크아웃 및 종속성 설치가 완료되었습니다."
 else
-  echo "[STEP 1] /root/mono-old 백업 폴더가 이미 존재하므로 추가 복사를 생략합니다."
+  echo "[STEP 1] /root/mono-old 폴더가 이미 존재하므로 추가 설정을 생략합니다."
 fi
 
 # 2. 백업된 /root/mono-old 내부에서 PM2 프로세스 및 포트 설정 기동
