@@ -215,7 +215,7 @@ server {
 }
 
 
-# 5. Mono - Port 3004 (SSL) & mono-new Port 3006
+# 5. Mono - Port 3004 (SSL)
 # =============================================================
 server {
     listen 80;
@@ -230,9 +230,9 @@ server {
     ssl_certificate /etc/letsencrypt/live/mono.dojiung.com/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/mono.dojiung.com/privkey.pem;
 
-    # Route /strategy page running on port 3006
+    # Route /strategy page running on port 3004
     location /strategy {
-        proxy_pass http://127.0.0.1:3006;
+        proxy_pass http://127.0.0.1:3004;
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection 'upgrade';
@@ -243,20 +243,8 @@ server {
         proxy_set_header X-Forwarded-Proto $scheme;
     }
 
-    # Static assets fallback: Try new build (3006) first, fallback to old build (3004) if 404
+    # Static assets running on port 3004
     location /_next/static/ {
-        proxy_pass http://127.0.0.1:3006;
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection 'upgrade';
-        proxy_set_header Host $host;
-        proxy_cache_bypass $http_upgrade;
-
-        proxy_intercept_errors on;
-        error_page 404 = @fallback_old_static;
-    }
-
-    location @fallback_old_static {
         proxy_pass http://127.0.0.1:3004;
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
@@ -265,9 +253,9 @@ server {
         proxy_cache_bypass $http_upgrade;
     }
 
-    # Rebuilt main app running on port 3006
+    # Rebuilt main app running on port 3004
     location / {
-        proxy_pass http://127.0.0.1:3006;
+        proxy_pass http://127.0.0.1:3004;
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection 'upgrade';

@@ -21,6 +21,28 @@ jobs:
           git reset --hard FETCH_HEAD
           git clean -fd
 
+      - name: 📝 Copy and Commit latest strategy.html from server mono-old
+        if: github.ref_name == 'main'
+        run: |
+          cd /root/mono
+          if [ -f "/root/mono-old/public/pitch.html" ]; then
+            echo "✔ Found latest pitch.html on server! Copying to web/public/strategy.html..."
+            cp /root/mono-old/public/pitch.html web/public/strategy.html
+            
+            git config --global user.name "Github Runner"
+            git config --global user.email "runner@dojiung.com"
+            git add web/public/strategy.html
+            
+            if ! git diff --cached --quiet; then
+              git commit -m "chore(deploy): sync web/public/strategy.html with server pitch.html"
+              git push origin main || true
+            else
+              echo "No changes in strategy.html, skipping commit."
+            fi
+          else
+            echo "⚠ /root/mono-old/public/pitch.html not found! Skipping copy."
+          fi
+
       # ============================== MIGRATE BRANCH WORKFLOW ==============================
       - name: ⚙ Run Server Migration (migrate branch only)
         if: github.ref_name == 'migrate'
@@ -98,21 +120,22 @@ jobs:
           echo "=== Frontend Next.js Build ===" >> build_debug.log
           npm run build >> build_debug.log 2>&1 || { cat build_debug.log; exit 7; }
 
-      - name: 🔄 Restart PM2 for new frontend (main branch only, Port 3006 Only)
+      - name: 🔄 Restart PM2 for new frontend (main branch only, Port 3004 Only)
         if: github.ref_name == 'main'
         run: |
+          pm2 delete mono || true
           pm2 delete mono-new || true
           sleep 5
-          PORT_PIDS=$(sudo lsof -t -i:3006)
+          PORT_PIDS=$(sudo lsof -t -i:3004)
           if [ ! -z "$PORT_PIDS" ]; then
-            echo "Killing remaining processes on port 3006: $PORT_PIDS"
+            echo "Killing remaining processes on port 3004: $PORT_PIDS"
             sudo kill -9 $PORT_PIDS || true
             sleep 2
           fi
-          sudo fuser -k 3006/tcp || true
+          sudo fuser -k 3004/tcp || true
           sleep 1
           
-          API_URL="http://localhost:8001" pm2 start node_modules/next/dist/bin/next --name "mono-new" --cwd /root/mono/web -- start -p 3006
+          API_URL="http://localhost:8001" pm2 start node_modules/next/dist/bin/next --name "mono" --cwd /root/mono/web -- start -p 3004
           pm2 save
           pm2 list
 
@@ -167,7 +190,7 @@ jobs:
             curl -f http://localhost:3004/strategy || (echo "Strategy page health check failed!" && exit 1)
             curl -f http://localhost:3007 || (echo "Old main page health check failed!" && exit 1)
           else
-            echo "Checking port 3006 (new mono) and port 8001 (api)..."
-            curl -f http://localhost:3006 || (echo "New main page health check failed!" && exit 1)
+            echo "Checking port 3004 (new mono) and port 8001 (api)..."
+            curl -f http://localhost:3004/strategy || (echo "Mono strategy page health check failed!" && exit 1)
             curl -f http://localhost:8001/health || (echo "NestJS API health check failed!" && exit 1)
           fi
