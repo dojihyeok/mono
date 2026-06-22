@@ -57,16 +57,23 @@ pm2 list
 # 3. Nginx 설정 파일 교체 및 적용
 echo "[STEP 3] Nginx 설정 파일을 최신본으로 반영합니다..."
 
-ACTIVE_CONF=$(ls /etc/nginx/sites-enabled/ | head -n 1)
-if [ -z "$ACTIVE_CONF" ]; then
-  ACTIVE_CONF="default"
-fi
-echo "탐색된 활성 Nginx 설정 파일명: /etc/nginx/sites-enabled/$ACTIVE_CONF"
-
 # 백업 복사본이 /root/mono/unified_services_final_new 에 있으므로 해당 파일 내용을 반영
 if [ -f "/root/mono/unified_services_final_new" ]; then
-  echo "✔ unified_services_final_new 설정을 /etc/nginx/sites-enabled/$ACTIVE_CONF 로 복사합니다."
-  sudo cp /root/mono/unified_services_final_new /etc/nginx/sites-enabled/$ACTIVE_CONF
+  # 1. 중복 충돌을 방지하기 위해 /etc/nginx/sites-enabled/default 파일 제거
+  if [ -f "/etc/nginx/sites-enabled/default" ]; then
+    echo "✔ 기존 default 설정(/etc/nginx/sites-enabled/default)을 제거하여 중복 충돌을 방지합니다."
+    sudo rm -f /etc/nginx/sites-enabled/default
+  fi
+
+  # 2. sites-available 에 최신 설정 복사
+  echo "✔ unified_services_final_new 설정을 /etc/nginx/sites-available/unified_services_final 로 복사합니다."
+  sudo cp /root/mono/unified_services_final_new /etc/nginx/sites-available/unified_services_final
+
+  # 3. sites-enabled 에 심링크 생성 (존재하지 않는 경우)
+  if [ ! -L "/etc/nginx/sites-enabled/unified_services_final" ]; then
+    echo "✔ /etc/nginx/sites-enabled/unified_services_final 심링크를 생성합니다."
+    sudo ln -sf /etc/nginx/sites-available/unified_services_final /etc/nginx/sites-enabled/unified_services_final
+  fi
   
   echo "Nginx 문법 검사를 실행합니다..."
   sudo nginx -t
