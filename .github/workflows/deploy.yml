@@ -121,9 +121,9 @@ jobs:
         run: |
           sleep 5
           if [ "${{ github.ref_name }}" = "migrate" ]; then
-            echo "Checking port 3004 (strategy) and 3005 (old.mono)..."
+            echo "Checking port 3004 (strategy) and 3007 (old.mono)..."
             curl -f http://localhost:3004/strategy || (echo "Strategy page health check failed!" && exit 1)
-            curl -f http://localhost:3005 || (echo "Old main page health check failed!" && exit 1)
+            curl -f http://localhost:3007 || (echo "Old main page health check failed!" && exit 1)
           else
             echo "Checking port 3006 (new mono)..."
             curl -f http://localhost:3006 || (echo "New main page health check failed!" && exit 1)

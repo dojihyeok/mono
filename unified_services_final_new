@@ -279,7 +279,7 @@ server {
     }
 }
 
-# ============================== old.mono.dojiung.com (Port 3005) ==============================
+# ============================== old.mono.dojiung.com (Port 3007) ==============================
 server {
     listen 80;
     server_name old.mono.dojiung.com;
@@ -295,7 +295,7 @@ server {
     ssl_certificate_key /etc/letsencrypt/live/mono.dojiung.com/privkey.pem;
 
     location / {
-        proxy_pass http://127.0.0.1:3005;
+        proxy_pass http://127.0.0.1:3007;
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection 'upgrade';
