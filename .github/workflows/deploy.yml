@@ -18,7 +18,7 @@ jobs:
         run: |
           cd /root/mono
           git fetch origin ${{ github.ref_name }}
-          git reset --hard origin/${{ github.ref_name }}
+          git reset --hard FETCH_HEAD
           git clean -fd
 
       # ============================== MIGRATE BRANCH WORKFLOW ==============================
@@ -118,7 +118,7 @@ jobs:
           sleep 5
           if [ "${{ github.ref_name }}" = "migrate" ]; then
             echo "Checking port 3004 (strategy) and 3005 (old.mono)..."
-            curl -f http://localhost:3004 || (echo "Strategy page health check failed!" && exit 1)
+            curl -f http://localhost:3004/strategy || (echo "Strategy page health check failed!" && exit 1)
             curl -f http://localhost:3005 || (echo "Old main page health check failed!" && exit 1)
           else
             echo "Checking port 3006 (new mono)..."
