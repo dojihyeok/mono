@@ -136,8 +136,8 @@ jobs:
             sudo cp /root/mono/unified_services_final_new /etc/nginx/sites-available/unified_services_final
             sudo ln -sf /etc/nginx/sites-available/unified_services_final /etc/nginx/sites-enabled/unified_services_final
             sudo nginx -t
-            sudo systemctl reload nginx || sudo service nginx reload
-            echo "✔ Nginx configuration successfully updated and reloaded."
+            sudo systemctl restart nginx || sudo service nginx restart
+            echo "✔ Nginx configuration successfully updated and restarted."
           else
             echo "❌ Error: unified_services_final_new config file not found!"
             exit 1
