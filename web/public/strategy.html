@@ -197,7 +197,8 @@
 
   /* ── 8. IntroBlock ────────────────────────────────────────── */
   .intro-block {
-    max-width: 860px;
+    display: block;
+    max-width: 780px;
     margin-top: 44px;
     margin-bottom: 28px;
     text-align: left;
@@ -211,18 +212,18 @@
     text-transform: uppercase;
   }
   .intro-block h3 {
-    max-width: 980px;
-    font-size: 1.5rem;
-    line-height: 1.25;
+    max-width: 720px;
+    font-size: 1.45rem;
+    line-height: 1.28;
     font-weight: 800;
     color: #0A0F1A;
     word-break: keep-all;
   }
   .intro-block p {
-    max-width: 780px;
+    max-width: 100%;
     line-height: 1.75;
     word-break: keep-all;
-    margin-top: 12px;
+    margin-top: 10px;
     font-size: 15px;
     color: #334155;
   }
@@ -925,13 +926,20 @@
     </div>
 
     <!-- 3. 데이터 인프라 설명 블록 (IntroBlock) -->
-    <div class="intro-block reveal mt-8">
+    <div class="intro-block reveal mt-8" style="max-width: 780px;">
       <div class="eyebrow">MONO 데이터 인프라 흐름</div>
       <h3 class="font-bold text-ink-900">MONO의 핵심은 사람을 한 번 연결하는 것이 아니라, 연결 과정에서 발생하는 데이터를 축적하는 것입니다.</h3>
+      <p class="text-ink-700 mt-3">
+        기술자가 일자리를 찾고 프로필을 등록하면 경력, 자격, 안전교육, 장비 사용 이력이 쌓입니다.
+        기업이 채용 공고를 등록하고 현장에 기술자를 투입하면 채용 수요, 현장 배치, 협력사 운영, 장비·자재 사용 데이터가 쌓입니다.
+      </p>
       <p class="text-ink-700 mt-2">
-        기술자가 일자리를 찾고 프로필을 등록하면 경력, 자격, 안전교육, 장비 사용 이력이 쌓입니다.<br>
-        기업이 채용 공고를 등록하고 현장에 기술자를 투입하면 채용 수요, 현장 배치, 협력사 운영, 장비·자재 사용 데이터가 쌓입니다.<br>
-        이 데이터는 기술자에게 금융·보험·교육 기회로 확장되고, 기업에게는 현장 운영 리포트와 안전관리 데이터가 되며, 장기적으로는 Tech-Blue(기술자의 경험과 현장 데이터를 기반으로 산업 문제를 기술로 해결하는 MONO의 장기 기술 방향), AI 운영체제(산업 현장 데이터를 기반으로 기업과 기술자의 의사결정을 지원하는 운영 시스템), AGI Core OS(MONO가 축적한 산업 데이터가 장기적으로 도달할 수 있는 산업 지능화 비전)의 기반 데이터가 됩니다.
+        이 데이터는 기술자에게 금융·보험·교육 기회로 확장되고, 기업에게는 현장 운영 리포트와 안전관리 데이터가 됩니다.
+      </p>
+      <p class="text-ink-700 mt-2">
+        장기적으로는 <strong class="text-ink-900">Tech-Blue</strong> (기술자 경험 기반 산업 기술화),
+        <strong class="text-ink-900">AI 운영체제</strong> (현장 데이터 기반 의사결정 지원),
+        <strong class="text-ink-900">AGI Core OS</strong> (산업 지능화 비전)의 기반 데이터가 됩니다.
       </p>
     </div>
 
