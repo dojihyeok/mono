@@ -346,6 +346,86 @@
       </button>
     </div>
 
+    <!-- MONO 사업 구조 인포그래픽 추가 (01. 서비스 소개 하단 full-width) -->
+    <div class="mt-8 bg-white border border-ink-900/10 p-5 rounded-xl shadow-neo-soft zoomable-svg-container cursor-pointer" onclick="openLightbox(this)">
+      <div class="text-center pb-2 border-b border-ink-900/5 mb-4 flex items-center justify-between">
+        <span class="text-[11px] font-mono font-bold text-ink-500 uppercase tracking-widest"><i class="fa-solid fa-sitemap text-indigo-600"></i> MONO 사업 구조 인포그래픽 (Platform Ecosystem)</span>
+        <span class="text-[10px] text-indigo-600 bg-indigo-50 px-1.5 py-0.5 rounded font-bold"><i class="fa-solid fa-magnifying-glass-plus"></i> 클릭하여 확대보기</span>
+      </div>
+      <div class="w-full bg-warm-50/50 p-4 rounded-lg">
+        <svg viewBox="0 0 800 420" class="w-full h-auto block" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="gradient-b2c" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#4F46E5"/>
+              <stop offset="100%" stop-color="#3730A3"/>
+            </linearGradient>
+            <linearGradient id="gradient-b2b" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#0F172A"/>
+              <stop offset="100%" stop-color="#1E293B"/>
+            </linearGradient>
+            <linearGradient id="gradient-lake" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#EEF2F6"/>
+              <stop offset="100%" stop-color="#E2E8F0"/>
+            </linearGradient>
+            <marker id="arrow-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="#4F46E5" />
+            </marker>
+          </defs>
+
+          <!-- 1. Top Column: 양대 핵심 기둥 -->
+          <!-- B2C Column -->
+          <rect x="50" y="20" width="320" height="100" rx="8" fill="url(#gradient-b2c)" stroke="#4338CA" stroke-width="2"/>
+          <text x="70" y="55" font-weight="900" font-size="16" fill="#FCFCFE">B2C : MONO Profile</text>
+          <text x="70" y="80" font-size="11" fill="#E0E7FF">기술자 평생 경력 자산화 · 신뢰 프로필 빌드</text>
+          <text x="70" y="98" font-size="10" fill="#C7D2FE" font-weight="bold">안전교육 · 이력 검증 · 평판 데이터</text>
+
+          <!-- B2B SaaS Column -->
+          <rect x="430" y="20" width="320" height="100" rx="8" fill="url(#gradient-b2b)" stroke="#0F172A" stroke-width="2"/>
+          <text x="450" y="55" font-weight="900" font-size="16" fill="#FCFCFE">B2B : Partner Workspace</text>
+          <text x="450" y="80" font-size="11" fill="#94A3B8">채용 공고 · 원청-하청 통합 관리 SaaS</text>
+          <text x="450" y="98" font-size="10" fill="#CBD5E1" font-weight="bold">인력 투입 관제 · 대기업 협력 PoC</text>
+
+          <!-- Flow Down Arrow 1 -->
+          <path d="M 210 120 L 210 160" fill="none" stroke="#4F46E5" stroke-dasharray="3 3" stroke-width="2" marker-end="url(#arrow-blue)"/>
+          <!-- Flow Down Arrow 2 -->
+          <path d="M 590 120 L 590 160" fill="none" stroke="#4F46E5" stroke-dasharray="3 3" stroke-width="2" marker-end="url(#arrow-blue)"/>
+
+          <!-- 2. Mid Column: MONO Data Lake -->
+          <rect x="180" y="160" width="440" height="70" rx="8" fill="url(#gradient-lake)" stroke="#CBD5E1" stroke-width="1.5"/>
+          <text x="400" y="193" text-anchor="middle" font-weight="900" font-size="14" fill="#0F172A">통합 데이터 저장소 : MONO Data Lake</text>
+          <text x="400" y="215" text-anchor="middle" font-size="10" fill="#475569">신뢰 프로필 ＋ B2B 채용·운영 ＋ 실시간 작업 현장 이력 데이터 융합</text>
+
+          <!-- Flow Down Arrow 3 -->
+          <path d="M 400 230 L 400 270" fill="none" stroke="#4F46E5" stroke-width="2" marker-end="url(#arrow-blue)"/>
+
+          <!-- 3. Bottom Column: Growth BM (Field Operations) -->
+          <rect x="50" y="270" width="700" height="130" rx="8" fill="#F8FAFC" stroke="#4F46E5" stroke-dasharray="2 2" stroke-width="1.5"/>
+          <text x="70" y="298" font-weight="900" font-size="13" fill="#4F46E5">Growth BM : MONO Field Operations (현장 실물 자산 및 서비스 연계)</text>
+          
+          <!-- Sub nodes inside Field Operations -->
+          <!-- Node 1: 장비/공구 -->
+          <rect x="70" y="315" width="200" height="32" rx="4" fill="#EEF2F6" stroke="#CBD5E1" stroke-width="1"/>
+          <text x="170" y="335" text-anchor="middle" font-weight="bold" font-size="10" fill="#1E293B">공구 대여 · 전문장비 패키지</text>
+
+          <!-- Node 2: 자재 조달 -->
+          <rect x="300" y="315" width="200" height="32" rx="4" fill="#EEF2F6" stroke="#CBD5E1" stroke-width="1"/>
+          <text x="400" y="335" text-anchor="middle" font-weight="bold" font-size="10" fill="#1E293B">소모자재 반복 발주 자동화</text>
+
+          <!-- Node 3: 환경/교육 -->
+          <rect x="530" y="315" width="200" height="32" rx="4" fill="#EEF2F6" stroke="#CBD5E1" stroke-width="1"/>
+          <text x="630" y="335" text-anchor="middle" font-weight="bold" font-size="10" fill="#1E293B">근무환경 케어 · 안전 교육 프로그램</text>
+
+          <!-- Node 4: 파트너/정비 -->
+          <rect x="70" y="355" width="315" height="32" rx="4" fill="#EEF2F6" stroke="#CBD5E1" stroke-width="1"/>
+          <text x="227" y="375" text-anchor="middle" font-weight="bold" font-size="10" fill="#1E293B">지역 공급 파트너 연계 · 정비 및 보증</text>
+
+          <!-- Node 5: 금융/인재 -->
+          <rect x="415" y="355" width="315" height="32" rx="4" fill="#EEF2F6" stroke="#4F46E5" stroke-width="1"/>
+          <text x="572" y="375" text-anchor="middle" font-weight="bold" font-size="10" fill="#4F46E5">금융·보험사 연계 ＋ Tech-Blue 인재 육성</text>
+        </svg>
+      </div>
+    </div>
+
   </div>
 </section>
 
@@ -358,60 +438,13 @@
     <!-- 1. 상단 Hero 영역 (상단 메인 타이틀 + 하단 2단 그리드로 도식과 본문 배치) -->
     <div class="space-y-6">
       <div class="section-label"><span class="num">02</span> MONO VISION & 상생 데이터 인프라</div>
-      <h2 class="h-display text-ink-900 leading-[1.2] md:leading-tight tracking-tight max-w-5xl" style="word-break: break-all;">일자리는 쉽게 찾고, 기업은 채용 공고를 쉽게 등록하며, 산업은 상생 데이터를 축적하는 MONO</h2>
       
       <div class="grid lg:grid-cols-12 gap-8 lg:gap-12 items-start pt-2">
-        <!-- Left (도식 배치 - 50%) -->
-        <div class="lg:col-span-6">
-          <div class="bg-white border border-ink-900/10 p-4 rounded-xl shadow-neo-soft w-full max-w-lg mx-auto">
-            <div class="text-center pb-2 border-b border-ink-900/5 mb-3">
-              <span class="text-[11px] font-mono font-bold text-ink-500 uppercase tracking-widest"><i class="fa-solid fa-network-wired text-indigo-600"></i> 대기업 상생 협업 구조도</span>
-            </div>
-            <div class="w-full bg-warm-50/50 p-2 rounded-lg">
-              <svg viewBox="0 0 500 252" class="w-full h-auto block" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                  <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-                    <path d="M 0 0 L 10 5 L 0 10 z" fill="#4F46E5" />
-                  </marker>
-                </defs>
-                <rect width="100%" height="100%" fill="none"/>
-                <!-- Tier 1: Big Corp -->
-                <rect x="170" y="8" width="160" height="44" rx="6" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="2"/>
-                <text x="250" y="25" text-anchor="middle" font-weight="900" font-size="11" fill="#0F172A">대기업 (삼성전자 등)</text>
-                <text x="250" y="39" text-anchor="middle" font-size="8" fill="#64748B" font-weight="bold">5조 상생 펀드 및 투자 확대</text>
-
-                <!-- Connection 1 -->
-                <line x1="250" y1="52" x2="250" y2="80" stroke="#4F46E5" stroke-width="2" marker-end="url(#arrow)"/>
-
-                <!-- Tier 2: MONO -->
-                <rect x="130" y="80" width="240" height="60" rx="8" fill="#EEF2F6" stroke="#4F46E5" stroke-width="2"/>
-                <text x="250" y="108" text-anchor="middle" font-weight="900" font-size="13" fill="#4F46E5">MONO 상생 데이터 인프라</text>
-                <text x="250" y="126" text-anchor="middle" font-size="9" fill="#1E293B" font-weight="700">안전·인력·교육·장비 데이터 관리</text>
-
-                <!-- Connection 2 (Left to Subcontractor) -->
-                <path d="M 200 140 C 200 170, 120 170, 120 192" fill="none" stroke="#4F46E5" stroke-width="1.5" marker-end="url(#arrow)"/>
-                
-                <!-- Connection 3 (Right to Tech Worker) -->
-                <path d="M 300 140 C 300 170, 380 170, 380 192" fill="none" stroke="#4F46E5" stroke-width="1.5" marker-end="url(#arrow)"/>
-
-                <!-- Subcontractor Node -->
-                <rect x="40" y="200" width="160" height="44" rx="6" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="2"/>
-                <text x="120" y="217" text-anchor="middle" font-weight="900" font-size="11" fill="#0F172A">협력사 (Subcontractor)</text>
-                <text x="120" y="231" text-anchor="middle" font-size="8" fill="#64748B">검증인력 및 현장운영 확보</text>
-
-                <!-- Tech Worker Node -->
-                <rect x="300" y="200" width="160" height="44" rx="6" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="2"/>
-                <text x="380" y="217" text-anchor="middle" font-weight="900" font-size="11" fill="#0F172A">현장 기술 근로자</text>
-                <text x="380" y="231" text-anchor="middle" font-size="8" fill="#64748B">안전이력 및 경력 자산화</text>
-              </svg>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Right (본문, 뉴스 칩, 뉴스 클리핑 통합 영역 - 50%) -->
-        <div class="lg:col-span-6 flex flex-col justify-between space-y-6">
+        <!-- Left Column (대제목 + 본문 설명글 + 뉴스 칩 + 뉴스 클리핑 수직 통합) -->
+        <div class="lg:col-span-7 space-y-6">
           <div class="space-y-4">
-            <div class="space-y-4 text-justify break-keep text-ink-800 text-sm leading-relaxed">
+            <h2 class="h-display text-ink-900 leading-[1.2] md:leading-tight tracking-tight break-keep">일자리는 쉽게 찾고, 기업은 채용 공고를 쉽게 등록하며, 산업은 상생 데이터를 축적하는 MONO</h2>
+            <div class="space-y-4 text-justify break-keep text-ink-800 text-sm leading-relaxed pt-1">
               <p>
                 MONO는 기술자가 일자리를 쉽게 찾고, 기업이 필요한 기술 인력을 쉽게 모집하며, 그 과정에서 산업 현장의 상생 데이터를 축적하는 스마트 현장 플랫폼입니다.
               </p>
@@ -431,7 +464,7 @@
             </div>
           </div>
 
-          <!-- 뉴스 클리핑 UI (우측 컬럼 내부 배치로 높이 밸런스 조정) -->
+          <!-- 뉴스 클리핑 UI (좌측 설명글 바로 밑에 컴팩트 통합 배치) -->
           <div class="overflow-hidden relative bg-warm-50/50 border border-ink-900/10 p-5 rounded-xl shadow-sm space-y-4">
             <div class="absolute left-0 top-0 bottom-0 w-[3px]" id="news-accent-bar" style="background: linear-gradient(to bottom, #C80150, #C80150dd);"></div>
             
@@ -921,31 +954,69 @@
               <span class="text-[10px] text-indigo-600 bg-indigo-50 px-1.5 py-0.5 rounded font-bold"><i class="fa-solid fa-magnifying-glass-plus"></i> 확대보기</span>
             </div>
             <div class="w-full flex items-center justify-center bg-warm-50/50 p-2 rounded-lg">
-              <svg viewBox="0 0 500 350" class="w-full h-auto object-contain" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="250" cy="175" r="45" fill="#4F46E5" stroke="#4338CA" stroke-width="2"/>
-                <text x="250" y="172" text-anchor="middle" font-weight="900" font-size="10" fill="#FCFCFE">모두의 창업</text>
-                <text x="250" y="185" text-anchor="middle" font-weight="900" font-size="10" fill="#FCFCFE">파이널 우승</text>
-                
-                <!-- spokes -->
-                <!-- 1. 대기업 -->
-                <rect x="30" y="40" width="130" height="40" rx="4" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.5"/>
-                <text x="95" y="64" text-anchor="middle" font-size="9" font-weight="900" fill="#0F172A">대기업 상생 펀드</text>
-                <line x1="160" y1="80" x2="210" y2="140" stroke="#94A3B8" stroke-dasharray="3 3"/>
+              <svg viewBox="0 0 500 380" class="w-full h-auto object-contain" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <linearGradient id="grad-center" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#4F46E5"/>
+                    <stop offset="100%" stop-color="#312E81"/>
+                  </linearGradient>
+                  <marker id="arrow-sm" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse">
+                    <path d="M 0 0 L 10 5 L 0 10 z" fill="#4F46E5" />
+                  </marker>
+                </defs>
 
-                <!-- 2. 원청사 -->
-                <rect x="340" y="40" width="130" height="40" rx="4" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.5"/>
-                <text x="405" y="64" text-anchor="middle" font-size="9" font-weight="900" fill="#0F172A">건설·조선 원청사</text>
-                <line x1="340" y1="80" x2="290" y2="140" stroke="#94A3B8" stroke-dasharray="3 3"/>
+                <!-- Center Hub: 모두의 창업 우승 -->
+                <rect x="180" y="160" width="140" height="60" rx="6" fill="url(#grad-center)" stroke="#4338CA" stroke-width="1.5"/>
+                <text x="250" y="187" text-anchor="middle" font-weight="950" font-size="11" fill="#FCFCFE">모두의 창업 우승</text>
+                <text x="250" y="203" text-anchor="middle" font-weight="bold" font-size="9" fill="#93C5FD">최대 10억 투자 확보</text>
 
-                <!-- 3. 금융사 -->
-                <rect x="30" y="270" width="130" height="40" rx="4" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.5"/>
-                <text x="95" y="294" text-anchor="middle" font-size="9" font-weight="900" fill="#0F172A">시중은행 & 금융사</text>
-                <line x1="160" y1="270" x2="210" y2="210" stroke="#94A3B8" stroke-dasharray="3 3"/>
+                <!-- Spoke 1: 대기업 상생 투자 (Top-Left) -->
+                <rect x="20" y="20" width="130" height="42" rx="4" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.2"/>
+                <text x="85" y="40" text-anchor="middle" font-weight="900" font-size="9" fill="#0F172A">대기업 상생 투자</text>
+                <text x="85" y="52" text-anchor="middle" font-size="7" fill="#4F46E5" font-weight="bold">5조 펀드 / 인프라 구축</text>
+                <path d="M 150 41 Q 200 41, 210 160" fill="none" stroke="#4F46E5" stroke-width="1" stroke-dasharray="2 2" marker-end="url(#arrow-sm)"/>
 
-                <!-- 4. 보험사 -->
-                <rect x="340" y="270" width="130" height="40" rx="4" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.5"/>
-                <text x="405" y="294" text-anchor="middle" font-size="9" font-weight="900" fill="#0F172A">보험사 리스크평가</text>
-                <line x1="340" y1="270" x2="290" y2="210" stroke="#94A3B8" stroke-dasharray="3 3"/>
+                <!-- Spoke 2: SI 투자 (Top-Right) -->
+                <rect x="350" y="20" width="130" height="42" rx="4" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.2"/>
+                <text x="415" y="40" text-anchor="middle" font-weight="900" font-size="9" fill="#0F172A">SI 투자 (원청사)</text>
+                <text x="415" y="52" text-anchor="middle" font-size="7" fill="#4F46E5" font-weight="bold">건설·조선 실증 조달</text>
+                <path d="M 350 41 Q 300 41, 290 160" fill="none" stroke="#4F46E5" stroke-width="1" stroke-dasharray="2 2" marker-end="url(#arrow-sm)"/>
+
+                <!-- Spoke 3: VC 후속 투자 (Middle-Left) -->
+                <rect x="20" y="90" width="130" height="42" rx="4" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.2"/>
+                <text x="85" y="110" text-anchor="middle" font-weight="900" font-size="9" fill="#0F172A">VC 후속 투자</text>
+                <text x="85" y="122" text-anchor="middle" font-size="7" fill="#64748B">시리즈 A 스케일업</text>
+                <path d="M 150 111 L 180 165" fill="none" stroke="#4F46E5" stroke-width="1" marker-end="url(#arrow-sm)"/>
+
+                <!-- Spoke 4: 기업 PoC (Middle-Right) -->
+                <rect x="350" y="90" width="130" height="42" rx="4" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.2"/>
+                <text x="415" y="110" text-anchor="middle" font-weight="900" font-size="9" fill="#0F172A">기업 PoC (현장 실증)</text>
+                <text x="415" y="122" text-anchor="middle" font-size="7" fill="#64748B">원·하청 현장 직접 검증</text>
+                <path d="M 350 111 L 320 165" fill="none" stroke="#4F46E5" stroke-width="1" marker-end="url(#arrow-sm)"/>
+
+                <!-- Spoke 5: 협력사 DX (Bottom-Left) -->
+                <rect x="20" y="245" width="130" height="42" rx="4" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.2"/>
+                <text x="85" y="265" text-anchor="middle" font-weight="900" font-size="9" fill="#0F172A">협력사 DX 지원</text>
+                <text x="85" y="277" text-anchor="middle" font-size="7" fill="#64748B">SaaS 기반 작업 관리</text>
+                <path d="M 150 266 L 180 215" fill="none" stroke="#4F46E5" stroke-width="1" marker-end="url(#arrow-sm)"/>
+
+                <!-- Spoke 6: 금융·보험·교육 제휴 (Bottom-Right) -->
+                <rect x="350" y="245" width="130" height="42" rx="4" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.2"/>
+                <text x="415" y="265" text-anchor="middle" font-weight="900" font-size="9" fill="#0F172A">금융·보험·교육 제휴</text>
+                <text x="415" y="277" text-anchor="middle" font-size="7" fill="#4F46E5" font-weight="bold">우대 대출 / 리스크 경감</text>
+                <path d="M 350 266 L 320 215" fill="none" stroke="#4F46E5" stroke-width="1" marker-end="url(#arrow-sm)"/>
+
+                <!-- Spoke 7: Field Operations 확장 (Bottom-Left 2) -->
+                <rect x="20" y="315" width="130" height="42" rx="4" fill="#EEF2F6" stroke="#4F46E5" stroke-width="1.2"/>
+                <text x="85" y="335" text-anchor="middle" font-weight="900" font-size="9" fill="#4F46E5">Field Operations 확장</text>
+                <text x="85" y="347" text-anchor="middle" font-size="7" fill="#1E293B">공구·장비·소모자재 공급</text>
+                <path d="M 150 336 Q 200 336, 210 220" fill="none" stroke="#4F46E5" stroke-width="1" stroke-dasharray="2 2" marker-end="url(#arrow-sm)"/>
+
+                <!-- Spoke 8: Tech-Blue 데이터 확장 (Bottom-Right 2) -->
+                <rect x="350" y="315" width="130" height="42" rx="4" fill="#EEF2F6" stroke="#4F46E5" stroke-width="1.2"/>
+                <text x="415" y="335" text-anchor="middle" font-weight="900" font-size="9" fill="#4F46E5">Tech-Blue 데이터 확장</text>
+                <text x="415" y="347" text-anchor="middle" font-size="7" fill="#1E293B">현업 신뢰 데이터 축적</text>
+                <path d="M 350 336 Q 300 336, 290 220" fill="none" stroke="#4F46E5" stroke-width="1" stroke-dasharray="2 2" marker-end="url(#arrow-sm)"/>
               </svg>
             </div>
           </div>
@@ -994,6 +1065,68 @@
         <span class="text-xs font-mono font-bold text-indigo-600 block mb-1">STAGE 05</span>
         <h4 class="text-sm font-black text-ink-900 mb-2">Next MONO</h4>
         <p class="text-[12px] text-ink-600 leading-normal text-justify">Industrial Intelligence, AGI Core OS, 현장 AI 의사결정 보조 운영체제를 통해 완전히 자동화된 인프라로 도약합니다.</p>
+      </div>
+    </div>
+
+    <!-- 5단계 성장 로드맵 인포그래픽 추가 -->
+    <div class="mt-8 bg-white border border-ink-900/10 p-5 rounded-xl shadow-neo-soft mb-12 zoomable-svg-container cursor-pointer" onclick="openLightbox(this)">
+      <div class="text-center pb-2 border-b border-ink-900/5 mb-4 flex items-center justify-between">
+        <span class="text-[11px] font-mono font-bold text-ink-500 uppercase tracking-widest"><i class="fa-solid fa-route text-indigo-600"></i> MONO 5단계 성장 로드맵 (GTM Strategy)</span>
+        <span class="text-[10px] text-indigo-600 bg-indigo-50 px-1.5 py-0.5 rounded font-bold"><i class="fa-solid fa-magnifying-glass-plus"></i> 클릭하여 확대보기</span>
+      </div>
+      <div class="w-full bg-warm-50/50 p-4 rounded-lg">
+        <svg viewBox="0 0 900 220" class="w-full h-auto block" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="line-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#818CF8"/>
+              <stop offset="50%" stop-color="#4F46E5"/>
+              <stop offset="100%" stop-color="#312E81"/>
+            </linearGradient>
+          </defs>
+
+          <!-- Connecting Line -->
+          <line x1="90" y1="100" x2="810" y2="100" stroke="url(#line-grad)" stroke-width="4"/>
+
+          <!-- STAGE 01 -->
+          <circle cx="90" cy="100" r="24" fill="#818CF8" stroke="#FCFCFE" stroke-width="2"/>
+          <text x="90" y="104" text-anchor="middle" font-weight="900" font-size="12" fill="#FCFCFE">01</text>
+          <text x="90" y="150" text-anchor="middle" font-weight="900" font-size="11" fill="#0F172A">STAGE 01</text>
+          <text x="90" y="168" text-anchor="middle" font-weight="bold" font-size="10" fill="#4F46E5">신뢰 데이터 빌드</text>
+          <text x="90" y="184" text-anchor="middle" font-size="8.5" fill="#475569">· 기술자 평판 프로필</text>
+          <text x="90" y="196" text-anchor="middle" font-size="8.5" fill="#475569">· 기업 채용 공고 확보</text>
+
+          <!-- STAGE 02 -->
+          <circle cx="270" cy="100" r="24" fill="#6366F1" stroke="#FCFCFE" stroke-width="2"/>
+          <text x="270" y="104" text-anchor="middle" font-weight="900" font-size="12" fill="#FCFCFE">02</text>
+          <text x="270" y="150" text-anchor="middle" font-weight="900" font-size="11" fill="#0F172A">STAGE 02</text>
+          <text x="270" y="168" text-anchor="middle" font-weight="bold" font-size="10" fill="#4F46E5">SaaS 워크스페이스</text>
+          <text x="270" y="184" text-anchor="middle" font-size="8.5" fill="#475569">· 하청 채용/안전 SaaS</text>
+          <text x="270" y="196" text-anchor="middle" font-size="8.5" fill="#475569">· 외국인 인력 관리 구독</text>
+
+          <!-- STAGE 03 -->
+          <circle cx="450" cy="100" r="28" fill="#4F46E5" stroke="#FCFCFE" stroke-width="3"/>
+          <text x="450" y="104" text-anchor="middle" font-weight="900" font-size="14" fill="#FCFCFE">03</text>
+          <text x="450" y="150" text-anchor="middle" font-weight="900" font-size="11" fill="#0F172A">STAGE 03</text>
+          <text x="450" y="168" text-anchor="middle" font-weight="bold" font-size="10" fill="#4F46E5">Field Operations</text>
+          <text x="450" y="184" text-anchor="middle" font-size="8.5" fill="#475569">· MONO Gear 장비 ERP</text>
+          <text x="450" y="196" text-anchor="middle" font-size="8.5" fill="#475569">· 소모자재 발주 연계</text>
+
+          <!-- STAGE 04 -->
+          <circle cx="630" cy="100" r="24" fill="#3730A3" stroke="#FCFCFE" stroke-width="2"/>
+          <text x="630" y="104" text-anchor="middle" font-weight="900" font-size="12" fill="#FCFCFE">04</text>
+          <text x="630" y="150" text-anchor="middle" font-weight="900" font-size="11" fill="#0F172A">STAGE 04</text>
+          <text x="630" y="168" text-anchor="middle" font-weight="bold" font-size="10" fill="#4F46E5">서비스 확장</text>
+          <text x="630" y="184" text-anchor="middle" font-size="8.5" fill="#475569">· 대안 신용 금융/보험</text>
+          <text x="630" y="196" text-anchor="middle" font-size="8.5" fill="#475569">· 대기업 상생 인프라</text>
+
+          <!-- STAGE 05 -->
+          <circle cx="810" cy="100" r="24" fill="#1E1B4B" stroke="#FCFCFE" stroke-width="2"/>
+          <text x="810" y="104" text-anchor="middle" font-weight="900" font-size="12" fill="#FCFCFE">05</text>
+          <text x="810" y="150" text-anchor="middle" font-weight="900" font-size="11" fill="#0F172A">STAGE 05</text>
+          <text x="810" y="168" text-anchor="middle" font-weight="bold" font-size="10" fill="#4F46E5">Next MONO</text>
+          <text x="810" y="184" text-anchor="middle" font-size="8.5" fill="#475569">· Industrial Intelligence</text>
+          <text x="810" y="196" text-anchor="middle" font-size="8.5" fill="#475569">· AGI Core OS 탑재</text>
+        </svg>
       </div>
     </div>
 
@@ -1206,51 +1339,165 @@
       </div>
     </div>
 
-    <!-- Right Diagram (도식 4 추가) -->
-    <div class="bg-white border border-ink-900/10 p-4 rounded-xl shadow-neo-soft zoomable-svg-container max-w-3xl mx-auto" onclick="openLightbox(this)">
-      <div class="text-center pb-2 border-b border-ink-900/5 mb-3 flex items-center justify-between">
-        <span class="text-[11px] font-mono font-bold text-ink-500 uppercase tracking-widest"><i class="fa-solid fa-coins text-indigo-600"></i> MONO 수익 구조 맵</span>
-        <span class="text-[10px] text-indigo-600 bg-indigo-50 px-1.5 py-0.5 rounded font-bold"><i class="fa-solid fa-magnifying-glass-plus"></i> 확대보기</span>
+    <!-- BM Infographics 2-column grid -->
+    <div class="grid md:grid-cols-2 gap-6 max-w-6xl mx-auto">
+      
+      <!-- Left: MONO 수익 구조 인포그래픽 -->
+      <div class="bg-white border border-ink-900/10 p-4 rounded-xl shadow-neo-soft zoomable-svg-container cursor-pointer" onclick="openLightbox(this)">
+        <div class="text-center pb-2 border-b border-ink-900/5 mb-3 flex items-center justify-between">
+          <span class="text-[11px] font-mono font-bold text-ink-500 uppercase tracking-widest"><i class="fa-solid fa-coins text-indigo-600"></i> MONO 수익 구조 인포그래픽</span>
+          <span class="text-[10px] text-indigo-600 bg-indigo-50 px-1.5 py-0.5 rounded font-bold"><i class="fa-solid fa-magnifying-glass-plus"></i> 확대보기</span>
+        </div>
+        <div class="w-full flex items-center justify-center bg-warm-50/50 p-2 rounded-lg">
+          <svg viewBox="0 0 500 350" class="w-full h-auto object-contain" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#4F46E5" stop-opacity="0.08"/>
+                <stop offset="100%" stop-color="#4F46E5" stop-opacity="0.02"/>
+              </linearGradient>
+              <linearGradient id="emeraldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#10B981" stop-opacity="0.08"/>
+                <stop offset="100%" stop-color="#10B981" stop-opacity="0.02"/>
+              </linearGradient>
+              <linearGradient id="purpleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#8B5CF6" stop-opacity="0.08"/>
+                <stop offset="100%" stop-color="#8B5CF6" stop-opacity="0.02"/>
+              </linearGradient>
+              <linearGradient id="amberGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#F59E0B" stop-opacity="0.08"/>
+                <stop offset="100%" stop-color="#F59E0B" stop-opacity="0.02"/>
+              </linearGradient>
+              <radialGradient id="centerGlow" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#4F46E5" stop-opacity="0.15"/>
+                <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0"/>
+              </radialGradient>
+            </defs>
+
+            <!-- Center Glow -->
+            <circle cx="250" cy="175" r="70" fill="url(#centerGlow)"/>
+
+            <!-- Quadrant 1: SaaS 구독 (Top-Left) -->
+            <rect x="20" y="20" width="200" height="115" rx="8" fill="url(#blueGrad)" stroke="#4F46E5" stroke-width="1" stroke-dasharray="2,2"/>
+            <text x="35" y="45" font-family="Inter, sans-serif" font-weight="800" font-size="11" fill="#4F46E5">01. SaaS 구독 모델</text>
+            <circle cx="38" cy="68" r="3" fill="#4F46E5"/>
+            <text x="48" y="71" font-family="Inter, sans-serif" font-weight="600" font-size="10" fill="#1E293B">기업 Workspace 구독</text>
+            <text x="48" y="83" font-family="Inter, sans-serif" font-size="8" fill="#64748B">채용·운영·이력·안전교육 통합 SaaS</text>
+            <circle cx="38" cy="100" r="3" fill="#4F46E5"/>
+            <text x="48" y="103" font-family="Inter, sans-serif" font-weight="600" font-size="10" fill="#1E293B">Field Operations 구독</text>
+            <text x="48" y="115" font-family="Inter, sans-serif" font-size="8" fill="#64748B">현장 장비·자재 자산 관리 ERP 연동</text>
+
+            <!-- Quadrant 2: 데이터 & 매칭 (Top-Right) -->
+            <rect x="280" y="20" width="200" height="115" rx="8" fill="url(#emeraldGrad)" stroke="#10B981" stroke-width="1" stroke-dasharray="2,2"/>
+            <text x="295" y="45" font-family="Inter, sans-serif" font-weight="800" font-size="11" fill="#10B981">02. 데이터 &amp; 매칭</text>
+            <circle cx="298" cy="68" r="3" fill="#10B981"/>
+            <text x="308" y="71" font-family="Inter, sans-serif" font-weight="600" font-size="10" fill="#1E293B">기업 채용 공고 등록</text>
+            <text x="308" y="83" font-family="Inter, sans-serif" font-size="8" fill="#64748B">현장 적합 인력 타겟 모집 수수료</text>
+            <circle cx="298" cy="100" r="3" fill="#10B981"/>
+            <text x="308" y="103" font-family="Inter, sans-serif" font-weight="600" font-size="10" fill="#1E293B">프로필 열람권</text>
+            <text x="308" y="115" font-family="Inter, sans-serif" font-size="8" fill="#64748B">신뢰도 점수 기반 검증 프로필 조회</text>
+
+            <!-- Quadrant 3: 트랜잭션 (Bottom-Left) -->
+            <rect x="20" y="215" width="200" height="115" rx="8" fill="url(#purpleGrad)" stroke="#8B5CF6" stroke-width="1" stroke-dasharray="2,2"/>
+            <text x="35" y="240" font-family="Inter, sans-serif" font-weight="800" font-size="11" fill="#8B5CF6">03. 거래 &amp; 중개 수수료</text>
+            <circle cx="38" cy="263" r="3" fill="#8B5CF6"/>
+            <text x="48" y="266" font-family="Inter, sans-serif" font-weight="600" font-size="10" fill="#1E293B">장비·자재 거래 수수료</text>
+            <text x="48" y="278" font-family="Inter, sans-serif" font-size="8" fill="#64748B">반복 발주 자재 및 스마트 계측기 거래</text>
+            <circle cx="38" cy="295" r="3" fill="#8B5CF6"/>
+            <text x="48" y="298" font-family="Inter, sans-serif" font-weight="600" font-size="10" fill="#1E293B">장비+기술자 패키지</text>
+            <text x="48" y="310" font-family="Inter, sans-serif" font-size="8" fill="#64748B">장비 임대와 숙련 운전사 동시 매칭</text>
+
+            <!-- Quadrant 4: 제휴 & 상생 (Bottom-Right) -->
+            <rect x="280" y="215" width="200" height="115" rx="8" fill="url(#amberGrad)" stroke="#F59E0B" stroke-width="1" stroke-dasharray="2,2"/>
+            <text x="295" y="240" font-family="Inter, sans-serif" font-weight="800" font-size="11" fill="#F59E0B">04. 제휴 &amp; 상생 협업</text>
+            <circle cx="298" cy="263" r="3" fill="#F59E0B"/>
+            <text x="308" y="266" font-family="Inter, sans-serif" font-weight="600" font-size="10" fill="#1E293B">금융·보험·교육 제휴</text>
+            <text x="308" y="278" font-family="Inter, sans-serif" font-size="8" fill="#64748B">신뢰 이력 연동 맞춤 금융/단체보험 판매</text>
+            <circle cx="298" cy="295" r="3" fill="#F59E0B"/>
+            <text x="308" y="298" font-family="Inter, sans-serif" font-weight="600" font-size="10" fill="#1E293B">대기업 상생 PoC</text>
+            <text x="308" y="310" font-family="Inter, sans-serif" font-size="8" fill="#64748B">대기업 상생 기금 실증 연계 협약 수익</text>
+
+            <!-- Center Hub -->
+            <circle cx="250" cy="175" r="38" fill="#FCFCFE" stroke="#4F46E5" stroke-width="2"/>
+            <text x="250" y="172" font-family="Inter, sans-serif" font-weight="900" font-size="10" fill="#0F172A" text-anchor="middle">MONO</text>
+            <text x="250" y="184" font-family="Inter, sans-serif" font-weight="900" font-size="8" fill="#4F46E5" text-anchor="middle">수익 엔진</text>
+
+            <!-- Interactive Flow Arrows -->
+            <path d="M 215 155 Q 250 130 235 140" fill="none" stroke="#4F46E5" stroke-width="1" marker-end="url(#arrow)"/>
+            <path d="M 285 155 Q 250 130 265 140" fill="none" stroke="#10B981" stroke-width="1" marker-end="url(#arrow)"/>
+            <path d="M 215 195 Q 250 220 235 210" fill="none" stroke="#8B5CF6" stroke-width="1" marker-end="url(#arrow)"/>
+            <path d="M 285 195 Q 250 220 265 210" fill="none" stroke="#F59E0B" stroke-width="1" marker-end="url(#arrow)"/>
+          </svg>
+        </div>
       </div>
-      <div class="w-full flex items-center justify-center bg-warm-50/50 p-2 rounded-lg">
-        <svg viewBox="0 0 600 350" class="w-full h-auto object-contain" xmlns="http://www.w3.org/2000/svg">
-          <rect width="100%" height="100%" fill="none"/>
-          
-          <!-- Column 1 -->
-          <rect x="20" y="30" width="120" height="290" rx="6" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.5"/>
-          <text x="80" y="55" text-anchor="middle" font-weight="900" font-size="11" fill="#0F172A">Core BM</text>
-          <text x="80" y="90" text-anchor="middle" font-size="8" fill="#64748B">채용 공고 등록</text>
-          <text x="80" y="130" text-anchor="middle" font-size="8" fill="#64748B">프로필 열람권</text>
-          <text x="80" y="170" text-anchor="middle" font-size="8" fill="#64748B">Workspace 구독</text>
-          <text x="80" y="210" text-anchor="middle" font-size="8" fill="#64748B">PoC 협약 관리</text>
 
-          <!-- Column 2 -->
-          <rect x="160" y="30" width="120" height="290" rx="6" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.5"/>
-          <text x="220" y="55" text-anchor="middle" font-weight="900" font-size="11" fill="#0F172A">Field Operations BM</text>
-          <text x="220" y="90" text-anchor="middle" font-size="8" fill="#64748B">공구 대여 수수료</text>
-          <text x="220" y="130" text-anchor="middle" font-size="8" fill="#64748B">장비·자재 ERP 구독</text>
-          <text x="220" y="170" text-anchor="middle" font-size="8" fill="#64748B">소모자재 발주 수수료</text>
-          <text x="220" y="210" text-anchor="middle" font-size="8" fill="#64748B">전문 장비 임대</text>
-          <text x="220" y="250" text-anchor="middle" font-size="8" fill="#64748B">장비+인력 패키지</text>
+      <!-- Right: MONO Field Operations BM 인포그래픽 -->
+      <div class="bg-white border border-ink-900/10 p-4 rounded-xl shadow-neo-soft zoomable-svg-container cursor-pointer" onclick="openLightbox(this)">
+        <div class="text-center pb-2 border-b border-ink-900/5 mb-3 flex items-center justify-between">
+          <span class="text-[11px] font-mono font-bold text-ink-500 uppercase tracking-widest"><i class="fa-solid fa-screwdriver-wrench text-indigo-600"></i> Field Operations BM</span>
+          <span class="text-[10px] text-indigo-600 bg-indigo-50 px-1.5 py-0.5 rounded font-bold"><i class="fa-solid fa-magnifying-glass-plus"></i> 확대보기</span>
+        </div>
+        <div class="w-full flex items-center justify-center bg-warm-50/50 p-2 rounded-lg">
+          <svg viewBox="0 0 500 350" class="w-full h-auto object-contain" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="opsBlue" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#4F46E5" stop-opacity="0.1"/>
+                <stop offset="100%" stop-color="#4F46E5" stop-opacity="0.02"/>
+              </linearGradient>
+              <linearGradient id="opsTeal" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#0D9488" stop-opacity="0.1"/>
+                <stop offset="100%" stop-color="#0D9488" stop-opacity="0.02"/>
+              </linearGradient>
+              <linearGradient id="opsSlate" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#64748B" stop-opacity="0.1"/>
+                <stop offset="100%" stop-color="#64748B" stop-opacity="0.02"/>
+              </linearGradient>
+            </defs>
 
-          <!-- Column 3 -->
-          <rect x="300" y="30" width="120" height="290" rx="6" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.5"/>
-          <text x="360" y="55" text-anchor="middle" font-weight="900" font-size="11" fill="#0F172A">Strategic BM</text>
-          <text x="360" y="90" text-anchor="middle" font-size="8" fill="#64748B">금융 혜택 연계</text>
-          <text x="360" y="130" text-anchor="middle" font-size="8" fill="#64748B">단체보험 연계</text>
-          <text x="360" y="170" text-anchor="middle" font-size="8" fill="#64748B">교육·자격 인증</text>
-          <text x="360" y="210" text-anchor="middle" font-size="8" fill="#64748B">대기업 상생 인프라</text>
+            <!-- Stack 1: 현장 환경 & 인재 육성 (Top) -->
+            <rect x="20" y="20" width="460" height="85" rx="8" fill="url(#opsBlue)" stroke="#4F46E5" stroke-width="1.5"/>
+            <rect x="35" y="32" width="100" height="20" rx="4" fill="#4F46E5" />
+            <text x="85" y="45" font-family="Inter, sans-serif" font-weight="900" font-size="9" fill="#FFFFFF" text-anchor="middle">근무 환경 &amp; 육성</text>
+            
+            <circle cx="160" cy="45" r="3" fill="#4F46E5"/>
+            <text x="170" y="48" font-family="Inter, sans-serif" font-weight="700" font-size="10" fill="#1E293B">식사·숙소·근무환경 개선</text>
+            <text x="170" y="58" font-family="Inter, sans-serif" font-size="8" fill="#64748B">현장 근로자 체감 복지 및 편의시설 대행 수수료</text>
 
-          <!-- Column 4 -->
-          <rect x="440" y="30" width="140" height="290" rx="6" fill="#EEF2F6" stroke="#4F46E5" stroke-width="2"/>
-          <text x="510" y="55" text-anchor="middle" font-weight="900" font-size="11" fill="#4F46E5">대기업 상생 협업 BM</text>
-          <text x="510" y="90" text-anchor="middle" font-size="8" fill="#1E293B">협력사 Workspace</text>
-          <text x="510" y="130" text-anchor="middle" font-size="8" fill="#1E293B">신뢰 데이터 리포트</text>
-          <text x="510" y="170" text-anchor="middle" font-size="8" fill="#1E293B">상생 투자 PoC</text>
-          <text x="510" y="210" text-anchor="middle" font-size="8" fill="#1E293B">산재 예방 데이터</text>
-          <text x="510" y="250" text-anchor="middle" font-size="8" fill="#1E293B">자재 공동 구매</text>
-        </svg>
+            <circle cx="160" cy="78" r="3" fill="#4F46E5"/>
+            <text x="170" y="81" font-family="Inter, sans-serif" font-weight="700" font-size="10" fill="#1E293B">교육 프로그램 연계</text>
+            <text x="170" y="91" font-family="Inter, sans-serif" font-size="8" fill="#64748B">안전/직무 교육 프로그램 운영 및 인증 제휴 모델</text>
+
+            <!-- Stack 2: 물류 및 운영 자동화 (Middle) -->
+            <rect x="20" y="125" width="460" height="105" rx="8" fill="url(#opsTeal)" stroke="#0D9488" stroke-width="1.5"/>
+            <rect x="35" y="137" width="100" height="20" rx="4" fill="#0D9488" />
+            <text x="85" y="150" font-family="Inter, sans-serif" font-weight="900" font-size="9" fill="#FFFFFF" text-anchor="middle">자재·장비 유통</text>
+
+            <circle cx="160" cy="148" r="3" fill="#0D9488"/>
+            <text x="170" y="151" font-family="Inter, sans-serif" font-weight="700" font-size="10" fill="#1E293B">공구 대여 &amp; 전문 장비·스마트 계측기 임대</text>
+            <text x="170" y="161" font-family="Inter, sans-serif" font-size="8" fill="#64748B">공구 및 스마트 계측 하드웨어 대여 수수료</text>
+
+            <circle cx="160" cy="183" r="3" fill="#0D9488"/>
+            <text x="170" y="186" font-family="Inter, sans-serif" font-weight="700" font-size="10" fill="#1E293B">소모자재 반복 발주 자동화</text>
+            <text x="170" y="196" font-family="Inter, sans-serif" font-size="8" fill="#64748B">현장 필수 반복 소모품 간편 발주 대행 수수료</text>
+
+            <circle cx="160" cy="210" r="3" fill="#0D9488"/>
+            <text x="170" y="213" font-family="Inter, sans-serif" font-weight="700" font-size="10" fill="#1E293B">장비+기술자 패키지 중개</text>
+
+            <!-- Stack 3: 공급망 및 신뢰 보증 (Bottom) -->
+            <rect x="20" y="250" width="460" height="80" rx="8" fill="url(#opsSlate)" stroke="#64748B" stroke-width="1.5"/>
+            <rect x="35" y="262" width="100" height="20" rx="4" fill="#64748B" />
+            <text x="85" y="275" font-family="Inter, sans-serif" font-weight="900" font-size="9" fill="#FFFFFF" text-anchor="middle">공급망 &amp; 신뢰 보증</text>
+
+            <circle cx="160" cy="273" r="3" fill="#64748B"/>
+            <text x="170" y="276" font-family="Inter, sans-serif" font-weight="700" font-size="10" fill="#1E293B">지역 산업 공급 파트너 연계</text>
+            <text x="170" y="286" font-family="Inter, sans-serif" font-size="8" fill="#64748B">지역 자재상/장비업체 플랫폼 입점 수수료</text>
+
+            <circle cx="160" cy="305" r="3" fill="#64748B"/>
+            <text x="170" y="308" font-family="Inter, sans-serif" font-weight="700" font-size="10" fill="#1E293B">정비·보험·보증 수수료</text>
+            <text x="170" y="318" font-family="Inter, sans-serif" font-size="8" fill="#64748B">장비 파손 보험 및 품질 보증 연계 매출</text>
+          </svg>
+        </div>
       </div>
+
     </div>
   </div>
 </section>
@@ -1272,6 +1519,63 @@
         <p>
           Masters of Noble Trades는 MONO가 기술자를 바라보는 기준입니다. 기술자의 경력, 현장 경험, 안전교육, 장비 사용 이력은 개인의 기록을 넘어 기업과 산업이 신뢰할 수 있는 데이터가 됩니다. MONO는 땀 흘려 가치를 일궈내는 전국의 모든 현장 기술 근로자들을 장인으로 우대합니다.
         </p>
+      </div>
+
+      <!-- Masters of Noble Trades x Tech-Blue Venn Diagram (확대보기 미적용) -->
+      <div class="mt-10 max-w-2xl mx-auto border border-ink-900/10 p-4 rounded-xl shadow-sm bg-warm-50/20">
+        <div class="text-center pb-2 border-b border-ink-900/5 mb-4">
+          <span class="text-[11px] font-mono font-bold text-ink-500 uppercase tracking-widest"><i class="fa-solid fa-code-branch text-indigo-600"></i> Masters of Noble Trades × Tech-Blue</span>
+        </div>
+        <div class="w-full flex items-center justify-center p-2 rounded-lg bg-white">
+          <svg viewBox="0 0 500 280" class="w-full h-auto object-contain" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="vennLeft" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#4F46E5" stop-opacity="0.12"/>
+                <stop offset="100%" stop-color="#4F46E5" stop-opacity="0.02"/>
+              </linearGradient>
+              <linearGradient id="vennRight" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#0D9488" stop-opacity="0.12"/>
+                <stop offset="100%" stop-color="#0D9488" stop-opacity="0.02"/>
+              </linearGradient>
+              <linearGradient id="vennCenter" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#8B5CF6" stop-opacity="0.18"/>
+                <stop offset="100%" stop-color="#8B5CF6" stop-opacity="0.04"/>
+              </linearGradient>
+            </defs>
+            
+            <!-- Left Circle -->
+            <circle cx="185" cy="140" r="95" fill="url(#vennLeft)" stroke="#4F46E5" stroke-width="1.5"/>
+            
+            <!-- Right Circle -->
+            <circle cx="315" cy="140" r="95" fill="url(#vennRight)" stroke="#0D9488" stroke-width="1.5"/>
+            
+            <!-- Center Overlap Area -->
+            <path d="M 250 50 A 95 95 0 0 1 315 140 A 95 95 0 0 1 250 230 A 95 95 0 0 1 185 140 A 95 95 0 0 1 250 50 Z" fill="url(#vennCenter)" stroke="#8B5CF6" stroke-width="1" stroke-dasharray="2,2"/>
+
+            <!-- Labels for Left Circle (Masters) -->
+            <text x="115" y="85" font-family="Inter, sans-serif" font-weight="900" font-size="10" fill="#4F46E5" text-anchor="middle">Masters of Noble Trades</text>
+            <text x="115" y="98" font-family="Inter, sans-serif" font-size="7" fill="#64748B" text-anchor="middle">(고귀한 현장 장인 정신)</text>
+            
+            <text x="115" y="132" font-family="Inter, sans-serif" font-weight="700" font-size="9" fill="#1E293B" text-anchor="middle">· 기술자의 경험</text>
+            <text x="115" y="152" font-family="Inter, sans-serif" font-weight="700" font-size="9" fill="#1E293B" text-anchor="middle">· 경력 자산화</text>
+            <text x="115" y="172" font-family="Inter, sans-serif" font-weight="700" font-size="9" fill="#1E293B" text-anchor="middle">· 안전교육 이수</text>
+
+            <!-- Labels for Right Circle (Tech-Blue) -->
+            <text x="385" y="85" font-family="Inter, sans-serif" font-weight="900" font-size="10" fill="#0D9488" text-anchor="middle">Tech-Blue</text>
+            <text x="385" y="98" font-family="Inter, sans-serif" font-size="7" fill="#64748B" text-anchor="middle">(기술 혁신 인재)</text>
+
+            <text x="385" y="132" font-family="Inter, sans-serif" font-weight="700" font-size="9" fill="#1E293B" text-anchor="middle">· Tech-Blue 기술 혁신</text>
+            <text x="385" y="152" font-family="Inter, sans-serif" font-weight="700" font-size="9" fill="#1E293B" text-anchor="middle">· 스마트 장비 운용</text>
+            <text x="385" y="172" font-family="Inter, sans-serif" font-weight="700" font-size="9" fill="#1E293B" text-anchor="middle">· 디지털 생산성 극대화</text>
+
+            <!-- Labels for Center Intersection -->
+            <text x="250" y="110" font-family="Inter, sans-serif" font-weight="900" font-size="10" fill="#8B5CF6" text-anchor="middle">신뢰 데이터 융합</text>
+            
+            <text x="250" y="135" font-family="Inter, sans-serif" font-weight="700" font-size="8" fill="#1E293B" text-anchor="middle">현장 데이터</text>
+            <text x="250" y="150" font-family="Inter, sans-serif" font-weight="700" font-size="8" fill="#1E293B" text-anchor="middle">금융·보험·교육 기회</text>
+            <text x="250" y="165" font-family="Inter, sans-serif" font-weight="700" font-size="8" fill="#1E293B" text-anchor="middle">산업 신뢰 데이터</text>
+          </svg>
+        </div>
       </div>
     </div>
   </div>
@@ -1352,41 +1656,101 @@
       </article>
     </div>
 
-    <!-- 신규 이미지 추가: Next MONO 데이터 확장 루프 (도식 5) -->
-    <div class="bg-white border border-ink-900/10 p-4 rounded-xl shadow-neo-soft zoomable-svg-container max-w-3xl mx-auto" onclick="openLightbox(this)">
-      <div class="text-center pb-2 border-b border-warm-200/10 mb-3 flex items-center justify-between">
-        <span class="text-[11px] font-mono font-bold text-ink-500 uppercase tracking-widest"><i class="fa-solid fa-arrows-spin text-indigo-600"></i> Next MONO 데이터 확장 루프</span>
+    <!-- Tech-Blue · AI 운영체제 · AGI Core OS 확장 인포그래픽 (도식 5) -->
+    <div class="bg-white border border-ink-900/10 p-4 rounded-xl shadow-neo-soft zoomable-svg-container max-w-3xl mx-auto cursor-pointer" onclick="openLightbox(this)">
+      <div class="text-center pb-2 border-b border-ink-900/5 mb-3 flex items-center justify-between">
+        <span class="text-[11px] font-mono font-bold text-ink-500 uppercase tracking-widest"><i class="fa-solid fa-arrows-spin text-indigo-600"></i> Next MONO 기술 확장 아키텍처</span>
         <span class="text-[10px] text-indigo-600 bg-indigo-50 px-1.5 py-0.5 rounded font-bold"><i class="fa-solid fa-magnifying-glass-plus"></i> 확대보기</span>
       </div>
       <div class="w-full flex items-center justify-center bg-warm-50/50 p-2 rounded-lg">
         <svg viewBox="0 0 500 350" class="w-full h-auto object-contain" xmlns="http://www.w3.org/2000/svg">
           <defs>
-            <radialGradient id="brain-glow2" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stop-color="#818CF8" stop-opacity="0.15"/>
-              <stop offset="100%" stop-color="#FCFCFE" stop-opacity="0"/>
-            </radialGradient>
+            <!-- Gradients -->
+            <linearGradient id="layerTopGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#4F46E5"/>
+              <stop offset="100%" stop-color="#3730A3"/>
+            </linearGradient>
+            <linearGradient id="layerLakeGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#8B5CF6"/>
+              <stop offset="100%" stop-color="#6D28D9"/>
+            </linearGradient>
+            <linearGradient id="layerDataGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#0D9488"/>
+              <stop offset="100%" stop-color="#0F766E"/>
+            </linearGradient>
+            <linearGradient id="layerDeviceGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#475569"/>
+              <stop offset="100%" stop-color="#1E293B"/>
+            </linearGradient>
+            <linearGradient id="arrowGrad" x1="0%" y1="100%" x2="0%" y2="0%">
+              <stop offset="0%" stop-color="#0D9488" stop-opacity="0.2"/>
+              <stop offset="100%" stop-color="#4F46E5" stop-opacity="1"/>
+            </linearGradient>
+            <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+              <feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.1"/>
+            </filter>
           </defs>
-          <circle cx="250" cy="175" r="140" fill="url(#brain-glow2)" />
-          
-          <!-- Loop Cycle Flowcharts -->
-          <!-- Left: 현장 데이터 축적 -->
-          <rect x="20" y="130" width="150" height="90" rx="6" fill="#F8FAFC" stroke="#4F46E5" stroke-width="1.5"/>
-          <text x="95" y="160" text-anchor="middle" font-size="10" font-weight="900" fill="#4F46E5">현장 데이터 축적</text>
-          <text x="95" y="180" text-anchor="middle" font-size="8" fill="#475569">· 프로필, 공고, 배치</text>
-          <text x="95" y="195" text-anchor="middle" font-size="8" fill="#475569">· 안전교육, 장비, 발주</text>
 
-          <!-- Right: AI 의사결정 보조 (AGI Core OS) -->
-          <rect x="330" y="130" width="150" height="90" rx="6" fill="#F8FAFC" stroke="#10B981" stroke-width="1.5"/>
-          <text x="405" y="160" text-anchor="middle" font-size="10" font-weight="900" fill="#10B981">AGI Core OS</text>
-          <text x="405" y="180" text-anchor="middle" font-size="8" fill="#475569">· 현장 의사결정 지원</text>
-          <text x="405" y="195" text-anchor="middle" font-size="8" fill="#475569">· 인재/장비 최적 추천</text>
+          <!-- Flow Arrow on the sides (Upward data stream) -->
+          <path d="M 45 280 L 45 60" fill="none" stroke="url(#arrowGrad)" stroke-width="2" stroke-dasharray="4,2" marker-end="url(#arrow)"/>
+          <text x="35" y="170" font-family="Inter, sans-serif" font-weight="900" font-size="7" fill="#4F46E5" transform="rotate(-90 35 170)" text-anchor="middle">REAL-TIME DATA STREAM</text>
 
-          <!-- Connecting Loops -->
-          <path d="M 170 150 C 250 110, 250 110, 330 150" fill="none" stroke="#4F46E5" stroke-width="2" marker-end="url(#arrow)"/>
-          <text x="250" y="115" text-anchor="middle" font-size="8" fill="#4F46E5">실시간 데이터 송출</text>
+          <path d="M 455 280 L 455 60" fill="none" stroke="url(#arrowGrad)" stroke-width="2" stroke-dasharray="4,2" marker-end="url(#arrow)"/>
+          <text x="465" y="170" font-family="Inter, sans-serif" font-weight="900" font-size="7" fill="#4F46E5" transform="rotate(90 465 170)" text-anchor="middle">INTELLIGENCE FEEDBACK</text>
 
-          <path d="M 330 200 C 250 240, 250 240, 170 200" fill="none" stroke="#10B981" stroke-width="2" marker-end="url(#arrow)"/>
-          <text x="250" y="240" text-anchor="middle" font-size="8" fill="#10B981">의사결정 피드백 적용</text>
+          <!-- Layer 1: AGI Core OS (Top) -->
+          <g filter="url(#shadow)">
+            <rect x="130" y="20" width="240" height="55" rx="6" fill="url(#layerTopGrad)" stroke="#4F46E5" stroke-width="1.5"/>
+            <text x="250" y="40" font-family="Inter, sans-serif" font-weight="900" font-size="11" fill="#FFFFFF" text-anchor="middle">AGI Core OS &amp; AI 운영체제</text>
+            <text x="250" y="52" font-family="Inter, sans-serif" font-weight="500" font-size="8" fill="#E0E7FF" text-anchor="middle">Industrial Intelligence 의사결정 브레인</text>
+          </g>
+
+          <!-- Connection 1-2 -->
+          <line x1="250" y1="75" x2="250" y2="95" stroke="#4F46E5" stroke-width="1.5" stroke-dasharray="2,2"/>
+
+          <!-- Layer 2: MONO Data Lake -->
+          <g filter="url(#shadow)">
+            <rect x="90" y="95" width="320" height="60" rx="6" fill="url(#layerLakeGrad)" stroke="#8B5CF6" stroke-width="1.5"/>
+            <text x="250" y="118" font-family="Inter, sans-serif" font-weight="900" font-size="11" fill="#FFFFFF" text-anchor="middle">MONO Data Lake</text>
+            <text x="250" y="132" font-family="Inter, sans-serif" font-weight="500" font-size="8" fill="#F5F3FF" text-anchor="middle">실시간 현장 데이터 적재 및 정밀 가공 · 지능화</text>
+            <text x="250" y="144" font-family="Inter, sans-serif" font-size="7.5" fill="#DDD6FE" text-anchor="middle">경력인증 · 작업이력 · 자재소요 · 안전점수 표준화</text>
+          </g>
+
+          <!-- Connection 2-3 -->
+          <line x1="250" y1="155" x2="250" y2="175" stroke="#8B5CF6" stroke-width="1.5" stroke-dasharray="2,2"/>
+
+          <!-- Layer 3: 데이터 수집원 (경력, 현장, 자재, 금융) -->
+          <g filter="url(#shadow)">
+            <rect x="70" y="175" width="360" height="65" rx="6" fill="url(#layerDataGrad)" stroke="#0D9488" stroke-width="1.5"/>
+            <text x="250" y="193" font-family="Inter, sans-serif" font-weight="900" font-size="10" fill="#FFFFFF" text-anchor="middle">다차원 현장 데이터 수집 레이어</text>
+            
+            <!-- 4 Sub-blocks inside Layer 3 -->
+            <rect x="80" y="202" width="75" height="28" rx="3" fill="#0F766E" />
+            <text x="117.5" y="212" font-family="Inter, sans-serif" font-weight="800" font-size="7" fill="#FFFFFF" text-anchor="middle">기술자 경험</text>
+            <text x="117.5" y="222" font-family="Inter, sans-serif" font-size="6" fill="#CCFBF1" text-anchor="middle">경력 · 안전교육</text>
+
+            <rect x="165" y="202" width="75" height="28" rx="3" fill="#0F766E" />
+            <text x="202.5" y="212" font-family="Inter, sans-serif" font-weight="800" font-size="7" fill="#FFFFFF" text-anchor="middle">기업 현장 운영</text>
+            <text x="202.5" y="222" font-family="Inter, sans-serif" font-size="6" fill="#CCFBF1" text-anchor="middle">채용 · 배치 이력</text>
+
+            <rect x="250" y="202" width="75" height="28" rx="3" fill="#0F766E" />
+            <text x="287.5" y="212" font-family="Inter, sans-serif" font-weight="800" font-size="7" fill="#FFFFFF" text-anchor="middle">Field Operations</text>
+            <text x="287.5" y="222" font-family="Inter, sans-serif" font-size="6" fill="#CCFBF1" text-anchor="middle">장비 대여 · 자재발주</text>
+
+            <rect x="335" y="202" width="85" height="28" rx="3" fill="#0F766E" />
+            <text x="377.5" y="212" font-family="Inter, sans-serif" font-weight="800" font-size="7" fill="#FFFFFF" text-anchor="middle">금융 · 보험 · 교육</text>
+            <text x="377.5" y="222" font-family="Inter, sans-serif" font-size="6" fill="#CCFBF1" text-anchor="middle">신용 · 보험 연계 이력</text>
+          </g>
+
+          <!-- Connection 3-4 -->
+          <line x1="250" y1="240" x2="250" y2="260" stroke="#0D9488" stroke-width="1.5" stroke-dasharray="2,2"/>
+
+          <!-- Layer 4: MONO Device (Bottom) -->
+          <g filter="url(#shadow)">
+            <rect x="90" y="260" width="320" height="50" rx="6" fill="url(#layerDeviceGrad)" stroke="#475569" stroke-width="1.5"/>
+            <text x="250" y="280" font-family="Inter, sans-serif" font-weight="900" font-size="11" fill="#FFFFFF" text-anchor="middle">MONO Device (IoT Edge)</text>
+            <text x="250" y="295" font-family="Inter, sans-serif" font-weight="500" font-size="8" fill="#CBD5E1" text-anchor="middle">작업자 웨어러블 · 스마트 계측기 · 안전 센서 실시간 수집 네트워크</text>
+          </g>
         </svg>
       </div>
     </div>
