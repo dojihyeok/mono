@@ -20,6 +20,11 @@ jobs:
           git fetch origin ${{ github.ref_name }}
           git reset --hard FETCH_HEAD
           git clean -fd
+          DEPLOY_VERSION=$(git rev-parse --short HEAD)
+          DEPLOY_TIME=$(TZ="Asia/Seoul" date "+%Y-%m-%d %H:%M:%S KST")
+          echo "Injecting Version: $DEPLOY_VERSION ($DEPLOY_TIME)"
+          sed -i "s/__DEPLOY_VERSION__/$DEPLOY_VERSION/g" web/public/strategy.html
+          sed -i "s/__DEPLOY_TIME__/$DEPLOY_TIME/g" web/public/strategy.html
 
       # ============================== MIGRATE BRANCH WORKFLOW ==============================
       - name: ⚙ Run Server Migration (migrate branch only)
