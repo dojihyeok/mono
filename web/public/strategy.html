@@ -358,17 +358,17 @@
     <!-- 1. 상단 Hero 영역 (상단 메인 타이틀 + 하단 2단 그리드로 도식과 본문 배치) -->
     <div class="space-y-6">
       <div class="section-label"><span class="num">02</span> MONO VISION & 상생 데이터 인프라</div>
-      <h2 class="h-display text-ink-900 leading-[1.2] md:leading-tight tracking-tight max-w-5xl">일자리는 쉽게 찾고, 기업은 채용 공고를 쉽게 등록하며, 산업은 상생 데이터를 축적하는 MONO</h2>
+      <h2 class="h-display text-ink-900 leading-[1.2] md:leading-tight tracking-tight max-w-5xl" style="word-break: break-all;">일자리는 쉽게 찾고, 기업은 채용 공고를 쉽게 등록하며, 산업은 상생 데이터를 축적하는 MONO</h2>
       
-      <div class="grid lg:grid-cols-12 gap-8 lg:gap-12 items-stretch pt-2">
+      <div class="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center pt-2">
         <!-- Left (도식 배치 - 50%) -->
-        <div class="lg:col-span-6 flex flex-col justify-center">
+        <div class="lg:col-span-6">
           <div class="bg-white border border-ink-900/10 p-4 rounded-xl shadow-neo-soft w-full max-w-lg mx-auto">
             <div class="text-center pb-2 border-b border-ink-900/5 mb-3">
               <span class="text-[11px] font-mono font-bold text-ink-500 uppercase tracking-widest"><i class="fa-solid fa-network-wired text-indigo-600"></i> 대기업 상생 협업 구조도</span>
             </div>
             <div class="w-full flex items-center justify-center bg-warm-50/50 p-2 rounded-lg">
-              <svg viewBox="0 0 500 350" class="w-full h-auto object-contain" xmlns="http://www.w3.org/2000/svg">
+              <svg viewBox="0 0 500 252" class="w-full h-auto object-contain" xmlns="http://www.w3.org/2000/svg">
                 <defs>
                   <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
                     <path d="M 0 0 L 10 5 L 0 10 z" fill="#4F46E5" />
@@ -376,33 +376,33 @@
                 </defs>
                 <rect width="100%" height="100%" fill="none"/>
                 <!-- Tier 1: Big Corp -->
-                <rect x="170" y="20" width="160" height="50" rx="6" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="2"/>
-                <text x="250" y="42" text-anchor="middle" font-weight="900" font-size="11" fill="#0F172A">대기업 (삼성전자 등)</text>
-                <text x="250" y="58" text-anchor="middle" font-size="8" fill="#64748B" font-weight="bold">5조 상생 펀드 및 투자 확대</text>
+                <rect x="170" y="8" width="160" height="44" rx="6" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="2"/>
+                <text x="250" y="25" text-anchor="middle" font-weight="900" font-size="11" fill="#0F172A">대기업 (삼성전자 등)</text>
+                <text x="250" y="39" text-anchor="middle" font-size="8" fill="#64748B" font-weight="bold">5조 상생 펀드 및 투자 확대</text>
 
                 <!-- Connection 1 -->
-                <line x1="250" y1="70" x2="250" y2="120" stroke="#4F46E5" stroke-width="2" marker-end="url(#arrow)"/>
+                <line x1="250" y1="52" x2="250" y2="80" stroke="#4F46E5" stroke-width="2" marker-end="url(#arrow)"/>
 
                 <!-- Tier 2: MONO -->
-                <rect x="130" y="130" width="240" height="70" rx="8" fill="#EEF2F6" stroke="#4F46E5" stroke-width="2"/>
-                <text x="250" y="158" text-anchor="middle" font-weight="900" font-size="13" fill="#4F46E5">MONO 상생 데이터 인프라</text>
-                <text x="250" y="178" text-anchor="middle" font-size="9" fill="#1E293B" font-weight="700">안전·인력·교육·장비 데이터 관리</text>
+                <rect x="130" y="80" width="240" height="60" rx="8" fill="#EEF2F6" stroke="#4F46E5" stroke-width="2"/>
+                <text x="250" y="108" text-anchor="middle" font-weight="900" font-size="13" fill="#4F46E5">MONO 상생 데이터 인프라</text>
+                <text x="250" y="126" text-anchor="middle" font-size="9" fill="#1E293B" font-weight="700">안전·인력·교육·장비 데이터 관리</text>
 
                 <!-- Connection 2 (Left to Subcontractor) -->
-                <path d="M 200 200 C 200 240, 120 240, 120 260" fill="none" stroke="#4F46E5" stroke-width="1.5" marker-end="url(#arrow)"/>
+                <path d="M 200 140 C 200 170, 120 170, 120 192" fill="none" stroke="#4F46E5" stroke-width="1.5" marker-end="url(#arrow)"/>
                 
                 <!-- Connection 3 (Right to Tech Worker) -->
-                <path d="M 300 200 C 300 240, 380 240, 380 260" fill="none" stroke="#4F46E5" stroke-width="1.5" marker-end="url(#arrow)"/>
+                <path d="M 300 140 C 300 170, 380 170, 380 192" fill="none" stroke="#4F46E5" stroke-width="1.5" marker-end="url(#arrow)"/>
 
                 <!-- Subcontractor Node -->
-                <rect x="40" y="270" width="160" height="50" rx="6" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="2"/>
-                <text x="120" y="292" text-anchor="middle" font-weight="900" font-size="11" fill="#0F172A">협력사 (Subcontractor)</text>
-                <text x="120" y="308" text-anchor="middle" font-size="8" fill="#64748B">검증인력 및 현장운영 확보</text>
+                <rect x="40" y="200" width="160" height="44" rx="6" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="2"/>
+                <text x="120" y="217" text-anchor="middle" font-weight="900" font-size="11" fill="#0F172A">협력사 (Subcontractor)</text>
+                <text x="120" y="231" text-anchor="middle" font-size="8" fill="#64748B">검증인력 및 현장운영 확보</text>
 
                 <!-- Tech Worker Node -->
-                <rect x="300" y="270" width="160" height="50" rx="6" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="2"/>
-                <text x="380" y="292" text-anchor="middle" font-weight="900" font-size="11" fill="#0F172A">현장 기술 근로자</text>
-                <text x="380" y="308" text-anchor="middle" font-size="8" fill="#64748B">안전이력 및 경력 자산화</text>
+                <rect x="300" y="200" width="160" height="44" rx="6" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="2"/>
+                <text x="380" y="217" text-anchor="middle" font-weight="900" font-size="11" fill="#0F172A">현장 기술 근로자</text>
+                <text x="380" y="231" text-anchor="middle" font-size="8" fill="#64748B">안전이력 및 경력 자산화</text>
               </svg>
             </div>
           </div>
