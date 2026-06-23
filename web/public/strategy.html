@@ -355,77 +355,78 @@
 <section id="problem" class="relative py-20 bg-white">
   <div class="max-w-7xl mx-auto px-6 lg:px-10 space-y-12">
     
-    <!-- 1. 상단 Hero 영역 (좌측 60%, 우측 40% 2단 구성) -->
-    <div class="grid lg:grid-cols-12 gap-12 items-start">
-      <!-- Left (60%) -->
-      <div class="lg:col-span-7 space-y-6">
-        <div class="section-label mb-6"><span class="num">02</span> MONO VISION & 상생 데이터 인프라</div>
-        <h2 class="h-display text-ink-900 leading-[1.2] md:leading-tight tracking-tight">일자리는 쉽게 찾고, 기업은 채용 공고를 쉽게 등록하며, 산업은 상생 데이터를 축적하는 MONO</h2>
-        
-        <!-- 2문단 이하 핵심 설명 -->
-        <div class="space-y-4 text-justify break-keep text-ink-800 text-sm leading-relaxed">
-          <p>
-            MONO는 기술자가 일자리를 쉽게 찾고, 기업이 필요한 기술 인력을 쉽게 모집하며, 그 과정에서 산업 현장의 상생 데이터를 축적하는 스마트 현장 플랫폼입니다.
-          </p>
-          <p>
-            기술자는 경력, 자격, 안전교육, 현장 경험을 프로필로 쌓고, 기업은 채용 공고를 등록해 검증된 기술자를 확인하며 현장 투입 데이터를 관리합니다. MONO는 이 상생 데이터를 기반으로 기술자에게 금융·보험·교육 기회를 제공하고 기업의 현장 운영 데이터를 AGI OS의 근간으로 성장시킵니다.
-          </p>
-        </div>
+    <!-- 1. 상단 Hero 영역 (상단 메인 타이틀 + 하단 2단 그리드로 도식과 본문 배치) -->
+    <div class="space-y-6">
+      <div class="section-label"><span class="num">02</span> MONO VISION & 상생 데이터 인프라</div>
+      <h2 class="h-display text-ink-900 leading-[1.2] md:leading-tight tracking-tight max-w-5xl">일자리는 쉽게 찾고, 기업은 채용 공고를 쉽게 등록하며, 산업은 상생 데이터를 축적하는 MONO</h2>
+      
+      <div class="grid lg:grid-cols-12 gap-8 lg:gap-12 items-start pt-2">
+        <!-- Left (도식 배치 - 60%) -->
+        <div class="lg:col-span-7">
+          <div class="bg-white border border-ink-900/10 p-4 rounded-xl shadow-neo-soft w-full">
+            <div class="text-center pb-2 border-b border-ink-900/5 mb-3">
+              <span class="text-[11px] font-mono font-bold text-ink-500 uppercase tracking-widest"><i class="fa-solid fa-network-wired text-indigo-600"></i> 대기업 상생 협업 구조도</span>
+            </div>
+            <div class="w-full flex items-center justify-center bg-warm-50/50 p-2 rounded-lg">
+              <svg viewBox="0 0 500 350" class="w-full h-auto object-contain" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                    <path d="M 0 0 L 10 5 L 0 10 z" fill="#4F46E5" />
+                  </marker>
+                </defs>
+                <rect width="100%" height="100%" fill="none"/>
+                <!-- Tier 1: Big Corp -->
+                <rect x="170" y="20" width="160" height="50" rx="6" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="2"/>
+                <text x="250" y="42" text-anchor="middle" font-weight="900" font-size="11" fill="#0F172A">대기업 (삼성전자 등)</text>
+                <text x="250" y="58" text-anchor="middle" font-size="8" fill="#64748B" font-weight="bold">5조 상생 펀드 및 투자 확대</text>
 
-        <!-- 뉴스 근거 칩 2개 -->
-        <div class="flex flex-wrap gap-3 pt-2">
-          <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-warm-100 text-ink-700 text-[11px] font-bold">
-            <i class="fa-solid fa-newspaper text-indigo-600"></i> 삼성전자 5조 상생 투자 관련 기사
-          </span>
-          <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-warm-100 text-ink-700 text-[11px] font-bold">
-            <i class="fa-solid fa-newspaper text-indigo-600"></i> 조선업 외국인 노동자 의존 지속 어려움 관련 기사
-          </span>
-        </div>
-      </div>
+                <!-- Connection 1 -->
+                <line x1="250" y1="70" x2="250" y2="120" stroke="#4F46E5" stroke-width="2" marker-end="url(#arrow)"/>
 
-      <!-- Right (40%): 대기업 상생 협업 구조도 1개 배치 (확대보기 제거, 크기 축소, 카드 높이 줄이기) -->
-      <div class="lg:col-span-5">
-        <div class="bg-white border border-ink-900/10 p-4 rounded-xl shadow-neo-soft max-w-md mx-auto">
-          <div class="text-center pb-2 border-b border-ink-900/5 mb-3">
-            <span class="text-[11px] font-mono font-bold text-ink-500 uppercase tracking-widest"><i class="fa-solid fa-network-wired text-indigo-600"></i> 대기업 상생 협업 구조도</span>
+                <!-- Tier 2: MONO -->
+                <rect x="130" y="130" width="240" height="70" rx="8" fill="#EEF2F6" stroke="#4F46E5" stroke-width="2"/>
+                <text x="250" y="158" text-anchor="middle" font-weight="900" font-size="13" fill="#4F46E5">MONO 상생 데이터 인프라</text>
+                <text x="250" y="178" text-anchor="middle" font-size="9" fill="#1E293B" font-weight="700">안전·인력·교육·장비 데이터 관리</text>
+
+                <!-- Connection 2 (Left to Subcontractor) -->
+                <path d="M 200 200 C 200 240, 120 240, 120 260" fill="none" stroke="#4F46E5" stroke-width="1.5" marker-end="url(#arrow)"/>
+                
+                <!-- Connection 3 (Right to Tech Worker) -->
+                <path d="M 300 200 C 300 240, 380 240, 380 260" fill="none" stroke="#4F46E5" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+                <!-- Subcontractor Node -->
+                <rect x="40" y="270" width="160" height="50" rx="6" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="2"/>
+                <text x="120" y="292" text-anchor="middle" font-weight="900" font-size="11" fill="#0F172A">협력사 (Subcontractor)</text>
+                <text x="120" y="308" text-anchor="middle" font-size="8" fill="#64748B">검증인력 및 현장운영 확보</text>
+
+                <!-- Tech Worker Node -->
+                <rect x="300" y="270" width="160" height="50" rx="6" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="2"/>
+                <text x="380" y="292" text-anchor="middle" font-weight="900" font-size="11" fill="#0F172A">현장 기술 근로자</text>
+                <text x="380" y="308" text-anchor="middle" font-size="8" fill="#64748B">안전이력 및 경력 자산화</text>
+              </svg>
+            </div>
           </div>
-          <div class="w-full flex items-center justify-center bg-warm-50/50 p-2 rounded-lg">
-            <svg viewBox="0 0 500 350" class="w-full h-auto object-contain" xmlns="http://www.w3.org/2000/svg">
-              <defs>
-                <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-                  <path d="M 0 0 L 10 5 L 0 10 z" fill="#4F46E5" />
-                </marker>
-              </defs>
-              <rect width="100%" height="100%" fill="none"/>
-              <!-- Tier 1: Big Corp -->
-              <rect x="170" y="20" width="160" height="50" rx="6" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="2"/>
-              <text x="250" y="42" text-anchor="middle" font-weight="900" font-size="11" fill="#0F172A">대기업 (삼성전자 등)</text>
-              <text x="250" y="58" text-anchor="middle" font-size="8" fill="#64748B" font-weight="bold">5조 상생 펀드 및 투자 확대</text>
+        </div>
+        
+        <!-- Right (본문 및 뉴스 칩 - 40%) -->
+        <div class="lg:col-span-5 space-y-6">
+          <div class="space-y-4 text-justify break-keep text-ink-800 text-sm leading-relaxed">
+            <p>
+              MONO는 기술자가 일자리를 쉽게 찾고, 기업이 필요한 기술 인력을 쉽게 모집하며, 그 과정에서 산업 현장의 상생 데이터를 축적하는 스마트 현장 플랫폼입니다.
+            </p>
+            <p>
+              기술자는 경력, 자격, 안전교육, 현장 경험을 프로필로 쌓고, 기업은 채용 공고를 등록해 검증된 기술자를 확인하며 현장 투입 데이터를 관리합니다. MONO는 이 상생 데이터를 기반으로 기술자에게 금융·보험·교육 기회를 제공하고 기업의 현장 운영 데이터를 AGI OS의 근간으로 성장시킵니다.
+            </p>
+          </div>
 
-              <!-- Connection 1 -->
-              <line x1="250" y1="70" x2="250" y2="120" stroke="#4F46E5" stroke-width="2" marker-end="url(#arrow)"/>
-
-              <!-- Tier 2: MONO -->
-              <rect x="130" y="130" width="240" height="70" rx="8" fill="#EEF2F6" stroke="#4F46E5" stroke-width="2"/>
-              <text x="250" y="158" text-anchor="middle" font-weight="900" font-size="13" fill="#4F46E5">MONO 상생 데이터 인프라</text>
-              <text x="250" y="178" text-anchor="middle" font-size="9" fill="#1E293B" font-weight="700">안전·인력·교육·장비 데이터 관리</text>
-
-              <!-- Connection 2 (Left to Subcontractor) -->
-              <path d="M 200 200 C 200 240, 120 240, 120 260" fill="none" stroke="#4F46E5" stroke-width="1.5" marker-end="url(#arrow)"/>
-              
-              <!-- Connection 3 (Right to Tech Worker) -->
-              <path d="M 300 200 C 300 240, 380 240, 380 260" fill="none" stroke="#4F46E5" stroke-width="1.5" marker-end="url(#arrow)"/>
-
-              <!-- Subcontractor Node -->
-              <rect x="40" y="270" width="160" height="50" rx="6" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="2"/>
-              <text x="120" y="292" text-anchor="middle" font-weight="900" font-size="11" fill="#0F172A">협력사 (Subcontractor)</text>
-              <text x="120" y="308" text-anchor="middle" font-size="8" fill="#64748B">검증인력 및 현장운영 확보</text>
-
-              <!-- Tech Worker Node -->
-              <rect x="300" y="270" width="160" height="50" rx="6" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="2"/>
-              <text x="380" y="292" text-anchor="middle" font-weight="900" font-size="11" fill="#0F172A">현장 기술 근로자</text>
-              <text x="380" y="308" text-anchor="middle" font-size="8" fill="#64748B">안전이력 및 경력 자산화</text>
-            </svg>
+          <!-- 뉴스 근거 칩 2개 -->
+          <div class="flex flex-wrap gap-3 pt-2">
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-warm-100 text-ink-700 text-[11px] font-bold">
+              <i class="fa-solid fa-newspaper text-indigo-600"></i> 삼성전자 5조 상생 투자 관련 기사
+            </span>
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-warm-100 text-ink-700 text-[11px] font-bold">
+              <i class="fa-solid fa-newspaper text-indigo-600"></i> 조선업 외국인 노동자 의존 지속 어려움 관련 기사
+            </span>
           </div>
         </div>
       </div>
