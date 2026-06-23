@@ -50,199 +50,284 @@
 </script>
 
 <style>
+  /* ============================================================
+     MONO Strategy Page — Global CSS
+     Last revised: 2026-06-23  (typography & layout overhaul)
+  ============================================================ */
+
   html {
-    scroll-behavior: smooth !important;
+    scroll-behavior: smooth;
     font-size: 16px;
     background-color: #FCFCFE;
   }
   body {
     font-family: 'Pretendard', 'Noto Sans KR', system-ui, sans-serif;
-    background-color: #FCFCFE; color: #0A0F1A;
-    -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+    background-color: #FCFCFE;
+    color: #0A0F1A;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
     letter-spacing: -0.01em;
   }
-  section {
-    scroll-margin-top: 80px;
-  }
-  h1,
-  h2,
-  .strategy-title,
-  .section-title {
-    word-break: keep-all !important;
-    line-height: 1.16 !important;
-    letter-spacing: -0.03em !important;
-  }
+  section { scroll-margin-top: 80px; }
 
+  /* ── 1. 전역 줄바꿈 제어 ──────────────────────────────────── */
+  h1, h2, h3,
+  .strategy-title,
+  .section-title,
+  .card-title {
+    word-break: keep-all;
+    overflow-wrap: normal;
+    line-height: 1.18;
+    letter-spacing: -0.035em;
+  }
+  p, li,
   .strategy-body,
   .section-description,
+  .card-description,
   .lead-text,
   .intro-copy {
-    max-width: 780px !important;
-    word-break: keep-all !important;
-    line-height: 1.75 !important;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+    line-height: 1.72;
+  }
+  /* word-break: break-all 절대 사용 금지 */
+
+  /* ── 2. 컨테이너 폭 통일 ──────────────────────────────────── */
+  .strategy-container {
+    width: min(100% - 48px, 1440px);
+    margin: 0 auto;
+  }
+  .narrow-container {
+    max-width: 980px;
+    margin: 0 auto;
   }
 
-  /* MONO Strategy Page Design Improvements */
+  /* ── 3. 본문 폭 제한 ──────────────────────────────────────── */
+  .lead-text,
+  .section-description,
+  .intro-copy {
+    max-width: 860px;
+  }
+  .body-copy,
+  .strategy-body {
+    max-width: 780px;
+  }
+  /* 카드 내부는 100% */
+  .strategy-card .body-copy,
+  .strategy-card p {
+    max-width: 100%;
+  }
+
+  /* ── 4. 제목 폭 제어 ──────────────────────────────────────── */
+  .hero-title,
+  .h-display {
+    max-width: 1120px;
+    font-size: clamp(1.7rem, 3.5vw, 2.75rem);
+    font-weight: 900;
+    letter-spacing: -0.035em;
+    line-height: 1.18;
+    word-break: keep-all;
+  }
+  .h-section {
+    font-size: clamp(1.3rem, 2.5vw, 2rem);
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    line-height: 1.28;
+    word-break: keep-all;
+  }
+  .h-card {
+    font-size: 1.1rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: #0A0F1A;
+    line-height: 1.4;
+    word-break: keep-all;
+  }
+
+  /* ── 5. 섹션 여백 ─────────────────────────────────────────── */
   .strategy-section {
-    padding: 80px 0 !important;
+    padding: 72px 0;
+  }
+  .strategy-section:first-of-type {
+    padding-top: 64px;
   }
   .strategy-section.compact {
-    padding: 64px 0 !important;
-  }
-  .strategy-container {
-    max-width: 1180px !important;
-    margin: 0 auto !important;
-    padding: 0 24px !important;
+    padding: 56px 0;
   }
   .section-header {
-    margin-bottom: 36px !important;
-  }
-  .card-grid {
-    gap: 24px !important;
-  }
-  .strategy-card {
-    min-height: auto !important;
-    border: 1px solid rgba(36, 91, 255, 0.16) !important;
-    border-radius: 16px !important;
-    padding: 28px !important;
-    background: rgba(255, 255, 255, 0.86) !important;
-    box-shadow: 0 14px 36px rgba(15, 23, 42, 0.06) !important;
-  }
-  .strategy-card h3 {
-    font-size: 22px !important;
-    line-height: 1.3 !important;
-    margin-bottom: 12px !important;
-  }
-  .strategy-card p {
-    font-size: 15px !important;
-    line-height: 1.7 !important;
+    margin-bottom: 32px;
   }
 
-  /* 3. 공통 컴포넌트 클래스 정의 */
+  /* ── 6. 카드 ──────────────────────────────────────────────── */
+  .strategy-card {
+    min-height: auto;
+    border: 1px solid rgba(36, 91, 255, 0.16);
+    border-radius: 16px;
+    padding: 28px;
+    background: rgba(255, 255, 255, 0.86);
+    box-shadow: 0 14px 36px rgba(15, 23, 42, 0.06);
+  }
+  .strategy-card h3 {
+    font-size: 1.1rem;
+    line-height: 1.35;
+    margin-bottom: 10px;
+    word-break: keep-all;
+  }
+  .strategy-card p {
+    font-size: 15px;
+    line-height: 1.72;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+  }
+  .card-grid { gap: 20px; }
+
+  /* ── 7. 카드 그리드 (01 섹션 3열) ────────────────────────── */
+  .service-card-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+    align-items: stretch;
+  }
+  .service-card { padding: 28px; }
+  .service-card p {
+    font-size: 15px;
+    line-height: 1.72;
+    word-break: keep-all;
+  }
+
+  /* ── 8. IntroBlock ────────────────────────────────────────── */
   .intro-block {
-    max-width: 860px !important;
-    margin-bottom: 28px !important;
+    max-width: 860px;
+    margin-top: 44px;
+    margin-bottom: 28px;
     text-align: left;
   }
   .intro-block .eyebrow {
-    color: #245bff !important;
-    font-weight: 800 !important;
-    margin-bottom: 10px !important;
-    font-size: 13px !important;
-    letter-spacing: 0.05em !important;
-    text-transform: uppercase !important;
+    color: #245bff;
+    font-weight: 800;
+    margin-bottom: 10px;
+    font-size: 13px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
   }
   .intro-block h3 {
-    font-size: 28px !important;
-    line-height: 1.35 !important;
-    font-weight: 800 !important;
-    color: #0A0F1A !important;
-    word-break: keep-all !important;
+    max-width: 980px;
+    font-size: 1.5rem;
+    line-height: 1.25;
+    font-weight: 800;
+    color: #0A0F1A;
+    word-break: keep-all;
   }
   .intro-block p {
-    max-width: 780px !important;
-    line-height: 1.75 !important;
-    word-break: keep-all !important;
-    margin-top: 12px !important;
-    font-size: 15px !important;
-    color: #334155 !important;
+    max-width: 780px;
+    line-height: 1.75;
+    word-break: keep-all;
+    margin-top: 12px;
+    font-size: 15px;
+    color: #334155;
   }
 
+  /* ── 9. MeaningBlock ─────────────────────────────────────── */
   .meaning-block {
-    margin-top: 24px !important;
-    padding: 18px 22px !important;
-    border-left: 4px solid #245bff !important;
-    background: rgba(36, 91, 255, 0.05) !important;
-    border-radius: 12px !important;
-    color: #1E293B !important;
-    line-height: 1.7 !important;
-    font-size: 14px !important;
-    font-weight: 500 !important;
-    word-break: keep-all !important;
-    text-align: justify;
+    margin-top: 20px;
+    padding: 16px 20px;
+    border-left: 4px solid #245bff;
+    background: rgba(36, 91, 255, 0.05);
+    border-radius: 10px;
+    color: #1E293B;
+    line-height: 1.7;
+    font-size: 14px;
+    font-weight: 500;
+    word-break: keep-all;
   }
 
-  .visual-block {
-    margin: 28px 0 !important;
-  }
-  .visual-block.full {
-    width: 100% !important;
-  }
+  /* ── 10. VisualBlock ─────────────────────────────────────── */
+  .visual-block { margin: 24px 0; }
+  .visual-block.full { width: 100%; }
   .visual-block.aside {
-    max-width: 440px !important;
-    width: 100% !important;
+    max-width: 420px;
+    width: 100%;
   }
   .visual-block img {
-    width: 100% !important;
-    height: auto !important;
-    object-fit: contain !important;
-    display: block !important;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    display: block;
   }
 
-  /* 5-2. 02 섹션 전용 탑 2단 그리드 */
+  /* ── 11. 02 섹션 2단 그리드 ──────────────────────────────── */
   .vision-top-grid {
-    display: grid !important;
-    grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr) !important;
-    gap: 48px !important;
-    align-items: start !important;
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(360px, 0.85fr);
+    gap: 56px;
+    align-items: start;
   }
-  .vision-copy {
-    max-width: 760px !important;
+  .vision-copy { max-width: 760px; }
+
+  /* 우측 구조도 카드 */
+  .partner-diagram-card {
+    padding: 20px;
+    min-height: auto;
+  }
+  .partner-diagram-card img {
+    width: 100%;
+    max-height: 340px;
+    object-fit: contain;
+  }
+  .partner-diagram-caption {
+    max-width: 480px;
+    margin: 14px auto 0;
+    font-size: 12px;
+    line-height: 1.55;
+    text-align: center;
+    word-break: keep-all;
+    color: #64748B;
   }
 
-  @media (max-width: 768px) {
-    .strategy-section {
-      padding: 56px 0 !important;
-    }
-    .strategy-title,
-    .section-title {
-      font-size: 34px !important;
-      line-height: 1.22 !important;
-    }
-    .two-column,
-    .vision-top-grid,
-    .vision-grid,
-    .section-grid {
-      grid-template-columns: 1fr !important;
-      gap: 28px !important;
-    }
-    .card-grid {
-      gap: 16px !important;
-    }
-    .strategy-card {
-      padding: 22px !important;
-    }
-    .infographic {
-      width: 100% !important;
-      height: auto !important;
-      object-fit: contain !important;
-    }
-    .intro-block h3 {
-      font-size: 22px !important;
-    }
+  /* ── 12. 기사 카드 여백 ──────────────────────────────────── */
+  .news-proof-card {
+    padding: 22px 26px;
+    margin-top: 24px;
+  }
+  .news-proof-card blockquote {
+    margin: 16px 0;
+    padding: 14px 16px;
+  }
+  .news-proof-card p {
+    line-height: 1.65;
+    word-break: keep-all;
   }
 
-  @media (max-width: 640px) {
-    html { font-size: 14.5px !important; }
-    .px-6, .px-8, .px-10 { padding-left: 1.15rem !important; padding-right: 1.15rem !important; }
-    .p-6, .p-7, .p-8, .p-9, .p-10 { padding: 1.25rem !important; }
-    .gap-6 { gap: 1.25rem !important; }
-    .gap-8 { gap: 1.5rem !important; }
+  /* ── 13. 유틸리티 텍스트 클래스 ──────────────────────────── */
+  .body-lg  { font-size: 1.1rem;  line-height: 1.75; color: #1B2436; word-break: keep-all; }
+  .body-md  { font-size: 1rem;    line-height: 1.72; color: #475569; word-break: keep-all; }
+  .body-sm  { font-size: 0.875rem; line-height: 1.6;  color: #64748B; }
+
+  /* ── 14. 기타 공통 ───────────────────────────────────────── */
+  .section-label {
+    font-family: 'Pretendard', sans-serif;
+    font-size: 13.5px;
+    font-weight: 800;
+    color: #4F46E5;
+    letter-spacing: -0.01em;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    max-width: 100%;
+    word-break: keep-all;
+    line-height: 1.4;
+  }
+  .section-label .num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 700;
+    color: #4F46E5;
+    padding: 2px 6px;
+    border: 1px solid rgba(79,70,229,0.3);
+    border-radius: 2px;
+    background: rgba(79,70,229,0.05);
   }
 
-  .section-label { 
-    font-family: 'Pretendard', sans-serif; font-size: 14px; font-weight: 800; color: #4F46E5; letter-spacing: -0.01em; 
-    display: inline-flex; align-items: center; gap: 0.5rem; max-width: 100%; word-break: keep-all; line-height: 1.4; 
-  }
-  .section-label .num { font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 700; color: #4F46E5; padding: 2px 6px; border: 1px solid rgba(79,70,229,0.3); border-radius: 2px; background: rgba(79,70,229,0.05); }
-  
-  .h-display  { font-size: clamp(1.6rem, 3.5vw, 2.8rem); font-weight: 900; letter-spacing: -0.03em; line-height: 1.2; word-break: keep-all; }
-  .h-section  { font-size: clamp(1.3rem, 2.5vw, 2rem); font-weight: 800; letter-spacing: -0.025em; line-height: 1.3; word-break: keep-all; }
-  .h-card     { font-size: 1.15rem; font-weight: 800; letter-spacing: -0.02em; color: #0A0F1A; line-height: 1.4; }
-  .body-lg    { font-size: 1.125rem; line-height: 1.75; color: #1B2436; text-align: justify; text-justify: inter-word; }
-  .body-md    { font-size: 1rem; line-height: 1.7; color: #475569; text-align: justify; text-justify: inter-word; }
-  .body-sm    { font-size: 0.9rem; line-height: 1.6; color: #64748B; }
-  
   .blueprint {
     background-image:
       linear-gradient(rgba(79,70,229,0.05) 1px, transparent 1px),
@@ -256,47 +341,45 @@
       linear-gradient(90deg, rgba(34,211,238,0.08) 1px, transparent 1px);
     background-size: 40px 40px;
   }
-  .tape-divider { height: 5px; background: repeating-linear-gradient(135deg, #0A0F1A 0 10px, #FFD200 10px 20px); }
-  
+  .tape-divider {
+    height: 5px;
+    background: repeating-linear-gradient(135deg, #0A0F1A 0 10px, #FFD200 10px 20px);
+  }
   .glass {
     background: linear-gradient(180deg, rgba(252,252,254,0.9) 0%, rgba(241,245,249,0.7) 100%);
-    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(79,70,229,0.1); border-radius: 6px;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(79,70,229,0.1);
+    border-radius: 6px;
   }
-
   .lcorner { position: relative; }
   .lcorner::before, .lcorner::after {
-    content: ''; position: absolute; width: 12px; height: 12px;
-    border-color: rgba(79,70,229,0.3); border-style: solid;
+    content: '';
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border-color: rgba(79,70,229,0.3);
+    border-style: solid;
   }
   .lcorner::before { top: -1px; left: -1px; border-width: 1.5px 0 0 1.5px; }
   .lcorner::after  { bottom: -1px; right: -1px; border-width: 0 1.5px 1.5px 0; }
-  
   .chip-round {
     border-radius: 999px;
-    padding: 0.35rem 0.85rem;
+    padding: 0.3rem 0.8rem;
     background-color: rgba(79, 70, 229, 0.06);
     color: #4F46E5;
     border: 1px solid rgba(79, 70, 229, 0.2);
     font-weight: 700;
-    font-size: 13px;
+    font-size: 12.5px;
     letter-spacing: -0.02em;
   }
-
   .nav-link { position: relative; font-weight: 600; }
   .nav-link::after { content:''; position:absolute; left:0; bottom:-4px; width:0; height:2px; background:#4F46E5; transition: width .3s ease; }
   .nav-link:hover::after, .nav-link.active::after { width: 100%; }
-
   .hover-lift { transition: transform .3s cubic-bezier(.16,1,.3,1), box-shadow .3s ease, border-color .3s ease; }
-  .hover-lift:hover { transform: translateY(-4px); border-color: rgba(79,70,229,0.35); box-shadow: 0 12px 30px -10px rgba(79,70,229,0.15); }
-  
-  .zoomable-svg-container {
-    cursor: zoom-in;
-    transition: transform 0.2s ease;
-  }
-  .zoomable-svg-container:hover {
-    transform: scale(1.01);
-  }
+  .hover-lift:hover { transform: translateY(-3px); border-color: rgba(79,70,229,0.35); box-shadow: 0 10px 28px -10px rgba(79,70,229,0.15); }
+  .zoomable-svg-container { cursor: zoom-in; transition: transform 0.2s ease; }
+  .zoomable-svg-container:hover { transform: scale(1.008); }
 
   #lightbox {
     display: none;
@@ -309,9 +392,7 @@
     align-items: center;
     padding: 2rem;
   }
-  #lightbox.active {
-    display: flex;
-  }
+  #lightbox.active { display: flex; }
   #lightbox-content {
     max-width: 95vw;
     max-height: 85vh;
@@ -324,23 +405,89 @@
     position: relative;
     overflow: auto;
   }
-  
+
   /* Scrollbar */
   ::-webkit-scrollbar { width: 8px; height: 8px; }
   ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 999px; }
   ::-webkit-scrollbar-thumb:hover { background: #4F46E5; }
 
-  /* S3 Vertical timeline */
+  /* Vertical timeline (S3) */
   .vtimeline { position: relative; }
   @media (min-width: 768px) {
     .vtimeline::before {
-      content:''; position:absolute; left: 28px; top: 8px; bottom: 8px; width: 2px;
+      content:'';
+      position:absolute;
+      left: 28px; top: 8px; bottom: 8px;
+      width: 2px;
       background: repeating-linear-gradient(180deg, #4F46E5 0 8px, transparent 8px 14px);
     }
-    .vstep-dot { position:absolute; left: 18px; top: 18px; width: 22px; height: 22px; border-radius: 2px; background:#4F46E5; display:grid; place-items:center; color:#FCFCFE; font-family:'JetBrains Mono',monospace; font-size: 10px; font-weight: 700; box-shadow: 0 0 0 4px #FCFCFE; }
+    .vstep-dot {
+      position:absolute; left: 18px; top: 18px;
+      width: 22px; height: 22px;
+      border-radius: 2px;
+      background:#4F46E5;
+      display:grid; place-items:center;
+      color:#FCFCFE;
+      font-family:'JetBrains Mono',monospace;
+      font-size: 10px; font-weight: 700;
+      box-shadow: 0 0 0 4px #FCFCFE;
+    }
   }
-  @media (max-width: 767px) {
-    .vstep-dot { display: none; }
+  @media (max-width: 767px) { .vstep-dot { display: none; } }
+
+  /* ── 15. 반응형 (tablet) ──────────────────────────────────── */
+  @media (max-width: 1200px) {
+    .strategy-card p { font-size: 14.5px; }
+  }
+
+  /* ── 16. 반응형 (mobile) ──────────────────────────────────── */
+  @media (max-width: 768px) {
+    .strategy-container {
+      width: min(100% - 32px, 100%);
+    }
+    .strategy-section {
+      padding: 48px 0;
+    }
+    .strategy-section:first-of-type {
+      padding-top: 40px;
+    }
+    .section-header {
+      margin-bottom: 24px;
+    }
+    .h-display, .hero-title {
+      font-size: clamp(1.65rem, 6vw, 2.2rem);
+      line-height: 1.22;
+    }
+    .section-title {
+      font-size: 2rem;
+      line-height: 1.22;
+    }
+    .section-description {
+      font-size: 15px;
+      line-height: 1.7;
+    }
+    .vision-top-grid,
+    .two-column,
+    .vision-grid,
+    .section-grid,
+    .service-card-grid {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+    .card-grid { gap: 14px; }
+    .strategy-card { padding: 22px; min-height: auto; }
+    .infographic { width: 100%; height: auto; object-fit: contain; }
+    .intro-block h3 { font-size: 1.2rem; }
+    .partner-diagram-card img { max-height: none; }
+    .visual-block.aside { max-width: 100%; }
+  }
+
+  @media (max-width: 640px) {
+    html { font-size: 14.5px; }
+    .px-6, .px-8, .px-10 { padding-left: 1.1rem; padding-right: 1.1rem; }
+    .p-6, .p-7, .p-8, .p-9, .p-10 { padding: 1.2rem; }
+    .gap-6 { gap: 1.2rem; }
+    .gap-8 { gap: 1.4rem; }
   }
 </style>
 </head>
@@ -420,16 +567,16 @@
     <div class="section-header reveal">
       <div class="section-label mb-6"><span class="num">01</span> MONO 서비스 소개 · 산업 신뢰 데이터 플랫폼</div>
       
-      <!-- 수정 메인 타이틀 -->
-      <h2 class="h-display text-ink-900 leading-[1.2] md:leading-tight tracking-tight strategy-title">
+      <!-- 수정 메인 타이틀: hero-title 클래스 추가 -->
+      <h2 class="h-display hero-title text-ink-900 strategy-title">
         기술자의 경험과 기업의 현장 운영을 신뢰 데이터로 연결하는 MONO
       </h2>
       
       <!-- 수정 서브 문구 -->
-      <p class="body-lg mt-6 text-justify break-keep font-semibold text-ink-900 strategy-body" style="font-size: 1.2rem; line-height: 1.6;">
+      <p class="body-lg mt-5 font-semibold text-ink-900 lead-text">
         MONO는 건설·조선·플랜트 등 국가 핵심 기술노동 산업을 위한 통합 디지털 인력사무소이자 스마트 현장 플랫폼입니다.
       </p>
-      <p class="hidden md:block body-md mt-4 text-justify break-keep strategy-body">
+      <p class="hidden md:block body-md mt-3 strategy-body">
         기술자의 경력, 자격, 안전교육, 현장 경험, 장비 사용 이력을 신뢰 데이터로 축적하고, 기업의 채용 공고, 인력 운영, 장비·자재 관리, 협력사 운영 수요와 연결합니다. 기술자에게는 자신의 경력과 기술이 자산이 되는 평생 프로필을 제공하고, 기업에게는 검증 가능한 인력·현장 운영 데이터를 제공합니다. MONO는 기존 인력사무소 대체를 넘어, 산업 현장의 운영 데이터를 축적하는 상생 현장 운영 인프라로 확장합니다.
       </p>
       
@@ -452,7 +599,7 @@
     </div>
 
     <!-- 카드 구성 보정 -->
-    <div class="grid md:grid-cols-3 gap-6 lg:gap-8 stagger mb-6">
+    <div class="service-card-grid stagger mb-6">
       <!-- Card 1 -->
       <article class="strategy-card h-full hover-lift flex flex-col justify-between">
         <div>
@@ -684,7 +831,7 @@
       </div>
 
       <!-- Right Column (대기업 상생 협업 구조도 보조 이미지 배치, 확대보기 없음) -->
-      <div class="visual-block aside bg-white border border-ink-900/10 p-4 rounded-xl shadow-neo-soft self-start">
+      <div class="visual-block aside partner-diagram-card bg-white border border-ink-900/10 rounded-xl shadow-neo-soft self-start">
         <div class="text-center pb-2 border-b border-ink-900/5 mb-3">
           <span class="text-[11px] font-mono font-bold text-ink-500 uppercase tracking-widest"><i class="fa-solid fa-network-wired text-indigo-600"></i> 대기업 상생 협업 구조도</span>
         </div>
@@ -726,8 +873,8 @@
             <text x="380" y="308" text-anchor="middle" font-size="8" fill="#64748B">안전이력 및 경력 자산화</text>
           </svg>
         </div>
-        <p class="text-[12px] text-ink-600 mt-3 text-center leading-relaxed break-keep font-medium">
-          이 구조도는 MONO가 대기업, 협력사, 기술자, 교육기관, 장비·자재 파트너를 연결하는 상생 데이터 인프라 역할을 보여줍니다.
+        <p class="partner-diagram-caption">
+          MONO가 대기업, 협력사, 기술자, 교육기관, 장비·자재 파트너를 연결하는 상생 데이터 인프라 역할을 보여줍니다.
         </p>
       </div>
     </div>
