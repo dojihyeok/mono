@@ -353,110 +353,40 @@
 
 <!-- ============================== 02. MONO가 만들고 싶은 변화 ============================== -->
 <section id="problem" class="relative py-20 bg-white">
-  <div class="max-w-7xl mx-auto px-6 lg:px-10">
-    <div class="grid lg:grid-cols-12 gap-12 items-start">
-      <!-- Left content -->
+  <div class="max-w-7xl mx-auto px-6 lg:px-10 space-y-12">
+    
+    <!-- 1. 상단 Hero 영역 (좌측 60%, 우측 40% 2단 구성) -->
+    <div class="grid lg:grid-cols-12 gap-12 items-center">
+      <!-- Left (60%) -->
       <div class="lg:col-span-7 space-y-6">
         <div class="section-label mb-6"><span class="num">02</span> MONO VISION & 상생 데이터 인프라</div>
         <h2 class="h-display text-ink-900 leading-[1.2] md:leading-tight tracking-tight">일자리는 쉽게 찾고, 기업은 채용 공고를 쉽게 등록하며, 산업은 상생 데이터를 축적하는 MONO</h2>
         
-        <!-- 변경 후 본문 -->
+        <!-- 2문단 이하 핵심 설명 -->
         <div class="space-y-4 text-justify break-keep text-ink-800 text-sm leading-relaxed">
           <p>
             MONO는 기술자가 일자리를 쉽게 찾고, 기업이 필요한 기술 인력을 쉽게 모집하며, 그 과정에서 산업 현장의 상생 데이터를 축적하는 스마트 현장 플랫폼입니다.
           </p>
           <p>
-            기술자는 경력, 자격, 안전교육, 현장 경험, 장비 사용 이력을 프로필로 쌓아갑니다. 기업은 채용 공고를 등록하고, 검증된 기술자를 확인하며, 현장 투입과 운영 데이터를 관리합니다.
-          </p>
-          <p>
-            MONO는 이 데이터를 기반으로 기술자의 경험을 금융·보험·교육 기회로 연결하고, 기업의 현장 운영 데이터를 Tech-Blue 기술 혁신과 AI 운영체제, AGI Core OS의 기반 데이터로 확장합니다.
+            기술자는 경력, 자격, 안전교육, 현장 경험을 프로필로 쌓고, 기업은 채용 공고를 등록해 검증된 기술자를 확인하며 현장 투입 데이터를 관리합니다. MONO는 이 상생 데이터를 기반으로 기술자에게 금융·보험·교육 기회를 제공하고 기업의 현장 운영 데이터를 AGI OS의 근간으로 성장시킵니다.
           </p>
         </div>
 
-        <!-- 산업 문제 근거 블록 추가 ("왜 지금 MONO가 필요한가") -->
-        <div class="bg-warm-50/70 border border-ink-900/10 p-6 rounded-lg space-y-4">
-          <h4 class="text-base font-black text-ink-900"><i class="fa-solid fa-triangle-exclamation text-amber-500"></i> 왜 지금 MONO가 필요한가</h4>
-          <p class="text-xs md:text-sm text-ink-800 leading-relaxed text-justify break-keep">
-            대한민국 산업 현장은 숙련 기술 인력 부족, 외국인 노동자 의존, 협력사 안전관리, 현장 장비·자재 운영 비효율이라는 구조적 과제를 동시에 마주하고 있습니다. 조선업을 포함한 핵심 제조·현장 산업은 외국인 노동자 의존만으로 지속 가능한 인력 구조를 만들기 어렵다는 지적이 나오고 있습니다. 동시에 삼성전자 등 대기업은 협력사 경쟁력 강화와 상생 산업 생태계 조성을 위해 대규모 투자를 확대하고 있습니다. MONO는 이 두 흐름 사이에서 기술자, 기업, 협력사, 교육기관, 장비·자재 파트너를 연결하는 상생 데이터 인프라 역할을 수행합니다.
-          </p>
-          <div class="flex flex-wrap gap-3 pt-1">
-            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-warm-100 text-ink-700 text-[11px] font-bold">
-              <i class="fa-solid fa-newspaper text-indigo-600"></i> 삼성전자 5조 상생 투자 관련 기사
-            </span>
-            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-warm-100 text-ink-700 text-[11px] font-bold">
-              <i class="fa-solid fa-newspaper text-indigo-600"></i> 조선업 외국인 노동자 의존 지속 어려움 관련 기사
-            </span>
-          </div>
+        <!-- 뉴스 근거 칩 2개 -->
+        <div class="flex flex-wrap gap-3 pt-2">
+          <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-warm-100 text-ink-700 text-[11px] font-bold">
+            <i class="fa-solid fa-newspaper text-indigo-600"></i> 삼성전자 5조 상생 투자 관련 기사
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-warm-100 text-ink-700 text-[11px] font-bold">
+            <i class="fa-solid fa-newspaper text-indigo-600"></i> 조선업 외국인 노동자 의존 지속 어려움 관련 기사
+          </span>
         </div>
-
-        <!-- 대기업 상생 투자 블록 수정 ("대기업 상생 투자와 MONO의 전략적 기회") -->
-        <div class="bg-indigo-50/50 border border-indigo-200 p-6 rounded-lg space-y-4">
-          <h4 class="text-base font-black text-indigo-900"><i class="fa-solid fa-handshake"></i> 대기업 상생 투자와 MONO의 전략적 기회</h4>
-          <p class="text-xs md:text-sm text-ink-800 leading-relaxed text-justify break-keep">
-            삼성전자 등 대기업의 상생 투자는 협력사 경쟁력 강화, 산업재해 예방, 미래 인재 육성, 현장 운영 체계 고도화로 이어지고 있습니다. MONO는 대기업이 직접 관리하기 어려운 협력사 인력, 기술자 경력, 안전교육, 장비 사용, 소모자재 운영, 근무환경 데이터를 하나의 상생 데이터 인프라로 연결합니다. 기업은 채용 공고를 쉽게 등록하고 필요한 기술자를 빠르게 찾을 수 있습니다. 기술자는 일자리를 쉽게 찾고, 필요한 공구와 장비를 지원받으며, 식사·숙소·근무환경·교육 프로그램을 통해 기업이 필요로 하는 미래 기술 인재로 성장할 수 있습니다.
-          </p>
-          
-          <div class="h-px bg-indigo-200 my-2"></div>
-          
-          <!-- 핵심 bullet -->
-          <div class="space-y-2 text-xs md:text-sm text-indigo-950 font-semibold">
-            <div class="flex items-start gap-2.5">
-              <span class="text-indigo-600">▪</span> <span>기술자는 일자리, 장비, 교육, 금융 기회를 얻음</span>
-            </div>
-            <div class="flex items-start gap-2.5">
-              <span class="text-indigo-600">▪</span> <span>기업은 채용 공고, 인력 검증, 현장 운영 데이터를 확보함</span>
-            </div>
-            <div class="flex items-start gap-2.5">
-              <span class="text-indigo-600">▪</span> <span>대기업은 협력사 안전·교육·운영 데이터를 투명하게 확인함</span>
-            </div>
-            <div class="flex items-start gap-2.5">
-              <span class="text-indigo-600">▪</span> <span>MONO는 기술자의 경험 데이터와 기업의 현장 데이터를 상생 데이터 인프라로 축적함</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- MONO 데이터 흐름 문구 수정 ("MONO 상생 데이터 흐름") -->
-        <div class="bg-warm-50/30 border border-ink-900/10 p-6 rounded-lg space-y-4">
-          <h4 class="text-base font-black text-ink-900"><i class="fa-solid fa-arrows-spin text-indigo-600"></i> MONO 상생 데이터 흐름</h4>
-          <div class="grid gap-3 font-semibold text-xs md:text-sm text-ink-800">
-            <div class="flex items-start gap-3 p-2 bg-white border border-ink-900/5 rounded">
-              <span class="flex items-center justify-center w-5 h-5 rounded bg-indigo-50 text-indigo-600 font-mono font-bold text-xs shrink-0">1</span>
-              <span>기술자가 일자리를 찾고 프로필을 등록</span>
-            </div>
-            <div class="flex items-start gap-3 p-2 bg-white border border-ink-900/5 rounded">
-              <span class="flex items-center justify-center w-5 h-5 rounded bg-indigo-50 text-indigo-600 font-mono font-bold text-xs shrink-0">2</span>
-              <span>기업이 채용 공고와 현장 수요를 등록</span>
-            </div>
-            <div class="flex items-start gap-3 p-2 bg-white border border-ink-900/5 rounded">
-              <span class="flex items-center justify-center w-5 h-5 rounded bg-indigo-50 text-indigo-600 font-mono font-bold text-xs shrink-0">3</span>
-              <span>MONO가 기술자 경력, 자격, 안전교육, 장비 사용 이력을 축적</span>
-            </div>
-            <div class="flex items-start gap-3 p-2 bg-white border border-ink-900/5 rounded">
-              <span class="flex items-center justify-center w-5 h-5 rounded bg-indigo-50 text-indigo-600 font-mono font-bold text-xs shrink-0">4</span>
-              <span>MONO Field Operations가 공구, 장비, 소모자재, 식사, 숙소, 근무환경 데이터를 연결</span>
-            </div>
-            <div class="flex items-start gap-3 p-2 bg-white border border-ink-900/5 rounded">
-              <span class="flex items-center justify-center w-5 h-5 rounded bg-indigo-50 text-indigo-600 font-mono font-bold text-xs shrink-0">5</span>
-              <span>교육 프로그램을 통해 기업이 필요로 하는 미래 인재를 육성</span>
-            </div>
-            <div class="flex items-start gap-3 p-2 bg-white border border-ink-900/5 rounded">
-              <span class="flex items-center justify-center w-5 h-5 rounded bg-indigo-50 text-indigo-600 font-mono font-bold text-xs shrink-0">6</span>
-              <span>기술자의 경험 데이터는 금융·보험·교육 기회로 확장</span>
-            </div>
-            <div class="flex items-start gap-3 p-2 bg-white border border-indigo-100 rounded bg-indigo-50/10">
-              <span class="flex items-center justify-center w-5 h-5 rounded bg-indigo-600 text-white font-mono font-bold text-xs shrink-0">7</span>
-              <span class="text-indigo-900">현장 산업 데이터는 Tech-Blue 기술, AI 운영체제, AGI Core OS의 기반 데이터로 확장</span>
-            </div>
-          </div>
-        </div>
-
       </div>
 
-      <!-- Right Graphic (도식 1 추가 & 기존 플로우차트 이미지 유지) -->
-      <div class="lg:col-span-5 space-y-6">
-        <!-- 신규 이미지: 대기업 상생 협업 구조도 (확대보기 버튼 제거) -->
-        <div class="bg-white border border-ink-900/10 p-4 rounded-xl shadow-neo-soft">
-          <div class="text-center pb-2 border-b border-ink-900/5 mb-3 flex items-center justify-between">
+      <!-- Right (40%): 대기업 상생 협업 구조도 1개 배치 (확대보기 제거, 크기 축소, 카드 높이 줄이기) -->
+      <div class="lg:col-span-5">
+        <div class="bg-white border border-ink-900/10 p-4 rounded-xl shadow-neo-soft max-w-md mx-auto">
+          <div class="text-center pb-2 border-b border-ink-900/5 mb-3">
             <span class="text-[11px] font-mono font-bold text-ink-500 uppercase tracking-widest"><i class="fa-solid fa-network-wired text-indigo-600"></i> 대기업 상생 협업 구조도</span>
           </div>
           <div class="w-full flex items-center justify-center bg-warm-50/50 p-2 rounded-lg">
@@ -498,20 +428,119 @@
             </svg>
           </div>
         </div>
+      </div>
+    </div>
 
-        <!-- 기존 이미지 유지 & 확대보기 기능 강화 -->
-        <div class="bg-white border border-ink-900/10 p-4 rounded-xl shadow-neo-soft zoomable-svg-container" onclick="openLightbox(this)">
-          <div class="text-center pb-2 border-b border-ink-900/5 mb-3 flex items-center justify-between">
-            <span class="text-[11px] font-mono font-bold text-ink-500 uppercase tracking-widest"><i class="fa-solid fa-diagram-project text-indigo-600"></i> MONO 데이터 인프라 흐름도</span>
-            <span class="text-[10px] text-indigo-600 bg-indigo-50 px-1.5 py-0.5 rounded font-bold"><i class="fa-solid fa-magnifying-glass-plus"></i> 확대보기</span>
+    <!-- 2. 중단 "왜 지금 MONO인가" 영역 (3개 근거 카드) -->
+    <div class="space-y-6 pt-4">
+      <h3 class="text-xl font-black text-ink-900 flex items-center gap-2">
+        <i class="fa-solid fa-circle-question text-indigo-600"></i> 왜 지금 MONO가 필요한가
+      </h3>
+      <div class="grid md:grid-cols-3 gap-6">
+        <!-- 카드 1 -->
+        <article class="bg-warm-50/50 border border-ink-900/10 p-6 rounded-xl space-y-3 hover-lift shadow-sm">
+          <div class="flex items-center gap-2 text-indigo-600">
+            <i class="fa-solid fa-users-slash text-base"></i>
+            <h4 class="font-bold text-ink-900 text-base">숙련 기술 인력 부족</h4>
           </div>
-          <div class="w-full flex items-center justify-center p-2 rounded-lg bg-warm-50/50">
-            <img src="images/mono_data_flowchart.png" alt="MONO Growth Flowchart" class="w-full h-auto object-contain mix-blend-multiply" />
+          <p class="text-sm text-ink-700 leading-relaxed text-justify break-keep">
+            조선·건설·플랜트 현장은 숙련 인력 확보와 세대 교체가 핵심 과제입니다.
+          </p>
+        </article>
+        <!-- 카드 2 -->
+        <article class="bg-warm-50/50 border border-ink-900/10 p-6 rounded-xl space-y-3 hover-lift shadow-sm">
+          <div class="flex items-center gap-2 text-indigo-600">
+            <i class="fa-solid fa-globe text-base"></i>
+            <h4 class="font-bold text-ink-900 text-base">외국인 노동자 의존 리스크</h4>
+          </div>
+          <p class="text-sm text-ink-700 leading-relaxed text-justify break-keep">
+            외국인 노동자 의존만으로 장기적인 기술 축적과 현장 품질 관리에 한계가 있습니다.
+          </p>
+        </article>
+        <!-- 카드 3 -->
+        <article class="bg-warm-50/50 border border-ink-900/10 p-6 rounded-xl space-y-3 hover-lift shadow-sm">
+          <div class="flex items-center gap-2 text-indigo-600">
+            <i class="fa-solid fa-arrow-trend-up text-base"></i>
+            <h4 class="font-bold text-ink-900 text-base">대기업 상생 투자 확대</h4>
+          </div>
+          <p class="text-sm text-ink-700 leading-relaxed text-justify break-keep">
+            삼성전자 등 대기업은 협력사 경쟁력, 안전, 교육, 인재 육성에 대규모 상생 투자를 확대하고 있습니다.
+          </p>
+        </article>
+      </div>
+    </div>
+
+    <!-- 3. 중단 핵심 구조 영역 (대기업 상생 투자와 MONO의 전략적 기회 - 슬림화 박스) -->
+    <div class="bg-indigo-50/40 border border-indigo-200 p-6 rounded-xl space-y-4">
+      <div class="space-y-1.5">
+        <h4 class="text-base font-black text-indigo-900 flex items-center gap-2">
+          <i class="fa-solid fa-handshake"></i> 대기업 상생 투자와 MONO의 전략적 기회
+        </h4>
+        <p class="text-sm text-ink-800 leading-relaxed text-justify break-keep">
+          MONO는 대기업, 협력사, 기술자, 교육기관, 장비·자재 파트너를 연결하는 상생 데이터 인프라입니다.
+        </p>
+      </div>
+      
+      <div class="h-px bg-indigo-200/60 my-1"></div>
+      
+      <!-- 4개 bullet -->
+      <div class="grid md:grid-cols-2 gap-4 text-xs md:text-sm text-indigo-950 font-semibold">
+        <div class="flex items-start gap-2.5">
+          <span class="text-indigo-600">▪</span> <span>기술자는 일자리, 장비, 교육, 금융 기회를 얻음</span>
+        </div>
+        <div class="flex items-start gap-2.5">
+          <span class="text-indigo-600">▪</span> <span>기업은 채용 공고, 인력 검증, 현장 운영 데이터를 확보함</span>
+        </div>
+        <div class="flex items-start gap-2.5">
+          <span class="text-indigo-600">▪</span> <span>대기업은 협력사 안전·교육·운영 데이터를 투명하게 확인함</span>
+        </div>
+        <div class="flex items-start gap-2.5">
+          <span class="text-indigo-600">▪</span> <span>MONO는 기술자의 경험 데이터와 기업의 현장 데이터를 축적함</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. 하단 데이터 인프라 흐름 영역 (Full-width 이미지) -->
+    <div class="space-y-6 pt-4">
+      <div class="bg-white border border-ink-900/10 p-4 rounded-xl shadow-neo-soft zoomable-svg-container" onclick="openLightbox(this)">
+        <div class="text-center pb-2 border-b border-ink-900/5 mb-3 flex items-center justify-between">
+          <span class="text-[11px] font-mono font-bold text-ink-500 uppercase tracking-widest"><i class="fa-solid fa-diagram-project text-indigo-600"></i> MONO 데이터 인프라 흐름도</span>
+          <span class="text-[10px] text-indigo-600 bg-indigo-50 px-1.5 py-0.5 rounded font-bold"><i class="fa-solid fa-magnifying-glass-plus"></i> 확대보기</span>
+        </div>
+        <div class="w-full flex items-center justify-center bg-warm-50/50 p-4 rounded-lg">
+          <img src="images/mono_data_flowchart.png" alt="MONO Growth Flowchart" class="w-full max-h-[450px] object-contain mix-blend-multiply" />
+        </div>
+      </div>
+
+      <!-- 이미지 하단 요약 흐름 5단계 -->
+      <div class="bg-warm-50/30 border border-ink-900/10 p-6 rounded-xl space-y-4">
+        <h4 class="text-base font-black text-ink-900 flex items-center gap-2">
+          <i class="fa-solid fa-arrows-spin text-indigo-600"></i> MONO 상생 데이터 흐름 요약
+        </h4>
+        <div class="grid grid-cols-1 md:grid-cols-5 gap-4 font-semibold text-xs md:text-sm text-ink-800">
+          <div class="flex flex-col items-center text-center p-3 bg-white border border-ink-900/5 rounded space-y-2">
+            <span class="flex items-center justify-center w-6 h-6 rounded-full bg-indigo-50 text-indigo-600 font-mono font-bold text-xs shrink-0">1</span>
+            <span>일자리·채용 공고 등록</span>
+          </div>
+          <div class="flex flex-col items-center text-center p-3 bg-white border border-ink-900/5 rounded space-y-2">
+            <span class="flex items-center justify-center w-6 h-6 rounded-full bg-indigo-50 text-indigo-600 font-mono font-bold text-xs shrink-0">2</span>
+            <span>기술자 경험·자격·안전교육 축적</span>
+          </div>
+          <div class="flex flex-col items-center text-center p-3 bg-white border border-ink-900/5 rounded space-y-2">
+            <span class="flex items-center justify-center w-6 h-6 rounded-full bg-indigo-50 text-indigo-600 font-mono font-bold text-xs shrink-0">3</span>
+            <span>장비·공구·자재·근무환경 데이터 연결</span>
+          </div>
+          <div class="flex flex-col items-center text-center p-3 bg-white border border-indigo-100 rounded bg-indigo-50/10 space-y-2">
+            <span class="flex items-center justify-center w-6 h-6 rounded-full bg-indigo-50 text-indigo-600 font-mono font-bold text-xs shrink-0">4</span>
+            <span class="text-indigo-900">금융·보험·교육 기회 확장</span>
+          </div>
+          <div class="flex flex-col items-center text-center p-3 bg-indigo-600 text-white rounded space-y-2">
+            <span class="flex items-center justify-center w-6 h-6 rounded-full bg-white text-indigo-600 font-mono font-bold text-xs shrink-0">5</span>
+            <span class="text-white">Tech-Blue·AI OS·AGI OS 기반 데이터 확장</span>
           </div>
         </div>
       </div>
     </div>
-  </div>
 </section>
 
 <div class="tape-divider"></div>
