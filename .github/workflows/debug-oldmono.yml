@@ -1,0 +1,15 @@
+name: Debug oldmono
+
+on:
+  push:
+    branches:
+      - debug-oldmono
+
+jobs:
+  debug:
+    runs-on: self-hosted
+    steps:
+      - name: Show PM2 status and logs
+        run: |
+          pm2 status
+          pm2 logs mono-old-main --lines 100 --nostream || true
