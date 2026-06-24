@@ -142,8 +142,10 @@ jobs:
             
             if [ -d "/root/mono-old/web" ]; then
               WEB_DIR="/root/mono-old/web"
+              OLD_DB_URL="postgresql://mono:mono_dev_pw@localhost:5433/mono?schema=public"
             else
               WEB_DIR="/root/mono-old"
+              OLD_DB_URL="file:./prisma/dev.db"
             fi
             
             echo "Building/rebuilding old MONO frontend in $WEB_DIR..."
@@ -151,9 +153,9 @@ jobs:
             rm -rf .next node_modules
             npm ci --prefer-offline || npm ci
             npx prisma generate || true
-            DATABASE_URL="postgresql://mono:mono_dev_pw@localhost:5433/mono?schema=public" npm run build
+            DATABASE_URL=$OLD_DB_URL npm run build
             
-            DATABASE_URL="postgresql://mono:mono_dev_pw@localhost:5433/mono?schema=public" API_URL="http://localhost:8001" PORT=3007 pm2 start $WEB_DIR/node_modules/next/dist/bin/next --name "mono-old-main" --cwd $WEB_DIR -- start -p 3007
+            DATABASE_URL=$OLD_DB_URL API_URL="http://localhost:8001" PORT=3007 pm2 start $WEB_DIR/node_modules/next/dist/bin/next --name "mono-old-main" --cwd $WEB_DIR -- start -p 3007
             echo "✔ mono-old-main started on port 3007"
           ) || echo "⚠ old.mono setup failed (non-fatal) — continuing deployment"
           
