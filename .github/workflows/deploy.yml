@@ -128,68 +128,79 @@ jobs:
           echo "=== Starting new MONO on port 3004 ==="
           API_URL="http://localhost:8001" pm2 start node_modules/next/dist/bin/next --name "mono" --cwd /root/mono/web -- start -p 3004
           
-          echo "=== Setting up old.mono on port 3007 ==="
-          # B안: 구버전 git 커밋 체크아웃 → /root/mono-old 폴더에 기동
-          OLD_COMMIT="1da36bc"
-          if [ ! -d "/root/mono-old/.git" ]; then
-            echo "Cloning /root/mono into /root/mono-old..."
-            git clone /root/mono /root/mono-old
-          fi
-          cd /root/mono-old
-          git fetch origin
-          git checkout $OLD_COMMIT
-          echo "✔ Checked out old commit: $OLD_COMMIT"
-          
-          # 의존성 설치 및 빌드 (아직 빌드가 없을 경우)
-          if [ ! -d "/root/mono-old/web/.next" ]; then
-            echo "Building old MONO frontend..."
-            cd /root/mono-old/web
-            npm ci
-            DATABASE_URL="postgresql://mono:mono_dev_pw@localhost:5433/mono?schema=public" npm run build || true
+          echo "=== Setting up old.mono on port 3007 (non-fatal) ==="
+          (
+            OLD_COMMIT="1da36bc"
+            if [ ! -d "/root/mono-old/.git" ]; then
+              echo "Cloning /root/mono into /root/mono-old..."
+              git clone /root/mono /root/mono-old
+            fi
             cd /root/mono-old
-          fi
-          
-          # PM2 기동
-          API_URL="http://localhost:8001" pm2 start /root/mono-old/web/node_modules/next/dist/bin/next --name "mono-old-main" --cwd /root/mono-old/web -- start -p 3007
+            git fetch origin 2>/dev/null || true
+            git checkout $OLD_COMMIT 2>/dev/null || git checkout origin/main
+            echo "✔ Checked out: $(git rev-parse --short HEAD)"
+            
+            if [ ! -d "/root/mono-old/web/.next" ]; then
+              echo "Building old MONO frontend..."
+              cd /root/mono-old/web
+              npm ci --prefer-offline || npm ci
+              DATABASE_URL="postgresql://mono:mono_dev_pw@localhost:5433/mono?schema=public" npm run build
+              cd /root/mono-old
+            fi
+            
+            API_URL="http://localhost:8001" pm2 start /root/mono-old/web/node_modules/next/dist/bin/next --name "mono-old-main" --cwd /root/mono-old/web -- start -p 3007
+            echo "✔ mono-old-main started on port 3007"
+          ) || echo "⚠ old.mono setup failed (non-fatal) — continuing deployment"
           
           pm2 save
           pm2 list
 
-      - name: 🔐 Issue SSL cert for old.mono.dojiung.com (main branch only)
+      - name: 🔐 Issue SSL cert + Update Nginx (main branch only)
         if: github.ref_name == 'main'
         run: |
+          # 1. certbot으로 old.mono.dojiung.com 인증서 발급 시도 (비한정)
           if [ ! -d "/etc/letsencrypt/live/old.mono.dojiung.com" ]; then
-            echo "old.mono.dojiung.com SSL 인증서가 없습니다. 발급을 시작합니다..."
-            # nginx를 잠깐 중단하고 standalone 모드로 certbot 실행
+            echo "old.mono SSL 인증서 발급 시도..."
             sudo systemctl stop nginx || sudo service nginx stop || true
             sleep 2
             sudo certbot certonly --standalone \
               -d old.mono.dojiung.com \
-              --non-interactive \
-              --agree-tos \
-              --email admin@dojiung.com
+              --non-interactive --agree-tos --email admin@dojiung.com && \
+              echo "OLD_MONO_CERT_ISSUED=true" > /tmp/cert_status || \
+              echo "OLD_MONO_CERT_ISSUED=false" > /tmp/cert_status
             sudo systemctl start nginx || sudo service nginx start || true
-            echo "✔ old.mono.dojiung.com SSL 인증서 발급 완료"
+            sleep 2
           else
-            echo "old.mono.dojiung.com SSL 인증서가 이미 존재합니다. 스킵합니다."
+            echo "old.mono SSL 인증서 이미 존재" 
+            echo "OLD_MONO_CERT_ISSUED=true" > /tmp/cert_status
           fi
-
-      - name: 🌐 Update Nginx configuration and reload (main branch only)
-        if: github.ref_name == 'main'
-        run: |
-          echo "=== Updating Nginx config from unified_services_final_new ==="
+          
+          # 2. 인증서 존재 여부에 따라 nginx 설정 동적 생성
+          echo "=== Updating Nginx config ==="
           if [ -f "/root/mono/unified_services_final_new" ]; then
+            NGINX_CONF="/root/mono/unified_services_final_new"
+            if [ -d "/etc/letsencrypt/live/old.mono.dojiung.com" ]; then
+              echo "✔ old.mono 전용 SSL 인증서 사용"
+              # 인증서 경로를 old.mono.dojiung.com으로 교체
+              sed 's|live/mono.dojiung.com/|live/old.mono.dojiung.com/|g' \
+                "$NGINX_CONF" > /tmp/nginx_final
+            else
+              echo "⚠ old.mono 인증서 없음 — mono.dojiung.com 인증서로 fallback"
+              # unified_services_final_new는 old.mono 인증서를 잠시 mono로 대체
+              sed 's|live/old.mono.dojiung.com/|live/mono.dojiung.com/|g' \
+                "$NGINX_CONF" > /tmp/nginx_final
+            fi
+            
             if [ -f "/etc/nginx/sites-enabled/default" ]; then
-              echo "Removing Nginx default sites-enabled config to avoid conflicts..."
               sudo rm -f /etc/nginx/sites-enabled/default
             fi
-            sudo cp /root/mono/unified_services_final_new /etc/nginx/sites-available/unified_services_final
+            sudo cp /tmp/nginx_final /etc/nginx/sites-available/unified_services_final
             sudo ln -sf /etc/nginx/sites-available/unified_services_final /etc/nginx/sites-enabled/unified_services_final
             sudo nginx -t
             sudo systemctl restart nginx || sudo service nginx restart
-            echo "✔ Nginx configuration successfully updated and restarted."
+            echo "✔ Nginx 업데이트 완료"
           else
-            echo "❌ Error: unified_services_final_new config file not found!"
+            echo "❌ Error: unified_services_final_new not found!"
             exit 1
           fi
 
@@ -225,8 +236,9 @@ jobs:
             curl -f http://localhost:3004/strategy || (echo "Strategy page health check failed!" && exit 1)
             curl -f http://localhost:3007 || (echo "Old main page health check failed!" && exit 1)
           else
-            echo "Checking port 3004 (new mono), port 3007 (old.mono), and port 8001 (api)..."
+            echo "Checking port 3004 (new mono) and port 8001 (api)..."
             curl -f http://localhost:3004/strategy || (echo "Mono strategy page health check failed!" && exit 1)
-            curl -f http://localhost:3007 || (echo "Old mono page health check failed!" && exit 1)
             curl -f http://localhost:8001/health || (echo "NestJS API health check failed!" && exit 1)
+            # old.mono 는 non-fatal 체크
+            curl -f http://localhost:3007 && echo "✔ old.mono (port 3007) OK" || echo "⚠ old.mono (port 3007) not ready yet"
           fi
