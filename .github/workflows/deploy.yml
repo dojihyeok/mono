@@ -130,7 +130,7 @@ jobs:
           
           echo "=== Setting up old.mono on port 3007 (non-fatal) ==="
           (
-            OLD_COMMIT="1da36bc"
+            OLD_COMMIT="oldmono-theme"
             if [ ! -d "/root/mono-old/.git" ]; then
               echo "Cloning /root/mono into /root/mono-old..."
               git clone /root/mono /root/mono-old
@@ -139,6 +139,9 @@ jobs:
             git fetch origin 2>/dev/null || true
             git checkout $OLD_COMMIT 2>/dev/null || git checkout origin/main
             echo "✔ Checked out: $(git rev-parse --short HEAD)"
+            
+            # Ensure .env exists with absolute path to DB so Prisma works at runtime
+            echo "DATABASE_URL=file:/root/mono-old/prisma/dev.db" > .env
             
             if [ -d "/root/mono-old/web" ]; then
               WEB_DIR="/root/mono-old/web"
