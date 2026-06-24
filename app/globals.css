@@ -1,23 +1,23 @@
 :root {
-  --background: #020204; /* True midnight obsidian */
-  --foreground: #F1F5F9;
+  --background: #FCFCFE;
+  --foreground: #334155;
 
-  --primary: #121217; /* Solid anthracite surface */
+  --primary: #4F46E5; 
   --primary-foreground: #FFFFFF;
 
-  --accent: #E2E8F0; /* Muted Platinum */
-  --accent-hover: #FFFFFF;
-  --accent-gold: #B48A09; /* Rich Burnished Gold */
+  --accent: #2563EB; 
+  --accent-hover: #1D4ED8;
+  --accent-gold: #B48A09; 
 
-  --card: rgba(18, 18, 23, 0.98); 
-  --card-foreground: #F8FAFC;
-  --border: rgba(255, 255, 255, 0.05); /* Architectural borders */
-  --nav-bg: rgba(2, 2, 4, 0.9);
+  --card: #FFFFFF; 
+  --card-foreground: #1E293B;
+  --border: #E2E8F0; 
+  --nav-bg: rgba(252, 252, 254, 0.9);
 
-  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-sans: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 
-  --radius: 0.625rem; /* Sharper corners for a focused master look */
-  --shadow-heavy: 0 10px 40px -10px rgba(0, 0, 0, 0.9);
+  --radius: 0.625rem; 
+  --shadow-heavy: 0 10px 40px -10px rgba(0, 0, 0, 0.1);
   --shadow-gold: 0 0 15px rgba(180, 138, 9, 0.1);
 
   --app-max-width: 480px;
