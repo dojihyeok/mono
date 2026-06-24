@@ -267,19 +267,19 @@ server {
     }
 }
 
-# ============================== old.mono.dojiung.com (Port 3007) ==============================
+# ============================== oldmono.dojiung.com (Port 3007) ==============================
 server {
     listen 80;
-    server_name old.mono.dojiung.com;
+    server_name oldmono.dojiung.com;
     return 301 https://$host$request_uri;
 }
 
 server {
     listen 443 ssl;
-    server_name old.mono.dojiung.com;
+    server_name oldmono.dojiung.com;
 
     # __OLD_MONO_CERT__ 은 deploy.yml이 배포 시 실제 경로로 치환함
-    # 전용 cert 있으면 old.mono.dojiung.com, 없으면 mono.dojiung.com fallback
+    # 전용 cert 있으면 oldmono.dojiung.com, 없으면 mono.dojiung.com fallback
     ssl_certificate /etc/letsencrypt/live/__OLD_MONO_CERT__/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/__OLD_MONO_CERT__/privkey.pem;
     include /etc/letsencrypt/options-ssl-nginx.conf;

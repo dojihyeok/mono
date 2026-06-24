@@ -1,0 +1,1301 @@
+# -*- coding: utf-8 -*-
+import io
+import os
+import shutil
+
+def main():
+    target_file = "/Users/yunhyeok/mono/web/public/strategy.html"
+    backup_file = "/Users/yunhyeok/mono/web/public/strategy.html.bak"
+    
+    # Create backup first
+    if os.path.exists(target_file):
+        shutil.copy2(target_file, backup_file)
+        print("Backup created at:", backup_file)
+        
+    html_content = u"""<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>MONO · 산업 현장의 경험과 신뢰를 데이터로 연결하는 산업 신뢰 인프라 플랫폼</title>
+<meta name="description" content="MONO는 기술자의 경험과 신뢰를 디지털 자산으로 연결하여 대한민국 산업 경쟁력 향상에 기여하는 산업 인프라 플랫폼입니다." />
+<meta property="og:title" content="MONO · 산업 신뢰 인프라 플랫폼 — Industrial Intelligence Platform" />
+<meta property="og:description" content="MONO는 산업 현장의 경험과 신뢰를 데이터로 연결하여 미래 산업 경쟁력을 만들어가는 산업 신뢰 인프라 플랫폼입니다." />
+<meta property="og:image" content="/images/logo.png" />
+<meta property="og:type" content="website" />
+<link rel="icon" href="/apple-touch-icon.png" type="image/png" />
+<link rel="shortcut icon" href="/apple-touch-icon.png" type="image/png" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com"></script>
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css" />
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=Archivo+Black&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
+
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: {
+          sans: ['Pretendard', '"Noto Sans KR"', 'system-ui', 'sans-serif'],
+          display: ['Pretendard', '"Noto Sans KR"', 'sans-serif'],
+          mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
+        },
+        colors: {
+          warm: { 50:'#FCFCFE', 100:'#F1F5F9', 200:'#E2E8F0', 300:'#CBD5E1', 900:'#0F172A' },
+          ink:  { 900:'#0A0F1A', 800:'#10172A', 700:'#1B2436', 500:'#475569', 400:'#64748B' },
+          tech: { 50:'#F5F7FF', 100:'#E0E7FF', 200:'#C7D2FE', 300:'#818CF8', 400:'#6366F1', 500:'#4F46E5', 600:'#4338CA', 700:'#3730A3', 900:'#312E81' },
+          safety: { yellow:'#F2C200', tape:'#FFD200', amber:'#E0A458', rust:'#C0563B' }
+        },
+        boxShadow: {
+          'neo-soft': '0 1px 0 rgba(10,15,26,0.04), 0 8px 24px -8px rgba(10,15,26,0.08)',
+          'neo-hover': '0 4px 6px rgba(79,70,229,0.05), 0 20px 40px -12px rgba(79,70,229,0.15)',
+          'glass': 'inset 0 1px 0 rgba(255,255,255,0.6), 0 12px 32px -12px rgba(10,15,26,0.12)',
+          'blueprint': '0 0 0 1px rgba(79,70,229,0.06), 0 1px 0 rgba(79,70,229,0.03)',
+        },
+      }
+    }
+  };
+</script>
+
+<style>
+  html {
+    scroll-behavior: smooth !important;
+    font-size: 16px;
+    background-color: #FCFCFE;
+  }
+  body {
+    font-family: 'Pretendard', 'Noto Sans KR', system-ui, sans-serif;
+    background-color: #FCFCFE; color: #0A0F1A;
+    -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+    letter-spacing: -0.01em;
+  }
+  section {
+    scroll-margin-top: 80px;
+  }
+  h1,h2,h3,h4,p,li { word-break: keep-all; overflow-wrap: break-word; }
+
+  @media (max-width: 640px) {
+    html { font-size: 14.5px !important; }
+    .px-6, .px-8, .px-10 { padding-left: 1.15rem !important; padding-right: 1.15rem !important; }
+    .p-6, .p-7, .p-8, .p-9, .p-10 { padding: 1.25rem !important; }
+    .gap-6 { gap: 1.25rem !important; }
+    .gap-8 { gap: 1.5rem !important; }
+  }
+
+  .section-label { 
+    font-family: 'Pretendard', sans-serif; font-size: 14px; font-weight: 800; color: #4F46E5; letter-spacing: -0.01em; 
+    display: inline-flex; align-items: center; gap: 0.5rem; max-width: 100%; word-break: keep-all; line-height: 1.4; 
+  }
+  .section-label .num { font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 700; color: #4F46E5; padding: 2px 6px; border: 1px solid rgba(79,70,229,0.3); border-radius: 2px; background: rgba(79,70,229,0.05); }
+  
+  .h-display  { font-size: clamp(1.6rem, 3.5vw, 2.8rem); font-weight: 900; letter-spacing: -0.03em; line-height: 1.2; word-break: keep-all; }
+  .h-section  { font-size: clamp(1.3rem, 2.5vw, 2rem); font-weight: 800; letter-spacing: -0.025em; line-height: 1.3; word-break: keep-all; }
+  .h-card     { font-size: 1.15rem; font-weight: 800; letter-spacing: -0.02em; color: #0A0F1A; line-height: 1.4; }
+  .body-lg    { font-size: 1.125rem; line-height: 1.75; color: #1B2436; text-align: justify; text-justify: inter-word; }
+  .body-md    { font-size: 1rem; line-height: 1.7; color: #475569; text-align: justify; text-justify: inter-word; }
+  .body-sm    { font-size: 0.9rem; line-height: 1.6; color: #64748B; }
+  
+  .blueprint {
+    background-image:
+      linear-gradient(rgba(79,70,229,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(79,70,229,0.05) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+  .blueprint-dark {
+    background-color: #0A0F1A;
+    background-image:
+      linear-gradient(rgba(34,211,238,0.08) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(34,211,238,0.08) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+  .tape-divider { height: 5px; background: repeating-linear-gradient(135deg, #0A0F1A 0 10px, #FFD200 10px 20px); }
+  
+  .glass {
+    background: linear-gradient(180deg, rgba(252,252,254,0.9) 0%, rgba(241,245,249,0.7) 100%);
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(79,70,229,0.1); border-radius: 6px;
+  }
+
+  .lcorner { position: relative; }
+  .lcorner::before, .lcorner::after {
+    content: ''; position: absolute; width: 12px; height: 12px;
+    border-color: rgba(79,70,229,0.3); border-style: solid;
+  }
+  .lcorner::before { top: -1px; left: -1px; border-width: 1.5px 0 0 1.5px; }
+  .lcorner::after  { bottom: -1px; right: -1px; border-width: 0 1.5px 1.5px 0; }
+  
+  .chip-round {
+    border-radius: 999px;
+    padding: 0.35rem 0.85rem;
+    background-color: rgba(79, 70, 229, 0.06);
+    color: #4F46E5;
+    border: 1px solid rgba(79, 70, 229, 0.2);
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: -0.02em;
+  }
+
+  .nav-link { position: relative; font-weight: 600; }
+  .nav-link::after { content:''; position:absolute; left:0; bottom:-4px; width:0; height:2px; background:#4F46E5; transition: width .3s ease; }
+  .nav-link:hover::after, .nav-link.active::after { width: 100%; }
+
+  .hover-lift { transition: transform .3s cubic-bezier(.16,1,.3,1), box-shadow .3s ease, border-color .3s ease; }
+  .hover-lift:hover { transform: translateY(-4px); border-color: rgba(79,70,229,0.35); box-shadow: 0 12px 30px -10px rgba(79,70,229,0.15); }
+  
+  .zoomable-svg-container {
+    cursor: zoom-in;
+    transition: transform 0.2s ease;
+  }
+  .zoomable-svg-container:hover {
+    transform: scale(1.01);
+  }
+
+  #lightbox {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background-color: rgba(10, 15, 26, 0.85);
+    backdrop-filter: blur(8px);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+  }
+  #lightbox.active {
+    display: flex;
+  }
+  #lightbox-content {
+    max-width: 95vw;
+    max-height: 85vh;
+    width: auto;
+    height: auto;
+    background: #FCFCFE;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+    position: relative;
+    overflow: auto;
+  }
+  
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 8px; height: 8px; }
+  ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 999px; }
+  ::-webkit-scrollbar-thumb:hover { background: #4F46E5; }
+</style>
+</head>
+<body class="antialiased font-sans">
+
+<!-- ============================== NAV ============================== -->
+<header class="fixed top-0 inset-x-0 z-50 bg-[#FCFCFE]/90 backdrop-blur-md border-b border-warm-200/60">
+  <div class="max-w-7xl mx-auto px-4 lg:px-10 h-16 flex items-center justify-between">
+    <a href="#platform" class="flex items-center gap-[8px] group">
+      <div class="w-10 h-10 overflow-hidden lcorner" style="border-radius:2px;">
+        <img src="/images/logo.png" class="w-full h-full object-cover" alt="MONO Logo" />
+      </div>
+      <div class="leading-none">
+        <div class="text-ink-900 text-[22px] font-black tracking-tight">MONO</div>
+      </div>
+    </a>
+    <nav class="hidden lg:flex items-center gap-7 text-[13.5px] font-medium text-ink-700">
+      <a class="nav-link" href="#platform">서비스소개</a>
+      <a class="nav-link" href="#problem">MONO 비전</a>
+      <a class="nav-link" href="#startup">모두의 창업 준비 전략</a>
+      <a class="nav-link" href="#gtm">MONO 성장 전략</a>
+      <a class="nav-link" href="#bm">비즈니스 모델</a>
+      <a class="nav-link" href="#lifecycle">브랜드 철학</a>
+      <a class="nav-link" href="#vision">Next MONO</a>
+    </nav>
+    <div class="flex items-center gap-3">
+      <button onclick="document.getElementById('si-investment-modal').showModal()" class="hidden sm:inline-flex items-center gap-1.5 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-[13px] font-bold lcorner transition-colors">
+        상생 투자 & 협업 제안 <i class="fa-solid fa-handshake text-[10px]"></i>
+      </button>
+      <button id="mobileMenuBtn" aria-label="메뉴 열기" class="lg:hidden flex items-center justify-center w-10 h-10 border border-ink-900/15 lcorner text-ink-900">
+        <i class="fa-solid fa-bars text-lg"></i>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- Mobile Navigation Drawer -->
+<div id="mobileMenuDrawer" class="fixed inset-0 z-[100] bg-ink-900/40 backdrop-blur-sm hidden opacity-0 transition-opacity duration-300 lg:hidden">
+  <div class="absolute right-0 top-0 bottom-0 w-72 max-w-[80vw] bg-[#FCFCFE] border-l border-ink-900/15 p-6 shadow-2xl flex flex-col justify-between transform translate-x-full transition-transform duration-300">
+    <div>
+      <div class="flex items-center justify-between pb-6 border-b border-ink-900/10 mb-6">
+        <div class="flex items-center gap-[8px]">
+          <div class="w-8 h-8 overflow-hidden lcorner" style="border-radius:2px;">
+            <img src="/images/logo.png" class="w-full h-full object-cover" alt="MONO Logo" />
+          </div>
+          <div class="text-ink-900 text-[18px] font-black tracking-tight">MONO</div>
+        </div>
+        <button id="mobileMenuCloseBtn" aria-label="메뉴 닫기" class="w-10 h-10 flex items-center justify-center border border-ink-900/15 lcorner text-ink-900 hover:bg-warm-100 transition-colors">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      <nav class="flex flex-col gap-4 text-[15px] font-semibold text-ink-700">
+        <a class="mob-nav-link py-1 hover:text-indigo-600 transition-colors" href="#platform">서비스소개</a>
+        <a class="mob-nav-link py-1 hover:text-indigo-600 transition-colors" href="#problem">MONO 비전</a>
+        <a class="mob-nav-link py-1 hover:text-indigo-600 transition-colors" href="#startup">모두의 창업 준비 전략</a>
+        <a class="mob-nav-link py-1 hover:text-indigo-600 transition-colors" href="#gtm">MONO 성장 전략</a>
+        <a class="mob-nav-link py-1 hover:text-indigo-600 transition-colors" href="#bm">비즈니스 모델</a>
+        <a class="mob-nav-link py-1 hover:text-indigo-600 transition-colors" href="#lifecycle">브랜드 철학</a>
+        <a class="mob-nav-link py-1 hover:text-indigo-600 transition-colors" href="#vision">Next MONO</a>
+      </nav>
+    </div>
+    <div class="pt-6 border-t border-ink-900/10">
+      <button onclick="document.getElementById('si-investment-modal').showModal(); closeDrawer();" class="mob-nav-link flex items-center justify-center gap-2 w-full py-3 bg-indigo-600 text-white text-[14px] font-bold lcorner hover:bg-indigo-700 transition-colors text-center">
+        상생 투자 & 협업 제안 <i class="fa-solid fa-handshake text-[10px]"></i>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Spacer -->
+<div class="h-16"></div>
+<div class="tape-divider"></div>
+
+<!-- ============================== 01. MONO 서비스 소개 ============================== -->
+<section id="platform" class="relative pt-20 pb-20 bg-warm-50 blueprint">
+  <div class="max-w-7xl mx-auto px-6 lg:px-10">
+    <div class="max-w-6xl mb-12 reveal">
+      <div class="section-label mb-6"><span class="num">01</span> MONO 서비스 소개 · 산업 신뢰 데이터 플랫폼</div>
+      
+      <!-- 수정 메인 타이틀 -->
+      <h2 class="h-display text-ink-900 leading-[1.2] md:leading-tight tracking-tight">
+        기술자의 경험과 기업의 현장 수요를 신뢰 데이터로 연결하는 MONO
+      </h2>
+      
+      <!-- 수정 서브 문구 -->
+      <p class="body-lg mt-6 text-justify break-keep font-semibold text-ink-900" style="font-size: 1.2rem; line-height: 1.6;">
+        MONO는 기술자의 경력, 자격, 안전교육, 현장 경험, 장비 사용 이력을 데이터로 축적하고, 기업의 채용 공고·인력 운영·현장 장비·자재 운영 수요와 연결하는 산업 신뢰 인프라 플랫폼입니다.
+      </p>
+      <p class="hidden md:block body-md mt-4 text-justify break-keep">
+        기술자에게는 자신의 경력과 기술이 자산이 되는 프로필을 제공하고, 기업에게는 검증 가능한 인력·현장 운영 데이터를 제공합니다. 장기적으로는 산업 현장의 운영 데이터를 기반으로 AI 운영체제와 AGI Core OS로 확장합니다. 기존의 일시적인 인력사무소 대체 구조를 넘어, 데이터 기반의 상생 현장 운영 인프라를 조성합니다.
+      </p>
+      
+      <!-- Mobile Only simplified section -->
+      <div class="block md:hidden mt-6 bg-warm-100/50 border border-ink-900/10 rounded-xl p-4 shadow-sm space-y-2">
+        <p class="text-[14px] text-ink-800 leading-relaxed break-keep">
+          기술자의 경력 및 안전 데이터를 보증하여, 검증된 인력과 현장 자재/장비 운영 수요를 실시간 연결합니다.
+        </p>
+      </div>
+    </div>
+
+    <!-- 카드 구성 보정 (기존 3개 카드 구조 유지하며 내용 보강) -->
+    <div class="grid md:grid-cols-3 gap-6 lg:gap-8 stagger mb-12">
+      <!-- Card 1 -->
+      <article class="relative bg-warm-50 border border-ink-900/15 lcorner hover-lift p-7 flex flex-col justify-between shadow-blueprint">
+        <div>
+          <div class="flex items-center gap-2 mb-4">
+            <span class="chip-round">B2C</span>
+            <span class="font-mono text-xs font-bold text-ink-500">/ MONO Profile</span>
+          </div>
+          <h3 class="text-xl font-bold text-ink-900 mb-3">MONO Profile</h3>
+          <p class="body-sm text-ink-700 leading-relaxed text-justify">
+            기술자의 경력·자격·교육·현장 경험을 신뢰 데이터로 축적합니다. 단순한 신원 조회를 넘어 기술 근로자가 본인의 이름과 이력으로 신용을 쌓고 대출, 보험, 글로벌 이직에 활용 가능한 평생 포트폴리오 자산화 모델을 제공합니다.
+          </p>
+        </div>
+      </article>
+
+      <!-- Card 2 -->
+      <article class="relative bg-warm-50 border border-ink-900/15 lcorner hover-lift p-7 flex flex-col justify-between shadow-blueprint">
+        <div>
+          <div class="flex items-center gap-2 mb-4">
+            <span class="chip-round">B2B SaaS</span>
+            <span class="font-mono text-xs font-bold text-ink-500">/ Workspace</span>
+          </div>
+          <h3 class="text-xl font-bold text-ink-900 mb-3">MONO Partner Workspace</h3>
+          <p class="body-sm text-ink-700 leading-relaxed text-justify">
+            기업의 채용 공고, 기술자 검토, 인력 운영, PoC 협약 관리를 일원화합니다. 원청과 하청 기업들이 안전사고 이력 및 현장 작업자의 투입 현황을 데이터로 투명하게 관제할 수 있는 통합 웹 대시보드 솔루션입니다.
+          </p>
+        </div>
+      </article>
+
+      <!-- Card 3 -->
+      <article class="relative bg-warm-50 border border-ink-900/15 lcorner hover-lift p-7 flex flex-col justify-between shadow-blueprint">
+        <div>
+          <div class="flex items-center gap-2 mb-4">
+            <span class="chip-round">Growth BM</span>
+            <span class="font-mono text-xs font-bold text-ink-500">/ Field Operations</span>
+          </div>
+          <h3 class="text-xl font-bold text-ink-900 mb-3">MONO Field Operations</h3>
+          <p class="body-sm text-ink-700 leading-relaxed text-justify">
+            공구 대여에서 시작해 현장 장비·자재 운영 ERP로 확장합니다. 지역 공급 파트너의 디지털 전환을 도우며, IoT 센서 및 스마트 계측기와 기술자를 연동 매칭하여 현장의 가동성과 생산성을 극대화합니다.
+          </p>
+        </div>
+      </article>
+    </div>
+
+    <!-- MONO Gear 표기 보정 -->
+    <div class="bg-white border border-indigo-200 p-6 rounded-lg shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+      <div class="space-y-2">
+        <h3 class="text-lg font-black text-ink-900 flex items-center gap-2">
+          <i class="fa-solid fa-screwdriver-wrench text-indigo-600"></i>
+          MONO Gear · 현장 장비·자재 운영 ERP
+        </h3>
+        <p class="text-sm text-ink-800 leading-relaxed text-justify break-keep">
+          MONO Gear는 공구 대여 수요에서 시작해 전문 장비, 스마트 계측기, 소모자재 반복 발주, 장비+기술자 패키지, 보험·정비·보증까지 확장되는 현장 운영 BM입니다.
+        </p>
+      </div>
+      <button onclick="document.getElementById('mono-gear-modal').showModal()" class="shrink-0 px-4 py-2.5 bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 text-indigo-600 font-bold text-xs lcorner transition-colors">
+        Deep Dive 상세보기
+      </button>
+    </div>
+
+  </div>
+</section>
+
+<div class="tape-divider"></div>
+
+<!-- ============================== 02. MONO가 만들고 싶은 변화 ============================== -->
+<section id="problem" class="relative py-20 bg-white">
+  <div class="max-w-7xl mx-auto px-6 lg:px-10">
+    <div class="grid lg:grid-cols-12 gap-12 items-start">
+      <!-- Left content -->
+      <div class="lg:col-span-7 space-y-6">
+        <div class="section-label"><span class="num">02</span> MONO VISION & 상생 인프라</div>
+        <h2 class="h-section text-ink-900 font-extrabold">대한민국 산업의 구조적 과제, 그리고 MONO가 만들어가는 변화</h2>
+        
+        <!-- 수정 및 추가 문구 -->
+        <div class="space-y-4 text-justify break-keep text-ink-800 text-sm leading-relaxed">
+          <p class="font-bold text-base text-ink-900">
+            "MONO가 해결하는 문제는 사람을 단순히 연결하는 문제가 아니라, 산업 현장에서 반복되는 신뢰 부족을 데이터로 해결하는 문제입니다."
+          </p>
+          <p>
+            기술자의 경험은 기업이 확인하기 어렵고, 기업의 채용 공고는 기술자에게 신뢰를 주기 어렵고, 장비·자재·안전·교육 이력은 각기 다른 방식으로 흩어져 있습니다. MONO는 이 단절된 데이터를 하나의 신뢰 프로필과 기업 Workspace로 연결합니다.
+          </p>
+        </div>
+
+        <!-- 대기업 상생 투자 및 대기업 협업 전략 보강 -->
+        <div class="bg-indigo-50/50 border border-indigo-200 p-6 rounded-lg space-y-4">
+          <h4 class="text-base font-black text-indigo-900"><i class="fa-solid fa-handshake"></i> 대기업 상생 투자와 MONO의 전략적 기회</h4>
+          <p class="text-xs md:text-sm text-ink-800 leading-relaxed text-justify break-keep">
+            삼성전자 등 대기업은 협력사 경쟁력 강화, 산업재해 예방, 미래 인재 육성, 상생 산업 인프라 조성에 대규모 투자를 확대하고 있습니다. MONO는 이 흐름 속에서 대기업이 직접 관리하기 어려운 협력사 인력, 안전교육, 기술자 경력, 현장 장비, 소모자재 운영 데이터를 하나의 신뢰 데이터 인프라로 연결합니다. 대기업은 협력사의 현장 운영 데이터를 더 투명하게 확인할 수 있고, 협력사는 검증된 기술자와 장비·자재 운영 체계를 확보할 수 있으며, 기술자는 자신의 경력과 안전 이력을 자산화할 수 있습니다.
+          </p>
+          
+          <div class="h-px bg-indigo-200 my-2"></div>
+          
+          <!-- 핵심 메시지 -->
+          <div class="space-y-1.5 text-xs text-indigo-950 font-semibold">
+            <div class="flex items-start gap-2">
+              <span class="text-indigo-600">▪</span> <span>대기업은 협력사 안전·인력·교육·현장 운영 데이터를 더 투명하게 관리해야 함</span>
+            </div>
+            <div class="flex items-start gap-2">
+              <span class="text-indigo-600">▪</span> <span>협력사는 검증된 기술자와 현장 운영 시스템이 필요함</span>
+            </div>
+            <div class="flex items-start gap-2">
+              <span class="text-indigo-600">▪</span> <span>기술자는 경력과 안전 이력을 자산화할 수 있어야 함</span>
+            </div>
+            <div class="flex items-start gap-2">
+              <span class="text-indigo-600">▪</span> <span>MONO는 이 세 주체를 연결하는 상생 데이터 인프라 역할을 수행함</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Graphic (도식 1 추가 & 기존 플로우차트 이미지 유지) -->
+      <div class="lg:col-span-5 space-y-6">
+        <!-- 신규 이미지: 대기업 상생 협업 구조도 -->
+        <div class="bg-white border border-ink-900/10 p-4 rounded-xl shadow-neo-soft zoomable-svg-container" onclick="openLightbox(this)">
+          <div class="text-center pb-2 border-b border-ink-900/5 mb-3 flex items-center justify-between">
+            <span class="text-[11px] font-mono font-bold text-ink-500 uppercase tracking-widest"><i class="fa-solid fa-network-wired text-indigo-600"></i> [도식 1] 대기업 상생 협업 구조도</span>
+            <span class="text-[10px] text-indigo-600 bg-indigo-50 px-1.5 py-0.5 rounded font-bold"><i class="fa-solid fa-magnifying-glass-plus"></i> 확대보기</span>
+          </div>
+          <div class="w-full flex items-center justify-center bg-warm-50/50 p-2 rounded-lg">
+            <svg viewBox="0 0 500 350" class="w-full h-auto object-contain" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                  <path d="M 0 0 L 10 5 L 0 10 z" fill="#4F46E5" />
+                </marker>
+              </defs>
+              <rect width="100%" height="100%" fill="none"/>
+              <!-- Tier 1: Big Corp -->
+              <rect x="170" y="20" width="160" height="50" rx="6" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="2"/>
+              <text x="250" y="42" text-anchor="middle" font-weight="900" font-size="11" fill="#0F172A">대기업 (삼성전자 등)</text>
+              <text x="250" y="58" text-anchor="middle" font-size="8" fill="#64748B" font-weight="bold">5조 상생 펀드 및 투자 확대</text>
+
+              <!-- Connection 1 -->
+              <line x1="250" y1="70" x2="250" y2="120" stroke="#4F46E5" stroke-width="2" marker-end="url(#arrow)"/>
+
+              <!-- Tier 2: MONO -->
+              <rect x="130" y="130" width="240" height="70" rx="8" fill="#EEF2F6" stroke="#4F46E5" stroke-width="2"/>
+              <text x="250" y="158" text-anchor="middle" font-weight="900" font-size="13" fill="#4F46E5">MONO 상생 데이터 인프라</text>
+              <text x="250" y="178" text-anchor="middle" font-size="9" fill="#1E293B" font-weight="700">안전·인력·교육·장비 데이터 관리</text>
+
+              <!-- Connection 2 (Left to Subcontractor) -->
+              <path d="M 200 200 C 200 240, 120 240, 120 260" fill="none" stroke="#4F46E5" stroke-width="1.5" marker-end="url(#arrow)"/>
+              
+              <!-- Connection 3 (Right to Tech Worker) -->
+              <path d="M 300 200 C 300 240, 380 240, 380 260" fill="none" stroke="#4F46E5" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+              <!-- Subcontractor Node -->
+              <rect x="40" y="270" width="160" height="50" rx="6" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="2"/>
+              <text x="120" y="292" text-anchor="middle" font-weight="900" font-size="11" fill="#0F172A">협력사 (Subcontractor)</text>
+              <text x="120" y="308" text-anchor="middle" font-size="8" fill="#64748B">검증인력 및 현장운영 확보</text>
+
+              <!-- Tech Worker Node -->
+              <rect x="300" y="270" width="160" height="50" rx="6" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="2"/>
+              <text x="380" y="292" text-anchor="middle" font-weight="900" font-size="11" fill="#0F172A">현장 기술 근로자</text>
+              <text x="380" y="308" text-anchor="middle" font-size="8" fill="#64748B">안전이력 및 경력 자산화</text>
+            </svg>
+          </div>
+        </div>
+
+        <!-- 기존 이미지 유지 -->
+        <div class="border border-ink-900/10 rounded-xl overflow-hidden p-2 bg-white">
+          <img src="images/mono_data_flowchart.png" alt="MONO Growth Flowchart" class="w-full h-auto object-contain" />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="tape-divider"></div>
+
+<!-- ============================== 03. 모두의 창업 오디션 전략 ============================== -->
+<section id="startup" class="relative py-20 bg-warm-50 blueprint">
+  <div class="max-w-7xl mx-auto px-6 lg:px-10">
+    <div class="max-w-4xl mx-auto text-center mb-12">
+      <div class="section-label mb-3"><span class="num">03</span> TOURNAMENT STRATEGY</div>
+      <h2 class="h-section text-ink-900 font-extrabold">모두의 창업 1라운드부터 우승까지, 단계별 통과 전략</h2>
+      
+      <!-- 보강 문구 -->
+      <p class="body-md mt-4 text-justify break-keep max-w-3xl mx-auto">
+        MONO의 라운드 전략은 앱 사용자를 먼저 대량 유입시키는 방식보다, 기업 협약과 채용 공고 등록을 먼저 확보해 기술자가 들어올 이유를 만드는 B2B 선행 전략을 우선합니다. 기업 공고, 현장 운영 수요, 장비 요청 데이터를 먼저 확보하고, 그 수요를 기반으로 기술자 프로필 작성과 재방문을 유도합니다.
+      </p>
+    </div>
+
+    <!-- 라운드별 보강 테이블 및 투자 타깃 -->
+    <div class="grid lg:grid-cols-12 gap-8 items-start mb-12">
+      <div class="lg:col-span-6 space-y-6">
+        <h3 class="text-lg font-black text-ink-900"><i class="fa-solid fa-list-check"></i> 라운드별 검증 마일스톤</h3>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse text-[13px] border border-ink-900/10">
+            <thead>
+              <tr class="border-b border-ink-900/15 text-ink-900 font-bold bg-warm-100">
+                <th class="p-3 border-r border-ink-900/10 w-24">라운드</th>
+                <th class="p-3">검증 방향 및 목표</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-ink-900/5 text-ink-800 bg-white">
+              <tr>
+                <td class="p-3 font-bold bg-warm-50/50 border-r border-ink-900/10">1라운드</td>
+                <td class="p-3">MONO 철학, 문제 정의, 시장성, 전략 페이지 완성도 검증</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-bold bg-warm-50/50 border-r border-ink-900/10">2라운드</td>
+                <td class="p-3">기술자 프로필 작성, 기업 공고 등록, 관심 기능 클릭 데이터 검증</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-bold bg-warm-50/50 border-r border-ink-900/10">3라운드</td>
+                <td class="p-3">기업 협약, PoC, 전략 투자 후보군 확보</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-bold bg-warm-50/50 border-r border-ink-900/10">파이널</td>
+                <td class="p-3 text-indigo-700 font-bold">우승 이후 SI·VC·대기업 상생 투자 연결 전략 제시</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3 class="text-lg font-black text-ink-900 pt-4"><i class="fa-solid fa-crosshairs"></i> 우승 이후 전략 투자 타깃 및 연결 구조</h3>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse text-[12px] border border-ink-900/10">
+            <thead>
+              <tr class="border-b border-ink-900/15 text-ink-900 font-bold bg-warm-100">
+                <th class="p-3 border-r border-ink-900/10 w-44">투자·협업 대상</th>
+                <th class="p-3">MONO 연결 논리</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-ink-900/5 text-ink-800 bg-white">
+              <tr>
+                <td class="p-3 font-bold bg-warm-50/50 border-r border-ink-900/10">삼성전자 및 대기업 상생 펀드</td>
+                <td class="p-3">협력사 인력·안전·교육·현장 운영 데이터 인프라 구축</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-bold bg-warm-50/50 border-r border-ink-900/10">건설·조선·플랜트 원청사</td>
+                <td class="p-3">협력사 기술자 신뢰 데이터 및 현업 운영 관리 연계</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-bold bg-warm-50/50 border-r border-ink-900/10">금융사 (은행/카드)</td>
+                <td class="p-3">근무이력 기반 대안 신용 등급, 맞춤형 보험, 에스크로 정산</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-bold bg-warm-50/50 border-r border-ink-900/10">보험사</td>
+                <td class="p-3">안전교육 수료율, 현장 근무 이력, 장비 사용 데이터 기반 위험 분석</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-bold bg-warm-50/50 border-r border-ink-900/10">장비·자재 공급 대기업</td>
+                <td class="p-3">장비·소모자재 운영 ERP 제공 및 B2B 조달 발주 연계</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-bold bg-warm-50/50 border-r border-ink-900/10">교육·자격 인증 기관</td>
+                <td class="p-3">기술자 교육 이력 보증 및 수요 맞춤형 재교육 트랙 개설</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Right diagram (도식 2 추가) -->
+      <div class="lg:col-span-6 space-y-6">
+        <div class="bg-white border border-ink-900/10 p-4 rounded-xl shadow-neo-soft zoomable-svg-container" onclick="openLightbox(this)">
+          <div class="text-center pb-2 border-b border-ink-900/5 mb-3 flex items-center justify-between">
+            <span class="text-[11px] font-mono font-bold text-ink-500 uppercase tracking-widest"><i class="fa-solid fa-map-location-dot text-indigo-600"></i> [도식 2] 우승 이후 전략 투자 맵</span>
+            <span class="text-[10px] text-indigo-600 bg-indigo-50 px-1.5 py-0.5 rounded font-bold"><i class="fa-solid fa-magnifying-glass-plus"></i> 확대보기</span>
+          </div>
+          <div class="w-full flex items-center justify-center bg-warm-50/50 p-2 rounded-lg">
+            <svg viewBox="0 0 500 350" class="w-full h-auto object-contain" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="250" cy="175" r="45" fill="#4F46E5" stroke="#4338CA" stroke-width="2"/>
+              <text x="250" y="172" text-anchor="middle" font-weight="900" font-size="10" fill="#FCFCFE">모두의 창업</text>
+              <text x="250" y="185" text-anchor="middle" font-weight="900" font-size="10" fill="#FCFCFE">파이널 우승</text>
+              
+              <!-- spokes -->
+              <!-- 1. 대기업 -->
+              <rect x="30" y="40" width="130" height="40" rx="4" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.5"/>
+              <text x="95" y="64" text-anchor="middle" font-size="9" font-weight="900" fill="#0F172A">대기업 상생 펀드</text>
+              <line x1="160" y1="80" x2="210" y2="140" stroke="#94A3B8" stroke-dasharray="3 3"/>
+
+              <!-- 2. 원청사 -->
+              <rect x="340" y="40" width="130" height="40" rx="4" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.5"/>
+              <text x="405" y="64" text-anchor="middle" font-size="9" font-weight="900" fill="#0F172A">건설·조선 원청사</text>
+              <line x1="340" y1="80" x2="290" y2="140" stroke="#94A3B8" stroke-dasharray="3 3"/>
+
+              <!-- 3. 금융사 -->
+              <rect x="30" y="270" width="130" height="40" rx="4" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.5"/>
+              <text x="95" y="294" text-anchor="middle" font-size="9" font-weight="900" fill="#0F172A">시중은행 & 금융사</text>
+              <line x1="160" y1="270" x2="210" y2="210" stroke="#94A3B8" stroke-dasharray="3 3"/>
+
+              <!-- 4. 보험사 -->
+              <rect x="340" y="270" width="130" height="40" rx="4" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.5"/>
+              <text x="405" y="294" text-anchor="middle" font-size="9" font-weight="900" fill="#0F172A">보험사 리스크평가</text>
+              <line x1="340" y1="270" x2="290" y2="210" stroke="#94A3B8" stroke-dasharray="3 3"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="tape-divider"></div>
+
+<!-- ============================== 04. MONO 단계별 성장 전략 ============================== -->
+<section id="gtm" class="relative py-20 bg-white">
+  <div class="max-w-7xl mx-auto px-6 lg:px-10">
+    <div class="max-w-4xl mx-auto text-center mb-12">
+      <div class="section-label mb-3"><span class="num">04</span> GROWTH ROADMAP</div>
+      <h2 class="h-section text-ink-900 font-extrabold">산업 신뢰 인프라로 진화하는 5단계 성장 로드맵</h2>
+      <p class="body-md mt-2">
+        단계별 타겟 검증 마일스톤을 실증하고 수집된 현장 데이터를 활용하여 Next MONO의 비전으로 스케일업합니다.
+      </p>
+    </div>
+
+    <!-- 5단계 성장 로드맵 (수정된 단계 정의) -->
+    <div class="grid md:grid-cols-5 gap-4 mb-12">
+      <div class="bg-warm-50 border border-ink-900/10 p-5 rounded-lg">
+        <span class="text-xs font-mono font-bold text-indigo-600 block mb-1">STAGE 01</span>
+        <h4 class="text-sm font-black text-ink-900 mb-2">신뢰 데이터 빌드</h4>
+        <p class="text-[12px] text-ink-600 leading-normal text-justify">기술자 신뢰 프로필과 기업 채용 공고 등록망을 우선 구축하여 초기 수요 및 평판 축적 기반을 마련합니다.</p>
+      </div>
+      <div class="bg-warm-50 border border-ink-900/10 p-5 rounded-lg">
+        <span class="text-xs font-mono font-bold text-indigo-600 block mb-1">STAGE 02</span>
+        <h4 class="text-sm font-black text-ink-900 mb-2">SaaS 워크스페이스</h4>
+        <p class="text-[12px] text-ink-600 leading-normal text-justify">기업용 Workspace 및 중대재해 예방, 외국인 기술인력 관리 SaaS 모듈을 연계하여 관리 비용을 낮춥니다.</p>
+      </div>
+      <div class="bg-warm-50 border border-indigo-200 p-5 rounded-lg bg-indigo-50/20">
+        <span class="text-xs font-mono font-bold text-indigo-600 block mb-1">STAGE 03</span>
+        <h4 class="text-sm font-black text-indigo-900 mb-2">Field Operations</h4>
+        <p class="text-[12px] text-ink-600 leading-normal text-justify">MONO Gear ERP, 공구 대여, 스마트 장비 및 소모자재 운영 제어를 연동하여 현장 리소스를 통합 관제합니다.</p>
+      </div>
+      <div class="bg-warm-50 border border-ink-900/10 p-5 rounded-lg">
+        <span class="text-xs font-mono font-bold text-indigo-600 block mb-1">STAGE 04</span>
+        <h4 class="text-sm font-black text-ink-900 mb-2">서비스 확장</h4>
+        <p class="text-[12px] text-ink-600 leading-normal text-justify">금융·보험·교육·자격증 데이터 결합 및 국가 간 기술자 경력 인증과 비자 연계 등 글로벌 인력 운영으로 확장합니다.</p>
+      </div>
+      <div class="bg-warm-50 border border-ink-900/10 p-5 rounded-lg">
+        <span class="text-xs font-mono font-bold text-indigo-600 block mb-1">STAGE 05</span>
+        <h4 class="text-sm font-black text-ink-900 mb-2">Next MONO</h4>
+        <p class="text-[12px] text-ink-600 leading-normal text-justify">Industrial Intelligence, AGI Core OS, 현장 AI 의사결정 보조 운영체제를 통해 완전히 자동화된 인프라로 도약합니다.</p>
+      </div>
+    </div>
+
+    <!-- Stage 03 상세 보강 및 구조도 -->
+    <div class="grid lg:grid-cols-12 gap-8 items-center bg-warm-50 p-6 rounded-xl border border-ink-900/10">
+      <div class="lg:col-span-7 space-y-4">
+        <h3 class="text-lg font-black text-ink-900">Stage 03: MONO Field Operations 세부 구성</h3>
+        <p class="text-sm text-ink-700 text-justify break-keep leading-relaxed">
+          MONO Field Operations는 기술자의 인증 정보와 자산(프로필)을 기반으로, 오프라인 현장에 필요한 장비, 자재, 긴급 복구 네트워크를 체계적으로 묶어 하나의 거대한 현장 리소스 공유 플랫폼으로 스케일업하는 핵심 마일스톤입니다.
+        </p>
+        
+        <div class="grid sm:grid-cols-2 gap-4 text-xs text-ink-800">
+          <div class="p-3 bg-white rounded border border-ink-900/5">
+            <strong>MONO Gear (현장 장비·자재 운영 ERP):</strong> 기기의 이력과 사용자 권한 매칭.
+          </div>
+          <div class="p-3 bg-white rounded border border-ink-900/5">
+            <strong>MONO Supply (소모자재 발주):</strong> 현장의 반복 자재 소요 및 품질 조달.
+          </div>
+          <div class="p-3 bg-white rounded border border-ink-900/5">
+            <strong>MONO Equipment (전문장비):</strong> 스마트 계측기, 전문 용접/시공 장비 대여.
+          </div>
+          <div class="p-3 bg-white rounded border border-ink-900/5">
+            <strong>MONO Package:</strong> 검증된 작업자와 장비를 세트로 묶어 즉시 파견.
+          </div>
+          <div class="p-3 bg-white rounded border border-ink-900/5 col-span-2">
+            <strong>MONO Field Service (현장 대응):</strong> 근거리 긴급 시공 및 보수 요청 출동 네트워크.
+          </div>
+        </div>
+        
+        <div class="pt-2">
+          <button onclick="document.getElementById('mono-field-ops-modal').showModal()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold lcorner transition-colors">
+            Field Operations Deep Dive 보기
+          </button>
+        </div>
+      </div>
+
+      <!-- Right diagram (도식 3 추가) -->
+      <div class="lg:col-span-5">
+        <div class="bg-white border border-ink-900/10 p-4 rounded-xl shadow-neo-soft zoomable-svg-container" onclick="openLightbox(this)">
+          <div class="text-center pb-2 border-b border-ink-900/5 mb-3 flex items-center justify-between">
+            <span class="text-[11px] font-mono font-bold text-ink-500 uppercase tracking-widest"><i class="fa-solid fa-toolbox text-indigo-600"></i> [도식 3] MONO Field Operations 구조도</span>
+            <span class="text-[10px] text-indigo-600 bg-indigo-50 px-1.5 py-0.5 rounded font-bold"><i class="fa-solid fa-magnifying-glass-plus"></i> 확대보기</span>
+          </div>
+          <div class="w-full flex items-center justify-center bg-warm-50/50 p-2 rounded-lg">
+            <svg viewBox="0 0 500 350" class="w-full h-auto object-contain" xmlns="http://www.w3.org/2000/svg">
+              <!-- Center Hub -->
+              <rect x="180" y="140" width="140" height="70" rx="8" fill="#4F46E5" stroke="#4338CA" stroke-width="2"/>
+              <text x="250" y="170" text-anchor="middle" font-weight="900" font-size="12" fill="#FCFCFE">Field Operations</text>
+              <text x="250" y="190" text-anchor="middle" font-size="8" fill="#E0E7FF">통합 현장 관제</text>
+              
+              <!-- Spokes -->
+              <!-- 1. Gear -->
+              <circle cx="90" cy="80" r="30" fill="#F8FAFC" stroke="#94A3B8" stroke-width="1.5"/>
+              <text x="90" y="83" text-anchor="middle" font-size="8" font-weight="900" fill="#0F172A">Gear ERP</text>
+              <line x1="120" y1="95" x2="190" y2="140" stroke="#94A3B8" stroke-dasharray="2 2"/>
+
+              <!-- 2. Supply -->
+              <circle cx="250" cy="50" r="30" fill="#F8FAFC" stroke="#94A3B8" stroke-width="1.5"/>
+              <text x="250" y="53" text-anchor="middle" font-size="8" font-weight="900" fill="#0F172A">Supply</text>
+              <line x1="250" y1="80" x2="250" y2="140" stroke="#94A3B8" stroke-dasharray="2 2"/>
+
+              <!-- 3. Equipment -->
+              <circle cx="410" cy="80" r="30" fill="#F8FAFC" stroke="#94A3B8" stroke-width="1.5"/>
+              <text x="410" y="83" text-anchor="middle" font-size="8" font-weight="900" fill="#0F172A">Equipment</text>
+              <line x1="380" y1="95" x2="310" y2="140" stroke="#94A3B8" stroke-dasharray="2 2"/>
+
+              <!-- 4. Package -->
+              <circle cx="120" cy="280" r="30" fill="#F8FAFC" stroke="#94A3B8" stroke-width="1.5"/>
+              <text x="120" y="283" text-anchor="middle" font-size="8" font-weight="900" fill="#0F172A">Package</text>
+              <line x1="145" y1="255" x2="200" y2="210" stroke="#94A3B8" stroke-dasharray="2 2"/>
+
+              <!-- 5. Field Service -->
+              <circle cx="380" cy="280" r="30" fill="#F8FAFC" stroke="#94A3B8" stroke-width="1.5"/>
+              <text x="380" y="283" text-anchor="middle" font-size="8" font-weight="900" fill="#0F172A">Field Service</text>
+              <line x1="355" y1="255" x2="300" y2="210" stroke="#94A3B8" stroke-dasharray="2 2"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="tape-divider"></div>
+
+<!-- ============================== 05. MONO 비즈니스 모델 ============================== -->
+<section id="bm" class="relative py-20 bg-warm-50 blueprint">
+  <div class="max-w-7xl mx-auto px-6 lg:px-10">
+    <div class="max-w-4xl mx-auto text-center mb-12">
+      <div class="section-label mb-3"><span class="num">05</span> REVENUE STACK</div>
+      <h2 class="h-section text-ink-900 font-extrabold">기술자의 경험이 신뢰 데이터가 되는 비즈니스 모델</h2>
+      <p class="body-md mt-2">
+        MONO의 수익 구조는 단순 일회성 중개를 넘어 다각화된 4대 핵심 매출 인프라를 바탕으로 고도화됩니다.
+      </p>
+    </div>
+
+    <!-- BM 4개 영역 그리드화 -->
+    <div class="grid md:grid-cols-4 gap-6 items-start mb-12">
+      
+      <!-- BM 1. Core BM -->
+      <div class="bg-white border border-ink-900/10 p-6 rounded-xl space-y-4 shadow-sm hover:border-indigo-600 transition-colors">
+        <h3 class="text-base font-black text-indigo-700 pb-2 border-b border-ink-900/5"><i class="fa-solid fa-layer-group"></i> BM 1. Core BM</h3>
+        <div class="space-y-3 text-xs text-ink-800">
+          <div>
+            <strong class="block text-ink-900">· 기업 채용 공고 등록</strong>
+            <span>기업이 기술자 모집 공고를 등록</span>
+          </div>
+          <div>
+            <strong class="block text-ink-900">· 기술자 프로필 열람권</strong>
+            <span>검증된 기술자 데이터 조회</span>
+          </div>
+          <div>
+            <strong class="block text-ink-900">· 기업 Workspace 구독</strong>
+            <span>채용, 검토, 운영, 안전교육, 이력 관리</span>
+          </div>
+          <div>
+            <strong class="block text-ink-900">· PoC 협약 관리</strong>
+            <span>기업 실증 프로젝트 운영</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- BM 2. Field Operations BM -->
+      <div class="bg-white border border-ink-900/10 p-6 rounded-xl space-y-4 shadow-sm hover:border-indigo-600 transition-colors">
+        <h3 class="text-base font-black text-indigo-700 pb-2 border-b border-ink-900/5"><i class="fa-solid fa-screwdriver-wrench"></i> BM 2. Operations BM</h3>
+        <div class="space-y-3 text-xs text-ink-800">
+          <div>
+            <strong class="block text-ink-900">· 공구 대여 수수료</strong>
+            <span>초기 수요 검증용 기능</span>
+          </div>
+          <div>
+            <strong class="block text-ink-900">· 장비·자재 운영 ERP 구독</strong>
+            <span>기업 현장의 장비·소모자재 운영 관리</span>
+          </div>
+          <div>
+            <strong class="block text-ink-900">· 소모자재 반복 발주 수수료</strong>
+            <span>철근, 못, 부자재, 안전용품 등 반복 구매 관리</span>
+          </div>
+          <div>
+            <strong class="block text-ink-900">· 전문 장비 대여 수수료</strong>
+            <span>스마트 계측기, 전문 장비, 현장 IoT 장비</span>
+          </div>
+          <div>
+            <strong class="block text-ink-900">· 장비+기술자 패키지</strong>
+            <span>장비와 운용 가능한 기술자를 함께 연결</span>
+          </div>
+          <div>
+            <strong class="block text-ink-900">· 정비·보험·보증 연계</strong>
+            <span>장비 파손, 분실, 품질 보증, 안전 리스크 관리</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- BM 3. Strategic BM -->
+      <div class="bg-white border border-ink-900/10 p-6 rounded-xl space-y-4 shadow-sm hover:border-indigo-600 transition-colors">
+        <h3 class="text-base font-black text-indigo-700 pb-2 border-b border-ink-900/5"><i class="fa-solid fa-shield"></i> BM 3. Strategic BM</h3>
+        <div class="space-y-3 text-xs text-ink-800">
+          <div>
+            <strong class="block text-ink-900">· 금융 연계</strong>
+            <span>근무이력 기반 금융 혜택</span>
+          </div>
+          <div>
+            <strong class="block text-ink-900">· 보험 연계</strong>
+            <span>안전교육·근무이력 기반 보험</span>
+          </div>
+          <div>
+            <strong class="block text-ink-900">· 교육·자격 연계</strong>
+            <span>기술자 성장과 자격 검증</span>
+          </div>
+          <div>
+            <strong class="block text-ink-900">· 대기업 상생 인프라</strong>
+            <span>협력사 인력·안전·운영 데이터 관리</span>
+          </div>
+          <div>
+            <strong class="block text-ink-900">· 데이터 리포트</strong>
+            <span>현장 운영 데이터 기반 의사결정 지원</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- BM 4. 대기업 상생 협업 BM -->
+      <div class="bg-white border border-indigo-200 p-6 rounded-xl space-y-4 shadow-sm bg-indigo-50/10 hover:border-indigo-600 transition-colors">
+        <h3 class="text-base font-black text-indigo-900 pb-2 border-b border-indigo-200"><i class=<!-- ============================== 07. Next MONO ============================== -->
+<section id="vision" class="relative py-24 bg-warm-50 text-ink-900 overflow-hidden">
+  <div class="absolute inset-0 blueprint opacity-20 pointer-events-none mix-blend-overlay"></div>
+  <div class="absolute inset-0 bg-gradient-to-b from-warm-50 via-warm-100/50 to-warm-50 opacity-90 pointer-events-none"></div>
+  
+  <div class="max-w-7xl mx-auto px-6 lg:px-10 relative z-10">
+    <div class="max-w-6xl mx-auto mb-16 reveal text-center">
+      <div class="section-label mb-4"><span class="num">07</span> Next MONO · Industrial Intelligence Platform</div>
+      
+      <h2 class="h-display text-ink-900 leading-tight tracking-tight mb-6">Industrial Intelligence Platform</h2>
+      
+      <!-- 추가 문구 -->
+      <p class="body-lg text-ink-800 text-justify break-keep max-w-4xl mx-auto leading-relaxed mb-6" style="font-size: 1.25rem;">
+        Next MONO는 산업 현장의 신뢰 데이터를 기반으로 작동하는 Industrial Intelligence Platform입니다.
+      </p>
+      <p class="body-md text-ink-700 text-justify break-keep max-w-3xl mx-auto leading-relaxed mb-10">
+        MONO가 축적하는 기술자 프로필, 기업 공고, 현장 배치, 안전교육, 장비 사용, 소모자재 발주, 정산 데이터는 장기적으로 산업 현장 의사결정을 지원하는 AI 운영체제의 기반이 됩니다. AGI Core OS는 현장의 사람을 대체하는 개념이 아니라, 기술자와 기업이 더 안전하고 효율적으로 일할 수 있도록 돕는 산업 의사결정 엔진입니다.
+      </p>
+    </div>
+
+    <!-- Grid showing Next MONO core products and their image mockups (existing images preserved) -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+      <!-- Item 1. Tech-Blue -->
+      <article class="bg-white border border-ink-900/10 p-6 rounded-xl hover:border-indigo-500/50 transition-all flex flex-col justify-between group shadow-sm">
+        <div>
+          <div class="aspect-video w-full mb-4 overflow-hidden rounded-lg bg-warm-100 relative">
+            <img src="images/tech_blue_worker.png" alt="Tech-Blue 인재" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+            <div class="absolute bottom-2 left-2 bg-indigo-600/90 text-white text-[10px] font-bold px-2 py-0.5 rounded font-mono">PEOPLE</div>
+          </div>
+          <h4 class="text-lg font-black text-ink-900 mb-2">Tech-Blue · 미래 산업 기술자</h4>
+          <p class="text-xs text-ink-700 leading-relaxed mb-4 text-justify break-keep">
+            현장 경험, 안전 이력, 장비 운용 능력, AI 활용 역량을 함께 갖춘 새로운 블루칼라 기술 장인입니다.
+          </p>
+        </div>
+        <button onclick="document.getElementById('tech-blue-modal').showModal()" class="w-full py-2.5 bg-warm-50 hover:bg-indigo-600 text-ink-900 hover:text-white border border-ink-900/10 hover:border-indigo-600 font-bold text-xs rounded transition-colors text-center">
+          Tech-Blue 자세히 보기
+        </button>
+      </article>
+
+      <!-- Item 2. AGI Core OS -->
+      <article class="bg-white border border-ink-900/10 p-6 rounded-xl hover:border-indigo-500/50 transition-all flex flex-col justify-between group shadow-sm">
+        <div>
+          <div class="aspect-video w-full mb-4 overflow-hidden rounded-lg bg-warm-100 relative">
+            <img src="images/agi_core_os_structure.jpg" alt="AGI Core OS 구조도" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+            <div class="absolute bottom-2 left-2 bg-indigo-600/90 text-white text-[10px] font-bold px-2 py-0.5 rounded font-mono">INTELLIGENCE</div>
+          </div>
+          <h4 class="text-lg font-black text-ink-900 mb-2">AGI Core OS · 현장 AI 의사결정</h4>
+          <p class="text-xs text-ink-700 leading-relaxed mb-4 text-justify break-keep">
+            기술자 데이터, 장비 데이터, 안전 데이터, 기업 요청 데이터를 기반으로 최적화된 매칭과 예측을 제공하는 보조 지능입니다.
+          </p>
+        </div>
+        <button onclick="document.getElementById('agi-core-os-modal').showModal()" class="w-full py-2.5 bg-warm-50 hover:bg-indigo-600 text-ink-900 hover:text-white border border-ink-900/10 hover:border-indigo-600 font-bold text-xs rounded transition-colors text-center">
+          AGI Core OS 구조 보기
+        </button>
+      </article>
+
+      <!-- Item 3. MONO Device -->
+      <article class="bg-white border border-ink-900/10 p-6 rounded-xl hover:border-indigo-500/50 transition-all flex flex-col justify-between group shadow-sm">
+        <div>
+          <div class="aspect-video w-full mb-4 overflow-hidden rounded-lg bg-warm-100 relative">
+            <img src="images/mono_device_field.png" alt="MONO Device 현장" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+            <div class="absolute bottom-2 left-2 bg-indigo-600/90 text-white text-[10px] font-bold px-2 py-0.5 rounded font-mono">CONNECTIVITY</div>
+          </div>
+          <h4 class="text-lg font-black text-ink-900 mb-2">MONO Device · 현장 IoT 디바이스</h4>
+          <p class="text-xs text-ink-700 leading-relaxed mb-4 text-justify break-keep">
+            작업자 웨어러블, 스마트 계측기, 안전 센서 및 장비 태그를 연동하여 가공되지 않은 현장 데이터를 실시간 수집합니다.
+          </p>
+        </div>
+        <button onclick="document.getElementById('mono-device-modal').showModal()" class="w-full py-2.5 bg-warm-50 hover:bg-indigo-600 text-ink-900 hover:text-white border border-ink-900/10 hover:border-indigo-600 font-bold text-xs rounded transition-colors text-center">
+          MONO Device 확장 보기
+        </button>
+      </article>
+    </div>
+
+    <!-- 신규 이미지 추가: Next MONO 데이터 확장 루프 (도식 5) -->
+    <div class="bg-white border border-ink-900/10 p-4 rounded-xl shadow-neo-soft zoomable-svg-container max-w-3xl mx-auto" onclick="openLightbox(this)">
+      <div class="text-center pb-2 border-b border-warm-200/10 mb-3 flex items-center justify-between">
+        <span class="text-[11px] font-mono font-bold text-ink-500 uppercase tracking-widest"><i class="fa-solid fa-arrows-spin text-indigo-600"></i> [도식 5] Next MONO 데이터 확장 루프</span>
+        <span class="text-[10px] text-indigo-600 bg-indigo-50 px-1.5 py-0.5 rounded font-bold"><i class="fa-solid fa-magnifying-glass-plus"></i> 확대보기</span>
+      </div>
+      <div class="w-full flex items-center justify-center bg-warm-50/50 p-2 rounded-lg">
+        <svg viewBox="0 0 500 350" class="w-full h-auto object-contain" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="brain-glow2" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#818CF8" stop-opacity="0.15"/>
+              <stop offset="100%" stop-color="#FCFCFE" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+          <circle cx="250" cy="175" r="140" fill="url(#brain-glow2)" />
+          
+          <!-- Loop Cycle Flowcharts -->
+          <!-- Left: 현장 데이터 축적 -->
+          <rect x="20" y="130" width="150" height="90" rx="6" fill="#F8FAFC" stroke="#4F46E5" stroke-width="1.5"/>
+          <text x="95" y="160" text-anchor="middle" font-size="10" font-weight="900" fill="#4F46E5">현장 데이터 축적</text>
+          <text x="95" y="180" text-anchor="middle" font-size="8" fill="#475569">· 프로필, 공고, 배치</text>
+          <text x="95" y="195" text-anchor="middle" font-size="8" fill="#475569">· 안전교육, 장비, 발주</text>
+
+          <!-- Right: AI 의사결정 보조 (AGI Core OS) -->
+          <rect x="330" y="130" width="150" height="90" rx="6" fill="#F8FAFC" stroke="#10B981" stroke-width="1.5"/>
+          <text x="405" y="160" text-anchor="middle" font-size="10" font-weight="900" fill="#10B981">AGI Core OS</text>
+          <text x="405" y="180" text-anchor="middle" font-size="8" fill="#475569">· 현장 의사결정 지원</text>
+          <text x="405" y="195" text-anchor="middle" font-size="8" fill="#475569">· 인재/장비 최적 추천</text>
+
+          <!-- Connecting Loops -->
+          <path d="M 170 150 C 250 110, 250 110, 330 150" fill="none" stroke="#4F46E5" stroke-width="2" marker-end="url(#arrow)"/>
+          <text x="250" y="115" text-anchor="middle" font-size="8" fill="#4F46E5">실시간 데이터 송출</text>
+
+          <path d="M 330 200 C 250 240, 250 240, 170 200" fill="none" stroke="#10B981" stroke-width="2" marker-end="url(#arrow)"/>
+          <text x="250" y="240" text-anchor="middle" font-size="8" fill="#10B981">의사결정 피드백 적용</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>ep max-w-3xl mx-auto leading-relaxed mb-10">
+        MONO가 축적하는 기술자 프로필, 기업 공고, 현장 배치, 안전교육, 장비 사용, 소모자재 발주, 정산 데이터는 장기적으로 산업 현장 의사결정을 지원하는 AI 운영체제의 기반이 됩니다. AGI Core OS는 현장의 사람을 대체하는 개념이 아니라, 기술자와 기업이 더 안전하고 효율적으로 일할 수 있도록 돕는 산업 의사결정 엔진입니다.
+      </p>
+    </div>
+
+    <!-- Grid showing Next MONO core products and their image mockups (existing images preserved) -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+      <!-- Item 1. Tech-Blue -->
+      <article class="bg-ink-800/60 border border-warm-200/10 p-6 rounded-xl hover:border-indigo-500/50 transition-all flex flex-col justify-between group">
+        <div>
+          <div class="aspect-video w-full mb-4 overflow-hidden rounded-lg bg-ink-950 relative">
+            <img src="images/tech_blue_worker.png" alt="Tech-Blue 인재" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+            <div class="absolute bottom-2 left-2 bg-indigo-600/90 text-white text-[10px] font-bold px-2 py-0.5 rounded font-mono">PEOPLE</div>
+          </div>
+          <h4 class="text-lg font-black text-white mb-2">Tech-Blue · 미래 산업 기술자</h4>
+          <p class="text-xs text-warm-300 leading-relaxed mb-4 text-justify break-keep">
+            현장 경험, 안전 이력, 장비 운용 능력, AI 활용 역량을 함께 갖춘 새로운 블루칼라 기술 장인입니다.
+          </p>
+        </div>
+        <button onclick="document.getElementById('tech-blue-modal').showModal()" class="w-full py-2.5 bg-ink-900 hover:bg-indigo-600 text-warm-100 border border-warm-200/10 hover:border-indigo-600 font-bold text-xs rounded transition-colors text-center">
+          Tech-Blue 자세히 보기
+        </button>
+      </article>
+
+      <!-- Item 2. AGI Core OS -->
+      <article class="bg-ink-800/60 border border-warm-200/10 p-6 rounded-xl hover:border-indigo-500/50 transition-all flex flex-col justify-between group">
+        <div>
+          <div class="aspect-video w-full mb-4 overflow-hidden rounded-lg bg-ink-950 relative">
+            <img src="images/agi_core_os_structure.jpg" alt="AGI Core OS 구조도" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+            <div class="absolute bottom-2 left-2 bg-indigo-600/90 text-white text-[10px] font-bold px-2 py-0.5 rounded font-mono">INTELLIGENCE</div>
+          </div>
+          <h4 class="text-lg font-black text-white mb-2">AGI Core OS · 현장 AI 의사결정</h4>
+          <p class="text-xs text-warm-300 leading-relaxed mb-4 text-justify break-keep">
+            기술자 데이터, 장비 데이터, 안전 데이터, 기업 요청 데이터를 기반으로 최적화된 매칭과 예측을 제공하는 보조 지능입니다.
+          </p>
+        </div>
+        <button onclick="document.getElementById('agi-core-os-modal').showModal()" class="w-full py-2.5 bg-ink-900 hover:bg-indigo-600 text-warm-100 border border-warm-200/10 hover:border-indigo-600 font-bold text-xs rounded transition-colors text-center">
+          AGI Core OS 구조 보기
+        </button>
+      </article>
+
+      <!-- Item 3. MONO Device -->
+      <article class="bg-ink-800/60 border border-warm-200/10 p-6 rounded-xl hover:border-indigo-500/50 transition-all flex flex-col justify-between group">
+        <div>
+          <div class="aspect-video w-full mb-4 overflow-hidden rounded-lg bg-ink-950 relative">
+            <img src="images/mono_device_field.png" alt="MONO Device 현장" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+            <div class="absolute bottom-2 left-2 bg-indigo-600/90 text-white text-[10px] font-bold px-2 py-0.5 rounded font-mono">CONNECTIVITY</div>
+          </div>
+          <h4 class="text-lg font-black text-white mb-2">MONO Device · 현장 IoT 디바이스</h4>
+          <p class="text-xs text-warm-300 leading-relaxed mb-4 text-justify break-keep">
+            작업자 웨어러블, 스마트 계측기, 안전 센서 및 장비 태그를 연동하여 가공되지 않은 현장 데이터를 실시간 수집합니다.
+          </p>
+        </div>
+        <button onclick="document.getElementById('mono-device-modal').showModal()" class="w-full py-2.5 bg-ink-900 hover:bg-indigo-600 text-warm-100 border border-warm-200/10 hover:border-indigo-600 font-bold text-xs rounded transition-colors text-center">
+          MONO Device 확장 보기
+        </button>
+      </article>
+    </div>
+
+    <!-- 신규 이미지 추가: Next MONO 데이터 확장 루프 (도식 5) -->
+    <div class="bg-ink-800/70 border border-cyan-500/20 p-4 rounded-xl shadow-2xl zoomable-svg-container max-w-3xl mx-auto" onclick="openLightbox(this)">
+      <div class="text-center pb-2 border-b border-warm-200/10 mb-3 flex items-center justify-between">
+        <span class="text-[11px] font-mono font-bold text-cyan-400 uppercase tracking-widest"><i class="fa-solid fa-arrows-spin text-cyan-400"></i> [도식 5] Next MONO 데이터 확장 루프</span>
+        <span class="text-[10px] text-cyan-400 bg-cyan-950 px-1.5 py-0.5 rounded font-bold"><i class="fa-solid fa-magnifying-glass-plus"></i> 확대보기</span>
+      </div>
+      <div class="w-full flex items-center justify-center bg-ink-950/60 p-2 rounded-lg">
+        <svg viewBox="0 0 500 350" class="w-full h-auto object-contain" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="brain-glow2" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#22D3EE" stop-opacity="0.25"/>
+              <stop offset="100%" stop-color="#0E7490" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+          <circle cx="250" cy="175" r="140" fill="url(#brain-glow2)" />
+          
+          <!-- Loop Cycle Flowcharts -->
+          <!-- Left: 현장 데이터 축적 -->
+          <rect x="20" y="130" width="150" height="90" rx="6" fill="#0F172A" stroke="#22D3EE" stroke-width="1.5"/>
+          <text x="95" y="160" text-anchor="middle" font-size="10" font-weight="900" fill="#22D3EE">현장 데이터 축적</text>
+          <text x="95" y="180" text-anchor="middle" font-size="8" fill="#94A3B8">· 프로필, 공고, 배치</text>
+          <text x="95" y="195" text-anchor="middle" font-size="8" fill="#94A3B8">· 안전교육, 장비, 발주</text>
+
+          <!-- Right: AI 의사결정 보조 (AGI Core OS) -->
+          <rect x="330" y="130" width="150" height="90" rx="6" fill="#0F172A" stroke="#10B981" stroke-width="1.5"/>
+          <text x="405" y="160" text-anchor="middle" font-size="10" font-weight="900" fill="#10B981">AGI Core OS</text>
+          <text x="405" y="180" text-anchor="middle" font-size="8" fill="#94A3B8">· 현장 의사결정 지원</text>
+          <text x="405" y="195" text-anchor="middle" font-size="8" fill="#94A3B8">· 인재/장비 최적 추천</text>
+
+          <!-- Connecting Loops -->
+          <path d="M 170 150 C 250 110, 250 110, 330 150" fill="none" stroke="#22D3EE" stroke-width="2" marker-end="url(#arrow)"/>
+          <text x="250" y="115" text-anchor="middle" font-size="8" fill="#22D3EE">실시간 데이터 송출</text>
+
+          <path d="M 330 200 C 250 240, 250 240, 170 200" fill="none" stroke="#10B981" stroke-width="2" marker-end="url(#arrow)"/>
+          <text x="250" y="240" text-anchor="middle" font-size="8" fill="#10B981">의사결정 피드백 적용</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== FOOTER ============================== -->
+<footer class="bg-ink-900 text-warm-200 py-12 border-t border-warm-200/10">
+  <div class="max-w-7xl mx-auto px-6 lg:px-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
+    <div class="space-y-3">
+      <div class="flex items-center gap-2">
+        <div class="w-8 h-8 overflow-hidden rounded bg-white p-1">
+          <img src="/images/logo.png" class="w-full h-full object-cover" alt="MONO Logo" />
+        </div>
+        <span class="text-white text-lg font-black tracking-tight">MONO</span>
+      </div>
+      <p class="text-xs text-warm-300 leading-normal max-w-sm">
+        MONO는 산업 현장의 경험과 신뢰를 데이터로 혁신하여 대기업과 협력사의 동반성장을 견인하는 산업 신뢰 인프라 플랫폼입니다.
+      </p>
+    </div>
+    <div class="text-xs text-warm-400 space-y-1">
+      <p>© 2026 MONO Corp. All rights reserved.</p>
+      <p>Masters of Noble Trades · Industrial Trust Platform</p>
+      <p>주소: 서울특별시 강남구 테헤란로 | 이메일: contact@mono.trades</p>
+    </div>
+  </div>
+</footer>
+
+<!-- ============================== MODALS ============================== -->
+
+<!-- 1. MONO Gear Modal (수정) -->
+<dialog id="mono-gear-modal" class="bg-transparent w-full h-full p-0 m-0 fixed inset-0 z-50 backdrop:bg-ink-900/50">
+  <div class="fixed inset-0 bg-ink-900/50 flex items-center justify-center p-4 z-50 overflow-y-auto" onclick="document.getElementById('mono-gear-modal').close()">
+    <div class="bg-[#FCFCFE] rounded-xl shadow-2xl max-w-2xl w-full my-8 relative" onclick="event.stopPropagation()">
+      <button onclick="document.getElementById('mono-gear-modal').close()" class="absolute top-4 right-4 w-10 h-10 flex items-center justify-center rounded-full bg-warm-100 hover:bg-warm-200 text-ink-900 transition-colors z-10">
+        <i class="fa-solid fa-xmark text-lg"></i>
+      </button>
+      <div class="p-8 max-h-[85vh] overflow-y-auto space-y-6">
+        <div class="border-b border-ink-900/5 pb-4">
+          <span class="chip-round">MONO Gear ERP</span>
+          <h2 class="text-2xl font-black text-ink-900 mt-2">MONO Gear · 현장 장비·자재 운영 ERP</h2>
+        </div>
+        <p class="body-md text-justify break-keep">
+          MONO Gear는 공구 대여에서 시작해 전문 장비, 스마트 계측기, 소모자재 반복 발주, 장비+기술자 패키지, 보험·정비·보증까지 확장되는 현장 운영 BM입니다. 기업은 현장별 장비와 자재 수요를 관리하고, 기술자는 자신의 장비 사용 이력을 신뢰 프로필에 축적합니다.
+        </p>
+      </div>
+    </div>
+  </div>
+</dialog>
+
+<!-- 2. MONO Field Operations Deep Dive Modal (추가) -->
+<dialog id="mono-field-ops-modal" class="bg-transparent w-full h-full p-0 m-0 fixed inset-0 z-50 backdrop:bg-ink-900/50">
+  <div class="fixed inset-0 bg-ink-900/50 flex items-center justify-center p-4 z-50 overflow-y-auto" onclick="document.getElementById('mono-field-ops-modal').close()">
+    <div class="bg-[#FCFCFE] rounded-xl shadow-2xl max-w-2xl w-full my-8 relative" onclick="event.stopPropagation()">
+      <button onclick="document.getElementById('mono-field-ops-modal').close()" class="absolute top-4 right-4 w-10 h-10 flex items-center justify-center rounded-full bg-warm-100 hover:bg-warm-200 text-ink-900 transition-colors z-10">
+        <i class="fa-solid fa-xmark text-lg"></i>
+      </button>
+      <div class="p-8 max-h-[85vh] overflow-y-auto space-y-6">
+        <div class="border-b border-ink-900/5 pb-4">
+          <span class="chip-round">Field Operations</span>
+          <h2 class="text-2xl font-black text-ink-900 mt-2">MONO Field Operations</h2>
+        </div>
+        <div class="space-y-4 text-sm text-ink-800 leading-relaxed text-justify break-keep">
+          <p>
+            MONO Field Operations는 다음의 하위 비즈니스 영역을 유기적으로 결합하여 현장의 종합 관제를 지원합니다:
+          </p>
+          <ul class="space-y-2 list-disc list-inside pl-2">
+            <li><strong>공구 대여:</strong> 초기 로컬 수요 검증 및 현장 기술자의 도구 활용성 파악 기능.</li>
+            <li><strong>전문 장비 운영:</strong> 자격 및 경력이 검증된 작업자와 연계한 기기 관리 시스템.</li>
+            <li><strong>소모자재 반복 발주:</strong> 철근, 형강, 볼트 및 안전 물품 등 소모성 부자재의 반복 조달 수수료 모델.</li>
+            <li><strong>지역 산업 공급 파트너 연계:</strong> 로컬 유통 파트너사들과 제휴하여 현장에 자재를 밀착 배송하는 공급망.</li>
+            <li><strong>장비+기술자 패키지:</strong> 현장에서 즉각 시공할 수 있도록 스마트 공구와 해당 라이센스 보유 근로자를 함께 임대.</li>
+            <li><strong>품질 보증·정비·보험 연계:</strong> 장비 파손 및 현장 산재/품질 신뢰 손실을 보상하는 리스크 분산 보험 중개.</li>
+            <li><strong>현장 운영 데이터 리포트:</strong> 소모량, 배치 효율성, 무산재 일수를 가공하여 기업에 제공하는 리포팅 서비스.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</dialog>
+
+<!-- 3. Strategic Investment Deep Dive Modal (추가) -->
+<dialog id="si-investment-modal" class="bg-transparent w-full h-full p-0 m-0 fixed inset-0 z-50 backdrop:bg-ink-900/50">
+  <div class="fixed inset-0 bg-ink-900/50 flex items-center justify-center p-4 z-50 overflow-y-auto" onclick="document.getElementById('si-investment-modal').close()">
+    <div class="bg-[#FCFCFE] rounded-xl shadow-2xl max-w-2xl w-full my-8 relative" onclick="event.stopPropagation()">
+      <button onclick="document.getElementById('si-investment-modal').close()" class="absolute top-4 right-4 w-10 h-10 flex items-center justify-center rounded-full bg-warm-100 hover:bg-warm-200 text-ink-900 transition-colors z-10">
+        <i class="fa-solid fa-xmark text-lg"></i>
+      </button>
+      <div class="p-8 max-h-[85vh] overflow-y-auto space-y-6">
+        <div class="border-b border-ink-900/5 pb-4">
+          <span class="chip-round">Strategic Investment</span>
+          <h2 class="text-2xl font-black text-ink-900 mt-2">Strategic Investment & 대기업 상생 협업</h2>
+        </div>
+        <div class="space-y-4 text-sm text-ink-800 leading-relaxed text-justify break-keep">
+          <p>
+            MONO는 삼성전자 등 대기업이 추진하는 상생 투자 흐름과 연결될 수 있는 산업 신뢰 데이터 인프라입니다.
+          </p>
+          <p>
+            대기업은 협력사의 인력·안전·교육·현장 운영 데이터를 투명하게 관리하고, 협력사는 검증된 기술자와 장비·자재 운영 시스템을 확보하며, 기술자는 자신의 경력과 안전 이력을 자산화할 수 있습니다.
+          </p>
+          <p>
+            MONO는 이 구조를 통해 대기업 상생 투자, 협력사 DX, 산업재해 예방, 미래 기술 인재 육성, 금융·보험 연계를 하나의 데이터 기반 플랫폼으로 연결하여 장기적인 대기업 동반성장 생태계를 제공합니다.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</dialog>
+
+<!-- Existing Modals Preserved -->
+<dialog id="r1-strategy-modal" class="bg-transparent w-full h-full p-0 m-0 fixed inset-0 z-50 backdrop:bg-ink-900/50">
+  <div class="fixed inset-0 bg-ink-900/50 flex items-center justify-center p-4 z-50 overflow-y-auto" onclick="document.getElementById('r1-strategy-modal').close()">
+    <div class="bg-[#FCFCFE] rounded-xl shadow-2xl max-w-2xl w-full my-8 relative" onclick="event.stopPropagation()">
+      <button onclick="document.getElementById('r1-strategy-modal').close()" class="absolute top-4 right-4 w-10 h-10 flex items-center justify-center rounded-full bg-warm-100 hover:bg-warm-200 text-ink-900 transition-colors z-10"><i class="fa-solid fa-xmark"></i></button>
+      <div class="p-8 max-h-[85vh] overflow-y-auto space-y-4">
+        <h3 class="text-xl font-bold text-ink-900">1라운드 준비 전략</h3>
+        <p class="text-sm text-ink-700">MONO의 장기 철학, 문제 정의, 시장성 검증을 포함한 발표 자료 및 전략 페이지 완성도 검증 단계입니다.</p>
+      </div>
+    </div>
+  </div>
+</dialog>
+
+<dialog id="r2-strategy-modal" class="bg-transparent w-full h-full p-0 m-0 fixed inset-0 z-50 backdrop:bg-ink-900/50">
+  <div class="fixed inset-0 bg-ink-900/50 flex items-center justify-center p-4 z-50 overflow-y-auto" onclick="document.getElementById('r2-strategy-modal').close()">
+    <div class="bg-[#FCFCFE] rounded-xl shadow-2xl max-w-2xl w-full my-8 relative" onclick="event.stopPropagation()">
+      <button onclick="document.getElementById('r2-strategy-modal').close()" class="absolute top-4 right-4 w-10 h-10 flex items-center justify-center rounded-full bg-warm-100 hover:bg-warm-200 text-ink-900 transition-colors z-10"><i class="fa-solid fa-xmark"></i></button>
+      <div class="p-8 max-h-[85vh] overflow-y-auto space-y-4">
+        <h3 class="text-xl font-bold text-ink-900">2라운드 검증 지표</h3>
+        <p class="text-sm text-ink-700">실제 기술자의 프로필 작성 유도, 기업의 채용 공고 등록 및 핵심 관심 기능 클릭 데이터를 기반으로 유효성(PMF)을 검증합니다.</p>
+      </div>
+    </div>
+  </div>
+</dialog>
+
+<dialog id="r3-strategy-modal" class="bg-transparent w-full h-full p-0 m-0 fixed inset-0 z-50 backdrop:bg-ink-900/50">
+  <div class="fixed inset-0 bg-ink-900/50 flex items-center justify-center p-4 z-50 overflow-y-auto" onclick="document.getElementById('r3-strategy-modal').close()">
+    <div class="bg-[#FCFCFE] rounded-xl shadow-2xl max-w-2xl w-full my-8 relative" onclick="event.stopPropagation()">
+      <button onclick="document.getElementById('r3-strategy-modal').close()" class="absolute top-4 right-4 w-10 h-10 flex items-center justify-center rounded-full bg-warm-100 hover:bg-warm-200 text-ink-900 transition-colors z-10"><i class="fa-solid fa-xmark"></i></button>
+      <div class="p-8 max-h-[85vh] overflow-y-auto space-y-4">
+        <h3 class="text-xl font-bold text-ink-900">3라운드 협약 및 PoC</h3>
+        <p class="text-sm text-ink-700">시공 협력사 간 PoC 실증 도입 MOU 체결 및 후속 전략적 투자자(SI) 후보군을 연계 확보하는 단계입니다.</p>
+      </div>
+    </div>
+  </div>
+</dialog>
+
+<dialog id="tech-blue-modal" class="bg-transparent w-full h-full p-0 m-0 fixed inset-0 z-50 backdrop:bg-ink-900/50">
+  <div class="fixed inset-0 bg-ink-900/50 flex items-center justify-center p-4 z-50 overflow-y-auto" onclick="document.getElementById('tech-blue-modal').close()">
+    <div class="bg-[#FCFCFE] rounded-xl shadow-2xl max-w-2xl w-full my-8 relative" onclick="event.stopPropagation()">
+      <button onclick="document.getElementById('tech-blue-modal').close()" class="absolute top-4 right-4 w-10 h-10 flex items-center justify-center rounded-full bg-warm-100 hover:bg-warm-200 text-ink-900 transition-colors z-10"><i class="fa-solid fa-xmark"></i></button>
+      <div class="p-8 max-h-[85vh] overflow-y-auto space-y-4">
+        <h3 class="text-xl font-bold text-ink-900">Tech-Blue 상세 프로필</h3>
+        <img src="images/tech_blue_worker.png" class="w-full h-auto max-h-60 object-contain my-3" />
+        <p class="text-sm text-ink-700 text-justify">경력과 안전 등급을 데이터화하여 신뢰 이력을 투명하게 증명하는 미래 지향적 기술자 모델입니다.</p>
+      </div>
+    </div>
+  </div>
+</dialog>
+
+<dialog id="agi-core-os-modal" class="bg-transparent w-full h-full p-0 m-0 fixed inset-0 z-50 backdrop:bg-ink-900/50">
+  <div class="fixed inset-0 bg-ink-900/50 flex items-center justify-center p-4 z-50 overflow-y-auto" onclick="document.getElementById('agi-core-os-modal').close()">
+    <div class="bg-[#FCFCFE] rounded-xl shadow-2xl max-w-2xl w-full my-8 relative" onclick="event.stopPropagation()">
+      <button onclick="document.getElementById('agi-core-os-modal').close()" class="absolute top-4 right-4 w-10 h-10 flex items-center justify-center rounded-full bg-warm-100 hover:bg-warm-200 text-ink-900 transition-colors z-10"><i class="fa-solid fa-xmark"></i></button>
+      <div class="p-8 max-h-[85vh] overflow-y-auto space-y-4">
+        <h3 class="text-xl font-bold text-ink-900">AGI Core OS 구조도</h3>
+        <img src="images/agi_core_os_structure.jpg" class="w-full h-auto max-h-60 object-contain my-3" />
+        <p class="text-sm text-ink-700 text-justify">현장 데이터를 바탕으로 AI가 최적의 인력, 장비, 안전 관리를 연산 추천해 주는 의사결정 보조 시스템입니다.</p>
+      </div>
+    </div>
+  </div>
+</dialog>
+
+<dialog id="mono-device-modal" class="bg-transparent w-full h-full p-0 m-0 fixed inset-0 z-50 backdrop:bg-ink-900/50">
+  <div class="fixed inset-0 bg-ink-900/50 flex items-center justify-center p-4 z-50 overflow-y-auto" onclick="document.getElementById('mono-device-modal').close()">
+    <div class="bg-[#FCFCFE] rounded-xl shadow-2xl max-w-2xl w-full my-8 relative" onclick="event.stopPropagation()">
+      <button onclick="document.getElementById('mono-device-modal').close()" class="absolute top-4 right-4 w-10 h-10 flex items-center justify-center rounded-full bg-warm-100 hover:bg-warm-200 text-ink-900 transition-colors z-10"><i class="fa-solid fa-xmark"></i></button>
+      <div class="p-8 max-h-[85vh] overflow-y-auto space-y-4">
+        <h3 class="text-xl font-bold text-ink-900">MONO Device 확장형 하드웨어</h3>
+        <img src="images/mono_device_field.png" class="w-full h-auto max-h-60 object-contain my-3" />
+        <p class="text-sm text-ink-700 text-justify">스마트 보호구, 웨어러블 태그 등을 연계하여 실시간으로 현장의 무산재 활동 지표와 자재 위치 데이터를 수집합니다.</p>
+      </div>
+    </div>
+  </div>
+</dialog>
+
+<!-- ============================== LIGHTBOX ============================== -->
+<div id="lightbox" onclick="closeLightbox()">
+  <div id="lightbox-content" onclick="event.stopPropagation()">
+    <button onclick="closeLightbox()" class="absolute top-2 right-2 w-8 h-8 flex items-center justify-center rounded-full bg-warm-100 hover:bg-warm-200 text-ink-900 transition-colors z-20">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+    <div id="lightbox-svg-holder" class="flex items-center justify-center p-4">
+      <!-- Cloned SVG will be placed here -->
+    </div>
+  </div>
+</div>
+
+<!-- ============================== SCRIPTS ============================== -->
+<script>
+  // Mobile drawer interaction
+  const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+  const mobileMenuCloseBtn = document.getElementById('mobileMenuCloseBtn');
+  const mobileMenuDrawer = document.getElementById('mobileMenuDrawer');
+  const drawerContainer = mobileMenuDrawer.querySelector('div');
+
+  mobileMenuBtn.addEventListener('click', () => {
+    mobileMenuDrawer.classList.remove('hidden');
+    setTimeout(() => {
+      mobileMenuDrawer.classList.add('opacity-100');
+      drawerContainer.classList.remove('translate-x-full');
+    }, 10);
+  });
+
+  function closeDrawer() {
+    mobileMenuDrawer.classList.remove('opacity-100');
+    drawerContainer.classList.add('translate-x-full');
+    setTimeout(() => {
+      mobileMenuDrawer.classList.add('hidden');
+    }, 300);
+  }
+
+  mobileMenuCloseBtn.addEventListener('click', closeDrawer);
+  mobileMenuDrawer.addEventListener('click', closeDrawer);
+
+  document.querySelectorAll('.mob-nav-link').forEach(link => {
+    link.addEventListener('click', closeDrawer);
+  });
+
+  // Lightbox Zoom Logic for SVGs
+  const lightbox = document.getElementById('lightbox');
+  const lightboxHolder = document.getElementById('lightbox-svg-holder');
+
+  window.openLightbox = function(container) {
+    const svg = container.querySelector('svg');
+    if (!svg) return;
+    
+    // Clear previous SVG
+    lightboxHolder.innerHTML = '';
+    
+    // Clone and configure for Lightbox view
+    const clonedSvg = svg.cloneNode(true);
+    clonedSvg.removeAttribute('class');
+    clonedSvg.setAttribute('width', '100%');
+    clonedSvg.setAttribute('height', '100%');
+    clonedSvg.style.maxWidth = '90vw';
+    clonedSvg.style.maxHeight = '80vh';
+    
+    lightboxHolder.appendChild(clonedSvg);
+    lightbox.classList.add('active');
+  };
+
+  window.closeLightbox = function() {
+    lightbox.classList.remove('active');
+  };
+
+  // Nav link active class toggle on scroll
+  const sections = document.querySelectorAll('section');
+  const navLinks = document.querySelectorAll('.nav-link');
+
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(section => {
+      const sectionTop = section.offsetTop;
+      if (scrollY >= sectionTop - 100) {
+        current = section.getAttribute('id');
+      }
+    });
+
+    navLinks.forEach(link => {
+      link.classList.remove('active');
+      if (link.getAttribute('href').slice(1) === current) {
+        link.classList.add('active');
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
+"""
+    
+    with io.open(target_file, "w", encoding="utf-8") as f:
+        f.write(html_content)
+        
+    print("New strategy.html successfully generated and written.")
+
+if __name__ == "__main__":
+    main()

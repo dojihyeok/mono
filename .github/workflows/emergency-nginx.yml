@@ -1,0 +1,55 @@
+name: 🚨 Emergency Nginx Repair
+
+on:
+  workflow_dispatch:
+    inputs:
+      reason:
+        description: 'Reason for emergency repair'
+        required: false
+        default: 'SSL cert mismatch fix'
+
+jobs:
+  repair-nginx:
+    runs-on: self-hosted
+    steps:
+      - name: 🔧 Pull latest config
+        run: |
+          cd /root/mono
+          git fetch origin main
+          git checkout origin/main -- unified_services_final_new
+          echo "✔ Latest nginx config pulled"
+
+      - name: 🌐 Apply correct nginx config
+        run: |
+          NGINX_CONF="/root/mono/unified_services_final_new"
+          
+          # Replace __OLD_MONO_CERT__ placeholder with actual cert path
+          if [ -d "/etc/letsencrypt/live/oldmono.dojiung.com" ]; then
+            echo "Using dedicated old.mono cert"
+            sed 's|__OLD_MONO_CERT__|oldmono.dojiung.com|g' "$NGINX_CONF" > /tmp/nginx_final
+          else
+            echo "Fallback: using mono.dojiung.com cert for old.mono block"
+            sed 's|__OLD_MONO_CERT__|mono.dojiung.com|g' "$NGINX_CONF" > /tmp/nginx_final
+          fi
+          
+          # Verify mono.dojiung.com cert line is correct (sanity check)
+          echo "=== Cert lines in generated config ==="
+          grep "ssl_certificate " /tmp/nginx_final
+          
+          # Remove conflicting default
+          sudo rm -f /etc/nginx/sites-enabled/default
+          
+          # Apply config
+          sudo cp /tmp/nginx_final /etc/nginx/sites-available/unified_services_final
+          sudo ln -sf /etc/nginx/sites-available/unified_services_final /etc/nginx/sites-enabled/unified_services_final
+          
+          # Test & restart
+          sudo nginx -t
+          sudo systemctl restart nginx
+          echo "✔ Nginx restarted successfully"
+
+      - name: ✅ Verify mono.dojiung.com SSL
+        run: |
+          sleep 3
+          curl -vI https://mono.dojiung.com/strategy 2>&1 | grep -E "SSL|certificate|subject|HTTP/"
+          echo "=== Done ==="

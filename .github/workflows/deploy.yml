@@ -158,13 +158,13 @@ jobs:
       - name: 🔐 Issue SSL cert + Update Nginx (main branch only)
         if: github.ref_name == 'main'
         run: |
-          # 1. certbot으로 old.mono.dojiung.com 인증서 발급 시도 (비한정)
-          if [ ! -d "/etc/letsencrypt/live/old.mono.dojiung.com" ]; then
+          # 1. certbot으로 oldmono.dojiung.com 인증서 발급 시도 (비한정)
+          if [ ! -d "/etc/letsencrypt/live/oldmono.dojiung.com" ]; then
             echo "old.mono SSL 인증서 발급 시도..."
             sudo systemctl stop nginx || sudo service nginx stop || true
             sleep 2
             sudo certbot certonly --standalone \
-              -d old.mono.dojiung.com \
+              -d oldmono.dojiung.com \
               --non-interactive --agree-tos --email admin@dojiung.com && \
               echo "OLD_MONO_CERT_ISSUED=true" > /tmp/cert_status || \
               echo "OLD_MONO_CERT_ISSUED=false" > /tmp/cert_status
@@ -179,9 +179,9 @@ jobs:
           echo "=== Updating Nginx config ==="
           if [ -f "/root/mono/unified_services_final_new" ]; then
             NGINX_CONF="/root/mono/unified_services_final_new"
-            if [ -d "/etc/letsencrypt/live/old.mono.dojiung.com" ]; then
+            if [ -d "/etc/letsencrypt/live/oldmono.dojiung.com" ]; then
               echo "✔ old.mono 전용 SSL 인증서 사용"
-              sed 's|__OLD_MONO_CERT__|old.mono.dojiung.com|g' \
+              sed 's|__OLD_MONO_CERT__|oldmono.dojiung.com|g' \
                 "$NGINX_CONF" > /tmp/nginx_final
             else
               echo "⚠ old.mono 인증서 없음 — mono.dojiung.com 인증서로 fallback"
