@@ -181,13 +181,11 @@ jobs:
             NGINX_CONF="/root/mono/unified_services_final_new"
             if [ -d "/etc/letsencrypt/live/old.mono.dojiung.com" ]; then
               echo "✔ old.mono 전용 SSL 인증서 사용"
-              # 인증서 경로를 old.mono.dojiung.com으로 교체
-              sed 's|live/mono.dojiung.com/|live/old.mono.dojiung.com/|g' \
+              sed 's|__OLD_MONO_CERT__|old.mono.dojiung.com|g' \
                 "$NGINX_CONF" > /tmp/nginx_final
             else
               echo "⚠ old.mono 인증서 없음 — mono.dojiung.com 인증서로 fallback"
-              # unified_services_final_new는 old.mono 인증서를 잠시 mono로 대체
-              sed 's|live/old.mono.dojiung.com/|live/mono.dojiung.com/|g' \
+              sed 's|__OLD_MONO_CERT__|mono.dojiung.com|g' \
                 "$NGINX_CONF" > /tmp/nginx_final
             fi
             

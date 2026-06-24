@@ -278,10 +278,12 @@ server {
     listen 443 ssl;
     server_name old.mono.dojiung.com;
 
-    # old.mono 전용 인증서가 발급되면 deploy.yml이 자동으로 경로를 교체함
-    # 발급 전까지는 mono.dojiung.com 인증서로 fallback (ERR_CERT_COMMON_NAME_INVALID 허용)
-    ssl_certificate /etc/letsencrypt/live/mono.dojiung.com/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/mono.dojiung.com/privkey.pem;
+    # __OLD_MONO_CERT__ 은 deploy.yml이 배포 시 실제 경로로 치환함
+    # 전용 cert 있으면 old.mono.dojiung.com, 없으면 mono.dojiung.com fallback
+    ssl_certificate /etc/letsencrypt/live/__OLD_MONO_CERT__/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/__OLD_MONO_CERT__/privkey.pem;
+    include /etc/letsencrypt/options-ssl-nginx.conf;
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
 
     location / {
         proxy_pass http://127.0.0.1:3007;
