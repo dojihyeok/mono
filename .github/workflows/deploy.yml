@@ -140,9 +140,10 @@ jobs:
             git checkout $OLD_COMMIT 2>/dev/null || git checkout origin/main
             echo "✔ Checked out: $(git rev-parse --short HEAD)"
             
-            if [ ! -d "/root/mono-old/web/.next" ]; then
-              echo "Building old MONO frontend..."
+            if [ ! -d "/root/mono-old/web/node_modules" ] || [ ! -d "/root/mono-old/web/.next" ]; then
+              echo "Building/rebuilding old MONO frontend..."
               cd /root/mono-old/web
+              rm -rf .next node_modules
               npm ci --prefer-offline || npm ci
               DATABASE_URL="postgresql://mono:mono_dev_pw@localhost:5433/mono?schema=public" npm run build
               cd /root/mono-old
