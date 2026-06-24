@@ -140,17 +140,20 @@ jobs:
             git checkout $OLD_COMMIT 2>/dev/null || git checkout origin/main
             echo "✔ Checked out: $(git rev-parse --short HEAD)"
             
-            if [ ! -d "/root/mono-old/web/node_modules" ] || [ ! -d "/root/mono-old/web/.next" ]; then
-              echo "Building/rebuilding old MONO frontend..."
-              cd /root/mono-old/web
-              rm -rf .next node_modules
-              npm ci --prefer-offline || npm ci
-              npx prisma generate || true
-              DATABASE_URL="postgresql://mono:mono_dev_pw@localhost:5433/mono?schema=public" npm run build
-              cd /root/mono-old
+            if [ -d "/root/mono-old/web" ]; then
+              WEB_DIR="/root/mono-old/web"
+            else
+              WEB_DIR="/root/mono-old"
             fi
             
-            DATABASE_URL="postgresql://mono:mono_dev_pw@localhost:5433/mono?schema=public" API_URL="http://localhost:8001" PORT=3007 pm2 start /root/mono-old/web/node_modules/next/dist/bin/next --name "mono-old-main" --cwd /root/mono-old/web -- start -p 3007
+            echo "Building/rebuilding old MONO frontend in $WEB_DIR..."
+            cd $WEB_DIR
+            rm -rf .next node_modules
+            npm ci --prefer-offline || npm ci
+            npx prisma generate || true
+            DATABASE_URL="postgresql://mono:mono_dev_pw@localhost:5433/mono?schema=public" npm run build
+            
+            DATABASE_URL="postgresql://mono:mono_dev_pw@localhost:5433/mono?schema=public" API_URL="http://localhost:8001" PORT=3007 pm2 start $WEB_DIR/node_modules/next/dist/bin/next --name "mono-old-main" --cwd $WEB_DIR -- start -p 3007
             echo "✔ mono-old-main started on port 3007"
           ) || echo "⚠ old.mono setup failed (non-fatal) — continuing deployment"
           
