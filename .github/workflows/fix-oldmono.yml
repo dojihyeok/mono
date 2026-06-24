@@ -1,0 +1,30 @@
+name: Fix oldmono
+
+on:
+  push:
+    branches:
+      - fix-oldmono
+
+jobs:
+  repair:
+    runs-on: self-hosted
+    steps:
+      - name: Force rebuild and start old.mono
+        run: |
+          pm2 delete mono-old-main || true
+          sudo fuser -k 3007/tcp || true
+          sleep 2
+          cd /root/mono-old
+          git fetch origin
+          git checkout 1da36bc || git checkout origin/main
+          cd /root/mono-old/web
+          rm -rf .next node_modules
+          npm ci
+          npx prisma generate || true
+          DATABASE_URL="postgresql://mono:mono_dev_pw@localhost:5433/mono?schema=public" npm run build
+          DATABASE_URL="postgresql://mono:mono_dev_pw@localhost:5433/mono?schema=public" API_URL="http://localhost:8001" PORT=3007 pm2 start node_modules/next/dist/bin/next --name "mono-old-main" --cwd /root/mono-old/web -- start -p 3007
+          pm2 save
+          sleep 5
+          pm2 logs mono-old-main --lines 50 --nostream > /tmp/pm2_oldmono_logs.txt || true
+          cat /tmp/pm2_oldmono_logs.txt
+          curl -f http://localhost:3007 || true
