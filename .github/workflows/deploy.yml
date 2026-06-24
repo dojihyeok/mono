@@ -206,6 +206,7 @@ jobs:
 
       # ============================== DIAGNOSTICS & HEALTH CHECK ==============================
       - name: 🔍 Diagnostics
+        if: always()
         run: |
           (
             echo "=== PM2 LIST ==="
@@ -216,6 +217,8 @@ jobs:
             cat /root/.pm2/logs/mono-old-main-error.log | tail -n 150 || true
             echo "=== NGINX ERROR LOG ==="
             sudo tail -n 50 /var/log/nginx/error.log || true
+            echo "=== BUILD LOG ==="
+            cat /root/mono/web/build_debug.log || true
             echo "=== PORT LISTENING ==="
             sudo ss -tulpn || true
           ) > diagnostics_log.txt
