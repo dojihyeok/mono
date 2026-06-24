@@ -103,7 +103,7 @@ jobs:
           echo "=== Frontend Next.js Build ===" >> build_debug.log
           npm run build >> build_debug.log 2>&1 || { cat build_debug.log; exit 7; }
 
-      - name: 🔄 Restart PM2 for new frontend (main branch only, Port 3004 Only)
+      - name: 🔄 Restart PM2 for new frontend (main branch only, Port 3004 + 3007)
         if: github.ref_name == 'main'
         run: |
           echo "=== Deleting all legacy PM2 instances ==="
@@ -125,9 +125,54 @@ jobs:
           sudo fuser -k 3007/tcp || true
           sleep 1
           
+          echo "=== Starting new MONO on port 3004 ==="
           API_URL="http://localhost:8001" pm2 start node_modules/next/dist/bin/next --name "mono" --cwd /root/mono/web -- start -p 3004
+          
+          echo "=== Setting up old.mono on port 3007 ==="
+          # B안: 구버전 git 커밋 체크아웃 → /root/mono-old 폴더에 기동
+          OLD_COMMIT="1da36bc"
+          if [ ! -d "/root/mono-old/.git" ]; then
+            echo "Cloning /root/mono into /root/mono-old..."
+            git clone /root/mono /root/mono-old
+          fi
+          cd /root/mono-old
+          git fetch origin
+          git checkout $OLD_COMMIT
+          echo "✔ Checked out old commit: $OLD_COMMIT"
+          
+          # 의존성 설치 및 빌드 (아직 빌드가 없을 경우)
+          if [ ! -d "/root/mono-old/web/.next" ]; then
+            echo "Building old MONO frontend..."
+            cd /root/mono-old/web
+            npm ci
+            DATABASE_URL="postgresql://mono:mono_dev_pw@localhost:5433/mono?schema=public" npm run build || true
+            cd /root/mono-old
+          fi
+          
+          # PM2 기동
+          API_URL="http://localhost:8001" pm2 start /root/mono-old/web/node_modules/next/dist/bin/next --name "mono-old-main" --cwd /root/mono-old/web -- start -p 3007
+          
           pm2 save
           pm2 list
+
+      - name: 🔐 Issue SSL cert for old.mono.dojiung.com (main branch only)
+        if: github.ref_name == 'main'
+        run: |
+          if [ ! -d "/etc/letsencrypt/live/old.mono.dojiung.com" ]; then
+            echo "old.mono.dojiung.com SSL 인증서가 없습니다. 발급을 시작합니다..."
+            # nginx를 잠깐 중단하고 standalone 모드로 certbot 실행
+            sudo systemctl stop nginx || sudo service nginx stop || true
+            sleep 2
+            sudo certbot certonly --standalone \
+              -d old.mono.dojiung.com \
+              --non-interactive \
+              --agree-tos \
+              --email admin@dojiung.com
+            sudo systemctl start nginx || sudo service nginx start || true
+            echo "✔ old.mono.dojiung.com SSL 인증서 발급 완료"
+          else
+            echo "old.mono.dojiung.com SSL 인증서가 이미 존재합니다. 스킵합니다."
+          fi
 
       - name: 🌐 Update Nginx configuration and reload (main branch only)
         if: github.ref_name == 'main'
@@ -180,7 +225,8 @@ jobs:
             curl -f http://localhost:3004/strategy || (echo "Strategy page health check failed!" && exit 1)
             curl -f http://localhost:3007 || (echo "Old main page health check failed!" && exit 1)
           else
-            echo "Checking port 3004 (new mono) and port 8001 (api)..."
+            echo "Checking port 3004 (new mono), port 3007 (old.mono), and port 8001 (api)..."
             curl -f http://localhost:3004/strategy || (echo "Mono strategy page health check failed!" && exit 1)
+            curl -f http://localhost:3007 || (echo "Old mono page health check failed!" && exit 1)
             curl -f http://localhost:8001/health || (echo "NestJS API health check failed!" && exit 1)
           fi

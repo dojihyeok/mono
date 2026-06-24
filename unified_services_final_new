@@ -278,9 +278,10 @@ server {
     listen 443 ssl;
     server_name old.mono.dojiung.com;
 
-    # Temporarily reuse mono.dojiung.com SSL certificate to pass Nginx syntactical checks
-    ssl_certificate /etc/letsencrypt/live/mono.dojiung.com/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/mono.dojiung.com/privkey.pem;
+    ssl_certificate /etc/letsencrypt/live/old.mono.dojiung.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/old.mono.dojiung.com/privkey.pem;
+    include /etc/letsencrypt/options-ssl-nginx.conf;
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
 
     location / {
         proxy_pass http://127.0.0.1:3007;
