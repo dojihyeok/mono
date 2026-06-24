@@ -235,7 +235,7 @@ jobs:
           git config --global user.email "runner@dojiung.com"
           git add diagnostics_log.txt
           git commit -m "chore: update diagnostics_log.txt [skip ci]" || true
-          git push origin main || true
+          git push origin main || true || true
 
       - name: ✅ Health Check
         run: |
