@@ -4,7 +4,7 @@ import QuickNearbyJobs from '@/components/QuickNearbyJobs/QuickNearbyJobs';
 import Features from '@/components/Features/Features';
 import Footer from '@/components/Footer/Footer';
 
-import Process from '@/components/Process/Process';
+import Moments from '@/components/Moments/Moments';
 
 export default function Home() {
   return (
@@ -13,7 +13,7 @@ export default function Home() {
       <Hero />
       <QuickNearbyJobs />
       <Features />
-      <Process />
+      <Moments />
       <Footer />
     </div>
   );
