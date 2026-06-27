@@ -2931,18 +2931,13 @@
     // Create image wrapper
     const imgEl = document.createElement('img');
     imgEl.src = imgSrc;
-    imgEl.className = 'object-contain';
-    imgEl.style.width = '1400px';
-    imgEl.style.height = 'auto';
-    imgEl.style.maxWidth = '95vw';
-    imgEl.style.maxHeight = '85vh';
+    imgEl.className = 'block mx-auto';
+    imgEl.style.width = '100%';
+    imgEl.style.minWidth = '1200px';
     
     const wrapper = document.createElement('div');
     wrapper.style.overflow = 'auto';
-    wrapper.style.maxWidth = '95vw';
-    wrapper.style.maxHeight = '88vh';
-    wrapper.style.webkitOverflowScrolling = 'touch';
-    wrapper.className = 'flex justify-center w-full';
+    wrapper.className = 'w-full';
     wrapper.appendChild(imgEl);
     lightboxHolder.appendChild(wrapper);
     
