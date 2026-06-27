@@ -2915,7 +2915,10 @@
       <button onclick="document.getElementById('tech-blue-modal').close()" class="absolute top-4 right-4 w-10 h-10 flex items-center justify-center rounded-full bg-warm-100 hover:bg-warm-200 text-ink-900 transition-colors z-10"><i class="fa-solid fa-xmark"></i></button>
       <div class="p-8 max-h-[85vh] overflow-y-auto space-y-4">
         <h3 class="text-xl font-bold text-ink-900">Tech-Blue 상세 프로필</h3>
-        <img src="/images/tech_blue_worker.png" class="w-full h-auto max-h-60 object-contain my-3" />
+        <div class="zoomable-svg-container cursor-zoom-in relative" onclick="openLightbox(this)">
+          <img src="/images/tech_blue_worker.png" class="w-full h-auto max-h-[50vh] object-contain my-3" />
+          <span class="absolute bottom-2 right-2 text-[10px] text-indigo-600 bg-indigo-50 px-1.5 py-0.5 rounded font-bold"><i class="fa-solid fa-magnifying-glass-plus"></i> 클릭하여 확대보기</span>
+        </div>
         <p class="text-sm text-ink-700 text-left">경력과 안전 등급을 데이터화하여 신뢰 이력을 투명하게 증명하는 미래 지향적 기술자 모델입니다.</p>
       </div>
     </div>
@@ -2928,7 +2931,10 @@
       <button onclick="document.getElementById('agi-core-os-modal').close()" class="absolute top-4 right-4 w-10 h-10 flex items-center justify-center rounded-full bg-warm-100 hover:bg-warm-200 text-ink-900 transition-colors z-10"><i class="fa-solid fa-xmark"></i></button>
       <div class="p-8 max-h-[85vh] overflow-y-auto space-y-4">
         <h3 class="text-xl font-bold text-ink-900">AGI Core OS 구조도</h3>
-        <img src="/images/agi_core_os_structure.jpg" class="w-full h-auto max-h-60 object-contain my-3" />
+        <div class="zoomable-svg-container cursor-zoom-in relative" onclick="openLightbox(this)">
+          <img src="/images/agi_core_os_structure.jpg" class="w-full h-auto max-h-[50vh] object-contain my-3" />
+          <span class="absolute bottom-2 right-2 text-[10px] text-indigo-600 bg-indigo-50 px-1.5 py-0.5 rounded font-bold"><i class="fa-solid fa-magnifying-glass-plus"></i> 클릭하여 확대보기</span>
+        </div>
         <p class="text-sm text-ink-700 text-left">현장 데이터를 바탕으로 AI가 최적의 인력, 장비, 안전 관리를 연산 추천해 주는 의사결정 보조 시스템입니다.</p>
       </div>
     </div>
@@ -2941,7 +2947,10 @@
       <button onclick="document.getElementById('mono-device-modal').close()" class="absolute top-4 right-4 w-10 h-10 flex items-center justify-center rounded-full bg-warm-100 hover:bg-warm-200 text-ink-900 transition-colors z-10"><i class="fa-solid fa-xmark"></i></button>
       <div class="p-8 max-h-[85vh] overflow-y-auto space-y-4">
         <h3 class="text-xl font-bold text-ink-900">MONO Device 확장형 하드웨어</h3>
-        <img src="/images/mono_device_field.png" class="w-full h-auto max-h-60 object-contain my-3" />
+        <div class="zoomable-svg-container cursor-zoom-in relative" onclick="openLightbox(this)">
+          <img src="/images/mono_device_field.png" class="w-full h-auto max-h-[50vh] object-contain my-3" />
+          <span class="absolute bottom-2 right-2 text-[10px] text-indigo-600 bg-indigo-50 px-1.5 py-0.5 rounded font-bold"><i class="fa-solid fa-magnifying-glass-plus"></i> 클릭하여 확대보기</span>
+        </div>
         <p class="text-sm text-ink-700 text-left">스마트 보호구, 웨어러블 태그 등을 연계하여 실시간으로 현장의 무산재 활동 지표와 자재 위치 데이터를 수집합니다.</p>
       </div>
     </div>
@@ -3022,19 +3031,12 @@
     } else if (img) {
       const clonedImg = img.cloneNode(true);
       clonedImg.removeAttribute('class');
-      clonedImg.style.width = 'auto';
-      clonedImg.style.height = 'auto';
-      clonedImg.style.objectFit = 'contain';
       
-      const isMobile = window.innerWidth < 768;
-      if (isMobile) {
-        clonedImg.style.minWidth = '1000px';
-        clonedImg.style.maxWidth = 'none';
-        clonedImg.style.maxHeight = 'none';
-      } else {
-        clonedImg.style.maxWidth = '90vw';
-        clonedImg.style.maxHeight = '80vh';
-      }
+      // Make it actually enlarged (1100px width for details)
+      clonedImg.style.width = '1100px';
+      clonedImg.style.height = 'auto';
+      clonedImg.style.maxWidth = 'none';
+      clonedImg.style.maxHeight = 'none';
       
       const wrapper = document.createElement('div');
       wrapper.style.overflow = 'auto';

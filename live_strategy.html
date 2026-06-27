@@ -2507,19 +2507,12 @@
     } else if (img) {
       const clonedImg = img.cloneNode(true);
       clonedImg.removeAttribute('class');
-      clonedImg.style.width = 'auto';
-      clonedImg.style.height = 'auto';
-      clonedImg.style.objectFit = 'contain';
       
-      const isMobile = window.innerWidth < 768;
-      if (isMobile) {
-        clonedImg.style.minWidth = '1000px';
-        clonedImg.style.maxWidth = 'none';
-        clonedImg.style.maxHeight = 'none';
-      } else {
-        clonedImg.style.maxWidth = '90vw';
-        clonedImg.style.maxHeight = '80vh';
-      }
+      // Make it actually enlarged (1100px width for details)
+      clonedImg.style.width = '1100px';
+      clonedImg.style.height = 'auto';
+      clonedImg.style.maxWidth = 'none';
+      clonedImg.style.maxHeight = 'none';
       
       const wrapper = document.createElement('div');
       wrapper.style.overflow = 'auto';
