@@ -215,6 +215,7 @@ jobs:
       # ============================== DIAGNOSTICS & HEALTH CHECK ==============================
       - name: 🔍 Diagnostics
         if: always()
+        continue-on-error: true
         run: |
           (
             echo "=== PM2 LIST ==="
