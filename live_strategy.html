@@ -1154,10 +1154,9 @@
 
         <!-- Right diagram -->
         <div class="lg:col-span-6 space-y-6">
-          <div class="visual-block full bg-white border border-ink-900/10 p-4 rounded-xl shadow-neo-soft zoomable-svg-container cursor-pointer" onclick="openLightbox(this)">
+          <div class="visual-block full bg-white border border-ink-900/10 p-4 rounded-xl shadow-neo-soft">
             <div class="text-center pb-2 border-b border-ink-900/5 mb-3 flex items-center justify-between">
               <span class="text-[11px] font-mono font-bold text-ink-500 uppercase tracking-widest"><i class="fa-solid fa-map-location-dot text-indigo-600"></i> 우승 이후 전략 투자 맵</span>
-              <span class="text-[10px] text-indigo-600 bg-indigo-50 px-1.5 py-0.5 rounded font-bold"><i class="fa-solid fa-magnifying-glass-plus"></i> 확대보기</span>
             </div>
             <div class="w-full flex items-center justify-center bg-warm-50/50 p-2 rounded-lg">
               <svg viewBox="0 0 500 380" class="w-full h-auto object-contain" xmlns="http://www.w3.org/2000/svg">
@@ -1375,10 +1374,9 @@
 
       <!-- Right diagram -->
       <div class="lg:col-span-5">
-        <div class="visual-block full bg-white border border-ink-900/10 p-4 rounded-xl shadow-neo-soft zoomable-svg-container cursor-pointer" onclick="openLightbox(this)">
+        <div class="visual-block full bg-white border border-ink-900/10 p-4 rounded-xl shadow-neo-soft">
           <div class="text-center pb-2 border-b border-ink-900/5 mb-3 flex items-center justify-between">
             <span class="text-[11px] font-mono font-bold text-ink-500 uppercase tracking-widest"><i class="fa-solid fa-toolbox text-indigo-600"></i> MONO Field Operations 구조도</span>
-            <span class="text-[10px] text-indigo-600 bg-indigo-50 px-1.5 py-0.5 rounded font-bold"><i class="fa-solid fa-magnifying-glass-plus"></i> 확대보기</span>
           </div>
           <div class="w-full flex items-center justify-center bg-warm-50/50 p-2 rounded-lg">
             <svg viewBox="0 0 500 350" class="w-full h-auto object-contain" xmlns="http://www.w3.org/2000/svg">
@@ -1566,10 +1564,9 @@
 
     <div class="grid md:grid-cols-2 gap-6 max-w-6xl mx-auto">
       <!-- Left: MONO 수익 구조 인포그래픽 -->
-      <div class="visual-block full bg-white border border-ink-900/10 p-4 rounded-xl shadow-neo-soft zoomable-svg-container cursor-pointer" onclick="openLightbox(this)">
+      <div class="visual-block full bg-white border border-ink-900/10 p-4 rounded-xl shadow-neo-soft">
         <div class="text-center pb-2 border-b border-ink-900/5 mb-3 flex items-center justify-between">
           <span class="text-[11px] font-mono font-bold text-ink-500 uppercase tracking-widest"><i class="fa-solid fa-coins text-indigo-600"></i> MONO 수익 구조 인포그래픽</span>
-          <span class="text-[10px] text-indigo-600 bg-indigo-50 px-1.5 py-0.5 rounded font-bold"><i class="fa-solid fa-magnifying-glass-plus"></i> 확대보기</span>
         </div>
         <div class="w-full flex items-center justify-center bg-warm-50/50 p-2 rounded-lg">
           <svg viewBox="0 0 500 350" class="w-full h-auto object-contain" xmlns="http://www.w3.org/2000/svg">
@@ -1652,10 +1649,9 @@
       </div>
 
       <!-- Right: MONO Field Operations BM 인포그래픽 -->
-      <div class="visual-block full bg-white border border-ink-900/10 p-4 rounded-xl shadow-neo-soft zoomable-svg-container cursor-pointer" onclick="openLightbox(this)">
+      <div class="visual-block full bg-white border border-ink-900/10 p-4 rounded-xl shadow-neo-soft">
         <div class="text-center pb-2 border-b border-ink-900/5 mb-3 flex items-center justify-between">
           <span class="text-[11px] font-mono font-bold text-ink-500 uppercase tracking-widest"><i class="fa-solid fa-screwdriver-wrench text-indigo-600"></i> Field Operations BM</span>
-          <span class="text-[10px] text-indigo-600 bg-indigo-50 px-1.5 py-0.5 rounded font-bold"><i class="fa-solid fa-magnifying-glass-plus"></i> 확대보기</span>
         </div>
         <div class="w-full flex items-center justify-center bg-warm-50/50 p-2 rounded-lg">
           <svg viewBox="0 0 500 350" class="w-full h-auto object-contain" xmlns="http://www.w3.org/2000/svg">
@@ -2482,11 +2478,20 @@
     if (svg) {
       const clonedSvg = svg.cloneNode(true);
       clonedSvg.removeAttribute('class');
-      clonedSvg.setAttribute('width', '100%');
-      clonedSvg.setAttribute('height', '100%');
-      clonedSvg.style.maxWidth = '90vw';
-      clonedSvg.style.maxHeight = '80vh';
-      lightboxHolder.appendChild(clonedSvg);
+      
+      // Make it actually enlarged (1300px width for details)
+      clonedSvg.style.width = '1300px';
+      clonedSvg.style.height = 'auto';
+      clonedSvg.style.maxWidth = 'none';
+      clonedSvg.style.maxHeight = 'none';
+      
+      const wrapper = document.createElement('div');
+      wrapper.style.overflow = 'auto';
+      wrapper.style.maxWidth = '90vw';
+      wrapper.style.maxHeight = '80vh';
+      wrapper.style.webkitOverflowScrolling = 'touch';
+      wrapper.appendChild(clonedSvg);
+      lightboxHolder.appendChild(wrapper);
     } else if (img) {
       const clonedImg = img.cloneNode(true);
       clonedImg.removeAttribute('class');
