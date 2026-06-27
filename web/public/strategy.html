@@ -2958,16 +2958,18 @@
 </dialog>
 
 <!-- ============================== LIGHTBOX ============================== -->
-<div id="lightbox" onclick="closeLightbox()">
-  <div id="lightbox-content" onclick="event.stopPropagation()">
-    <button onclick="closeLightbox()" class="absolute top-2 right-2 w-8 h-8 flex items-center justify-center rounded-full bg-warm-100 hover:bg-warm-200 text-ink-900 transition-colors z-20">
-      <i class="fa-solid fa-xmark"></i>
-    </button>
-    <div id="lightbox-svg-holder" class="flex items-center justify-center p-4">
-      <!-- Cloned SVG will be placed here -->
+<dialog id="lightbox" class="bg-transparent w-full h-full p-0 m-0 fixed inset-0 z-[1000] backdrop:bg-ink-900/80 border-none outline-none">
+  <div class="fixed inset-0 bg-ink-900/85 backdrop-blur-md flex items-center justify-center p-8" onclick="closeLightbox()">
+    <div id="lightbox-content" class="bg-[#FCFCFE] rounded-lg p-6 shadow-2xl relative overflow-auto max-w-[95vw] max-h-[90vh]" onclick="event.stopPropagation()">
+      <button onclick="closeLightbox()" class="absolute top-4 right-4 w-10 h-10 flex items-center justify-center rounded-full bg-warm-100 hover:bg-warm-200 text-ink-900 transition-colors z-20">
+        <i class="fa-solid fa-xmark text-lg"></i>
+      </button>
+      <div id="lightbox-svg-holder" class="flex items-center justify-center p-4">
+        <!-- Cloned SVG will be placed here -->
+      </div>
     </div>
   </div>
-</div>
+</dialog>
 
 <!-- ============================== SCRIPTS ============================== -->
 <script>
@@ -3049,11 +3051,19 @@
       return;
     }
     
-    lightbox.classList.add('active');
+    if (typeof lightbox.showModal === 'function') {
+      lightbox.showModal();
+    } else {
+      lightbox.classList.add('active');
+    }
   };
 
   window.closeLightbox = function() {
-    lightbox.classList.remove('active');
+    if (typeof lightbox.close === 'function') {
+      lightbox.close();
+    } else {
+      lightbox.classList.remove('active');
+    }
   };
 
   // Nav link active class toggle on scroll
