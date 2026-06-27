@@ -395,30 +395,6 @@
 
   .zoomable-svg-container:hover { transform: scale(1.008); }
 
-  #lightbox {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background-color: rgba(10, 15, 26, 0.85);
-    backdrop-filter: blur(8px);
-    z-index: 1000;
-    justify-content: center;
-    align-items: center;
-    padding: 2rem;
-  }
-  #lightbox.active { display: flex; }
-  #lightbox-content {
-    max-width: 95vw;
-    max-height: 85vh;
-    width: auto;
-    height: auto;
-    background: #FCFCFE;
-    border-radius: 8px;
-    padding: 1.5rem;
-    box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
-    position: relative;
-    overflow: auto;
-  }
 
   /* Scrollbar */
   ::-webkit-scrollbar { width: 8px; height: 8px; }
@@ -2907,7 +2883,7 @@
       <button onclick="closeLightbox()" class="absolute top-4 right-4 w-10 h-10 flex items-center justify-center rounded-full bg-warm-100 hover:bg-warm-200 text-ink-900 transition-colors z-20">
         <i class="fa-solid fa-xmark text-lg"></i>
       </button>
-      <div id="lightbox-svg-holder" class="flex items-center justify-center p-4">
+      <div id="lightbox-svg-holder" class="flex flex-col items-center justify-center p-4">
         <!-- Cloned SVG will be placed here -->
       </div>
     </div>
