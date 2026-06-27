@@ -159,7 +159,7 @@ export default function Moments() {
             <span className={styles.accent}>MONO</span>가 함께합니다
           </p>
           <p className={styles.subText}>
-            MONO는 기술자를 단순한 현장 인력이 아니라, 자신의 손으로 삶의 가능성을 넓혀가는 기술 장인으로 봅니다.
+            MONO는 기술자를 산업을 지탱하는 숙련 기술 자산으로 바라봅니다.
             <br className={styles.br} />
             도배, 전기, 조명 교체처럼 일상과 현장에서 꼭 필요한 기술부터 대형 화물, 포크레인, 조선, 플랜트, 우주 산업까지
             기술자의 경험은 MONO 안에서 이력과 신뢰 데이터가 됩니다.
