@@ -705,10 +705,9 @@
     </div>
 
     <!-- MONO 사업 구조 인포그래픽 -->
-    <div class="visual-block full bg-white border border-ink-900/10 p-5 rounded-xl shadow-neo-soft zoomable-svg-container cursor-pointer" onclick="openLightbox(this)">
+    <div class="visual-block full bg-white border border-ink-900/10 p-5 rounded-xl shadow-neo-soft">
       <div class="text-center pb-2 border-b border-ink-900/5 mb-4 flex items-center justify-between">
         <span class="text-[11px] font-mono font-bold text-ink-500 uppercase tracking-widest"><i class="fa-solid fa-sitemap text-indigo-600"></i> MONO 사업 구조 인포그래픽 (Platform Ecosystem)</span>
-        <span class="text-[10px] text-indigo-600 bg-indigo-50 px-1.5 py-0.5 rounded font-bold"><i class="fa-solid fa-magnifying-glass-plus"></i> 클릭하여 확대보기</span>
       </div>
       <div class="w-full bg-warm-50/50 p-4 rounded-lg">
         <svg viewBox="0 0 800 420" class="w-full h-auto block" xmlns="http://www.w3.org/2000/svg">
@@ -857,10 +856,9 @@
       </div>
 
       <!-- Right Column: 도식 배치 (대기업 상생 협업 구조도) -->
-      <div class="visual-block full partner-diagram-card bg-white border border-ink-900/10 rounded-xl shadow-neo-soft p-5 zoomable-svg-container cursor-pointer mt-0" onclick="openLightbox(this)">
+      <div class="visual-block full partner-diagram-card bg-white border border-ink-900/10 rounded-xl shadow-neo-soft p-5 mt-0">
         <div class="text-center pb-2 border-b border-ink-900/5 mb-4 flex items-center justify-between">
           <span class="text-[11px] font-mono font-bold text-ink-500 uppercase tracking-widest"><i class="fa-solid fa-network-wired text-indigo-600"></i> 대기업 상생 협업 구조도</span>
-          <span class="text-[10px] text-indigo-600 bg-indigo-50 px-1.5 py-0.5 rounded font-bold"><i class="fa-solid fa-magnifying-glass-plus"></i> 클릭하여 확대보기</span>
         </div>
         <div class="w-full bg-warm-50/50 rounded-lg overflow-hidden p-3 flex justify-center">
           <svg viewBox="0 0 600 380" class="w-full max-w-[560px] h-auto object-contain" xmlns="http://www.w3.org/2000/svg">
@@ -1501,10 +1499,9 @@
     </div>
 
     <!-- 5단계 성장 로드맵 인포그래픽 -->
-    <div class="visual-block full mt-8 bg-white border border-ink-900/10 p-5 rounded-xl shadow-neo-soft mb-12 zoomable-svg-container cursor-pointer" onclick="openLightbox(this)">
+    <div class="visual-block full mt-8 bg-white border border-ink-900/10 p-5 rounded-xl shadow-neo-soft mb-12">
       <div class="text-center pb-2 border-b border-ink-900/5 mb-4 flex items-center justify-between">
         <span class="text-[11px] font-mono font-bold text-ink-500 uppercase tracking-widest"><i class="fa-solid fa-route text-indigo-600"></i> MONO 5단계 성장 로드맵 (GTM Strategy)</span>
-        <span class="text-[10px] text-indigo-600 bg-indigo-50 px-1.5 py-0.5 rounded font-bold"><i class="fa-solid fa-magnifying-glass-plus"></i> 클릭하여 확대보기</span>
       </div>
       <div class="w-full bg-warm-50/50 p-4 rounded-lg">
         <svg viewBox="0 0 900 220" class="w-full h-auto block" xmlns="http://www.w3.org/2000/svg">
@@ -2359,7 +2356,7 @@
             현장 경험, 안전 이력, 장비 운용 능력, AI 활용 역량을 함께 갖춘 새로운 블루칼라 기술 장인입니다.
           </p>
         </div>
-        <button onclick="document.getElementById('tech-blue-modal').showModal()" class="w-full mt-4 py-2.5 bg-warm-50 hover:bg-indigo-600 text-ink-900 hover:text-white border border-ink-900/10 hover:border-indigo-600 font-bold text-xs rounded transition-colors text-center">
+        <button onclick="openBigModal('/images/tech_blue_worker.png', 'Tech-Blue 상세 프로필', '경력과 안전 등급을 데이터화하여 신뢰 이력을 투명하게 증명하는 미래 지향적 기술자 모델입니다.')" class="w-full mt-4 py-2.5 bg-warm-50 hover:bg-indigo-600 text-ink-900 hover:text-white border border-ink-900/10 hover:border-indigo-600 font-bold text-xs rounded transition-colors text-center">
           Tech-Blue 자세히 보기
         </button>
       </article>
@@ -2376,7 +2373,7 @@
             기술자 데이터, 장비 데이터, 안전 데이터, 수행 기업 요청 데이터를 기반으로 최적화된 매칭과 예측을 제공하는 보조 지능입니다.
           </p>
         </div>
-        <button onclick="document.getElementById('agi-core-os-modal').showModal()" class="w-full mt-4 py-2.5 bg-warm-50 hover:bg-indigo-600 text-ink-900 hover:text-white border border-ink-900/10 hover:border-indigo-600 font-bold text-xs rounded transition-colors text-center">
+        <button onclick="openBigModal('/images/agi_core_os_structure.jpg', 'AGI Core OS 구조도', '현장 데이터를 바탕으로 AI가 최적의 인력, 장비, 안전 관리를 연산 추천해 주는 의사결정 보조 시스템입니다.')" class="w-full mt-4 py-2.5 bg-warm-50 hover:bg-indigo-600 text-ink-900 hover:text-white border border-ink-900/10 hover:border-indigo-600 font-bold text-xs rounded transition-colors text-center">
           AGI Core OS 구조 보기
         </button>
       </article>
@@ -2393,17 +2390,16 @@
             작업자 웨어러블, 스마트 계측기, 안전 센서 및 장비 태그를 연동하여 가공되지 않은 현장 데이터를 실시간 수집합니다.
           </p>
         </div>
-        <button onclick="document.getElementById('mono-device-modal').showModal()" class="w-full mt-4 py-2.5 bg-warm-50 hover:bg-indigo-600 text-ink-900 hover:text-white border border-ink-900/10 hover:border-indigo-600 font-bold text-xs rounded transition-colors text-center">
+        <button onclick="openBigModal('/images/mono_device_field.png', 'MONO Device 확장형 하드웨어', '스마트 보호구, 웨어러블 태그 등을 연계하여 실시간으로 현장의 무산재 활동 지표와 자재 위치 데이터를 수집합니다.')" class="w-full mt-4 py-2.5 bg-warm-50 hover:bg-indigo-600 text-ink-900 hover:text-white border border-ink-900/10 hover:border-indigo-600 font-bold text-xs rounded transition-colors text-center">
           MONO Device 확장 보기
         </button>
       </article>
     </div>
 
     <!-- Tech-Blue · AI 운영체제 · AGI Core OS 확장 인포그래픽 -->
-    <div class="visual-block full bg-white border border-ink-900/10 p-4 rounded-xl shadow-neo-soft zoomable-svg-container max-w-3xl mx-auto cursor-pointer" onclick="openLightbox(this)">
+    <div class="visual-block full bg-white border border-ink-900/10 p-4 rounded-xl shadow-neo-soft max-w-3xl mx-auto">
       <div class="text-center pb-2 border-b border-ink-900/5 mb-3 flex items-center justify-between">
         <span class="text-[11px] font-mono font-bold text-ink-500 uppercase tracking-widest"><i class="fa-solid fa-arrows-spin text-indigo-600"></i> Next MONO 기술 확장 아키텍처</span>
-        <span class="text-[10px] text-indigo-600 bg-indigo-50 px-1.5 py-0.5 rounded font-bold"><i class="fa-solid fa-magnifying-glass-plus"></i> 확대보기</span>
       </div>
       <div class="w-full flex items-center justify-center bg-warm-50/50 p-2 rounded-lg">
         <svg viewBox="0 0 500 350" class="w-full h-auto object-contain" xmlns="http://www.w3.org/2000/svg">
@@ -2898,53 +2894,11 @@
   </div>
 </dialog>
 
-<dialog id="tech-blue-modal" class="bg-transparent w-full h-full p-0 m-0 fixed inset-0 z-50 backdrop:bg-ink-900/50">
-  <div class="fixed inset-0 bg-ink-900/50 flex items-center justify-center p-4 z-50 overflow-y-auto" onclick="document.getElementById('tech-blue-modal').close()">
-    <div class="bg-[#FCFCFE] rounded-xl shadow-2xl max-w-2xl w-full my-8 relative" onclick="event.stopPropagation()">
-      <button onclick="document.getElementById('tech-blue-modal').close()" class="absolute top-4 right-4 w-10 h-10 flex items-center justify-center rounded-full bg-warm-100 hover:bg-warm-200 text-ink-900 transition-colors z-10"><i class="fa-solid fa-xmark"></i></button>
-      <div class="p-8 max-h-[85vh] overflow-y-auto space-y-4">
-        <h3 class="text-xl font-bold text-ink-900">Tech-Blue 상세 프로필</h3>
-        <div class="zoomable-svg-container cursor-zoom-in relative" onclick="openLightbox(this)">
-          <img src="/images/tech_blue_worker.png" class="w-full h-auto max-h-[50vh] object-contain my-3" />
-          <span class="absolute bottom-2 right-2 text-[10px] text-indigo-600 bg-indigo-50 px-1.5 py-0.5 rounded font-bold"><i class="fa-solid fa-magnifying-glass-plus"></i> 클릭하여 확대보기</span>
-        </div>
-        <p class="text-sm text-ink-700 text-left">경력과 안전 등급을 데이터화하여 신뢰 이력을 투명하게 증명하는 미래 지향적 기술자 모델입니다.</p>
-      </div>
-    </div>
-  </div>
-</dialog>
+<!-- Removed dialog: tech-blue-modal -->
 
-<dialog id="agi-core-os-modal" class="bg-transparent w-full h-full p-0 m-0 fixed inset-0 z-50 backdrop:bg-ink-900/50">
-  <div class="fixed inset-0 bg-ink-900/50 flex items-center justify-center p-4 z-50 overflow-y-auto" onclick="document.getElementById('agi-core-os-modal').close()">
-    <div class="bg-[#FCFCFE] rounded-xl shadow-2xl max-w-2xl w-full my-8 relative" onclick="event.stopPropagation()">
-      <button onclick="document.getElementById('agi-core-os-modal').close()" class="absolute top-4 right-4 w-10 h-10 flex items-center justify-center rounded-full bg-warm-100 hover:bg-warm-200 text-ink-900 transition-colors z-10"><i class="fa-solid fa-xmark"></i></button>
-      <div class="p-8 max-h-[85vh] overflow-y-auto space-y-4">
-        <h3 class="text-xl font-bold text-ink-900">AGI Core OS 구조도</h3>
-        <div class="zoomable-svg-container cursor-zoom-in relative" onclick="openLightbox(this)">
-          <img src="/images/agi_core_os_structure.jpg" class="w-full h-auto max-h-[50vh] object-contain my-3" />
-          <span class="absolute bottom-2 right-2 text-[10px] text-indigo-600 bg-indigo-50 px-1.5 py-0.5 rounded font-bold"><i class="fa-solid fa-magnifying-glass-plus"></i> 클릭하여 확대보기</span>
-        </div>
-        <p class="text-sm text-ink-700 text-left">현장 데이터를 바탕으로 AI가 최적의 인력, 장비, 안전 관리를 연산 추천해 주는 의사결정 보조 시스템입니다.</p>
-      </div>
-    </div>
-  </div>
-</dialog>
+<!-- Removed dialog: agi-core-os-modal -->
 
-<dialog id="mono-device-modal" class="bg-transparent w-full h-full p-0 m-0 fixed inset-0 z-50 backdrop:bg-ink-900/50">
-  <div class="fixed inset-0 bg-ink-900/50 flex items-center justify-center p-4 z-50 overflow-y-auto" onclick="document.getElementById('mono-device-modal').close()">
-    <div class="bg-[#FCFCFE] rounded-xl shadow-2xl max-w-2xl w-full my-8 relative" onclick="event.stopPropagation()">
-      <button onclick="document.getElementById('mono-device-modal').close()" class="absolute top-4 right-4 w-10 h-10 flex items-center justify-center rounded-full bg-warm-100 hover:bg-warm-200 text-ink-900 transition-colors z-10"><i class="fa-solid fa-xmark"></i></button>
-      <div class="p-8 max-h-[85vh] overflow-y-auto space-y-4">
-        <h3 class="text-xl font-bold text-ink-900">MONO Device 확장형 하드웨어</h3>
-        <div class="zoomable-svg-container cursor-zoom-in relative" onclick="openLightbox(this)">
-          <img src="/images/mono_device_field.png" class="w-full h-auto max-h-[50vh] object-contain my-3" />
-          <span class="absolute bottom-2 right-2 text-[10px] text-indigo-600 bg-indigo-50 px-1.5 py-0.5 rounded font-bold"><i class="fa-solid fa-magnifying-glass-plus"></i> 클릭하여 확대보기</span>
-        </div>
-        <p class="text-sm text-ink-700 text-left">스마트 보호구, 웨어러블 태그 등을 연계하여 실시간으로 현장의 무산재 활동 지표와 자재 위치 데이터를 수집합니다.</p>
-      </div>
-    </div>
-  </div>
-</dialog>
+<!-- Removed dialog: mono-device-modal -->
 
 <!-- ============================== LIGHTBOX ============================== -->
 <dialog id="lightbox" class="bg-transparent w-full h-full p-0 m-0 fixed inset-0 z-[1000] backdrop:bg-ink-900/80 border-none outline-none">
@@ -2994,6 +2948,46 @@
   // Lightbox Zoom Logic for SVGs & Images
   const lightbox = document.getElementById('lightbox');
   const lightboxHolder = document.getElementById('lightbox-svg-holder');
+
+  window.openBigModal = function(imgSrc, title, description) {
+    lightboxHolder.innerHTML = '';
+    
+    // Create title
+    const titleEl = document.createElement('h3');
+    titleEl.className = 'text-xl font-bold text-ink-900 mb-4 text-center';
+    titleEl.textContent = title;
+    lightboxHolder.appendChild(titleEl);
+    
+    // Create image wrapper
+    const imgEl = document.createElement('img');
+    imgEl.src = imgSrc;
+    imgEl.className = 'my-3 object-contain';
+    imgEl.style.width = '1100px';
+    imgEl.style.height = 'auto';
+    imgEl.style.maxWidth = '90vw';
+    imgEl.style.maxHeight = '70vh';
+    
+    const wrapper = document.createElement('div');
+    wrapper.style.overflow = 'auto';
+    wrapper.style.maxWidth = '90vw';
+    wrapper.style.maxHeight = '75vh';
+    wrapper.style.webkitOverflowScrolling = 'touch';
+    wrapper.className = 'flex justify-center bg-warm-50/50 p-4 rounded-lg border border-ink-900/5';
+    wrapper.appendChild(imgEl);
+    lightboxHolder.appendChild(wrapper);
+    
+    // Create description
+    const descEl = document.createElement('p');
+    descEl.className = 'text-sm text-ink-700 mt-4 text-center max-w-2xl mx-auto';
+    descEl.textContent = description;
+    lightboxHolder.appendChild(descEl);
+    
+    if (typeof lightbox.showModal === 'function') {
+      lightbox.showModal();
+    } else {
+      lightbox.classList.add('active');
+    }
+  };
 
   window.openLightbox = function(container) {
     const svg = container.querySelector('svg');
