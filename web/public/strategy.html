@@ -48,297 +48,102 @@
   };
 </script>
 <style>
-  /* ============================================================
-     MONO Strategy Page — Global CSS
-     Last revised: 2026-06-23  (typography & layout overhaul)
-  ============================================================ */
-
   html {
-    scroll-behavior: smooth;
+    scroll-behavior: smooth !important;
     font-size: 16px;
     background-color: #FCFCFE;
   }
   body {
     font-family: 'Pretendard', 'Noto Sans KR', system-ui, sans-serif;
-    background-color: #FCFCFE;
-    color: #0A0F1A;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+    background-color: #FCFCFE; color: #0A0F1A;
+    -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
     letter-spacing: -0.01em;
-    overflow-x: hidden;
   }
-  section { scroll-margin-top: 80px; }
+  section {
+    scroll-margin-top: 80px;
+  }
+  h1,h2,h3,h4,p,li { word-break: keep-all; overflow-wrap: break-word; }
 
-  /* ── 1. 전역 줄바꿈 제어 ──────────────────────────────────── */
-  h1, h2, h3,
-  .strategy-title,
-  .section-title,
-  .card-title {
-    word-break: keep-all;
-    overflow-wrap: break-word;
-    line-height: 1.18;
-    letter-spacing: -0.035em;
-  }
-  p, li,
-  .strategy-body,
-  .section-description,
-  .card-description,
-  .lead-text,
-  .intro-copy {
-    word-break: keep-all;
-    overflow-wrap: break-word;
-    line-height: 1.72;
-  }
-  /* word-break: break-all 절대 사용 금지 */
-
-  /* ── 2. 컨테이너 폭 통일 ──────────────────────────────────── */
-  .strategy-container {
-    width: min(100% - 48px, 1440px);
-    margin: 0 auto;
-  }
-  .narrow-container {
-    max-width: 980px;
-    margin: 0 auto;
-  }
-
-  /* ── 3. 본문 폭 제한 (이 규칙은 Tailwind를 이기려면 !important 필수) */
-  .lead-text,
-  .section-description,
-  .intro-copy {
-    max-width: 100% !important;
-  }
-  .body-copy,
-  .strategy-body {
-    max-width: 100% !important;
-  }
-  /* 카드 내부는 100% */
-  .strategy-card .body-copy,
-  .strategy-card p {
-    max-width: 100% !important;
-  }
-
-  /* ── 4. 제목 폭 제어 */
-  .hero-title,
-  .h-display {
-    max-width: 100% !important;
-    font-size: clamp(1.7rem, 3.5vw, 2.75rem);
-    font-weight: 900;
-    letter-spacing: -0.035em;
-    line-height: 1.18;
-    word-break: keep-all;
-  }
-  .h-section {
-    font-size: clamp(1.3rem, 2.5vw, 2rem);
-    font-weight: 800;
-    letter-spacing: -0.025em;
-    line-height: 1.28;
-    word-break: keep-all;
-  }
-  .h-card {
-    font-size: 1.1rem;
-    font-weight: 800;
-    letter-spacing: -0.02em;
-    color: #0A0F1A;
-    line-height: 1.4;
-    word-break: keep-all;
-  }
-
-  /* ── 5. 섹션 여백 */
+  /* MONO Strategy Page Design Improvements */
   .strategy-section {
-    padding: 72px 0 !important;
+    padding: 88px 0 !important;
   }
-  .strategy-section:first-of-type {
-    padding-top: 64px !important;
-  }
-  .strategy-section.compact {
-    padding: 56px 0 !important;
+  .strategy-container {
+    max-width: 1180px !important;
+    margin: 0 auto !important;
+    padding: 0 24px !important;
   }
   .section-header {
-    margin-bottom: 32px !important;
+    margin-bottom: 40px !important;
   }
-  /* section-header 안 본문 단락: Tailwind body-lg / body-md 단락 모두 */
-  .section-header p,
-  .section-header .body-lg,
-  .section-header .body-md,
-  .section-header .body-copy {
-    max-width: 100% !important;
+  .strategy-title {
+    max-width: 980px !important;
+    word-break: keep-all !important;
+    line-height: 1.16 !important;
+    letter-spacing: -0.03em !important;
   }
-  .section-header p.lead-text,
-  .section-header .lead-text {
-    max-width: 100% !important;
+  .strategy-body {
+    max-width: 780px !important;
+    word-break: keep-all !important;
+    line-height: 1.75 !important;
   }
-
-  /* ── 6. 카드 ──────────────────────────────────────────────── */
   .strategy-card {
-    min-height: auto;
-    border: 1px solid rgba(36, 91, 255, 0.16);
-    border-radius: 16px;
-    padding: 28px;
-    background: rgba(255, 255, 255, 0.86);
-    box-shadow: 0 14px 36px rgba(15, 23, 42, 0.06);
+    border: 1px solid rgba(36, 91, 255, 0.16) !important;
+    border-radius: 16px !important;
+    padding: 28px !important;
+    background: rgba(255, 255, 255, 0.86) !important;
+    box-shadow: 0 14px 36px rgba(15, 23, 42, 0.06) !important;
   }
   .strategy-card h3 {
-    font-size: 1.1rem;
-    line-height: 1.35;
-    margin-bottom: 10px;
-    word-break: keep-all;
+    font-size: 22px !important;
+    line-height: 1.3 !important;
+    margin-bottom: 12px !important;
   }
   .strategy-card p {
-    font-size: 15px;
-    line-height: 1.72;
-    word-break: keep-all;
-    overflow-wrap: break-word;
+    font-size: 15px !important;
+    line-height: 1.7 !important;
   }
-  .card-grid { gap: 20px; }
-
-  /* ── 7. 카드 그리드 (01 섹션 3열) ────────────────────────── */
-  .service-card-grid {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 20px;
-    align-items: stretch;
-  }
-  .service-card { padding: 28px; }
-  .service-card p {
-    font-size: 15px;
-    line-height: 1.72;
-    word-break: keep-all;
-  }
-
-  /* ── 8. IntroBlock ────────────────────────────────────────── */
-  .intro-block {
-    display: block;
-    max-width: 100% !important;
-    margin-top: 44px;
-    margin-bottom: 28px;
-    text-align: left;
-  }
-  .intro-block .eyebrow {
-    color: #245bff;
-    font-weight: 800;
-    margin-bottom: 10px;
-    font-size: 13px;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-  }
-  .intro-block h3 {
-    max-width: 100% !important;
-    font-size: 1.45rem;
-    line-height: 1.28;
-    font-weight: 800;
-    color: #0A0F1A;
-    word-break: keep-all;
-  }
-  .intro-block p {
-    max-width: 100%;
-    line-height: 1.75;
-    word-break: keep-all;
-    margin-top: 10px;
-    font-size: 15px;
-    color: #334155;
+  
+  @media (max-width: 768px) {
+    .strategy-title {
+      font-size: 34px !important;
+      line-height: 1.22 !important;
+    }
+    .two-column {
+      grid-template-columns: 1fr !important;
+      gap: 28px !important;
+    }
+    .strategy-card {
+      padding: 22px !important;
+    }
+    .infographic {
+      width: 100% !important;
+      height: auto !important;
+      object-fit: contain !important;
+    }
   }
 
-  /* ── 9. MeaningBlock ─────────────────────────────────────── */
-  .meaning-block {
-    margin-top: 20px;
-    padding: 16px 20px;
-    border-left: 4px solid #245bff;
-    background: rgba(36, 91, 255, 0.05);
-    border-radius: 10px;
-    color: #1E293B;
-    line-height: 1.7;
-    font-size: 14px;
-    font-weight: 500;
-    word-break: keep-all;
+  @media (max-width: 640px) {
+    html { font-size: 14.5px !important; }
+    .px-6, .px-8, .px-10 { padding-left: 1.15rem !important; padding-right: 1.15rem !important; }
+    .p-6, .p-7, .p-8, .p-9, .p-10 { padding: 1.25rem !important; }
+    .gap-6 { gap: 1.25rem !important; }
+    .gap-8 { gap: 1.5rem !important; }
   }
 
-  /* ── 10. VisualBlock ─────────────────────────────────────── */
-  .visual-block { margin: 24px 0; }
-  .visual-block.full { width: 100%; }
-  .visual-block.aside {
-    max-width: 420px;
-    width: 100%;
+  .section-label { 
+    font-family: 'Pretendard', sans-serif; font-size: 14px; font-weight: 800; color: #4F46E5; letter-spacing: -0.01em; 
+    display: inline-flex; align-items: center; gap: 0.5rem; max-width: 100%; word-break: keep-all; line-height: 1.4; 
   }
-  .visual-block img {
-    width: 100%;
-    height: auto;
-    object-fit: contain;
-    display: block;
-  }
-
-  /* ── 11. 02 섹션 2단 그리드 ──────────────────────────────── */
-  .vision-top-grid {
-    display: grid;
-    grid-template-columns: minmax(0, 1.05fr) minmax(360px, 0.85fr);
-    gap: 56px;
-    align-items: start;
-  }
-  .vision-copy { max-width: 760px; }
-
-  /* 우측 구조도 카드 */
-  .partner-diagram-card {
-    padding: 20px;
-    min-height: auto;
-  }
-  .partner-diagram-card img {
-    width: 100%;
-    max-height: 340px;
-    object-fit: contain;
-  }
-  .partner-diagram-caption {
-    max-width: 480px;
-    margin: 14px auto 0;
-    font-size: 12px;
-    line-height: 1.55;
-    text-align: center;
-    word-break: keep-all;
-    color: #64748B;
-  }
-
-  /* ── 12. 기사 카드 여백 ──────────────────────────────────── */
-  .news-proof-card {
-    padding: 22px 26px;
-    margin-top: 24px;
-  }
-  .news-proof-card blockquote {
-    margin: 16px 0;
-    padding: 14px 16px;
-  }
-  .news-proof-card p {
-    line-height: 1.65;
-    word-break: keep-all;
-  }
-
-  /* ── 13. 유틸리티 텍스트 클래스 ──────────────────────────── */
-  .body-lg  { font-size: 1.1rem;  line-height: 1.75; color: #1B2436; word-break: keep-all; }
-  .body-md  { font-size: 1rem;    line-height: 1.72; color: #475569; word-break: keep-all; }
-  .body-sm  { font-size: 0.875rem; line-height: 1.6;  color: #64748B; }
-
-  /* ── 14. 기타 공통 ───────────────────────────────────────── */
-  .section-label {
-    font-family: 'Pretendard', sans-serif;
-    font-size: 13.5px;
-    font-weight: 800;
-    color: #4F46E5;
-    letter-spacing: -0.01em;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    max-width: 100%;
-    word-break: keep-all;
-    line-height: 1.4;
-  }
-  .section-label .num {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 12px;
-    font-weight: 700;
-    color: #4F46E5;
-    padding: 2px 6px;
-    border: 1px solid rgba(79,70,229,0.3);
-    border-radius: 2px;
-    background: rgba(79,70,229,0.05);
-  }
-
+  .section-label .num { font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 700; color: #4F46E5; padding: 2px 6px; border: 1px solid rgba(79,70,229,0.3); border-radius: 2px; background: rgba(79,70,229,0.05); }
+  
+  .h-display  { font-size: clamp(1.6rem, 3.5vw, 2.8rem); font-weight: 900; letter-spacing: -0.03em; line-height: 1.2; word-break: keep-all; }
+  .h-section  { font-size: clamp(1.3rem, 2.5vw, 2rem); font-weight: 800; letter-spacing: -0.025em; line-height: 1.3; word-break: keep-all; }
+  .h-card     { font-size: 1.15rem; font-weight: 800; letter-spacing: -0.02em; color: #0A0F1A; line-height: 1.4; }
+  .body-lg    { font-size: 1.125rem; line-height: 1.75; color: #1B2436; text-align: justify; text-justify: inter-word; }
+  .body-md    { font-size: 1rem; line-height: 1.7; color: #475569; text-align: justify; text-justify: inter-word; }
+  .body-sm    { font-size: 0.9rem; line-height: 1.6; color: #64748B; }
+  
   .blueprint {
     background-image:
       linear-gradient(rgba(79,70,229,0.05) 1px, transparent 1px),
@@ -352,130 +157,128 @@
       linear-gradient(90deg, rgba(34,211,238,0.08) 1px, transparent 1px);
     background-size: 40px 40px;
   }
-  .tape-divider {
-    height: 5px;
-    background: repeating-linear-gradient(135deg, #0A0F1A 0 10px, #FFD200 10px 20px);
-  }
+  .tape-divider { height: 5px; background: repeating-linear-gradient(135deg, #0A0F1A 0 10px, #FFD200 10px 20px); }
+  
   .glass {
     background: linear-gradient(180deg, rgba(252,252,254,0.9) 0%, rgba(241,245,249,0.7) 100%);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(79,70,229,0.1);
-    border-radius: 6px;
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(79,70,229,0.1); border-radius: 6px;
   }
+
   .lcorner { position: relative; }
   .lcorner::before, .lcorner::after {
-    content: '';
-    position: absolute;
-    width: 12px;
-    height: 12px;
-    border-color: rgba(79,70,229,0.3);
-    border-style: solid;
+    content: ''; position: absolute; width: 12px; height: 12px;
+    border-color: rgba(79,70,229,0.3); border-style: solid;
   }
   .lcorner::before { top: -1px; left: -1px; border-width: 1.5px 0 0 1.5px; }
   .lcorner::after  { bottom: -1px; right: -1px; border-width: 0 1.5px 1.5px 0; }
+  
   .chip-round {
     border-radius: 999px;
-    padding: 0.3rem 0.8rem;
+    padding: 0.35rem 0.85rem;
     background-color: rgba(79, 70, 229, 0.06);
     color: #4F46E5;
     border: 1px solid rgba(79, 70, 229, 0.2);
     font-weight: 700;
-    font-size: 12.5px;
+    font-size: 13px;
     letter-spacing: -0.02em;
   }
+
   .nav-link { position: relative; font-weight: 600; }
   .nav-link::after { content:''; position:absolute; left:0; bottom:-4px; width:0; height:2px; background:#4F46E5; transition: width .3s ease; }
   .nav-link:hover::after, .nav-link.active::after { width: 100%; }
+
   .hover-lift { transition: transform .3s cubic-bezier(.16,1,.3,1), box-shadow .3s ease, border-color .3s ease; }
-  .hover-lift:hover { transform: translateY(-3px); border-color: rgba(79,70,229,0.35); box-shadow: 0 10px 28px -10px rgba(79,70,229,0.15); }
-  .zoomable-svg-container { cursor: zoom-in; transition: transform 0.2s ease; }
+  .hover-lift:hover { transform: translateY(-4px); border-color: rgba(79,70,229,0.35); box-shadow: 0 12px 30px -10px rgba(79,70,229,0.15); }
+  
+  .zoomable-svg-container {
+    cursor: zoom-in;
+    transition: transform 0.2s ease;
+  }
 
-  .zoomable-svg-container:hover { transform: scale(1.008); }
+  .zoomable-svg-container:hover {
+    transform: scale(1.01);
+  }
 
-
+  #lightbox {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background-color: rgba(10, 15, 26, 0.85);
+    backdrop-filter: blur(8px);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+  }
+  #lightbox.active {
+    display: flex;
+  }
+  #lightbox-content {
+    max-width: 95vw;
+    max-height: 85vh;
+    width: auto;
+    height: auto;
+    background: #FCFCFE;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+    position: relative;
+    overflow: auto;
+  }
+  
   /* Scrollbar */
   ::-webkit-scrollbar { width: 8px; height: 8px; }
   ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 999px; }
   ::-webkit-scrollbar-thumb:hover { background: #4F46E5; }
 
-  /* Vertical timeline (S3) */
+  /* S3 Vertical timeline */
   .vtimeline { position: relative; }
   @media (min-width: 768px) {
     .vtimeline::before {
-      content:'';
-      position:absolute;
-      left: 28px; top: 8px; bottom: 8px;
-      width: 2px;
+      content:''; position:absolute; left: 28px; top: 8px; bottom: 8px; width: 2px;
       background: repeating-linear-gradient(180deg, #4F46E5 0 8px, transparent 8px 14px);
     }
-    .vstep-dot {
-      position:absolute; left: 18px; top: 18px;
-      width: 22px; height: 22px;
-      border-radius: 2px;
-      background:#4F46E5;
-      display:grid; place-items:center;
-      color:#FCFCFE;
-      font-family:'JetBrains Mono',monospace;
-      font-size: 10px; font-weight: 700;
-      box-shadow: 0 0 0 4px #FCFCFE;
-    }
+    .vstep-dot { position:absolute; left: 18px; top: 18px; width: 22px; height: 22px; border-radius: 2px; background:#4F46E5; display:grid; place-items:center; color:#FCFCFE; font-family:'JetBrains Mono',monospace; font-size: 10px; font-weight: 700; box-shadow: 0 0 0 4px #FCFCFE; }
   }
-  @media (max-width: 767px) { .vstep-dot { display: none; } }
-
-  /* ── 15. 반응형 (tablet) ──────────────────────────────────── */
-  @media (max-width: 1200px) {
-    .strategy-card p { font-size: 14.5px; }
+  @media (max-width: 767px) {
+    .vstep-dot { display: none; }
   }
 
-  /* ── 16. 반응형 (mobile) ──────────────────────────────────── */
-  @media (max-width: 768px) {
-    .strategy-container {
-      width: min(100% - 32px, 100%);
-    }
-    .strategy-section {
-      padding: 48px 0;
-    }
-    .strategy-section:first-of-type {
-      padding-top: 40px;
-    }
-    .section-header {
-      margin-bottom: 24px;
-    }
-    .h-display, .hero-title {
-      font-size: clamp(1.65rem, 6vw, 2.2rem);
-      line-height: 1.22;
-    }
-    .section-title {
-      font-size: 2rem;
-      line-height: 1.22;
-    }
-    .section-description {
-      font-size: 15px;
-      line-height: 1.7;
-    }
-    .vision-top-grid,
-    .two-column,
-    .vision-grid,
-    .section-grid,
-    .service-card-grid {
-      grid-template-columns: 1fr;
-      gap: 20px;
-    }
-    .card-grid { gap: 14px; }
-    .strategy-card { padding: 22px; min-height: auto; }
-    .infographic { width: 100%; height: auto; object-fit: contain; }
-    .intro-block h3 { font-size: 1.2rem; }
-    .partner-diagram-card img { max-height: none; }
-    .visual-block.aside { max-width: 100%; }
+  /* ── 17. Moments Tabs (Section 06) ────────────────────────── */
+  .ptab {
+    padding: 10px 24px;
+    border-radius: 9999px;
+    transition: all 0.25s ease;
+    border: 1px solid transparent;
+    font-weight: 700;
+    color: #475569;
+    flex-shrink: 0;
   }
-
-  @media (max-width: 640px) {
-    html { font-size: 14.5px; }
-    .px-6, .px-8, .px-10 { padding-left: 1.1rem; padding-right: 1.1rem; }
-    .p-6, .p-7, .p-8, .p-9, .p-10 { padding: 1.2rem; }
-    .gap-6 { gap: 1.2rem; }
-    .gap-8 { gap: 1.4rem; }
+  .ptab:hover {
+    color: #0A0F1A;
+    background: rgba(15, 23, 42, 0.03);
+  }
+  .ptab.active {
+    background: #4F46E5;
+    color: #FFFFFF;
+    border-color: #4F46E5;
+    box-shadow: 0 4px 14px rgba(79, 70, 229, 0.25);
+  }
+  .ptab.active .ptab-num {
+    color: #C7D2FE;
+  }
+  .ppanel.hidden {
+    display: none !important;
+  }
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .scrollbar-hide {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
   }
 
   /* Moments Persona Tab Styles */
@@ -587,24 +390,19 @@
 <section class="relative strategy-section bg-warm-50 blueprint" id="platform">
 <div class="strategy-container">
 <div class="section-header reveal">
-<div class="section-label mb-6"><span class="num">01</span> MONO 서비스 소개 · 산업 신뢰 데이터 플랫폼</div>
-<h2 class="h-display hero-title text-ink-900 strategy-title w-full">기술자의 경험과 기업의 현장 수요를 신뢰 데이터로 연결하는 MONO</h2>
-<p class="body-lg mt-5 font-semibold text-ink-900" style="max-width: 100%;">
-        MONO는 기술자가 필요한 산업 현장에서 사람, 팀, 장비, 자재, 교육, 안전, 근무환경 데이터를 연결하는 산업 신뢰 데이터 플랫폼입니다.
-      </p>
-<p class="hidden md:block body-md mt-3" style="max-width: 100%;">
-        건설·인테리어는 초기 검증 시장이며, 장기적으로 조선, 플랜트, 제조 설비, 물류, 에너지, 항만·공항, 공공 인프라, 재난복구, 우주·로봇 산업까지 확장할 수 있습니다. 기술자는 MONO Profile에 자신의 경력과 자격을 쌓고, 수행 기업은 Partner Workspace에서 현장 작업 요청과 인력 운영을 관리하며, MONO Field Operations는 장비·공구·소모자재·근무환경·교육 데이터를 연결합니다. 기술자에게는 자신의 경력과 기술이 자산이 되는 평생 프로필을 제공하고, 프로젝트 운영자 및 수행 기업에게는 검증 가능한 인력·현장 운영 데이터를 제공합니다. MONO는 단순 중개를 넘어, 산업 현장의 운영 데이터를 축적하는 상생 현장 운영 인프라로 확장합니다.
-      </p>
-<div class="block md:hidden mt-5 bg-warm-100/50 border border-ink-900/10 rounded-xl p-4 shadow-sm">
-<p class="text-[14px] text-ink-800 leading-relaxed break-keep">
-          기술자의 경력 및 안전 데이터를 보증하여, 검증된 인력과 현장 소모자재/장비·공구 운영 수요를 실시간 연결합니다.
-        </p>
-</div>
+<div class="section-label mb-6"><span class="num">01</span> MONO 서비스 소개 · 스마트 현장 플랫폼</div>
+<h2 class="h-display hero-title text-ink-900 strategy-title w-full">기술자는 더 좋은 현장을 찾고, 기업은 믿을 수 있는 사람과 팀을 찾습니다</h2>
+<p class="text-lg md:text-xl text-ink-500 max-w-4xl font-medium leading-relaxed mb-6">MONO는 기술자와 기업을 연결하는 스마트 현장 플랫폼입니다.</p>
+<p class="text-lg md:text-xl text-ink-500 max-w-4xl font-medium leading-relaxed mb-6">기술자는 자신의 경력, 자격, 안전교육, 현장 경험을 MONO Profile에 쌓아 더 좋은 일자리와 기회를 찾을 수 있습니다. 기업과 수행사는 Partner Workspace에서 채용 공고와 현장 작업 요청을 등록하고, 검증 가능한 기술자·현장 리더·팀을 확인할 수 있습니다.</p>
+<p class="text-lg md:text-xl text-ink-500 max-w-4xl font-medium leading-relaxed mb-6">초기에는 건설·인테리어 현장에서 시작하고, 이후 조선, 플랜트, 제조 설비, 물류, 에너지, 항만·공항, 공공 인프라, 재난복구, 우주·로봇 산업까지 확장합니다.</p>
+<p class="text-lg md:text-xl text-ink-500 max-w-4xl font-medium leading-relaxed">MONO Field Operations는 현장에서 필요한 공구, 장비, 소모자재, 근무환경, 교육 수요를 함께 연결합니다. 이 과정에서 기술자의 경험과 기업의 현장 운영 데이터가 쌓이고, MONO는 이를 기반으로 더 안전하고 효율적인 산업 현장을 만듭니다.</p>
+
+
 </div>
 <div class="intro-block reveal">
 <div class="eyebrow">왜 이 구조가 중요한가</div>
-<h3 class="font-bold text-ink-900">MONO는 기술자의 경험, 기업의 채용 수요, 현장 운영 데이터를 하나의 신뢰 데이터 흐름으로 연결하는 산업 신뢰 인프라 플랫폼입니다.</h3>
-<p class="text-ink-700 mt-2">기술자는 경력·자격·안전교육·현장 경험·장비 사용 이력을 신뢰 프로필로 축적하고, 기업은 채용 공고와 현장 작업 요청을 통해 검증 가능한 기술자·현장 리더·팀을 찾습니다. MONO Field Operations는 공구·장비·소모자재·출역·근무환경·교육 수요를 연결해 현장 운영 데이터를 함께 축적합니다. 이 데이터는 더 좋은 일자리, 기업의 안전한 현장 운영, 포용금융·보험·교육 기회, 그리고 Tech-Blue 미래 산업 데이터로 확장됩니다.</p>
+<h3 class="font-bold text-ink-900">산업 현장에서는 사람, 팀, 장비, 자재, 교육, 안전 정보가 각각 흩어져 있습니다.</h3>
+<p class="text-ink-700 mt-2">기술자는 자신의 실력을 증명하기 어렵고, 기업은 지금 필요한 사람과 팀을 빠르게 찾기 어렵습니다. MONO는 이 과정을 하나의 흐름으로 연결해, 기술자의 경험은 자산이 되고 기업의 현장 운영은 데이터로 남도록 만듭니다.</p>
 </div>
 <div class="service-card-grid stagger mb-6">
 <!-- Card 1 -->
@@ -615,7 +413,7 @@
 <span class="font-mono text-xs font-bold text-ink-500">/ MONO Profile</span>
 </div>
 <h3 class="font-bold text-ink-900">MONO Profile</h3>
-<p class="text-ink-700 leading-relaxed text-left">기술자의 경력, 자격, 안전교육, 현장 경험과 장비 사용 이력을 신뢰 프로필로 축적합니다.<br/>프로필은 채용, 교육, 금융, 보험과 글로벌 이동 기회로 확장됩니다.</p>
+<p class="text-ink-700 leading-relaxed text-left">기술자의 경력, 자격, 안전교육, 현장 경험을 하나의 프로필로 쌓습니다. 이 프로필은 더 좋은 일자리, 교육, 금융·보험 기회로 확장됩니다.</p>
 </div>
 </article>
 <!-- Card 2 -->
@@ -626,7 +424,7 @@
 <span class="font-mono text-xs font-bold text-ink-500">/ Workspace</span>
 </div>
 <h3 class="font-bold text-ink-900">MONO Partner Workspace</h3>
-<p class="text-ink-700 leading-relaxed text-left">기업이 채용 공고, 현장 작업 요청, 기술자 검토, 팀 구성과 협력사 운영을 관리하는 기업용 업무공간입니다.</p>
+<p class="text-ink-700 leading-relaxed text-left">기업과 수행사가 채용 공고, 현장 작업 요청, 기술자 검토, 팀 구성과 협력사 운영을 관리하는 업무공간입니다.</p>
 </div>
 </article>
 <!-- Card 3 -->
@@ -637,12 +435,12 @@
 <span class="font-mono text-xs font-bold text-ink-500">/ Field Operations</span>
 </div>
 <h3 class="font-bold text-ink-900">MONO Field Operations</h3>
-<p class="text-ink-700 leading-relaxed text-left">공구·장비·소모자재·출역·근무환경·교육 수요를 연결해 현장 운영 데이터를 축적하는 확장 BM입니다.</p>
+<p class="text-ink-700 leading-relaxed text-left">현장에서 필요한 공구, 장비, 소모자재, 근무환경, 교육 수요를 연결합니다. 현장 운영 과정에서 발생하는 데이터를 축적해 기업의 운영 효율을 높입니다.</p>
 </div>
 </article>
 </div>
 <div class="meaning-block reveal mb-8">
-      이 세 구조가 연결될 때 MONO는 단순 인력 연결 서비스가 아니라 산업 신뢰 데이터 플랫폼이 됩니다.
+      이 세 구조가 연결되어 MONO는 더 안전하고 효율적인 스마트 현장을 만들어갑니다.
     </div>
 <div class="bg-white border border-indigo-200 p-6 rounded-lg shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-6 mb-8">
 <div class="space-y-2">
@@ -966,7 +764,7 @@
 <div class="section-header reveal">
 <div class="section-label mb-6"><span class="num">03</span> 모두의 창업 오디션 전략</div>
 <h2 class="h-display text-ink-900 leading-[1.2] md:leading-tight tracking-tight strategy-title">모두의 창업 1라운드부터 우승까지, 단계별 통과 전략</h2>
-<p class="body-md mt-6 text-left break-keep strategy-body">MONO의 초기 검증은 불특정 사용자를 모으는 방식보다, 원청 또는 중견 원청의 특정 현장을 Anchor PoC로 확보하는 방식으로 진행합니다.<br/>현장에서는 복잡한 SaaS보다 공구·장비 요청, 소모자재 반복 발주, 출역 명단과 안전교육 확인처럼 바로 필요한 업무부터 해결합니다.</p>
+<p class="body-lg mt-5 font-semibold text-ink-900 max-w-4xl">MONO의 초기 검증은 불특정 사용자를 모으는 방식보다, 원청 또는 중견 원청의 특정 현장을 Anchor PoC로 확보하는 방식으로 진행합니다.<br>현장에서는 복잡한 SaaS보다 공구·장비 요청, 소모자재 반복 발주, 출역 명단과 안전교육 확인처럼 바로 필요한 업무부터 해결합니다.</p>
 </div>
 <div class="intro-block reveal">
 <div class="eyebrow">모두의 창업 성장 전략</div>
@@ -1498,7 +1296,7 @@
 <div class="section-header reveal">
 <div class="section-label mb-6"><span class="num">05</span> MONO 비즈니스 모델</div>
 <h2 class="h-display text-ink-900 leading-[1.2] md:leading-tight tracking-tight strategy-title">기술자의 경험이 신뢰 데이터가 되는 비즈니스 모델</h2>
-<p class="body-md mt-6 text-left break-keep strategy-body">MONO의 수익모델은 기업의 반복 사용에서 시작합니다.<br/>기업은 공고 등록, 기술자·팀 검토, 협력사 운영을 위해 Workspace를 사용하고, MONO는 채용·팀 매칭, 현장 운영 거래, 금융·보험·교육 제휴로 수익을 확장합니다.</p>
+<p class="body-lg mt-5 font-semibold text-ink-900 max-w-4xl">MONO의 수익모델은 기업의 반복 사용에서 시작합니다.<br>기업은 공고 등록, 기술자·팀 검토, 협력사 운영을 위해 Workspace를 사용하고, MONO는 채용·팀 매칭, 현장 운영 거래, 금융·보험·교육 제휴로 수익을 확장합니다.</p>
 </div>
 <div class="intro-block reveal">
 <div class="eyebrow">다각화된 매출 인프라</div>
@@ -1772,7 +1570,7 @@
 </div>
 </section>
 <div class="tape-divider"></div>
-<!-- ============================== 06. MONO 브랜드 철학 ============================== -->
+<!-- ============================== 06. MONO와 함께 만들어가는 순간들 ============================== -->
 <section class="relative strategy-section bg-white" id="lifecycle">
 <div class="strategy-container">
 <div class="section-header reveal">
@@ -2132,7 +1930,7 @@
 <div class="section-header reveal">
 <div class="section-label mb-6"><span class="num">07</span> Next MONO · Industrial Intelligence Platform</div>
 <h2 class="h-display text-ink-900 leading-[1.2] md:leading-tight tracking-tight mb-6 strategy-title font-black">Industrial Intelligence Platform</h2>
-<p class="body-lg text-ink-800 text-left break-keep font-semibold mt-6 strategy-body" style="font-size: 1.25rem;">MONO가 축적하는 현장 데이터는 장기적으로 Tech-Blue 기술 인프라로 확장됩니다.<br/>기술자 경험, 현장 운영, 장비·자재, 안전·교육 데이터는 미래의 AI 현장 운영체제와 AGI Core OS를 위한 산업 데이터 기반이 됩니다.</p>
+<p class="text-ink-500 text-lg md:text-xl font-medium max-w-2xl mx-auto leading-relaxed">MONO는 기술자의 경험이 단기 일거리로 사라지지 않고, 더 좋은 일자리, 안전한 근무환경, 포용금융, 보험, 교육과 미래 기술 기회로 이어지는 구조를 만듭니다.</p>
 <p class="body-md text-ink-700 text-left break-keep mt-4 strategy-body">
         MONO가 축적하는 기술자 경험, 작업팀 투입, 수행 기업 평가, 장비·공구 사용, 안전교육, 현장 운영 데이터는 장기적으로 산업 현장 의사결정을 지원하는 AI 운영체제의 기반이 됩니다. 이 데이터는 조선, 플랜트, 제조, 물류, 에너지, 항만, 공공 인프라, 우주·로봇 산업까지 확장될 수 있습니다. AGI Core OS는 현장의 사람을 대체하는 개념이 아니라, 기술자와 기업이 더 안전하고 효율적으로 일할 수 있도록 돕는 산업 의사결정 엔진입니다.
       </p>
@@ -2268,9 +2066,6 @@
 <p>© 2026 MONO Corp. All rights reserved.</p>
 <p>Masters of Noble Trades · Industrial Trust Platform</p>
 <p>주소: 서울특별시 강남구 테헤란로 | 이메일: contact@mono.trades</p>
-<p class="text-indigo-400/70 font-mono text-[10px] pt-1">
-        Deploy: <span class="font-bold">__DEPLOY_VERSION__</span> (__DEPLOY_TIME__)
-      </p>
 </div>
 </div>
 </footer>
@@ -2287,7 +2082,7 @@
 <span class="chip-round">MONO Gear ERP</span>
 <h2 class="text-2xl font-black text-ink-900 mt-2">MONO Gear · 현장 장비·자재 운영 ERP</h2>
 </div>
-<p class="body-md text-left break-keep">
+<p class="body-md text-justify break-keep">
           MONO Gear는 공구 대여에서 시작해 전문 장비, 스마트 계측기, 소모자재 반복 발주, 장비+기술자 패키지, 보험·정비·보증까지 확장되는 현장 운영 BM입니다. 기업은 현장별 장비와 자재 수요를 관리하고, 기술자는 자신의 장비 사용 이력을 신뢰 프로필에 축적합니다.
         </p>
 </div>
@@ -2306,7 +2101,7 @@
 <span class="chip-round">Field Operations</span>
 <h2 class="text-2xl font-black text-ink-900 mt-2">MONO Field Operations</h2>
 </div>
-<div class="space-y-4 text-sm text-ink-800 leading-relaxed text-left break-keep">
+<div class="space-y-4 text-sm text-ink-800 leading-relaxed text-justify break-keep">
 <p>
             MONO Field Operations는 다음의 하위 비즈니스 영역을 유기적으로 결합하여 현장의 종합 관제를 지원합니다:
           </p>
@@ -2336,7 +2131,7 @@
 <span class="chip-round">Strategic Investment</span>
 <h2 class="text-2xl font-black text-ink-900 mt-2">Strategic Investment &amp; 대기업 상생 협업</h2>
 </div>
-<div class="space-y-4 text-sm text-ink-800 leading-relaxed text-left break-keep">
+<div class="space-y-4 text-sm text-ink-800 leading-relaxed text-justify break-keep">
 <p>
             MONO는 삼성전자 등 대기업이 추진하는 상생 투자 흐름과 연결될 수 있는 산업 신뢰 데이터 인프라입니다.
           </p>
@@ -2352,310 +2147,35 @@
 </div>
 </dialog>
 <!-- Existing Modals Preserved -->
-<!-- ===== R1 Strategy Modal ===== -->
 <dialog class="bg-transparent w-full h-full p-0 m-0 fixed inset-0 z-50 backdrop:bg-ink-900/50" id="r1-strategy-modal">
 <div class="fixed inset-0 bg-ink-900/50 flex items-center justify-center p-4 z-50 overflow-y-auto" onclick="document.getElementById('r1-strategy-modal').close()">
-<div class="bg-[#FCFCFE] rounded-xl shadow-2xl max-w-4xl w-full my-8 relative border border-ink-900/10" onclick="event.stopPropagation()">
-<button class="absolute top-4 right-4 w-10 h-10 flex items-center justify-center rounded-full bg-warm-100 hover:bg-warm-200 text-ink-900 transition-colors z-10" onclick="document.getElementById('r1-strategy-modal').close()"><i class="fa-solid fa-xmark text-lg"></i></button>
-<div class="p-6 md:p-8 max-h-[85vh] overflow-y-auto space-y-6 text-left">
-<!-- Header -->
-<div class="border-b border-ink-900/10 pb-4">
-<div class="inline-block bg-indigo-50 text-indigo-700 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider mb-2">1라운드 · 서류 심사 및 면접</div>
-<h3 class="text-2xl font-black text-ink-900">1라운드 준비 전략 및 신뢰 인프라 구축 방안</h3>
-</div>
-<!-- 1. 목표 -->
-<div class="space-y-3">
-<h4 class="text-base font-bold text-ink-900 flex items-center gap-2"><i class="fa-solid fa-bullseye text-indigo-600"></i> 1라운드 목표</h4>
-<ul class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs text-ink-850">
-<li class="p-3 bg-warm-50/50 border border-ink-900/5 rounded-lg flex items-start"><i class="fa-solid fa-check text-indigo-600 mt-0.5 mr-2"></i> 멘토 기관 및 심사위원의 관찰·서면 평가 무조건 통과</li>
-<li class="p-3 bg-warm-50/50 border border-ink-900/5 rounded-lg flex items-start"><i class="fa-solid fa-check text-indigo-600 mt-0.5 mr-2"></i> MONO의 문제 정의, 시장성, 기술적 실행 가능성을 완벽히 입증</li>
-<li class="p-3 bg-warm-50/50 border border-ink-900/5 rounded-lg flex items-start"><i class="fa-solid fa-check text-indigo-600 mt-0.5 mr-2"></i> 채용 공고, 팀 구성, 현장 투입, 운영과 평가를 연결하는 '기술자 신뢰 데이터 인프라' 비전 이해</li>
-<li class="p-3 bg-warm-50/50 border border-ink-900/5 rounded-lg flex items-start"><i class="fa-solid fa-check text-indigo-600 mt-0.5 mr-2"></i> 신속한 MVP 검증 계획을 바탕으로 창업 팀의 빠른 학습 능력 어필</li>
-</ul>
-</div>
-<!-- 2. 평가 대응 전략 -->
-<div class="space-y-3">
-<h4 class="text-base font-bold text-ink-900 flex items-center gap-2"><i class="fa-solid fa-shield-halved text-indigo-600"></i> 평가 대응 상세 전략</h4>
-<div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs text-ink-800">
-<div class="p-4 bg-white border border-ink-900/10 rounded-xl space-y-2">
-<div class="font-bold text-indigo-700">문제 정의 &amp; 해결 방안</div>
-<p class="leading-relaxed">건설·조선 등 현장의 숙련 인력 부족 및 파편화된 이력 관리 문제를 <strong>MONO Profile</strong>과 <strong>Partner Workspace</strong>, <strong>Field Operations</strong> 솔루션으로 정의하고 해결 프로세스를 증명합니다.</p>
-</div>
-<div class="p-4 bg-white border border-ink-900/10 rounded-xl space-y-2">
-<div class="font-bold text-indigo-700">시장성 &amp; 차별성</div>
-<p class="leading-relaxed">단순 인력 소개가 아닌, 신뢰 이력을 통해 원청 수행 기업과 프로젝트 운영자, 중소 협력사를 잇는 구조입니다. 외국인 근로자 관리 수요까지 포함하는 대형 B2B 비즈니스로 차별화합니다.</p>
-</div>
-<div class="p-4 bg-white border border-ink-900/10 rounded-xl space-y-2">
-<div class="font-bold text-indigo-700">실행성 &amp; 성장성</div>
-<p class="leading-relaxed">프로필 작성 플로우와 채용 공고 등록 및 팀 단위 인력 배치 MVP 프로토타입을 통해 당장 가동 가능한 실행성을 입증하고, 향후 금융·보험·교육 파생 모델 및 AGI AI 운영체제 로드맵을 연계합니다.</p>
-</div>
-</div>
-</div>
-<!-- 3. 준비 산출물 -->
-<div class="space-y-3">
-<h4 class="text-base font-bold text-ink-900 flex items-center gap-2"><i class="fa-solid fa-file-invoice text-indigo-600"></i> 준비 산출물 목록</h4>
-<div class="overflow-x-auto border border-ink-900/10 rounded-lg">
-<table class="w-full text-left border-collapse text-xs">
-<thead>
-<tr class="bg-warm-100/50 border-b border-ink-900/10 font-bold text-ink-900">
-<th class="p-2 border-r border-ink-900/10 w-1/4">구분</th>
-<th class="p-2">세부 항목</th>
-</tr>
-</thead>
-<tbody class="divide-y divide-ink-900/10 text-ink-850">
-<tr>
-<td class="p-2 font-bold bg-warm-50/20 border-r border-ink-900/10">비즈니스 기획</td>
-<td class="p-2">MONO 전략 페이지, 사업계획서, 1라운드 제출 보고서, 대기업 상생 투자 및 조선업 리스크 근거 자료</td>
-</tr>
-<tr>
-<td class="p-2 font-bold bg-warm-50/20 border-r border-ink-900/10">기획 및 설계</td>
-<td class="p-2">사용자용 앱, 기업용 웹, 관리자 웹, 마케팅 트래킹 대시보드 설계안 및 화면 기획서</td>
-</tr>
-<tr>
-<td class="p-2 font-bold bg-warm-50/20 border-r border-ink-900/10">MVP 프로토타입</td>
-<td class="p-2">기술자 프로필 생성 플로우, 기업 채용 공고 등록 폼, 팀 단위 인력 매칭 요청 화면 프로토타입</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<!-- 4. 신규 추가 전략 (AI 반장, 파트너화, 팀 매칭, Field Ops) -->
-<div class="space-y-3 p-4 bg-indigo-50/50 border border-indigo-100 rounded-xl">
-<h4 class="text-base font-bold text-indigo-900 flex items-center gap-2"><i class="fa-solid fa-circle-nodes"></i> 신규 핵심 전략 추가 반영</h4>
-<div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-<div class="space-y-1.5">
-<div class="font-bold text-indigo-850 flex items-center gap-1.5"><i class="fa-solid fa-robot"></i> MONO AI 현장 리더</div>
-<p class="text-ink-800 leading-relaxed">팀 단위 인력 요청을 자동 분석하여 적합한 직군, 인원수, 경력 자격 조건을 인공지능이 즉시 추천합니다. 또한 일정 조율, 실시간 출근 체킹, 현장 안전교육 이수 확인, 필요한 장비·자재 연계 지원을 조율합니다.</p>
-</div>
-<div class="space-y-1.5">
-<div class="font-bold text-indigo-850 flex items-center gap-1.5"><i class="fa-solid fa-handshake"></i> 기존 오프라인 운영자 파트너화</div>
-<p class="text-ink-800 leading-relaxed">기존 현장 리더, 팀장, 인력 알선 실무자가 구축한 오프라인 인적 네트워크를 디지털 신뢰 데이터로 확장하고, 더 넓은 수행 기업 수요와 직접 매칭되도록 돕습니다.</p>
-</div>
-<div class="space-y-1.5">
-<div class="font-bold text-indigo-850 flex items-center gap-1.5"><i class="fa-solid fa-users-gear"></i> 팀 단위 인력 운영</div>
-<p class="text-ink-800 leading-relaxed">철근팀(8명), 배관팀(5명), 전기팀(3명), 조공 포함 인테리어팀, 외국인 기술자 협업팀 등 공정 성격에 맞는 숙련된 작업팀 단위를 지원하여 현장 투입 시간을 획기적으로 개선합니다.</p>
-</div>
-<div class="space-y-1.5">
-<div class="font-bold text-indigo-850 flex items-center gap-1.5"><i class="fa-solid fa-toolbox"></i> Field Operations &amp; MONO Gear</div>
-<p class="text-ink-800 leading-relaxed">현장에 투입되는 공구 대여, 전문 계측 장비 조달, 소모자재 자동 발주, 보험·보증, 작업자 숙소·식사 환경까지 통합 지원합니다. <strong>MONO Gear</strong>는 이 중 공구 대여와 전문 장비 조달을 맡는 하위 브랜드 서비스로 연계 운영됩니다.</p>
-</div>
-</div>
-</div>
-<!-- 5. 실행 전략 및 지원금 활용 계획 -->
-<div class="space-y-3">
-<h4 class="text-base font-bold text-ink-900 flex items-center gap-2"><i class="fa-solid fa-wallet text-indigo-600"></i> 실행 전략 및 1라운드 지원금(200만원) 활용 계획</h4>
-<div class="bg-warm-100/50 p-4 border border-ink-900/10 rounded-xl text-xs space-y-2 text-ink-850">
-<p><strong>1라운드 지원금 200만원은 전액 핵심 타겟 사용자 인터뷰 및 MVP 시장성 검증에 집중 배정합니다.</strong></p>
-<ul class="list-disc pl-5 space-y-1 text-ink-800">
-<li>실제 기술자 10명 심층 FGI(초기 프로필 생성 의향 및 기능적 만족도 확인)</li>
-<li>건설·조선 중소 협력사 5개사 채용 담당 실무자 인터뷰(인력난 수준 및 데이터 신뢰성 필요 확인)</li>
-<li>오프라인 인력 알선 반장 및 팀장 인터뷰(MONO 파트너십 온보딩 가능성 검토)</li>
-<li>MVP 이벤트 추적(Event Tracking) 툴 연동 및 화면 설계 고도화 비용</li>
-</ul>
-</div>
-</div>
-<!-- 6. 핵심 차별점 -->
-<div class="bg-indigo-600 text-white p-5 rounded-xl text-xs space-y-2">
-<div class="font-black text-sm uppercase tracking-wider flex items-center gap-1.5"><i class="fa-solid fa-circle-exclamation"></i> 핵심 차별점</div>
-<p class="leading-relaxed">MONO는 채용 공고, 팀 구성, 현장 투입, 운영과 평가를 연결하여 축적된 경험을 <strong>'신뢰 데이터 자산'</strong>으로 가꾸어 산업 생태계 전반을 혁신하는 인프라입니다. 1라운드에서는 서면 제출 및 평가 과정에서 이 독창적인 미래 청사진이 평가위원의 기억에 강하게 박힐 수 있도록 스토리와 구조화된 수치로 입증해야 합니다.</p>
-</div>
+<div class="bg-[#FCFCFE] rounded-xl shadow-2xl max-w-2xl w-full my-8 relative" onclick="event.stopPropagation()">
+<button class="absolute top-4 right-4 w-10 h-10 flex items-center justify-center rounded-full bg-warm-100 hover:bg-warm-200 text-ink-900 transition-colors z-10" onclick="document.getElementById('r1-strategy-modal').close()"><i class="fa-solid fa-xmark"></i></button>
+<div class="p-8 max-h-[85vh] overflow-y-auto space-y-4">
+<h3 class="text-xl font-bold text-ink-900">1라운드 준비 전략</h3>
+<p class="text-sm text-ink-700">MONO의 장기 철학, 문제 정의, 시장성 검증을 포함한 발표 자료 및 전략 페이지 완성도 검증 단계입니다.</p>
 </div>
 </div>
 </div>
 </dialog>
-<!-- ===== R2 Strategy Modal ===== -->
 <dialog class="bg-transparent w-full h-full p-0 m-0 fixed inset-0 z-50 backdrop:bg-ink-900/50" id="r2-strategy-modal">
 <div class="fixed inset-0 bg-ink-900/50 flex items-center justify-center p-4 z-50 overflow-y-auto" onclick="document.getElementById('r2-strategy-modal').close()">
-<div class="bg-[#FCFCFE] rounded-xl shadow-2xl max-w-4xl w-full my-8 relative border border-ink-900/10" onclick="event.stopPropagation()">
-<button class="absolute top-4 right-4 w-10 h-10 flex items-center justify-center rounded-full bg-warm-100 hover:bg-warm-200 text-ink-900 transition-colors z-10" onclick="document.getElementById('r2-strategy-modal').close()"><i class="fa-solid fa-xmark text-lg"></i></button>
-<div class="p-6 md:p-8 max-h-[85vh] overflow-y-auto space-y-6 text-left">
-<!-- Header -->
-<div class="border-b border-ink-900/10 pb-4">
-<div class="inline-block bg-indigo-50 text-indigo-700 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider mb-2">2라운드 · MVP 지역 검증</div>
-<h3 class="text-2xl font-black text-ink-900">2라운드 MVP 검증 계획 및 실증 데이터 축적 전략</h3>
-</div>
-<!-- 1. 목표 -->
-<div class="space-y-3">
-<h4 class="text-base font-bold text-ink-900 flex items-center gap-2"><i class="fa-solid fa-bullseye text-indigo-600"></i> 2라운드 목표</h4>
-<ul class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs text-ink-850">
-<li class="p-3 bg-warm-50/50 border border-ink-900/5 rounded-lg flex items-start"><i class="fa-solid fa-check text-indigo-600 mt-0.5 mr-2"></i> 실제 배포된 MVP 서비스를 통해 시장 반응 및 행동 데이터 획득</li>
-<li class="p-3 bg-warm-50/50 border border-ink-900/5 rounded-lg flex items-start"><i class="fa-solid fa-check text-indigo-600 mt-0.5 mr-2"></i> 멘토 기관 공개 IR 매칭 행사 통과 및 차별화 지표 입증</li>
-<li class="p-3 bg-warm-50/50 border border-ink-900/5 rounded-lg flex items-start"><i class="fa-solid fa-check text-indigo-600 mt-0.5 mr-2"></i> 권역별 현장 수요 데이터 수치화 및 실 사용자 피드백 확보</li>
-<li class="p-3 bg-warm-50/50 border border-ink-900/5 rounded-lg flex items-start"><i class="fa-solid fa-check text-indigo-600 mt-0.5 mr-2"></i> 대형 현장의 실제 PoC(기술 실증) 타겟 협력사와의 미팅 연계</li>
-</ul>
-</div>
-<!-- 2. 핵심 검증 가설 항목 -->
-<div class="space-y-3">
-<h4 class="text-base font-bold text-ink-900 flex items-center gap-2"><i class="fa-solid fa-clipboard-question text-indigo-600"></i> 핵심 검증 항목 및 가설</h4>
-<div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-ink-800">
-<div class="p-4 bg-white border border-ink-900/10 rounded-xl space-y-2">
-<div class="font-bold text-indigo-700">기술자 측 반응 검증</div>
-<p class="leading-relaxed">기술 근로자가 직접 경력, 보유 자격증, 이수 교육 정보를 MONO 모바일 프로필에 성실히 입력하고 지속적으로 수정 및 관리할 의향이 있는가?</p>
-</div>
-<div class="p-4 bg-white border border-ink-900/10 rounded-xl space-y-2">
-<div class="font-bold text-indigo-700">기업 측 채용 매칭 검증</div>
-<p class="leading-relaxed">단종 협력사 및 기업 인사담당자가 공고를 직접 등록하고, 가입된 기술자의 프로필 데이터 및 '팀 단위 인력' 구성을 보고 채용 및 투입 요청 의사를 보낼 것인가?</p>
-</div>
-<div class="p-4 bg-white border border-ink-900/10 rounded-xl space-y-2">
-<div class="font-bold text-indigo-700">오프라인 반장 파트너십 검증</div>
-<p class="leading-relaxed">오프라인의 영향력 있는 기존 현장 리더과 팀장들이 MONO 내에서 팀을 공식 등록하고 상호 윈윈하는 파트너로 참여할 유인이 충분한가?</p>
-</div>
-<div class="p-4 bg-white border border-ink-900/10 rounded-xl space-y-2">
-<div class="font-bold text-indigo-700">신규 Field Operations 수요 검증</div>
-<p class="leading-relaxed">공구 대여(MONO Gear), 스마트 안전 장비 조달, 소모자재 자동 반복 발주, 작업자 생활 환경 패키지(식사/숙소) 등 토탈 현장 지원 서비스 수요가 존재하는가?</p>
-</div>
-</div>
-</div>
-<!-- 3. MVP 검증 기능 목록 및 수집 지표 -->
-<div class="space-y-3">
-<h4 class="text-base font-bold text-ink-900 flex items-center gap-2"><i class="fa-solid fa-chart-line text-indigo-600"></i> MVP 기능 및 측정 행동 데이터</h4>
-<div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-<!-- 기능 -->
-<div class="p-4 bg-warm-50/50 border border-ink-900/5 rounded-xl space-y-2">
-<div class="font-bold text-ink-900">MVP 제공 핵심 기능</div>
-<ul class="list-disc pl-5 space-y-1 text-ink-800">
-<li>기술자 회원가입 및 90초 초간단 핵심 프로필 작성 플로우</li>
-<li>경력증명서, 자격증, 안전교육 이수증 사진 업로드 및 인증 요청</li>
-<li>기업 회원용 간편 채용공고 작성 및 팀 단위 인력 배치 신청 폼</li>
-<li>MONO AI 현장 리더(추천/조율 가상 대시보드) 관심 고객 신청 랜딩</li>
-<li>MONO Gear 및 Field Operations(장비/공구/자재) 패키지 수요 조사 랜딩</li>
-</ul>
-</div>
-<!-- 지표 -->
-<div class="p-4 bg-warm-50/50 border border-ink-900/5 rounded-xl space-y-2">
-<div class="font-bold text-ink-900">추적해야 할 행동 데이터 지표</div>
-<div class="overflow-x-auto">
-<table class="w-full text-left text-[11px]">
-<thead>
-<tr class="border-b border-ink-900/10 text-indigo-700 font-bold">
-<th class="py-1">측정 항목</th>
-<th class="py-1 text-right">North Star Target</th>
-</tr>
-</thead>
-<tbody class="divide-y divide-ink-900/5 text-ink-800">
-<tr><td class="py-1">기술자 프로필 생성 수</td><td class="py-1 text-right font-bold">50명 이상</td></tr>
-<tr><td class="py-1">기업 회원 채용공고 등록 수</td><td class="py-1 text-right font-bold">20개사 이상</td></tr>
-<tr><td class="py-1">팀 단위 인력 요청 클릭 전환율</td><td class="py-1 text-right font-bold">10% 이상</td></tr>
-<tr><td class="py-1">AI 반장 / Field Operations 관심 신청</td><td class="py-1 text-right font-bold">누적 30건 이상</td></tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-</div>
-<!-- 4. 실행 전략 및 지원금 활용 계획 -->
-<div class="space-y-3">
-<h4 class="text-base font-bold text-ink-900 flex items-center gap-2"><i class="fa-solid fa-wallet text-indigo-600"></i> 실행 전략 및 2라운드 지원금(1000만원) 활용 계획</h4>
-<div class="bg-warm-100/50 p-4 border border-ink-900/10 rounded-xl text-xs space-y-2 text-ink-850">
-<p><strong>2라운드 합격 시 주어지는 1,000만원의 자금은 실제 모바일 MVP 고도화 및 광고/영업 실증 테스트에 배정합니다.</strong></p>
-<ul class="list-disc pl-5 space-y-1 text-ink-800">
-<li>실제 동작하는 모바일 프로필 생성 및 서류 업로드 백엔드 API 연동 고도화 (40%)</li>
-<li>현장 주변 기술자 확보용 타겟 퍼포먼스 마케팅 및 FGI 참여 리워드 지급 (30%)</li>
-<li>중소 전문건설업 협력사 채용 담당자 미팅 진행 및 PoC 사전 유치 마케팅 비용 (30%)</li>
-</ul>
-</div>
-</div>
-<!-- 5. 2라운드 핵심 검증 전략 요약 -->
-<div class="bg-indigo-600 text-white p-5 rounded-xl text-xs space-y-2">
-<div class="font-black text-sm uppercase tracking-wider flex items-center gap-1.5"><i class="fa-solid fa-circle-exclamation"></i> 2라운드 핵심 가치 증명</div>
-<p class="leading-relaxed">2라운드 통과의 관건은 단순한 아이디어를 넘어 <strong>'실제 행동 데이터 수치'</strong>를 증명하는 것입니다. "기술자는 자신의 경력과 신뢰 프로필을 디지털화하여 남길 유인이 있으며, 시공/협력사는 검증된 개인 및 팀 단위 인력을 디지털로 확인하고 요청하고 싶어 한다"는 사실을 로그 지표로써 심사위원들에게 제시하여 실현 가능성을 납득시킵니다.</p>
-</div>
+<div class="bg-[#FCFCFE] rounded-xl shadow-2xl max-w-2xl w-full my-8 relative" onclick="event.stopPropagation()">
+<button class="absolute top-4 right-4 w-10 h-10 flex items-center justify-center rounded-full bg-warm-100 hover:bg-warm-200 text-ink-900 transition-colors z-10" onclick="document.getElementById('r2-strategy-modal').close()"><i class="fa-solid fa-xmark"></i></button>
+<div class="p-8 max-h-[85vh] overflow-y-auto space-y-4">
+<h3 class="text-xl font-bold text-ink-900">2라운드 검증 지표</h3>
+<p class="text-sm text-ink-700">실제 기술자의 프로필 작성 유도, 기업의 채용 공고 등록 및 핵심 관심 기능 클릭 데이터를 기반으로 유효성(PMF)을 검증합니다.</p>
 </div>
 </div>
 </div>
 </dialog>
-<!-- ===== R3 Strategy Modal ===== -->
 <dialog class="bg-transparent w-full h-full p-0 m-0 fixed inset-0 z-50 backdrop:bg-ink-900/50" id="r3-strategy-modal">
 <div class="fixed inset-0 bg-ink-900/50 flex items-center justify-center p-4 z-50 overflow-y-auto" onclick="document.getElementById('r3-strategy-modal').close()">
-<div class="bg-[#FCFCFE] rounded-xl shadow-2xl max-w-4xl w-full my-8 relative border border-ink-900/10" onclick="event.stopPropagation()">
-<button class="absolute top-4 right-4 w-10 h-10 flex items-center justify-center rounded-full bg-warm-100 hover:bg-warm-200 text-ink-900 transition-colors z-10" onclick="document.getElementById('r3-strategy-modal').close()"><i class="fa-solid fa-xmark text-lg"></i></button>
-<div class="p-6 md:p-8 max-h-[85vh] overflow-y-auto space-y-6 text-left">
-<!-- Header -->
-<div class="border-b border-ink-900/10 pb-4">
-<div class="inline-block bg-indigo-50 text-indigo-700 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider mb-2">3라운드 · 최종 오디션 및 사업화</div>
-<h3 class="text-2xl font-black text-ink-900">3라운드 최종 협약 달성 및 현장 PoC 적용 로드맵</h3>
-</div>
-<!-- 1. 목표 -->
-<div class="space-y-3">
-<h4 class="text-base font-bold text-ink-900 flex items-center gap-2"><i class="fa-solid fa-bullseye text-indigo-600"></i> 3라운드 목표</h4>
-<ul class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs text-ink-850">
-<li class="p-3 bg-warm-50/50 border border-ink-900/5 rounded-lg flex items-start"><i class="fa-solid fa-check text-indigo-600 mt-0.5 mr-2"></i> 전국 오디션 최종 IR 대응 및 TOP 5 (1위 포함) 수상 확보</li>
-<li class="p-3 bg-warm-50/50 border border-ink-900/5 rounded-lg flex items-start"><i class="fa-solid fa-check text-indigo-600 mt-0.5 mr-2"></i> 실제 시공 협력사와 PoC(기술 실증) 도입을 위한 공식 협약(MOU) 확보</li>
-<li class="p-3 bg-warm-50/50 border border-ink-900/5 rounded-lg flex items-start"><i class="fa-solid fa-check text-indigo-600 mt-0.5 mr-2"></i> 대기업 상생 기금(삼성전자 등) 연계 및 ESG 인프라 도입 가능성 검증</li>
-<li class="p-3 bg-warm-50/50 border border-ink-900/5 rounded-lg flex items-start"><i class="fa-solid fa-check text-indigo-600 mt-0.5 mr-2"></i> 전략적 투자자(SI) 및 벤처캐피탈(VC) 네트워크 연결 및 후속 펀딩 확보</li>
-</ul>
-</div>
-<!-- 2. 핵심 실행 전략 -->
-<div class="space-y-3">
-<h4 class="text-base font-bold text-ink-900 flex items-center gap-2"><i class="fa-solid fa-chess text-indigo-600"></i> 3라운드 실증(PoC) 및 파트너 협약 전략</h4>
-<div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-ink-800">
-<div class="p-4 bg-white border border-ink-900/10 rounded-xl space-y-2">
-<div class="font-bold text-indigo-700">협력사 실증 PoC 적용</div>
-<p class="leading-relaxed">대형 수행 기업 소속 1·2차 협력사 2~3개사와 현장 도입 MOU를 맺고, 실제 현장 작업에 투입되는 근로자의 실시간 이력, 노무 정보 수집 시스템을 가동하여 검증합니다.</p>
-</div>
-<div class="p-4 bg-white border border-ink-900/10 rounded-xl space-y-2">
-<div class="font-bold text-indigo-700">팀 단위 인력 매칭 현장 투입</div>
-<p class="leading-relaxed">반장 파트너쉽을 공고히 다져 철근, 조적, 배관 등 1~2개 공정 단위의 MONO 파트너 팀을 시범 배치하고, 기존 대비 현장 투입 매칭 및 관리 효율 지표를 증빙합니다.</p>
-</div>
-<div class="p-4 bg-white border border-ink-900/10 rounded-xl space-y-2">
-<div class="font-bold text-indigo-700">MONO AI 현장 리더 작동</div>
-<p class="leading-relaxed">카카오톡 또는 모바일 플랫폼을 활용한 AI 현장 리더 프로토타입을 통해 신입 근로자의 위험 요인 자동 전달, 일용직 간편 노무대장 작성 등 편의성을 시범 적용합니다.</p>
-</div>
-<div class="p-4 bg-white border border-ink-900/10 rounded-xl space-y-2">
-<div class="font-bold text-indigo-700">외국인 노동자 노무 SaaS 검증</div>
-<p class="leading-relaxed">비자 상태 및 안전 수칙 숙지도, 모국어 통역 교육 자료를 포함한 외국인 숙련 기술팀 관리 모델을 실증하여 중대재해 리스크를 획기적으로 낮추는 방안을 검증합니다.</p>
-</div>
-</div>
-</div>
-<!-- 3. 대기업 상생 투자 및 SI VC 구조 연계 -->
-<div class="space-y-3">
-<h4 class="text-base font-bold text-ink-900 flex items-center gap-2"><i class="fa-solid fa-handshake-angle text-indigo-600"></i> 대기업 상생 및 SI · VC 연계 구도</h4>
-<div class="bg-indigo-50/50 p-4 border border-indigo-100 rounded-xl text-xs space-y-2 text-ink-850">
-<p><strong>MONO는 대기업이 매년 수조 원 규모로 쏟아붓는 협력사 상생 협력 및 ESG 환경·안전 리스크 의무를 해결하는 최적의 통합 플랫폼입니다.</strong></p>
-<ul class="list-disc pl-5 space-y-1 text-ink-800">
-<li>대기업 원청: 대형 상생 펀드(예: 삼성전자 5조 상생 투자) 및 안전기금을 MONO의 데이터 인프라 구축과 간접 연동하여 협력사 안전 등급을 실시간 평가</li>
-<li>금융/보험 SI: 축적된 신뢰 프로필 데이터를 기반으로 현장 기술자 전용 간편 대출 우대 및 현장 맞춤형 산재·안전 보험 상품 모델 구축</li>
-<li>SI 및 VC: 스마트 헬멧/IoT 디바이스 제조 대기업, 건설/조선 원청 CVC와 연계하여 시리즈A 프리 단계 투자 유치 기반을 마련</li>
-</ul>
-</div>
-</div>
-<!-- 4. 3라운드 사업화 자금 집행 계획 -->
-<div class="space-y-3">
-<h4 class="text-base font-bold text-ink-900 flex items-center gap-2"><i class="fa-solid fa-money-bill-wave text-indigo-600"></i> 최종 사업화 자금(최대 1억원) 집행 계획</h4>
-<div class="overflow-x-auto border border-ink-900/10 rounded-lg">
-<table class="w-full text-left border-collapse text-xs">
-<thead>
-<tr class="bg-warm-100/50 border-b border-ink-900/10 font-bold text-ink-900">
-<th class="p-2 border-r border-ink-900/10 w-1/4">부문</th>
-<th class="p-2 w-1/5 text-right">비중</th>
-<th class="p-2">세부 내용</th>
-</tr>
-</thead>
-<tbody class="divide-y divide-ink-900/10 text-ink-850">
-<tr>
-<td class="p-2 font-bold bg-warm-50/20 border-r border-ink-900/10">MVP 시스템 고도화</td>
-<td class="p-2 text-right border-r border-ink-900/10 font-bold">30%</td>
-<td class="p-2">백엔드 클라우드 데이터 구조 최적화, 기업용 SaaS 솔루션 정식 빌드 및 현장 AI 반장 연계 프레임워크 확장</td>
-</tr>
-<tr>
-<td class="p-2 font-bold bg-warm-50/20 border-r border-ink-900/10">현장 PoC 검증 인프라</td>
-<td class="p-2 text-right border-r border-ink-900/10 font-bold">40%</td>
-<td class="p-2">실제 시공 현장 2~3곳에 데이터 기록용 IoT 모바일 수집기 도입(MONO Device), 파트너 반장 프로모션 지원</td>
-</tr>
-<tr>
-<td class="p-2 font-bold bg-warm-50/20 border-r border-ink-900/10">B2B 마케팅 및 영업</td>
-<td class="p-2 text-right border-r border-ink-900/10 font-bold">30%</td>
-<td class="p-2">종합 전문건설업체 및 대형 원청사 대상 PoC 설명회 진행, 파트너십 구축 및 ESG 데이터 평가 모델 개발</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<!-- 5. 최종 IR 키 메시지 -->
-<div class="bg-indigo-600 text-white p-5 rounded-xl text-xs space-y-2">
-<div class="font-black text-sm uppercase tracking-wider flex items-center gap-1.5"><i class="fa-solid fa-circle-exclamation"></i> 3라운드 최종 IR 메시지</div>
-<p class="leading-relaxed">MONO는 채용 공고, 팀 구성, 현장 투입, 운영과 평가를 연결하는 산업 신뢰 인프라입니다. MONO는 기술자의 경험 경력과 원청·협력사의 현장 운영 실무 데이터를 유기적으로 수집하고 연계하는 <strong>'산업 현장 신뢰 데이터 플랫폼'</strong>입니다. 현장 데이터 축적을 토대로 <strong>팀 단위 인력 매칭</strong>, <strong>Field Operations 서비스(MONO Gear 하위 서비스 등)</strong>, 그리고 <strong>장기적인 로봇·AI 운영체제(AGI OS)</strong> 비전을 결합하여 건설/조선업의 근본적 생산성 지각변동을 이끌어내겠습니다.</p>
-</div>
+<div class="bg-[#FCFCFE] rounded-xl shadow-2xl max-w-2xl w-full my-8 relative" onclick="event.stopPropagation()">
+<button class="absolute top-4 right-4 w-10 h-10 flex items-center justify-center rounded-full bg-warm-100 hover:bg-warm-200 text-ink-900 transition-colors z-10" onclick="document.getElementById('r3-strategy-modal').close()"><i class="fa-solid fa-xmark"></i></button>
+<div class="p-8 max-h-[85vh] overflow-y-auto space-y-4">
+<h3 class="text-xl font-bold text-ink-900">3라운드 협약 및 PoC</h3>
+<p class="text-sm text-ink-700">시공 협력사 간 PoC 실증 도입 MOU 체결 및 후속 전략적 투자자(SI) 후보군을 연계 확보하는 단계입니다.</p>
 </div>
 </div>
 </div>
@@ -2666,11 +2186,11 @@
 <!-- ============================== LIGHTBOX ============================== -->
 <dialog class="bg-transparent w-full h-full p-0 m-0 fixed inset-0 z-[1000] backdrop:bg-ink-900/80 border-none outline-none" id="lightbox">
 <div class="fixed inset-0 bg-ink-900/85 backdrop-blur-md flex items-center justify-center p-8" onclick="closeLightbox()">
-<div class="bg-[#FCFCFE] rounded-lg p-2 md:p-4 shadow-2xl relative overflow-auto max-w-[98vw] max-h-[95vh]" id="lightbox-content" onclick="event.stopPropagation()">
-<button class="absolute top-2 right-2 md:top-4 md:right-4 w-10 h-10 flex items-center justify-center rounded-full bg-warm-100/80 hover:bg-warm-200 text-ink-900 transition-colors z-20 backdrop-blur-sm" onclick="closeLightbox()">
+<div class="bg-[#FCFCFE] rounded-lg p-6 shadow-2xl relative overflow-auto max-w-[95vw] max-h-[90vh]" id="lightbox-content" onclick="event.stopPropagation()">
+<button class="absolute top-4 right-4 w-10 h-10 flex items-center justify-center rounded-full bg-warm-100 hover:bg-warm-200 text-ink-900 transition-colors z-20" onclick="closeLightbox()">
 <i class="fa-solid fa-xmark text-lg"></i>
 </button>
-<div class="flex flex-col items-center justify-center p-0" id="lightbox-svg-holder">
+<div class="flex items-center justify-center p-4" id="lightbox-svg-holder">
 <!-- Cloned SVG will be placed here -->
 </div>
 </div>
@@ -2714,16 +2234,27 @@
   window.openBigModal = function(imgSrc, title, description) {
     lightboxHolder.innerHTML = '';
     
+    // Create title
+    const titleEl = document.createElement('h3');
+    titleEl.className = 'text-xl font-bold text-ink-900 mb-4 text-center';
+    titleEl.textContent = title;
+    lightboxHolder.appendChild(titleEl);
+    
     // Create image wrapper
     const imgEl = document.createElement('img');
     imgEl.src = imgSrc;
-    imgEl.className = 'block mx-auto';
-    imgEl.style.width = '130%';
-    imgEl.style.minWidth = '1600px';
+    imgEl.className = 'my-3 object-contain';
+    imgEl.style.width = '1100px';
+    imgEl.style.height = 'auto';
+    imgEl.style.maxWidth = '90vw';
+    imgEl.style.maxHeight = '70vh';
     
     const wrapper = document.createElement('div');
     wrapper.style.overflow = 'auto';
-    wrapper.className = 'w-full';
+    wrapper.style.maxWidth = '90vw';
+    wrapper.style.maxHeight = '75vh';
+    wrapper.style.webkitOverflowScrolling = 'touch';
+    wrapper.className = 'flex justify-center bg-warm-50/50 p-4 rounded-lg border border-ink-900/5';
     wrapper.appendChild(imgEl);
     lightboxHolder.appendChild(wrapper);
     
@@ -2890,19 +2421,15 @@
 
   // Persona 탭 전환
   window.switchPersona = function(n) {
+    // 탭 버튼 active 처리
     document.querySelectorAll('#personaTabs .ptab').forEach((btn, i) => {
       btn.classList.toggle('active', i + 1 === n);
     });
+    // 패널 표시/숨김 (hidden 클래스 사용)
     document.querySelectorAll('#personaPanels .ppanel').forEach((panel, i) => {
-      panel.classList.toggle('active', i + 1 === n);
-      if (i + 1 === n) {
-        panel.classList.remove('hidden');
-      } else {
-        panel.classList.add('hidden');
-      }
+      panel.classList.toggle('hidden', i + 1 !== n);
     });
   };
-
 </script>
 </body>
 </html>
