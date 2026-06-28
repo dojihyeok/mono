@@ -2185,19 +2185,7 @@
 <!-- Removed dialog: tech-blue-modal -->
 <!-- Removed dialog: agi-core-os-modal -->
 <!-- Removed dialog: mono-device-modal -->
-<!-- ============================== LIGHTBOX ============================== -->
-<dialog class="bg-transparent w-full h-full p-0 m-0 fixed inset-0 z-[1000] backdrop:bg-ink-900/80 border-none outline-none" id="lightbox">
-<div class="fixed inset-0 bg-ink-900/85 backdrop-blur-md flex items-center justify-center p-8" onclick="closeLightbox()">
-<div class="bg-[#FCFCFE] rounded-lg p-6 shadow-2xl relative overflow-auto max-w-[95vw] max-h-[90vh]" id="lightbox-content" onclick="event.stopPropagation()">
-<button class="absolute top-4 right-4 w-10 h-10 flex items-center justify-center rounded-full bg-warm-100 hover:bg-warm-200 text-ink-900 transition-colors z-20" onclick="closeLightbox()">
-<i class="fa-solid fa-xmark text-lg"></i>
-</button>
-<div class="flex items-center justify-center p-4" id="lightbox-svg-holder">
-<!-- Cloned SVG will be placed here -->
-</div>
-</div>
-</div>
-</dialog>
+
 <!-- ============================== SCRIPTS ============================== -->
 <script>
   // Mobile drawer interaction
@@ -2229,109 +2217,7 @@
     link.addEventListener('click', closeDrawer);
   });
 
-  // Lightbox Zoom Logic for SVGs & Images
-  const lightbox = document.getElementById('lightbox');
-  const lightboxHolder = document.getElementById('lightbox-svg-holder');
-
-  window.openBigModal = function(imgSrc, title, description) {
-    lightboxHolder.innerHTML = '';
-    
-    // Create title
-    const titleEl = document.createElement('h3');
-    titleEl.className = 'text-xl font-bold text-ink-900 mb-4 text-center';
-    titleEl.textContent = title;
-    lightboxHolder.appendChild(titleEl);
-    
-    // Create image wrapper
-    const imgEl = document.createElement('img');
-    imgEl.src = imgSrc;
-    imgEl.className = 'my-3 object-contain';
-    imgEl.style.width = '1100px';
-    imgEl.style.height = 'auto';
-    imgEl.style.maxWidth = '90vw';
-    imgEl.style.maxHeight = '70vh';
-    
-    const wrapper = document.createElement('div');
-    wrapper.style.overflow = 'auto';
-    wrapper.style.maxWidth = '90vw';
-    wrapper.style.maxHeight = '75vh';
-    wrapper.style.webkitOverflowScrolling = 'touch';
-    wrapper.className = 'flex justify-center bg-warm-50/50 p-4 rounded-lg border border-ink-900/5';
-    wrapper.appendChild(imgEl);
-    lightboxHolder.appendChild(wrapper);
-    
-    // Create description
-    const descEl = document.createElement('p');
-    descEl.className = 'text-sm text-ink-700 mt-4 text-center  mx-auto';
-    descEl.textContent = description;
-    lightboxHolder.appendChild(descEl);
-    
-    if (typeof lightbox.showModal === 'function') {
-      lightbox.showModal();
-    } else {
-      lightbox.classList.add('active');
-    }
-  };
-
-  window.openLightbox = function(container) {
-    const svg = container.querySelector('svg');
-    const img = container.querySelector('img');
-    
-    // Clear previous content
-    lightboxHolder.innerHTML = '';
-    
-    if (svg) {
-      const clonedSvg = svg.cloneNode(true);
-      clonedSvg.removeAttribute('class');
-      
-      // Make it actually enlarged (1300px width for details)
-      clonedSvg.style.width = '1300px';
-      clonedSvg.style.height = 'auto';
-      clonedSvg.style.maxWidth = 'none';
-      clonedSvg.style.maxHeight = 'none';
-      
-      const wrapper = document.createElement('div');
-      wrapper.style.overflow = 'auto';
-      wrapper.style.maxWidth = '90vw';
-      wrapper.style.maxHeight = '80vh';
-      wrapper.style.webkitOverflowScrolling = 'touch';
-      wrapper.appendChild(clonedSvg);
-      lightboxHolder.appendChild(wrapper);
-    } else if (img) {
-      const clonedImg = img.cloneNode(true);
-      clonedImg.removeAttribute('class');
-      
-      // Make it actually enlarged (1100px width for details)
-      clonedImg.style.width = '1100px';
-      clonedImg.style.height = 'auto';
-      clonedImg.style.maxWidth = 'none';
-      clonedImg.style.maxHeight = 'none';
-      
-      const wrapper = document.createElement('div');
-      wrapper.style.overflow = 'auto';
-      wrapper.style.maxWidth = '90vw';
-      wrapper.style.maxHeight = '80vh';
-      wrapper.style.webkitOverflowScrolling = 'touch';
-      wrapper.appendChild(clonedImg);
-      lightboxHolder.appendChild(wrapper);
-    } else {
-      return;
-    }
-    
-    if (typeof lightbox.showModal === 'function') {
-      lightbox.showModal();
-    } else {
-      lightbox.classList.add('active');
-    }
-  };
-
-  window.closeLightbox = function() {
-    if (typeof lightbox.close === 'function') {
-      lightbox.close();
-    } else {
-      lightbox.classList.remove('active');
-    }
-  };
+  
 
   // Nav link active class toggle on scroll
   const sections = document.querySelectorAll('section');
@@ -2433,26 +2319,28 @@
     });
   };
 
-  // Image Modal functionality
+  
+  // Universal Image Modal Logic
   window.openBigModal = function(imgSrc, title, desc) {
-    const modal = document.getElementById('bigModal');
-    const modalImg = document.getElementById('bigModalImg');
-    const modalTitle = document.getElementById('bigModalTitle');
-    const modalDesc = document.getElementById('bigModalDesc');
+    const modal = document.getElementById('unifiedImageModal');
+    const modalImg = document.getElementById('unifiedImageModalImg');
+    const modalTitle = document.getElementById('unifiedImageModalTitle');
+    const modalDesc = document.getElementById('unifiedImageModalDesc');
     
-    if(modal && modalImg) {
+    if (modal && modalImg) {
       modalImg.src = imgSrc;
-      if(modalTitle) modalTitle.innerText = title || '';
-      if(modalDesc) modalDesc.innerText = desc || '';
+      modalTitle.innerText = title || '';
+      modalDesc.innerText = desc || '';
+      
       modal.classList.remove('hidden');
       modal.classList.add('flex');
-      document.body.style.overflow = 'hidden';
+      document.body.style.overflow = 'hidden'; // Prevent background scrolling
     }
   };
 
-  window.closeBigModal = function() {
-    const modal = document.getElementById('bigModal');
-    if(modal) {
+  window.closeUnifiedModal = function() {
+    const modal = document.getElementById('unifiedImageModal');
+    if (modal) {
       modal.classList.add('hidden');
       modal.classList.remove('flex');
       document.body.style.overflow = '';
@@ -2460,24 +2348,25 @@
   };
 </script>
 
-<!-- Big Modal -->
-<div id="bigModal" class="fixed inset-0 z-[9999] hidden items-center justify-center bg-black/80 backdrop-blur-sm p-4 md:p-10" onclick="closeBigModal()">
-  <div class="relative w-full max-w-6xl max-h-full flex flex-col items-center bg-transparent" onclick="event.stopPropagation()">
+<!-- Unified Image Modal -->
+<div id="unifiedImageModal" class="fixed inset-0 z-[99999] hidden items-center justify-center bg-ink-900/90 backdrop-blur-sm p-4 md:p-8" onclick="closeUnifiedModal()">
+  <div class="relative w-full max-w-6xl max-h-[95vh] flex flex-col items-center bg-transparent" onclick="event.stopPropagation()">
     <!-- Close Button -->
-    <button onclick="closeBigModal()" class="absolute -top-10 right-0 text-white hover:text-indigo-400 transition-colors">
-      <i class="fa-solid fa-xmark text-3xl"></i>
+    <button onclick="closeUnifiedModal()" class="absolute -top-12 right-0 text-white hover:text-indigo-400 transition-colors bg-ink-900/50 hover:bg-ink-900 rounded-full w-10 h-10 flex items-center justify-center">
+      <i class="fa-solid fa-xmark text-2xl"></i>
     </button>
     
-    <div class="w-full bg-white rounded-xl overflow-hidden shadow-2xl flex flex-col">
-      <div class="bg-warm-50 p-4 border-b border-ink-200">
-        <h3 id="bigModalTitle" class="text-xl font-bold text-ink-900"></h3>
-        <p id="bigModalDesc" class="text-sm text-ink-600 mt-1"></p>
+    <div class="w-full bg-white rounded-xl shadow-2xl flex flex-col overflow-hidden max-h-[90vh]">
+      <div class="bg-warm-50 p-4 border-b border-ink-200 shrink-0">
+        <h3 id="unifiedImageModalTitle" class="text-xl font-bold text-ink-900 text-center"></h3>
+        <p id="unifiedImageModalDesc" class="text-sm text-ink-600 mt-2 text-center max-w-3xl mx-auto break-keep"></p>
       </div>
-      <div class="p-2 md:p-6 overflow-auto max-h-[70vh] flex justify-center bg-warm-100">
-        <img id="bigModalImg" src="" alt="확대 이미지" class="max-w-full h-auto object-contain rounded-lg shadow-sm" />
+      <div class="p-2 md:p-6 overflow-auto flex-1 flex justify-center bg-warm-100">
+        <img id="unifiedImageModalImg" src="" alt="확대 이미지" class="max-w-full h-auto object-contain rounded-lg shadow-sm border border-ink-900/10" style="max-height: 70vh;" />
       </div>
     </div>
   </div>
 </div>
+
 </body>
 </html>
