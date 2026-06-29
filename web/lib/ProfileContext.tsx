@@ -18,7 +18,7 @@ import type {
   User,
 } from "./types";
 import { emptyState, loadState, makeId, saveState } from "./store";
-import { computeCompletion } from "./completion";
+import { computeCompletion, isVerifiedProfile } from "./completion";
 import { track } from "./analytics";
 import {
   apiSignup,
@@ -39,6 +39,10 @@ interface ProfileContextValue extends ProfileState {
     jobType: string[];
     careerYears: string;
     region: string[];
+    name?: string;
+    industries?: string[];
+    role?: string;
+    residency?: "DOMESTIC" | "OVERSEAS";
   }) => void;
   updateUser: (patch: Partial<User>) => void;
   addCareerCard: (card: Omit<CareerCard, "id" | "createdAt">) => void;
@@ -47,7 +51,6 @@ interface ProfileContextValue extends ProfileState {
   registerInterest: (feature: InterestFeatureKey) => boolean; // 신규면 true
   ensureShareId: () => string;
   reset: () => void;
-  simulateState: (type: "before_login" | "no_profile" | "completed") => void;
 }
 
 const ProfileContext = createContext<ProfileContextValue | null>(null);
@@ -105,7 +108,15 @@ export function ProfileProvider({ children }: { children: React.ReactNode }) {
   );
 
   const setBasicProfile = useCallback(
-    (data: { jobType: string[]; careerYears: string; region: string[] }) => {
+    (data: {
+      jobType: string[];
+      careerYears: string;
+      region: string[];
+      name?: string;
+      industries?: string[];
+      role?: string;
+      residency?: "DOMESTIC" | "OVERSEAS";
+    }) => {
       setState((prev) => {
         const base: User =
           prev.user ?? {
@@ -119,13 +130,22 @@ export function ProfileProvider({ children }: { children: React.ReactNode }) {
           ...prev,
           user: {
             ...base,
+            ...(data.name ? { name: data.name } : {}),
+            // 자가선택 유형(WORKER/CUSTOMER)만 로컬 반영. FIELD_LEADER 는 관리자 승인 경로.
+            ...(data.role ? { role: data.role as User["role"] } : {}),
             jobType: data.jobType,
             careerYears: data.careerYears,
             region: data.region,
+            ...(data.industries ? { industries: data.industries } : {}),
+            ...(data.residency ? { residency: data.residency } : {}),
           },
         };
       });
-      track("profile_basic_completed", data);
+      // 산업 선택 이벤트(§5.2). user_type_selected 는 유형 선택 화면(MonoEntry)에서 발화.
+      if (data.industries?.length)
+        track("industry_selected", { industries: data.industries });
+      if (data.residency) track("residency_selected", { residency: data.residency });
+      track("profile_basic_completed", { jobType: data.jobType });
       // 서버 저장(BFF → api). careerYears 라벨 → CareerBand enum 매핑은 apiClient에서.
       void apiSetBasicProfile(data);
     },
@@ -238,78 +258,6 @@ export function ProfileProvider({ children }: { children: React.ReactNode }) {
     setState(emptyState);
   }, []);
 
-  const simulateState = useCallback((type: "before_login" | "no_profile" | "completed") => {
-    clearServerId();
-    if (type === "before_login") {
-      setState(emptyState);
-    } else if (type === "no_profile") {
-      setState({
-        user: {
-          id: makeId("user"),
-          phone: "010-1234-5678",
-          email: null,
-          name: "홍길동",
-          jobType: null,
-          careerYears: null,
-          region: null,
-          createdAt: new Date().toISOString(),
-        },
-        careerCards: [],
-        certificates: [],
-        educations: [],
-        interests: [],
-        shareId: null,
-      });
-    } else if (type === "completed") {
-      const shareId = makeId("p").slice(2, 12);
-      setState({
-        user: {
-          id: makeId("user"),
-          phone: "010-1234-5678",
-          email: null,
-          name: "홍길동",
-          jobType: ["형틀목공"],
-          careerYears: "5년~10년",
-          region: ["인천 연수구"],
-          createdAt: new Date().toISOString(),
-        },
-        careerCards: [
-          {
-            id: makeId("career"),
-            siteName: "힐스테이트 송도 더스카이",
-            field: "형틀목공",
-            startDate: "2024-03",
-            endDate: "",
-            role: "반장",
-            equipment: "갱폼·알폼",
-            createdAt: new Date().toISOString(),
-          }
-        ],
-        certificates: [
-          {
-            id: makeId("cert"),
-            name: "비계기능사",
-            licenseNo: "20-412-0081",
-            issuer: "한국산업인력공단",
-            issuedAt: "2020.05.12",
-            createdAt: new Date().toISOString(),
-          }
-        ],
-        educations: [
-          {
-            id: makeId("edu"),
-            title: "건설업 기초안전보건교육",
-            institute: "안전보건공단",
-            completedAt: "2022.03.14",
-            createdAt: new Date().toISOString(),
-          }
-        ],
-        interests: [],
-        shareId,
-      });
-    }
-  }, []);
-
   const completion = useMemo(() => computeCompletion(state), [state]);
 
   const nextAction = useMemo<{ label: string; href: string } | null>(() => {
@@ -323,22 +271,53 @@ export function ProfileProvider({ children }: { children: React.ReactNode }) {
     return null;
   }, [state]);
 
-  const value: ProfileContextValue = {
-    ...state,
-    ready,
-    completion,
-    nextAction,
-    startSignup,
-    setBasicProfile,
-    updateUser,
-    addCareerCard,
-    addCertificate,
-    addEducation,
-    registerInterest,
-    ensureShareId,
-    reset,
-    simulateState,
-  };
+  // North Star(§8-1) 신호: 검증 프로필 완성이 false→true 로 전이될 때 1회만 발화.
+  // 로드 시점 값으로 초기화해, 이미 완성된 사용자가 재방문할 때마다 재발화하지 않도록 한다.
+  const verified = isVerifiedProfile(state);
+  const prevVerified = useRef<boolean | null>(null);
+  useEffect(() => {
+    if (!ready) return;
+    if (prevVerified.current === null) {
+      prevVerified.current = verified;
+      return;
+    }
+    if (verified && !prevVerified.current) track("profile_completed", { completion });
+    prevVerified.current = verified;
+  }, [verified, ready, completion]);
+
+  // value 메모이즈 — Provider 리렌더마다 새 객체 생성으로 모든 소비자가 리렌더되는 것 방지.
+  const value: ProfileContextValue = useMemo(
+    () => ({
+      ...state,
+      ready,
+      completion,
+      nextAction,
+      startSignup,
+      setBasicProfile,
+      updateUser,
+      addCareerCard,
+      addCertificate,
+      addEducation,
+      registerInterest,
+      ensureShareId,
+      reset,
+    }),
+    [
+      state,
+      ready,
+      completion,
+      nextAction,
+      startSignup,
+      setBasicProfile,
+      updateUser,
+      addCareerCard,
+      addCertificate,
+      addEducation,
+      registerInterest,
+      ensureShareId,
+      reset,
+    ],
+  );
 
   return (
     <ProfileContext.Provider value={value}>{children}</ProfileContext.Provider>

@@ -23,46 +23,62 @@
   --radius-full: 999px;
 
   /* Surface 1 — 하이엔드 앱 셸 (Gold / Dark) : Career·Attendance·Settlement·Admin */
-  --shell-primary: #d4af37;
+  --shell-primary: #8b8df8;
   --shell-bg: #0a0a0a;
   --shell-surface: #111111;
   --shell-border: rgba(255, 255, 255, 0.08);
   --shell-text: #f5f5f5;
   --shell-text-tertiary: #8e8e93;
 
-  /* ---- 테마 팔레트 (기본: MONO Tech-Blue) — 프로토타입 THEME 선언 기준 ----
-     [data-theme="green"|"indigo"] 로 런타임 전환 (내 정보 > 테마 색상) */
-  --c0: #0f2e40;
-  --c1: #163e57;
-  --c2: #1f5878;
-  --c3: #2f7da3;
-  --amb1: #1c3647;
-  --amb2: #142836;
-  --amb3: #0c1a24;
-  --t0: #eef4f8;
-  --t1: #a9cfe0;
-  --t2: #79a7bf;
-  --a1: #cda04a;
-  --a2: #e3c178;
-  --a3: #a8822f;
-  --bg: #ece7dd;
-  --soft: #dde9f0;
-  --ai: #9a6b16;
+  /* ============================================================
+     ★ 단일 브랜드 색 (SINGLE SOURCE OF TRUTH) ★
+     아래 5개 값만 바꾸면 모든 페이지(MonoApp·admin·partner·analys)의
+     테마색이 한 번에 바뀝니다. 다른 곳엔 브랜드 hex를 직접 쓰지 말 것.
+     (코드의 var(--c1,#4f46e5) 식 fallback hex는 이 토큰이 없을 때만 쓰임)
+     ============================================================ */
+  --brand: #4f46e5;        /* ★ 메인 브랜드 — 이 한 값만 바꾸면 전 페이지·변형까지 리컬러 */
+  /* 아래 변형은 --brand에서 color-mix로 자동 파생 → --brand만 바꿔도 같이 움직임.
+     color-mix 미지원 구형 브라우저는 각 사용처의 fallback hex(인디고)로 자연 degrade. */
+  --brand-deep:   color-mix(in srgb, var(--brand,#4f46e5) 62%, #000); /* 가장 짙은 브랜드 — 파트너 잉크 */
+  --brand-ink:    color-mix(in srgb, var(--brand,#4f46e5) 70%, #000); /* 짙은 브랜드 — 그라데이션 하단·딥 */
+  --brand-soft:   color-mix(in srgb, var(--brand,#4f46e5) 40%, #fff); /* 옅은 브랜드 — 보조 강조 */
+  --brand-tint:   color-mix(in srgb, var(--brand,#4f46e5) 11%, #fff); /* 배경 틴트 — 칩·약한 면 */
+  --brand-tint-2: color-mix(in srgb, var(--brand,#4f46e5) 34%, #fff); /* 배경 틴트(진한) */
+  --brand-glow:   color-mix(in srgb, var(--brand,#4f46e5) 66%, #fff); /* 다크 카드 위 밝은 브랜드 — 히어로 숫자 */
+
+  /* ---- 테마 팔레트 — 전부 --brand 파생(프로토타입 c/a/t 토큰 호환) ---- */
+  --c0: var(--brand);
+  --c1: var(--brand);
+  --c2: var(--brand);
+  --c3: var(--brand);
+  --amb1: var(--brand-ink);
+  --amb2: var(--brand);
+  --amb3: var(--brand);
+  --t0: var(--brand-tint);
+  --t1: var(--brand-tint-2);
+  --t2: var(--brand-tint-2);
+  --a1: var(--brand);
+  --a2: var(--brand-soft);
+  --a3: var(--brand);
+  --bg: #f5f6fb;
+  --soft: var(--brand-tint);
+  --ai: var(--brand);
+  --aSoft: var(--brand-tint);
 
   /* Surface 2 — 사용자 앱 (경력카드). 팔레트 변수로부터 매핑 */
   --app-page: var(--bg);
   --app-bg: #ffffff; /* 카드/elevated 면 */
-  --app-surface: #e7e2d6; /* 입력/secondary 면 */
-  --app-surface-2: #f2eee4; /* 더 옅은 면 */
-  --app-text: #14222c; /* 본문(딥 잉크) */
-  --app-text-secondary: #50616d;
-  --app-text-tertiary: #8794a0;
-  --app-border: #e2ddcf; /* 보더 */
+  --app-surface: #eef0f3; /* 입력/secondary 면 (파트너웹 쿨 그레이) */
+  --app-surface-2: #f5f6fb; /* 더 옅은 면 */
+  --app-text: var(--brand); /* 본문 잉크 = 브랜드(현재 인디고). 본문을 브랜드와 분리하려면 여기에 별도 hex */
+  --app-text-secondary: #5b6b82;
+  --app-text-tertiary: #8694a8;
+  --app-border: #e6e8ec; /* 보더 (파트너웹과 동일) */
   --app-accent: var(--c1);
   --app-accent-press: var(--c0);
   --app-accent-weak: var(--soft);
   --app-positive: var(--c3);
-  --app-warning: #b4451f; /* 테라코타 */
+  --app-warning: #b4690e; /* 앰버(파트너웹 톤) */
 
   /* 경력카드 액센트 — 골드 / 다크 잉크 면 */
   --app-gold: var(--a1);
@@ -72,9 +88,9 @@
   --app-mint: var(--t1);
 
   /* App surface elevation / shadow (warm) */
-  --app-shadow-sm: 0 1px 2px rgba(21, 33, 28, 0.05);
-  --app-shadow-md: 0 6px 22px rgba(21, 33, 28, 0.07);
-  --app-shadow-lg: 0 16px 40px rgba(21, 33, 28, 0.12);
+  --app-shadow-sm: 0 1px 2px rgba(22, 30, 48, 0.05);
+  --app-shadow-md: 0 6px 22px rgba(22, 30, 48, 0.07);
+  --app-shadow-lg: 0 16px 40px rgba(22, 30, 48, 0.12);
 
   /* Surface 3 — 전략(IR) 페이지 (Navy / Blue / Cyan + White·Ivory) */
   --ir-navy: #0b1f3a;
@@ -127,10 +143,24 @@ button {
   border-radius: 6px;
 }
 
+/* 입력칸은 떨어진 outline 대신 밀착 ring — 가장자리 삐져나옴/이중 보더 방지 */
+input:focus-visible,
+input:focus,
+textarea:focus-visible,
+textarea:focus,
+select:focus-visible,
+select:focus {
+  outline: none;
+  border-color: var(--app-accent);
+  box-shadow: 0 0 0 3px var(--aSoft);
+}
+
 input,
-textarea {
+textarea,
+select {
   font-family: inherit;
   letter-spacing: -0.01em;
+  color: #111111; /* 사용자 입력 글자는 검정 (placeholder는 ::placeholder 회색 유지) */
 }
 
 /* 모달 오픈 시 배경 스크롤 잠금 (CLAUDE.md 6) */
@@ -162,7 +192,7 @@ body.scroll-lock {
   }
 }
 
-/* MoNo 프로토타입(MonoApp) 전역 클래스/키프레임 */
+/* MONO 프로토타입(MonoApp) 전역 클래스/키프레임 */
 .mono { font-family: var(--font-mono); }
 .scr::-webkit-scrollbar { width: 0; height: 0; }
 .scr { scrollbar-width: none; }
@@ -170,6 +200,9 @@ body.scroll-lock {
 @keyframes shine { 0% { transform: translateX(-120%); } 60%, 100% { transform: translateX(220%); } }
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 @keyframes sheetUp { from { transform: translateY(40px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+@keyframes sheetDown { from { transform: translateY(-40px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+@keyframes riseUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+@keyframes tabIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 
 /* MonoApp — 하이브리드(웹+앱) 반응형: 모바일=전체화면 / 데스크톱=가운데 폰 프레임 */
 .mono-stage {
@@ -177,31 +210,101 @@ body.scroll-lock {
   display: flex;
   justify-content: center;
   align-items: stretch;
-  background: var(--app-page);
+  background: #f5f6fb;
 }
 .mono-frame {
   width: 100%;
-  max-width: 480px;
   height: 100dvh;
   display: flex;
   flex-direction: column;
   position: relative;
   overflow: hidden;
-  background: var(--bg, #f3f1ea);
+  background: var(--bg, #f5f6fb);
 }
-@media (min-width: 481px) {
+/* 데스크톱 사이드바 — 모바일에선 숨김(하단 탭 사용) */
+.mono-sidebar {
+  display: none;
+}
+
+/* 데스크톱: 폰 목업/남색 무대 대신 실제 웹앱 셸(좌측 사이드바 + 콘텐츠 영역) */
+@media (min-width: 768px) {
   .mono-stage {
+    justify-content: flex-start;
+    align-items: stretch;
+    background: #f5f6fb;
+  }
+  .mono-sidebar {
+    display: flex;
+    flex-direction: column;
+    flex: none;
+    width: 248px;
+    padding: 24px 16px 18px;
+    background: #ffffff;
+    border-right: 1px solid #e6e8ec;
+  }
+  .mono-sidebar-brand {
+    display: flex;
     align-items: center;
-    padding: 24px 16px;
-    background:
-      radial-gradient(1000px 520px at 50% -10%, rgba(47, 125, 163, 0.4), transparent 62%),
-      var(--amb3, #0c1a24);
+    gap: 9px;
+    padding: 4px 8px 18px;
+    font-size: 17px;
+    font-weight: 800;
+    color: var(--c0, #4f46e5);
+  }
+  .mono-sidebar-logo {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, var(--c1, #4f46e5), var(--c0, #4f46e5));
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    font-weight: 900;
+  }
+  .mono-sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+  .mono-sidebar-item {
+    text-align: left;
+    padding: 11px 13px;
+    border: none;
+    border-radius: 10px;
+    background: none;
+    color: #344256;
+    font-family: inherit;
+    font-size: 14.5px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.12s ease;
+  }
+  .mono-sidebar-item:hover {
+    background: #eef0f3;
+  }
+  .mono-sidebar-item.active {
+    background: var(--c1, #4f46e5);
+    color: #fff;
+  }
+  .mono-sidebar-foot {
+    margin-top: auto;
+    padding: 12px 10px 4px;
+    font-size: 11.5px;
+    font-weight: 600;
+    color: #8694a8;
   }
   .mono-frame {
-    height: min(880px, calc(100dvh - 48px));
-    border-radius: 38px;
-    box-shadow:
-      0 40px 80px -24px rgba(0, 0, 0, 0.55),
-      0 0 0 1px rgba(255, 255, 255, 0.05);
+    flex: 0 1 720px;
+    max-width: 720px;
+    height: 100dvh;
+    margin-left: auto;
+    margin-right: auto;
+    border-left: 1px solid #e6e8ec;
+    border-right: 1px solid #e6e8ec;
+  }
+  .mono-bottomnav {
+    display: none !important;
   }
 }

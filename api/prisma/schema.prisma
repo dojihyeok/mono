@@ -11,22 +11,71 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id          String   @id @default(cuid())
-  phone       String?  @unique
-  email       String?  @unique
-  name        String?
-  jobType     String[] // 직군(복수 선택 — 1개 이상)
-  careerYears CareerBand? // 경력 구간(버킷)
-  region      String[] // 희망 지역(복수 선택 — 1개 이상)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+enum UserRole {
+  WORKER // 기술자(개인 작업자)
+  FIELD_LEADER // 현장리더·팀리더 (구 FOREMAN) — 관리자 승인제
+  CUSTOMER // 작업요청자(발주측)
+  PROJECT_OPERATOR // 프로젝트/현장 운영자 (구 시행사/PM)
+  PERFORMER_COMPANY // 수행기업 (구 시공사)
+}
 
-  careerCards  CareerCard[]
-  certificates Certificate[]
-  educations   Education[]
-  interests    InterestRegistration[]
-  events       AnalyticsEvent[]
+// 산업유형(캐노니컬 §0-3) — 11값 전부 정의, 초기 UI 노출은 4값(인테리어·건설설비·조선·플랜트). 노출 제어는 프론트 상수.
+enum IndustryType {
+  INTERIOR_REMODELING // 인테리어·리모델링 (초기)
+  CONSTRUCTION_FACILITY // 건설·설비 (초기)
+  SHIPBUILDING // 조선 (초기)
+  PLANT // 플랜트 (초기)
+  MANUFACTURING_FACILITY // 제조설비 (확장)
+  LOGISTICS_EQUIPMENT // 물류장비 (확장)
+  ENERGY_FACILITY // 에너지설비 (확장)
+  PORT_AIRPORT // 항만·공항 (확장)
+  PUBLIC_INFRA // 공공인프라 (확장)
+  DISASTER_RECOVERY // 재난복구 (확장)
+  SPACE_ROBOTICS // 우주·로봇 (확장)
+  ETC // 기타
+}
+
+model User {
+  id               String         @id @default(cuid())
+  phone            String?        @unique
+  email            String?        @unique
+  name             String?
+  role             UserRole       @default(WORKER) // 캐노니컬 5유형 — FIELD_LEADER는 관리자 승인으로만 부여
+  foremanRequested Boolean        @default(false) // 반장 승인 요청(대기) 여부 — 관리자 승인/반려로 해제
+  jobType          String[] // 직군(복수 선택 — 1개 이상)
+  careerYears      CareerBand? // 경력 구간(버킷)
+  region           String[] // 희망 지역(복수 선택 — 1개 이상)
+  industries       IndustryType[] // 온보딩 산업유형(복수) — 캐노니컬 §0-3
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+
+  careerCards        CareerCard[]
+  certificates       Certificate[]
+  educations         Education[]
+  interests          InterestRegistration[]
+  events             AnalyticsEvent[]
+  savedBy            SavedWorker[] // 기업이 관심 저장한 경우
+  applications       JobApplication[] // 채용 공고 지원
+  notifications      Notification[] // 알림(매칭 등)
+  pushSubscriptions  PushSubscription[] // 웹푸시 구독(PWA)
+  coworkers          Coworker[]             @relation("CoworkerOwner") // 함께 일한 동료(그래프 엣지 — 내가 소유)
+  coworkerOf         Coworker[]             @relation("CoworkerPeer") // 나를 동료로 가진 엣지(역방향)
+  leadsTeams         Team[]                 @relation("TeamLeader") // 반장으로서 이끄는 팀
+  teamMemberships    TeamMember[]           @relation("TeamMembership") // 팀원으로 속한 멤버십
+  fieldLeaderProfile FieldLeaderProfile? // 현장리더 프로필(1:1) — 캐노니컬 §3-2(3)
+  workRequests       WorkRequest[]          @relation("WorkRequestOwner") // 작성한 현장작업요청
+  fieldOpsInterests  FieldOpsInterest[] // Field Ops 관심 7종
+  // ── 스프린트3 (dev-plan §3-2/§3-3) ──
+  workerProfile      WorkerProfile? // 기술자 확장 프로필(1:1) — §3-2(1)
+  projectOperator    ProjectOperator? // 운영자 프로필(1:1) — §3-2(5)
+  equipmentHistory   EquipmentHistory[] // 장비 이력 — §3-2(2)
+  workRecords        WorkRecord[]           @relation("LeaderWorkRecord") // 현장리더 작업수행사례 — §3-2(6)
+  reviewsGiven       Review[]               @relation("ReviewRater") // 내가 작성한 평가 — §3-2(9)
+  aiLeaderInterests  AiLeaderInterest[] // AI현장리더 관심 — §3-2(12)
+  // ── 외국인 기술인력 (dev-plan-foreign-workforce) ──
+  visaStatuses       VisaStatus[] // 체류·비자 이력 — PDF §6
+  documents          DocumentRecord[] // 서류 업로드·검토 — PDF §6-3
+  trainingRecords    TrainingRecord[] // 교육 이수 — PDF §6-2
 }
 
 // 경력 구간(버킷) — 표시문구(1년미만/1~3년 …)는 프론트에서 매핑
@@ -111,4 +160,737 @@ model AnalyticsEvent {
 
   @@index([name])
   @@index([userId])
+}
+
+// ── 기업(수요측) 도메인 — 기업용 웹(/partner). Demand-first 전략 (계획 Phase2 / §5-3·§5-4) ──
+
+// 수행기업/운영자 구분 (캐노니컬 §0-2) — Company 모델 분기
+enum CompanyKind {
+  PERFORMER // 수행기업 (구 시공사)
+  OPERATOR // 프로젝트/현장 운영자 (구 시행사/PM)
+}
+
+// 기업 상태값 (§5-4)
+enum CompanyStatus {
+  INQUIRY // 문의
+  REVIEWING // 검토 중
+  PARTNER_CANDIDATE // 협약 후보
+  POSTED // 공고 등록
+  POC // PoC 논의
+}
+
+// 채용 공고 상태값 (§5-4)
+enum JobPostStatus {
+  DRAFT // 작성 중
+  PENDING // 승인 대기
+  OPEN // 노출 중
+  CLOSED // 마감
+}
+
+model Company {
+  id           String         @id @default(cuid())
+  name         String // 회사명
+  contactName  String // 담당자
+  contactPhone String // 연락처
+  contactEmail String?
+  industry     String? // 업종
+  region       String[] // 현장 지역(복수)
+  status       CompanyStatus  @default(INQUIRY)
+  companyKind  CompanyKind    @default(PERFORMER) // 수행기업/운영자 구분 — 캐노니컬 §0-2
+  industries   IndustryType[] // 산업분야(복수) — 기존 industry(String?)와 병행, §3-3
+  safetyRate   Float? // 안전이수율(0~1)
+  rehireRate   Float? // 재의뢰율(0~1)
+  defectMemo   String? // 하자대응 메모
+  memo         String?
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+
+  jobPosts         JobPost[]
+  savedWorkers     SavedWorker[]
+  operatorProfiles ProjectOperator[] @relation("OperatorCompany") // 이 회사 소속 운영자 — §3-2(5)
+  workRecords      WorkRecord[] // 수행기업 작업수행사례 — §3-2(6)
+
+  @@index([status])
+}
+
+model JobPost {
+  id                  String        @id @default(cuid())
+  companyId           String
+  company             Company       @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  title               String // 공고 제목
+  jobType             String[] // 필요 직군(복수)
+  headcount           Int? // 인원
+  careerBand          CareerBand? // 필요 최소 경력(버킷)
+  certs               String[] // 필요 자격(자유 입력)
+  region              String[] // 현장 지역(복수)
+  period              String? // 근무 기간
+  conditions          String? // 근무 조건
+  status              JobPostStatus @default(PENDING)
+  // ── 외국인 채용 수요 (PDF §8-3) ──
+  foreignAllowed      Boolean       @default(false) // 외국인 채용 가능
+  requiredVisaTypes   VisaType[] // 요구 체류자격
+  interpreterProvided Boolean       @default(false) // 통역 제공
+  createdAt           DateTime      @default(now())
+  updatedAt           DateTime      @updatedAt
+
+  applications  JobApplication[]
+  notifications Notification[]
+  coworkerLinks Coworker[] // 이 공고/현장에서 형성된 동료 엣지(출처)
+
+  @@index([companyId])
+  @@index([status])
+}
+
+model SavedWorker {
+  id        String   @id @default(cuid())
+  companyId String
+  company   Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  memo      String?
+  createdAt DateTime @default(now())
+
+  @@unique([companyId, userId])
+  @@index([companyId])
+  @@index([userId])
+}
+
+// ── 지원·배정·출역 체인 (계획 흐름: 지원 → 수락/배정 → 출역) ──
+
+enum ApplicationStatus {
+  APPLIED // 지원함
+  ACCEPTED // 수락(현장 배정)
+  REJECTED // 반려
+}
+
+model JobApplication {
+  id        String            @id @default(cuid())
+  jobPostId String
+  jobPost   JobPost           @relation(fields: [jobPostId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  status    ApplicationStatus @default(APPLIED)
+  createdAt DateTime          @default(now())
+  updatedAt DateTime          @updatedAt
+
+  attendances Attendance[]
+
+  @@unique([jobPostId, userId])
+  @@index([userId, status]) // 내 지원/배정 목록(userId+status 필터)
+  @@index([jobPostId, status]) // 공고 배정자 조회(linkCoassigned 등)
+}
+
+model Attendance {
+  id            String         @id @default(cuid())
+  applicationId String
+  application   JobApplication @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+  workDate      String // YYYY-MM-DD (현장 기준 근무일)
+  checkInAt     DateTime       @default(now())
+  checkOutAt    DateTime?
+  createdAt     DateTime       @default(now())
+
+  @@index([applicationId])
+}
+
+// 알림 — 매칭(공고 OPEN 시 사용자 프로필·경력카드와 매칭) 결과 적재. 인앱 알림센터 + 푸시.
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type      String // "JOB_MATCH" 등
+  jobPostId String?
+  jobPost   JobPost? @relation(fields: [jobPostId], references: [id], onDelete: SetNull)
+  title     String
+  body      String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@index([userId, read])
+  @@index([userId, createdAt])
+}
+
+// 웹푸시(PWA) 구독 — 브라우저 PushManager.subscribe() 결과(endpoint+keys) 저장.
+model PushSubscription {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  endpoint  String   @unique
+  p256dh    String
+  auth      String
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+}
+
+// 함께 일한 동료(그래프 엣지) — "누가 누구와 일했나"를 자유텍스트가 아니라 관계로 보유.
+// 씨앗: 같은 공고에 배정(ACCEPTED)된 사용자끼리 자동 형성(applications.setStatus). 양방향 1쌍.
+// 활용: "같이 일한 사람 재호출" 1경로(coworkers 모듈) — 동료 목록 + 다시 호출(알림).
+model Coworker {
+  id           String   @id @default(cuid())
+  userId       String // 엣지 소유자(나)
+  user         User     @relation("CoworkerOwner", fields: [userId], references: [id], onDelete: Cascade)
+  coworkerId   String // 함께 일한 상대
+  coworker     User     @relation("CoworkerPeer", fields: [coworkerId], references: [id], onDelete: Cascade)
+  jobPostId    String? // 최근 함께한 공고(출처)
+  jobPost      JobPost? @relation(fields: [jobPostId], references: [id], onDelete: SetNull)
+  siteName     String? // 최근 함께한 현장명(스냅샷)
+  count        Int      @default(1) // 함께 배정된 현장 수(누적)
+  lastWorkedAt DateTime @default(now())
+  createdAt    DateTime @default(now())
+
+  @@unique([userId, coworkerId]) // 한 쌍당 엣지 1개(누적 갱신)
+  @@index([userId, lastWorkedAt]) // 내 동료 목록(userId + 최근순 정렬)
+  @@index([coworkerId])
+}
+
+// 반장이 이끄는 팀(크루) — 반장이 팀을 통째로 데려와 등록(GTM: 공급 시딩).
+// 반장 = 팀의 leader. 멤버는 실제 User(연락처로 멱등 가입)로 연결.
+model Team {
+  id             String             @id @default(cuid())
+  name           String // 팀명(예: '김반장 형틀팀')
+  leaderId       String // 반장(User)
+  leader         User               @relation("TeamLeader", fields: [leaderId], references: [id], onDelete: Cascade)
+  members        TeamMember[]
+  industries     IndustryType[] // 산업분야(복수) — 캐노니컬 §3-3
+  workTypes      String[] // 작업유형
+  avgCareerBand  CareerBand? // 평균 경력
+  safetyRate     Float? // 안전이수율(0~1)
+  equipOperators Int? // 장비운용 인력 수
+  regions        String[] // 투입 가능 지역
+  availabilities TeamAvailability[] // 가동일정
+  createdAt      DateTime           @default(now())
+
+  @@index([leaderId])
+}
+
+model TeamMember {
+  id        String   @id @default(cuid())
+  teamId    String
+  team      Team     @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User     @relation("TeamMembership", fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([teamId, userId]) // 한 팀에 같은 멤버 1번
+  @@index([teamId])
+  @@index([userId])
+}
+
+// ── 캐노니컬 확장 도메인 (dev-plan §3) — 스프린트2: 현장작업요청·현장리더·팀가동·FieldOps ──
+
+enum WorkRequestStatus {
+  DRAFT // 작성 중
+  OPEN // 후보 모집 중
+  MATCHING // 후보 검토/매칭 중
+  ASSIGNED // 수행 확정
+  COMPLETED // 완료(평가 대기)
+  CLOSED // 종료
+  CANCELLED // 취소
+}
+
+enum ContractType {
+  DAILY // 일급(상용)
+  UNIT // 단가/물량
+  LUMP_SUM // 도급(일괄)
+  MONTHLY // 월급/상주
+}
+
+enum TeamAvailabilityStatus {
+  AVAILABLE // 가용
+  ASSIGNED // 현장 배정됨
+  PARTIAL // 일부 가용
+  UNAVAILABLE // 불가
+}
+
+// Field Ops 관심 7종 (InterestFeature와 별개 — BM 7종 1:1, §11)
+enum FieldOpsFeature {
+  EQUIPMENT_TOOL // 장비공구운영
+  SMART_EQUIPMENT // 전문장비·스마트계측기
+  MATERIAL_ORDER // 소모자재 반복발주
+  PACKAGE // 장비+기술자 패키지
+  MEAL_LODGING // 식사·숙소·근무환경
+  EDUCATION // 교육프로그램
+  INSURANCE // 보험·정비·보증
+}
+
+// 현장리더 프로필 (User 1:1) — §3-2(3)
+model FieldLeaderProfile {
+  id                 String         @id @default(cuid())
+  userId             String         @unique
+  user               User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  primaryJobTypes    String[] // 주요 직군
+  manageableTeamSize Int? // 관리 가능 팀 규모
+  mainWorkFields     String[] // 주요 작업분야
+  industries         IndustryType[] // 산업분야(복수)
+  regions            String[] // 투입 가능 지역
+  partnerCompanyIds  String[] // 협력 수행기업(느슨한 참조)
+  contactHours       String? // 연락 가능 시간
+  updatedAt          DateTime       @updatedAt
+
+  @@index([userId])
+}
+
+// 팀 가동일정 (Team 1:N) — §3-2(4)
+model TeamAvailability {
+  id               String                 @id @default(cuid())
+  teamId           String
+  team             Team                   @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  weekStart        String // 주 시작일 YYYY-MM-DD
+  status           TeamAvailabilityStatus @default(AVAILABLE)
+  regions          String[] // 이동 가능 지역
+  urgentOk         Boolean                @default(false) // 긴급투입 가능
+  assignedSiteName String? // 배정 현장(스냅샷)
+  createdAt        DateTime               @default(now())
+  updatedAt        DateTime               @updatedAt
+
+  @@unique([teamId, weekStart])
+  @@index([teamId])
+}
+
+// 현장작업요청 (발주측/운영자 → 후보 모집) — §3-2(7). candidates/reviews 관계는 스프린트3·4에서 추가.
+model WorkRequest {
+  id            String            @id @default(cuid())
+  requesterId   String // 작성자(CUSTOMER 또는 PROJECT_OPERATOR)
+  requester     User              @relation("WorkRequestOwner", fields: [requesterId], references: [id], onDelete: Cascade)
+  industry      IndustryType
+  workTypes     String[] // 작업유형(복수)
+  region        String[] // 지역
+  budgetMemo    String? // 예산
+  schedule      String? // 일정
+  scaleMemo     String? // 규모
+  jobTypes      String[] // 필요 직군
+  headcount     Int? // 필요 인원
+  requiredCerts String[] // 필요 자격
+  safetyConds   String? // 안전 조건
+  equipMaterial String? // 장비/자재
+  contractType  ContractType? // 계약방식
+  status        WorkRequestStatus @default(DRAFT)
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
+
+  candidates WorkRequestCandidate[] // 후보지정 — §3-2(8) 스프린트3
+  reviews    Review[] // 완료 평가 — §3-2(9) 스프린트4
+
+  @@index([requesterId])
+  @@index([status])
+  @@index([industry, status])
+}
+
+// Field Ops 관심 7종 등록 (InterestRegistration과 별개) — §3-2(11)
+model FieldOpsInterest {
+  id        String          @id @default(cuid())
+  userId    String?
+  user      User?           @relation(fields: [userId], references: [id], onDelete: SetNull)
+  feature   FieldOpsFeature
+  props     Json? // 산업/지역 등 맥락
+  createdAt DateTime        @default(now())
+
+  @@index([userId])
+  @@index([feature])
+}
+
+// ── 캐노니컬 확장 도메인 (dev-plan §3) — 스프린트3: 후보매칭·프로필·이력 / 스프린트4(P2): 평가·신뢰점수 ──
+
+// 후보지정 종류/상태 — §3-1(F)
+enum CandidateType {
+  PERFORMER_COMPANY // 수행기업 후보
+  FIELD_LEADER // 현장리더 후보
+  TEAM // 작업팀 후보
+}
+
+enum CandidateStatus {
+  RECOMMENDED // 추천됨(시스템/운영자)
+  SHORTLISTED // 후보 지정
+  CONTACTED // 접촉
+  REJECTED // 제외
+  SELECTED // 선정
+}
+
+// 다방향 평가 피평가 대상 — §3-1(G)
+enum RateeType {
+  WORKER
+  FIELD_LEADER
+  PERFORMER_COMPANY
+  PROJECT_OPERATOR
+  TEAM
+  SITE_ENVIRONMENT // 기술자 → 현장환경(주체 무관)
+}
+
+// 기술자 확장 프로필 (User 1:1) — §3-2(1)
+model WorkerProfile {
+  id                    String          @id @default(cuid())
+  userId                String          @unique
+  user                  User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  industries            IndustryType[] // 산업분야(복수)
+  preferredWorkTypes    String[] // 희망 작업유형
+  similarWorkExperience String[] // 유사작업경험 태그
+  contactHours          String? // 연락 가능 시간
+  introduction          String?
+  // ── 외국인 기술자 속성 (PDF §2·§5·§8-1) ──
+  residency             Residency? // 국내 체류 / 해외 거주
+  nationality           String? // 국적
+  languages             SupportedLang[] // 구사 언어(복수)
+  koreanLevel           KoreanLevel? // 한국어 수준 (의사소통)
+  interpreterNeeded     Boolean         @default(false) // 통역 필요 여부
+  glossaryComprehension Int? // 현장 용어 이해도(0-100)
+  desiredEntryDate      DateTime? // 한국 취업 희망 시점(해외 예비)
+  updatedAt             DateTime        @updatedAt
+
+  @@index([userId])
+}
+
+// 장비 이력 (CareerCard.equipment 텍스트의 정규화) — §3-2(2)
+model EquipmentHistory {
+  id         String   @id @default(cuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name       String // 장비/공구명
+  category   String? // 분류
+  proficient Boolean  @default(false) // 운용 가능
+  yearsUsed  Int?
+  memo       String?
+  createdAt  DateTime @default(now())
+
+  @@index([userId])
+}
+
+// 프로젝트/현장 운영자 프로필 (User 1:1) — §3-2(5)
+model ProjectOperator {
+  id                String         @id @default(cuid())
+  userId            String         @unique
+  user              User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  companyId         String? // 소속 Company(OPERATOR)
+  company           Company?       @relation("OperatorCompany", fields: [companyId], references: [id], onDelete: SetNull)
+  industries        IndustryType[]
+  regions           String[]
+  similarExperience String[] // 유사 운영경험
+  leaderPoolIds     String[] // 보유 리더풀(느슨한 참조)
+  budgetRangeMemo   String? // 예산관리 메모
+  updatedAt         DateTime       @updatedAt
+
+  @@index([userId])
+  @@index([companyId])
+}
+
+// 작업수행사례 (수행기업/리더의 유사작업경험) — §3-2(6)
+model WorkRecord {
+  id           String       @id @default(cuid())
+  companyId    String? // 수행기업 소유
+  company      Company?     @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  leaderUserId String? // 현장리더 소유(택1)
+  leaderUser   User?        @relation("LeaderWorkRecord", fields: [leaderUserId], references: [id], onDelete: Cascade)
+  industry     IndustryType
+  title        String
+  siteName     String?
+  workTypes    String[]
+  period       String?
+  scaleMemo    String? // 규모
+  description  String?
+  createdAt    DateTime     @default(now())
+
+  @@index([companyId])
+  @@index([leaderUserId])
+  @@index([industry])
+}
+
+// 요청 후보지정 — §3-2(8)
+model WorkRequestCandidate {
+  id            String          @id @default(cuid())
+  workRequestId String
+  workRequest   WorkRequest     @relation(fields: [workRequestId], references: [id], onDelete: Cascade)
+  candidateType CandidateType
+  candidateId   String // 수행기업/리더(User)/팀의 id (타입별 해석)
+  status        CandidateStatus @default(RECOMMENDED)
+  score         Float? // 매칭/추천 점수
+  memo          String?
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+
+  @@unique([workRequestId, candidateType, candidateId])
+  @@index([workRequestId, status])
+  @@index([candidateType, candidateId])
+}
+
+// 다방향 평가 (7항목) — §3-2(9), P2
+model Review {
+  id                String       @id @default(cuid())
+  raterUserId       String
+  rater             User         @relation("ReviewRater", fields: [raterUserId], references: [id], onDelete: Cascade)
+  rateeType         RateeType
+  rateeId           String // 피평가 주체 id (rateeType으로 해석; SITE_ENVIRONMENT는 workRequestId 사용)
+  workRequestId     String?
+  workRequest       WorkRequest? @relation(fields: [workRequestId], references: [id], onDelete: SetNull)
+  scheduleAdherence Int? // 일정준수
+  workQuality       Int? // 작업품질
+  communication     Int? // 커뮤니케이션
+  safetyManagement  Int? // 안전관리
+  costTrust         Int? // 비용신뢰
+  rehireIntent      Int? // 재의뢰의향
+  siteEnvironment   Int? // 현장환경만족도
+  collaboration     Int? // 협업 태도 (외국인 신뢰도 PDF §5-1)
+  comment           String?
+  createdAt         DateTime     @default(now())
+
+  @@index([rateeType, rateeId])
+  @@index([raterUserId])
+  @@index([workRequestId])
+}
+
+// 신뢰점수 (파생/계산) — §3-2(10), P2
+model TrustScore {
+  id          String    @id @default(cuid())
+  subjectType RateeType // 점수 대상 유형
+  subjectId   String // 대상 id
+  score       Float     @default(0) // 계산된 신뢰점수
+  reviewCount Int       @default(0)
+  breakdown   Json? // 7항목 평균 등 세부
+  computedAt  DateTime  @default(now())
+
+  @@unique([subjectType, subjectId])
+  @@index([subjectType, score])
+}
+
+// AI현장리더 관심 — §3-2(12)
+model AiLeaderInterest {
+  id               String        @id @default(cuid())
+  userId           String?
+  user             User?         @relation(fields: [userId], references: [id], onDelete: SetNull)
+  industry         IndustryType?
+  conditions       Json? // 조건
+  repeatPattern    Json? // 반복 패턴
+  candidateTeamIds String[] // 팀 후보 매칭
+  createdAt        DateTime      @default(now())
+
+  @@index([userId])
+}
+
+// ════════════════════════════════════════════════════════════════════
+// 외국인 기술인력 관리 — dev-plan-foreign-workforce.md
+// 스키마는 확장형으로 한 번에, 노출·기능은 단계적으로.
+// ════════════════════════════════════════════════════════════════════
+
+enum Residency {
+  DOMESTIC
+  OVERSEAS
+}
+
+enum VisaType {
+  E9
+  E7
+  E74
+  H2
+  D2
+  D4
+  F2
+  F4
+  F5
+  F6
+  ETC
+}
+
+enum VisaDocStatus {
+  PENDING
+  SUBMITTED
+  VERIFIED
+  EXPIRED
+  REJECTED
+}
+
+enum KoreanLevel {
+  NONE
+  BASIC
+  INTERMEDIATE
+  FLUENT
+  NATIVE
+}
+
+enum DocumentKind {
+  PASSPORT
+  ARC
+  CONTRACT
+  VISA
+  TRAINING_CERT
+  OTHER
+}
+
+enum SettlementStatus {
+  DRAFT
+  CONFIRMED
+  PAID
+  DISPUTED
+}
+
+enum SettlementItemKind {
+  BASE_WAGE
+  OVERTIME
+  ALLOWANCE
+  MEAL
+  LODGING
+  TRANSPORT
+  EDUCATION
+  INSURANCE
+  REMITTANCE
+}
+
+enum TrainingKind {
+  SAFETY
+  JOB
+  KOREAN
+}
+
+enum RiskReportKind {
+  WAGE_UNPAID
+  SAFETY_ACCIDENT
+  LANGUAGE_HAZARD
+  ABUSE
+}
+
+enum RiskReportStatus {
+  OPEN
+  IN_REVIEW
+  RESOLVED
+  DISMISSED
+}
+
+enum PartnerReferralKind {
+  VISA
+  LABOR
+  SETTLEMENT
+  EDUCATION
+  INSURANCE
+}
+
+enum PartnerReferralStatus {
+  REQUESTED
+  MATCHED
+  CLOSED
+}
+
+enum SupportedLang {
+  KO
+  EN
+  VI
+  TH
+  ID
+  UZ
+}
+
+// 체류·비자 (PDF §6) — User 1:N 이력 관리
+model VisaStatus {
+  id                  String        @id @default(cuid())
+  userId              String
+  user                User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  visaType            VisaType
+  expiryDate          DateTime? // 만료일
+  renewalDueDate      DateTime? // 갱신 예정일
+  workScope           String? // 근무 가능 범위(업종·직무·사업장 제한)
+  workplaceChangeable Boolean       @default(false) // 사업장 변경 가능 여부
+  arcNumber           String? // 외국인등록증 번호 (민감 — 마스킹 노출)
+  status              VisaDocStatus @default(PENDING)
+  createdAt           DateTime      @default(now())
+  updatedAt           DateTime      @updatedAt
+
+  @@index([userId])
+  @@index([expiryDate]) // 만료 알림 배치 스캔
+}
+
+// 서류 업로드·검토 (PDF §6-3)
+model DocumentRecord {
+  id         String        @id @default(cuid())
+  userId     String
+  user       User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  kind       DocumentKind
+  fileUrl    String
+  status     VisaDocStatus @default(SUBMITTED)
+  reviewedBy String? // 관리자/파트너 검토자
+  reviewedAt DateTime?
+  createdAt  DateTime      @default(now())
+
+  @@index([userId, kind])
+}
+
+// 현장 용어 사전 (PDF §4) — 내부 태그 NOGADA_TERM, 외부명 "외국인 현장 용어 번역"
+model GlossaryTerm {
+  id           String                @id @default(cuid())
+  koTerm       String // 한국어 현장 표현
+  category     String // 작업지시 / 안전문구 / 장비·공구 / 자재
+  industry     IndustryType? // 산업별 용어팩 (PDF §4-2)
+  iconUrl      String? // 이미지·아이콘 안내
+  isSafety     Boolean               @default(false)
+  translations GlossaryTranslation[]
+
+  @@index([category, industry])
+}
+
+model GlossaryTranslation {
+  id     String        @id @default(cuid())
+  termId String
+  term   GlossaryTerm  @relation(fields: [termId], references: [id], onDelete: Cascade)
+  lang   SupportedLang
+  text   String
+
+  @@unique([termId, lang])
+}
+
+// 비용 정산 (PDF §7)
+model Settlement {
+  id            String           @id @default(cuid())
+  workerId      String // 기술자(User) — relation 생략(쿼리 where)
+  companyId     String?
+  workRequestId String?
+  period        String // 정산 기간(예: 2026-06)
+  status        SettlementStatus @default(DRAFT)
+  items         SettlementItem[]
+  createdAt     DateTime         @default(now())
+
+  @@index([workerId])
+  @@index([companyId])
+}
+
+model SettlementItem {
+  id           String             @id @default(cuid())
+  settlementId String
+  settlement   Settlement         @relation(fields: [settlementId], references: [id], onDelete: Cascade)
+  kind         SettlementItemKind
+  amount       Int
+  note         String? // 제공/공제/부담 주체 등
+}
+
+// 교육 이수 (PDF §6-2·§7)
+model TrainingRecord {
+  id          String       @id @default(cuid())
+  userId      String
+  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  kind        TrainingKind // 안전/직무/한국어
+  title       String
+  provider    String?
+  completedAt DateTime?
+  certUrl     String?
+
+  @@index([userId, kind])
+}
+
+// 행정·노무 파트너 연계 큐 (PDF §2·§6·§8-3) — MVP는 User 미발급, 신청 큐만
+model PartnerReferral {
+  id          String                @id @default(cuid())
+  requesterId String // 기술자 또는 기업
+  kind        PartnerReferralKind
+  status      PartnerReferralStatus @default(REQUESTED)
+  note        String?
+  createdAt   DateTime              @default(now())
+
+  @@index([status])
+}
+
+// 리스크 신고 (PDF §8-4) — 임금체불·산재·언어오해 작업위험·악성
+model RiskReport {
+  id         String           @id @default(cuid())
+  reporterId String
+  subjectId  String? // 신고 대상(사용자/기업/현장)
+  kind       RiskReportKind
+  status     RiskReportStatus @default(OPEN)
+  detail     String?
+  createdAt  DateTime         @default(now())
+
+  @@index([status, kind])
 }

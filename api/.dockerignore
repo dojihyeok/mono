@@ -3,3 +3,8 @@ dist
 .git
 *.tsbuildinfo
 README.md
+
+# 시크릿 유출 방지 — COPY . . 로 .env 가 빌드 레이어에 들어가지 않도록 제외
+.env
+.env.*
+!.env.example

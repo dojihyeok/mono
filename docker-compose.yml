@@ -11,7 +11,7 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-mono_dev_pw}
       POSTGRES_DB: ${POSTGRES_DB:-mono}
     ports:
-      - "5433:5432"
+      - "5434:5432"
     volumes:
       - mono-db-data:/var/lib/postgresql/data
     healthcheck:
@@ -26,7 +26,7 @@ services:
     restart: unless-stopped
     command: ["redis-server", "--appendonly", "yes"] # 재시작 시 세션 유지(AOF)
     ports:
-      - "6379:6379"
+      - "6384:6379"
     volumes:
       - mono-redis-data:/data
     healthcheck:
@@ -49,11 +49,15 @@ services:
       # 로컬/dev: 컨테이너 시작 시 prisma migrate deploy 자동 적용(docs/migrations.md).
       # 운영(EKS)에서는 0 으로 두고 별도 마이그레이션 Job 이 적용한다.
       RUN_MIGRATIONS: "1"
+      # 웹푸시(VAPID) — 미설정이면 인앱 알림만 동작(푸시 graceful skip). 비밀키는 .env/시크릿으로만 주입(커밋 금지).
+      VAPID_PUBLIC_KEY: "${VAPID_PUBLIC_KEY:-}"
+      VAPID_PRIVATE_KEY: "${VAPID_PRIVATE_KEY:-}"
+      VAPID_SUBJECT: "${VAPID_SUBJECT:-mailto:admin@mono.app}"
     depends_on:
       db:
         condition: service_healthy
     ports:
-      - "8001:8000"
+      - "8004:8000"
     healthcheck:
       # /health(GET) → {status:"ok"} 200. 별도 도구 없이 node 내장 http 사용.
       test: ["CMD", "node", "-e", "require('http').get('http://localhost:8000/health',r=>process.exit(r.statusCode===200?0:1)).on('error',()=>process.exit(1))"]
@@ -61,6 +65,23 @@ services:
       timeout: 5s
       retries: 5
       start_period: 20s
+
+  # 프론트엔드 웹 (Next.js standalone) — BFF + 사용자/기업/관리자/분석 화면
+  web:
+    build: ./web
+    container_name: mono-web
+    restart: unless-stopped
+    environment:
+      # BFF 가 API 로 포워딩 — 컨테이너 네트워크에선 서비스명(api)으로 접근
+      API_URL: "http://api:8000"
+      # web 이 prisma 로 DB 직접 접근할 때 사용(미사용이면 무해)
+      DATABASE_URL: "postgresql://${POSTGRES_USER:-mono}:${POSTGRES_PASSWORD:-mono_dev_pw}@db:5432/${POSTGRES_DB:-mono}?schema=public"
+      NODE_ENV: "production"
+    depends_on:
+      api:
+        condition: service_healthy
+    ports:
+      - "3004:3000"
 
 volumes:
   mono-db-data:

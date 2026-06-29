@@ -1,0 +1,481 @@
+/* 기업용 웹(/partner) — B2B 신뢰 톤(네이비/블루 + 화이트). globals.css --ir-* 일부 재사용. */
+
+.page {
+  min-height: 100dvh;
+  background: #f5f6fb;
+  color: var(--brand,#4f46e5);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 22px;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid #e6e8ec;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: -0.2px;
+}
+.brandLogo {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: var(--brand,#4f46e5);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  font-size: 15px;
+}
+.brandTag {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #5b6b82;
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: var(--brand-tint,#ecedfb);
+}
+.spacer {
+  flex: 1;
+}
+.statusPill {
+  font-size: 12px;
+  font-weight: 700;
+  padding: 5px 11px;
+  border-radius: 999px;
+  background: var(--brand-tint,#ecedfb);
+  color: var(--brand,#4f46e5);
+}
+
+.container {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 28px 22px 64px;
+}
+
+/* 랜딩 */
+.hero {
+  background: var(--brand,#4f46e5);
+  border-radius: 22px;
+  padding: 44px 36px;
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+}
+.heroEyebrow {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--brand-soft,#b9bbff);
+  letter-spacing: 0.3px;
+}
+.heroTitle {
+  margin-top: 12px;
+  font-size: 30px;
+  font-weight: 800;
+  line-height: 1.32;
+  letter-spacing: -0.4px;
+}
+.heroSub {
+  margin-top: 16px;
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--brand-tint-2,#c3c4f7);
+  max-width: 560px;
+}
+.heroActions {
+  margin-top: 26px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.heroPoints {
+  margin-top: 18px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+}
+.pointCard {
+  background: #fff;
+  border: 1px solid #e6e8ec;
+  border-radius: 16px;
+  padding: 20px;
+}
+.pointNum {
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+  background: var(--brand-tint,#ecedfb);
+  color: var(--brand,#4f46e5);
+  font-weight: 800;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.pointTitle {
+  margin-top: 13px;
+  font-size: 15.5px;
+  font-weight: 800;
+}
+.pointDesc {
+  margin-top: 6px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: #5b6b82;
+}
+
+/* 버튼 */
+.btnPrimary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  height: 48px;
+  padding: 0 22px;
+  border: none;
+  border-radius: 12px;
+  background: var(--brand,#4f46e5);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 800;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+.btnPrimary:hover {
+  background: var(--brand-ink,#3b3da0);
+}
+.btnPrimary:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.btnGhost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 48px;
+  padding: 0 20px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 12px;
+  background: transparent;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+}
+.btnSm {
+  height: 38px;
+  padding: 0 15px;
+  border-radius: 10px;
+  border: 1px solid #d4dae3;
+  background: #fff;
+  color: var(--brand-ink,#3b3da0);
+  font-size: 13px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+}
+.btnSm:hover {
+  border-color: var(--brand,#4f46e5);
+}
+.btnSmSaved {
+  border-color: var(--brand,#4f46e5);
+  background: var(--brand-tint,#ecedfb);
+  color: var(--brand,#4f46e5);
+  cursor: default;
+}
+
+/* 탭 */
+.tabs {
+  display: flex;
+  gap: 4px;
+  margin: 8px 0 22px;
+  border-bottom: 1px solid #e6e8ec;
+}
+.tab {
+  position: relative;
+  padding: 13px 16px;
+  background: none;
+  border: none;
+  color: #5b6b82;
+  font-size: 14px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+}
+.tabActive {
+  color: var(--brand,#4f46e5);
+}
+.tabActive::after {
+  content: "";
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  bottom: -1px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--brand,#4f46e5);
+}
+
+/* 카드/패널 */
+.panel {
+  background: #fff;
+  border: 1px solid #e6e8ec;
+  border-radius: 18px;
+  padding: 24px;
+}
+.panelTitle {
+  font-size: 17px;
+  font-weight: 800;
+}
+.panelSub {
+  margin-top: 5px;
+  font-size: 13px;
+  color: #5b6b82;
+}
+.sectionTitle {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  color: #8694a8;
+  margin: 24px 2px 12px;
+}
+
+/* 폼 */
+.field {
+  margin-top: 16px;
+}
+.label {
+  font-size: 13px;
+  font-weight: 700;
+  color: #344256;
+}
+.req {
+  color: var(--brand,#4f46e5);
+}
+.input {
+  margin-top: 7px;
+  width: 100%;
+  height: 46px;
+  padding: 0 14px;
+  border: 1px solid #d4dae3;
+  border-radius: 11px;
+  background: #fff;
+  font-size: 14.5px;
+  font-family: inherit;
+  color: var(--brand,#4f46e5);
+  outline: none;
+}
+.input:focus {
+  border-color: var(--brand,#4f46e5);
+}
+.textarea {
+  height: auto;
+  min-height: 80px;
+  padding: 12px 14px;
+  line-height: 1.6;
+  resize: vertical;
+}
+.grid2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.chips {
+  margin-top: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+.chip {
+  padding: 8px 13px;
+  border-radius: 10px;
+  border: 1px solid #d4dae3;
+  background: #fff;
+  color: #344256;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+}
+.chipOn {
+  border-color: var(--brand,#4f46e5);
+  background: var(--brand-tint,#ecedfb);
+  color: var(--brand,#4f46e5);
+  font-weight: 800;
+}
+
+/* 기술자 카드 그리드 */
+.workerGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 14px;
+}
+.workerCard {
+  background: #fff;
+  border: 1px solid #e6e8ec;
+  border-radius: 16px;
+  padding: 18px;
+}
+.workerHead {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 13px;
+  background: var(--brand,#4f46e5);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 17px;
+  flex: none;
+}
+.workerName {
+  font-size: 15.5px;
+  font-weight: 800;
+}
+.workerMeta {
+  font-size: 12.5px;
+  color: #5b6b82;
+  margin-top: 2px;
+}
+.tagRow {
+  margin-top: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+.tag {
+  font-size: 11.5px;
+  font-weight: 600;
+  padding: 3px 9px;
+  border-radius: 7px;
+  background: var(--brand-tint,#ecedfb);
+  color: #344256;
+}
+.statRow {
+  margin-top: 13px;
+  display: flex;
+  gap: 16px;
+  padding-top: 13px;
+  border-top: 1px solid #eef0f3;
+}
+.stat {
+  font-size: 12px;
+  color: #5b6b82;
+}
+.stat b {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 17px;
+  font-weight: 500;
+  color: var(--brand,#4f46e5);
+}
+.cardActions {
+  margin-top: 14px;
+}
+
+/* 공고 / 저장 리스트 */
+.listItem {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 0;
+  border-bottom: 1px solid #eef0f3;
+}
+.listItem:last-child {
+  border-bottom: none;
+}
+.itemBody {
+  flex: 1;
+  min-width: 0;
+}
+.itemTitle {
+  font-size: 15px;
+  font-weight: 800;
+}
+.itemSub {
+  margin-top: 3px;
+  font-size: 12.5px;
+  color: #5b6b82;
+}
+.badge {
+  font-size: 11.5px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+.badgePending {
+  background: #fef3e2;
+  color: #b4690e;
+}
+.badgeOpen {
+  background: #e4f7ec;
+  color: #128a4e;
+}
+.badgeClosed {
+  background: #eef0f3;
+  color: #6b7787;
+}
+
+/* PoC 배너 */
+.pocBanner {
+  margin-top: 22px;
+  background: var(--brand,#4f46e5);
+  border-radius: 18px;
+  padding: 24px 26px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+.pocText {
+  flex: 1;
+  min-width: 220px;
+}
+.pocTitle {
+  font-size: 17px;
+  font-weight: 800;
+}
+.pocSub {
+  margin-top: 6px;
+  font-size: 13px;
+  color: var(--brand-tint-2,#c3c4f7);
+  line-height: 1.6;
+}
+
+.empty {
+  padding: 38px 16px;
+  text-align: center;
+  color: #8694a8;
+  font-size: 13.5px;
+}
+.note {
+  margin-top: 14px;
+  font-size: 12px;
+  color: #8694a8;
+  line-height: 1.6;
+}

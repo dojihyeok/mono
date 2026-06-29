@@ -1,0 +1,384 @@
+/* 운영 콘솔(/amono) — T-Rive Indigo 라이트 톤(전 surface 통일). */
+
+.shell {
+  min-height: 100dvh;
+  background: #f5f6fb;
+  color: #111827;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 상단바 */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 24px;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid #e5e9f0;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-weight: 800;
+  font-size: 15.5px;
+  letter-spacing: -0.2px;
+}
+.brandDot {
+  width: 9px;
+  height: 9px;
+  border-radius: 3px;
+  background: var(--brand,#4f46e5);
+}
+.brandSub {
+  font-size: 11px;
+  font-weight: 600;
+  color: #6b7686;
+  letter-spacing: 0.2px;
+}
+.spacer {
+  flex: 1;
+}
+.refresh {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 34px;
+  padding: 0 14px;
+  border-radius: 9px;
+  border: 1px solid #d6dce6;
+  background: #fff;
+  color: #111827;
+  font-size: 12.5px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  transition: border-color 0.15s ease;
+}
+.refresh:hover {
+  border-color: var(--brand,#4f46e5);
+}
+.refresh:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* 탭 */
+.tabs {
+  display: flex;
+  gap: 4px;
+  padding: 0 24px;
+  border-bottom: 1px solid #e5e9f0;
+  background: rgba(255, 255, 255, 0.92);
+  position: sticky;
+  top: 63px;
+  z-index: 19;
+}
+.tab {
+  position: relative;
+  padding: 13px 14px;
+  background: none;
+  border: none;
+  color: #6b7686;
+  font-size: 13.5px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+}
+.tabActive {
+  color: #111827;
+}
+.tabActive::after {
+  content: "";
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  bottom: -1px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--brand,#4f46e5);
+}
+
+.container {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 22px 24px 60px;
+}
+.sectionTitle {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  color: #8a94a6;
+  margin: 26px 2px 12px;
+}
+.sectionTitle:first-child {
+  margin-top: 4px;
+}
+
+/* 스탯 카드 그리드 */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(168px, 1fr));
+  gap: 12px;
+}
+.card {
+  background: #fff;
+  border: 1px solid #e5e9f0;
+  border-radius: 16px;
+  padding: 16px 18px;
+}
+.cardLabel {
+  font-size: 12px;
+  font-weight: 600;
+  color: #6b7686;
+}
+.cardValue {
+  margin-top: 8px;
+  font-family: var(--font-mono);
+  font-size: 28px;
+  font-weight: 500;
+  letter-spacing: -0.5px;
+  line-height: 1;
+  color: #111827;
+}
+.cardSub {
+  margin-top: 7px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #6b7686;
+}
+.cardGold {
+  border-color: color-mix(in srgb, var(--brand,#4f46e5) 35%, transparent);
+  background: color-mix(in srgb, var(--brand,#4f46e5) 6%, #fff);
+}
+.cardGold .cardValue {
+  color: var(--brand,#4f46e5);
+}
+.cardDim {
+  opacity: 0.5;
+}
+
+/* 퍼널 */
+.panel {
+  background: #fff;
+  border: 1px solid #e5e9f0;
+  border-radius: 16px;
+  padding: 18px 20px;
+}
+.funnelRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 9px 0;
+}
+.funnelLabel {
+  width: 86px;
+  flex: none;
+  font-size: 13px;
+  font-weight: 700;
+  color: #374151;
+}
+.funnelTrack {
+  flex: 1;
+  height: 26px;
+  background: #eef2f7;
+  border-radius: 7px;
+  overflow: hidden;
+}
+.funnelFill {
+  height: 100%;
+  border-radius: 7px;
+  background: var(--brand,#4f46e5);
+  min-width: 2px;
+  transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.funnelMeta {
+  width: 116px;
+  flex: none;
+  text-align: right;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #6b7686;
+}
+.funnelMeta b {
+  font-family: var(--font-mono);
+  color: #111827;
+  font-weight: 500;
+}
+
+/* 관심 분포 */
+.interestRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 0;
+}
+.interestName {
+  width: 150px;
+  flex: none;
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+}
+.interestTrack {
+  flex: 1;
+  height: 8px;
+  background: #eef2f7;
+  border-radius: 5px;
+  overflow: hidden;
+}
+.interestFill {
+  height: 100%;
+  border-radius: 5px;
+  background: var(--brand,#4f46e5);
+}
+.interestCount {
+  width: 40px;
+  flex: none;
+  text-align: right;
+  font-family: var(--font-mono);
+  font-size: 13px;
+}
+
+/* 테이블 */
+.tableWrap {
+  border: 1px solid #e5e9f0;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #fff;
+}
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.table th {
+  text-align: left;
+  padding: 12px 14px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  color: #8a94a6;
+  background: #f7f8fc;
+  border-bottom: 1px solid #e5e9f0;
+  white-space: nowrap;
+}
+.table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid #f0f3f7;
+  vertical-align: middle;
+}
+.table tr:last-child td {
+  border-bottom: none;
+}
+.table tbody tr:hover {
+  background: #f7f8fc;
+}
+.mono {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: #6b7686;
+}
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.chip {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: 6px;
+  background: var(--brand-tint,#eef0fa);
+  color: #344256;
+}
+.countCell {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  color: #111827;
+}
+.verifiedDot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--brand,#4f46e5);
+  margin-right: 6px;
+}
+
+/* 이벤트 로그 */
+.filterBar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+.filterChip {
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid #d6dce6;
+  background: #fff;
+  color: #6b7686;
+  font-size: 12px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+}
+.filterChipActive {
+  border-color: var(--brand,#4f46e5);
+  color: var(--brand,#4f46e5);
+  background: var(--brand-tint,#eef0fa);
+}
+.catBadge {
+  display: inline-block;
+  font-size: 10.5px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 6px;
+  white-space: nowrap;
+}
+.catSignup {
+  background: #e7eefc;
+  color: #2563eb;
+}
+.catProfile {
+  background: var(--brand-tint,#ecedfb);
+  color: var(--brand,#4f46e5);
+}
+.catInterest {
+  background: var(--brand-tint,#f1ecfe);
+  color: #7c3aed;
+}
+.catReturn {
+  background: #e4f7ec;
+  color: #059669;
+}
+.catCompany {
+  background: #fdeede;
+  color: #d97706;
+}
+.catOther {
+  background: #eef0f3;
+  color: #6b7686;
+}
+
+/* 상태 */
+.empty {
+  padding: 40px 16px;
+  text-align: center;
+  color: #9aa3b2;
+  font-size: 13px;
+}
+.loading {
+  padding: 40px 16px;
+  text-align: center;
+  color: #9aa3b2;
+  font-size: 13px;
+}

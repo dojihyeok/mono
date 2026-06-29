@@ -13,3 +13,11 @@ export function computeCompletion(s: ProfileState): number {
   if (s.certificates.length > 0 || s.educations.length > 0) score += 20;
   return Math.min(100, score);
 }
+
+// North Star(§8-1): "검증 가능한 기술자 프로필" — 기본정보(이름·직군·연차·희망지역) +
+// 경력 1건 이상 + 자격증/교육 1건 이상이 모두 충족된 상태.
+export function isVerifiedProfile(s: ProfileState): boolean {
+  const u = s.user;
+  const basic = !!(u && u.name && u.jobType?.length && u.careerYears && u.region?.length);
+  return basic && s.careerCards.length >= 1 && (s.certificates.length > 0 || s.educations.length > 0);
+}

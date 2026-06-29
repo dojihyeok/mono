@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="MONO">
+  <defs>
+    <linearGradient id="mono-bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#5a5ce8"/>
+      <stop offset="1" stop-color="#2c2d8f"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="104" fill="url(#mono-bg)"/>
+  <path
+    d="M110 382 L110 150 L178 150 L256 296 L334 150 L402 150 L402 382 L342 382 L342 250 L282 366 L230 366 L170 250 L170 382 Z"
+    fill="#ffffff"/>
+</svg>

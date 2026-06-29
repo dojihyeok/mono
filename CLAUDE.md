@@ -22,7 +22,6 @@ MONO는 현장 전문가를 위한 하이엔드 핀테크 & 경력 관리 슈퍼
 | 전략(IR) 페이지 | **네이비·블루·시안 + White/Ivory** | strategy-page-plan |
 
 ## 반드시 지킬 규칙
-1. **문구**: 사용자 노출 화면에 `Beta/Prototype/Test`, "준비 중", 내부 분석 용어(North Star/Retention/Aha), `Fake Door` 표현 금지. 규제·미구현 기능은 **"관심 신청/관심 등록"** 안내형 UX로 처리.
 2. **스타일**: 새 컴포넌트는 `globals.css`의 CSS 변수를 **재사용**해 톤앤매너 유지. surface별 톤 구분.
 3. **애니메이션**: Framer Motion `layout` 프로퍼티 남발 주의(리페인팅 비용).
 4. **이벤트 로그**: 사용자 앱 주요 행동(가입·프로필·경력·관심·공유·재방문)에 이벤트 로그 삽입 (이름은 user-app-guidelines 참고).

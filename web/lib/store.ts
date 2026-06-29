@@ -34,15 +34,6 @@ export function saveState(state: ProfileState): void {
   }
 }
 
-export function clearState(): void {
-  if (typeof window === "undefined") return;
-  try {
-    window.localStorage.removeItem(KEY);
-  } catch {
-    // 무시
-  }
-}
-
 // cuid 대용 — 클라이언트 고유 id. (서버 전환 시 prisma cuid 로 대체)
 export function makeId(prefix = "id"): string {
   const rand = Math.random().toString(36).slice(2, 10);

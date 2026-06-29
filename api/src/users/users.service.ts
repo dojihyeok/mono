@@ -7,6 +7,12 @@ import { CreateCertificateDto } from './dto/create-certificate.dto';
 import { CreateCareerCardDto } from './dto/create-career-card.dto';
 import { CreateEducationDto } from './dto/create-education.dto';
 import { RegisterInterestDto } from './dto/register-interest.dto';
+import { FieldLeaderProfileDto } from './dto/field-leader-profile.dto';
+import { WorkerProfileDto } from './dto/worker-profile.dto';
+import { OperatorProfileDto } from './dto/operator-profile.dto';
+import { VisaStatusDto } from './dto/visa-status.dto';
+import { DocumentRecordDto } from './dto/document-record.dto';
+import { CreateEquipmentHistoryDto } from './dto/create-equipment-history.dto';
 
 @Injectable()
 export class UsersService {
@@ -28,14 +34,25 @@ export class UsersService {
         data: { name: dto.name, phone: dto.phone, email: dto.email },
       });
     } catch (e) {
-      // 동시 가입 레이스: unique 충돌(P2002) 시 기존 유저 반환
+      // 동시 가입 레이스: unique 충돌(P2002) → 충돌한 필드(phone/email)를 정확히 집어 그 유저 반환.
       if (
         e instanceof Prisma.PrismaClientKnownRequestError &&
-        e.code === 'P2002' &&
-        or.length
+        e.code === 'P2002'
       ) {
-        const existing = await this.prisma.user.findFirst({ where: { OR: or } });
-        if (existing) return existing;
+        const target = (e.meta?.target as string[] | undefined) ?? [];
+        if (target.includes('phone') && dto.phone) {
+          const u = await this.prisma.user.findUnique({ where: { phone: dto.phone } });
+          if (u) return u;
+        }
+        if (target.includes('email') && dto.email) {
+          const u = await this.prisma.user.findUnique({ where: { email: dto.email } });
+          if (u) return u;
+        }
+        // 폴백: OR 재조회
+        if (or.length) {
+          const existing = await this.prisma.user.findFirst({ where: { OR: or } });
+          if (existing) return existing;
+        }
       }
       throw e;
     }
@@ -43,14 +60,30 @@ export class UsersService {
 
   async setBasicProfile(id: string, dto: BasicProfileDto) {
     try {
-      return await this.prisma.user.update({
+      const user = await this.prisma.user.update({
         where: { id },
         data: {
-          jobType: dto.jobType,
+          // 이름은 전달된 경우에만 갱신.
+          ...(dto.name ? { name: dto.name } : {}),
+          // 유형 자가선택(WORKER/CUSTOMER만 DTO에서 허용). FIELD_LEADER 등은 관리자 승인 경로.
+          ...(dto.role ? { role: dto.role } : {}),
+          // 직군은 전달된 경우에만(CUSTOMER는 직군 없음 → 미전달).
+          ...(dto.jobType ? { jobType: dto.jobType } : {}),
           careerYears: dto.careerYears,
           region: dto.region,
+          // 산업유형은 전달된 경우에만 갱신(미전달 시 기존 유지)
+          ...(dto.industries ? { industries: dto.industries } : {}),
         },
       });
+      // 내국인/외국인 — WorkerProfile(1:1)에 영속. 전달된 경우에만 upsert(다른 필드 보존).
+      if (dto.residency) {
+        await this.prisma.workerProfile.upsert({
+          where: { userId: id },
+          create: { userId: id, residency: dto.residency },
+          update: { residency: dto.residency },
+        });
+      }
+      return user;
     } catch (e) {
       if (
         e instanceof Prisma.PrismaClientKnownRequestError &&
@@ -165,6 +198,194 @@ export class UsersService {
     return { user, careerCards, certificates, educations };
   }
 
+  // 본인 프로필(역할·반장신청 여부 포함) — 클라이언트 권한 게이트용. 없으면 null.
+  async getMe(id: string) {
+    const u = await this.prisma.user.findUnique({
+      where: { id },
+      select: {
+        id: true,
+        name: true,
+        role: true,
+        foremanRequested: true,
+        jobType: true,
+        careerYears: true,
+        region: true,
+        industries: true,
+        // 내국인/외국인 read-back — WorkerProfile.residency 평탄화.
+        workerProfile: { select: { residency: true } },
+      },
+    });
+    if (!u) return null;
+    const { workerProfile, ...rest } = u;
+    return { ...rest, residency: workerProfile?.residency ?? null };
+  }
+
+  // 반장 승인 요청 — 기능공이 신청(대기). 관리자가 승인/반려로 해제. 멱등.
+  async requestForeman(id: string) {
+    try {
+      const u = await this.prisma.user.update({
+        where: { id },
+        data: { foremanRequested: true },
+        select: { id: true, role: true, foremanRequested: true },
+      });
+      return { ok: true, role: u.role, foremanRequested: u.foremanRequested };
+    } catch (e) {
+      if (e instanceof Prisma.PrismaClientKnownRequestError && e.code === 'P2025') {
+        throw new NotFoundException(`User ${id} not found`);
+      }
+      throw e;
+    }
+  }
+
+  // 현장리더 프로필 upsert — FieldLeaderProfile(userId @unique). 부분 갱신(미전달 필드는 update 시 무시).
+  async upsertFieldLeaderProfile(userId: string, dto: FieldLeaderProfileDto) {
+    await this.ensureUser(userId);
+    return this.prisma.fieldLeaderProfile.upsert({
+      where: { userId },
+      // 생성 시: 미전달 스칼라 배열은 Prisma 기본값(빈 배열)으로 들어감
+      create: {
+        userId,
+        primaryJobTypes: dto.primaryJobTypes,
+        manageableTeamSize: dto.manageableTeamSize,
+        mainWorkFields: dto.mainWorkFields,
+        industries: dto.industries,
+        regions: dto.regions,
+        partnerCompanyIds: dto.partnerCompanyIds,
+        contactHours: dto.contactHours,
+      },
+      // 갱신 시: undefined 필드는 Prisma 가 무시 → 기존 값 유지
+      update: {
+        primaryJobTypes: dto.primaryJobTypes,
+        manageableTeamSize: dto.manageableTeamSize,
+        mainWorkFields: dto.mainWorkFields,
+        industries: dto.industries,
+        regions: dto.regions,
+        partnerCompanyIds: dto.partnerCompanyIds,
+        contactHours: dto.contactHours,
+      },
+    });
+  }
+
+  // 현장리더 프로필 조회 — 없으면 null 반환(에러 아님).
+  async getFieldLeaderProfile(userId: string) {
+    return this.prisma.fieldLeaderProfile.findUnique({ where: { userId } });
+  }
+
+  // 기술자 확장 프로필 upsert — WorkerProfile(userId @unique). 부분 갱신(undefined 무시).
+  async upsertWorkerProfile(userId: string, dto: WorkerProfileDto) {
+    await this.ensureUser(userId);
+    // 외국인 속성 포함(dev-plan-foreign-workforce). desiredEntryDate 는 ISO → Date.
+    const foreign = {
+      residency: dto.residency,
+      nationality: dto.nationality,
+      languages: dto.languages,
+      koreanLevel: dto.koreanLevel,
+      interpreterNeeded: dto.interpreterNeeded,
+      glossaryComprehension: dto.glossaryComprehension,
+      desiredEntryDate: dto.desiredEntryDate
+        ? new Date(dto.desiredEntryDate)
+        : undefined,
+    };
+    return this.prisma.workerProfile.upsert({
+      where: { userId },
+      create: {
+        userId,
+        industries: dto.industries,
+        preferredWorkTypes: dto.preferredWorkTypes,
+        similarWorkExperience: dto.similarWorkExperience,
+        contactHours: dto.contactHours,
+        introduction: dto.introduction,
+        ...foreign,
+      },
+      update: {
+        industries: dto.industries,
+        preferredWorkTypes: dto.preferredWorkTypes,
+        similarWorkExperience: dto.similarWorkExperience,
+        contactHours: dto.contactHours,
+        introduction: dto.introduction,
+        ...foreign,
+      },
+    });
+  }
+
+  async getWorkerProfile(userId: string) {
+    return this.prisma.workerProfile.findUnique({ where: { userId } });
+  }
+
+  // 운영자 프로필 upsert — ProjectOperator(userId @unique). 부분 갱신(undefined 무시).
+  async upsertOperatorProfile(userId: string, dto: OperatorProfileDto) {
+    await this.ensureUser(userId);
+    return this.prisma.projectOperator.upsert({
+      where: { userId },
+      create: {
+        userId,
+        companyId: dto.companyId,
+        industries: dto.industries,
+        regions: dto.regions,
+        similarExperience: dto.similarExperience,
+        leaderPoolIds: dto.leaderPoolIds,
+        budgetRangeMemo: dto.budgetRangeMemo,
+      },
+      update: {
+        companyId: dto.companyId,
+        industries: dto.industries,
+        regions: dto.regions,
+        similarExperience: dto.similarExperience,
+        leaderPoolIds: dto.leaderPoolIds,
+        budgetRangeMemo: dto.budgetRangeMemo,
+      },
+    });
+  }
+
+  async getOperatorProfile(userId: string) {
+    return this.prisma.projectOperator.findUnique({ where: { userId } });
+  }
+
+  // 장비 이력 등록 (EquipmentHistory, FK userId → User.id)
+  async addEquipmentHistory(userId: string, dto: CreateEquipmentHistoryDto) {
+    await this.ensureUser(userId);
+    return this.prisma.equipmentHistory.create({
+      data: {
+        userId,
+        name: dto.name,
+        category: dto.category,
+        proficient: dto.proficient,
+        yearsUsed: dto.yearsUsed,
+        memo: dto.memo,
+      },
+    });
+  }
+
+  // 장비 이력 목록(최신순)
+  listEquipmentHistory(userId: string) {
+    return this.prisma.equipmentHistory.findMany({
+      where: { userId },
+      orderBy: { createdAt: 'desc' },
+    });
+  }
+
+  // 장비 이력 삭제 — 본인(userId) 소유 항목만. 멱등.
+  async deleteEquipmentHistory(userId: string, eid: string) {
+    await this.prisma.equipmentHistory.deleteMany({
+      where: { id: eid, userId },
+    });
+    return { ok: true };
+  }
+
+  // 회원 탈퇴 — User 삭제. 연관 데이터(경력·자격·팀·동료·알림·지원 등)는 onDelete: Cascade 로 함께 삭제.
+  async deleteUser(id: string) {
+    try {
+      await this.prisma.user.delete({ where: { id } });
+      return { ok: true };
+    } catch (e) {
+      // 이미 없는 계정이면 멱등하게 성공 처리
+      if (e instanceof Prisma.PrismaClientKnownRequestError && e.code === 'P2025') {
+        return { ok: true };
+      }
+      throw e;
+    }
+  }
+
   // 관심 기능 등록 (InterestRegistration, FK userId → User.id) — idempotent
   async registerInterest(userId: string, dto: RegisterInterestDto) {
     await this.ensureUser(userId);
@@ -174,6 +395,55 @@ export class UsersService {
     if (existing) return existing;
     return this.prisma.interestRegistration.create({
       data: { userId, feature: dto.feature },
+    });
+  }
+
+  // ── 외국인 체류·비자 (dev-plan-foreign-workforce §6) ──
+  // 비자 상태 등록 — 이력 보존(1:N). 목록의 최신 1건이 "현재 비자".
+  async createVisa(userId: string, dto: VisaStatusDto) {
+    await this.ensureUser(userId);
+    return this.prisma.visaStatus.create({
+      data: {
+        userId,
+        visaType: dto.visaType,
+        expiryDate: dto.expiryDate ? new Date(dto.expiryDate) : undefined,
+        renewalDueDate: dto.renewalDueDate
+          ? new Date(dto.renewalDueDate)
+          : undefined,
+        workScope: dto.workScope,
+        workplaceChangeable: dto.workplaceChangeable,
+        arcNumber: dto.arcNumber,
+        status: dto.status,
+      },
+    });
+  }
+
+  // 비자 이력 목록(최신순) — [0] = 현재 비자.
+  listVisa(userId: string) {
+    return this.prisma.visaStatus.findMany({
+      where: { userId },
+      orderBy: { createdAt: 'desc' },
+    });
+  }
+
+  // 서류 업로드 (DocumentRecord, §6-3)
+  async addDocument(userId: string, dto: DocumentRecordDto) {
+    await this.ensureUser(userId);
+    return this.prisma.documentRecord.create({
+      data: {
+        userId,
+        kind: dto.kind,
+        fileUrl: dto.fileUrl,
+        status: dto.status,
+      },
+    });
+  }
+
+  // 서류 목록(최신순)
+  listDocuments(userId: string) {
+    return this.prisma.documentRecord.findMany({
+      where: { userId },
+      orderBy: { createdAt: 'desc' },
     });
   }
 }

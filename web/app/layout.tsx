@@ -11,7 +11,11 @@ export const metadata: Metadata = {
     title: "MONO",
   },
   icons: {
-    icon: "/icons/icon-192.png",
+    icon: [
+      { url: "/icons/icon.svg", type: "image/svg+xml" },
+      { url: "/icons/icon-192.png", sizes: "192x192", type: "image/png" },
+    ],
+    shortcut: "/icons/icon.svg",
     apple: "/icons/apple-touch-icon.png",
   },
 };

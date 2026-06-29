@@ -1,10 +1,10 @@
 import { ProfileProvider } from "@/lib/ProfileContext";
-import MonoApp from "./MonoApp";
+import MonoEntry from "./MonoEntry";
 
 export default function MonoPage() {
   return (
     <ProfileProvider>
-      <MonoApp />
+      <MonoEntry />
     </ProfileProvider>
   );
 }

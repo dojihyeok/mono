@@ -2,6 +2,7 @@
 // 문구는 docs/user-app-guidelines.md(PDF #1 5-2) 그대로 — 내부 용어/Beta 금지.
 
 import type { InterestFeatureKey } from "./types";
+import type { AnalyticsEventName } from "./analytics";
 
 export const JOB_TYPES = [
   "전기",
@@ -53,17 +54,40 @@ export const REGIONS = [
   "제주",
 ] as const;
 
-// 작업 분야 예시(경력 카드 보조 선택)
-export const FIELDS = [
-  "신축",
-  "리모델링",
-  "보수",
-  "철거",
-  "플랜트",
-  "인테리어",
-  "토목",
-  "기타",
+// 산업유형(IndustryType) — 11산업 전면 노출(P2). value = 서버 enum, label = 표시 문구.
+// 앞 4값 = 초기 검증시장, 이후 = 확장시장(dev-plan §0-3·§5.2).
+export const INDUSTRIES = [
+  { value: "INTERIOR_REMODELING", label: "인테리어·리모델링" },
+  { value: "CONSTRUCTION_FACILITY", label: "건설·설비" },
+  { value: "SHIPBUILDING", label: "조선" },
+  { value: "PLANT", label: "플랜트" },
+  { value: "MANUFACTURING_FACILITY", label: "제조설비" },
+  { value: "LOGISTICS_EQUIPMENT", label: "물류장비" },
+  { value: "ENERGY_FACILITY", label: "에너지설비" },
+  { value: "PORT_AIRPORT", label: "항만·공항" },
+  { value: "PUBLIC_INFRA", label: "공공인프라" },
+  { value: "DISASTER_RECOVERY", label: "재난복구" },
+  { value: "SPACE_ROBOTICS", label: "우주·로봇" },
+  { value: "ETC", label: "기타" },
 ] as const;
+
+// Field Ops 관심 7종(FieldOpsFeature) — 기존 관심 6종(InterestFeature)과 별개 체계, 병존(dev-plan §5.8).
+// key = 서버 FieldOpsFeature enum, event = 정본 이벤트명.
+export interface FieldOpsFeatureDef {
+  key: string;
+  label: string;
+  short: string;
+  event: AnalyticsEventName;
+}
+export const FIELDOPS_FEATURES: FieldOpsFeatureDef[] = [
+  { key: "EQUIPMENT_TOOL", label: "장비·공구 운영", short: "현장 장비·공구 대여와 관리", event: "equipment_tool_interest_clicked" },
+  { key: "SMART_EQUIPMENT", label: "전문장비·스마트계측", short: "스마트 계측기 임대·캘리브레이션", event: "smart_equipment_interest_clicked" },
+  { key: "MATERIAL_ORDER", label: "소모자재 반복발주", short: "현장 자재 정기 발주·배송", event: "material_order_interest_clicked" },
+  { key: "PACKAGE", label: "장비+기술자 패키지", short: "장비와 인력을 함께", event: "package_interest_clicked" },
+  { key: "MEAL_LODGING", label: "식사·숙소·근무환경", short: "현장 식사·숙소 제휴", event: "meal_lodging_interest_clicked" },
+  { key: "EDUCATION", label: "교육 프로그램", short: "자격·안전 교육 연계", event: "education_interest_clicked" },
+  { key: "INSURANCE", label: "보험·정비·보증", short: "현장 보험·정비·보증 연계", event: "insurance_interest_clicked" },
+];
 
 export interface InterestFeatureDef {
   key: InterestFeatureKey;
@@ -157,3 +181,138 @@ export const INTEREST_FEATURES: InterestFeatureDef[] = [
     event: "company_view_interest_clicked",
   },
 ];
+
+// ════════════════════════════════════════════════════════════════════
+// 외국인 기술인력 관리 — dev-plan-foreign-workforce.md
+// value = 서버 enum, label = 표시 문구. 노출 제어는 프론트.
+// ════════════════════════════════════════════════════════════════════
+
+// 지원 언어 (SupportedLang, PDF §8-1)
+export const LANGUAGES = [
+  { value: "KO", label: "한국어", native: "한국어" },
+  { value: "EN", label: "영어", native: "English" },
+  { value: "VI", label: "베트남어", native: "Tiếng Việt" },
+  { value: "TH", label: "태국어", native: "ไทย" },
+  { value: "ID", label: "인도네시아어", native: "Bahasa Indonesia" },
+  { value: "UZ", label: "우즈베크어", native: "Oʻzbekcha" },
+] as const;
+
+// 외국인 기술인력 국적 — 자유 입력 방지(고정 드롭다운). E-9 고용허가제 MOU 16개국 + E-7·동포 상용.
+// 가나다순 정렬, '기타'만 맨 끝.
+export const NATIONALITIES = [
+  "네팔",
+  "동티모르",
+  "라오스",
+  "러시아",
+  "몽골",
+  "미얀마",
+  "방글라데시",
+  "베트남",
+  "스리랑카",
+  "우즈베키스탄",
+  "인도",
+  "인도네시아",
+  "중국",
+  "카자흐스탄",
+  "캄보디아",
+  "키르기스스탄",
+  "태국",
+  "파키스탄",
+  "필리핀",
+  "기타",
+] as const;
+
+// 체류자격 (VisaType, PDF §6-2) — E-9/E-7/H-2 등
+export const VISA_TYPES = [
+  { value: "E9", label: "E-9 (비전문취업)" },
+  { value: "E7", label: "E-7 (특정활동)" },
+  { value: "E74", label: "E-7-4 (숙련기능인력)" },
+  { value: "H2", label: "H-2 (방문취업)" },
+  { value: "D2", label: "D-2 (유학)" },
+  { value: "D4", label: "D-4 (일반연수)" },
+  { value: "F2", label: "F-2 (거주)" },
+  { value: "F4", label: "F-4 (재외동포)" },
+  { value: "F5", label: "F-5 (영주)" },
+  { value: "F6", label: "F-6 (결혼이민)" },
+  { value: "ETC", label: "기타" },
+] as const;
+
+// 한국어 수준 (KoreanLevel, PDF §5-1)
+export const KOREAN_LEVELS = [
+  { value: "NONE", label: "전혀 못함" },
+  { value: "BASIC", label: "기초 (인사·간단 지시)" },
+  { value: "INTERMEDIATE", label: "중급 (작업 지시 이해)" },
+  { value: "FLUENT", label: "능숙 (현장 소통 원활)" },
+  { value: "NATIVE", label: "원어민 수준" },
+] as const;
+
+// 서류 종류 (DocumentKind, PDF §6-3)
+export const DOCUMENT_KINDS = [
+  { value: "PASSPORT", label: "여권" },
+  { value: "ARC", label: "외국인등록증" },
+  { value: "VISA", label: "비자" },
+  { value: "CONTRACT", label: "근로계약서" },
+  { value: "TRAINING_CERT", label: "교육 이수증" },
+  { value: "OTHER", label: "기타" },
+] as const;
+
+// 비자·서류 상태 (VisaDocStatus)
+export const VISA_DOC_STATUS_LABEL: Record<string, string> = {
+  PENDING: "준비 중",
+  SUBMITTED: "제출됨",
+  VERIFIED: "검토 완료",
+  EXPIRED: "만료",
+  REJECTED: "반려",
+};
+
+// 현장 용어 카테고리 (PDF §4-2) — 외부명 "현장 용어", 내부 태그만 노가다 용어
+export const GLOSSARY_CATEGORIES = [
+  { value: "WORK_ORDER", label: "작업 지시" },
+  { value: "SAFETY", label: "안전 문구" },
+  { value: "EQUIPMENT", label: "장비·공구" },
+  { value: "MATERIAL", label: "자재" },
+] as const;
+
+// 정산 항목 (SettlementItemKind, PDF §7-2)
+export const SETTLEMENT_ITEM_KINDS = [
+  { value: "BASE_WAGE", label: "기본 임금" },
+  { value: "OVERTIME", label: "연장·야간·휴일" },
+  { value: "ALLOWANCE", label: "수당 (위험·숙련)" },
+  { value: "MEAL", label: "식사" },
+  { value: "LODGING", label: "숙소" },
+  { value: "TRANSPORT", label: "교통" },
+  { value: "EDUCATION", label: "교육비" },
+  { value: "INSURANCE", label: "보험·보증" },
+  { value: "REMITTANCE", label: "해외 송금" },
+] as const;
+
+export const SETTLEMENT_STATUS_LABEL: Record<string, string> = {
+  DRAFT: "작성 중",
+  CONFIRMED: "확정",
+  PAID: "지급 완료",
+  DISPUTED: "분쟁",
+};
+
+// 교육 종류 (TrainingKind, PDF §6-2)
+export const TRAINING_KINDS = [
+  { value: "SAFETY", label: "안전교육" },
+  { value: "JOB", label: "직무교육" },
+  { value: "KOREAN", label: "한국어교육" },
+] as const;
+
+// 리스크 신고 종류 (RiskReportKind, PDF §8-4)
+export const RISK_REPORT_KINDS = [
+  { value: "WAGE_UNPAID", label: "임금 체불" },
+  { value: "SAFETY_ACCIDENT", label: "산업재해·안전사고" },
+  { value: "LANGUAGE_HAZARD", label: "언어 오해로 인한 작업 위험" },
+  { value: "ABUSE", label: "악성 사용자 신고" },
+] as const;
+
+// 행정·노무 파트너 연계 종류 (PartnerReferralKind, PDF §2·§6)
+export const PARTNER_REFERRAL_KINDS = [
+  { value: "VISA", label: "비자·체류 행정" },
+  { value: "LABOR", label: "노무·근로계약" },
+  { value: "SETTLEMENT", label: "정산·세무" },
+  { value: "EDUCATION", label: "교육 연계" },
+  { value: "INSURANCE", label: "보험 연계" },
+] as const;

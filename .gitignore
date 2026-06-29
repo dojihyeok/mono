@@ -1,8 +1,8 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+# 모노레포(web/ + api/) 공통 gitignore — 패턴은 모든 하위 디렉터리에 적용
 
-# dependencies
-node_modules
-/.pnp
+# dependencies (node)
+node_modules/
+.pnp
 .pnp.*
 .yarn/*
 !.yarn/patches
@@ -10,29 +10,43 @@ node_modules
 !.yarn/releases
 !.yarn/versions
 
-# testing
-coverage
-
-# next.js
+# next.js / build
 .next/
-/out/
-
-# production
-/build
+out/
+build/
 dist/
+
+# testing / coverage
+coverage/
+.pytest_cache/
+
+# python (api: FastAPI 브랜치)
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+.mypy_cache/
+.ruff_cache/
 
 # misc
 .DS_Store
 *.pem
 
-# debug
+# debug logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files (can opt-in for committing if needed)
-.env*
+# env files (keep secrets out of git)
+.env
+.env.*
+!.env*.example
+
+# prisma (sqlite 산출물)
+**/prisma/*.db
+**/prisma/*.db-journal
 
 # vercel
 .vercel
@@ -41,4 +55,21 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-/app/generated/prisma
+# 기획 원본 PDF(대용량 바이너리 — 의도적으로 git 제외. 원본 기획 문서, docs/session-handover.md 참고)
+*.pdf
+
+# Slack webhook URL (시크릿 — 커밋 금지)
+.slack-webhook
+
+# Claude 로컬 스킬(impeccable 등) — 설치 산출물, 레포 제외
+.claude/skills/
+
+# getdesign.md 디자인 시안 문서(테마 탐색용 — 레포 제외)
+DESIGN-*.md
+
+# impeccable 훅 캐시(머신별 절대경로·세션ID — 커밋 금지, CodeRabbit 지적)
+**/.impeccable/
+
+# CodeRabbit 등 외부 에이전트 스킬 설치 산출물(per-dev 설치 — 레포 제외)
+.agents/
+skills-lock.json
