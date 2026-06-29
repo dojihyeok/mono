@@ -1154,7 +1154,7 @@ export default function MonoApp() {
           <button type="button" onClick={v.goWork} className={`mono-sidebar-item${v.isWork ? " active" : ""}`}>출근·정산</button>
           <button type="button" onClick={v.goMe} className={`mono-sidebar-item${v.isMe ? " active" : ""}`}>내 정보</button>
         </nav>
-        <div className="mono-sidebar-foot">건설 인력 데이터 인프라</div>
+        <div className="mono-sidebar-foot">현장 인력 데이터 인프라</div>
       </aside>
 <div className="mono-frame scr">
 
@@ -1743,7 +1743,7 @@ export default function MonoApp() {
             로그아웃
           </button>
           <button type="button" onClick={deleteAccount} style={{ marginTop: "10px", width: "100%", height: "44px", border: "none", borderRadius: "13px", background: "none", color: "#d9534f", fontSize: "13px", fontWeight: "700", fontFamily: "inherit", cursor: "pointer", WebkitTapHighlightColor: "transparent" }}>회원 탈퇴</button>
-          <div style={{ textAlign: "center", marginTop: "18px", fontSize: "11.5px", color: "#8694a8", fontWeight: "500" }}>MONO v1.0 · 건설 인력 데이터 인프라</div>
+          <div style={{ textAlign: "center", marginTop: "18px", fontSize: "11.5px", color: "#8694a8", fontWeight: "500" }}>MONO v1.0 · 현장 인력 데이터 인프라</div>
         </div>
         </>)}
 

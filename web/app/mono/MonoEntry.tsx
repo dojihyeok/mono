@@ -27,6 +27,8 @@ export default function MonoEntry() {
       setAuthed(false);
       setUserType(null);
     }
+    track("app_opened");
+    track("session_started");
     track("page_view", { screen: "mono" });
   }, []);
 
@@ -40,9 +42,28 @@ export default function MonoEntry() {
           if (!user) startSignup({ name: id, phone: "id:" + id });
           try {
             window.localStorage.setItem(AUTH_KEY, "1");
+            window.localStorage.setItem(TYPE_KEY, "WORKER");
           } catch {
             /* noop */
           }
+          setAuthed(true);
+        }}
+        onBypassLogin={() => {
+          const name = "도지혁";
+          if (!user) startSignup({ name, phone: "id:" + name });
+          setBasicProfile({
+            name,
+            role: "WORKER",
+            residency: "DOMESTIC",
+            jobType: [...JOB_TYPES],
+            careerYears: CAREER_YEARS[0],
+            region: [...REGIONS],
+            industries: INDUSTRIES.map(i => i.value)
+          });
+          try {
+            window.localStorage.setItem(AUTH_KEY, "1");
+            window.localStorage.setItem(TYPE_KEY, "WORKER");
+          } catch {}
           setAuthed(true);
         }}
       />
@@ -95,9 +116,10 @@ export default function MonoEntry() {
   }
 
   // 기술자(WORKER) / 현장리더(FIELD_LEADER, 직군 온보딩 후 승인) — 또는 레거시 직군 보유자
-  if (!user?.jobType?.length) {
-    return <ProfileSetup onDone={(d) => setBasicProfile({ ...d, role: "WORKER" })} />;
-  }
+  // 프로필 만들기 없이 바로 메인 화면으로 이동
+  // if (!user?.jobType?.length) {
+  //   return <ProfileSetup onDone={(d) => setBasicProfile({ ...d, role: "WORKER" })} />;
+  // }
 
   return <MonoApp />;
 }
@@ -108,7 +130,7 @@ const SSO_BUTTONS = [
   { key: "google", label: "구글", bg: "#fff", fg: "#1f1f1f", mark: "G", border: "#e6e8ec" },
 ];
 
-function LoginScreen({ onLogin }: { onLogin: (id: string) => void }) {
+function LoginScreen({ onLogin, onBypassLogin }: { onLogin: (id: string) => void, onBypassLogin?: () => void }) {
   const [mode, setMode] = useState<"buttons" | "native">("buttons");
   const [loginId, setLoginId] = useState("");
   const [pw, setPw] = useState("");
@@ -138,8 +160,14 @@ function LoginScreen({ onLogin }: { onLogin: (id: string) => void }) {
             ))}
             <button
               onClick={() => {
-                setNotice("");
-                setMode("native");
+                if (onBypassLogin) {
+                  track("sign_up_started", { method: "bypass" });
+                  onBypassLogin();
+                } else {
+                  track("sign_up_started", { method: "native" });
+                  setNotice("");
+                  setMode("native");
+                }
               }}
               style={{ height: "52px", borderRadius: "13px", border: "none", background: "var(--c1,#4f46e5)", color: "#fff", fontSize: "15px", fontWeight: "800", fontFamily: "inherit", cursor: "pointer" }}
             >
@@ -164,7 +192,7 @@ function LoginScreen({ onLogin }: { onLogin: (id: string) => void }) {
             <div style={{ textAlign: "center", marginTop: "2px", fontSize: "12px", color: "#8694a8", lineHeight: "1.6" }}>
               회원가입 없이 계정으로 로그인하면
               <br />
-              프로필 만들기로 이어집니다.
+              바로 앱 메인 화면으로 이동합니다.
             </div>
           </>
         )}
@@ -174,6 +202,10 @@ function LoginScreen({ onLogin }: { onLogin: (id: string) => void }) {
 }
 
 function ProfileSetup({ onDone }: { onDone: (d: { jobType: string[]; careerYears: string; region: string[]; name: string; industries: string[]; residency: "DOMESTIC" | "OVERSEAS" }) => void }) {
+  useEffect(() => {
+    track("step_profile_entered");
+  }, []);
+
   const [name, setName] = useState("");
   const [nameFocus, setNameFocus] = useState(false);
   const [residency, setResidency] = useState<"DOMESTIC" | "OVERSEAS" | "">("");

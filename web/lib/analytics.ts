@@ -3,6 +3,8 @@
 // 현재: 클라이언트 기록(콘솔 + localStorage 버퍼).
 // 서버액션 seam: logEventToServer() 를 추후 AnalyticsEvent 테이블 영속화로 교체.
 
+import { v4 as uuidv4 } from "uuid";
+
 export type AnalyticsEventName =
   // 가입 (6-2 가입 이벤트 + 11-1 온보딩)
   | "page_view"
@@ -264,15 +266,61 @@ async function logEventToServer(event: LoggedEvent): Promise<void> {
   }
 }
 
+// Generate or retrieve anonymous_id
+function getAnonymousId(): string {
+  if (typeof window === "undefined") return "anon_server";
+  let anonId = localStorage.getItem("mono_anonymous_id");
+  if (!anonId) {
+    anonId = `anon_${uuidv4()}`;
+    localStorage.setItem("mono_anonymous_id", anonId);
+  }
+  return anonId;
+}
+
+// Extract UTM source from URL
+function getUtmSource(): string | undefined {
+  if (typeof window === "undefined") return undefined;
+  const params = new URLSearchParams(window.location.search);
+  return params.get("utm_source") || undefined;
+}
+
+// Get device model (basic approximation using userAgent)
+function getDeviceModel(): string {
+  if (typeof window === "undefined") return "Server";
+  const ua = navigator.userAgent;
+  if (/iPhone/i.test(ua)) return "iPhone";
+  if (/iPad/i.test(ua)) return "iPad";
+  if (/Android/i.test(ua)) return "Android";
+  return "Web";
+}
+
+// Platform detection
+function getPlatform(): string {
+  if (typeof window === "undefined") return "Web";
+  const ua = navigator.userAgent;
+  if (/iPhone|iPad|iPod/i.test(ua)) return "iOS";
+  if (/Android/i.test(ua)) return "Android";
+  return "Web";
+}
+
 export function track(
-  name: AnalyticsEventName,
+  name: AnalyticsEventName | string,
   props?: Record<string, unknown>,
 ): void {
   if (typeof window === "undefined") return;
 
+  const enrichedProps = {
+    ...props,
+    anonymous_id: getAnonymousId(),
+    platform: getPlatform(),
+    app_version: process.env.NEXT_PUBLIC_APP_VERSION || "1.0.0",
+    device_model: getDeviceModel(),
+    utm_source: getUtmSource() || undefined,
+  };
+
   const event: LoggedEvent = {
-    name,
-    props: props ?? {},
+    name: name as AnalyticsEventName,
+    props: enrichedProps,
     at: new Date().toISOString(),
   };
 
