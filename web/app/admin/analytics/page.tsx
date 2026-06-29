@@ -93,6 +93,7 @@ export default function AnalyticsDashboard() {
           <div className="bg-white p-6 rounded shadow border border-ink-900/5">
             <h2 className="text-lg font-bold mb-4">가입 퍼널 단계별 현황</h2>
             <div className="h-80 w-full">
+              {/* @ts-ignore: recharts React 18 type mismatch */}
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={data.steps} layout="vertical" margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
                   <XAxis type="number" />
