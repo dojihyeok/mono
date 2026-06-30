@@ -168,6 +168,12 @@ export default function AnalyticsDashboard() {
               >
                 조회
               </button>
+              <button onClick={() => window.location.reload()} style={{ marginLeft: "10px", padding: "8px 16px", borderRadius: "8px", border: "1px solid #d1d5db", background: "#fff", cursor: "pointer", fontSize: "14px", fontWeight: "600" }}>새로고침</button>
+              <button onClick={async () => {
+                const res = await fetch("/api/admin/insights/sync", { method: "POST" });
+                if (res.ok) alert("맞춤형 AI 인사이트가 성공적으로 분석 및 업데이트 되었습니다!");
+                else alert("인사이트 업데이트에 실패했습니다.");
+              }} style={{ marginLeft: "10px", padding: "8px 16px", borderRadius: "8px", border: "none", background: "linear-gradient(135deg, #8b8df8 0%, #4f46e5 100%)", color: "#fff", cursor: "pointer", fontSize: "14px", fontWeight: "700" }}>AI 분석 및 공지 업데이트</button>
             </div>
 
             {loading && <p>데이터 조회 중...</p>}

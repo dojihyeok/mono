@@ -102,3 +102,16 @@ model AnalyticsEvent {
   @@index([name])
   @@index([userId])
 }
+
+// 홈 화면 맞춤형 AI 인사이트 / 공지사항
+model AiInsight {
+  id         String   @id @default(cuid())
+  type       String   // URGENT_JOB, REGION_INFO, WEATHER_INFO 등
+  title      String
+  content    String
+  linkText   String?
+  linkTarget String?  // 예: jobs-nearby, training-programs 등
+  active     Boolean  @default(true)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}

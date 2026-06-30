@@ -146,6 +146,16 @@ function applLabel(status: string): { t: string; bg: string; fg: string } {
   return { t: "지원 완료", bg: "var(--soft,#ecedfb)", fg: "var(--c1,#4f46e5)" };
 }
 
+// AI 인사이트 / 맞춤형 공지사항
+interface AiInsight {
+  id: string;
+  type: string;
+  title: string;
+  content: string;
+  linkText: string | null;
+  linkTarget: string | null;
+}
+
 export default function MonoApp() {
   const [s, setS] = useState({ tab: 'home', variant: 0, flipped: false, checkedIn: false, settleOpen: false, modal: null, overlay: null, selJob: 0, applied: false, cardView: 'me' });
   const { user, updateUser, setBasicProfile, registerInterest, interests,
@@ -408,6 +418,18 @@ export default function MonoApp() {
       .then((d) => setCoworkers(Array.isArray(d) ? (d as CoworkerItem[]) : []))
       .catch(() => undefined);
   };
+
+  // AI 인사이트 가져오기
+  const [insights, setInsights] = useState<AiInsight[]>([]);
+  useEffect(() => {
+    fetch("/api/insights", { cache: "no-store" })
+      .then((r) => r.json())
+      .then((d) => {
+        if (d.ok && Array.isArray(d.insights)) setInsights(d.insights);
+      })
+      .catch(() => undefined);
+  }, []);
+
   useEffect(() => {
     loadCoworkers();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -1138,13 +1160,18 @@ export default function MonoApp() {
       closeModal:()=>close()
     };
     // v 는 user/s/completion/careerCards/certificates/educations 만 읽음(핸들러는 함수형 setState).
-    // 무관한 상태(폴링 unread·폼 입력 등) 변경 시 재계산 차단.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user, s, completion, careerCards, certificates, educations]);
+
+  const [insights, setInsights] = useState([]);
+  useEffect(() => {
+    void fetch("/api/ai/insights")
+      .then((res) => res.json())
+      .then((data) => setInsights(data))
+      .catch(() => undefined);
+  }, []);
 
   return (
     <div className="mono-stage">
-      {/* 데스크톱 전용 사이드바 — 폰 목업 대신 실제 웹앱 셸. 모바일에선 CSS로 숨김(하단 탭 사용). */}
       <aside className="mono-sidebar">
         <div className="mono-sidebar-brand"><span className="mono-sidebar-logo">M</span>MONO</div>
         <nav className="mono-sidebar-nav">
