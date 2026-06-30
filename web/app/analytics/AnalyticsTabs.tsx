@@ -8,25 +8,21 @@ export function AnalyticsTabs() {
   const [mode, setMode] = useState<"dashboard" | "details">("dashboard");
 
   return (
-    <div className="min-h-screen bg-warm-50 flex flex-col font-sans text-ink-900">
-      <div className="bg-white border-b border-ink-900/10 px-6 py-4 flex gap-4 sticky top-0 z-50 shadow-sm">
+    <div style={{ minHeight: "100vh", backgroundColor: "#f9fafb", display: "flex", flexDirection: "column", fontFamily: "sans-serif", color: "#111827" }}>
+      <div style={{ backgroundColor: "#fff", borderBottom: "1px solid rgba(17, 24, 39, 0.1)", padding: "16px 24px", display: "flex", gap: "16px", position: "sticky", top: 0, zIndex: 50, boxShadow: "0 1px 2px 0 rgba(0, 0, 0, 0.05)" }}>
         <button
           onClick={() => setMode("dashboard")}
-          className={`px-4 py-2 font-bold rounded-full transition-colors ${
-            mode === "dashboard"
-              ? "bg-brand text-white"
-              : "bg-warm-100 text-ink-500 hover:bg-warm-200"
-          }`}
+          style={{ padding: "8px 16px", fontWeight: "bold", borderRadius: "9999px", transition: "background-color 0.2s", border: "none", cursor: "pointer", 
+            ...(mode === "dashboard" ? { backgroundColor: "#4f46e5", color: "#fff" } : { backgroundColor: "#f3f4f6", color: "#6b7280" }) 
+          }}
         >
           📈 그래프 대시보드
         </button>
         <button
           onClick={() => setMode("details")}
-          className={`px-4 py-2 font-bold rounded-full transition-colors ${
-            mode === "details"
-              ? "bg-brand text-white"
-              : "bg-warm-100 text-ink-500 hover:bg-warm-200"
-          }`}
+          style={{ padding: "8px 16px", fontWeight: "bold", borderRadius: "9999px", transition: "background-color 0.2s", border: "none", cursor: "pointer",
+            ...(mode === "details" ? { backgroundColor: "#4f46e5", color: "#fff" } : { backgroundColor: "#f3f4f6", color: "#6b7280" }) 
+          }}
         >
           📝 상세 지표 분석
         </button>

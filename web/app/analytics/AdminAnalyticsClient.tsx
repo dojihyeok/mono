@@ -34,11 +34,11 @@ export function AdminAnalyticsClient() {
   };
 
   return (
-    <div className="p-6 font-sans text-ink-900">
-      <h1 className="text-2xl font-black mb-6">사용자 행동 분석 대시보드</h1>
+    <div style={{ padding: "24px", fontFamily: "sans-serif", color: "#111827" }}>
+      <h1 style={{ fontSize: "24px", fontWeight: 900, marginBottom: "24px", marginTop: 0 }}>사용자 행동 분석 대시보드</h1>
 
       {/* Tabs */}
-      <div className="flex gap-4 mb-8 border-b border-ink-900/10">
+      <div style={{ display: "flex", gap: "16px", marginBottom: "32px", borderBottom: "1px solid rgba(17,24,39,0.1)" }}>
         {[
           { id: "overview", label: "1. 종합 KPI 뷰" },
           { id: "funnel", label: "2. 가입 퍼널 분석" },
@@ -48,11 +48,18 @@ export function AdminAnalyticsClient() {
           <button
             key={t.id}
             onClick={() => setActiveTab(t.id)}
-            className={`pb-3 font-semibold transition-colors ${
-              activeTab === t.id
-                ? "border-b-2 border-brand text-brand"
-                : "text-ink-500 hover:text-ink-900"
-            }`}
+            style={{ 
+              padding: "0 0 12px 0", 
+              fontWeight: 600, 
+              borderBottom: activeTab === t.id ? "2px solid #4f46e5" : "2px solid transparent", 
+              color: activeTab === t.id ? "#4f46e5" : "#6b7280", 
+              background: "none", 
+              borderTop: "none", 
+              borderLeft: "none", 
+              borderRight: "none", 
+              cursor: "pointer",
+              fontSize: "15px"
+            }}
           >
             {t.label}
           </button>
@@ -64,36 +71,36 @@ export function AdminAnalyticsClient() {
 
         {/* OVERVIEW */}
         {!loading && activeTab === "overview" && data && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="bg-white p-6 rounded shadow border border-ink-900/5">
-              <h3 className="text-sm font-medium text-ink-500 mb-2">일일 활성 사용자 (DAU)</h3>
-              <p className="text-3xl font-bold">{data.dau?.toLocaleString() ?? 0}</p>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "24px" }}>
+            <div style={{ backgroundColor: "#fff", padding: "24px", borderRadius: "8px", boxShadow: "0 1px 3px rgba(0,0,0,0.1)", border: "1px solid rgba(17,24,39,0.05)" }}>
+              <h3 style={{ fontSize: "14px", fontWeight: 500, color: "#6b7280", margin: "0 0 8px 0" }}>일일 활성 사용자 (DAU)</h3>
+              <p style={{ fontSize: "30px", fontWeight: 700, margin: 0 }}>{data.dau?.toLocaleString() ?? 0}</p>
             </div>
-            <div className="bg-white p-6 rounded shadow border border-ink-900/5">
-              <h3 className="text-sm font-medium text-ink-500 mb-2">주간 활성 사용자 (WAU)</h3>
-              <p className="text-3xl font-bold">{data.wau?.toLocaleString() ?? 0}</p>
+            <div style={{ backgroundColor: "#fff", padding: "24px", borderRadius: "8px", boxShadow: "0 1px 3px rgba(0,0,0,0.1)", border: "1px solid rgba(17,24,39,0.05)" }}>
+              <h3 style={{ fontSize: "14px", fontWeight: 500, color: "#6b7280", margin: "0 0 8px 0" }}>주간 활성 사용자 (WAU)</h3>
+              <p style={{ fontSize: "30px", fontWeight: 700, margin: 0 }}>{data.wau?.toLocaleString() ?? 0}</p>
             </div>
-            <div className="bg-white p-6 rounded shadow border border-ink-900/5">
-              <h3 className="text-sm font-medium text-ink-500 mb-2">월간 활성 사용자 (MAU)</h3>
-              <p className="text-3xl font-bold">{data.mau?.toLocaleString() ?? 0}</p>
+            <div style={{ backgroundColor: "#fff", padding: "24px", borderRadius: "8px", boxShadow: "0 1px 3px rgba(0,0,0,0.1)", border: "1px solid rgba(17,24,39,0.05)" }}>
+              <h3 style={{ fontSize: "14px", fontWeight: 500, color: "#6b7280", margin: "0 0 8px 0" }}>월간 활성 사용자 (MAU)</h3>
+              <p style={{ fontSize: "30px", fontWeight: 700, margin: 0 }}>{data.mau?.toLocaleString() ?? 0}</p>
             </div>
-            <div className="bg-white p-6 rounded shadow border border-ink-900/5">
-              <h3 className="text-sm font-medium text-ink-500 mb-2">오늘 신규 가입 유저</h3>
-              <p className="text-3xl font-bold">{data.todayNewUsers?.toLocaleString() ?? 0}</p>
+            <div style={{ backgroundColor: "#fff", padding: "24px", borderRadius: "8px", boxShadow: "0 1px 3px rgba(0,0,0,0.1)", border: "1px solid rgba(17,24,39,0.05)" }}>
+              <h3 style={{ fontSize: "14px", fontWeight: 500, color: "#6b7280", margin: "0 0 8px 0" }}>오늘 신규 가입 유저</h3>
+              <p style={{ fontSize: "30px", fontWeight: 700, margin: 0 }}>{data.todayNewUsers?.toLocaleString() ?? 0}</p>
             </div>
-            <div className="bg-white p-6 rounded shadow border border-ink-900/5 col-span-full">
-              <h3 className="text-sm font-medium text-ink-500 mb-2">Aha-Moment 달성률 (오늘)</h3>
-              <p className="text-3xl font-bold text-brand">{data.ahaRate ?? "0.0"}%</p>
-              <p className="text-xs text-ink-400 mt-1">당일 핵심기능 수행 유저 / 당일 신규 가입 유저</p>
+            <div style={{ backgroundColor: "#fff", padding: "24px", borderRadius: "8px", boxShadow: "0 1px 3px rgba(0,0,0,0.1)", border: "1px solid rgba(17,24,39,0.05)", gridColumn: "1 / -1" }}>
+              <h3 style={{ fontSize: "14px", fontWeight: 500, color: "#6b7280", margin: "0 0 8px 0" }}>Aha-Moment 달성률 (오늘)</h3>
+              <p style={{ fontSize: "30px", fontWeight: 700, color: "#4f46e5", margin: 0 }}>{data.ahaRate ?? "0.0"}%</p>
+              <p style={{ fontSize: "12px", color: "#9ca3af", margin: "4px 0 0 0" }}>당일 핵심기능 수행 유저 / 당일 신규 가입 유저</p>
             </div>
           </div>
         )}
 
         {/* FUNNEL */}
         {!loading && activeTab === "funnel" && data && (
-          <div className="bg-white p-6 rounded shadow border border-ink-900/5">
-            <h2 className="text-lg font-bold mb-4">가입 퍼널 단계별 현황</h2>
-            <div className="h-80 w-full">
+          <div style={{ backgroundColor: "#fff", padding: "24px", borderRadius: "8px", boxShadow: "0 1px 3px rgba(0,0,0,0.1)", border: "1px solid rgba(17,24,39,0.05)" }}>
+            <h2 style={{ fontSize: "18px", fontWeight: 700, margin: "0 0 16px 0" }}>가입 퍼널 단계별 현황</h2>
+            <div style={{ height: "320px", width: "100%" }}>
               {/* @ts-ignore: recharts React 18 type mismatch */}
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={data.steps} layout="vertical" margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
@@ -109,30 +116,30 @@ export function AdminAnalyticsClient() {
 
         {/* COHORT */}
         {!loading && activeTab === "cohort" && data && (
-          <div className="bg-white p-6 rounded shadow border border-ink-900/5 overflow-x-auto">
-            <h2 className="text-lg font-bold mb-4">가입일 기준 리텐션 (D0 ~ D7)</h2>
-            <table className="w-full text-left text-sm whitespace-nowrap">
+          <div style={{ backgroundColor: "#fff", padding: "24px", borderRadius: "8px", boxShadow: "0 1px 3px rgba(0,0,0,0.1)", border: "1px solid rgba(17,24,39,0.05)", overflowX: "auto" }}>
+            <h2 style={{ fontSize: "18px", fontWeight: 700, margin: "0 0 16px 0" }}>가입일 기준 리텐션 (D0 ~ D7)</h2>
+            <table style={{ width: "100%", textAlign: "left", fontSize: "14px", whiteSpace: "nowrap", borderCollapse: "collapse" }}>
               <thead>
-                <tr className="border-b border-ink-900/10">
-                  <th className="p-3 font-semibold text-ink-500">가입일 (Cohort)</th>
-                  <th className="p-3 font-semibold text-ink-500">신규 가입자</th>
+                <tr style={{ borderBottom: "1px solid rgba(17,24,39,0.1)" }}>
+                  <th style={{ padding: "12px", fontWeight: 600, color: "#6b7280" }}>가입일 (Cohort)</th>
+                  <th style={{ padding: "12px", fontWeight: 600, color: "#6b7280" }}>신규 가입자</th>
                   {Array.from({ length: 8 }).map((_, i) => (
-                    <th key={i} className="p-3 font-semibold text-ink-500 text-center">Day {i}</th>
+                    <th key={i} style={{ padding: "12px", fontWeight: 600, color: "#6b7280", textAlign: "center" }}>Day {i}</th>
                   ))}
                 </tr>
               </thead>
               <tbody>
                 {(data.cohorts || []).map((row: any) => (
-                  <tr key={row.cohort} className="border-b border-ink-900/5">
-                    <td className="p-3">{row.cohort}</td>
-                    <td className="p-3 font-medium">{row.total}명</td>
+                  <tr key={row.cohort} style={{ borderBottom: "1px solid rgba(17,24,39,0.05)" }}>
+                    <td style={{ padding: "12px" }}>{row.cohort}</td>
+                    <td style={{ padding: "12px", fontWeight: 500 }}>{row.total}명</td>
                     {row.retention.map((pct: number, i: number) => {
                       const alpha = Math.min(pct / 100, 1);
                       return (
-                        <td key={i} className="p-3 text-center">
+                        <td key={i} style={{ padding: "12px", textAlign: "center" }}>
                           <div
-                            className="inline-block px-2 py-1 rounded"
                             style={{
+                              display: "inline-block", padding: "4px 8px", borderRadius: "4px",
                               backgroundColor: `rgba(79, 70, 229, ${alpha})`,
                               color: alpha > 0.4 ? "#fff" : "#111827",
                             }}
@@ -151,20 +158,20 @@ export function AdminAnalyticsClient() {
 
         {/* FLOW */}
         {activeTab === "flow" && (
-          <div className="bg-white p-6 rounded shadow border border-ink-900/5">
-            <h2 className="text-lg font-bold mb-4">개별 유저 행동 흐름 검색</h2>
-            <div className="flex gap-2 mb-6">
+          <div style={{ backgroundColor: "#fff", padding: "24px", borderRadius: "8px", boxShadow: "0 1px 3px rgba(0,0,0,0.1)", border: "1px solid rgba(17,24,39,0.05)" }}>
+            <h2 style={{ fontSize: "18px", fontWeight: 700, margin: "0 0 16px 0" }}>개별 유저 행동 흐름 검색</h2>
+            <div style={{ display: "flex", gap: "8px", marginBottom: "24px" }}>
               <input
                 type="text"
                 placeholder="user_id 또는 anonymous_id 입력..."
-                className="border border-ink-900/20 rounded px-4 py-2 flex-1 outline-none focus:border-brand"
+                style={{ border: "1px solid rgba(17,24,39,0.2)", borderRadius: "4px", padding: "8px 16px", flex: 1, outline: "none" }}
                 value={userIdInput}
                 onChange={(e) => setUserIdInput(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && searchFlow()}
               />
               <button
                 onClick={searchFlow}
-                className="bg-brand text-white px-6 py-2 rounded font-semibold hover:bg-indigo-700 transition"
+                style={{ backgroundColor: "#4f46e5", color: "#fff", padding: "8px 24px", borderRadius: "4px", fontWeight: 600, border: "none", cursor: "pointer" }}
               >
                 조회
               </button>
@@ -179,9 +186,9 @@ export function AdminAnalyticsClient() {
             {loading && <p>데이터 조회 중...</p>}
 
             {!loading && flowData?.events && (
-              <div className="space-y-4 relative before:absolute before:inset-y-0 before:left-[11px] before:w-0.5 before:bg-ink-900/10 ml-2">
+              <div style={{ display: "flex", flexDirection: "column", gap: "16px", paddingLeft: "12px", borderLeft: "2px solid rgba(17,24,39,0.1)", marginLeft: "8px" }}>
                 {flowData.events.length === 0 ? (
-                  <p className="text-ink-500 py-4 ml-6">해당 유저의 이벤트 기록이 없습니다.</p>
+                  <p style={{ color: "#6b7280", padding: "16px 0", marginLeft: "24px", margin: 0 }}>해당 유저의 이벤트 기록이 없습니다.</p>
                 ) : (
                   flowData.events.map((e: any, i: number) => {
                     const time = new Date(e.time).toLocaleTimeString("ko-KR", {
@@ -190,15 +197,15 @@ export function AdminAnalyticsClient() {
                       second: "2-digit",
                     });
                     return (
-                      <div key={i} className="relative flex gap-4 items-start ml-6">
-                        <div className="absolute -left-[30px] top-1.5 w-2 h-2 rounded-full bg-brand ring-4 ring-white" />
-                        <div className="bg-warm-50 border border-ink-900/10 rounded-lg p-3 w-full">
-                          <div className="flex items-center gap-3 mb-1">
-                            <span className="font-mono text-xs font-bold text-ink-500">[{time}]</span>
-                            <span className="font-bold text-ink-900 text-sm">{e.name}</span>
+                      <div key={i} style={{ display: "flex", gap: "16px", alignItems: "flex-start", position: "relative" }}>
+                        <div style={{ position: "absolute", left: "-23px", top: "8px", width: "10px", height: "10px", borderRadius: "50%", backgroundColor: "#4f46e5", border: "4px solid #fff" }} />
+                        <div style={{ backgroundColor: "#f9fafb", border: "1px solid rgba(17,24,39,0.1)", borderRadius: "8px", padding: "12px", width: "100%" }}>
+                          <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "4px" }}>
+                            <span style={{ fontFamily: "monospace", fontSize: "12px", fontWeight: 700, color: "#6b7280" }}>[{time}]</span>
+                            <span style={{ fontWeight: 700, color: "#111827", fontSize: "14px" }}>{e.name}</span>
                           </div>
                           {e.props && Object.keys(e.props).length > 0 && (
-                            <pre className="text-xs text-ink-500 overflow-x-auto bg-white p-2 rounded mt-2 border border-ink-900/5">
+                            <pre style={{ fontSize: "12px", color: "#6b7280", overflowX: "auto", backgroundColor: "#fff", padding: "8px", borderRadius: "4px", marginTop: "8px", border: "1px solid rgba(17,24,39,0.05)", margin: 0 }}>
                               {JSON.stringify(e.props, null, 2)}
                             </pre>
                           )}
