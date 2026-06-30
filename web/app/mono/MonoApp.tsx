@@ -1162,13 +1162,6 @@ export default function MonoApp() {
     // v 는 user/s/completion/careerCards/certificates/educations 만 읽음(핸들러는 함수형 setState).
   }, [user, s, completion, careerCards, certificates, educations]);
 
-  const [insights, setInsights] = useState([]);
-  useEffect(() => {
-    void fetch("/api/ai/insights")
-      .then((res) => res.json())
-      .then((data) => setInsights(data))
-      .catch(() => undefined);
-  }, []);
 
   return (
     <div className="mono-stage">
