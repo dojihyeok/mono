@@ -1270,6 +1270,33 @@ export default function MonoApp() {
             </div>
           </div>
 
+          {/* AI 인사이트 공지사항 영역 */}
+          {insights.length > 0 && (
+            <div style={{ marginTop: "24px" }}>
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "12px" }}>
+                <span style={{ fontSize: "15px", fontWeight: "800", color: "var(--c1,#4f46e5)" }}>AI 맞춤형 안내</span>
+              </div>
+              <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+                {insights.map((insight, idx) => (
+                  <div key={idx} style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: "20px", padding: "18px", cursor: "pointer", boxShadow: "0 4px 14px -10px color-mix(in srgb, var(--brand-deep,#2c2d8f) 15%, transparent)" }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "8px" }}>
+                      <span style={{ fontSize: "11px", fontWeight: "800", color: "var(--c1,#4f46e5)", background: "var(--soft,#ecedfb)", padding: "3px 9px", borderRadius: "8px" }}>{insight.type === "URGENT_JOB" ? "긴급 일자리" : insight.type === "WEATHER_INFO" ? "날씨 안내" : "현장 소식"}</span>
+                      <span style={{ fontSize: "14.5px", fontWeight: "800", color: "#111" }}>{insight.title}</span>
+                    </div>
+                    <div style={{ fontSize: "13px", color: "#5b6b82", lineHeight: "1.5", marginBottom: "14px", fontWeight: "500", wordBreak: "keep-all" }}>
+                      {insight.content}
+                    </div>
+                    {insight.linkText && (
+                      <div style={{ fontSize: "13px", fontWeight: "700", color: "var(--c1,#4f46e5)", display: "flex", alignItems: "center", gap: "4px" }}>
+                        {insight.linkText} <span style={{ fontSize: "16px", lineHeight: "1" }}>›</span>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
 
           {/* 오늘의 추천 현장 — 아직 노출하지 않음(주석 처리). 추후 복원 가능.
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", margin: "24px 0 10px" }}>
