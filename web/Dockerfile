@@ -7,11 +7,12 @@
 # ===== Stage 1: builder =====
 FROM node:20-slim AS builder
 WORKDIR /app
+RUN apt-get update -y && apt-get install -y openssl
 
 # 재현 빌드 — lockfile 고정. prisma generate(postinstall)용 schema 먼저 복사.
 COPY package.json package-lock.json ./
 COPY prisma ./prisma
-RUN npm ci
+RUN npm install
 
 # 소스 빌드 → .next/standalone 생성
 COPY . .
@@ -21,6 +22,7 @@ RUN npm run build
 FROM node:20-slim AS runtime
 ENV NODE_ENV=production
 WORKDIR /app
+RUN apt-get update -y && apt-get install -y openssl
 
 # Next standalone 필수 3종: server 번들 + 정적자산 + public
 COPY --from=builder /app/.next/standalone ./
