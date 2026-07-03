@@ -259,7 +259,7 @@ function Landing({ onStart, onBrowse, onLogin }: { onStart: () => void; onBrowse
   return (
     <>
       <section className={styles.hero}>
-        <div className={styles.heroEyebrow}>건설 인력 데이터 인프라 · 기업 파트너</div>
+        <div className={styles.heroEyebrow}>현장 인력 데이터 인프라 · 기업 파트너</div>
         <h1 className={styles.heroTitle}>
           채용 공고를 먼저 등록하면,
           <br />

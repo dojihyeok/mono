@@ -1,4 +1,5 @@
 import {
+  IsBoolean,
   IsArray,
   IsEnum,
   IsInt,
@@ -7,7 +8,7 @@ import {
   Min,
   MinLength,
 } from 'class-validator';
-import { ContractType, IndustryType } from '@prisma/client';
+import { ContractType, IndustryType, VisaType } from '@prisma/client';
 
 // 현장작업요청 생성 (DB: WorkRequest, 초기 status DRAFT=작성 중)
 // status는 받지 않음 — 상태 전이는 PATCH에서만 허용.
@@ -67,4 +68,17 @@ export class CreateWorkRequestDto {
   @IsOptional()
   @IsEnum(ContractType)
   contractType?: ContractType; // 계약방식
+
+  @IsOptional()
+  @IsBoolean()
+  foreignAllowed?: boolean; // 외국인 채용 가능 여부
+
+  @IsOptional()
+  @IsArray()
+  @IsEnum(VisaType, { each: true })
+  requiredVisaTypes?: VisaType[]; // 요구 체류자격
+
+  @IsOptional()
+  @IsBoolean()
+  interpreterProvided?: boolean; // 현장 통역 제공 여부
 }

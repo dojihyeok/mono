@@ -5,6 +5,7 @@ import { CreateCompanyDto } from './dto/create-company.dto';
 import { CreateJobPostDto } from './dto/create-job-post.dto';
 import { SaveWorkerDto } from './dto/save-worker.dto';
 import { CreateWorkRecordDto } from './dto/create-work-record.dto';
+import { CreateConsultRequestDto } from './dto/create-consult-request.dto';
 import {
   IndustryType,
   KoreanLevel,
@@ -309,9 +310,10 @@ export class CompaniesService {
     visaType?: VisaType;
     industry?: IndustryType;
     region?: string;
+    interpreterNeeded?: boolean;
     limit?: number;
   }) {
-    const { koreanLevel, residency, visaType, industry, region, limit = 50 } =
+    const { koreanLevel, residency, visaType, industry, region, interpreterNeeded, limit = 50 } =
       params;
     // 외국인 판정 = 거주구분 OVERSEAS 이거나 국적이 등록된 자.
     // (온보딩서 내국인=DOMESTIC 도 저장 → residency!=null 은 내국인 포함됨 → OVERSEAS 로 한정)
@@ -321,6 +323,7 @@ export class CompaniesService {
     if (koreanLevel) wp.koreanLevel = koreanLevel;
     if (residency) wp.residency = residency;
     if (industry) wp.industries = { has: industry };
+    if (interpreterNeeded !== undefined) wp.interpreterNeeded = interpreterNeeded;
 
     const where: Prisma.UserWhereInput = {
       name: { not: null },
@@ -359,6 +362,35 @@ export class CompaniesService {
           select: { careerCards: true, certificates: true, trainingRecords: true },
         },
       },
+    });
+  }
+
+  // ── 면접/상담 요청 (ConsultRequest) ──
+  async createConsultRequest(companyId: string, dto: CreateConsultRequestDto) {
+    // Check company exists
+    const company = await this.prisma.company.findUnique({ where: { id: companyId } });
+    if (!company) throw new NotFoundException(`Company ${companyId} not found`);
+
+    if (!dto.targetUserId) {
+      throw new Error('targetUserId must be provided');
+    }
+
+    return this.prisma.consultRequest.create({
+      data: {
+        companyId,
+        targetUserId: dto.targetUserId,
+        memo: dto.memo,
+      },
+    });
+  }
+
+  async listConsultRequestsByCompany(companyId: string) {
+    return this.prisma.consultRequest.findMany({
+      where: { companyId },
+      include: {
+        targetUser: { select: { id: true, name: true, region: true, jobType: true } },
+      },
+      orderBy: { createdAt: 'desc' },
     });
   }
 }

@@ -15,6 +15,58 @@ export interface User {
   createdAt: string;
 }
 
+export interface Notification {
+  id: string;
+  userId: string;
+  type: string;
+  jobPostId?: string | null;
+  title: string;
+  body: string;
+  read: boolean;
+  createdAt: string;
+}
+
+export interface JobPost {
+  id: string;
+  companyId: string;
+  company?: { name: string };
+  title: string;
+  jobType: string[];
+  headcount?: number | null;
+  careerBand?: string | null;
+  certs: string[];
+  region: string[];
+  period?: string | null;
+  conditions?: string | null;
+  status: "PENDING" | "OPEN" | "CLOSED" | "CANCELLED";
+  foreignAllowed: boolean;
+  requiredVisaTypes: string[];
+  interpreterProvided: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface JobApplication {
+  id: string;
+  jobPostId: string;
+  jobPost?: JobPost;
+  userId: string;
+  user?: User;
+  status: "APPLIED" | "ACCEPTED" | "REJECTED";
+  createdAt: string;
+  updatedAt: string;
+  attendances?: Attendance[];
+}
+
+export interface Attendance {
+  id: string;
+  applicationId: string;
+  workDate: string;
+  checkInAt: string;
+  checkOutAt?: string | null;
+  createdAt: string;
+}
+
 // 현장작업요청 (CUSTOMER/OPERATOR 발신) — 서버 WorkRequest 1:1. (dev-plan §3-2(7))
 export interface WorkRequest {
   id: string;
@@ -47,6 +99,15 @@ export interface WorkRequestCandidate {
 }
 
 // 자동 후보추천 항목 — 서버 GET /work-requests/:id/recommendations. (dev-plan §4-2)
+export interface TrustScore {
+  subjectType: string;
+  subjectId: string;
+  score: number;
+  reviewCount: number;
+  breakdown: Record<string, number> | null;
+  computedAt?: string;
+}
+
 export interface Recommendation {
   candidateType: "PERFORMER_COMPANY" | "FIELD_LEADER" | "TEAM";
   candidateId: string;
@@ -293,4 +354,37 @@ export interface ForeignWorker {
   } | null;
   visaStatuses: { visaType: string; status: string; expiryDate?: string | null }[];
   _count?: { careerCards: number; certificates: number; trainingRecords: number };
+}
+
+export interface EquipmentHistory {
+  id: string;
+  userId: string;
+  equipmentName: string;
+  spec?: string | null;
+  experienceMonths?: number | null;
+  description?: string | null;
+  createdAt: string;
+}
+
+export interface AiLeaderInterest {
+  id: string;
+  userId?: string | null;
+  name?: string | null;
+  phone?: string | null;
+  region?: string | null;
+  jobType?: string | null;
+  createdAt: string;
+}
+
+export interface AttendanceRec {
+  id: string;
+  workDate: string;
+  checkInAt: string;
+  checkOutAt: string | null;
+}
+
+export interface Assignment {
+  id: string;
+  jobPost: { id: string; title: string; region: string[]; company: { name: string } | null } | null;
+  attendances: AttendanceRec[];
 }

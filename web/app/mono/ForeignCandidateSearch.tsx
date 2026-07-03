@@ -22,6 +22,7 @@ type Filters = {
   visaType?: string;
   industry?: string;
   region?: string;
+  interpreterNeeded?: string;
 };
 
 // 거주 구분은 별도 상수가 없어 화면 전용으로 정의(서버 enum DOMESTIC/OVERSEAS).
@@ -151,7 +152,13 @@ export default function ForeignCandidateSearch() {
     setLoading(true);
     track("foreign_candidate_searched", { ...f });
     try {
-      setResults(await apiBrowseForeignWorkers(f));
+      const apiParams = { ...f };
+      if (apiParams.interpreterNeeded === "true") {
+        (apiParams as any).interpreterNeeded = true;
+      } else if (apiParams.interpreterNeeded === "false") {
+        (apiParams as any).interpreterNeeded = false;
+      }
+      setResults(await apiBrowseForeignWorkers(apiParams as any));
     } finally {
       setLoading(false);
     }
@@ -237,6 +244,15 @@ export default function ForeignCandidateSearch() {
               options={REGIONS.map((r) => ({ value: r, label: r }))}
               selected={filters.region}
               onPick={(v) => toggle("region", v)}
+            />
+            <FilterRow
+              title="통역 필요 여부"
+              options={[
+                { value: "true", label: "통역 필요" },
+                { value: "false", label: "통역 불필요" },
+              ]}
+              selected={filters.interpreterNeeded}
+              onPick={(v) => toggle("interpreterNeeded", v)}
             />
 
             <button

@@ -18,10 +18,10 @@ export class BasicProfileDto {
   @MinLength(1)
   name?: string;
 
-  // 유형 — 자가선택 가능 4종(캐노니컬 §5.1, 운영자·수행기업 확장 단계). 미전달 시 기존 role 유지.
+  // 유형 — 자가선택 가능 (기술자, 현장리더, 기업사용자)
   @IsOptional()
-  @IsIn(['WORKER', 'CUSTOMER', 'PROJECT_OPERATOR', 'PERFORMER_COMPANY'])
-  role?: 'WORKER' | 'CUSTOMER' | 'PROJECT_OPERATOR' | 'PERFORMER_COMPANY';
+  @IsIn(['WORKER', 'FIELD_LEADER', 'CUSTOMER', 'PROJECT_OPERATOR', 'PERFORMER_COMPANY'])
+  role?: 'WORKER' | 'FIELD_LEADER' | 'CUSTOMER' | 'PROJECT_OPERATOR' | 'PERFORMER_COMPANY';
 
   // 직군 — WORKER 경로만 입력(CUSTOMER 는 직군 없음). 전달 시 1개 이상.
   @IsOptional()

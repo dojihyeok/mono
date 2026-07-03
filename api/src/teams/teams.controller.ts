@@ -71,4 +71,18 @@ export class TeamsController {
   ) {
     return this.teams.upsertTeamAvailability(id, dto);
   }
+
+  // ── 팀 커뮤니티 ──
+  @Post('teams/:teamId/posts')
+  createTeamPost(
+    @Param('teamId') teamId: string,
+    @Body() body: { authorId: string; content: string; isNotice?: boolean },
+  ) {
+    return this.teams.createTeamPost(teamId, body.authorId, body);
+  }
+
+  @Get('teams/:teamId/posts')
+  listTeamPosts(@Param('teamId') teamId: string) {
+    return this.teams.listTeamPosts(teamId);
+  }
 }

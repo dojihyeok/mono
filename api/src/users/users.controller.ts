@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Put, Query } from '@nestjs/common';
 import { BasicProfileDto } from './dto/basic-profile.dto';
 import { SignupDto } from './dto/signup.dto';
 import { CreateCertificateDto } from './dto/create-certificate.dto';
@@ -11,6 +11,7 @@ import { OperatorProfileDto } from './dto/operator-profile.dto';
 import { CreateEquipmentHistoryDto } from './dto/create-equipment-history.dto';
 import { VisaStatusDto } from './dto/visa-status.dto';
 import { DocumentRecordDto } from './dto/document-record.dto';
+import { UpdateConsultRequestDto } from './dto/update-consult-request.dto';
 import { UsersService } from './users.service';
 
 @Controller()
@@ -160,5 +161,53 @@ export class UsersController {
   @Get('users/:id/public')
   getPublicProfile(@Param('id') id: string) {
     return this.users.getPublicProfile(id);
+  }
+
+  // ── 공고 저장 (SavedJob) ──
+  @Post('users/:id/saved-jobs')
+  addSavedJob(@Param('id') id: string, @Body('jobPostId') jobPostId: string) {
+    return this.users.addSavedJob(id, jobPostId);
+  }
+
+  @Delete('users/:id/saved-jobs/:jobId')
+  removeSavedJob(@Param('id') id: string, @Param('jobId') jobPostId: string) {
+    return this.users.removeSavedJob(id, jobPostId);
+  }
+
+  @Get('users/:id/saved-jobs')
+  listSavedJobs(@Param('id') id: string) {
+    return this.users.listSavedJobs(id);
+  }
+
+  // ── 면접/상담 요청 (ConsultRequest) 확인 및 응답 ──
+  @Get('users/:id/consult-requests')
+  listConsultRequests(@Param('id') id: string) {
+    return this.users.listConsultRequests(id);
+  }
+
+  @Patch('users/:id/consult-requests/:reqId')
+  updateConsultRequest(
+    @Param('id') id: string,
+    @Param('reqId') reqId: string,
+    @Body() dto: UpdateConsultRequestDto,
+  ) {
+    return this.users.updateConsultRequest(id, reqId, dto);
+  }
+
+  // ── 현장 운영: 체크인 (FieldCheckin) ──
+  @Post('users/:id/checkins')
+  addCheckin(
+    @Param('id') id: string,
+    @Body() body: { type: import('@prisma/client').CheckinType; workDate: string; memo?: string },
+  ) {
+    return this.users.addCheckin(id, body);
+  }
+
+  @Get('users/:id/checkins')
+  listCheckins(
+    @Param('id') id: string,
+    @Query('workDate') workDate?: string,
+  ) {
+    return this.users.listCheckins(id, workDate);
   }
 }

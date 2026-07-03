@@ -8,6 +8,8 @@ function urlBase64ToUint8Array(base64String: string): Uint8Array {
   return out;
 }
 
+import { apiVapidPublicKey, apiSaveSubscription } from "./apiClient";
+
 export type PushResult = "ok" | "unsupported" | "denied" | "no-key" | "error";
 
 // 푸시 알림 켜기 — 권한 요청 → SW 등록 → 구독 → 서버 저장.
@@ -21,8 +23,8 @@ export async function enablePush(serverId: string): Promise<PushResult> {
     ) {
       return "unsupported";
     }
-    const keyRes = await fetch("/api/push/vapid-public-key", { cache: "no-store" });
-    const { key } = await keyRes.json().catch(() => ({ key: null }));
+    const keyRes = await apiVapidPublicKey();
+    const key = keyRes?.key;
     if (!key) return "no-key"; // 서버에 VAPID 미설정 → 인앱 알림만
     const perm = await Notification.requestPermission();
     if (perm !== "granted") return "denied";
@@ -36,13 +38,9 @@ export async function enablePush(serverId: string): Promise<PushResult> {
       });
     }
     const json = sub.toJSON() as { endpoint?: string; keys?: { p256dh?: string; auth?: string } };
-    await fetch(`/api/users/${serverId}/push-subscription`, {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({
-        endpoint: json.endpoint,
-        keys: { p256dh: json.keys?.p256dh, auth: json.keys?.auth },
-      }),
+    await apiSaveSubscription(serverId, {
+      endpoint: json.endpoint,
+      keys: { p256dh: json.keys?.p256dh, auth: json.keys?.auth },
     });
     return "ok";
   } catch {

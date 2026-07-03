@@ -115,11 +115,10 @@ export default function MonoEntry() {
     return <PerformerApp />;
   }
 
-  // 기술자(WORKER) / 현장리더(FIELD_LEADER, 직군 온보딩 후 승인) — 또는 레거시 직군 보유자
-  // 프로필 만들기 없이 바로 메인 화면으로 이동
-  // if (!user?.jobType?.length) {
-  //   return <ProfileSetup onDone={(d) => setBasicProfile({ ...d, role: "WORKER" })} />;
-  // }
+  // 기술자(WORKER) / 현장리더(FIELD_LEADER) — 프로필 필수입력 (직군, 지역 등)
+  if (!user?.jobType?.length && (userType === "WORKER" || userType === "FIELD_LEADER" || user?.role === "WORKER" || user?.role === "FIELD_LEADER")) {
+    return <ProfileSetup onDone={(d) => setBasicProfile({ ...d, role: userType || "WORKER" })} />;
+  }
 
   return <MonoApp />;
 }

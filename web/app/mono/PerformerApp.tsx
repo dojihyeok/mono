@@ -10,9 +10,11 @@ import {
   apiCreateCompany,
   apiGetCompanyProfile,
   apiAddWorkRecord,
+  apiGetTrustScore,
 } from "@/lib/apiClient";
 import ForeignCandidateSearch from "./ForeignCandidateSearch";
-import type { CompanyProfile } from "@/lib/types";
+import SettlementManager from "./SettlementManager";
+import type { CompanyProfile, TrustScore } from "@/lib/types";
 
 const COMPANY_KEY = "mono.companyId";
 const indLabel = (v: string) => INDUSTRIES.find((i) => i.value === v)?.label ?? v;
@@ -21,6 +23,7 @@ export default function PerformerApp() {
   const { user } = useProfile();
   const [companyId, setCompanyId] = useState<string | null | undefined>(undefined); // undefined=로딩
   const [profile, setProfile] = useState<CompanyProfile | null>(null);
+  const [trustScore, setTrustScore] = useState<TrustScore | null>(null);
   const [loading, setLoading] = useState(true);
   const [recordOpen, setRecordOpen] = useState(false);
   const [foreignOpen, setForeignOpen] = useState(false); // 외국인 후보 검색 시트
@@ -35,8 +38,12 @@ export default function PerformerApp() {
 
   const loadProfile = (id: string) => {
     setLoading(true);
-    void apiGetCompanyProfile(id).then((p) => {
+    Promise.all([
+      apiGetCompanyProfile(id),
+      apiGetTrustScore("PERFORMER_COMPANY", id)
+    ]).then(([p, t]) => {
       setProfile(p);
+      setTrustScore(t);
       setLoading(false);
     });
   };
@@ -88,6 +95,11 @@ export default function PerformerApp() {
             <span style={{ fontSize: "12px", fontWeight: 800, color: "var(--c1,#4f46e5)", background: "var(--aSoft,#ecedfb)", padding: "5px 11px", borderRadius: "999px" }}>수행기업</span>
             <h1 style={{ margin: "14px 0 0", fontSize: "24px", fontWeight: 800, letterSpacing: "-.6px", color: "var(--app-text,#4f46e5)" }}>
               {c?.name ?? user?.name ?? "수행기업"}
+              {trustScore && trustScore.score > 0 && (
+                <span style={{ marginLeft: "8px", verticalAlign: "middle", fontSize: "14px", fontWeight: 700, color: "var(--c1,#4f46e5)", background: "rgba(79,70,229,0.1)", padding: "4px 8px", borderRadius: "8px" }}>
+                  ⭐ 신뢰점수 {trustScore.score}점
+                </span>
+              )}
             </h1>
           </div>
           <button onClick={switchType} style={{ flex: "none", marginTop: "2px", padding: "7px 11px", borderRadius: "10px", border: "1px solid #e6e8ec", background: "#fff", color: "var(--app-text-secondary,#5b6b82)", fontSize: "12px", fontWeight: 700, fontFamily: "inherit", cursor: "pointer" }}>
@@ -135,6 +147,25 @@ export default function PerformerApp() {
             </div>
           ))
         )}
+
+        {/* 내 정산 관리 (Sprint 6) */}
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", margin: "30px 0 12px" }}>
+          <h2 style={{ margin: 0, fontSize: "15px", fontWeight: 800, letterSpacing: "-.3px", color: "var(--app-text,#4f46e5)" }}>소속 근로자 정산 관리</h2>
+        </div>
+        <SettlementManager companyId={companyId || "temp-company-id"} />
+        <button
+          onClick={() => {
+            void import("@/lib/apiClient").then(({ apiCreateReferral }) => {
+              apiCreateReferral({ kind: "SETTLEMENT", note: "안심 정산 및 에스크로 도입 상담 (수행기업)" })
+                .then(() => alert("안심 정산 도입 상담이 접수되었습니다. 담당자가 곧 연락드리겠습니다."))
+                .catch(() => alert("접수에 실패했습니다. 다시 시도해주세요."));
+            });
+            track("referral_requested", { kind: "SETTLEMENT", context: "performer" });
+          }}
+          style={{ ...cardBase, display: "block", width: "100%", textAlign: "center", cursor: "pointer", fontFamily: "inherit", marginTop: "12px", background: "var(--c1,#4f46e5)", color: "#fff", fontWeight: 800 }}
+        >
+          안심 정산 및 에스크로 도입 상담 (무료)
+        </button>
 
         {/* 외국인 기술자 후보 검색 (dev-plan-foreign-workforce §5-5) */}
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", margin: "30px 0 12px" }}>

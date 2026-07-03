@@ -414,7 +414,7 @@ export function AdminClient() {
           <span className={styles.brandDot} />
           MONO 운영 콘솔
         </div>
-        <span className={styles.brandSub}>건설 인력 데이터 인프라 · Operations</span>
+        <span className={styles.brandSub}>현장 인력 데이터 인프라 · Operations</span>
         <span className={styles.spacer} />
         <button className={styles.refresh} onClick={refresh} disabled={loading}>
           {loading ? "불러오는 중…" : "새로고침"}

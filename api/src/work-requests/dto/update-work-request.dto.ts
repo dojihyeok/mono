@@ -1,4 +1,5 @@
 import {
+  IsBoolean,
   IsArray,
   IsEnum,
   IsInt,
@@ -10,6 +11,7 @@ import {
   ContractType,
   IndustryType,
   WorkRequestStatus,
+  VisaType,
 } from '@prisma/client';
 
 // 현장작업요청 수정 — 모든 필드 선택. status로 상태 전이 허용.
@@ -71,4 +73,17 @@ export class UpdateWorkRequestDto {
   @IsOptional()
   @IsEnum(WorkRequestStatus)
   status?: WorkRequestStatus; // 상태 전이(DRAFT→OPEN→MATCHING→…)
+
+  @IsOptional()
+  @IsBoolean()
+  foreignAllowed?: boolean;
+
+  @IsOptional()
+  @IsArray()
+  @IsEnum(VisaType, { each: true })
+  requiredVisaTypes?: VisaType[];
+
+  @IsOptional()
+  @IsBoolean()
+  interpreterProvided?: boolean;
 }

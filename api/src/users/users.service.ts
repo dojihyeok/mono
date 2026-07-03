@@ -13,6 +13,7 @@ import { OperatorProfileDto } from './dto/operator-profile.dto';
 import { VisaStatusDto } from './dto/visa-status.dto';
 import { DocumentRecordDto } from './dto/document-record.dto';
 import { CreateEquipmentHistoryDto } from './dto/create-equipment-history.dto';
+import { UpdateConsultRequestDto } from './dto/update-consult-request.dto';
 
 @Injectable()
 export class UsersService {
@@ -31,7 +32,7 @@ export class UsersService {
 
     try {
       return await this.prisma.user.create({
-        data: { name: dto.name, phone: dto.phone, email: dto.email },
+        data: { name: dto.name, phone: dto.phone, email: dto.email, role: dto.role },
       });
     } catch (e) {
       // 동시 가입 레이스: unique 충돌(P2002) → 충돌한 필드(phone/email)를 정확히 집어 그 유저 반환.
@@ -444,6 +445,104 @@ export class UsersService {
     return this.prisma.documentRecord.findMany({
       where: { userId },
       orderBy: { createdAt: 'desc' },
+    });
+  }
+
+  // ── 공고 저장 (SavedJob) ──
+  async addSavedJob(userId: string, jobPostId: string) {
+    await this.ensureUser(userId);
+    // Check if job exists
+    const job = await this.prisma.jobPost.findUnique({ where: { id: jobPostId } });
+    if (!job) throw new NotFoundException(`Job ${jobPostId} not found`);
+
+    const existing = await this.prisma.savedJob.findUnique({
+      where: { userId_jobPostId: { userId, jobPostId } },
+    });
+    if (existing) return existing;
+
+    return this.prisma.savedJob.create({
+      data: { userId, jobPostId },
+    });
+  }
+
+  async removeSavedJob(userId: string, jobPostId: string) {
+    try {
+      await this.prisma.savedJob.delete({
+        where: { userId_jobPostId: { userId, jobPostId } },
+      });
+      return { ok: true };
+    } catch (e) {
+      if (e instanceof Prisma.PrismaClientKnownRequestError && e.code === 'P2025') {
+        return { ok: true }; // already removed
+      }
+      throw e;
+    }
+  }
+
+  listSavedJobs(userId: string) {
+    return this.prisma.savedJob.findMany({
+      where: { userId },
+      include: {
+        jobPost: {
+          include: {
+            company: { select: { id: true, name: true, region: true } },
+          },
+        },
+      },
+      orderBy: { createdAt: 'desc' },
+    });
+  }
+
+  // ── 면접/상담 요청 (ConsultRequest) 확인 및 응답 ──
+  async listConsultRequests(userId: string) {
+    await this.ensureUser(userId);
+    return this.prisma.consultRequest.findMany({
+      where: { targetUserId: userId },
+      include: {
+        company: { select: { id: true, name: true, region: true } },
+      },
+      orderBy: { createdAt: 'desc' },
+    });
+  }
+
+  async updateConsultRequest(
+    userId: string,
+    reqId: string,
+    dto: UpdateConsultRequestDto,
+  ) {
+    await this.ensureUser(userId);
+    const req = await this.prisma.consultRequest.findUnique({ where: { id: reqId } });
+    if (!req) throw new NotFoundException(`ConsultRequest ${reqId} not found`);
+    if (req.targetUserId !== userId) {
+      throw new Error(`ConsultRequest ${reqId} does not belong to user ${userId}`);
+    }
+
+    return this.prisma.consultRequest.update({
+      where: { id: reqId },
+      data: { status: dto.status },
+    });
+  }
+
+  // ── 현장 운영: 체크인 (FieldCheckin) ──
+  async addCheckin(userId: string, data: { type: any; workDate: string; memo?: string }) {
+    // CheckinType validation is handled by DTO typically, but we trust the input here or ensure it in controller.
+    return this.prisma.fieldCheckin.create({
+      data: {
+        userId,
+        type: data.type,
+        workDate: data.workDate,
+        memo: data.memo,
+      },
+    });
+  }
+
+  async listCheckins(userId: string, workDate?: string) {
+    return this.prisma.fieldCheckin.findMany({
+      where: {
+        userId,
+        ...(workDate ? { workDate } : {}),
+      },
+      orderBy: { createdAt: 'asc' },
     });
   }
 }

@@ -76,6 +76,10 @@ model User {
   visaStatuses       VisaStatus[] // 체류·비자 이력 — PDF §6
   documents          DocumentRecord[] // 서류 업로드·검토 — PDF §6-3
   trainingRecords    TrainingRecord[] // 교육 이수 — PDF §6-2
+  savedJobs          SavedJob[]
+  consultRequests    ConsultRequest[]
+  fieldCheckins      FieldCheckin[]
+  teamPostsAuthored  TeamPost[]             @relation("TeamPostAuthor")
 }
 
 // 경력 구간(버킷) — 표시문구(1년미만/1~3년 …)는 프론트에서 매핑
@@ -209,6 +213,7 @@ model Company {
   savedWorkers     SavedWorker[]
   operatorProfiles ProjectOperator[] @relation("OperatorCompany") // 이 회사 소속 운영자 — §3-2(5)
   workRecords      WorkRecord[] // 수행기업 작업수행사례 — §3-2(6)
+  consultRequests  ConsultRequest[]
 
   @@index([status])
 }
@@ -236,6 +241,7 @@ model JobPost {
   applications  JobApplication[]
   notifications Notification[]
   coworkerLinks Coworker[] // 이 공고/현장에서 형성된 동료 엣지(출처)
+  savedJobs     SavedJob[]
 
   @@index([companyId])
   @@index([status])
@@ -358,6 +364,7 @@ model Team {
   equipOperators Int? // 장비운용 인력 수
   regions        String[] // 투입 가능 지역
   availabilities TeamAvailability[] // 가동일정
+  posts          TeamPost[]
   createdAt      DateTime           @default(now())
 
   @@index([leaderId])
@@ -465,6 +472,12 @@ model WorkRequest {
   equipMaterial String? // 장비/자재
   contractType  ContractType? // 계약방식
   status        WorkRequestStatus @default(DRAFT)
+  
+  // ── 외국인 채용 수요 (PDF §8-3) ──
+  foreignAllowed      Boolean       @default(false)
+  requiredVisaTypes   VisaType[]
+  interpreterProvided Boolean       @default(false)
+
   createdAt     DateTime          @default(now())
   updatedAt     DateTime          @updatedAt
 
@@ -893,4 +906,78 @@ model RiskReport {
   createdAt  DateTime         @default(now())
 
   @@index([status, kind])
+}
+
+// ── 신규 기획서 기반 추가 모델 ──
+
+// 기술자가 공고를 관심 저장 (Phase 1)
+model SavedJob {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  jobPostId String
+  jobPost   JobPost  @relation(fields: [jobPostId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([userId, jobPostId])
+  @@index([userId])
+  @@index([jobPostId])
+}
+
+// 기업이 기술자/팀에게 상담·면접 요청 (Phase 2)
+enum ConsultStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+}
+
+model ConsultRequest {
+  id           String        @id @default(cuid())
+  companyId    String
+  company      Company       @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  targetUserId String
+  targetUser   User          @relation(fields: [targetUserId], references: [id], onDelete: Cascade)
+  status       ConsultStatus @default(PENDING)
+  memo         String?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  @@index([companyId])
+  @@index([targetUserId])
+}
+
+// 현장 운영 - 집결, 탑승, 도착, 시작, 종료 상태 기록 (Phase 3)
+enum CheckinType {
+  GATHERING // 집결
+  RIDE // 탑승
+  ARRIVAL // 현장 도착
+  START // 작업 시작
+  FINISH // 작업 종료
+}
+
+model FieldCheckin {
+  id        String      @id @default(cuid())
+  userId    String
+  user      User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type      CheckinType
+  workDate  String // YYYY-MM-DD
+  memo      String?
+  createdAt DateTime    @default(now())
+
+  @@index([userId, workDate])
+}
+
+// 팀 커뮤니티 공지 (Phase 3)
+model TeamPost {
+  id        String   @id @default(cuid())
+  teamId    String
+  team      Team     @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  authorId  String
+  author    User     @relation("TeamPostAuthor", fields: [authorId], references: [id], onDelete: Cascade)
+  content   String
+  isNotice  Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([teamId])
 }

@@ -21,6 +21,14 @@ import type {
   PartnerReferral,
   RiskReport,
   ForeignWorker,
+  EquipmentHistory,
+  AiLeaderInterest,
+  TrustScore,
+  Notification,
+  JobPost,
+  JobApplication,
+  Assignment,
+  AttendanceRec
 } from "./types";
 
 const SERVER_ID_KEY = "mono.serverId";
@@ -78,6 +86,89 @@ export async function apiSignup(data: {
   return null;
 }
 
+// ── EquipmentHistory (장비 이력) ──
+export async function apiAddEquipmentHistory(
+  userId: string,
+  data: {
+    equipmentName: string;
+    spec?: string;
+    experienceMonths?: number;
+    description?: string;
+  }
+): Promise<EquipmentHistory | null> {
+  const sid = await ensureServerId();
+  if (!sid) return null;
+  try {
+    const res = await fetch(`/api/users/${userId}/equipment-history`, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(data),
+    });
+    if (!res.ok) return null;
+    return (await res.json()) as EquipmentHistory;
+  } catch {
+    return null;
+  }
+}
+
+export async function apiListEquipmentHistory(
+  userId: string
+): Promise<EquipmentHistory[]> {
+  try {
+    const res = await fetch(`/api/users/${userId}/equipment-history`);
+    if (!res.ok) return [];
+    return (await res.json()) as EquipmentHistory[];
+  } catch {
+    return [];
+  }
+}
+
+export async function apiDeleteEquipmentHistory(
+  userId: string,
+  eid: string
+): Promise<boolean> {
+  try {
+    const res = await fetch(`/api/users/${userId}/equipment-history/${eid}`, {
+      method: "DELETE",
+    });
+    return res.ok;
+  } catch {
+    return false;
+  }
+}
+
+// ── AiLeaderInterest (AI 현장리더 관심 등록) ──
+export async function apiCreateAiLeaderInterest(data: {
+  userId?: string;
+  name?: string;
+  phone?: string;
+  region?: string;
+  jobType?: string;
+}): Promise<AiLeaderInterest | null> {
+  try {
+    const res = await fetch(`/api/field-ops/ai-leader-interest`, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(data),
+    });
+    if (!res.ok) return null;
+    return (await res.json()) as AiLeaderInterest;
+  } catch {
+    return null;
+  }
+}
+
+export async function apiListAiLeaderInterests(limit = 50): Promise<AiLeaderInterest[]> {
+  try {
+    const res = await fetch(`/api/field-ops/ai-leader-interest?limit=${limit}`);
+    if (!res.ok) return [];
+    return (await res.json()) as AiLeaderInterest[];
+  } catch {
+    return [];
+  }
+}
+
+
 // 서버 계정(serverId) 보장 — 없으면 저장된 프로필의 이름/연락처로 즉석 멱등 가입.
 // 모든 프로필 쓰기가 저장 전에 이걸 호출 → serverId 미보유/가입 레이스로 데이터가
 // DB에 안 박히는 문제 방지(이전: getServerId() 없으면 조용히 스킵 → 유실).
@@ -128,7 +219,7 @@ export async function apiSetBasicProfile(data: {
   if (careerBand) payload.careerYears = careerBand;
   if (data.name && data.name.trim()) payload.name = data.name.trim();
   if (data.industries && data.industries.length) payload.industries = data.industries;
-  if (data.role === "WORKER" || data.role === "CUSTOMER") payload.role = data.role;
+  if (data.role === "WORKER" || data.role === "CUSTOMER" || data.role === "FIELD_LEADER" || data.role === "PROJECT_OPERATOR" || data.role === "PERFORMER_COMPANY") payload.role = data.role;
   if (data.residency === "DOMESTIC" || data.residency === "OVERSEAS") payload.residency = data.residency;
   try {
     await fetch(`/api/users/${id}/basic-profile`, {
@@ -235,33 +326,20 @@ export async function apiCreateWorkRequest(data: {
   safetyConds?: string;
   equipMaterial?: string;
   contractType?: string;
+  foreignAllowed?: boolean;
+  requiredVisaTypes?: string[];
+  interpreterProvided?: boolean;
 }): Promise<{ id: string } | null> {
   const id = await ensureServerId();
   if (!id) return null;
-  try {
-    const res = await fetch("/api/work-requests", {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({ requesterId: id, ...data }),
-    });
-    if (!res.ok) return null;
-    return (await res.json()) as { id: string };
-  } catch {
-    return null;
-  }
+  return postJson<{ id: string }>("/api/work-requests", { requesterId: id, ...data });
 }
 
 // 내가 등록한 작업요청 목록(최신순).
-export async function apiListMyWorkRequests(): Promise<WorkRequest[]> {
+export async function apiListMyWorkRequests(): Promise<WorkRequest[] | null> {
   const id = await ensureServerId();
-  if (!id) return [];
-  try {
-    const res = await fetch(`/api/users/${id}/work-requests`, { cache: "no-store" });
-    if (!res.ok) return [];
-    return (await res.json()) as WorkRequest[];
-  } catch {
-    return [];
-  }
+  if (!id) return null;
+  return getJson<WorkRequest[]>(`/api/users/${id}/work-requests`, []);
 }
 
 // Field Ops 관심 등록 — 서버 FieldOpsInterest(InterestRegistration과 별개). 익명 허용.
@@ -316,14 +394,8 @@ export async function apiGetFieldLeaderProfile(): Promise<FieldLeaderProfile | n
 // 작업요청 후보 목록(최신·추천점수순).
 export async function apiListCandidates(
   workRequestId: string,
-): Promise<WorkRequestCandidate[]> {
-  try {
-    const res = await fetch(`/api/work-requests/${workRequestId}/candidates`, { cache: "no-store" });
-    if (!res.ok) return [];
-    return (await res.json()) as WorkRequestCandidate[];
-  } catch {
-    return [];
-  }
+): Promise<WorkRequestCandidate[] | null> {
+  return getJson<WorkRequestCandidate[]>(`/api/work-requests/${workRequestId}/candidates`, []);
 }
 
 // 후보 지정(멱등) — candidateType/candidateId + 표시명 스냅샷(memo).
@@ -331,81 +403,45 @@ export async function apiAddCandidate(
   workRequestId: string,
   data: { candidateType: string; candidateId: string; memo?: string; score?: number },
 ): Promise<WorkRequestCandidate | null> {
-  try {
-    const res = await fetch(`/api/work-requests/${workRequestId}/candidates`, {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify(data),
-    });
-    if (!res.ok) return null;
-    return (await res.json()) as WorkRequestCandidate;
-  } catch {
-    return null;
-  }
+  return postJson<WorkRequestCandidate>(`/api/work-requests/${workRequestId}/candidates`, data);
 }
 
 // 후보 상태 변경(SHORTLISTED/CONTACTED/SELECTED/REJECTED).
 export async function apiUpdateCandidate(
   workRequestId: string,
-  cid: string,
-  data: { status?: string; memo?: string; score?: number },
+  candidateId: string,
+  data: { status: string },
 ): Promise<WorkRequestCandidate | null> {
-  try {
-    const res = await fetch(`/api/work-requests/${workRequestId}/candidates/${cid}`, {
-      method: "PATCH",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify(data),
-    });
-    if (!res.ok) return null;
-    return (await res.json()) as WorkRequestCandidate;
-  } catch {
-    return null;
-  }
+  return patchJson<WorkRequestCandidate>(`/api/work-requests/${workRequestId}/candidates/${candidateId}`, data);
 }
 
 // 자동 후보추천(매칭 점수순).
-export async function apiGetRecommendations(workRequestId: string): Promise<Recommendation[]> {
-  try {
-    const res = await fetch(`/api/work-requests/${workRequestId}/recommendations`, { cache: "no-store" });
-    if (!res.ok) return [];
-    return (await res.json()) as Recommendation[];
-  } catch {
-    return [];
-  }
+export async function apiGetRecommendations(
+  workRequestId: string,
+): Promise<Recommendation[]> {
+  return getJson<Recommendation[]>(`/api/work-requests/${workRequestId}/recommendations`, []);
 }
 
 // 수행기업 디렉터리(산업/지역 필터).
-export async function apiListPerformers(params: {
+export async function apiListPerformers(query?: {
   industry?: string;
   region?: string;
 }): Promise<Performer[]> {
   const qs = new URLSearchParams();
-  if (params.industry) qs.set("industry", params.industry);
-  if (params.region) qs.set("region", params.region);
-  try {
-    const res = await fetch(`/api/performers?${qs.toString()}`, { cache: "no-store" });
-    if (!res.ok) return [];
-    return (await res.json()) as Performer[];
-  } catch {
-    return [];
-  }
+  if (query?.industry) qs.set("industry", query.industry);
+  if (query?.region) qs.set("region", query.region);
+  return getJson<Performer[]>(`/api/performers?${qs.toString()}`, []);
 }
 
 // 팀 디렉터리(산업/지역 필터).
-export async function apiListTeams(params: {
+export async function apiListTeams(query?: {
   industry?: string;
   region?: string;
 }): Promise<TeamDir[]> {
   const qs = new URLSearchParams();
-  if (params.industry) qs.set("industry", params.industry);
-  if (params.region) qs.set("region", params.region);
-  try {
-    const res = await fetch(`/api/teams?${qs.toString()}`, { cache: "no-store" });
-    if (!res.ok) return [];
-    return (await res.json()) as TeamDir[];
-  } catch {
-    return [];
-  }
+  if (query?.industry) qs.set("industry", query.industry);
+  if (query?.region) qs.set("region", query.region);
+  return getJson<TeamDir[]>(`/api/teams?${qs.toString()}`, []);
 }
 
 // ── 운영자(PROJECT_OPERATOR) · 수행기업(PERFORMER_COMPANY) (dev-plan §5.3·§4-4) ──
@@ -546,7 +582,9 @@ export async function postJson<T>(
     return null;
   }
 }
-
+export async function patchJson<T>(url: string, body: unknown): Promise<T | null> {
+  return postJson<T>(url, body, "PATCH");
+}
 // ── 체류·비자 (§6) ──
 export function apiListVisa(userId: string): Promise<VisaStatus[]> {
   return getJson<VisaStatus[]>(`/api/users/${userId}/visa`, []);
@@ -622,6 +660,19 @@ export function apiListSettlements(params?: {
 export function apiDisputeSettlement(id: string): Promise<Settlement | null> {
   return postJson<Settlement>(`/api/settlements/${id}/dispute`, {});
 }
+export function apiCreateSettlement(data: {
+  workerId: string;
+  companyId?: string;
+  workRequestId?: string;
+  period: string;
+  items: Array<{
+    kind: string;
+    amount: number;
+    note?: string;
+  }>;
+}): Promise<Settlement | null> {
+  return postJson<Settlement>(`/api/settlements`, data);
+}
 
 // ── 행정·노무 파트너 연계 (§2·§6) ──
 export async function apiCreateReferral(data: {
@@ -655,10 +706,13 @@ export function apiBrowseForeignWorkers(params?: {
   visaType?: string;
   industry?: string;
   region?: string;
+  interpreterNeeded?: boolean;
 }): Promise<ForeignWorker[]> {
   const qs = new URLSearchParams();
   Object.entries(params ?? {}).forEach(([k, v]) => {
-    if (v) qs.set(k, v);
+    if (v !== undefined && v !== null && v !== "") {
+      qs.set(k, String(v));
+    }
   });
   const q = qs.toString();
   return getJson<ForeignWorker[]>(`/api/foreign-workers${q ? `?${q}` : ""}`, []);
@@ -688,4 +742,70 @@ export function apiUpsertWorkerProfile(
   data: WorkerProfileData,
 ): Promise<WorkerProfileData | null> {
   return postJson<WorkerProfileData>(`/api/users/${userId}/worker-profile`, data, "PUT");
+}
+
+// 신뢰 점수 조회 — GET /trust-scores/:subjectType/:subjectId
+export async function apiGetTrustScore(subjectType: string, subjectId: string): Promise<TrustScore | null> {
+  try {
+    const res = await fetch(`/api/trust-scores/${subjectType}/${subjectId}`, { cache: "no-store" });
+    if (!res.ok) return null;
+    return (await res.json()) as TrustScore;
+  } catch {
+    return null;
+  }
+}
+
+// ── 알림 (Notification) ──
+
+export function apiGetUnreadCount(userId: string): Promise<number> {
+  return getJson<{ count: number }>(`/api/users/${userId}/notifications/unread-count`, { count: 0 }).then(r => r.count);
+}
+
+export function apiListNotifications(userId: string): Promise<Notification[]> {
+  return getJson<Notification[]>(`/api/users/${userId}/notifications`, []);
+}
+
+export function apiMarkAllRead(userId: string): Promise<void | null> {
+  return postJson<void>(`/api/users/${userId}/notifications/read-all`, {});
+}
+
+export function apiVapidPublicKey(): Promise<{ key: string | null } | null> {
+  return getJson<{ key: string | null } | null>(`/api/push/vapid-public-key`, null);
+}
+
+export function apiSaveSubscription(userId: string, subscription: any): Promise<void | null> {
+  return postJson<void>(`/api/users/${userId}/push-subscription`, subscription);
+}
+
+// ==========================================
+// 일자리 (JobPost) 및 지원 (JobApplication)
+// ==========================================
+
+export function apiListJobPosts(params?: { jobType?: string; region?: string; limit?: number }): Promise<JobPost[] | null> {
+  const q = new URLSearchParams();
+  if (params?.jobType) q.set("jobType", params.jobType);
+  if (params?.region) q.set("region", params.region);
+  if (params?.limit) q.set("limit", String(params.limit));
+  const url = `/api/job-posts${q.toString() ? "?" + q.toString() : ""}`;
+  return getJson<JobPost[] | null>(url, null);
+}
+
+export function apiListUserApplications(userId: string): Promise<JobApplication[] | null> {
+  return getJson<JobApplication[] | null>(`/api/users/${userId}/applications`, null);
+}
+
+export function apiApplyJobPost(jobPostId: string, userId: string): Promise<JobApplication | null> {
+  return postJson<JobApplication>(`/api/job-posts/${jobPostId}/apply`, { userId });
+}
+
+export function apiListUserAssignments(userId: string): Promise<Assignment[] | null> {
+  return getJson<Assignment[] | null>(`/api/users/${userId}/assignments`, null);
+}
+
+export function apiCheckIn(applicationId: string): Promise<AttendanceRec | null> {
+  return postJson<AttendanceRec>(`/api/applications/${applicationId}/checkin`, {});
+}
+
+export function apiCheckOut(applicationId: string): Promise<AttendanceRec | null> {
+  return postJson<AttendanceRec>(`/api/applications/${applicationId}/checkout`, {});
 }

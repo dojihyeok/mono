@@ -17,8 +17,10 @@ import {
   apiListTeams,
   apiSubmitReview,
   apiGetRecommendations,
+  apiGetTrustScore,
 } from "@/lib/apiClient";
 import ForeignCandidateSearch from "./ForeignCandidateSearch";
+import SettlementManager from "./SettlementManager";
 import ReviewSheet from "./ReviewSheet";
 import type {
   WorkRequest,
@@ -26,6 +28,7 @@ import type {
   Performer,
   TeamDir,
   Recommendation,
+  TrustScore,
 } from "@/lib/types";
 
 const CONTRACT_TYPES = [
@@ -80,7 +83,7 @@ export default function CustomerApp({ role = "CUSTOMER" }: { role?: "CUSTOMER" |
 
   const load = () => {
     void apiListMyWorkRequests().then((r) => {
-      setList(r);
+      setList(r || []);
       setLoading(false);
     });
   };
@@ -129,11 +132,28 @@ export default function CustomerApp({ role = "CUSTOMER" }: { role?: "CUSTOMER" |
           }}
           style={{ marginTop: "22px", width: "100%", height: "54px", borderRadius: "16px", border: "none", background: "var(--c1,#4f46e5)", color: "#fff", fontSize: "16px", fontWeight: 800, fontFamily: "inherit", cursor: "pointer", boxShadow: "0 12px 26px -10px color-mix(in srgb, var(--brand,#4f46e5) 55%, transparent)" }}
         >
-          + 새 작업요청 등록
+          {isOperator ? "+ 새 프로젝트 현장 등록" : "+ 새 작업요청 등록"}
+        </button>
+
+        {/* 내 정산 관리 (Sprint 6) */}
+        <h2 style={sectionTitle}>근로자 정산 및 결제 관리</h2>
+        <SettlementManager companyId={user?.id || "temp-company-id"} />
+        <button
+          onClick={() => {
+            void import("@/lib/apiClient").then(({ apiCreateReferral }) => {
+              apiCreateReferral({ kind: "SETTLEMENT", note: "안심 정산 및 에스크로 도입 상담" })
+                .then(() => alert("안심 정산 도입 상담이 접수되었습니다. 담당자가 곧 연락드리겠습니다."))
+                .catch(() => alert("접수에 실패했습니다. 다시 시도해주세요."));
+            });
+            track("referral_requested", { kind: "SETTLEMENT" });
+          }}
+          style={{ ...cardBase, display: "block", width: "100%", textAlign: "center", cursor: "pointer", fontFamily: "inherit", marginTop: "12px", background: "var(--c1,#4f46e5)", color: "#fff", fontWeight: 800 }}
+        >
+          안심 정산 및 에스크로 도입 상담 (무료)
         </button>
 
         {/* 내 작업요청 현황 */}
-        <h2 style={sectionTitle}>내 작업요청</h2>
+        <h2 style={sectionTitle}>{isOperator ? "운영 중인 현장 프로젝트" : "내 작업요청"}</h2>
         {loading ? (
           <div style={{ ...cardBase, color: "var(--app-text-tertiary,#8694a8)", textAlign: "center" }}>불러오는 중…</div>
         ) : list.length === 0 ? (
@@ -256,7 +276,7 @@ function CandidatePanel({ wr, onClose }: { wr: WorkRequest; onClose: () => void 
   const region = wr.region?.[0];
   const reload = () => {
     void apiListCandidates(wr.id).then((c) => {
-      setCandidates(c);
+      setCandidates(c || []);
       setLoading(false);
     });
   };
@@ -410,22 +430,30 @@ function CandidateBrowse({
   onBack: () => void;
   onPick: (type: string, id: string, name: string) => void;
 }) {
-  const [performers, setPerformers] = useState<Performer[]>([]);
-  const [teams, setTeams] = useState<TeamDir[]>([]);
+  const [performers, setPerformers] = useState<(Performer & { ts?: number })[]>([]);
+  const [teams, setTeams] = useState<(TeamDir & { ts?: number })[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     setLoading(true);
     if (kind === "PERFORMER_COMPANY") {
       track("performer_profile_viewed", { industry, surface: "candidate_browse" });
-      void apiListPerformers({ industry, region }).then((p) => {
-        setPerformers(p);
+      void apiListPerformers({ industry, region }).then(async (p) => {
+        const withTs = await Promise.all(p.map(async (x) => {
+          const t = await apiGetTrustScore("PERFORMER_COMPANY", x.id);
+          return { ...x, ts: t?.score };
+        }));
+        setPerformers(withTs);
         setLoading(false);
       });
     } else {
       track("field_leader_profile_viewed", { industry, surface: "candidate_browse" });
-      void apiListTeams({ industry, region }).then((t) => {
-        setTeams(t);
+      void apiListTeams({ industry, region }).then(async (t) => {
+        const withTs = await Promise.all(t.map(async (x) => {
+          const s = await apiGetTrustScore("TEAM", x.id);
+          return { ...x, ts: s?.score };
+        }));
+        setTeams(withTs);
         setLoading(false);
       });
     }
@@ -452,7 +480,12 @@ function CandidateBrowse({
             <DirRow
               key={p.id}
               name={p.name}
-              meta={[rate(p.safetyRate), p._count ? `사례 ${p._count.workRecords}건` : null, p.region?.join("·")].filter(Boolean).join(" · ")}
+              meta={[
+                p.ts && p.ts > 0 ? `⭐ 신뢰 ${p.ts}점` : null,
+                rate(p.safetyRate),
+                p._count ? `사례 ${p._count.workRecords}건` : null,
+                p.region?.join("·")
+              ].filter(Boolean).join(" · ")}
               added={addedIds.has(p.id)}
               onPick={() => onPick("PERFORMER_COMPANY", p.id, p.name)}
             />
@@ -465,7 +498,13 @@ function CandidateBrowse({
           <DirRow
             key={t.id}
             name={t.name}
-            meta={[t.leader?.name ? `리더 ${t.leader.name}` : null, t._count ? `${t._count.members}명` : null, rate(t.safetyRate), t.regions?.join("·")].filter(Boolean).join(" · ")}
+            meta={[
+              t.ts && t.ts > 0 ? `⭐ 신뢰 ${t.ts}점` : null,
+              t.leader?.name ? `리더 ${t.leader.name}` : null,
+              t._count ? `${t._count.members}명` : null,
+              rate(t.safetyRate),
+              t.regions?.join("·")
+            ].filter(Boolean).join(" · ")}
             added={addedIds.has(t.id)}
             onPick={() => onPick("TEAM", t.id, t.name)}
           />
@@ -551,6 +590,9 @@ function WorkRequestForm({
   const [budgetMemo, setBudgetMemo] = useState("");
   const [contractType, setContractType] = useState("");
   const [safetyConds, setSafetyConds] = useState("");
+  const [foreignAllowed, setForeignAllowed] = useState(false);
+  const [requiredVisaTypes, setRequiredVisaTypes] = useState<string[]>([]);
+  const [interpreterProvided, setInterpreterProvided] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
   const valid = !!industry && region.length > 0;
@@ -569,6 +611,9 @@ function WorkRequestForm({
       budgetMemo: budgetMemo.trim() || undefined,
       contractType: contractType || undefined,
       safetyConds: safetyConds.trim() || undefined,
+      foreignAllowed,
+      requiredVisaTypes: requiredVisaTypes.length > 0 ? requiredVisaTypes : undefined,
+      interpreterProvided,
     });
     setSubmitting(false);
     if (res) {
@@ -613,6 +658,30 @@ function WorkRequestForm({
         <FieldLabel>안전 조건</FieldLabel>
         <input value={safetyConds} onChange={(e) => setSafetyConds(e.target.value)} placeholder="예: 안전교육 이수 필수" style={inputStyle} />
 
+        <div style={{ marginTop: "24px", borderTop: "1px solid #eef0f6", paddingTop: "14px" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <FieldLabel style={{ margin: 0 }}>외국인 채용 가능 여부</FieldLabel>
+            <div style={{ display: "flex", gap: "8px" }}>
+              <button onClick={() => setForeignAllowed(true)} style={{ ...pill(foreignAllowed), padding: "6px 12px", fontSize: "12px" }}>가능</button>
+              <button onClick={() => setForeignAllowed(false)} style={{ ...pill(!foreignAllowed), padding: "6px 12px", fontSize: "12px" }}>불가</button>
+            </div>
+          </div>
+          {foreignAllowed && (
+            <div style={{ marginTop: "12px", padding: "12px", background: "var(--bg,#f5f6fb)", borderRadius: "12px" }}>
+              <FieldLabel style={{ margin: "0 0 8px" }}>요구 체류자격 (비자) <em style={hintEm}>선택</em></FieldLabel>
+              <Pills options={["E9", "E7", "F4", "F5", "F6"]} labels={["E-9 (비전문)", "E-7 (특정활동)", "F-4 (재외동포)", "F-5 (영주)", "F-6 (결혼이민)"]} selected={requiredVisaTypes} onToggle={(v) => setRequiredVisaTypes(p => p.includes(v) ? p.filter(x => x !== v) : [...p, v])} />
+              
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "14px" }}>
+                <span style={{ fontSize: "12.5px", fontWeight: 700, color: "var(--app-text-secondary,#5b6b82)" }}>현장 통역 제공</span>
+                <div style={{ display: "flex", gap: "8px" }}>
+                  <button onClick={() => setInterpreterProvided(true)} style={{ ...pill(interpreterProvided), padding: "6px 12px", fontSize: "12px" }}>제공</button>
+                  <button onClick={() => setInterpreterProvided(false)} style={{ ...pill(!interpreterProvided), padding: "6px 12px", fontSize: "12px" }}>미제공</button>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+
         <button onClick={submit} disabled={!valid || submitting} style={{ marginTop: "20px", width: "100%", height: "54px", borderRadius: "16px", border: "none", background: valid && !submitting ? "var(--c1,#4f46e5)" : "#e6e8ec", color: valid && !submitting ? "#fff" : "#8694a8", fontSize: "16px", fontWeight: 800, fontFamily: "inherit", cursor: valid && !submitting ? "pointer" : "default" }}>
           {submitting ? "등록 중…" : valid ? "작업요청 등록" : "산업·지역을 선택하세요"}
         </button>
@@ -622,8 +691,8 @@ function WorkRequestForm({
 }
 
 // ── 소형 공용 UI ──
-function FieldLabel({ children }: { children: React.ReactNode }) {
-  return <label style={{ display: "block", fontSize: "13px", fontWeight: 800, color: "var(--app-text,#4f46e5)", margin: "18px 0 9px" }}>{children}</label>;
+function FieldLabel({ children, style }: { children: React.ReactNode; style?: React.CSSProperties }) {
+  return <label style={{ display: "block", fontSize: "13px", fontWeight: 800, color: "var(--app-text,#4f46e5)", margin: "18px 0 9px", ...style }}>{children}</label>;
 }
 
 function Pills({ options, labels, selected, onToggle }: { options: string[]; labels?: string[]; selected: string[]; onToggle: (v: string) => void }) {
@@ -643,3 +712,4 @@ const sectionTitle: React.CSSProperties = { margin: "30px 0 12px", fontSize: "15
 const cardBase: React.CSSProperties = { padding: "16px", borderRadius: "16px", border: "1px solid #e6e8ec", background: "#fff", marginBottom: "10px" };
 const hintEm: React.CSSProperties = { fontStyle: "normal", fontSize: "11.5px", color: "var(--app-text-tertiary,#8694a8)", fontWeight: 600 };
 const inputStyle: React.CSSProperties = { width: "100%", boxSizing: "border-box", height: "48px", padding: "0 14px", borderRadius: "13px", border: "1px solid #e6e8ec", background: "#fff", color: "#111111", fontSize: "15px", fontFamily: "inherit", outline: "none" };
+const pill = (on: boolean): React.CSSProperties => ({ borderRadius: "999px", border: `1.5px solid ${on ? "var(--c1,#4f46e5)" : "#e6e8ec"}`, background: on ? "var(--c1,#4f46e5)" : "#fff", color: on ? "#fff" : "var(--app-text-secondary,#5b6b82)", fontWeight: on ? 800 : 600, fontFamily: "inherit", cursor: "pointer" });

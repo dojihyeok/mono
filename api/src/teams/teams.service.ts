@@ -211,4 +211,29 @@ export class TeamsService {
     );
     return availability;
   }
+
+  // ── 팀 커뮤니티 (TeamPost) ──
+  async createTeamPost(teamId: string, authorId: string, data: { content: string; isNotice?: boolean }) {
+    const team = await this.prisma.team.findUnique({ where: { id: teamId } });
+    if (!team) throw new NotFoundException(`Team ${teamId} not found`);
+
+    return this.prisma.teamPost.create({
+      data: {
+        teamId,
+        authorId,
+        content: data.content,
+        isNotice: data.isNotice ?? false,
+      },
+    });
+  }
+
+  async listTeamPosts(teamId: string) {
+    return this.prisma.teamPost.findMany({
+      where: { teamId },
+      orderBy: { createdAt: 'desc' },
+      include: {
+        author: { select: { id: true, name: true, role: true } },
+      },
+    });
+  }
 }

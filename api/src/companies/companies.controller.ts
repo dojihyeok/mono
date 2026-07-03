@@ -19,6 +19,7 @@ import { CompanyLoginDto } from './dto/company-login.dto';
 import { CreateJobPostDto } from './dto/create-job-post.dto';
 import { SaveWorkerDto } from './dto/save-worker.dto';
 import { CreateWorkRecordDto } from './dto/create-work-record.dto';
+import { CreateConsultRequestDto } from './dto/create-consult-request.dto';
 
 // 기업용 웹 BFF(/api/companies/*, /api/workers) → 이 컨트롤러.
 @Controller()
@@ -59,6 +60,7 @@ export class CompaniesController {
     @Query('visaType') visaType?: string,
     @Query('industry') industry?: string,
     @Query('region') region?: string,
+    @Query('interpreterNeeded') interpreterNeeded?: string,
     @Query('limit') limit?: string,
   ) {
     return this.companies.browseForeignWorkers({
@@ -67,6 +69,7 @@ export class CompaniesController {
       visaType: (visaType as VisaType) || undefined,
       industry: (industry as IndustryType) || undefined,
       region: region || undefined,
+      interpreterNeeded: interpreterNeeded === 'true' ? true : interpreterNeeded === 'false' ? false : undefined,
       limit: limit ? Number(limit) : 50,
     });
   }
@@ -156,5 +159,19 @@ export class CompaniesController {
       region: region || undefined,
       limit: limit ? Number(limit) : 50,
     });
+  }
+
+  // ── 면접/상담 요청 (ConsultRequest) ──
+  @Post('companies/:id/consult-requests')
+  createConsultRequest(
+    @Param('id') companyId: string,
+    @Body() dto: CreateConsultRequestDto,
+  ) {
+    return this.companies.createConsultRequest(companyId, dto);
+  }
+
+  @Get('companies/:id/consult-requests')
+  listConsultRequestsByCompany(@Param('id') companyId: string) {
+    return this.companies.listConsultRequestsByCompany(companyId);
   }
 }

@@ -8,7 +8,8 @@ import React, { useState, useRef, useEffect, useMemo } from "react";
 import { useProfile } from "@/lib/ProfileContext";
 import { JOB_TYPES, CAREER_YEARS, REGIONS, INTEREST_FEATURES, CAREER_BAND_LABEL, INDUSTRIES } from "@/lib/constants";
 import { track } from "@/lib/analytics";
-import { getServerId, ensureServerId, apiUpsertFieldLeaderProfile, apiGetFieldLeaderProfile } from "@/lib/apiClient";
+import { getServerId, ensureServerId, apiUpsertFieldLeaderProfile, apiGetFieldLeaderProfile, apiListEquipmentHistory, apiAddEquipmentHistory, apiDeleteEquipmentHistory, apiCreateAiLeaderInterest, apiGetTrustScore, apiGetWorkerProfile, apiGetUnreadCount, apiListNotifications, apiMarkAllRead, apiListJobPosts, apiListUserApplications, apiApplyJobPost, apiListUserAssignments, apiCheckIn, apiCheckOut } from "@/lib/apiClient";
+import type { JobPost, JobApplication, Assignment, AttendanceRec } from "@/lib/types";
 import { ProfileTab as FgnProfile, VisaTab as FgnVisa, DocsTab as FgnDocs, TrainingTab as FgnTraining, SettlementTab as FgnSettlement } from "./ForeignWorkerHub";
 import { enablePush } from "@/lib/push";
 import { QRCodeSVG } from "qrcode.react";
@@ -69,20 +70,7 @@ const shInput = { width: "100%", boxSizing: "border-box", height: "48px", paddin
 const shPill = (on) => ({ padding: "9px 14px", borderRadius: "999px", border: `1.5px solid ${on ? "var(--c1,#4f46e5)" : "#e6e8ec"}`, background: on ? "var(--c1,#4f46e5)" : "#fff", color: on ? "#fff" : "var(--app-text-secondary,#5b6b82)", fontSize: "13.5px", fontWeight: on ? 800 : 600, fontFamily: "inherit", cursor: "pointer" });
 
 // 일자리 탭 — 기업이 등록한 실제 채용 공고(/api/job-posts)
-interface JobItem {
-  id: string;
-  title: string;
-  jobType: string[];
-  headcount: number | null;
-  careerBand: string | null;
-  certs: string[];
-  region: string[];
-  period: string | null;
-  conditions: string | null;
-  status: string;
-  createdAt: string;
-  company: { name: string; region: string[] } | null;
-}
+// JobPost 타입은 @/lib/types 에서 가져옴
 
 // 알림 — 매칭 공고 등(인앱 알림센터)
 interface NotifItem {
@@ -116,30 +104,12 @@ interface TeamData {
 }
 
 // 출역·정산 탭 — 배정(ACCEPTED) 현장 + 출역 기록(/api/users/:id/assignments)
-interface AttendanceRec {
-  id: string;
-  workDate: string;
-  checkInAt: string;
-  checkOutAt: string | null;
-}
-interface Assignment {
-  id: string;
-  jobPost: { id: string; title: string; region: string[]; company: { name: string } | null };
-  attendances: AttendanceRec[];
-}
-
 function fmtClock(iso: string): string {
   const d = new Date(iso);
   const p = (n: number) => String(n).padStart(2, "0");
   return `${p(d.getHours())}:${p(d.getMinutes())}`;
 }
 
-// 내 지원 현황(/api/users/:id/applications)
-interface MyApplication {
-  id: string;
-  status: string;
-  jobPost: { id: string; title: string; company: { name: string } | null } | null;
-}
 function applLabel(status: string): { t: string; bg: string; fg: string } {
   if (status === "ACCEPTED") return { t: "배정 완료", bg: "#e4f7ec", fg: "#128a4e" };
   if (status === "REJECTED") return { t: "반려", bg: "#eef0f3", fg: "#6b7787" };
@@ -162,6 +132,20 @@ export default function MonoApp() {
     addCertificate, addEducation, certificates, educations,
     careerCards, addCareerCard, completion } = useProfile(); // 온보딩 프로필 + 관심/서류 + 현장 경력 + 완성도
   const [openInterest, setOpenInterest] = useState(false); // 관심 기능 신청 시트
+
+  // #5 신뢰 점수 (TrustScore)
+  const [trustScore, setTrustScore] = useState<TrustScore | null>(null);
+  const [workerProfile, setWorkerProfile] = useState<any>(null);
+  
+  useEffect(() => {
+    const sid = getServerId();
+    if (sid) {
+      apiGetTrustScore("WORKER", sid).then(t => setTrustScore(t));
+      apiGetWorkerProfile(sid).then(p => setWorkerProfile(p));
+    }
+  }, []);
+
+  const isForeigner = user?.residency === "OVERSEAS" || (workerProfile?.nationality && workerProfile?.nationality !== "대한민국");
   const onPickInterest = (f) => {
     // 클릭 이벤트(개별 + 공통) → /api/events, 신규면 등록(InterestRegistration) + interest_submitted
     track(f.event, { feature: f.key });
@@ -200,6 +184,36 @@ export default function MonoApp() {
     });
     setCareerForm({ siteName: "", field: "", startDate: "", endDate: "", role: "", equipment: "" });
   };
+  // #5 장비 이력 (EquipmentHistory)
+  const [equipmentHistory, setEquipmentHistory] = useState<any[]>([]);
+  const [openEquipSheet, setOpenEquipSheet] = useState(false);
+  const [equipForm, setEquipForm] = useState({ equipmentName: "", spec: "", experienceMonths: "", description: "" });
+  const loadEquip = () => {
+    const sid = getServerId();
+    if (sid) apiListEquipmentHistory(sid).then(setEquipmentHistory);
+  };
+  useEffect(() => { loadEquip(); }, []);
+  const submitEquip = async () => {
+    const sid = getServerId();
+    if (!sid || !equipForm.equipmentName.trim()) return;
+    const res = await apiAddEquipmentHistory(sid, {
+      equipmentName: equipForm.equipmentName.trim(),
+      spec: equipForm.spec.trim() || undefined,
+      experienceMonths: equipForm.experienceMonths ? parseInt(equipForm.experienceMonths, 10) : undefined,
+      description: equipForm.description.trim() || undefined,
+    });
+    if (res) {
+      setEquipmentHistory(prev => [...prev, res]);
+      setEquipForm({ equipmentName: "", spec: "", experienceMonths: "", description: "" });
+    }
+  };
+  const deleteEquip = async (eid: string) => {
+    const sid = getServerId();
+    if (!sid) return;
+    const ok = await apiDeleteEquipmentHistory(sid, eid);
+    if (ok) setEquipmentHistory(prev => prev.filter(e => e.id !== eid));
+  };
+
   // 근무 기간 표시("2024-03" → "2024.03 – 현재"). 공개 프로필(PublicProfileView)과 동일 규칙.
   const fmtRange = (start, end) => {
     if (!start && !end) return "";
@@ -320,10 +334,10 @@ export default function MonoApp() {
   }, [s.tab, completion]);
 
   // 일자리 탭 — 공고 + 내 지원 현황.
-  const [realJobs, setRealJobs] = useState<JobItem[] | null>(null);
+  const [realJobs, setRealJobs] = useState<JobPost[] | null>(null);
   const [appliedJobs, setAppliedJobs] = useState<Set<string>>(new Set());
-  const [myApps, setMyApps] = useState<MyApplication[]>([]);
-  const [jobDetail, setJobDetail] = useState<JobItem | null>(null); // 공고 상세 시트(카드 클릭 시 오픈)
+  const [myApps, setMyApps] = useState<JobApplication[]>([]);
+  const [jobDetail, setJobDetail] = useState<JobPost | null>(null); // 공고 상세 시트(카드 클릭 시 오픈)
   const jobDetailRef = useRef<HTMLDivElement>(null);
   // 공고 상세 시트 접근성 — ESC 닫기 · body 스크롤 잠금 · 오픈 시 패널로 포커스(CLAUDE.md 6).
   useEffect(() => {
@@ -350,9 +364,8 @@ export default function MonoApp() {
     if (typeof document !== "undefined" && document.hidden) return;
     const uid = getServerId();
     if (!uid) return;
-    fetch(`/api/users/${uid}/notifications/unread-count`, { cache: "no-store" })
-      .then((r) => r.json())
-      .then((d) => setUnread(typeof d?.count === "number" ? d.count : 0))
+    apiGetUnreadCount(uid)
+      .then((count) => setUnread(count))
       .catch(() => undefined);
   };
   useEffect(() => {
@@ -378,12 +391,11 @@ export default function MonoApp() {
     setNotifOpen(true);
     const uid = getServerId();
     if (!uid) return;
-    fetch(`/api/users/${uid}/notifications`, { cache: "no-store" })
-      .then((r) => r.json())
-      .then((d) => setNotifs(Array.isArray(d) ? (d as NotifItem[]) : []))
+    apiListNotifications(uid)
+      .then((d) => setNotifs(d))
       .catch(() => undefined);
     if (unread > 0) {
-      fetch(`/api/users/${uid}/notifications/read-all`, { method: "POST" })
+      apiMarkAllRead(uid)
         .then(() => setUnread(0))
         .catch(() => undefined);
     }
@@ -634,35 +646,15 @@ export default function MonoApp() {
     setAiDone(true);
     track("ai_field_leader_interest_clicked");
     const uid = getServerId();
-    fetch(`/api/ai-leader/interests`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ userId: uid || undefined, industry: (user?.industries && user.industries[0]) || undefined }) }).catch(() => undefined);
+    apiCreateAiLeaderInterest({
+      userId: uid || undefined,
+      name: user?.name || undefined,
+      phone: user?.phone || undefined,
+      jobType: user?.jobType?.[0] || undefined,
+      region: user?.region?.[0] || undefined
+    });
   };
 
-  // 장비 이력(EquipmentHistory) — 등록/목록/삭제.
-  const [equipOpen, setEquipOpen] = useState(false);
-  const [equipList, setEquipList] = useState([]);
-  const [equipForm, setEquipForm] = useState({ name: "", category: "", yearsUsed: "" });
-  const equipRef = useRef(null);
-  const loadEquip = () => {
-    const uid = getServerId();
-    if (!uid) return;
-    fetch(`/api/users/${uid}/equipment-history`, { cache: "no-store" }).then((r) => r.json()).then((d) => setEquipList(Array.isArray(d) ? d : [])).catch(() => undefined);
-  };
-  useEffect(() => { loadEquip(); /* eslint-disable-next-line react-hooks/exhaustive-deps */ }, []);
-  const addEquip = () => {
-    const name = equipForm.name.trim();
-    if (!name) return;
-    const uid = getServerId();
-    if (!uid) return;
-    const yrs = equipForm.yearsUsed ? Number(equipForm.yearsUsed) : undefined;
-    fetch(`/api/users/${uid}/equipment-history`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ name, category: equipForm.category.trim() || undefined, yearsUsed: yrs }) })
-      .then((r) => r.json()).then(() => { track("equipment_history_added"); setEquipForm({ name: "", category: "", yearsUsed: "" }); loadEquip(); }).catch(() => undefined);
-  };
-  const deleteEquip = (eid) => {
-    const uid = getServerId();
-    if (!uid) return;
-    setEquipList((p) => p.filter((x) => x.id !== eid));
-    fetch(`/api/users/${uid}/equipment-history/${eid}`, { method: "DELETE" }).catch(() => undefined);
-  };
   useEffect(() => {
     if (!equipOpen) return;
     document.body.classList.add("scroll-lock");
@@ -902,46 +894,33 @@ export default function MonoApp() {
       ))}
     </div>
   );
-  const loadMyApplications = () => {
+  const loadMyApplications = async () => {
     const uid = getServerId();
     if (!uid) return;
-    fetch(`/api/users/${uid}/applications`, { cache: "no-store" })
-      .then((r) => r.json())
-      .then((apps) => {
-        if (Array.isArray(apps)) {
-          setMyApps(apps as MyApplication[]);
-          setAppliedJobs(new Set(apps.map((a) => a?.jobPost?.id).filter(Boolean)));
-        }
-      })
-      .catch(() => undefined);
+    const apps = await apiListUserApplications(uid);
+    if (apps) {
+      setMyApps(apps);
+      setAppliedJobs(new Set(apps.map((a) => a?.jobPost?.id).filter(Boolean) as string[]));
+    }
   };
   const jobsLoadedRef = useRef(false);
   useEffect(() => {
     if (s.tab !== "jobs" || jobsLoadedRef.current) return;
     jobsLoadedRef.current = true;
-    fetch("/api/job-posts?limit=60", { cache: "no-store" })
-      .then((r) => r.json())
-      .then((d) => setRealJobs(Array.isArray(d) ? (d as JobItem[]) : []))
-      .catch(() => setRealJobs([]));
+    apiListJobPosts({ limit: 60 }).then((d) => setRealJobs(d || []));
     loadMyApplications();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [s.tab]);
 
   // 공고 지원 — 서버 계정(serverId) 보장 후 지원. 멱등(서버 upsert) + 내 지원 현황 갱신.
-  // ensureServerId 는 apiClient 공용 함수 사용(중복 구현 제거).
   const applyToJob = async (jobPostId: string) => {
     if (appliedJobs.has(jobPostId)) return;
     const uid = await ensureServerId();
     if (!uid) return;
     setAppliedJobs((p) => new Set(p).add(jobPostId));
     track("job_application_submitted", { jobPostId });
-    fetch(`/api/job-posts/${jobPostId}/apply`, {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({ userId: uid }),
-    })
-      .then(() => loadMyApplications())
-      .catch(() => undefined);
+    await apiApplyJobPost(jobPostId, uid);
+    await loadMyApplications();
   };
 
   // 출역·정산 탭 — 배정(ACCEPTED) 현장 + 출근/퇴근 체크.
@@ -953,10 +932,7 @@ export default function MonoApp() {
       setAssignments([]);
       return;
     }
-    fetch(`/api/users/${uid}/assignments`, { cache: "no-store" })
-      .then((r) => r.json())
-      .then((d) => setAssignments(Array.isArray(d) ? (d as Assignment[]) : []))
-      .catch(() => setAssignments([]));
+    apiListUserAssignments(uid).then((d) => setAssignments(d || []));
   };
   useEffect(() => {
     if (s.tab !== "work" || workLoadedRef.current) return;
@@ -966,19 +942,11 @@ export default function MonoApp() {
   }, [s.tab]);
   const doCheckIn = (appId: string) => {
     track("check_in", { applicationId: appId });
-    void fetch(`/api/applications/${appId}/checkin`, {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: "{}",
-    })
-      .then(() => loadAssignments())
-      .catch(() => undefined);
+    apiCheckIn(appId).then(() => loadAssignments()).catch(() => undefined);
   };
   const doCheckOut = (appId: string) => {
     track("check_out", { applicationId: appId });
-    void fetch(`/api/applications/${appId}/checkout`, { method: "POST" })
-      .then(() => loadAssignments())
-      .catch(() => undefined);
+    apiCheckOut(appId).then(() => loadAssignments()).catch(() => undefined);
   };
 
   const v = useMemo(() => {
@@ -1060,6 +1028,8 @@ export default function MonoApp() {
     const meRows=[
       {label:'프로필 · 기본 정보',tag:'완료',tagColor:'var(--c3,#4f46e5)',icon:React.createElement('svg',{width:18,height:18,viewBox:'0 0 20 20',fill:'none'},React.createElement('circle',{cx:10,cy:7,r:3,stroke:'var(--c1,#4f46e5)',strokeWidth:1.7}),React.createElement('path',{d:'M4 17c0-3 2.7-4.5 6-4.5s6 1.5 6 4.5',stroke:'var(--c1,#4f46e5)',strokeWidth:1.7,strokeLinecap:'round'})),onClick:()=>openEdit()},
       {label:'서류 · 자격증',tag:(certificates.length+educations.length)?(certificates.length+educations.length)+'건':'',tagColor:'#8694a8',icon:React.createElement('svg',{width:18,height:18,viewBox:'0 0 20 20',fill:'none'},React.createElement('path',{d:'M5 2.5h7L16 6v11.5H5V2.5Z',stroke:'var(--c1,#4f46e5)',strokeWidth:1.7,strokeLinejoin:'round'}),React.createElement('path',{d:'M12 2.5V6h4',stroke:'var(--c1,#4f46e5)',strokeWidth:1.7,strokeLinejoin:'round'})),onClick:()=>setOpenDocs(true)},
+      {label:'장비 보유 이력',tag:equipmentHistory.length?equipmentHistory.length+'건':'',tagColor:'#8694a8',icon:React.createElement('svg',{width:18,height:18,viewBox:'0 0 20 20',fill:'none'},React.createElement('path',{d:'M4 6h12v11H4V6Zm4-4h4v4H8V2Z',stroke:'var(--c1,#4f46e5)',strokeWidth:1.7,strokeLinejoin:'round'})),onClick:()=>setOpenEquipSheet(true)},
+
       // 관심 기능 신청 → 홈 화면으로 이동(아래 home view 카드)
       // {label:'계좌 · 정산 정보',tag:'인증',tagColor:'var(--c3,#4f46e5)',icon:React.createElement('svg',{width:18,height:18,viewBox:'0 0 20 20',fill:'none'},React.createElement('rect',{x:3,y:5,width:14,height:11,rx:2,stroke:'var(--c1,#4f46e5)',strokeWidth:1.7}),React.createElement('path',{d:'M3 9h14',stroke:'var(--a1,#4f46e5)',strokeWidth:1.7})),onClick:()=>{}},
       // {label:'안전교육 · 인증',tag:'100%',tagColor:'var(--c3,#4f46e5)',icon:React.createElement('svg',{width:18,height:18,viewBox:'0 0 20 20',fill:'none'},React.createElement('path',{d:'M10 2 3 5v5c0 4 3 7 7 8.5 4-1.5 7-4.5 7-8.5V5l-7-3Z',stroke:'var(--c1,#4f46e5)',strokeWidth:1.7,strokeLinejoin:'round'})),onClick:()=>{}},
@@ -1597,7 +1567,7 @@ export default function MonoApp() {
             <button onClick={() => setOpenInterest(true)} style={{ marginTop: "14px", width: "100%", height: "44px", border: "1px solid var(--c1,#4f46e5)", borderRadius: "13px", background: "#fff", color: "var(--c1,#4f46e5)", fontSize: "13.5px", fontWeight: "800", fontFamily: "inherit", cursor: "pointer" }}>안심 정산 관심 등록</button>
           </div>
           {/* 외국인 기술자 정산 내역 — 출역·정산 탭에 포함 */}
-          {user?.residency === "OVERSEAS" && (
+          {isForeigner && (
             <div style={{ marginTop: "24px" }}>
               <FgnSettlement id={getServerId() || ""} />
             </div>
@@ -1613,7 +1583,15 @@ export default function MonoApp() {
             <div style={{ flex: "1" }}>
               <div style={{ fontSize: "18px", fontWeight: "800" }}>{v.name}</div>
               <div style={{ fontSize: "12.5px", color: "var(--t1,#c3c4f7)", fontWeight: "600", marginTop: "2px" }}>{v.myJob} · A등급 숙련 기술자</div>
-              <div style={{ display: "flex", alignItems: "center", gap: "5px", marginTop: "6px" }}><span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#5fd1a0" }}></span><span style={{ fontSize: "11.5px", color: "var(--t1,#c3c4f7)", fontWeight: "600" }}>실명·계좌 인증 완료</span></div>
+              <div style={{ display: "flex", alignItems: "center", gap: "5px", marginTop: "6px" }}>
+                <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#5fd1a0" }}></span>
+                <span style={{ fontSize: "11.5px", color: "var(--t1,#c3c4f7)", fontWeight: "600" }}>실명·계좌 인증 완료</span>
+                {trustScore && trustScore.score > 0 && (
+                  <span style={{ marginLeft: "4px", padding: "2px 6px", background: "rgba(255,255,255,0.2)", borderRadius: "6px", fontSize: "11px", fontWeight: "700" }}>
+                    ⭐ 신뢰 {trustScore.score}점
+                  </span>
+                )}
+              </div>
             </div>
           </div>
 
@@ -1966,7 +1944,7 @@ export default function MonoApp() {
               </div>
             </div>
             {/* 외국인 기술자 프로필(국적·언어·한국어 등) — 기본 정보와 같은 시트에 포함 */}
-            {user?.residency === "OVERSEAS" && (
+            {isForeigner && (
               <div style={{ marginTop: "22px", borderTop: "1px solid #eef0f6", paddingTop: "8px" }}>
                 <FgnProfile id={getServerId() || ""} />
               </div>
@@ -2136,6 +2114,36 @@ export default function MonoApp() {
         </div>
       )}
 
+      {openEquipSheet && (
+        <div onClick={() => setOpenEquipSheet(false)} style={{ position: "absolute", inset: "0", zIndex: "60", background: "rgba(20,22,48,.55)", backdropFilter: "blur(3px)", display: "flex", alignItems: "flex-end", animation: "fadeIn .2s ease" }}>
+          <div onClick={(e) => e.stopPropagation()} style={{ width: "100%", background: "#fff", borderRadius: "28px 28px 0 0", padding: "22px 18px 26px", animation: "sheetUp .32s cubic-bezier(.22,1,.36,1)", maxHeight: "88%", display: "flex", flexDirection: "column" }}>
+            <div style={{ width: "40px", height: "4px", borderRadius: "2px", background: "#d4dae3", margin: "0 auto 16px" }}></div>
+            <div style={{ fontSize: "18px", fontWeight: "800", color: "var(--c1,#4f46e5)" }}>장비 보유 이력</div>
+            <div style={{ fontSize: "13px", color: "#8694a8", fontWeight: "500", marginTop: "4px", marginBottom: "16px" }}>보유하고 있는 장비와 조작 능력을 등록하세요.</div>
+            <div className="scr" style={{ overflowY: "auto" }}>
+              {(equipmentHistory || []).map((e) => (
+                <div key={e.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "11px 13px", border: "1px solid #e6e8ec", borderRadius: "12px", marginBottom: "8px" }}>
+                  <div style={{ display: "flex", flexDirection: "column", gap: "2px", minWidth: "0" }}>
+                    <span style={{ fontSize: "14px", fontWeight: "700", color: "var(--c1,#4f46e5)" }}>{e.equipmentName}</span>
+                    <span style={{ fontSize: "11px", color: "#8694a8" }}>{[e.spec, e.experienceMonths ? `${e.experienceMonths}개월` : null, e.description].filter(Boolean).join(" · ")}</span>
+                  </div>
+                  <button onClick={() => deleteEquip(e.id)} style={{ border: "none", background: "none", fontSize: "12px", color: "#e11d48", fontWeight: "700", cursor: "pointer" }}>삭제</button>
+                </div>
+              ))}
+              <div style={{ display: "flex", flexDirection: "column", gap: "8px", marginBottom: "20px" }}>
+                <input value={equipForm.equipmentName} onChange={(e) => setEquipForm((p) => ({ ...p, equipmentName: e.target.value }))} placeholder="장비명 (예: 굴삭기)" style={{ height: "44px", border: "1px solid #e6e8ec", borderRadius: "11px", padding: "0 13px", fontSize: "14px", fontFamily: "inherit", boxSizing: "border-box" }} />
+                <input value={equipForm.spec} onChange={(e) => setEquipForm((p) => ({ ...p, spec: e.target.value }))} placeholder="상세 규격 (예: 02, 06)" style={{ height: "44px", border: "1px solid #e6e8ec", borderRadius: "11px", padding: "0 13px", fontSize: "14px", fontFamily: "inherit", boxSizing: "border-box" }} />
+                <div style={{ display: "flex", gap: "8px" }}>
+                  <input type="number" value={equipForm.experienceMonths} onChange={(e) => setEquipForm((p) => ({ ...p, experienceMonths: e.target.value }))} placeholder="조작 경력 (개월)" style={{ width: "130px", height: "44px", border: "1px solid #e6e8ec", borderRadius: "11px", padding: "0 13px", fontSize: "14px", fontFamily: "inherit", boxSizing: "border-box" }} />
+                  <input value={equipForm.description} onChange={(e) => setEquipForm((p) => ({ ...p, description: e.target.value }))} placeholder="추가 설명" style={{ flex: "1", height: "44px", border: "1px solid #e6e8ec", borderRadius: "11px", padding: "0 13px", fontSize: "14px", fontFamily: "inherit", boxSizing: "border-box", minWidth: "0" }} />
+                </div>
+                <button type="button" onClick={submitEquip} style={{ height: "44px", border: "1px solid var(--c1,#4f46e5)", borderRadius: "11px", background: "#fff", color: "var(--c1,#4f46e5)", fontSize: "14px", fontWeight: "800", fontFamily: "inherit", cursor: "pointer", WebkitTapHighlightColor: "transparent" }}>+ 장비 이력 추가</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {openDocs && (
         <div onClick={() => setOpenDocs(false)} style={{ position: "absolute", inset: "0", zIndex: "60", background: "rgba(20,22,48,.55)", backdropFilter: "blur(3px)", display: "flex", alignItems: "flex-end", animation: "fadeIn .2s ease" }}>
           <div onClick={(e) => e.stopPropagation()} style={{ width: "100%", background: "#fff", borderRadius: "28px 28px 0 0", padding: "22px 18px 26px", animation: "sheetUp .32s cubic-bezier(.22,1,.36,1)", maxHeight: "88%", display: "flex", flexDirection: "column" }}>
@@ -2180,7 +2188,7 @@ export default function MonoApp() {
                 <button type="button" onClick={submitEdu} style={{ height: "44px", border: "1px solid var(--c1,#4f46e5)", borderRadius: "11px", background: "#fff", color: "var(--c1,#4f46e5)", fontSize: "14px", fontWeight: "800", fontFamily: "inherit", cursor: "pointer", WebkitTapHighlightColor: "transparent" }}>+ 교육 추가</button>
               </div>
               {/* 외국인 기술자 — 체류·비자/서류/교육 이수, 서류·자격증과 같은 시트에 포함 */}
-              {user?.residency === "OVERSEAS" && (
+              {isForeigner && (
                 <div style={{ marginTop: "20px", borderTop: "1px solid #eef0f6", paddingTop: "8px" }}>
                   <FgnVisa id={getServerId() || ""} />
                   <FgnDocs id={getServerId() || ""} />
