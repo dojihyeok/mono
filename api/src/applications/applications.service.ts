@@ -153,4 +153,27 @@ export class ApplicationsService {
       data: { checkOutAt: new Date() },
     });
   }
+
+  // 기업/반장: 익일 재출역 제안 (Task 3: 출역 역류 루프)
+  async proposeReAttendance(jobPostId: string, userIds: string[], workDate: string) {
+    const post = await this.prisma.jobPost.findUnique({
+      where: { id: jobPostId },
+      select: { id: true, title: true },
+    });
+    if (!post) throw new NotFoundException(`JobPost ${jobPostId} not found`);
+
+    const notifications = userIds.map((userId) => ({
+      userId,
+      type: 'REATTEND_OFFER',
+      jobPostId: post.id,
+      title: '내일 재출역 제안',
+      body: `[${post.title}] 현장에서 내일(${workDate}) 재출역을 제안했습니다. 수락하시겠습니까?`,
+    }));
+
+    await this.prisma.notification.createMany({
+      data: notifications,
+    });
+
+    return { success: true, count: userIds.length };
+  }
 }

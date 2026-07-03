@@ -47,4 +47,13 @@ export class ApplicationsController {
   checkOut(@Param('id') id: string) {
     return this.apps.checkOut(id);
   }
+
+  // 기업/반장: 익일 재출역 제안
+  @Post('job-posts/:jobPostId/propose-re-attendance')
+  proposeReAttendance(
+    @Param('jobPostId') jobPostId: string,
+    @Body() dto: { userIds: string[]; workDate: string }
+  ) {
+    return this.apps.proposeReAttendance(jobPostId, dto.userIds, dto.workDate);
+  }
 }

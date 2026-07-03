@@ -312,8 +312,9 @@ export async function apiAddEducation(data: {
 
 // ── 캐노니컬 확장: 작업요청 · Field Ops · 현장리더 프로필 (dev-plan §5.7·§5.8·§5.6) ──
 
-// 현장작업요청 생성 — 서버 WorkRequest. requesterId = 내 serverId(CUSTOMER/OPERATOR).
+// 현장작업요청 생성 — 서버 WorkRequest. requesterId = 내 serverId(CUSTOMER/OPERATOR), 혹은 companyId = 기업.
 export async function apiCreateWorkRequest(data: {
+  companyId?: string;
   industry: string;
   workTypes?: string[];
   region?: string[];
@@ -332,7 +333,14 @@ export async function apiCreateWorkRequest(data: {
 }): Promise<{ id: string } | null> {
   const id = await ensureServerId();
   if (!id) return null;
-  return postJson<{ id: string }>("/api/work-requests", { requesterId: id, ...data });
+  try {
+    return await postJson<{ id: string }>("/api/work-requests", {
+      requesterId: data.companyId ? undefined : id,
+      ...data,
+    });
+  } catch {
+    return null;
+  }
 }
 
 // 내가 등록한 작업요청 목록(최신순).
@@ -340,6 +348,10 @@ export async function apiListMyWorkRequests(): Promise<WorkRequest[] | null> {
   const id = await ensureServerId();
   if (!id) return null;
   return getJson<WorkRequest[]>(`/api/users/${id}/work-requests`, []);
+}
+
+export async function apiListCompanyWorkRequests(companyId: string): Promise<WorkRequest[] | null> {
+  return getJson<WorkRequest[]>(`/api/companies/${companyId}/work-requests`, []);
 }
 
 // Field Ops 관심 등록 — 서버 FieldOpsInterest(InterestRegistration과 별개). 익명 허용.
@@ -812,4 +824,15 @@ export function apiCheckIn(applicationId: string): Promise<AttendanceRec | null>
 
 export function apiCheckOut(applicationId: string): Promise<AttendanceRec | null> {
   return postJson<AttendanceRec>(`/api/applications/${applicationId}/checkout`, {});
+}
+
+export function apiProposeReAttendance(
+  jobPostId: string,
+  userIds: string[],
+  workDate: string
+): Promise<{ success: boolean; count: number } | null> {
+  return postJson<{ success: boolean; count: number }>(`/api/job-posts/${jobPostId}/propose-re-attendance`, {
+    userIds,
+    workDate,
+  });
 }

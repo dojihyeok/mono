@@ -8,7 +8,7 @@ import React, { useState, useRef, useEffect, useMemo } from "react";
 import { useProfile } from "@/lib/ProfileContext";
 import { JOB_TYPES, CAREER_YEARS, REGIONS, INTEREST_FEATURES, CAREER_BAND_LABEL, INDUSTRIES } from "@/lib/constants";
 import { track } from "@/lib/analytics";
-import { getServerId, ensureServerId, apiUpsertFieldLeaderProfile, apiGetFieldLeaderProfile, apiListEquipmentHistory, apiAddEquipmentHistory, apiDeleteEquipmentHistory, apiCreateAiLeaderInterest, apiGetTrustScore, apiGetWorkerProfile, apiGetUnreadCount, apiListNotifications, apiMarkAllRead, apiListJobPosts, apiListUserApplications, apiApplyJobPost, apiListUserAssignments, apiCheckIn, apiCheckOut } from "@/lib/apiClient";
+import { getServerId, ensureServerId, apiUpsertFieldLeaderProfile, apiGetFieldLeaderProfile, apiListEquipmentHistory, apiAddEquipmentHistory, apiDeleteEquipmentHistory, apiCreateAiLeaderInterest, apiGetTrustScore, apiGetWorkerProfile, apiGetUnreadCount, apiListNotifications, apiMarkAllRead, apiListJobPosts, apiListUserApplications, apiApplyJobPost, apiListUserAssignments, apiCheckIn, apiCheckOut, apiProposeReAttendance } from "@/lib/apiClient";
 import type { JobPost, JobApplication, Assignment, AttendanceRec } from "@/lib/types";
 import { ProfileTab as FgnProfile, VisaTab as FgnVisa, DocsTab as FgnDocs, TrainingTab as FgnTraining, SettlementTab as FgnSettlement } from "./ForeignWorkerHub";
 import { enablePush } from "@/lib/push";
@@ -944,9 +944,19 @@ export default function MonoApp() {
     track("check_in", { applicationId: appId });
     apiCheckIn(appId).then(() => loadAssignments()).catch(() => undefined);
   };
-  const doCheckOut = (appId: string) => {
-    track("check_out", { applicationId: appId });
-    apiCheckOut(appId).then(() => loadAssignments()).catch(() => undefined);
+  // ── 출역 역류 루프 (재출역 제안) UI 상태 ──
+  const [checkoutSheetApp, setCheckoutSheetApp] = useState<Assignment | null>(null);
+  const [reattendSelected, setReattendSelected] = useState<string[]>([]);
+  const [reattendBusy, setReattendBusy] = useState(false);
+
+  const doCheckOut = (app: Assignment) => {
+    track("check_out", { applicationId: app.id });
+    if (isForeman) {
+      setCheckoutSheetApp(app);
+      setReattendSelected([]);
+    } else {
+      apiCheckOut(app.id).then(() => loadAssignments()).catch(() => undefined);
+    }
   };
 
   const v = useMemo(() => {
@@ -1543,7 +1553,7 @@ export default function MonoApp() {
               <div key={a.id} style={{ marginTop: "14px", borderRadius: "20px", background: "var(--c1,#4f46e5)", padding: "18px", color: "var(--t0,#ecedfb)", position: "relative", overflow: "hidden" }}>
                 <div style={{ fontSize: "11.5px", fontWeight: "700", color: "var(--t1,#c3c4f7)" }}>{a.jobPost.company ? a.jobPost.company.name : "협약 기업"}{a.jobPost.region.length ? " · " + a.jobPost.region.join(", ") : ""}</div>
                 <div style={{ fontSize: "17px", fontWeight: "800", marginTop: "3px" }}>{a.jobPost.title}</div>
-                <button onClick={() => (openAtt ? doCheckOut(a.id) : doCheckIn(a.id))} style={{ marginTop: "14px", width: "100%", height: "52px", border: "none", borderRadius: "14px", background: openAtt ? "var(--a1,#4f46e5)" : "#fff", color: openAtt ? "var(--c0,#4f46e5)" : "var(--c1,#4f46e5)", fontSize: "16px", fontWeight: "800", fontFamily: "inherit", cursor: "pointer" }}>{openAtt ? "퇴근 체크" : "출근 체크"}</button>
+                <button onClick={() => (openAtt ? doCheckOut(a) : doCheckIn(a.id))} style={{ marginTop: "14px", width: "100%", height: "52px", border: "none", borderRadius: "14px", background: openAtt ? "var(--a1,#4f46e5)" : "#fff", color: openAtt ? "var(--c0,#4f46e5)" : "var(--c1,#4f46e5)", fontSize: "16px", fontWeight: "800", fontFamily: "inherit", cursor: "pointer" }}>{openAtt ? "퇴근 체크" : "출근 체크"}</button>
                 <div style={{ fontSize: "11px", color: "var(--t2,#c3c4f7)", textAlign: "center", marginTop: "9px" }}>QR · 위치 기반 출근 체크</div>
                 {(a.attendances.length > 0) && (
                   <div style={{ marginTop: "13px", borderTop: "1px solid rgba(255,255,255,.12)", paddingTop: "12px", display: "flex", flexDirection: "column", gap: "8px" }}>
@@ -2376,6 +2386,57 @@ export default function MonoApp() {
               </div>
             </div>
             <button type="button" onClick={() => setOpenCareerSheet(false)} style={{ marginTop: "16px", flex: "none", height: "50px", border: "none", borderRadius: "14px", background: "var(--c1,#4f46e5)", color: "#fff", fontSize: "15px", fontWeight: "800", fontFamily: "inherit", cursor: "pointer" }}>완료</button>
+          </div>
+        </div>
+      )}
+
+      {/* 퇴근 및 재출역 제안 (반장용 Checkout Sheet) */}
+      {checkoutSheetApp && (
+        <div onClick={() => setCheckoutSheetApp(null)} style={{ position: "absolute", inset: "0", zIndex: "70", background: "rgba(20,22,48,.55)", backdropFilter: "blur(3px)", display: "flex", alignItems: "flex-end", animation: "fadeIn .2s ease" }}>
+          <div onClick={(e) => e.stopPropagation()} style={{ width: "100%", background: "#fff", borderRadius: "28px 28px 0 0", padding: "22px 18px 26px", animation: "sheetUp .32s cubic-bezier(.22,1,.36,1)", maxHeight: "90%", display: "flex", flexDirection: "column" }}>
+            <div style={{ width: "40px", height: "4px", borderRadius: "2px", background: "#d4dae3", margin: "0 auto 16px" }}></div>
+            <div style={{ fontSize: "18px", fontWeight: "800", color: "var(--c1,#4f46e5)" }}>퇴근 체크 및 재출역 제안</div>
+            <div style={{ fontSize: "13px", color: "#8694a8", fontWeight: "500", marginTop: "4px", marginBottom: "16px" }}>내일도 이 현장에 부를 팀원을 선택해주세요.</div>
+            
+            <div className="scr" style={{ overflowY: "auto", flex: "1", minHeight: "0", display: "flex", flexDirection: "column", gap: "10px" }}>
+              {coworkers.length === 0 ? (
+                <div style={{ fontSize: "14px", color: "#8694a8", textAlign: "center", padding: "20px 0" }}>함께 일한 동료가 없습니다.</div>
+              ) : (
+                coworkers.map((c) => (
+                  <div key={c.coworkerId} onClick={() => setReattendSelected(p => p.includes(c.coworkerId) ? p.filter(id => id !== c.coworkerId) : [...p, c.coworkerId])} style={{ background: reattendSelected.includes(c.coworkerId) ? "var(--soft,#ecedfb)" : "#fff", border: "1px solid " + (reattendSelected.includes(c.coworkerId) ? "var(--c1,#4f46e5)" : "#e6e8ec"), borderRadius: "16px", padding: "13px 14px", display: "flex", alignItems: "center", gap: "11px", cursor: "pointer" }}>
+                    <div style={{ flex: "none", width: "38px", height: "38px", borderRadius: "50%", background: reattendSelected.includes(c.coworkerId) ? "var(--c1,#4f46e5)" : "var(--soft,#ecedfb)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "14px", fontWeight: "800", color: reattendSelected.includes(c.coworkerId) ? "#fff" : "var(--c1,#4f46e5)" }}>{(c.name || "동").slice(0, 1)}</div>
+                    <div style={{ flex: "1", minWidth: "0" }}>
+                      <div style={{ fontSize: "14px", fontWeight: "800", color: "var(--c1,#4f46e5)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{c.name || "이름 미등록"}</div>
+                      <div style={{ fontSize: "11.5px", color: "#8694a8", fontWeight: "600", marginTop: "2px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{c.siteName}</div>
+                    </div>
+                    {reattendSelected.includes(c.coworkerId) && (
+                      <div style={{ color: "var(--c1,#4f46e5)" }}>✓</div>
+                    )}
+                  </div>
+                ))
+              )}
+            </div>
+
+            <button type="button" disabled={reattendBusy} onClick={async () => {
+              if (reattendBusy) return;
+              setReattendBusy(true);
+              try {
+                if (reattendSelected.length > 0) {
+                  const tmr = new Date();
+                  tmr.setDate(tmr.getDate() + 1);
+                  const dtStr = tmr.toISOString().slice(0, 10);
+                  await apiProposeReAttendance(checkoutSheetApp.jobPost.id, reattendSelected, dtStr);
+                  track("reattend_proposed", { count: reattendSelected.length });
+                }
+                await apiCheckOut(checkoutSheetApp.id);
+                loadAssignments();
+                setCheckoutSheetApp(null);
+              } finally {
+                setReattendBusy(false);
+              }
+            }} style={{ marginTop: "16px", flex: "none", height: "50px", border: "none", borderRadius: "14px", background: "var(--c1,#4f46e5)", color: "#fff", fontSize: "15px", fontWeight: "800", fontFamily: "inherit", cursor: "pointer", opacity: reattendBusy ? ".7" : "1" }}>
+              {reattendBusy ? "처리 중..." : (reattendSelected.length > 0 ? `${reattendSelected.length}명 재출역 제안 및 퇴근` : "퇴근 체크만 하기")}
+            </button>
           </div>
         </div>
       )}

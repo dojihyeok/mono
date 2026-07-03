@@ -210,6 +210,7 @@ model Company {
   updatedAt    DateTime       @updatedAt
 
   jobPosts         JobPost[]
+  workRequests     WorkRequest[]
   savedWorkers     SavedWorker[]
   operatorProfiles ProjectOperator[] @relation("OperatorCompany") // 이 회사 소속 운영자 — §3-2(5)
   workRecords      WorkRecord[] // 수행기업 작업수행사례 — §3-2(6)
@@ -457,8 +458,10 @@ model TeamAvailability {
 // 현장작업요청 (발주측/운영자 → 후보 모집) — §3-2(7). candidates/reviews 관계는 스프린트3·4에서 추가.
 model WorkRequest {
   id            String            @id @default(cuid())
-  requesterId   String // 작성자(CUSTOMER 또는 PROJECT_OPERATOR)
-  requester     User              @relation("WorkRequestOwner", fields: [requesterId], references: [id], onDelete: Cascade)
+  requesterId   String? // 작성자(CUSTOMER 또는 PROJECT_OPERATOR) - User 기반
+  requester     User?             @relation("WorkRequestOwner", fields: [requesterId], references: [id], onDelete: Cascade)
+  companyId     String? // 발주 기업 - Company 기반 (통합안)
+  company       Company?          @relation(fields: [companyId], references: [id], onDelete: Cascade)
   industry      IndustryType
   workTypes     String[] // 작업유형(복수)
   region        String[] // 지역
@@ -472,14 +475,14 @@ model WorkRequest {
   equipMaterial String? // 장비/자재
   contractType  ContractType? // 계약방식
   status        WorkRequestStatus @default(DRAFT)
-  
-  // ── 외국인 채용 수요 (PDF §8-3) ──
-  foreignAllowed      Boolean       @default(false)
-  requiredVisaTypes   VisaType[]
-  interpreterProvided Boolean       @default(false)
 
-  createdAt     DateTime          @default(now())
-  updatedAt     DateTime          @updatedAt
+  // ── 외국인 채용 수요 (PDF §8-3) ──
+  foreignAllowed      Boolean    @default(false)
+  requiredVisaTypes   VisaType[]
+  interpreterProvided Boolean    @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   candidates WorkRequestCandidate[] // 후보지정 — §3-2(8) 스프린트3
   reviews    Review[] // 완료 평가 — §3-2(9) 스프린트4

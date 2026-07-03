@@ -13,9 +13,15 @@ import { ContractType, IndustryType, VisaType } from '@prisma/client';
 // 현장작업요청 생성 (DB: WorkRequest, 초기 status DRAFT=작성 중)
 // status는 받지 않음 — 상태 전이는 PATCH에서만 허용.
 export class CreateWorkRequestDto {
+  @IsOptional()
   @IsString()
   @MinLength(1)
-  requesterId!: string; // 작성자(CUSTOMER 또는 PROJECT_OPERATOR)
+  requesterId?: string; // 작성자(CUSTOMER 또는 PROJECT_OPERATOR)
+
+  @IsOptional()
+  @IsString()
+  @MinLength(1)
+  companyId?: string; // 발주 기업(Company 기반 통합안)
 
   @IsEnum(IndustryType)
   industry!: IndustryType; // 산업유형(필수)

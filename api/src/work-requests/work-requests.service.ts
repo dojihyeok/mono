@@ -17,16 +17,32 @@ export class WorkRequestsService {
 
   // 작업요청 생성 — status는 기본 DRAFT(작성 중). 작성자(requester)는 사전 검증.
   async create(dto: CreateWorkRequestDto) {
-    const requester = await this.prisma.user.findUnique({
-      where: { id: dto.requesterId },
-    });
-    if (!requester) {
-      throw new NotFoundException(`User ${dto.requesterId} not found`);
+    if (!dto.requesterId && !dto.companyId) {
+      throw new Error('Either requesterId or companyId must be provided');
+    }
+
+    if (dto.requesterId) {
+      const requester = await this.prisma.user.findUnique({
+        where: { id: dto.requesterId },
+      });
+      if (!requester) {
+        throw new NotFoundException(`User ${dto.requesterId} not found`);
+      }
+    }
+
+    if (dto.companyId) {
+      const company = await this.prisma.company.findUnique({
+        where: { id: dto.companyId },
+      });
+      if (!company) {
+        throw new NotFoundException(`Company ${dto.companyId} not found`);
+      }
     }
 
     const created = await this.prisma.workRequest.create({
       data: {
         requesterId: dto.requesterId,
+        companyId: dto.companyId,
         industry: dto.industry,
         workTypes: dto.workTypes ?? [],
         region: dto.region ?? [],
@@ -42,7 +58,7 @@ export class WorkRequestsService {
         // status는 지정하지 않음 → Prisma default(DRAFT)
       },
     });
-    this.logger.log(`현장작업요청 생성 — ${created.id} (요청자 ${dto.requesterId})`);
+    this.logger.log(`현장작업요청 생성 — ${created.id} (요청자: ${dto.requesterId || ''}, 기업: ${dto.companyId || ''})`);
     return created;
   }
 
@@ -97,6 +113,14 @@ export class WorkRequestsService {
   listByRequester(requesterId: string) {
     return this.prisma.workRequest.findMany({
       where: { requesterId },
+      orderBy: { createdAt: 'desc' },
+    });
+  }
+
+  // 특정 기업이 작성한 작업요청 목록 — 최신순.
+  listByCompany(companyId: string) {
+    return this.prisma.workRequest.findMany({
+      where: { companyId },
       orderBy: { createdAt: 'desc' },
     });
   }

@@ -49,6 +49,12 @@ export class WorkRequestsController {
     return this.workRequests.listByRequester(id);
   }
 
+  // 특정 기업이 작성한 작업요청 목록
+  @Get('companies/:id/work-requests')
+  listByCompany(@Param('id') id: string) {
+    return this.workRequests.listByCompany(id);
+  }
+
   // 요청 후보 목록
   @Get('work-requests/:id/candidates')
   listCandidates(@Param('id') id: string) {

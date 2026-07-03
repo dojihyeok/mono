@@ -55,7 +55,7 @@ interface Saved {
 }
 
 type View = "landing" | "signup" | "login" | "dashboard";
-type Tab = "info" | "post" | "workers" | "saved" | "applications";
+type Tab = "info" | "post" | "workers" | "saved" | "applications" | "work_requests";
 
 const COMPANY_STATUS_LABEL: Record<string, string> = {
   INQUIRY: "문의 접수",
@@ -467,6 +467,7 @@ function Dashboard({
           [
             { k: "info", t: "협약 정보" },
             { k: "post", t: "채용 공고" },
+            { k: "work_requests", t: "현장작업 요청" },
             { k: "applications", t: "지원자" },
             { k: "workers", t: "기술자 조회" },
             { k: "saved", t: "관심 기술자" },
@@ -487,6 +488,7 @@ function Dashboard({
 
       {tab === "info" && <CompanyInfoView company={company} />}
       {tab === "post" && <PostTab companyId={company.id} reloadCompany={reloadCompany} />}
+      {tab === "work_requests" && <WorkRequestsTab companyId={company.id} reloadCompany={reloadCompany} />}
       {tab === "applications" && <ApplicationsTab companyId={company.id} />}
       {tab === "workers" && <WorkersTab companyId={company.id} reloadCompany={reloadCompany} />}
       {tab === "saved" && <SavedTab companyId={company.id} />}
@@ -1070,6 +1072,130 @@ function ApplicationsTab({ companyId }: { companyId: string }) {
               </div>
             );
           })}
+        </div>
+      )}
+    </>
+  );
+}
+
+function WorkRequestsTab({ companyId, reloadCompany }: { companyId: string; reloadCompany: () => void }) {
+  const [requests, setRequests] = useState<any[] | null>(null);
+  const [industry, setIndustry] = useState("CONSTRUCTION");
+  const [workTypes, setWorkTypes] = useState("");
+  const [region, setRegion] = useState<string[]>([]);
+  const [headcount, setHeadcount] = useState("");
+  const [budgetMemo, setBudgetMemo] = useState("");
+  const [busy, setBusy] = useState(false);
+
+  const load = useCallback(async () => {
+    try {
+      const res = await fetch(`/api/companies/${companyId}/work-requests`, { cache: "no-store" });
+      setRequests(await res.json());
+    } catch {
+      setRequests([]);
+    }
+  }, [companyId]);
+
+  useEffect(() => {
+    void load();
+  }, [load]);
+
+  const valid = region.length > 0;
+
+  const submit = async () => {
+    if (!valid || busy) return;
+    setBusy(true);
+    try {
+      const body: Record<string, unknown> = {
+        companyId,
+        industry,
+        region,
+      };
+      if (workTypes.trim()) body.workTypes = workTypes.split(",").map(s => s.trim());
+      if (headcount.trim()) body.headcount = Number(headcount.trim());
+      if (budgetMemo.trim()) body.budgetMemo = budgetMemo.trim();
+
+      await fetch(`/api/work-requests`, {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(body),
+      });
+      track("work_request_submitted", { industry, region });
+      setWorkTypes("");
+      setRegion([]);
+      setHeadcount("");
+      setBudgetMemo("");
+      await load();
+      reloadCompany();
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  return (
+    <>
+      <div className={styles.panel}>
+        <div className={styles.panelTitle}>현장작업 요청 등록</div>
+        <div className={styles.panelSub}>팀 단위, 공종 단위로 현장작업을 발주 요청합니다.</div>
+
+        <div className={styles.field}>
+          <div className={styles.label}>산업 유형 <span className={styles.req}>*</span></div>
+          <select className={styles.input} value={industry} onChange={(e) => setIndustry(e.target.value)}>
+            <option value="CONSTRUCTION">건설/건축</option>
+            <option value="MANUFACTURING">제조/생산</option>
+            <option value="LOGISTICS">물류/운송</option>
+            <option value="SHIPBUILDING">조선/해양</option>
+            <option value="MAINTENANCE">유지/보수</option>
+          </select>
+        </div>
+
+        <div className={styles.field}>
+          <div className={styles.label}>작업 유형 (콤마로 구분)</div>
+          <input className={styles.input} value={workTypes} onChange={(e) => setWorkTypes(e.target.value)} placeholder="예: 거푸집설치, 철근배근" />
+        </div>
+
+        <div className={styles.field}>
+          <div className={styles.label}>현장 지역 <span className={styles.req}>*</span></div>
+          <Chips options={REGIONS} selected={region} onToggle={(v) => setRegion((p) => (p.includes(v) ? p.filter((x) => x !== v) : [...p, v]))} />
+        </div>
+
+        <div className={styles.grid2}>
+          <div className={styles.field}>
+            <div className={styles.label}>필요 인원</div>
+            <input className={styles.input} type="number" min={1} value={headcount} onChange={(e) => setHeadcount(e.target.value)} placeholder="예: 5" />
+          </div>
+          <div className={styles.field}>
+            <div className={styles.label}>예산 규모 메모</div>
+            <input className={styles.input} value={budgetMemo} onChange={(e) => setBudgetMemo(e.target.value)} placeholder="예: 평당 10만원" />
+          </div>
+        </div>
+
+        <button className={styles.btnPrimary} style={{ marginTop: "16px" }} onClick={submit} disabled={!valid || busy}>
+          {busy ? "등록 중…" : "작업 요청 등록하기"}
+        </button>
+      </div>
+
+      <div className={styles.sectionTitle}>등록한 현장작업 요청 {requests ? `(${requests.length})` : ""}</div>
+      {requests === null ? (
+        <div className={styles.empty}>불러오는 중…</div>
+      ) : requests.length === 0 ? (
+        <div className={styles.panel}>
+          <div className={styles.empty}>아직 등록한 작업 요청이 없습니다.</div>
+        </div>
+      ) : (
+        <div className={styles.workerGrid}>
+          {requests.map((r) => (
+            <div className={styles.workerCard} key={r.id}>
+              <div style={{ display: "flex", justifyContent: "space-between" }}>
+                <div className={styles.workerName}>{r.industry} · {r.workTypes?.join(", ")}</div>
+                <span className={`${styles.badge} ${jobPostBadge(r.status).cls}`}>{r.status}</span>
+              </div>
+              <div className={styles.workerMeta} style={{ marginTop: "8px" }}>
+                지역: {r.region?.join(", ")}
+                {r.headcount && ` · 인원: ${r.headcount}명`}
+              </div>
+            </div>
+          ))}
         </div>
       )}
     </>
