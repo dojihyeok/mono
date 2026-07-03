@@ -67,6 +67,12 @@ export class WorkRequestsController {
     return this.workRequests.addCandidate(id, dto);
   }
 
+  // 자동 후보추천 (Sprint 4)
+  @Post('work-requests/:id/auto-recommend')
+  autoRecommend(@Param('id') id: string) {
+    return this.workRequests.autoRecommendCandidates(id);
+  }
+
   // 후보 상태/점수/메모 변경
   @Patch('work-requests/:id/candidates/:cid')
   updateCandidate(

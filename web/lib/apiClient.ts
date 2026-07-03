@@ -406,6 +406,10 @@ export async function apiAddCandidate(
   return postJson<WorkRequestCandidate>(`/api/work-requests/${workRequestId}/candidates`, data);
 }
 
+export async function apiAutoRecommendCandidates(workRequestId: string): Promise<WorkRequestCandidate[] | null> {
+  return postJson<WorkRequestCandidate[]>(`/api/work-requests/${workRequestId}/auto-recommend`, {});
+}
+
 // 후보 상태 변경(SHORTLISTED/CONTACTED/SELECTED/REJECTED).
 export async function apiUpdateCandidate(
   workRequestId: string,

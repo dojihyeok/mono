@@ -114,6 +114,20 @@ export function AnalysClient() {
 
   const interestMax = Math.max(1, ...(data?.interest ?? []).map((i) => i.count));
 
+  const downloadPoCReport = () => {
+    if (!data) return;
+    let csv = "산업,가입자 수,작업요청 건수,팀 등록 수\n";
+    data.byIndustry.forEach((i) => {
+      csv += `"${INDUSTRY_LABEL[i.industry] ?? i.industry}",${i.signups},${i.workRequests},${i.teams}\n`;
+    });
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `poc_report_${new Date().toISOString().split("T")[0]}.csv`;
+    link.click();
+  };
+
   return (
     <div className={styles.page}>
       <header className={styles.topbar}>
@@ -123,6 +137,9 @@ export function AnalysClient() {
         </div>
         <span className={styles.brandSub}>퍼널 · 리텐션 · 행동 검증</span>
         <span className={styles.spacer} />
+        <button onClick={downloadPoCReport} className={styles.refresh} style={{ marginRight: 8 }}>
+          PoC 리포트 다운로드 (CSV)
+        </button>
         <button className={styles.refresh} onClick={load} disabled={loading}>
           {loading ? "불러오는 중…" : "새로고침"}
         </button>

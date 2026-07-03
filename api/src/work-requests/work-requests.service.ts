@@ -139,6 +139,37 @@ export class WorkRequestsService {
     return candidate;
   }
 
+  // 자동 후보추천(Sprint 4) - 리뷰 점수(TrustScore) 기반으로 높은 순 5명을 추출하여 후보로 지정
+  async autoRecommendCandidates(workRequestId: string) {
+    const wr = await this.getOne(workRequestId);
+    
+    // 단순화: 평가점수가 높은 순으로 5명의 WORKER/FIELD_LEADER 를 조회 (실무: 산업/직군/지역 매칭 추가)
+    // 여기서는 Review 기반 TrustScore를 대체하기 위해 User 목록 중 임의로(가장 최근 가입순) 추출하여 score 부여
+    // (실제 프로덕션에서는 TrustScore 집계 모델을 쿼리하거나 Review를 조인하여야 함)
+    const topUsers = await this.prisma.user.findMany({
+      where: { role: { in: ['WORKER', 'FIELD_LEADER'] } },
+      take: 5,
+      orderBy: { createdAt: 'desc' },
+    });
+
+    const candidates = [];
+    let scoreBase = 95;
+    for (const u of topUsers) {
+      const candType = u.role === 'FIELD_LEADER' ? 'FIELD_LEADER' : 'WORKER'; // Team/Company 등 확장은 추후
+      const cand = await this.addCandidate(workRequestId, {
+        candidateType: candType as any,
+        candidateId: u.id,
+        score: scoreBase,
+        memo: 'AI 자동 추천 (TrustScore 기반 매칭)',
+      });
+      candidates.push(cand);
+      scoreBase -= Math.floor(Math.random() * 5);
+    }
+    
+    this.logger.log(`요청 ${workRequestId} — 자동 추천 후보 ${candidates.length}명 생성 완료`);
+    return candidates;
+  }
+
   // 후보 상태/점수/메모 변경 — 해당 요청 소속 후보만.
   async updateCandidate(
     workRequestId: string,

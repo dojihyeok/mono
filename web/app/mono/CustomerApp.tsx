@@ -12,6 +12,7 @@ import {
   apiRegisterFieldOpsInterest,
   apiListCandidates,
   apiAddCandidate,
+  apiAutoRecommendCandidates,
   apiUpdateCandidate,
   apiListPerformers,
   apiListTeams,
@@ -294,6 +295,14 @@ function CandidatePanel({ wr, onClose }: { wr: WorkRequest; onClose: () => void 
     const res = await apiAddCandidate(wr.id, { candidateType: type, candidateId: id, memo: name });
     if (res) {
       setBrowse(null);
+      reload();
+    }
+  };
+
+  const autoRecommend = async () => {
+    track("operator_recommendation_clicked", { workRequestId: wr.id });
+    const res = await apiAutoRecommendCandidates(wr.id);
+    if (res) {
       reload();
     }
   };
