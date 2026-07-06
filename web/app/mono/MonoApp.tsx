@@ -860,7 +860,7 @@ export default function MonoApp() {
           <div style={{ fontSize: "12.5px", color: "#8694a8", fontWeight: "500", marginTop: "8px", lineHeight: "1.65" }}>협약 기업이 채용 공고를 등록하면<br />조건에 맞는 일자리를 여기에서 보여드려요.</div>
         </div>
       )}
-      {(realJobs || []).map((jp) => (
+      {(Array.isArray(realJobs) ? realJobs : []).map((jp) => (
         <div key={jp.id} onClick={() => setJobDetail(jp)} style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: "20px", padding: "17px", marginBottom: "13px", boxShadow: "0 4px 14px -8px color-mix(in srgb, var(--brand,#1F2226) 15%, transparent)", cursor: "pointer" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: "10px" }}>
             <div style={{ display: "flex", alignItems: "center", gap: "6px", flexWrap: "wrap" }}>
@@ -932,7 +932,7 @@ export default function MonoApp() {
       setAssignments([]);
       return;
     }
-    apiListUserAssignments(uid).then((d) => setAssignments(d || []));
+    apiListUserAssignments(uid).then((d) => setAssignments(Array.isArray(d) ? d : []));
   };
   useEffect(() => {
     if (s.tab !== "work" || workLoadedRef.current) return;
@@ -1339,7 +1339,7 @@ export default function MonoApp() {
           {myApps.length > 0 && (
             <div style={{ padding: "8px 20px 0" }}>
               <div style={{ fontSize: "13px", fontWeight: "800", color: "var(--c1,#1F2226)", margin: "6px 0 8px" }}>내 지원 현황 {myApps.length}건</div>
-              {myApps.map((a) => {
+              {(Array.isArray(myApps) ? myApps : []).map((a) => {
                 const st = applLabel(a.status);
                 return (
                   <div key={a.id} style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: "13px", padding: "12px 14px", marginBottom: "8px", display: "flex", justifyContent: "space-between", alignItems: "center", gap: "10px" }}>
@@ -1420,7 +1420,7 @@ export default function MonoApp() {
               </button>
             ) : (
               <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-                {(careerCards || []).map((c) => (
+                {(Array.isArray(careerCards) ? careerCards : []).map((c) => (
                   <div key={c.id} style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: "16px", padding: "14px 15px" }}>
                     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "8px" }}>
                       <span style={{ fontSize: "14.5px", fontWeight: "800", color: "var(--c1,#1F2226)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{c.siteName}</span>
@@ -1446,7 +1446,7 @@ export default function MonoApp() {
               </div>
               <div style={{ fontSize: "12px", color: "#8694a8", fontWeight: "500", marginBottom: "10px", lineHeight: "1.5" }}>같은 현장에서 함께 일한 동료예요. 새 일에 다시 부를 수 있어요.</div>
               <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-                {coworkers.map((c) => (
+                {(Array.isArray(coworkers) ? coworkers : []).map((c) => (
                   <div key={c.coworkerId} style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: "16px", padding: "13px 14px", display: "flex", alignItems: "center", gap: "11px" }}>
                     <div style={{ flex: "none", width: "38px", height: "38px", borderRadius: "50%", background: "var(--soft,#E5E7EB)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "14px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>{(c.name || "동").slice(0, 1)}</div>
                     <div style={{ flex: "1", minWidth: "0" }}>
@@ -1547,7 +1547,7 @@ export default function MonoApp() {
               <button onClick={v.goJobs} style={{ marginTop: "16px", height: "44px", padding: "0 20px", border: "none", borderRadius: "13px", background: "var(--c1,#1F2226)", color: "#fff", fontSize: "14px", fontWeight: "800", fontFamily: "inherit", cursor: "pointer" }}>일자리 보러가기</button>
             </div>
           )}
-          {(assignments || []).map((a) => {
+          {(Array.isArray(assignments) ? assignments : []).map((a) => {
             const openAtt = a.attendances.find((at) => !at.checkOutAt);
             return (
               <div key={a.id} style={{ marginTop: "14px", borderRadius: "20px", background: "var(--c1,#1F2226)", padding: "18px", color: "var(--t0,#E5E7EB)", position: "relative", overflow: "hidden" }}>
@@ -1635,7 +1635,7 @@ export default function MonoApp() {
             )}
             {isForeman && team && team.members.length > 0 && (
               <div style={{ display: "flex", flexDirection: "column", gap: "8px", marginTop: "12px" }}>
-                {team.members.map((m) => (
+                {(team?.members && Array.isArray(team.members) ? team.members : []).map((m) => (
                   <div key={m.userId} style={{ display: "flex", alignItems: "center", gap: "10px" }}>
                     <div style={{ flex: "none", width: "32px", height: "32px", borderRadius: "50%", background: "var(--soft,#E5E7EB)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "13px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>{(m.name || "팀").slice(0, 1)}</div>
                     <span style={{ flex: "1", fontSize: "14px", fontWeight: "700", color: "var(--c1,#1F2226)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{m.name || "이름 미등록"}</span>
@@ -2056,7 +2056,7 @@ export default function MonoApp() {
             </div>
             {jobDetail.jobType.length > 0 && (
               <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", marginTop: "12px" }}>
-                {jobDetail.jobType.map((t) => (<span key={t} style={{ fontSize: "12px", fontWeight: "700", color: "var(--c1,#1F2226)", background: "var(--soft,#E5E7EB)", padding: "5px 10px", borderRadius: "9px" }}>{t}</span>))}
+                {(Array.isArray(jobDetail.jobType) ? jobDetail.jobType : []).map((t) => (<span key={t} style={{ fontSize: "12px", fontWeight: "700", color: "var(--c1,#1F2226)", background: "var(--soft,#E5E7EB)", padding: "5px 10px", borderRadius: "9px" }}>{t}</span>))}
               </div>
             )}
             <div className="scr" style={{ overflowY: "auto", marginTop: "14px", display: "flex", flexDirection: "column" }}>
@@ -2075,7 +2075,7 @@ export default function MonoApp() {
                 <div style={{ display: "flex", gap: "12px", padding: "12px 2px", borderBottom: "1px solid #eef0f3" }}>
                   <div style={{ flex: "none", width: "78px", fontSize: "13px", color: "#8694a8", fontWeight: "700" }}>우대 자격</div>
                   <div style={{ display: "flex", flexWrap: "wrap", gap: "5px" }}>
-                    {jobDetail.certs.map((c) => (<span key={c} style={{ fontSize: "11.5px", fontWeight: "600", color: "var(--ai,#1F2226)", background: "var(--aSoft,#E5E7EB)", padding: "4px 9px", borderRadius: "8px" }}>{c} 우대</span>))}
+                    {(Array.isArray(jobDetail.certs) ? jobDetail.certs : []).map((c) => (<span key={c} style={{ fontSize: "11.5px", fontWeight: "600", color: "var(--ai,#1F2226)", background: "var(--aSoft,#E5E7EB)", padding: "4px 9px", borderRadius: "8px" }}>{c} 우대</span>))}
                   </div>
                 </div>
               )}
@@ -2364,7 +2364,7 @@ export default function MonoApp() {
             <div style={{ fontSize: "18px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>현장 경력 추가</div>
             <div style={{ fontSize: "13px", color: "#8694a8", fontWeight: "500", marginTop: "4px", marginBottom: "16px" }}>참여한 현장을 등록하면 공유 프로필에 바로 반영돼요.</div>
             <div className="scr" style={{ overflowY: "auto", flex: "1", minHeight: "0" }}>
-              {(careerCards || []).map((c) => (
+              {(Array.isArray(careerCards) ? careerCards : []).map((c) => (
                 <div key={c.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "11px 13px", border: "1px solid #e6e8ec", borderRadius: "12px", marginBottom: "8px", gap: "8px" }}>
                   <div style={{ display: "flex", flexDirection: "column", gap: "2px", minWidth: "0" }}>
                     <span style={{ fontSize: "14px", fontWeight: "700", color: "var(--c1,#1F2226)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{c.siteName}</span>
@@ -2402,7 +2402,7 @@ export default function MonoApp() {
               {coworkers.length === 0 ? (
                 <div style={{ fontSize: "14px", color: "#8694a8", textAlign: "center", padding: "20px 0" }}>함께 일한 동료가 없습니다.</div>
               ) : (
-                coworkers.map((c) => (
+                (Array.isArray(coworkers) ? coworkers : []).map((c) => (
                   <div key={c.coworkerId} onClick={() => setReattendSelected(p => p.includes(c.coworkerId) ? p.filter(id => id !== c.coworkerId) : [...p, c.coworkerId])} style={{ background: reattendSelected.includes(c.coworkerId) ? "var(--soft,#E5E7EB)" : "#fff", border: "1px solid " + (reattendSelected.includes(c.coworkerId) ? "var(--c1,#1F2226)" : "#e6e8ec"), borderRadius: "16px", padding: "13px 14px", display: "flex", alignItems: "center", gap: "11px", cursor: "pointer" }}>
                     <div style={{ flex: "none", width: "38px", height: "38px", borderRadius: "50%", background: reattendSelected.includes(c.coworkerId) ? "var(--c1,#1F2226)" : "var(--soft,#E5E7EB)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "14px", fontWeight: "800", color: reattendSelected.includes(c.coworkerId) ? "#fff" : "var(--c1,#1F2226)" }}>{(c.name || "동").slice(0, 1)}</div>
                     <div style={{ flex: "1", minWidth: "0" }}>
