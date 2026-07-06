@@ -51,8 +51,8 @@ export function AdminAnalyticsClient() {
             style={{ 
               padding: "0 0 12px 0", 
               fontWeight: 600, 
-              borderBottom: activeTab === t.id ? "2px solid #4f46e5" : "2px solid transparent", 
-              color: activeTab === t.id ? "#4f46e5" : "#6b7280", 
+              borderBottom: activeTab === t.id ? "2px solid #504968" : "2px solid transparent", 
+              color: activeTab === t.id ? "#504968" : "#6b7280", 
               background: "none", 
               borderTop: "none", 
               borderLeft: "none", 
@@ -90,7 +90,7 @@ export function AdminAnalyticsClient() {
             </div>
             <div style={{ backgroundColor: "#fff", padding: "24px", borderRadius: "8px", boxShadow: "0 1px 3px rgba(0,0,0,0.1)", border: "1px solid rgba(17,24,39,0.05)", gridColumn: "1 / -1" }}>
               <h3 style={{ fontSize: "14px", fontWeight: 500, color: "#6b7280", margin: "0 0 8px 0" }}>Aha-Moment 달성률 (오늘)</h3>
-              <p style={{ fontSize: "30px", fontWeight: 700, color: "#4f46e5", margin: 0 }}>{data.ahaRate ?? "0.0"}%</p>
+              <p style={{ fontSize: "30px", fontWeight: 700, color: "#504968", margin: 0 }}>{data.ahaRate ?? "0.0"}%</p>
               <p style={{ fontSize: "12px", color: "#9ca3af", margin: "4px 0 0 0" }}>당일 핵심기능 수행 유저 / 당일 신규 가입 유저</p>
             </div>
           </div>
@@ -107,7 +107,7 @@ export function AdminAnalyticsClient() {
                   <XAxis type="number" />
                   <YAxis dataKey="step" type="category" width={200} />
                   <Tooltip />
-                  <Bar dataKey="count" fill="#4f46e5" radius={[0, 4, 4, 0]} />
+                  <Bar dataKey="count" fill="#504968" radius={[0, 4, 4, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             </div>
@@ -171,7 +171,7 @@ export function AdminAnalyticsClient() {
               />
               <button
                 onClick={searchFlow}
-                style={{ backgroundColor: "#4f46e5", color: "#fff", padding: "8px 24px", borderRadius: "4px", fontWeight: 600, border: "none", cursor: "pointer" }}
+                style={{ backgroundColor: "#504968", color: "#fff", padding: "8px 24px", borderRadius: "4px", fontWeight: 600, border: "none", cursor: "pointer" }}
               >
                 조회
               </button>
@@ -180,7 +180,7 @@ export function AdminAnalyticsClient() {
                 const res = await fetch("/api/admin/insights/sync", { method: "POST" });
                 if (res.ok) alert("맞춤형 AI 인사이트가 성공적으로 분석 및 업데이트 되었습니다!");
                 else alert("인사이트 업데이트에 실패했습니다.");
-              }} style={{ marginLeft: "10px", padding: "8px 16px", borderRadius: "8px", border: "none", background: "linear-gradient(135deg, #8b8df8 0%, #4f46e5 100%)", color: "#fff", cursor: "pointer", fontSize: "14px", fontWeight: "700" }}>AI 분석 및 공지 업데이트</button>
+              }} style={{ marginLeft: "10px", padding: "8px 16px", borderRadius: "8px", border: "none", background: "linear-gradient(135deg, #8b8df8 0%, #504968 100%)", color: "#fff", cursor: "pointer", fontSize: "14px", fontWeight: "700" }}>AI 분석 및 공지 업데이트</button>
             </div>
 
             {loading && <p>데이터 조회 중...</p>}
@@ -198,7 +198,7 @@ export function AdminAnalyticsClient() {
                     });
                     return (
                       <div key={i} style={{ display: "flex", gap: "16px", alignItems: "flex-start", position: "relative" }}>
-                        <div style={{ position: "absolute", left: "-23px", top: "8px", width: "10px", height: "10px", borderRadius: "50%", backgroundColor: "#4f46e5", border: "4px solid #fff" }} />
+                        <div style={{ position: "absolute", left: "-23px", top: "8px", width: "10px", height: "10px", borderRadius: "50%", backgroundColor: "#504968", border: "4px solid #fff" }} />
                         <div style={{ backgroundColor: "#f9fafb", border: "1px solid rgba(17,24,39,0.1)", borderRadius: "8px", padding: "12px", width: "100%" }}>
                           <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "4px" }}>
                             <span style={{ fontFamily: "monospace", fontSize: "12px", fontWeight: 700, color: "#6b7280" }}>[{time}]</span>

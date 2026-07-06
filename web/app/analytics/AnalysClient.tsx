@@ -353,7 +353,7 @@ export function AnalysClient() {
                   {data.aiInterest.byIndustry.map((b) => (
                     <span key={b.industry} style={chipStyle}>
                       {INDUSTRY_LABEL[b.industry] ?? b.industry}
-                      <b style={{ fontFamily: "var(--font-mono)", fontWeight: 500, color: "var(--brand,#4f46e5)" }}>
+                      <b style={{ fontFamily: "var(--font-mono)", fontWeight: 500, color: "var(--brand,#504968)" }}>
                         {b.count.toLocaleString()}
                       </b>
                     </span>

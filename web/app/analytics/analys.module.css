@@ -30,7 +30,7 @@
   width: 9px;
   height: 9px;
   border-radius: 3px;
-  background: var(--brand,#4f46e5);
+  background: var(--brand,#504968);
 }
 .brandSub {
   font-size: 11.5px;
@@ -53,7 +53,7 @@
   cursor: pointer;
 }
 .refresh:hover {
-  border-color: var(--brand,#4f46e5);
+  border-color: var(--brand,#504968);
 }
 .refresh:disabled {
   opacity: 0.5;
@@ -103,7 +103,7 @@
   color: #111827;
 }
 .cardAccent .cardValue {
-  color: var(--brand,#4f46e5);
+  color: var(--brand,#504968);
 }
 
 .cols {
@@ -147,7 +147,7 @@
 .funnelFill {
   height: 100%;
   border-radius: 6px;
-  background: var(--brand,#4f46e5);
+  background: var(--brand,#504968);
   min-width: 2px;
   transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -195,7 +195,7 @@
 .rate {
   font-family: var(--font-mono);
   font-weight: 600;
-  color: var(--brand,#4f46e5);
+  color: var(--brand,#504968);
 }
 
 /* 관심 분포 */
@@ -222,7 +222,7 @@
 .interestFill {
   height: 100%;
   border-radius: 5px;
-  background: var(--brand,#4f46e5);
+  background: var(--brand,#504968);
 }
 .interestCount {
   width: 36px;

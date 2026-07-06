@@ -33,7 +33,7 @@
   width: 9px;
   height: 9px;
   border-radius: 3px;
-  background: var(--brand,#4f46e5);
+  background: var(--brand,#504968);
 }
 .brandSub {
   font-size: 11px;
@@ -61,7 +61,7 @@
   transition: border-color 0.15s ease;
 }
 .refresh:hover {
-  border-color: var(--brand,#4f46e5);
+  border-color: var(--brand,#504968);
 }
 .refresh:disabled {
   opacity: 0.5;
@@ -101,7 +101,7 @@
   bottom: -1px;
   height: 2px;
   border-radius: 2px;
-  background: var(--brand,#4f46e5);
+  background: var(--brand,#504968);
 }
 
 .container {
@@ -154,11 +154,11 @@
   color: #6b7686;
 }
 .cardGold {
-  border-color: color-mix(in srgb, var(--brand,#4f46e5) 35%, transparent);
-  background: color-mix(in srgb, var(--brand,#4f46e5) 6%, #fff);
+  border-color: color-mix(in srgb, var(--brand,#504968) 35%, transparent);
+  background: color-mix(in srgb, var(--brand,#504968) 6%, #fff);
 }
 .cardGold .cardValue {
-  color: var(--brand,#4f46e5);
+  color: var(--brand,#504968);
 }
 .cardDim {
   opacity: 0.5;
@@ -194,7 +194,7 @@
 .funnelFill {
   height: 100%;
   border-radius: 7px;
-  background: var(--brand,#4f46e5);
+  background: var(--brand,#504968);
   min-width: 2px;
   transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -236,7 +236,7 @@
 .interestFill {
   height: 100%;
   border-radius: 5px;
-  background: var(--brand,#4f46e5);
+  background: var(--brand,#504968);
 }
 .interestCount {
   width: 40px;
@@ -309,7 +309,7 @@
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: var(--brand,#4f46e5);
+  background: var(--brand,#504968);
   margin-right: 6px;
 }
 
@@ -332,8 +332,8 @@
   cursor: pointer;
 }
 .filterChipActive {
-  border-color: var(--brand,#4f46e5);
-  color: var(--brand,#4f46e5);
+  border-color: var(--brand,#504968);
+  color: var(--brand,#504968);
   background: var(--brand-tint,#eef0fa);
 }
 .catBadge {
@@ -350,7 +350,7 @@
 }
 .catProfile {
   background: var(--brand-tint,#ecedfb);
-  color: var(--brand,#4f46e5);
+  color: var(--brand,#504968);
 }
 .catInterest {
   background: var(--brand-tint,#f1ecfe);

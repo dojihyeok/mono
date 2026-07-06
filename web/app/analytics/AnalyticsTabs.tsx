@@ -13,7 +13,7 @@ export function AnalyticsTabs() {
         <button
           onClick={() => setMode("dashboard")}
           style={{ padding: "8px 16px", fontWeight: "bold", borderRadius: "9999px", transition: "background-color 0.2s", border: "none", cursor: "pointer", 
-            ...(mode === "dashboard" ? { backgroundColor: "#4f46e5", color: "#fff" } : { backgroundColor: "#f3f4f6", color: "#6b7280" }) 
+            ...(mode === "dashboard" ? { backgroundColor: "#504968", color: "#fff" } : { backgroundColor: "#f3f4f6", color: "#6b7280" }) 
           }}
         >
           📈 그래프 대시보드
@@ -21,7 +21,7 @@ export function AnalyticsTabs() {
         <button
           onClick={() => setMode("details")}
           style={{ padding: "8px 16px", fontWeight: "bold", borderRadius: "9999px", transition: "background-color 0.2s", border: "none", cursor: "pointer",
-            ...(mode === "details" ? { backgroundColor: "#4f46e5", color: "#fff" } : { backgroundColor: "#f3f4f6", color: "#6b7280" }) 
+            ...(mode === "details" ? { backgroundColor: "#504968", color: "#fff" } : { backgroundColor: "#f3f4f6", color: "#6b7280" }) 
           }}
         >
           📝 상세 지표 분석

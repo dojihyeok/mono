@@ -175,7 +175,7 @@ export default function ForeignAdminView() {
                     <td>{VISA_DOC_STATUS_LABEL[d.status] ?? d.status}</td>
                     <td>{d.createdAt.slice(0, 10)}</td>
                     <td>
-                      <a href={d.fileUrl} target="_blank" rel="noreferrer" style={{ color: "var(--c1,#4f46e5)" }}>
+                      <a href={d.fileUrl} target="_blank" rel="noreferrer" style={{ color: "var(--c1,#504968)" }}>
                         열기
                       </a>
                     </td>
