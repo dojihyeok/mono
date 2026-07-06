@@ -1,6 +1,5 @@
 // Prisma 스키마 — MONO
-// 사용자 앱 MVP의 핵심 도메인(사용자·경력·자격·관심신청·이벤트로그)을 정의합니다.
-// 상세 기준: docs/user-app-guidelines.md
+// 사용자 앱 MVP 및 고도화(추가 개발) 핵심 도메인을 정의합니다.
 
 generator client {
   provider = "prisma-client-js"
@@ -11,37 +10,65 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum UserType {
+  WORKER // 기술자
+  LEADER // 현장 리더 (팀장/반장)
+  ENTERPRISE // 기업 사용자
+  ADMIN // 관리자
+}
+
 model User {
   id          String   @id @default(cuid())
   phone       String?  @unique
   email       String?  @unique
   name        String?
-  jobType     String? // 직군
+  userType    UserType @default(WORKER)
+  jobType     String? // 희망/주요 직무
   careerYears Int? // 경력 연차
-  region      String? // 희망 지역
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  region      String? // 희망/활동 지역
 
-  careerCards  CareerCard[]
-  certificates Certificate[]
-  educations   Education[]
-  interests    InterestRegistration[]
-  events       AnalyticsEvent[]
+  // 프로필 추가 정보
+  profileCompleteRatio Int     @default(0)
+  transportation       String? // 이동 수단
+  equipmentSkills      String? // 사용 가능 장비/공구
+  intro                String? // 자기소개
+  healthCheckFile      String? // 배치전 건강진단 파일 URL
+  signatureData        String? // 전자서명 데이터
+  hasElectronicCard    Boolean @default(false) // 전자카드 유무
+  settlementAccount    String? // 정산 계좌
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  careerCards     CareerCard[]
+  certificates    Certificate[]
+  educations      Education[]
+  interests       InterestRegistration[]
+  events          AnalyticsEvent[]
+  companies       Company[] // 기업 사용자인 경우 (1:N 또는 1:1)
+  applications    Application[]
+  savedJobs       SavedJob[]
+  teamMemberships TeamMember[] // 소속된 팀들
+  managedTeams    Team[] // 리더로서 관리하는 팀들
+  checkins        FieldCheckin[]
+  issueReports    IssueReport[]
 }
 
 model CareerCard {
-  id        String    @id @default(cuid())
-  userId    String
-  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  siteName  String // 현장명
-  field     String? // 작업 분야
-  startDate DateTime?
-  endDate   DateTime?
-  role      String? // 역할
-  equipment String? // 사용 장비
-  coworkers String? // 함께 일한 사람
-  memo      String?
-  createdAt DateTime  @default(now())
+  id          String    @id @default(cuid())
+  userId      String
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  siteName    String // 현장명
+  companyName String? // 건설사
+  field       String? // 작업 분야
+  startDate   DateTime?
+  endDate     DateTime?
+  role        String? // 역할
+  equipment   String? // 사용 장비
+  coworkers   String? // 함께 일한 사람
+  memo        String?
+  createdAt   DateTime  @default(now())
 
   @@index([userId])
 }
@@ -50,7 +77,7 @@ model Certificate {
   id        String    @id @default(cuid())
   userId    String
   user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  name      String
+  name      String // 자격증명, 기능등급 등
   issuer    String?
   issuedAt  DateTime?
   createdAt DateTime  @default(now())
@@ -62,7 +89,7 @@ model Education {
   id          String    @id @default(cuid())
   userId      String
   user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  title       String
+  title       String // 기초안전보건교육 등
   institute   String?
   completedAt DateTime?
   createdAt   DateTime  @default(now())
@@ -70,14 +97,199 @@ model Education {
   @@index([userId])
 }
 
-// 규제·API 연동 필요 기능 → "관심 신청/관심 등록" (docs/user-app-guidelines.md 5장)
+model Company {
+  id          String   @id @default(cuid())
+  name        String // 기업명
+  industry    String? // 업종
+  managerName String? // 담당자
+  contact     String? // 연락처
+  creatorId   String // 기업을 등록한 사용자 (ENTERPRISE 타입)
+  creator     User     @relation(fields: [creatorId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  jobPosts       JobPost[]
+  fieldRequests  FieldRequest[]
+  candidateSaves CandidateSave[]
+}
+
+model JobPost {
+  id           String    @id @default(cuid())
+  companyId    String
+  company      Company   @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  title        String
+  jobType      String // 직무 (일일모집, 상시모집, 프로젝트)
+  personnel    Int? // 모집 인원
+  dailyWage    Int? // 일당
+  region       String? // 지역 (현장 위치)
+  startDate    DateTime?
+  endDate      DateTime?
+  requirements String? // 준비물 (안전화, 신분증 등)
+  benefits     String? // 제공 사항 (점심, 숙소 등)
+  description  String? // 작업 설명
+  status       String    @default("OPEN") // OPEN, CLOSED
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  applications Application[]
+  savedBy      SavedJob[]
+  checkins     FieldCheckin[]
+  settlements  SettlementItem[]
+}
+
+model FieldRequest {
+  id            String   @id @default(cuid())
+  companyId     String
+  company       Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  process       String // 공정
+  schedule      String? // 일정
+  requiredSkill String? // 필요 기술
+  requiredEquip String? // 필요 장비
+  safetyCond    String? // 안전 조건
+  status        String   @default("PENDING") // PENDING, MATCHED, CLOSED
+  createdAt     DateTime @default(now())
+
+  consults ConsultRequest[]
+}
+
+model Team {
+  id          String   @id @default(cuid())
+  leaderId    String
+  leader      User     @relation(fields: [leaderId], references: [id])
+  name        String // 팀명
+  specialty   String? // 전문 공정
+  region      String? // 활동 지역
+  availStatus String   @default("AVAILABLE") // AVAILABLE, NEGOTIABLE, UNAVAILABLE
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  members  TeamMember[]
+  posts    TeamPost[]
+  consults ConsultRequest[]
+}
+
+model TeamMember {
+  id        String   @id @default(cuid())
+  teamId    String
+  team      Team     @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  userId    String? // 가입된 유저일 경우 연결
+  user      User?    @relation(fields: [userId], references: [id])
+  role      String? // 기공, 조공, 준기공, 안전, 장비
+  phone     String? // 미가입 유저 초대용
+  status    String   @default("PENDING") // PENDING, ACCEPTED
+  createdAt DateTime @default(now())
+
+  @@unique([teamId, userId])
+}
+
+model Application {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  jobPostId String
+  jobPost   JobPost  @relation(fields: [jobPostId], references: [id], onDelete: Cascade)
+  status    String   @default("APPLIED") // APPLIED, REVIEWING, CONFIRMED, REJECTED
+  createdAt DateTime @default(now())
+
+  @@unique([userId, jobPostId])
+}
+
+model SavedJob {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  jobPostId String
+  jobPost   JobPost  @relation(fields: [jobPostId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([userId, jobPostId])
+}
+
+model CandidateSave {
+  id        String   @id @default(cuid())
+  companyId String
+  company   Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  targetId  String // 저장된 대상 ID (User ID 또는 Team ID)
+  type      String // "USER" or "TEAM"
+  createdAt DateTime @default(now())
+
+  @@unique([companyId, targetId, type])
+}
+
+model ConsultRequest {
+  id             String        @id @default(cuid())
+  fieldRequestId String?
+  fieldRequest   FieldRequest? @relation(fields: [fieldRequestId], references: [id])
+  targetTeamId   String?
+  targetTeam     Team?         @relation(fields: [targetTeamId], references: [id])
+  type           String // INTERVIEW, PHONE, FIELD_DISPATCH
+  status         String        @default("REQUESTED")
+  createdAt      DateTime      @default(now())
+}
+
+model FieldCheckin {
+  id        String  @id @default(cuid())
+  userId    String
+  user      User    @relation(fields: [userId], references: [id])
+  jobPostId String
+  jobPost   JobPost @relation(fields: [jobPostId], references: [id])
+
+  // 출역 상태 타임라인 (집결, 탑승, 도착, 시작, 종료)
+  status     String    @default("CONFIRMED") // CONFIRMED, GATHERED, BOARDED, ARRIVED, STARTED, FINISHED
+  gatherTime DateTime?
+  boardTime  DateTime?
+  arriveTime DateTime?
+  startTime  DateTime?
+  endTime    DateTime?
+
+  memo String? // 지각/미도착 사유 등
+  date DateTime @default(now()) // 출역 해당일
+
+  @@index([userId])
+  @@index([jobPostId])
+}
+
+model SettlementItem {
+  id        String  @id @default(cuid())
+  jobPostId String
+  jobPost   JobPost @relation(fields: [jobPostId], references: [id])
+  workerId  String // 대상자
+
+  // 비용 항목 분리 (기본 일당, 식비, 숙박비, 교통비, 장비비 등)
+  type        String // BASE, MEAL, LODGING, TRANSPORT, EQUIPMENT, DEDUCTION
+  amount      Int
+  description String?
+
+  status    String   @default("PENDING") // PENDING, CONFIRMED_BY_WORKER, CONFIRMED_BY_COMPANY, COMPLETED
+  createdAt DateTime @default(now())
+}
+
+model TeamPost {
+  id        String   @id @default(cuid())
+  teamId    String
+  team      Team     @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  title     String
+  content   String
+  createdAt DateTime @default(now())
+}
+
+model IssueReport {
+  id         String   @id @default(cuid())
+  reporterId String
+  reporter   User     @relation(fields: [reporterId], references: [id])
+  type       String // USER_REPORT, FIELD_ISSUE, SETTLEMENT_ISSUE
+  content    String
+  status     String   @default("OPEN")
+  createdAt  DateTime @default(now())
+}
+
 enum InterestFeature {
-  CAREER_VERIFICATION // 경력 인증
-  FINANCE_BENEFIT // 금융 혜택
-  EQUIPMENT_RENTAL // 공구·장비 대여
-  FOREIGN_WORKER // 외국인 체류·고용 관리
-  SAFE_PAYMENT // 안심 정산
-  COMPANY_VIEW // 기업 열람권
+  CAREER_VERIFICATION
+  FINANCE_BENEFIT
+  EQUIPMENT_RENTAL
+  FOREIGN_WORKER
+  SAFE_PAYMENT
+  COMPANY_VIEW
 }
 
 model InterestRegistration {
@@ -90,12 +302,11 @@ model InterestRegistration {
   @@index([userId])
 }
 
-// 마케팅 분석용 이벤트 로그 (docs/user-app-guidelines.md 6장)
 model AnalyticsEvent {
   id        String   @id @default(cuid())
   userId    String?
   user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
-  name      String // 예: signup_completed, career_added
+  name      String
   props     Json?
   createdAt DateTime @default(now())
 
@@ -103,14 +314,13 @@ model AnalyticsEvent {
   @@index([userId])
 }
 
-// 홈 화면 맞춤형 AI 인사이트 / 공지사항
 model AiInsight {
   id         String   @id @default(cuid())
-  type       String   // URGENT_JOB, REGION_INFO, WEATHER_INFO 등
+  type       String
   title      String
   content    String
   linkText   String?
-  linkTarget String?  // 예: jobs-nearby, training-programs 등
+  linkTarget String?
   active     Boolean  @default(true)
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
