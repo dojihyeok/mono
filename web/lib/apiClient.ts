@@ -836,3 +836,11 @@ export function apiProposeReAttendance(
     workDate,
   });
 }
+
+export function apiListAdminReferrals(): Promise<any[] | null> {
+  return getJson<any[]>("/api/admin/referrals", []);
+}
+
+export function apiSetReferralStatus(id: string, status: string): Promise<any | null> {
+  return postJson<any>(`/api/admin/referrals/${id}/status`, { status }, "PATCH");
+}
