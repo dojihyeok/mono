@@ -1918,25 +1918,35 @@ export default function MonoApp() {
 
           {workSubTab === 'attendance' ? (
             <>
-              {/* 1. 나의 지원 현황 */}
+              {/* 1. 나의 지원 현황 — 실제 API 데이터 */}
               <div style={{ marginTop: "20px" }}>
-                <div style={{ fontSize: "15px", fontWeight: "800", color: "var(--c1,#1F2226)", marginBottom: "10px" }}>📋 나의 지원 현황</div>
-                <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-                  <div style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: "18px", padding: "14px 16px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                    <div>
-                      <h5 style={{ margin: 0, fontSize: "14px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>힐스테이트 송도 더스카이</h5>
-                      <span style={{ fontSize: "12px", color: "#8694a8" }}>형틀목공 · 지원일 07/06</span>
-                    </div>
-                    <span style={{ fontSize: "12px", fontWeight: "800", color: "#4f46e5", background: "#eeebff", padding: "4px 8px", borderRadius: "8px" }}>확정 대기</span>
+                <div style={{ fontSize: "15px", fontWeight: "800", color: "var(--c1,#1F2226)", marginBottom: "10px" }}>📋 나의 지원 현황 {myApps.length > 0 && <span style={{ fontSize: "12px", fontWeight: "600", color: "#8694a8" }}>({myApps.length}건)</span>}</div>
+                {myApps.length === 0 ? (
+                  <div style={{ background: "#f8fafc", border: "1px dashed #e2e8f0", borderRadius: "16px", padding: "24px", textAlign: "center" }}>
+                    <div style={{ fontSize: "24px", marginBottom: "8px" }}>📭</div>
+                    <div style={{ fontSize: "13px", fontWeight: "700", color: "var(--c1,#1F2226)" }}>아직 지원한 공고가 없어요</div>
+                    <div style={{ fontSize: "12px", color: "#8694a8", marginTop: "4px", wordBreak: "keep-all" }}>현장 찾기 탭에서 공고를 확인하고 지원해보세요</div>
+                    <button onClick={v.goJobs} style={{ marginTop: "12px", height: "38px", padding: "0 16px", border: "none", borderRadius: "10px", background: "var(--c1,#1F2226)", color: "#fff", fontSize: "13px", fontWeight: "800", cursor: "pointer" }}>공고 보러가기</button>
                   </div>
-                  <div style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: "18px", padding: "14px 16px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                    <div>
-                      <h5 style={{ margin: 0, fontSize: "14px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>평택 삼성반도체 P4 현장</h5>
-                      <span style={{ fontSize: "12px", color: "#8694a8" }}>배관설비 · 지원일 07/05</span>
-                    </div>
-                    <span style={{ fontSize: "12px", fontWeight: "800", color: "#10b981", background: "#ecfdf5", padding: "4px 8px", borderRadius: "8px" }}>매칭 완료</span>
+                ) : (
+                  <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                    {(Array.isArray(myApps) ? myApps : []).map((a) => {
+                      const st = applLabel(a.status);
+                      const appliedAt = a.createdAt ? new Date(a.createdAt).toLocaleDateString("ko-KR", { month: "2-digit", day: "2-digit" }).replace(".", "/").replace(".", "").trim() : "";
+                      return (
+                        <div key={a.id} style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: "18px", padding: "14px 16px", display: "flex", justifyContent: "space-between", alignItems: "center", gap: "10px" }}>
+                          <div style={{ minWidth: 0 }}>
+                            <div style={{ fontSize: "14px", fontWeight: "800", color: "var(--c1,#1F2226)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{a.jobPost ? a.jobPost.title : "공고"}</div>
+                            <span style={{ fontSize: "12px", color: "#8694a8" }}>
+                              {a.jobPost?.jobType?.[0] || ""}{a.jobPost?.jobType?.[0] && appliedAt ? " · " : ""}{appliedAt ? `지원일 ${appliedAt}` : ""}
+                            </span>
+                          </div>
+                          <span style={{ flex: "none", fontSize: "12px", fontWeight: "800", color: st.fg, background: st.bg, padding: "4px 10px", borderRadius: "8px" }}>{st.t}</span>
+                        </div>
+                      );
+                    })}
                   </div>
-                </div>
+                )}
               </div>
 
               {/* 2. 확정 현장 & 출퇴근 */}
@@ -1992,23 +2002,39 @@ export default function MonoApp() {
             </>
           ) : (
             <>
-              {/* 이번 달 근무 요약 카드 */}
-              <div style={{ background: "var(--c1,#1F2226)", borderRadius: "20px", padding: "20px", color: "#fff", boxShadow: "0 10px 24px -10px rgba(0,0,0,0.15)" }}>
-                <div style={{ fontSize: "12px", color: "rgba(255,255,255,0.7)", fontWeight: "700" }}>2026년 7월 근무 요약</div>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginTop: "12px" }}>
-                  <div>
-                    <span className="mono" style={{ fontSize: "36px", fontWeight: "500" }}>12</span>
-                    <span style={{ fontSize: "14px", marginLeft: "2px", fontWeight: "700" }}>일</span>
-                    <span style={{ margin: "0 8px", color: "rgba(255,255,255,0.3)" }}>|</span>
-                    <span className="mono" style={{ fontSize: "36px", fontWeight: "500" }}>13.5</span>
-                    <span style={{ fontSize: "14px", marginLeft: "2px", fontWeight: "700" }}>공수</span>
+              {/* 이번 달 근무 요약 — 실제 출역 데이터 기반 계산 */}
+              {(() => {
+                const now = new Date();
+                const thisMonth = now.getMonth();
+                const thisYear = now.getFullYear();
+                const allAtts = (Array.isArray(assignments) ? assignments : []).flatMap((a) => (a.attendances || []).map((at) => ({ ...at, jobTitle: a.jobPost?.title, jobType: a.jobPost?.jobType?.[0] })));
+                const monthAtts = allAtts.filter((at) => { const d = new Date(at.checkInAt || at.workDate); return d.getMonth() === thisMonth && d.getFullYear() === thisYear; });
+                const workDays = monthAtts.filter((at) => at.checkOutAt).length;
+                const totalHours = monthAtts.filter((at) => at.checkOutAt).reduce((s, at) => { const diff = (new Date(at.checkOutAt).getTime() - new Date(at.checkInAt).getTime()) / 3600000; return s + diff; }, 0);
+                const manDays = Math.round(totalHours / 8 * 10) / 10;
+                const monthLabel = `${thisYear}년 ${thisMonth + 1}월`;
+                return (
+                  <div style={{ background: "var(--c1,#1F2226)", borderRadius: "20px", padding: "20px", color: "#fff", boxShadow: "0 10px 24px -10px rgba(0,0,0,0.15)" }}>
+                    <div style={{ fontSize: "12px", color: "rgba(255,255,255,0.7)", fontWeight: "700" }}>{monthLabel} 근무 요약</div>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginTop: "12px" }}>
+                      <div>
+                        <span className="mono" style={{ fontSize: "36px", fontWeight: "500" }}>{workDays}</span>
+                        <span style={{ fontSize: "14px", marginLeft: "2px", fontWeight: "700" }}>일</span>
+                        <span style={{ margin: "0 8px", color: "rgba(255,255,255,0.3)" }}>|</span>
+                        <span className="mono" style={{ fontSize: "36px", fontWeight: "500" }}>{manDays || 0}</span>
+                        <span style={{ fontSize: "14px", marginLeft: "2px", fontWeight: "700" }}>공수</span>
+                      </div>
+                      <div style={{ textAlign: "right" }}>
+                        <div style={{ fontSize: "11px", color: "rgba(255,255,255,0.6)", fontWeight: "600" }}>정산 내역</div>
+                        <div style={{ fontSize: "14px", fontWeight: "700", color: "rgba(255,255,255,0.5)" }}>{workDays === 0 ? "출역 기록 없음" : "정산 정보 확인 중"}</div>
+                      </div>
+                    </div>
+                    {workDays === 0 && (
+                      <div style={{ marginTop: "12px", fontSize: "12px", color: "rgba(255,255,255,0.5)", fontWeight: "600" }}>이번 달 출근 체크인 기록이 없어요. 확정 현장에서 출근 체크를 눌러주세요.</div>
+                    )}
                   </div>
-                  <div style={{ textAlign: "right" }}>
-                    <div style={{ fontSize: "11px", color: "rgba(255,255,255,0.6)", fontWeight: "600" }}>받을 금액 (정산 예정)</div>
-                    <div style={{ fontSize: "22px", fontWeight: "800", color: "#5fd1a0" }}>₩2,760,000</div>
-                  </div>
-                </div>
-              </div>
+                );
+              })()}
 
               {/* 에스크로 안심정산 배너 */}
               <div style={{ background: "#f0fdf4", border: "1px solid #bbf7d0", borderRadius: "16px", padding: "14px 16px", marginTop: "14px", display: "flex", gap: "10px", alignItems: "center" }}>
@@ -2018,50 +2044,48 @@ export default function MonoApp() {
                 </div>
               </div>
 
-              {/* 상세 출역 기록 */}
+              {/* 상세 출역 기록 — assignments.attendances 실 데이터 */}
               <div style={{ marginTop: "24px" }}>
                 <div style={{ fontSize: "15px", fontWeight: "800", color: "var(--c1,#1F2226)", marginBottom: "12px" }}>상세 출역 기록</div>
-                
-                <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-                  {/* Card 1 */}
-                  <div style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: "18px", padding: "16px", boxShadow: "0 4px 12px -10px rgba(0,0,0,0.05)" }}>
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                      <span style={{ fontSize: "12px", fontWeight: "800", color: "#b4690e", background: "#fef3c7", padding: "3px 8px", borderRadius: "6px" }}>정산 예정</span>
-                      <span style={{ fontSize: "12.5px", color: "#8694a8", fontWeight: "600" }}>6월 19일 (금)</span>
+                {(() => {
+                  const allAtts = (Array.isArray(assignments) ? assignments : []).flatMap((a) =>
+                    (a.attendances || []).map((at) => ({ ...at, jobTitle: a.jobPost?.title, jobType: a.jobPost?.jobType?.[0], company: a.jobPost?.company?.name }))
+                  ).filter((at) => at.checkOutAt).sort((a, b) => new Date(b.checkInAt).getTime() - new Date(a.checkInAt).getTime());
+                  if (allAtts.length === 0) {
+                    return (
+                      <div style={{ background: "#f8fafc", border: "1px dashed #e2e8f0", borderRadius: "16px", padding: "28px", textAlign: "center" }}>
+                        <div style={{ fontSize: "24px", marginBottom: "8px" }}>📂</div>
+                        <div style={{ fontSize: "13px", fontWeight: "700", color: "var(--c1,#1F2226)" }}>아직 출역 기록이 없어요</div>
+                        <div style={{ fontSize: "12px", color: "#8694a8", marginTop: "4px", wordBreak: "keep-all" }}>확정된 현장에서 출근 체크를 하면 기록이 남아요</div>
+                      </div>
+                    );
+                  }
+                  return (
+                    <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+                      {allAtts.slice(0, 20).map((at) => {
+                        const inDate = new Date(at.checkInAt);
+                        const dateLabel = inDate.toLocaleDateString("ko-KR", { month: "long", day: "numeric", weekday: "short" });
+                        const inTime = inDate.toLocaleTimeString("ko-KR", { hour: "2-digit", minute: "2-digit", hour12: false });
+                        const outTime = at.checkOutAt ? new Date(at.checkOutAt).toLocaleTimeString("ko-KR", { hour: "2-digit", minute: "2-digit", hour12: false }) : "근무 중";
+                        const hours = at.checkOutAt ? (new Date(at.checkOutAt).getTime() - inDate.getTime()) / 3600000 : 0;
+                        const manDay = Math.round(hours / 8 * 10) / 10;
+                        return (
+                          <div key={at.id} style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: "18px", padding: "16px", boxShadow: "0 4px 12px -10px rgba(0,0,0,0.05)" }}>
+                            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                              <span style={{ fontSize: "12px", fontWeight: "800", color: "#166534", background: "#dcfce7", padding: "3px 8px", borderRadius: "6px" }}>출역 완료</span>
+                              <span style={{ fontSize: "12.5px", color: "#8694a8", fontWeight: "600" }}>{dateLabel}</span>
+                            </div>
+                            <div style={{ margin: "10px 0 4px", fontSize: "15px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>{at.jobTitle || "현장"}</div>
+                            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginTop: "8px", borderTop: "1px solid #f1f5f9", paddingTop: "8px" }}>
+                              <span style={{ fontSize: "13px", color: "#5b6b82", fontWeight: "500" }}>{at.jobType || ""}{at.jobType ? " · " : ""}{manDay}공수 · {inTime}~{outTime}</span>
+                              <span style={{ fontSize: "12px", color: "#8694a8", fontWeight: "600" }}>{manDay}일</span>
+                            </div>
+                          </div>
+                        );
+                      })}
                     </div>
-                    <h4 style={{ margin: "10px 0 4px", fontSize: "15px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>힐스테이트 송도 더스카이</h4>
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginTop: "8px", borderTop: "1px solid #f1f5f9", paddingTop: "8px" }}>
-                      <span style={{ fontSize: "13px", color: "#5b6b82", fontWeight: "500" }}>형틀목공 · 1.0공수 · 07:02~17:00</span>
-                      <span className="mono" style={{ fontSize: "15px", fontWeight: "700", color: "var(--c1,#1F2226)" }}>₩230,000</span>
-                    </div>
-                  </div>
-
-                  {/* Card 2 */}
-                  <div style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: "18px", padding: "16px", boxShadow: "0 4px 12px -10px rgba(0,0,0,0.05)" }}>
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                      <span style={{ fontSize: "12px", fontWeight: "800", color: "#166534", background: "#dcfce7", padding: "3px 8px", borderRadius: "6px" }}>지급 완료</span>
-                      <span style={{ fontSize: "12.5px", color: "#8694a8", fontWeight: "600" }}>5월 14일 (목)</span>
-                    </div>
-                    <h4 style={{ margin: "10px 0 4px", fontSize: "15px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>푸르지오 김포한강</h4>
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginTop: "8px", borderTop: "1px solid #f1f5f9", paddingTop: "8px" }}>
-                      <span style={{ fontSize: "13px", color: "#5b6b82", fontWeight: "500" }}>형틀목공 · 1.5공수 (연장 2H)</span>
-                      <span className="mono" style={{ fontSize: "15px", fontWeight: "700", color: "var(--c1,#1F2226)" }}>₩337,500</span>
-                    </div>
-                  </div>
-
-                  {/* Card 3 */}
-                  <div style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: "18px", padding: "16px", boxShadow: "0 4px 12px -10px rgba(0,0,0,0.05)" }}>
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                      <span style={{ fontSize: "12px", fontWeight: "800", color: "#166534", background: "#dcfce7", padding: "3px 8px", borderRadius: "6px" }}>지급 완료</span>
-                      <span style={{ fontSize: "12.5px", color: "#8694a8", fontWeight: "600" }}>5월 12일 (화)</span>
-                    </div>
-                    <h4 style={{ margin: "10px 0 4px", fontSize: "15px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>더샵 일산 센트럴</h4>
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginTop: "8px", borderTop: "1px solid #f1f5f9", paddingTop: "8px" }}>
-                      <span style={{ fontSize: "13px", color: "#5b6b82", fontWeight: "500" }}>형틀목공 · 1.0공수</span>
-                      <span className="mono" style={{ fontSize: "15px", fontWeight: "700", color: "var(--c1,#1F2226)" }}>₩230,000</span>
-                    </div>
-                  </div>
-                </div>
+                  );
+                })()}
               </div>
             </>
           )}
