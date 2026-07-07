@@ -128,6 +128,18 @@ interface AiInsight {
 
 export default function MonoApp() {
   const [s, setS] = useState({ tab: 'home', variant: 0, flipped: false, checkedIn: false, settleOpen: false, modal: null, overlay: null, selJob: 0, applied: false, cardView: 'me' });
+  const [activeGuide, setActiveGuide] = useState<'first' | 'large' | null>(null);
+  const guideRef = useRef<HTMLDivElement>(null);
+  const [homeTab, setHomeTab] = useState<'today' | 'large'>('today');
+  const [prepChecklist, setPrepChecklist] = useState({
+    idCard: true,
+    safetyEdu: true,
+    elecCard: false,
+    bankAcc: true,
+    medCheck: false,
+    gateCard: false,
+    safetyGear: true,
+  });
   const { user, updateUser, setBasicProfile, registerInterest, interests,
     addCertificate, addEducation, certificates, educations,
     careerCards, addCareerCard, completion } = useProfile(); // 온보딩 프로필 + 관심/서류 + 현장 경력 + 완성도
@@ -676,6 +688,19 @@ export default function MonoApp() {
       document.body.classList.remove("scroll-lock");
     };
   }, [teamOpen]);
+
+  useEffect(() => {
+    if (!activeGuide) return;
+    document.body.classList.add("scroll-lock");
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") { e.stopPropagation(); setActiveGuide(null); } };
+    document.addEventListener("keydown", onKey);
+    const ft = window.setTimeout(() => { guideRef.current?.focus?.(); }, 20);
+    return () => {
+      window.clearTimeout(ft);
+      document.removeEventListener("keydown", onKey);
+      document.body.classList.remove("scroll-lock");
+    };
+  }, [activeGuide]);
   const openTeamSheet = () => {
     setTeamMsg("");
     setTeamName(team?.name || "");
@@ -1036,26 +1061,20 @@ export default function MonoApp() {
     const m=s.modal?M[s.modal]:null;
 
     const meRows=[
-      {label:'프로필 · 기본 정보',tag:'완료',tagColor:'var(--c3,#1F2226)',icon:React.createElement('svg',{width:18,height:18,viewBox:'0 0 20 20',fill:'none'},React.createElement('circle',{cx:10,cy:7,r:3,stroke:'var(--c1,#1F2226)',strokeWidth:1.7}),React.createElement('path',{d:'M4 17c0-3 2.7-4.5 6-4.5s6 1.5 6 4.5',stroke:'var(--c1,#1F2226)',strokeWidth:1.7,strokeLinecap:'round'})),onClick:()=>openEdit()},
-      {label:'서류 · 자격증',tag:(certificates.length+educations.length)?(certificates.length+educations.length)+'건':'',tagColor:'#8694a8',icon:React.createElement('svg',{width:18,height:18,viewBox:'0 0 20 20',fill:'none'},React.createElement('path',{d:'M5 2.5h7L16 6v11.5H5V2.5Z',stroke:'var(--c1,#1F2226)',strokeWidth:1.7,strokeLinejoin:'round'}),React.createElement('path',{d:'M12 2.5V6h4',stroke:'var(--c1,#1F2226)',strokeWidth:1.7,strokeLinejoin:'round'})),onClick:()=>setOpenDocs(true)},
-      {label:'장비 보유 이력',tag:equipmentHistory.length?equipmentHistory.length+'건':'',tagColor:'#8694a8',icon:React.createElement('svg',{width:18,height:18,viewBox:'0 0 20 20',fill:'none'},React.createElement('path',{d:'M4 6h12v11H4V6Zm4-4h4v4H8V2Z',stroke:'var(--c1,#1F2226)',strokeWidth:1.7,strokeLinejoin:'round'})),onClick:()=>setOpenEquipSheet(true)},
-
-      // 관심 기능 신청 → 홈 화면으로 이동(아래 home view 카드)
-      // {label:'계좌 · 정산 정보',tag:'인증',tagColor:'var(--c3,#1F2226)',icon:React.createElement('svg',{width:18,height:18,viewBox:'0 0 20 20',fill:'none'},React.createElement('rect',{x:3,y:5,width:14,height:11,rx:2,stroke:'var(--c1,#1F2226)',strokeWidth:1.7}),React.createElement('path',{d:'M3 9h14',stroke:'var(--a1,#1F2226)',strokeWidth:1.7})),onClick:()=>{}},
-      // {label:'안전교육 · 인증',tag:'100%',tagColor:'var(--c3,#1F2226)',icon:React.createElement('svg',{width:18,height:18,viewBox:'0 0 20 20',fill:'none'},React.createElement('path',{d:'M10 2 3 5v5c0 4 3 7 7 8.5 4-1.5 7-4.5 7-8.5V5l-7-3Z',stroke:'var(--c1,#1F2226)',strokeWidth:1.7,strokeLinejoin:'round'})),onClick:()=>{}},
-      // {label:'외부 기관 연동 현황',tag:'협의 중',tagColor:'var(--ai,#1F2226)',icon:React.createElement('svg',{width:18,height:18,viewBox:'0 0 20 20',fill:'none'},React.createElement('path',{d:'M8 12 5.5 14.5a2.5 2.5 0 0 1-3.5-3.5L5 8m7 0 2.5-2.5a2.5 2.5 0 0 1 3.5 3.5L15 12m-7 0 4-4',stroke:'var(--c1,#1F2226)',strokeWidth:1.7,strokeLinecap:'round',strokeLinejoin:'round'})),onClick:()=>open('career')},
-      // {label:'오프라인 인력사무소 연동',tag:'준비 중',tagColor:'var(--ai,#1F2226)',icon:React.createElement('svg',{width:18,height:18,viewBox:'0 0 20 20',fill:'none'},React.createElement('path',{d:'M3 17h14M5 17V8l5-3.5L15 8v9M8.5 17v-4h3v4',stroke:'var(--c1,#1F2226)',strokeWidth:1.7,strokeLinejoin:'round'})),onClick:()=>open('office')},
-      // {label:'알림 · 설정',tag:'',tagColor:'#8694a8',icon:React.createElement('svg',{width:18,height:18,viewBox:'0 0 20 20',fill:'none'},React.createElement('path',{d:'M10 3a4 4 0 0 0-4 4v3l-1.5 2.5h11L14 10V7a4 4 0 0 0-4-4Z',stroke:'var(--c1,#1F2226)',strokeWidth:1.7,strokeLinejoin:'round'}),React.createElement('path',{d:'M8.5 15a1.5 1.5 0 0 0 3 0',stroke:'var(--c1,#1F2226)',strokeWidth:1.7,strokeLinecap:'round'})),onClick:()=>{}}
+      {label:'내 현장 프로필 (이력서)',tag:'완료',tagColor:'var(--c3,#1F2226)',icon:React.createElement('svg',{width:18,height:18,viewBox:'0 0 20 20',fill:'none'},React.createElement('circle',{cx:10,cy:7,r:3,stroke:'var(--c1,#1F2226)',strokeWidth:1.7}),React.createElement('path',{d:'M4 17c0-3 2.7-4.5 6-4.5s6 1.5 6 4.5',stroke:'var(--c1,#1F2226)',strokeWidth:1.7,strokeLinecap:'round'})),onClick:()=>openEdit()},
+      {label:'준비 서류 (문서)',tag:(certificates.length+educations.length)?(certificates.length+educations.length)+'건':'',tagColor:'#8694a8',icon:React.createElement('svg',{width:18,height:18,viewBox:'0 0 20 20',fill:'none'},React.createElement('path',{d:'M5 2.5h7L16 6v11.5H5V2.5Z',stroke:'var(--c1,#1F2226)',strokeWidth:1.7,strokeLinejoin:'round'}),React.createElement('path',{d:'M12 2.5V6h4',stroke:'var(--c1,#1F2226)',strokeWidth:1.7,strokeLinejoin:'round'})),onClick:()=>setOpenDocs(true)},
+      {label:'일한 기록 (출역내역)',tag:history.length?history.length+'건':'',tagColor:'#8694a8',icon:React.createElement('svg',{width:18,height:18,viewBox:'0 0 20 20',fill:'none'},React.createElement('path',{d:'M3 17h14M5 17V8l5-3.5L15 8v9M8.5 17v-4h3v4',stroke:'var(--c1,#1F2226)',strokeWidth:1.7,strokeLinejoin:'round'})),onClick:()=>setTab('history')},
+      {label:'받을 금액 (정산)',tag:'조회',tagColor:'#8694a8',icon:React.createElement('svg',{width:18,height:18,viewBox:'0 0 20 20',fill:'none'},React.createElement('rect',{x:3,y:5,width:14,height:11,rx:2,stroke:'var(--c1,#1F2226)',strokeWidth:1.7},React.createElement('path',{d:'M3 9h14',stroke:'var(--a1,#1F2226)',strokeWidth:1.7}))),onClick:()=>setTab('history')}
     ];
 
     return {
-      isHome:tab('home'), isJobs:tab('jobs'), isCard:tab('card'), isWork:tab('work'), isMe:tab('me'),
-      goHome:()=>setTab('home'), goJobs:()=>setTab('jobs'), goCard:()=>setTab('card'), goWork:()=>setTab('work'), goMe:()=>setTab('me'),
-      cHome:tab('home')?green:mute, cJobs:tab('jobs')?green:mute, cCard:tab('card')?green:mute, cWork:tab('work')?green:mute, cMe:tab('me')?green:mute,
-      fHome:tab('home')?'var(--soft,#E5E7EB)':'none', fJobs:tab('jobs')?'var(--soft,#E5E7EB)':'none', fCard:tab('card')?'var(--soft,#E5E7EB)':'none', fWork:tab('work')?'var(--soft,#E5E7EB)':'none', fMe:tab('me')?'var(--soft,#E5E7EB)':'none',
-      wHome:tab('home')?'800':'600', wJobs:tab('jobs')?'800':'600', wCard:tab('card')?'800':'600', wWork:tab('work')?'800':'600', wMe:tab('me')?'800':'600',
-      dotHome:tab('home')?gold:'transparent', dotJobs:tab('jobs')?gold:'transparent', dotCard:tab('card')?gold:'transparent', dotWork:tab('work')?gold:'transparent', dotMe:tab('me')?gold:'transparent',
-      chipCard:tab('card')?gold:'currentColor', clipWork:tab('work')?gold:'none',
+      isHome:tab('home'), isJobs:tab('jobs'), isWork:tab('work'), isHistory:tab('history'), isMe:tab('me'),
+      goHome:()=>setTab('home'), goJobs:()=>setTab('jobs'), goWork:()=>setTab('work'), goHistory:()=>setTab('history'), goMe:()=>setTab('me'),
+      cHome:tab('home')?green:mute, cJobs:tab('jobs')?green:mute, cWork:tab('work')?green:mute, cHistory:tab('history')?green:mute, cMe:tab('me')?green:mute,
+      fHome:tab('home')?'var(--soft,#E5E7EB)':'none', fJobs:tab('jobs')?'var(--soft,#E5E7EB)':'none', fWork:tab('work')?'var(--soft,#E5E7EB)':'none', fHistory:tab('history')?'var(--soft,#E5E7EB)':'none', fMe:tab('me')?'var(--soft,#E5E7EB)':'none',
+      wHome:tab('home')?'800':'600', wJobs:tab('jobs')?'800':'600', wWork:tab('work')?'800':'600', wHistory:tab('history')?'800':'600', wMe:tab('me')?'800':'600',
+      dotHome:tab('home')?gold:'transparent', dotJobs:tab('jobs')?gold:'transparent', dotWork:tab('work')?gold:'transparent', dotHistory:tab('history')?gold:'transparent', dotMe:tab('me')?gold:'transparent',
+      clipHistory:tab('history')?gold:'none', clipWork:tab('work')?gold:'none',
 
       qr,
       name: pName, initial: pInit, myJob: pJob, maskedName: pMasked,
@@ -1149,10 +1168,10 @@ export default function MonoApp() {
         <div className="mono-sidebar-brand"><span className="mono-sidebar-logo">M</span>MONO</div>
         <nav className="mono-sidebar-nav">
           <button type="button" onClick={v.goHome} className={`mono-sidebar-item${v.isHome ? " active" : ""}`}>홈</button>
-          <button type="button" onClick={v.goJobs} className={`mono-sidebar-item${v.isJobs ? " active" : ""}`}>일자리</button>
-          <button type="button" onClick={v.goCard} className={`mono-sidebar-item${v.isCard ? " active" : ""}`}>경력카드</button>
-          <button type="button" onClick={v.goWork} className={`mono-sidebar-item${v.isWork ? " active" : ""}`}>출근·정산</button>
-          <button type="button" onClick={v.goMe} className={`mono-sidebar-item${v.isMe ? " active" : ""}`}>내 정보</button>
+          <button type="button" onClick={v.goJobs} className={`mono-sidebar-item${v.isJobs ? " active" : ""}`}>현장 찾기</button>
+          <button type="button" onClick={v.goWork} className={`mono-sidebar-item${v.isWork ? " active" : ""}`}>지원·출근</button>
+          <button type="button" onClick={v.goHistory} className={`mono-sidebar-item${v.isHistory ? " active" : ""}`}>일한 기록</button>
+          <button type="button" onClick={v.goMe} className={`mono-sidebar-item${v.isMe ? " active" : ""}`}>내 프로필</button>
         </nav>
         <div className="mono-sidebar-foot">현장 인력 데이터 인프라</div>
       </aside>
@@ -1168,10 +1187,13 @@ export default function MonoApp() {
         
         {(v.isHome) && (<>
         <div style={{ padding: "6px 20px 30px" }}>
+          {/* Welcome Header */}
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "6px 0 16px", gap: "12px" }}>
             <div style={{ minWidth: "0" }}>
-              <div style={{ fontSize: "13px", color: "#8694a8", fontWeight: "600" }}>2026년 6월 18일 목요일</div>
-              <div style={{ fontSize: "22px", fontWeight: "800", color: "var(--c1,#1F2226)", marginTop: "2px", whiteSpace: "nowrap" }}>안녕하세요, <span style={{ color: "var(--c1,#1F2226)" }}>{v.name}</span>님</div>
+              <div style={{ fontSize: "14px", color: "#8694a8", fontWeight: "600" }}>내게 맞는 현장을 쉽게 찾고,</div>
+              <div style={{ fontSize: "20px", fontWeight: "800", color: "var(--c1,#1F2226)", marginTop: "3px", lineHeight: "1.45" }}>
+                필요한 준비는 <span style={{ color: "var(--c1,#1F2226)", borderBottom: "2.5px solid var(--c1,#1F2226)" }}>MONO</span>가 함께 정리해드릴게요.
+              </div>
             </div>
             <div style={{ display: "flex", alignItems: "center", gap: "10px", flex: "none" }}>
               <button type="button" onClick={openNotifs} aria-label="알림" style={{ position: "relative", width: "44px", height: "44px", border: "1px solid #e6e8ec", borderRadius: "14px", background: "#fff", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", padding: "0" }}>
@@ -1184,73 +1206,267 @@ export default function MonoApp() {
             </div>
           </div>
 
-          
-          <div style={{ borderRadius: "24px", background: "var(--c1,#1F2226)", padding: "22px", color: "var(--t0,#E5E7EB)", position: "relative", overflow: "hidden", boxShadow: "0 18px 40px -18px color-mix(in srgb, var(--brand,#1F2226) 85%, transparent)" }}>
-            <div style={{ position: "absolute", right: "-40px", top: "-40px", width: "160px", height: "160px", borderRadius: "50%", background: "transparent" }}></div>
-            <div style={{ display: "flex", alignItems: "center", gap: "7px", position: "relative" }}>
-              <span style={{ width: "7px", height: "7px", borderRadius: "50%", background: v.checkDot, boxShadow: `0 0 0 4px ${v.checkDotHalo}` }}></span>
-              <span style={{ fontSize: "12.5px", fontWeight: "700", color: "var(--t1,#A5AEB8)", letterSpacing: ".3px", whiteSpace: "nowrap" }}>{v.checkPhase}</span>
+          {/* Active Attendance Badge/Card (if checked-in) */}
+          {s.checkedIn && (
+            <div style={{ borderRadius: "20px", background: "var(--c1,#1F2226)", padding: "16px", color: "var(--t0,#E5E7EB)", position: "relative", overflow: "hidden", marginBottom: "16px", boxShadow: "0 10px 24px -10px color-mix(in srgb, var(--brand,#1F2226) 80%, transparent)" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "7px" }}>
+                <span style={{ width: "7px", height: "7px", borderRadius: "50%", background: "#5fd1a0", boxShadow: "0 0 0 4px rgba(95,209,160,.25)" }}></span>
+                <span style={{ fontSize: "12px", fontWeight: "700", color: "var(--t1,#A5AEB8)", letterSpacing: ".3px" }}>현재 출근 중 · 힐스테이트 송도 더스카이</span>
+              </div>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "10px" }}>
+                <span style={{ fontSize: "14px", fontWeight: "700" }}>오늘 근무: {v.myJob}</span>
+                <button onClick={v.toggleCheck} style={{ height: "36px", padding: "0 14px", border: "none", borderRadius: "10px", background: "rgba(255,255,255,.14)", color: "#fff", fontSize: "13px", fontWeight: "800", cursor: "pointer" }}>퇴근하기</button>
+              </div>
             </div>
-            <div style={{ fontSize: "19px", fontWeight: "800", marginTop: "11px", position: "relative" }}>힐스테이트 송도 더스카이</div>
-            <div style={{ display: "flex", gap: "18px", marginTop: "14px", position: "relative" }}>
-              <div><div style={{ fontSize: "11.5px", color: "var(--t2,#A5AEB8)", fontWeight: "600" }}>출근</div><div className="mono" style={{ fontSize: "16px", fontWeight: "500", marginTop: "2px" }}>{v.inTime}</div></div>
-              <div style={{ width: "1px", background: "rgba(255,255,255,.12)" }}></div>
-              <div><div style={{ fontSize: "11.5px", color: "var(--t2,#A5AEB8)", fontWeight: "600" }}>직종</div><div style={{ fontSize: "15px", fontWeight: "700", marginTop: "3px", whiteSpace: "nowrap" }}>{v.myJob}</div></div>
-              <div style={{ width: "1px", background: "rgba(255,255,255,.12)" }}></div>
-              <div><div style={{ fontSize: "11.5px", color: "var(--t2,#A5AEB8)", fontWeight: "600" }}>일급</div><div style={{ fontSize: "15px", fontWeight: "700", marginTop: "3px", color: "var(--a2,#C1C8D1)" }}>230,000</div></div>
+          )}
+
+          {/* 가이드 카드 섹션 - 홈 상단 배치 */}
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px", marginTop: "4px", marginBottom: "16px" }}>
+            <div
+              onClick={() => setActiveGuide('first')}
+              style={{
+                background: "#f8fafc", border: "1px solid #e6e8ec", borderRadius: "16px",
+                padding: "14px 12px", cursor: "pointer", transition: "transform 0.15s"
+              }}
+            >
+              <div style={{ fontSize: "14px", fontWeight: "800", color: "#4f46e5", marginBottom: "4px" }}>처음 현장 가이드</div>
+              <div style={{ fontSize: "11.5px", color: "#64748b", lineHeight: "1.4", fontWeight: "500", wordBreak: "keep-all" }}>
+                현장 일이 처음이라면 준비물부터 확인해보세요.
+              </div>
             </div>
-            <button onClick={v.toggleCheck} style={{ marginTop: "18px", width: "100%", height: "52px", border: "none", borderRadius: "15px", background: v.checkBtnBg, color: v.checkBtnFg, fontSize: "16px", fontWeight: "800", fontFamily: "inherit", cursor: "pointer", position: "relative", overflow: "hidden" }}>{v.checkBtnLabel}</button>
+            <div
+              onClick={() => setActiveGuide('large')}
+              style={{
+                background: "#f0fdfa", border: "1px solid #ccfbf1", borderRadius: "16px",
+                padding: "14px 12px", cursor: "pointer", transition: "transform 0.15s"
+              }}
+            >
+              <div style={{ fontSize: "14px", fontWeight: "800", color: "#0d9488", marginBottom: "4px" }}>대형 현장 가이드</div>
+              <div style={{ fontSize: "11.5px", color: "#0f766e", lineHeight: "1.4", fontWeight: "500", wordBreak: "keep-all" }}>
+                전자카드, 교육, 신체검사, 출입카드까지 순서대로 준비해요.
+              </div>
+            </div>
           </div>
 
-
-          {/* 이번 달 누적 근무·예상 정산액 — 출역·정산 도메인 미구현이라 값은 비움('-'). 카드 UI는 유지(레이아웃 안정), 실데이터 연동 시 표시. (docs/disabled-features.md) */}
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px", marginTop: "14px" }}>
-            <div style={{ background: "#fff", borderRadius: "18px", padding: "16px", border: "1px solid #e6e8ec" }}>
-              <div style={{ fontSize: "12px", color: "#8694a8", fontWeight: "600" }}>이번 달 누적 근무</div>
-              <div style={{ marginTop: "7px", display: "flex", alignItems: "baseline", gap: "3px" }}><span className="mono" style={{ fontSize: "26px", fontWeight: "500", color: "#8694a8" }}>-</span></div>
+          {/* 준비 상태 요약 */}
+          <div style={{ background: "#ffffff", border: "1px solid #e6e8ec", borderRadius: "20px", padding: "18px", marginBottom: "16px", boxShadow: "0 4px 14px -10px rgba(0,0,0,0.05)" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "12px" }}>
+              <span style={{ fontSize: "15px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>🚦 내 현장 준비 상태 요약</span>
+              <span onClick={() => setTab('me')} style={{ fontSize: "12.5px", color: "#4f46e5", fontWeight: "700", cursor: "pointer" }}>상세보기 →</span>
             </div>
-            <div style={{ background: "#fff", borderRadius: "18px", padding: "16px", border: "1px solid #e6e8ec" }}>
-              <div style={{ fontSize: "12px", color: "#8694a8", fontWeight: "600" }}>예상 정산액</div>
-              <div style={{ marginTop: "7px", display: "flex", alignItems: "baseline", gap: "2px" }}><span className="mono" style={{ fontSize: "21px", fontWeight: "500", color: "#8694a8" }}>-</span></div>
+            
+            {(() => {
+              const checkedCount = Object.values(prepChecklist).filter(Boolean).length;
+              const totalCount = Object.keys(prepChecklist).length;
+              const percent = Math.round((checkedCount / totalCount) * 100);
+              return (
+                <>
+                  <div style={{ fontSize: "12.5px", color: "#5b6b82", fontWeight: "600", marginBottom: "6px" }}>
+                    총 {totalCount}개 중 <strong>{checkedCount}개</strong> 준비 완료 ({percent}%)
+                  </div>
+                  <div style={{ height: "6px", background: "#eef0f3", borderRadius: "3px", overflow: "hidden", marginBottom: "14px" }}>
+                    <div style={{ width: `${percent}%`, height: "100%", background: "#10b981", borderRadius: "3px", transition: "width 0.3s ease" }}></div>
+                  </div>
+                </>
+              );
+            })()}
+
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "8px" }}>
+              {[
+                { key: 'idCard', label: '신분증' },
+                { key: 'safetyEdu', label: '기초교육' },
+                { key: 'elecCard', label: '전자카드' },
+                { key: 'bankAcc', label: '계좌등록' },
+                { key: 'medCheck', label: '신체검사' },
+                { key: 'gateCard', label: '출입카드' },
+                { key: 'safetyGear', label: '안전장구' },
+              ].map((item) => {
+                const isReady = prepChecklist[item.key];
+                return (
+                  <div
+                    key={item.key}
+                    style={{
+                      padding: "8px 4px", borderRadius: "10px", textAlign: "center",
+                      background: isReady ? "#f0fdf4" : "#fef2f2",
+                      border: `1px solid ${isReady ? "#bbf7d0" : "#fecaca"}`
+                    }}
+                  >
+                    <div style={{ fontSize: "10.5px", fontWeight: "800", color: isReady ? "#15803d" : "#b91c1c" }}>{item.label}</div>
+                    <div style={{ fontSize: "12px", marginTop: "2px", color: isReady ? "#16a34a" : "#dc2626" }}>{isReady ? "✓" : "⚠"}</div>
+                  </div>
+                );
+              })}
             </div>
           </div>
 
-          
-          <div onClick={v.goCard} style={{ marginTop: "20px", cursor: "pointer" }}>
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "10px" }}>
-              <span style={{ fontSize: "15px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>내 경력카드</span>
-              <span style={{ fontSize: "12.5px", color: "var(--c1,#1F2226)", fontWeight: "700" }}>전체 보기 →</span>
-            </div>
-            <div style={{ borderRadius: "20px", padding: "18px", background: "var(--c1,#1F2226)", position: "relative", overflow: "hidden", boxShadow: "0 14px 30px -14px color-mix(in srgb, var(--brand,#1F2226) 80%, transparent)" }}>
-              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", position: "relative" }}>
-                <div>
-                  <div style={{ fontSize: "11px", color: "rgba(255,255,255,.88)", fontWeight: "700", letterSpacing: "1px" }}>기술 신뢰도</div>
-                  <div style={{ display: "flex", alignItems: "baseline", gap: "4px", marginTop: "3px" }}><span className="mono" style={{ fontSize: "30px", fontWeight: "600", color: "#ffffff" }}>842</span><span style={{ fontSize: "13px", color: "rgba(255,255,255,.78)", fontWeight: "600" }}>/1000</span></div>
-                  <div style={{ fontSize: "12px", color: "rgba(255,255,255,.92)", fontWeight: "600", marginTop: "4px" }}>{v.myJob} · A등급 숙련 기술자</div>
+          {/* 오늘 현장 / 대형 현장 탭 스위처 */}
+          <div style={{ display: "flex", gap: "10px", marginTop: "8px", marginBottom: "16px" }}>
+            <button
+              type="button"
+              onClick={() => setHomeTab('today')}
+              style={{
+                flex: 1, height: "46px", borderRadius: "13px", fontSize: "15px", fontWeight: "800",
+                cursor: "pointer", transition: "all 0.15s",
+                background: homeTab === 'today' ? "var(--c1,#1F2226)" : "#ffffff",
+                color: homeTab === 'today' ? "#ffffff" : "#64748b",
+                border: `1.5px solid ${homeTab === 'today' ? "transparent" : "#e6e8ec"}`
+              }}
+            >
+              오늘 현장
+            </button>
+            <button
+              type="button"
+              onClick={() => setHomeTab('large')}
+              style={{
+                flex: 1, height: "46px", borderRadius: "13px", fontSize: "15px", fontWeight: "800",
+                cursor: "pointer", transition: "all 0.15s",
+                background: homeTab === 'large' ? "var(--c1,#1F2226)" : "#ffffff",
+                color: homeTab === 'large' ? "#ffffff" : "#64748b",
+                border: `1.5px solid ${homeTab === 'large' ? "transparent" : "#e6e8ec"}`
+              }}
+            >
+              대형 현장
+            </button>
+          </div>
+
+          {/* 탭 본문 내용 */}
+          {homeTab === 'today' ? (
+            <div style={{ animation: "fadeIn 0.2s ease" }}>
+              <div style={{ fontSize: "13.5px", color: "#5b6b82", lineHeight: "1.6", marginBottom: "16px", fontWeight: "600", wordBreak: "keep-all" }}>
+                오늘 또는 이번 주에 바로 일할 수 있는 단기 현장을 찾아보세요. 하루 단위 또는 짧은 기간으로 일할 수 있는 현장을 모았어요. 일당, 위치, 준비물, 출근 시간을 확인하고 바로 지원할 수 있어요.
+              </div>
+
+              {/* 오늘 현장 카드 목록 */}
+              <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+                <div style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: "20px", padding: "18px", boxShadow: "0 4px 14px -10px rgba(0,0,0,0.05)" }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "10px" }}>
+                    <span style={{ fontSize: "11px", fontWeight: "800", color: "#4f46e5", background: "#eeebff", padding: "3px 8px", borderRadius: "6px", border: "1px solid rgba(79,70,229,0.15)" }}>하루/단기 현장</span>
+                    <span style={{ fontSize: "17px", fontWeight: "900", color: "#4f46e5" }}>일당 230,000원</span>
+                  </div>
+                  <h3 style={{ margin: "0 0 6px", fontSize: "16px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>힐스테이트 송도 더스카이</h3>
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px", fontSize: "13px", color: "#5b6b82", borderTop: "1px solid #f1f5f9", paddingTop: "10px", marginTop: "10px" }}>
+                    <div>📍 <strong>위치:</strong> 인천 연수구</div>
+                    <div>👷 <strong>직무:</strong> 형틀목공 조공/기공</div>
+                    <div>⏰ <strong>출근:</strong> 오전 06:40</div>
+                    <div>🎒 <strong>준비물:</strong> 안전화, 신분증</div>
+                    <div>🍚 <strong>식사·숙소:</strong> 식사 제공 (숙소 X)</div>
+                    <div>🏅 <strong>초보 가능:</strong> 초보 가능 (기초교육 필수)</div>
+                  </div>
+                  <button onClick={v.goJobs} style={{ marginTop: "14px", width: "100%", height: "42px", border: "none", borderRadius: "10px", background: "var(--c1,#1F2226)", color: "#fff", fontSize: "13.5px", fontWeight: "800", cursor: "pointer" }}>지원하러 가기</button>
                 </div>
-                <div style={{ width: "54px", height: "54px", borderRadius: "13px", background: "#fff", padding: "5px" }}>{v.qr}</div>
+
+                <div style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: "20px", padding: "18px", boxShadow: "0 4px 14px -10px rgba(0,0,0,0.05)" }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "10px" }}>
+                    <span style={{ fontSize: "11px", fontWeight: "800", color: "#4f46e5", background: "#eeebff", padding: "3px 8px", borderRadius: "6px", border: "1px solid rgba(79,70,229,0.15)" }}>하루/단기 현장</span>
+                    <span style={{ fontSize: "17px", fontWeight: "900", color: "#4f46e5" }}>일당 180,000원</span>
+                  </div>
+                  <h3 style={{ margin: "0 0 6px", fontSize: "16px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>래미안 역삼 빌딩 현장</h3>
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px", fontSize: "13px", color: "#5b6b82", borderTop: "1px solid #f1f5f9", paddingTop: "10px", marginTop: "10px" }}>
+                    <div>📍 <strong>위치:</strong> 서울 강남구 역삼동</div>
+                    <div>👷 <strong>직무:</strong> 현장 정리 및 자재 보조</div>
+                    <div>⏰ <strong>출근:</strong> 오전 07:00</div>
+                    <div>🎒 <strong>준비물:</strong> 안전화, 작업복</div>
+                    <div>🍚 <strong>식사·숙소:</strong> 식사 제공 (숙소 X)</div>
+                    <div>🏅 <strong>초보 가능:</strong> 초보 적극 환영</div>
+                  </div>
+                  <button onClick={v.goJobs} style={{ marginTop: "14px", width: "100%", height: "42px", border: "none", borderRadius: "10px", background: "var(--c1,#1F2226)", color: "#fff", fontSize: "13.5px", fontWeight: "800", cursor: "pointer" }}>지원하러 가기</button>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div style={{ animation: "fadeIn 0.2s ease" }}>
+              <div style={{ fontSize: "13.5px", color: "#5b6b82", lineHeight: "1.6", marginBottom: "16px", fontWeight: "600", wordBreak: "keep-all" }}>
+                반도체, 조선, 플랜트처럼 오래 일할 수 있는 대형 현장을 준비해보세요. 필요한 교육, 전자카드, 신체검사, 출입 절차를 단계별로 안내해드려요.
+              </div>
+
+              {/* 대형 현장 카드 목록 */}
+              <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+                <div style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: "20px", padding: "18px", boxShadow: "0 4px 14px -10px rgba(0,0,0,0.05)" }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "10px" }}>
+                    <span style={{ fontSize: "11px", fontWeight: "800", color: "#0d9488", background: "#f0fdfa", padding: "3px 8px", borderRadius: "6px", border: "1px solid rgba(13,148,136,0.15)" }}>대형 플랜트 현장</span>
+                    <span style={{ fontSize: "14px", fontWeight: "800", color: "#0d9488" }}>월평균 28공수+</span>
+                  </div>
+                  <h3 style={{ margin: "0 0 6px", fontSize: "16px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>평택 삼성반도체 P4 현장</h3>
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px", fontSize: "13px", color: "#5b6b82", borderTop: "1px solid #f1f5f9", paddingTop: "10px", marginTop: "10px" }}>
+                    <div>📍 <strong>산업군:</strong> 반도체 플랜트</div>
+                    <div>👷 <strong>직무:</strong> 배관설비 / 조적 / 포설</div>
+                    <div>💰 <strong>수입:</strong> ₩480만~₩650만/월</div>
+                    <div>📄 <strong>필요서류:</strong> 전자카드, 배치신검서</div>
+                    <div>🎓 <strong>필수교육:</strong> 삼성 안전교육</div>
+                    <div>🏠 <strong>기타:</strong> 숙소 제공, 통근버스</div>
+                  </div>
+                  <button onClick={() => setActiveGuide('large')} style={{ marginTop: "14px", width: "100%", height: "42px", border: "1px solid #0d9488", borderRadius: "10px", background: "#ffffff", color: "#0d9488", fontSize: "13.5px", fontWeight: "800", cursor: "pointer" }}>입문 가이드 보기</button>
+                </div>
+
+                <div style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: "20px", padding: "18px", boxShadow: "0 4px 14px -10px rgba(0,0,0,0.05)" }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "10px" }}>
+                    <span style={{ fontSize: "11px", fontWeight: "800", color: "#0d9488", background: "#f0fdfa", padding: "3px 8px", borderRadius: "6px", border: "1px solid rgba(13,148,136,0.15)" }}>대형 조선소 현장</span>
+                    <span style={{ fontSize: "14px", fontWeight: "800", color: "#0d9488" }}>월평균 26공수</span>
+                  </div>
+                  <h3 style={{ margin: "0 0 6px", fontSize: "16px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>울산 현대중공업 조선소</h3>
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px", fontSize: "13px", color: "#5b6b82", borderTop: "1px solid #f1f5f9", paddingTop: "10px", marginTop: "10px" }}>
+                    <div>📍 <strong>산업군:</strong> 조선·해양 플랜트</div>
+                    <div>👷 <strong>직무:</strong> 선박 용접 / 도장 / 사상</div>
+                    <div>💰 <strong>수입:</strong> ₩420만~₩580만/월</div>
+                    <div>📄 <strong>필요서류:</strong> 특수 신검서, 자격증</div>
+                    <div>🎓 <strong>필수교육:</strong> 조선소 신규 교육</div>
+                    <div>🏠 <strong>기타:</strong> 기숙사, 일비 지급</div>
+                  </div>
+                  <button onClick={() => setActiveGuide('large')} style={{ marginTop: "14px", width: "100%", height: "42px", border: "1px solid #0d9488", borderRadius: "10px", background: "#ffffff", color: "#0d9488", fontSize: "13.5px", fontWeight: "800", cursor: "pointer" }}>입문 가이드 보기</button>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* 이번 주 추천 현장 */}
+          <div style={{ marginTop: "24px" }}>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "12px" }}>
+              <span style={{ fontSize: "15px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>✨ 이번 주 추천 현장</span>
+              <span onClick={() => setTab('jobs')} style={{ fontSize: "12.5px", color: "var(--c1,#1F2226)", fontWeight: "700", cursor: "pointer" }}>더 보기</span>
+            </div>
+            
+            <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+              <div
+                onClick={() => { openJob(0); }}
+                style={{
+                  background: "#fff", border: "1px solid #e6e8ec", borderRadius: "18px",
+                  padding: "16px", cursor: "pointer", boxShadow: "0 4px 14px -10px rgba(0,0,0,0.05)",
+                  transition: "all 0.15s"
+                }}
+              >
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+                  <span style={{ fontSize: "11px", fontWeight: "800", color: "#4f46e5", background: "#eeebff", padding: "3px 8px", borderRadius: "6px" }}>98.5% 매칭</span>
+                  <span className="mono" style={{ fontSize: "16px", fontWeight: "700", color: "var(--c1,#1F2226)" }}>₩230,000</span>
+                </div>
+                <h4 style={{ margin: "6px 0 4px", fontSize: "15px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>힐스테이트 송도 더스카이</h4>
+                <p style={{ margin: 0, fontSize: "12.5px", color: "#8694a8", fontWeight: "500" }}>인천 연수구 · 형틀목공 · 숙식제공</p>
+                <div style={{ fontSize: "12px", color: "#4f46e5", fontWeight: "700", marginTop: "8px", background: "#f5f3ff", padding: "6px 10px", borderRadius: "8px" }}>
+                  💡 회원님의 형틀목공 경력과 정확히 일치하여 추천해요.
+                </div>
+              </div>
+
+              <div
+                onClick={() => { openJob(2); }}
+                style={{
+                  background: "#fff", border: "1px solid #e6e8ec", borderRadius: "18px",
+                  padding: "16px", cursor: "pointer", boxShadow: "0 4px 14px -10px rgba(0,0,0,0.05)",
+                  transition: "all 0.15s"
+                }}
+              >
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+                  <span style={{ fontSize: "11px", fontWeight: "800", color: "#0d9488", background: "#f0fdfa", padding: "3px 8px", borderRadius: "6px" }}>95% 매칭</span>
+                  <span className="mono" style={{ fontSize: "16px", fontWeight: "700", color: "var(--c1,#1F2226)" }}>₩225,000</span>
+                </div>
+                <h4 style={{ margin: "6px 0 4px", fontSize: "15px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>자이 평택고덕 4단지</h4>
+                <p style={{ margin: 0, fontSize: "12.5px", color: "#8694a8", fontWeight: "500" }}>경기 평택 · 형틀목공 · 숙식제공</p>
+                <div style={{ fontSize: "12px", color: "#0d9488", fontWeight: "700", marginTop: "8px", background: "#f0fdfa", padding: "6px 10px", borderRadius: "8px" }}>
+                  💡 비계기능사 자격증과 갱폼 시공 경험이 매칭되었습니다.
+                </div>
               </div>
             </div>
           </div>
 
-          {/* 관심 기능 신청 — 내 정보에서 홈으로 이동. 출시 예정 기능에 관심 등록. */}
-          <div onClick={() => setOpenInterest(true)} style={{ marginTop: "20px", cursor: "pointer", background: "#fff", border: "1px solid #e6e8ec", borderRadius: "20px", padding: "16px 18px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "12px", boxShadow: "0 4px 14px -10px color-mix(in srgb, var(--brand-deep,#0B0C10) 18%, transparent)" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: "13px", minWidth: "0" }}>
-              <div style={{ width: "44px", height: "44px", flex: "none", borderRadius: "13px", background: "var(--soft,#E5E7EB)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                <svg width={20} height={20} viewBox="0 0 20 20" fill="none"><path d="M10 16.5 3.8 10.3a3.6 3.6 0 0 1 5.1-5.1L10 6.4l1.1-1.2a3.6 3.6 0 0 1 5.1 5.1L10 16.5Z" stroke="var(--c1,#1F2226)" strokeWidth={1.6} strokeLinejoin="round" /></svg>
-              </div>
-              <div style={{ minWidth: "0" }}>
-                <div style={{ fontSize: "15px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>관심 기능 신청</div>
-                <div style={{ fontSize: "12.5px", color: "#8694a8", fontWeight: "600", marginTop: "2px" }}>관심 있는 기능에 미리 신청해 두세요</div>
-              </div>
-            </div>
-            <div style={{ display: "flex", alignItems: "center", gap: "8px", flex: "none" }}>
-              {interests.length > 0 && (<span style={{ fontSize: "11.5px", fontWeight: "800", color: "var(--c1,#1F2226)", background: "var(--soft,#E5E7EB)", padding: "3px 9px", borderRadius: "9px" }}>{interests.length}</span>)}
-              <span style={{ fontSize: "20px", color: "#8694a8", lineHeight: "1" }}>›</span>
-            </div>
-          </div>
-
-          {/* AI 인사이트 공지사항 영역 */}
+          {/* AI 맞춤형 안내 */}
           {insights.length > 0 && (
             <div style={{ marginTop: "24px" }}>
               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "12px" }}>
@@ -1266,45 +1482,19 @@ export default function MonoApp() {
                     <div style={{ fontSize: "13px", color: "#5b6b82", lineHeight: "1.5", marginBottom: "14px", fontWeight: "500", wordBreak: "keep-all" }}>
                       {insight.content}
                     </div>
-                    {insight.linkText && (
-                      <div style={{ fontSize: "13px", fontWeight: "700", color: "var(--c1,#1F2226)", display: "flex", alignItems: "center", gap: "4px" }}>
-                        {insight.linkText} <span style={{ fontSize: "16px", lineHeight: "1" }}>›</span>
-                      </div>
-                    )}
                   </div>
                 ))}
               </div>
             </div>
           )}
 
-
-          {/* 오늘의 추천 현장 — 아직 노출하지 않음(주석 처리). 추후 복원 가능.
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", margin: "24px 0 10px" }}>
-            <span style={{ fontSize: "15px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>오늘의 추천 현장</span>
-            <span onClick={v.goJobs} style={{ fontSize: "12.5px", color: "var(--c1,#1F2226)", fontWeight: "700", cursor: "pointer" }}>더보기</span>
-          </div>
-          {(v.homeJobs || []).map((job, _i1) => (<React.Fragment key={_i1}>
-            <div onClick={job.onOpen} style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: "18px", padding: "15px 16px", marginBottom: "10px", cursor: "pointer" }}>
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
-                <div style={{ display: "flex", alignItems: "center", gap: "6px", flexWrap: "wrap" }}>
-                  <span style={{ fontSize: "11px", fontWeight: "700", color: "var(--c1,#1F2226)", background: "var(--soft,#E5E7EB)", padding: "3px 8px", borderRadius: "7px" }}>{job.trade}</span>
-                  <span style={{ fontSize: "11px", fontWeight: "700", color: "var(--ai,#1F2226)", background: "var(--aSoft,#E5E7EB)", padding: "3px 8px", borderRadius: "7px" }}>{job.dist}</span>
-                </div>
-                <div style={{ textAlign: "right" }}><span style={{ fontSize: "11px", color: "#8694a8", fontWeight: "600" }}>일급 </span><span className="mono" style={{ fontSize: "16px", fontWeight: "500", color: "var(--c1,#1F2226)" }}>{job.pay}</span></div>
-              </div>
-              <div style={{ fontSize: "15.5px", fontWeight: "800", color: "var(--c1,#1F2226)", marginTop: "9px" }}>{job.name}</div>
-              <div style={{ fontSize: "12.5px", color: "#8694a8", fontWeight: "500", marginTop: "3px" }}>{job.loc} · 출역 {job.date} · {job.stay}</div>
-            </div>
-          </React.Fragment>))}
-          */}
         </div>
         </>)}
 
-        
         {(v.isJobs) && (<>
         <div style={{ padding: "6px 0 30px" }}>
           <div style={{ padding: "8px 20px 2px" }}>
-            <div style={{ fontSize: "22px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>일자리</div>
+            <div style={{ fontSize: "22px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>현장 찾기</div>
           </div>
 
           {/* 두 화면 — 내 위치 주변(지도) / 채용공고(위치 무관). PC=토글 클릭, 모바일=좌우 스와이프. 선택된 메뉴만 또렷하게. */}
@@ -1362,221 +1552,156 @@ export default function MonoApp() {
         </>)}
 
 
-        {(v.isCard) && (<>
+        {(v.isHistory) && (<>
         <div style={{ padding: "8px 20px 30px" }}>
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-            <div style={{ fontSize: "22px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>경력카드</div>
-          </div>
-          
-          <div style={{ display: "flex", gap: "4px", background: "#e6e8ec", borderRadius: "13px", padding: "4px", marginTop: "13px" }}>
-            <button onClick={v.setMyView} style={{ flex: "1", height: "38px", border: "none", borderRadius: "10px", background: v.viewMeBg, color: v.viewMeFg, fontSize: "13px", fontWeight: "800", fontFamily: "inherit", cursor: "pointer" }}>내 경력카드</button>
-            <button onClick={v.setPublicView} style={{ flex: "1", height: "38px", border: "none", borderRadius: "10px", background: v.viewPubBg, color: v.viewPubFg, fontSize: "13px", fontWeight: "800", fontFamily: "inherit", cursor: "pointer" }}>기업이 보는 화면</button>
-          </div>
+          <div style={{ fontSize: "22px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>일한 기록</div>
+          <div style={{ fontSize: "13px", color: "#8694a8", fontWeight: "600", marginTop: "3px" }}>최근 출역 내역과 정산 세부 기록을 확인할 수 있습니다.</div>
 
-          {(v.isMyView) && (<>
-          <div style={{ fontSize: "12.5px", color: "#8694a8", fontWeight: "500", margin: "12px 0 14px" }}>현장 경력과 자격을 담은 경력카드</div>
-
-          <div style={{ borderRadius: "22px", padding: "22px", background: "var(--c1,#1F2226)", position: "relative", overflow: "hidden", boxShadow: "0 22px 44px -18px color-mix(in srgb, var(--brand,#1F2226) 90%, transparent)", border: "1px solid color-mix(in srgb, var(--brand,#1F2226) 22%, transparent)" }}>
-            <div style={{ position: "relative", display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+          {/* 이번 달 근무 요약 카드 */}
+          <div style={{ background: "var(--c1,#1F2226)", borderRadius: "20px", padding: "20px", color: "#fff", marginTop: "16px", boxShadow: "0 10px 24px -10px rgba(0,0,0,0.15)" }}>
+            <div style={{ fontSize: "12px", color: "rgba(255,255,255,0.7)", fontWeight: "700" }}>2026년 7월 근무 요약</div>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginTop: "12px" }}>
               <div>
-                <div style={{ display: "flex", alignItems: "center", gap: "7px" }}><div style={{ width: "20px", height: "20px", borderRadius: "6px", background: "var(--a2,#C1C8D1)", display: "flex", alignItems: "center", justifyContent: "center", padding: "3px" }}><svg width="100%" height="100%" viewBox="0 0 28 28" fill="none"><path d="M5 21V9l9 7 9-7v12" stroke="var(--c0,#1F2226)" strokeWidth="3.4" strokeLinecap="round" strokeLinejoin="round"></path></svg></div><span style={{ color: "var(--t0,#E5E7EB)", fontWeight: "800", fontSize: "16px", letterSpacing: ".5px" }}>MONO</span></div>
-                <div style={{ fontSize: "10px", color: "var(--t2,#A5AEB8)", fontWeight: "700", letterSpacing: "2px", marginTop: "8px" }}>경력카드</div>
+                <span className="mono" style={{ fontSize: "36px", fontWeight: "500" }}>12</span>
+                <span style={{ fontSize: "14px", marginLeft: "2px", fontWeight: "700" }}>일</span>
+                <span style={{ margin: "0 8px", color: "rgba(255,255,255,0.3)" }}>|</span>
+                <span className="mono" style={{ fontSize: "36px", fontWeight: "500" }}>13.5</span>
+                <span style={{ fontSize: "14px", marginLeft: "2px", fontWeight: "700" }}>공수</span>
               </div>
-              <span style={{ fontSize: "12px", fontWeight: "800", color: "var(--brand-glow,#454A51)", background: "color-mix(in srgb, var(--brand,#1F2226) 14%, transparent)", padding: "4px 10px", borderRadius: "9px" }}>A등급</span>
-            </div>
-            <div style={{ position: "relative", marginTop: "28px" }}>
-              <div style={{ fontSize: "9.5px", color: "var(--t2,#A5AEB8)", fontWeight: "700", letterSpacing: "1px" }}>기술자</div>
-              <div style={{ fontSize: "19px", color: "#fff", fontWeight: "800", marginTop: "3px" }}>{v.name} · {v.myJob}</div>
-              <div style={{ fontSize: "11px", color: "var(--t1,#A5AEB8)", fontWeight: "600", marginTop: "5px" }}>현장 경력 {(careerCards || []).length}건 · 자격 {(certificates || []).length}개</div>
-            </div>
-          </div>
-
-          {/* 기술 통계 — 실데이터 집계(현장 경력·자격증·교육 보유 수). 공개 프로필(PublicProfileView)의 stat 3종과 동일 지표. */}
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "11px", marginTop: "18px" }}>
-            <div style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: "16px", padding: "14px 15px" }}><div style={{ fontSize: "11.5px", color: "#8694a8", fontWeight: "600" }}>현장 경력</div><div style={{ marginTop: "5px" }}><span className="mono" style={{ fontSize: "22px", fontWeight: "500", color: "var(--c1,#1F2226)" }}>{(careerCards || []).length}</span><span style={{ fontSize: "13px", color: "#8694a8", fontWeight: "600" }}>건</span></div></div>
-            <div style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: "16px", padding: "14px 15px" }}><div style={{ fontSize: "11.5px", color: "#8694a8", fontWeight: "600" }}>자격증</div><div style={{ marginTop: "5px" }}><span className="mono" style={{ fontSize: "22px", fontWeight: "500", color: "var(--c1,#1F2226)" }}>{(certificates || []).length}</span><span style={{ fontSize: "13px", color: "#8694a8", fontWeight: "600" }}>개</span></div></div>
-            <div style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: "16px", padding: "14px 15px" }}><div style={{ fontSize: "11.5px", color: "#8694a8", fontWeight: "600" }}>교육</div><div style={{ marginTop: "5px" }}><span className="mono" style={{ fontSize: "22px", fontWeight: "500", color: "var(--c1,#1F2226)" }}>{(educations || []).length}</span><span style={{ fontSize: "13px", color: "#8694a8", fontWeight: "600" }}>개</span></div></div>
-          </div>
-          {/* 총 근무일·누적 정산액·기술 신뢰도 — MVP에 데이터 소스 없음(근무일수/정산/신뢰도 점수 엔진 미구현)이라 비노출. 실데이터 연동 후 아래를 복원. (docs/disabled-features.md)
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "11px", marginTop: "18px" }}>
-            <div style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: "16px", padding: "14px 15px" }}><div style={{ fontSize: "11.5px", color: "#8694a8", fontWeight: "600" }}>총 근무일</div><div style={{ marginTop: "5px" }}><span className="mono" style={{ fontSize: "22px", fontWeight: "500", color: "var(--c1,#1F2226)" }}>412</span><span style={{ fontSize: "13px", color: "#8694a8", fontWeight: "600" }}>일</span></div></div>
-            <div style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: "16px", padding: "14px 15px" }}><div style={{ fontSize: "11.5px", color: "#8694a8", fontWeight: "600" }}>참여 현장</div><div style={{ marginTop: "5px" }}><span className="mono" style={{ fontSize: "22px", fontWeight: "500", color: "var(--c1,#1F2226)" }}>37</span><span style={{ fontSize: "13px", color: "#8694a8", fontWeight: "600" }}>곳</span></div></div>
-            <div style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: "16px", padding: "14px 15px" }}><div style={{ fontSize: "11.5px", color: "#8694a8", fontWeight: "600" }}>누적 정산액</div><div style={{ marginTop: "5px" }}><span style={{ fontSize: "13px", color: "var(--c1,#1F2226)", fontWeight: "700" }}>₩</span><span className="mono" style={{ fontSize: "18px", fontWeight: "500", color: "var(--c1,#1F2226)" }}>1.48억</span></div></div>
-            <div style={{ background: "var(--c1,#1F2226)", borderRadius: "16px", padding: "14px 15px" }}><div style={{ fontSize: "11.5px", color: "var(--t1,#A5AEB8)", fontWeight: "600" }}>기술 신뢰도</div><div style={{ marginTop: "5px", display: "flex", alignItems: "baseline", gap: "3px" }}><span className="mono" style={{ fontSize: "22px", fontWeight: "500", color: "var(--brand-glow,#454A51)" }}>842</span><span style={{ fontSize: "12px", color: "var(--t2,#A5AEB8)", fontWeight: "600" }}>/1000</span></div></div>
-          </div>
-          */}
-
-
-          {/* 현장 경력 — 사용자가 직접 입력·관리. 공유 프로필(/p/:id)의 "현장 경력"에 그대로 반영된다. */}
-          <div style={{ marginTop: "20px" }}>
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "10px" }}>
-              <span style={{ fontSize: "15px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>현장 경력</span>
-              <button type="button" onClick={() => setOpenCareerSheet(true)} style={{ border: "none", background: "none", fontSize: "12.5px", color: "var(--c1,#1F2226)", fontWeight: "800", fontFamily: "inherit", cursor: "pointer", padding: "4px 2px", WebkitTapHighlightColor: "transparent" }}>+ 경력 추가</button>
-            </div>
-            {(careerCards || []).length === 0 ? (
-              <button type="button" onClick={() => setOpenCareerSheet(true)} style={{ width: "100%", textAlign: "left", border: "1px dashed var(--brand-tint-2,#A5AEB8)", borderRadius: "16px", background: "#eef0f3", padding: "16px", cursor: "pointer", fontFamily: "inherit", WebkitTapHighlightColor: "transparent" }}>
-                <div style={{ fontSize: "13.5px", fontWeight: "800", color: "var(--ai,#1F2226)" }}>참여한 현장을 추가해 보세요</div>
-                <div style={{ fontSize: "12.5px", color: "#8694a8", fontWeight: "500", marginTop: "4px", lineHeight: "1.5" }}>현장명·기간·역할을 입력하면 공유 프로필에 바로 반영됩니다.</div>
-              </button>
-            ) : (
-              <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-                {(Array.isArray(careerCards) ? careerCards : []).map((c) => (
-                  <div key={c.id} style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: "16px", padding: "14px 15px" }}>
-                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "8px" }}>
-                      <span style={{ fontSize: "14.5px", fontWeight: "800", color: "var(--c1,#1F2226)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{c.siteName}</span>
-                      {c.field && (<span style={{ flex: "none", fontSize: "11px", fontWeight: "700", color: "var(--c1,#1F2226)", background: "var(--soft,#E5E7EB)", padding: "3px 8px", borderRadius: "7px" }}>{c.field}</span>)}
-                    </div>
-                    {(c.startDate || c.endDate || c.role) && (
-                      <div style={{ fontSize: "12.5px", color: "#5b6b82", fontWeight: "600", marginTop: "5px" }}>{[fmtRange(c.startDate, c.endDate), c.role].filter(Boolean).join(" · ")}</div>
-                    )}
-                    {c.equipment && (<div style={{ fontSize: "12px", color: "#8694a8", fontWeight: "600", marginTop: "4px" }}>사용 장비 · {c.equipment}</div>)}
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-
-
-          {/* 함께 일한 동료(그래프) — 같은 현장 배정으로 형성. 같은 현장에 다시 부르는 1경로. */}
-          {coworkers.length > 0 && (
-            <div style={{ marginTop: "20px" }}>
-              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "4px" }}>
-                <span style={{ fontSize: "15px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>함께 일한 동료</span>
-                <span style={{ fontSize: "11.5px", fontWeight: "700", color: "var(--c1,#1F2226)" }}>{coworkers.length}명</span>
-              </div>
-              <div style={{ fontSize: "12px", color: "#8694a8", fontWeight: "500", marginBottom: "10px", lineHeight: "1.5" }}>같은 현장에서 함께 일한 동료예요. 새 일에 다시 부를 수 있어요.</div>
-              <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-                {(Array.isArray(coworkers) ? coworkers : []).map((c) => (
-                  <div key={c.coworkerId} style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: "16px", padding: "13px 14px", display: "flex", alignItems: "center", gap: "11px" }}>
-                    <div style={{ flex: "none", width: "38px", height: "38px", borderRadius: "50%", background: "var(--soft,#E5E7EB)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "14px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>{(c.name || "동").slice(0, 1)}</div>
-                    <div style={{ flex: "1", minWidth: "0" }}>
-                      <div style={{ fontSize: "14px", fontWeight: "800", color: "var(--c1,#1F2226)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{c.name || "이름 미등록"}</div>
-                      <div style={{ fontSize: "11.5px", color: "#8694a8", fontWeight: "600", marginTop: "2px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{[c.siteName, c.count > 1 ? `${c.count}개 현장` : null].filter(Boolean).join(" · ") || "함께 일한 현장"}</div>
-                    </div>
-                    <button type="button" onClick={() => recallCoworker(c)} disabled={!!recalled[c.coworkerId]} style={{ flex: "none", height: "34px", padding: "0 13px", border: "1px solid var(--c1,#1F2226)", borderRadius: "10px", background: recalled[c.coworkerId] ? "var(--soft,#E5E7EB)" : "#fff", color: "var(--c1,#1F2226)", fontSize: "12.5px", fontWeight: "800", fontFamily: "inherit", cursor: recalled[c.coworkerId] ? "default" : "pointer", WebkitTapHighlightColor: "transparent", whiteSpace: "nowrap" }}>{recalled[c.coworkerId] || "다시 호출"}</button>
-                  </div>
-                ))}
+              <div style={{ textAlign: "right" }}>
+                <div style={{ fontSize: "11px", color: "rgba(255,255,255,0.6)", fontWeight: "600" }}>받을 금액 (정산 예정)</div>
+                <div style={{ fontSize: "22px", fontWeight: "800", color: "#5fd1a0" }}>₩2,760,000</div>
               </div>
             </div>
-          )}
+          </div>
 
-          <div style={{ marginTop: "16px", display: "flex", flexDirection: "column", gap: "9px" }}>
-            <button onClick={() => setOpenShareSheet(true)} style={{ height: "52px", border: "none", borderRadius: "15px", background: "var(--c1,#1F2226)", color: "#fff", fontSize: "15px", fontWeight: "800", fontFamily: "inherit", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: "8px" }}>
-              <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M14 7a2.5 2.5 0 1 0-2.4-3.1L7.9 6A2.5 2.5 0 1 0 6 10c.6 0 1.2-.2 1.6-.6l3.9 2.3A2.5 2.5 0 1 0 14 13c-.7 0-1.3.3-1.7.7l-3.8-2.2c.1-.3.2-.6.2-.9l3.7-2.2c.4.4 1 .8 1.6.8Z" fill="var(--a1,#1F2226)"></path></svg>
-              경력카드 공유
-            </button>
-            {/* 공개 범위 설정·금융 연계 — 아직 노출하지 않음(주석 처리). 추후 복원 가능.
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "9px" }}>
-              <button onClick={v.openScope} style={{ height: "48px", border: "1px solid #d4dae3", borderRadius: "14px", background: "#fff", color: "var(--c1,#1F2226)", fontSize: "13.5px", fontWeight: "700", fontFamily: "inherit", cursor: "pointer" }}>공개 범위 설정</button>
-              <button onClick={v.openFinance} style={{ height: "48px", border: "1px solid #d4dae3", borderRadius: "14px", background: "#fff", color: "var(--c1,#1F2226)", fontSize: "13.5px", fontWeight: "700", fontFamily: "inherit", cursor: "pointer" }}>금융 연계</button>
+          {/* 에스크로 안심정산 배너 */}
+          <div style={{ background: "#f0fdf4", border: "1px solid #bbf7d0", borderRadius: "16px", padding: "14px 16px", marginTop: "14px", display: "flex", gap: "10px", alignItems: "center" }}>
+            <span style={{ fontSize: "20px" }}>🛡️</span>
+            <div style={{ fontSize: "12px", color: "#166534", fontWeight: "600", lineHeight: "1.45", wordBreak: "keep-all" }}>
+              MONO는 근로자 보호를 위해 <strong>에스크로 안심 정산 계좌</strong>를 사용하며, 노무비 정산 증빙을 자동으로 관리합니다.
             </div>
-            */}
-          </div>
-          </>)}
-
-          
-          {(v.isPublicView) && (<>
-          <div style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "12px", color: "var(--ai,#1F2226)", fontWeight: "700", background: "var(--aSoft,#E5E7EB)", borderRadius: "11px", padding: "10px 13px", margin: "13px 0 0" }}>
-            <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M8 2 3 4v3.5c0 3 2.1 5.2 5 6 2.9-.8 5-3 5-6V4L8 2Z" stroke="var(--ai,#1F2226)" strokeWidth="1.4" strokeLinejoin="round"></path></svg>
-            기업·외부인에게 보이는 공개용 프로필 · 민감 정보는 자동 마스킹됩니다
           </div>
 
-          <div style={{ marginTop: "13px", borderRadius: "22px", padding: "20px", background: "var(--c1,#1F2226)", color: "var(--t0,#E5E7EB)", position: "relative", overflow: "hidden", boxShadow: "0 18px 40px -20px color-mix(in srgb, var(--brand,#1F2226) 80%, transparent)" }}>
-            <div style={{ position: "relative", display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
-              <div>
-                <div style={{ display: "flex", alignItems: "center", gap: "7px" }}><div style={{ width: "16px", height: "16px", borderRadius: "5px", background: "var(--a2,#C1C8D1)", display: "flex", alignItems: "center", justifyContent: "center", padding: "3px" }}><svg width="100%" height="100%" viewBox="0 0 28 28" fill="none"><path d="M5 21V9l9 7 9-7v12" stroke="var(--c1,#1F2226)" strokeWidth="3.4" strokeLinecap="round" strokeLinejoin="round"></path></svg></div><span style={{ color: "#fff", fontWeight: "800", fontSize: "14px" }}>MONO</span><span style={{ fontSize: "10px", fontWeight: "700", color: "var(--c0,#1F2226)", background: "var(--a1,#1F2226)", padding: "2px 7px", borderRadius: "6px" }}>인증 기술자</span></div>
-                <div style={{ fontSize: "21px", fontWeight: "800", marginTop: "13px" }}>{v.maskedName}</div>
-                <div style={{ fontSize: "12.5px", color: "var(--t1,#A5AEB8)", fontWeight: "600", marginTop: "3px" }}>{v.myJob} · A등급 숙련 기술자</div>
+          {/* 상세 출역 기록 */}
+          <div style={{ marginTop: "24px" }}>
+            <div style={{ fontSize: "15px", fontWeight: "800", color: "var(--c1,#1F2226)", marginBottom: "12px" }}>상세 출역 기록</div>
+            
+            <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+              {/* Card 1 */}
+              <div style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: "18px", padding: "16px", boxShadow: "0 4px 12px -10px rgba(0,0,0,0.05)" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                  <span style={{ fontSize: "12px", fontWeight: "800", color: "#b4690e", background: "#fef3c7", padding: "3px 8px", borderRadius: "6px" }}>정산 예정</span>
+                  <span style={{ fontSize: "12.5px", color: "#8694a8", fontWeight: "600" }}>6월 19일 (금)</span>
+                </div>
+                <h4 style={{ margin: "10px 0 4px", fontSize: "15px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>힐스테이트 송도 더스카이</h4>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginTop: "8px", borderTop: "1px solid #f1f5f9", paddingTop: "8px" }}>
+                  <span style={{ fontSize: "13px", color: "#5b6b82", fontWeight: "500" }}>형틀목공 · 1.0공수 · 07:02~17:00</span>
+                  <span className="mono" style={{ fontSize: "15px", fontWeight: "700", color: "var(--c1,#1F2226)" }}>₩230,000</span>
+                </div>
               </div>
-              <div style={{ width: "54px", height: "54px", borderRadius: "12px", background: "#fff", padding: "5px", flex: "none" }}>{v.qr}</div>
-            </div>
-            <div style={{ position: "relative", display: "flex", gap: "16px", marginTop: "18px" }}>
-              <div><div style={{ fontSize: "10px", color: "var(--t2,#A5AEB8)", fontWeight: "700" }}>총 근무일</div><div className="mono" style={{ fontSize: "17px", fontWeight: "500", marginTop: "2px" }}>412일</div></div>
-              <div style={{ width: "1px", background: "rgba(255,255,255,.12)" }}></div>
-              <div><div style={{ fontSize: "10px", color: "var(--t2,#A5AEB8)", fontWeight: "700" }}>출역 신뢰도</div><div className="mono" style={{ fontSize: "17px", fontWeight: "500", marginTop: "2px", color: "var(--brand-glow,#454A51)" }}>98.5%</div></div>
-              <div style={{ width: "1px", background: "rgba(255,255,255,.12)" }}></div>
-              <div><div style={{ fontSize: "10px", color: "var(--t2,#A5AEB8)", fontWeight: "700" }}>기업 평가</div><div className="mono" style={{ fontSize: "17px", fontWeight: "500", marginTop: "2px" }}>4.8</div></div>
-            </div>
-          </div>
 
-          <div style={{ marginTop: "14px", background: "#fff", border: "1px solid #e6e8ec", borderRadius: "18px", padding: "6px 16px" }}>
-            <div style={{ fontSize: "11px", fontWeight: "800", color: "#8694a8", padding: "11px 0 3px", letterSpacing: ".3px" }}>공개 정보</div>
-            {(v.publicRows || []).map((r, _i1) => (<React.Fragment key={_i1}>
-              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "11px 0", borderTop: "1px solid var(--soft,#E5E7EB)" }}>
-                <span style={{ fontSize: "13.5px", color: "#5b6b82", fontWeight: "600" }}>{r.k}</span>
-                <span style={{ fontSize: "13.5px", color: "var(--c1,#1F2226)", fontWeight: "700" }}>{r.v}</span>
+              {/* Card 2 */}
+              <div style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: "18px", padding: "16px", boxShadow: "0 4px 12px -10px rgba(0,0,0,0.05)" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                  <span style={{ fontSize: "12px", fontWeight: "800", color: "#166534", background: "#dcfce7", padding: "3px 8px", borderRadius: "6px" }}>지급 완료</span>
+                  <span style={{ fontSize: "12.5px", color: "#8694a8", fontWeight: "600" }}>5월 14일 (목)</span>
+                </div>
+                <h4 style={{ margin: "10px 0 4px", fontSize: "15px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>푸르지오 김포한강</h4>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginTop: "8px", borderTop: "1px solid #f1f5f9", paddingTop: "8px" }}>
+                  <span style={{ fontSize: "13px", color: "#5b6b82", fontWeight: "500" }}>형틀목공 · 1.5공수 (연장 2H)</span>
+                  <span className="mono" style={{ fontSize: "15px", fontWeight: "700", color: "var(--c1,#1F2226)" }}>₩337,500</span>
+                </div>
               </div>
-            </React.Fragment>))}
-          </div>
 
-          <div style={{ marginTop: "12px", background: "#eef0f3", border: "1px dashed #d4dae3", borderRadius: "16px", padding: "6px 16px" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: "5px", fontSize: "11px", fontWeight: "800", color: "#8694a8", padding: "11px 0 3px" }}>
-              <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><rect x="2.5" y="6" width="9" height="6.5" rx="1.4" stroke="#8694a8" strokeWidth="1.3"></rect><path d="M4.5 6V4.5a2.5 2.5 0 0 1 5 0V6" stroke="#8694a8" strokeWidth="1.3"></path></svg>
-              비공개 · 근로자 동의 시에만 공개
-            </div>
-            {(v.privateRows || []).map((r, _i1) => (<React.Fragment key={_i1}>
-              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "10px 0", borderTop: "1px solid #e6e8ec" }}>
-                <span style={{ fontSize: "13px", color: "#8694a8", fontWeight: "600" }}>{r}</span>
-                <span style={{ fontSize: "12px", color: "#8694a8", fontWeight: "700" }}>🔒 비공개</span>
+              {/* Card 3 */}
+              <div style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: "18px", padding: "16px", boxShadow: "0 4px 12px -10px rgba(0,0,0,0.05)" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                  <span style={{ fontSize: "12px", fontWeight: "800", color: "#166534", background: "#dcfce7", padding: "3px 8px", borderRadius: "6px" }}>지급 완료</span>
+                  <span style={{ fontSize: "12.5px", color: "#8694a8", fontWeight: "600" }}>5월 12일 (화)</span>
+                </div>
+                <h4 style={{ margin: "10px 0 4px", fontSize: "15px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>더샵 일산 센트럴</h4>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginTop: "8px", borderTop: "1px solid #f1f5f9", paddingTop: "8px" }}>
+                  <span style={{ fontSize: "13px", color: "#5b6b82", fontWeight: "500" }}>형틀목공 · 1.0공수</span>
+                  <span className="mono" style={{ fontSize: "15px", fontWeight: "700", color: "var(--c1,#1F2226)" }}>₩230,000</span>
+                </div>
               </div>
-            </React.Fragment>))}
-          </div>
-
-          <div style={{ marginTop: "16px", display: "flex", flexDirection: "column", gap: "9px" }}>
-            <button onClick={v.openDetailReq} style={{ height: "52px", border: "none", borderRadius: "15px", background: "var(--c1,#1F2226)", color: "#fff", fontSize: "15px", fontWeight: "800", fontFamily: "inherit", cursor: "pointer" }}>상세보기 요청 (기업)</button>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "9px" }}>
-              <button onClick={v.openDetailReq} style={{ height: "48px", border: "1px solid #d4dae3", borderRadius: "14px", background: "#fff", color: "var(--c1,#1F2226)", fontSize: "13.5px", fontWeight: "700", fontFamily: "inherit", cursor: "pointer" }}>출역 요청</button>
-              <button onClick={v.openDetailReq} style={{ height: "48px", border: "1px solid #d4dae3", borderRadius: "14px", background: "#fff", color: "var(--c1,#1F2226)", fontSize: "13.5px", fontWeight: "700", fontFamily: "inherit", cursor: "pointer" }}>채용 제안</button>
             </div>
           </div>
-          </>)}
         </div>
         </>)}
 
-        
         {(v.isWork) && (<>
         <div style={{ padding: "8px 20px 30px" }}>
-          <div style={{ fontSize: "22px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>출근 · 정산</div>
-          <div style={{ fontSize: "13px", color: "#8694a8", fontWeight: "600", marginTop: "3px" }}>배정된 현장에서 출근·퇴근을 체크하세요</div>
+          <div style={{ fontSize: "22px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>지원·출근</div>
+          <div style={{ fontSize: "13px", color: "#8694a8", fontWeight: "600", marginTop: "3px" }}>지원 완료된 공고와 확정 현장 출퇴근을 확인할 수 있습니다.</div>
 
-          {(assignments === null) && (<div style={{ padding: "34px 0", textAlign: "center", color: "#8694a8", fontSize: "13px", fontWeight: "600" }}>불러오는 중…</div>)}
-          {(assignments !== null && assignments.length === 0) && (
-            <div style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: "20px", padding: "34px 22px", textAlign: "center", marginTop: "14px" }}>
-              <div style={{ fontSize: "15px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>아직 배정된 현장이 없어요</div>
-              <div style={{ fontSize: "12.5px", color: "#8694a8", fontWeight: "500", marginTop: "8px", lineHeight: "1.65" }}>일자리에서 지원하고 기업의 수락을 받으면<br />여기에서 출근 체크를 할 수 있어요.</div>
-              <button onClick={v.goJobs} style={{ marginTop: "16px", height: "44px", padding: "0 20px", border: "none", borderRadius: "13px", background: "var(--c1,#1F2226)", color: "#fff", fontSize: "14px", fontWeight: "800", fontFamily: "inherit", cursor: "pointer" }}>일자리 보러가기</button>
-            </div>
-          )}
-          {(Array.isArray(assignments) ? assignments : []).map((a) => {
-            const openAtt = a.attendances.find((at) => !at.checkOutAt);
-            return (
-              <div key={a.id} style={{ marginTop: "14px", borderRadius: "20px", background: "var(--c1,#1F2226)", padding: "18px", color: "var(--t0,#E5E7EB)", position: "relative", overflow: "hidden" }}>
-                <div style={{ fontSize: "11.5px", fontWeight: "700", color: "var(--t1,#A5AEB8)" }}>{a.jobPost.company ? a.jobPost.company.name : "협약 기업"}{a.jobPost.region.length ? " · " + a.jobPost.region.join(", ") : ""}</div>
-                <div style={{ fontSize: "17px", fontWeight: "800", marginTop: "3px" }}>{a.jobPost.title}</div>
-                <button onClick={() => (openAtt ? doCheckOut(a) : doCheckIn(a.id))} style={{ marginTop: "14px", width: "100%", height: "52px", border: "none", borderRadius: "14px", background: openAtt ? "var(--a1,#1F2226)" : "#fff", color: openAtt ? "var(--c0,#1F2226)" : "var(--c1,#1F2226)", fontSize: "16px", fontWeight: "800", fontFamily: "inherit", cursor: "pointer" }}>{openAtt ? "퇴근 체크" : "출근 체크"}</button>
-                <div style={{ fontSize: "11px", color: "var(--t2,#A5AEB8)", textAlign: "center", marginTop: "9px" }}>QR · 위치 기반 출근 체크</div>
-                {(a.attendances.length > 0) && (
-                  <div style={{ marginTop: "13px", borderTop: "1px solid rgba(255,255,255,.12)", paddingTop: "12px", display: "flex", flexDirection: "column", gap: "8px" }}>
-                    {a.attendances.slice(0, 6).map((at) => (
-                      <div key={at.id} style={{ display: "flex", justifyContent: "space-between", fontSize: "12px" }}>
-                        <span style={{ color: "var(--t2,#A5AEB8)", fontWeight: "600" }}>{at.workDate}</span>
-                        <span className="mono" style={{ color: "var(--t0,#E5E7EB)" }}>{fmtClock(at.checkInAt)} → {at.checkOutAt ? fmtClock(at.checkOutAt) : "근무 중"}</span>
-                      </div>
-                    ))}
-                  </div>
-                )}
+          {/* 1. 나의 지원 현황 */}
+          <div style={{ marginTop: "20px" }}>
+            <div style={{ fontSize: "15px", fontWeight: "800", color: "var(--c1,#1F2226)", marginBottom: "10px" }}>📋 나의 지원 현황</div>
+            <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+              <div style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: "18px", padding: "14px 16px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                <div>
+                  <h5 style={{ margin: 0, fontSize: "14px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>힐스테이트 송도 더스카이</h5>
+                  <span style={{ fontSize: "12px", color: "#8694a8" }}>형틀목공 · 지원일 07/06</span>
+                </div>
+                <span style={{ fontSize: "12px", fontWeight: "800", color: "#4f46e5", background: "#eeebff", padding: "4px 8px", borderRadius: "8px" }}>확정 대기</span>
               </div>
-            );
-          })}
-
-          {/* 정산 — 규제 영역이라 가짜 금액 대신 관심/안내형 처리(계획 §3-2). */}
-          <div style={{ fontSize: "15px", fontWeight: "800", color: "var(--c1,#1F2226)", margin: "24px 0 11px" }}>정산</div>
-          <div style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: "20px", padding: "20px" }}>
-            <div style={{ fontSize: "14px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>안심 정산</div>
-            <div style={{ fontSize: "12.5px", color: "#8694a8", fontWeight: "500", marginTop: "7px", lineHeight: "1.65" }}>출역 데이터를 기반으로 한 안심 정산은 제휴·법률 검토 후 단계적으로 제공됩니다. 관심 등록하시면 먼저 안내드릴게요.</div>
-            <button onClick={() => setOpenInterest(true)} style={{ marginTop: "14px", width: "100%", height: "44px", border: "1px solid var(--c1,#1F2226)", borderRadius: "13px", background: "#fff", color: "var(--c1,#1F2226)", fontSize: "13.5px", fontWeight: "800", fontFamily: "inherit", cursor: "pointer" }}>안심 정산 관심 등록</button>
+              <div style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: "18px", padding: "14px 16px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                <div>
+                  <h5 style={{ margin: 0, fontSize: "14px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>평택 삼성반도체 P4 현장</h5>
+                  <span style={{ fontSize: "12px", color: "#8694a8" }}>배관설비 · 지원일 07/05</span>
+                </div>
+                <span style={{ fontSize: "12px", fontWeight: "800", color: "#10b981", background: "#ecfdf5", padding: "4px 8px", borderRadius: "8px" }}>매칭 완료</span>
+              </div>
+            </div>
           </div>
-          {/* 외국인 기술자 정산 내역 — 출역·정산 탭에 포함 */}
+
+          {/* 2. 확정 현장 & 출퇴근 */}
+          <div style={{ marginTop: "24px" }}>
+            <div style={{ fontSize: "15px", fontWeight: "800", color: "var(--c1,#1F2226)", marginBottom: "10px" }}>👷 확정 현장 & 출퇴근</div>
+
+            {(assignments === null) && (<div style={{ padding: "34px 0", textAlign: "center", color: "#8694a8", fontSize: "13px", fontWeight: "600" }}>불러오는 중…</div>)}
+            {(assignments !== null && assignments.length === 0) && (
+              <div style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: "20px", padding: "34px 22px", textAlign: "center" }}>
+                <div style={{ fontSize: "15px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>아직 확정된 현장이 없어요</div>
+                <div style={{ fontSize: "12.5px", color: "#8694a8", fontWeight: "500", marginTop: "8px", lineHeight: "1.65" }}>현장 찾기 탭에서 공고를 선택해 지원해 주세요.</div>
+                <button onClick={v.goJobs} style={{ marginTop: "16px", height: "44px", padding: "0 20px", border: "none", borderRadius: "13px", background: "var(--c1,#1F2226)", color: "#fff", fontSize: "14px", fontWeight: "800", fontFamily: "inherit", cursor: "pointer" }}>일자리 보러가기</button>
+              </div>
+            )}
+            {(Array.isArray(assignments) ? assignments : []).map((a) => {
+              const openAtt = a.attendances.find((at) => !at.checkOutAt);
+              return (
+                <div key={a.id} style={{ borderRadius: "20px", background: "var(--c1,#1F2226)", padding: "18px", color: "var(--t0,#E5E7EB)", position: "relative", overflow: "hidden" }}>
+                  <div style={{ fontSize: "11.5px", fontWeight: "700", color: "var(--t1,#A5AEB8)" }}>{a.jobPost.company ? a.jobPost.company.name : "협약 기업"}{a.jobPost.region.length ? " · " + a.jobPost.region.join(", ") : ""}</div>
+                  <div style={{ fontSize: "17px", fontWeight: "800", marginTop: "3px" }}>{a.jobPost.title}</div>
+                  
+                  {/* 집결지 정보 노출 */}
+                  <div style={{ marginTop: "12px", background: "rgba(255,255,255,0.06)", borderRadius: "12px", padding: "12px 14px", fontSize: "12.5px" }}>
+                    <div style={{ color: "rgba(255,255,255,0.6)", fontWeight: "600" }}>📍 집결지 주소</div>
+                    <div style={{ color: "#fff", fontWeight: "700", marginTop: "2px" }}>경기 평택시 고덕동 삼성반도체 P4 현장 게이트 3앞</div>
+                    <div style={{ color: "rgba(255,255,255,0.6)", fontWeight: "600", marginTop: "8px" }}>⏰ 집결 시간</div>
+                    <div style={{ color: "#fff", fontWeight: "700", marginTop: "2px" }}>오전 06:40 (지각 시 출입 통제)</div>
+                  </div>
+
+                  <button onClick={() => (openAtt ? doCheckOut(a) : doCheckIn(a.id))} style={{ marginTop: "14px", width: "100%", height: "52px", border: "none", borderRadius: "14px", background: openAtt ? "var(--a1,#1F2226)" : "#fff", color: openAtt ? "var(--c0,#1F2226)" : "var(--c1,#1F2226)", fontSize: "16px", fontWeight: "800", fontFamily: "inherit", cursor: "pointer" }}>{openAtt ? "퇴근 체크" : "출근 체크"}</button>
+                  <div style={{ fontSize: "11px", color: "var(--t2,#A5AEB8)", textAlign: "center", marginTop: "9px" }}>QR 및 실시간 위치 기반 안전 체크인</div>
+                  {(a.attendances.length > 0) && (
+                    <div style={{ marginTop: "13px", borderTop: "1px solid rgba(255,255,255,.12)", paddingTop: "12px", display: "flex", flexDirection: "column", gap: "8px" }}>
+                      {a.attendances.slice(0, 6).map((at) => (
+                        <div key={at.id} style={{ display: "flex", justifyContent: "space-between", fontSize: "12px" }}>
+                          <span style={{ color: "var(--t2,#A5AEB8)", fontWeight: "600" }}>{at.workDate}</span>
+                          <span className="mono" style={{ color: "var(--t0,#E5E7EB)" }}>{fmtClock(at.checkInAt)} → {at.checkOutAt ? fmtClock(at.checkOutAt) : "근무 중"}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+
+          {/* 외국인 기술자 정산 내역 */}
           {isForeigner && (
             <div style={{ marginTop: "24px" }}>
               <FgnSettlement id={getServerId() || ""} />
@@ -1587,7 +1712,9 @@ export default function MonoApp() {
 
         {(v.isMe) && (<>
         <div style={{ padding: "8px 20px 30px" }}>
-          <div style={{ fontSize: "22px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>내 정보</div>
+          <div style={{ fontSize: "22px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>내 프로필</div>
+          
+          {/* 사용자 정보 카드 */}
           <div style={{ marginTop: "14px", background: "var(--c1,#1F2226)", borderRadius: "20px", padding: "20px", color: "var(--t0,#E5E7EB)", display: "flex", alignItems: "center", gap: "14px" }}>
             <div style={{ width: "58px", height: "58px", borderRadius: "18px", background: "rgba(255,255,255,.1)", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--brand-glow,#454A51)", fontSize: "22px", fontWeight: "800" }}>{v.initial}</div>
             <div style={{ flex: "1" }}>
@@ -1605,11 +1732,150 @@ export default function MonoApp() {
             </div>
           </div>
 
+          {/* 프로필 완성도 */}
+          <div style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: "18px", padding: "14px", marginTop: "14px" }}>
+            <div style={{ fontSize: "12px", fontWeight: "700", color: "#8694a8", marginBottom: "6px" }}>프로필 완성도 {v.completion}%{v.completion >= 100 ? " · 모든 항목 완료" : v.completion >= 80 ? " · 검증 프로필 완성" : " · 채울수록 신뢰도가 올라가요"}</div>
+            <div style={{ height: "6px", background: "#eef0f3", borderRadius: "4px", overflow: "hidden" }}>
+              <div style={{ width: `${v.completion}%`, height: "100%", background: "var(--c3,#1F2226)", borderRadius: "4px", transition: "width .5s cubic-bezier(.22,1,.36,1)" }}></div>
+            </div>
+          </div>
 
+          {/* 현장 준비 상태 (인증) */}
+          <div style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: "20px", padding: "18px", marginTop: "14px" }}>
+            <div style={{ fontSize: "15px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>🚦 현장 준비 상태</div>
+            <div style={{ fontSize: "12.5px", color: "#8694a8", fontWeight: "500", marginTop: "4px", marginBottom: "16px", lineHeight: "1.45", wordBreak: "keep-all" }}>
+              대형 현장 지원에 필요한 준비를 확인해보세요. 각 항목을 탭하여 완료 상태를 시뮬레이션할 수 있습니다.
+            </div>
+
+            <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+              {[
+                { key: "idCard", label: "신분증 제출 (이름·주민번호)", desc: "본인 확인 및 노무비 지급 증빙용" },
+                { key: "safetyEdu", label: "기초안전보건교육 이수증", desc: "건설 현장 출입 필수 법정 교육" },
+                { key: "elecCard", label: "건설근로자 전자카드", desc: "퇴직공제 신고 및 출퇴근용 태그 카드" },
+                { key: "bankAcc", label: "노무비 정산 계좌 등록", desc: "본인 명의 예금주 검증 완료 계좌" },
+                { key: "medCheck", label: "배치전/특수 신체검사서", desc: "대형 현장 및 유해공정 필수 검진" },
+                { key: "gateCard", label: "현장 출입카드 발급", desc: "평택 삼성반도체/조선소 등 현장 등록" },
+                { key: "safetyGear", label: "안전화 · 작업복 구비", desc: "현장 작업용 개인 보호구 준비" },
+              ].map((item) => {
+                const checked = prepChecklist[item.key];
+                return (
+                  <div
+                    key={item.key}
+                    onClick={() => {
+                      setPrepChecklist(prev => ({
+                        ...prev,
+                        [item.key]: !prev[item.key]
+                      }));
+                    }}
+                    style={{
+                      display: "flex", alignItems: "center", gap: "12px", padding: "12px 14px",
+                      borderRadius: "14px", border: "1px solid #e6e8ec", background: checked ? "#f8fafc" : "#fff",
+                      cursor: "pointer", transition: "all 0.15s"
+                    }}
+                  >
+                    <div style={{
+                      width: "20px", height: "20px", borderRadius: "6px",
+                      border: `2px solid ${checked ? "#10b981" : "#cbd5e1"}`,
+                      background: checked ? "#10b981" : "transparent",
+                      display: "flex", alignItems: "center", justifyContent: "center",
+                      color: "#fff", fontSize: "12px", fontWeight: "900", flex: "none"
+                    }}>
+                      {checked ? "✓" : ""}
+                    </div>
+                    <div style={{ flex: "1" }}>
+                      <div style={{ fontSize: "13.5px", fontWeight: "800", color: checked ? "var(--c1,#1F2226)" : "#64748b" }}>
+                        {item.label}
+                      </div>
+                      <div style={{ fontSize: "11px", color: "#8694a8", marginTop: "2px", fontWeight: "500" }}>
+                        {item.desc}
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* 나의 MONO 경력카드 (Consolidated Card View) */}
+          <div style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: "20px", padding: "18px", marginTop: "14px" }}>
+            <div style={{ fontSize: "15px", fontWeight: "800", color: "var(--c1,#1F2226)", marginBottom: "12px" }}>💳 나의 MONO 경력카드</div>
+            
+            <div style={{ borderRadius: "18px", padding: "18px", background: "var(--c1,#1F2226)", position: "relative", overflow: "hidden", border: "1px solid color-mix(in srgb, var(--brand,#1F2226) 22%, transparent)" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+                <div>
+                  <div style={{ display: "flex", alignItems: "center", gap: "7px" }}>
+                    <span style={{ color: "var(--t0,#E5E7EB)", fontWeight: "800", fontSize: "15px" }}>MONO</span>
+                  </div>
+                  <div style={{ fontSize: "9px", color: "var(--t2,#A5AEB8)", fontWeight: "700", marginTop: "4px" }}>인증 경력카드</div>
+                </div>
+                <span style={{ fontSize: "11px", fontWeight: "800", color: "#fff", background: "rgba(255,255,255,0.15)", padding: "4px 8px", borderRadius: "8px" }}>A등급</span>
+              </div>
+              <div style={{ marginTop: "22px" }}>
+                <div style={{ fontSize: "16px", color: "#fff", fontWeight: "800" }}>{v.name} · {v.myJob}</div>
+                <div style={{ fontSize: "11.5px", color: "var(--t1,#A5AEB8)", fontWeight: "600", marginTop: "4px" }}>
+                  경력 {(careerCards || []).length}건 · 자격증 {(certificates || []).length}개
+                </div>
+              </div>
+            </div>
+
+            <button
+              onClick={openShare}
+              style={{
+                marginTop: "12px", width: "100%", height: "42px", border: "none", borderRadius: "10px",
+                background: "var(--c1,#1F2226)", color: "#fff", fontSize: "13px", fontWeight: "800", cursor: "pointer"
+              }}
+            >
+              경력카드 QR / 링크 공유하기
+            </button>
+          </div>
+
+          {/* 경력 / 자격 리스트 관리 */}
+          <div style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: "20px", padding: "18px", marginTop: "14px" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "12px" }}>
+              <span style={{ fontSize: "15px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>🛠️ 현장 경력 ({careerCards.length}건)</span>
+              <span onClick={() => setOpenCareerSheet(true)} style={{ fontSize: "12.5px", color: "#4f46e5", fontWeight: "700", cursor: "pointer" }}>+ 추가</span>
+            </div>
+            {careerCards.length === 0 ? (
+              <div style={{ fontSize: "12.5px", color: "#8694a8", padding: "8px 0" }}>등록된 현장 경력이 없습니다.</div>
+            ) : (
+              <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                {careerCards.map((card) => (
+                  <div key={card.id} style={{ padding: "10px 12px", background: "#f8fafc", border: "1px solid #e6e8ec", borderRadius: "12px", fontSize: "13px" }}>
+                    <div style={{ fontWeight: "800", color: "var(--c1,#1F2226)" }}>{card.projectName}</div>
+                    <div style={{ color: "#8694a8", fontSize: "11.5px", marginTop: "2px" }}>{card.company} · {card.trade} · {card.days}공수</div>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            <div style={{ borderTop: "1px solid #f1f5f9", margin: "14px 0" }}></div>
+
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "12px" }}>
+              <span style={{ fontSize: "15px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>📜 자격증 및 교육 ({certificates.length + educations.length}건)</span>
+              <span onClick={() => setOpenDocs(true)} style={{ fontSize: "12.5px", color: "#4f46e5", fontWeight: "700", cursor: "pointer" }}>+ 관리</span>
+            </div>
+            {certificates.length === 0 && educations.length === 0 ? (
+              <div style={{ fontSize: "12.5px", color: "#8694a8", padding: "8px 0" }}>등록된 서류가 없습니다.</div>
+            ) : (
+              <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                {certificates.map((c) => (
+                  <div key={c.id} style={{ padding: "10px 12px", background: "#f0fdfa", border: "1px solid #ccfbf1", borderRadius: "12px", fontSize: "13px", display: "flex", justifyContent: "space-between" }}>
+                    <span style={{ fontWeight: "800", color: "#0f766e" }}>{c.name}</span>
+                    <span style={{ fontSize: "11px", color: "#0d9488" }}>자격증</span>
+                  </div>
+                ))}
+                {educations.map((e) => (
+                  <div key={e.id} style={{ padding: "10px 12px", background: "#f5f3ff", border: "1px solid #ddd6fe", borderRadius: "12px", fontSize: "13px", display: "flex", justifyContent: "space-between" }}>
+                    <span style={{ fontWeight: "800", color: "#5b21b6" }}>{e.title}</span>
+                    <span style={{ fontSize: "11px", color: "#7c3aed" }}>교육이수</span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* 프로필 서브 링크 메뉴 */}
           <div style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: "18px", padding: "14px 6px", marginTop: "14px" }}>
-            <div style={{ fontSize: "11px", fontWeight: "700", color: "#8694a8", padding: "4px 14px 8px" }}>프로필 완성도 {v.completion}%{v.completion >= 100 ? " · 모든 항목 완료" : v.completion >= 80 ? " · 검증 프로필 완성" : " · 채울수록 신뢰도가 올라가요"}</div>
-            <div style={{ height: "6px", background: "#eef0f3", borderRadius: "4px", margin: "0 14px 12px", overflow: "hidden" }}><div style={{ width: `${v.completion}%`, height: "100%", background: "var(--c3,#1F2226)", borderRadius: "4px", transition: "width .5s cubic-bezier(.22,1,.36,1)" }}></div></div>
-            {v.meCta && (<div onClick={v.meCta.act} style={{ margin: "0 14px 12px", padding: "11px 14px", borderRadius: "12px", background: "var(--soft,#E5E7EB)", display: "flex", alignItems: "center", justifyContent: "space-between", cursor: "pointer" }}><span style={{ fontSize: "13px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>{v.meCta.label}</span><svg width="8" height="14" viewBox="0 0 8 14" fill="none"><path d="m1 1 6 6-6 6" stroke="var(--c1,#1F2226)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path></svg></div>)}
             {(v.meRows || []).map((row, _i1) => (<React.Fragment key={_i1}>
               <div onClick={row.onClick} style={{ display: "flex", alignItems: "center", gap: "13px", padding: "13px 14px", cursor: "pointer" }}>
                 <div style={{ width: "34px", height: "34px", borderRadius: "11px", background: "#eef0f3", display: "flex", alignItems: "center", justifyContent: "center", flex: "none" }}>{row.icon}</div>
@@ -1619,7 +1885,8 @@ export default function MonoApp() {
               </div>
             </React.Fragment>))}
           </div>
-          {/* 내 팀(반장) — 팀을 통째로 데려와 일괄 등록. DB 직결(local-first 아님). */}
+
+          {/* 내 팀(반장) */}
           <div style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: "18px", padding: "16px", marginTop: "14px" }}>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
               <span style={{ fontSize: "15px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>내 팀{team && isForeman ? ` · ${team.memberCount}명` : ""}</span>
@@ -1648,125 +1915,10 @@ export default function MonoApp() {
               <button type="button" onClick={deleteTeam} style={{ marginTop: "12px", border: "none", background: "none", color: "#d9534f", fontSize: "12.5px", fontWeight: "700", fontFamily: "inherit", cursor: "pointer", padding: "2px 0", WebkitTapHighlightColor: "transparent" }}>팀 삭제</button>
             )}
           </div>
-
-          {/* 현장리더 프로필 — 반장(현장리더) 전용 진입점. 클릭 시 입력 시트 오픈. */}
-          {isForeman && (
-            <div onClick={openLeaderProfile} role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openLeaderProfile(); } }} style={{ marginTop: "14px", cursor: "pointer", background: "#fff", border: "1px solid #e6e8ec", borderRadius: "18px", padding: "16px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "12px", WebkitTapHighlightColor: "transparent" }}>
-              <div style={{ display: "flex", alignItems: "center", gap: "13px", minWidth: "0" }}>
-                <div style={{ width: "44px", height: "44px", flex: "none", borderRadius: "13px", background: "var(--soft,#E5E7EB)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                  <svg width={20} height={20} viewBox="0 0 20 20" fill="none"><path d="M10 3 3.5 5.6v3.8c0 3.7 2.8 6.1 6.5 7.6 3.7-1.5 6.5-3.9 6.5-7.6V5.6L10 3Z" stroke="var(--c1,#1F2226)" strokeWidth={1.6} strokeLinejoin="round" /><path d="m7.6 9.9 1.7 1.7 3.1-3.3" stroke="var(--c1,#1F2226)" strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round" /></svg>
-                </div>
-                <div style={{ minWidth: "0" }}>
-                  <div style={{ fontSize: "15px", fontWeight: "800", color: "var(--app-text,#1F2226)" }}>현장리더 프로필</div>
-                  <div style={{ fontSize: "12.5px", color: "#8694a8", fontWeight: "600", marginTop: "2px" }}>관리 가능 직군·팀 규모·투입 지역을 등록하세요</div>
-                </div>
-              </div>
-              <span style={{ fontSize: "20px", color: "#8694a8", lineHeight: "1", flex: "none" }}>›</span>
-            </div>
-          )}
-
-          {/* 팀 가동일정 — 반장 전용(§5.6) */}
-          {isForeman && (
-            <div onClick={openAvail} role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openAvail(); } }} style={{ marginTop: "14px", cursor: "pointer", background: "#fff", border: "1px solid #e6e8ec", borderRadius: "18px", padding: "16px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "12px", WebkitTapHighlightColor: "transparent" }}>
-              <div style={{ minWidth: 0 }}>
-                <div style={{ fontSize: "15px", fontWeight: "800", color: "var(--app-text,#1F2226)" }}>팀 가동일정</div>
-                <div style={{ fontSize: "12.5px", color: "#8694a8", fontWeight: "600", marginTop: "2px" }}>주간 가동상태·투입지역·긴급투입을 등록하세요</div>
-              </div>
-              <span style={{ fontSize: "20px", color: "#8694a8", lineHeight: "1", flex: "none" }}>›</span>
-            </div>
-          )}
-
-          {/* AI현장리더 관심 — 반장 전용(§5.10), 1클릭 등록 */}
-          {isForeman && (
-            <div onClick={registerAiLeader} role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); registerAiLeader(); } }} style={{ marginTop: "14px", cursor: aiDone ? "default" : "pointer", background: aiDone ? "var(--soft,#E5E7EB)" : "var(--c1,#1F2226)", border: "none", borderRadius: "18px", padding: "16px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "12px", WebkitTapHighlightColor: "transparent" }}>
-              <div style={{ minWidth: 0 }}>
-                <div style={{ fontSize: "15px", fontWeight: "800", color: aiDone ? "var(--c1,#1F2226)" : "#fff" }}>AI현장리더</div>
-                <div style={{ fontSize: "12.5px", fontWeight: "600", marginTop: "2px", color: aiDone ? "var(--c1,#1F2226)" : "rgba(255,255,255,.85)" }}>{aiDone ? "관심 등록 완료 · 매칭이 열리면 안내드려요" : "반복 현장을 AI가 팀 후보와 매칭해 드려요"}</div>
-              </div>
-              <span style={{ fontSize: "13px", fontWeight: 800, flex: "none", color: aiDone ? "var(--c1,#1F2226)" : "#fff" }}>{aiDone ? "완료 ✓" : "관심 신청"}</span>
-            </div>
-          )}
-
-          {/* 장비 이력 — 전 기술자(§5.5) */}
-          <div onClick={() => setEquipOpen(true)} role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setEquipOpen(true); } }} style={{ marginTop: "14px", cursor: "pointer", background: "#fff", border: "1px solid #e6e8ec", borderRadius: "18px", padding: "16px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "12px", WebkitTapHighlightColor: "transparent" }}>
-            <div style={{ minWidth: 0 }}>
-              <div style={{ fontSize: "15px", fontWeight: "800", color: "var(--app-text,#1F2226)" }}>장비 이력{equipList.length ? ` · ${equipList.length}건` : ""}</div>
-              <div style={{ fontSize: "12.5px", color: "#8694a8", fontWeight: "600", marginTop: "2px" }}>운용 가능한 장비·공구를 등록하세요</div>
-            </div>
-            <span style={{ fontSize: "20px", color: "#8694a8", lineHeight: "1", flex: "none" }}>›</span>
-          </div>
-
-          {/* 팀 가동일정 시트 */}
-          {availOpen && (
-            <div onClick={() => setAvailOpen(false)} style={{ position: "fixed", inset: 0, background: "rgba(17,17,17,.34)", backdropFilter: "blur(3px)", zIndex: 70, display: "flex", alignItems: "flex-end" }}>
-              <div ref={availRef} tabIndex={-1} onKeyDown={trapTab(availRef)} onClick={(e) => e.stopPropagation()} role="dialog" aria-label="팀 가동일정" style={{ width: "100%", maxWidth: "480px", margin: "0 auto", maxHeight: "90dvh", overflowY: "auto", background: "#fff", borderRadius: "28px 28px 0 0", padding: "10px 20px calc(20px + env(safe-area-inset-bottom))", outline: "none", animation: "sheetUp .32s cubic-bezier(.22,1,.36,1)" }}>
-                <div style={{ width: "38px", height: "4px", borderRadius: "999px", background: "#e6e8ec", margin: "0 auto 14px" }} />
-                <h2 style={{ margin: "0 0 4px", fontSize: "20px", fontWeight: 800, color: "var(--app-text,#1F2226)" }}>팀 가동일정</h2>
-                <p style={{ margin: 0, fontSize: "12.5px", color: "#8694a8" }}>주 단위로 가동상태를 등록하세요.</p>
-                <label style={shLabel}>주 시작일</label>
-                <input type="date" value={availForm.weekStart} onChange={(e) => setAvailForm((p) => ({ ...p, weekStart: e.target.value }))} style={shInput} />
-                <label style={shLabel}>가동상태</label>
-                <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
-                  {[["AVAILABLE", "가용"], ["PARTIAL", "일부 가용"], ["ASSIGNED", "배정됨"], ["UNAVAILABLE", "불가"]].map(([val, lab]) => {
-                    const on = availForm.status === val;
-                    return <button key={val} type="button" onClick={() => setAvailForm((p) => ({ ...p, status: val }))} style={shPill(on)}>{lab}</button>;
-                  })}
-                </div>
-                <label style={shLabel}>이동 가능 지역</label>
-                <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
-                  {REGIONS.map((r) => <button key={r} type="button" onClick={() => toggleAvailRegion(r)} style={shPill(availForm.regions.includes(r))}>{r}</button>)}
-                </div>
-                <label style={{ display: "flex", alignItems: "center", gap: "9px", marginTop: "16px", cursor: "pointer" }}>
-                  <input type="checkbox" checked={availForm.urgentOk} onChange={(e) => setAvailForm((p) => ({ ...p, urgentOk: e.target.checked }))} />
-                  <span style={{ fontSize: "13.5px", fontWeight: 700, color: "var(--app-text,#1F2226)" }}>긴급 투입 가능</span>
-                </label>
-                {availMsg && <div style={{ marginTop: "12px", fontSize: "12.5px", fontWeight: 700, color: "var(--c1,#1F2226)" }}>{availMsg}</div>}
-                <button type="button" onClick={submitAvail} style={{ marginTop: "18px", width: "100%", height: "54px", borderRadius: "16px", border: "none", background: "var(--c1,#1F2226)", color: "#fff", fontSize: "16px", fontWeight: 800, fontFamily: "inherit", cursor: "pointer" }}>가동일정 저장</button>
-              </div>
-            </div>
-          )}
-
-          {/* 장비 이력 시트 */}
-          {equipOpen && (
-            <div onClick={() => setEquipOpen(false)} style={{ position: "absolute", inset: "0", zIndex: "60", background: "rgba(20,22,48,.55)", backdropFilter: "blur(3px)", display: "flex", alignItems: "flex-end", animation: "fadeIn .2s ease" }}>
-              <div ref={equipRef} tabIndex={-1} onKeyDown={trapTab(equipRef)} onClick={(e) => e.stopPropagation()} role="dialog" aria-label="장비 이력" style={{ width: "100%", maxHeight: "88%", overflowY: "auto", background: "#fff", borderRadius: "28px 28px 0 0", padding: "22px 18px 26px", outline: "none", animation: "sheetUp .32s cubic-bezier(.22,1,.36,1)" }}>
-                <div style={{ width: "40px", height: "4px", borderRadius: "2px", background: "#d4dae3", margin: "0 auto 16px" }} />
-                <h2 style={{ margin: "0 0 4px", fontSize: "20px", fontWeight: 800, color: "var(--app-text,#1F2226)" }}>장비 이력</h2>
-                <p style={{ margin: 0, fontSize: "12.5px", color: "#8694a8" }}>운용 가능한 장비·공구를 등록하세요.</p>
-                {equipList.length > 0 && (
-                  <div style={{ marginTop: "14px", display: "flex", flexDirection: "column", gap: "8px" }}>
-                    {equipList.map((eq) => (
-                      <div key={eq.id} style={{ display: "flex", alignItems: "center", gap: "10px", padding: "11px 13px", border: "1px solid #e6e8ec", borderRadius: "13px" }}>
-                        <span style={{ flex: 1, fontSize: "14px", fontWeight: 700, color: "var(--app-text,#1F2226)" }}>{eq.name}{eq.yearsUsed ? ` · ${eq.yearsUsed}년` : ""}{eq.category ? ` · ${eq.category}` : ""}</span>
-                        <button type="button" onClick={() => deleteEquip(eq.id)} style={{ border: "none", background: "none", color: "#d9534f", fontSize: "12px", fontWeight: 700, fontFamily: "inherit", cursor: "pointer" }}>삭제</button>
-                      </div>
-                    ))}
-                  </div>
-                )}
-                <label style={shLabel}>장비/공구명</label>
-                <input value={equipForm.name} onChange={(e) => setEquipForm((p) => ({ ...p, name: e.target.value }))} placeholder="예: 그라인더" style={shInput} />
-                <div style={{ display: "flex", gap: "10px" }}>
-                  <div style={{ flex: 2 }}>
-                    <label style={shLabel}>분류</label>
-                    <input value={equipForm.category} onChange={(e) => setEquipForm((p) => ({ ...p, category: e.target.value }))} placeholder="예: 전동공구" style={shInput} />
-                  </div>
-                  <div style={{ flex: 1 }}>
-                    <label style={shLabel}>경력(년)</label>
-                    <input value={equipForm.yearsUsed} onChange={(e) => setEquipForm((p) => ({ ...p, yearsUsed: e.target.value.replace(/[^0-9]/g, "") }))} inputMode="numeric" placeholder="년" style={shInput} />
-                  </div>
-                </div>
-                <button type="button" onClick={addEquip} disabled={!equipForm.name.trim()} style={{ marginTop: "16px", width: "100%", height: "50px", borderRadius: "14px", border: "none", background: equipForm.name.trim() ? "var(--c1,#1F2226)" : "#e6e8ec", color: equipForm.name.trim() ? "#fff" : "#8694a8", fontSize: "15px", fontWeight: 800, fontFamily: "inherit", cursor: equipForm.name.trim() ? "pointer" : "default" }}>+ 장비 추가</button>
-              </div>
-            </div>
-          )}
-
+          
           <button
-            type="button"
             onClick={() => {
-              // 로그아웃: 인증·서버ID·프로필 상태 초기화 → 로그인 화면으로
               try {
-                window.localStorage.removeItem("mono.loggedIn");
-                window.localStorage.removeItem("mono.serverId");
                 window.localStorage.removeItem("mono.profile");
               } catch {
                 /* noop */
@@ -1784,8 +1936,8 @@ export default function MonoApp() {
 
       </div>
 
-      
-      <div className="mono-bottomnav" style={{ height: "84px", flex: "none", background: "rgba(249,250,253,.94)", backdropFilter: "blur(14px)", borderTop: "1px solid #e6e8ec", display: "flex", padding: "9px 6px 0", position: "relative", zIndex: "30" }}>
+
+            <div className="mono-bottomnav" style={{ height: "84px", flex: "none", background: "rgba(249,250,253,.94)", backdropFilter: "blur(14px)", borderTop: "1px solid #e6e8ec", display: "flex", padding: "9px 6px 0", position: "relative", zIndex: "30" }}>
         <button onClick={v.goHome} style={{ flex: "1", background: "none", border: "none", cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center", gap: "5px", paddingTop: "5px", color: v.cHome, fontFamily: "inherit" }}>
           <svg width="25" height="25" viewBox="0 0 24 24" fill="none"><path d="M4 11 12 4l8 7v8a1.2 1.2 0 0 1-1.2 1.2H15V14.5a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1V20.2H5.2A1.2 1.2 0 0 1 4 19v-8Z" fill={v.fHome} stroke="currentColor" strokeWidth="1.9" strokeLinejoin="round"></path></svg>
           <span style={{ fontSize: "10.5px", fontWeight: v.wHome, letterSpacing: "-.2px", whiteSpace: "nowrap" }}>홈</span>
@@ -1793,22 +1945,22 @@ export default function MonoApp() {
         </button>
         <button onClick={v.goJobs} style={{ flex: "1", background: "none", border: "none", cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center", gap: "5px", paddingTop: "5px", color: v.cJobs, fontFamily: "inherit" }}>
           <svg width="25" height="25" viewBox="0 0 24 24" fill="none"><path d="M6 15.5a6 6 0 0 1 12 0" fill={v.fJobs} stroke="currentColor" strokeWidth="1.9"></path><path d="M3.5 15.5h17" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round"></path><path d="M10.4 9.8V7.4A1.6 1.6 0 0 1 12 5.8a1.6 1.6 0 0 1 1.6 1.6v2.4" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"></path><path d="M12 18.5v0" stroke="currentColor" strokeWidth="2" strokeLinecap="round"></path></svg>
-          <span style={{ fontSize: "10.5px", fontWeight: v.wJobs, letterSpacing: "-.2px", whiteSpace: "nowrap" }}>일자리</span>
+          <span style={{ fontSize: "10.5px", fontWeight: v.wJobs, letterSpacing: "-.2px", whiteSpace: "nowrap" }}>현장 찾기</span>
           <div style={{ width: "5px", height: "5px", borderRadius: "50%", background: v.dotJobs }}></div>
-        </button>
-        <button onClick={v.goCard} style={{ flex: "1", background: "none", border: "none", cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center", gap: "5px", paddingTop: "5px", color: v.cCard, fontFamily: "inherit" }}>
-          <svg width="25" height="25" viewBox="0 0 24 24" fill="none"><rect x="2.5" y="5.5" width="19" height="13" rx="3" fill={v.fCard} stroke="currentColor" strokeWidth="1.9"></rect><path d="M2.5 9.6h19" stroke="currentColor" strokeWidth="1.9"></path><rect x="5.8" y="12.3" width="5" height="3.6" rx="1" fill={v.chipCard}></rect><path d="M14 13.2h3.8M14 15.4h2.4" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round"></path></svg>
-          <span style={{ fontSize: "10.5px", fontWeight: v.wCard, letterSpacing: "-.3px", whiteSpace: "nowrap" }}>경력카드</span>
-          <div style={{ width: "5px", height: "5px", borderRadius: "50%", background: v.dotCard }}></div>
         </button>
         <button onClick={v.goWork} style={{ flex: "1", background: "none", border: "none", cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center", gap: "5px", paddingTop: "5px", color: v.cWork, fontFamily: "inherit" }}>
           <svg width="25" height="25" viewBox="0 0 24 24" fill="none"><rect x="4.5" y="4.5" width="15" height="16.5" rx="2.8" fill={v.fWork} stroke="currentColor" strokeWidth="1.9"></rect><rect x="8.5" y="2.6" width="7" height="3.6" rx="1.3" fill={v.clipWork} stroke="currentColor" strokeWidth="1.7"></rect><path d="m8.4 12.4 1.8 1.8 3.6-3.8" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"></path><path d="M8.6 17h6.8" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round"></path></svg>
-          <span style={{ fontSize: "10.5px", fontWeight: v.wWork, letterSpacing: "-.3px", whiteSpace: "nowrap" }}>출근·정산</span>
+          <span style={{ fontSize: "10.5px", fontWeight: v.wWork, letterSpacing: "-.3px", whiteSpace: "nowrap" }}>지원·출근</span>
           <div style={{ width: "5px", height: "5px", borderRadius: "50%", background: v.dotWork }}></div>
+        </button>
+        <button onClick={v.goHistory} style={{ flex: "1", background: "none", border: "none", cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center", gap: "5px", paddingTop: "5px", color: v.cHistory, fontFamily: "inherit" }}>
+          <svg width="25" height="25" viewBox="0 0 24 24" fill="none"><path d="M19 4H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2Z" fill={v.fHistory} stroke="currentColor" strokeWidth="1.9" strokeLinejoin="round"></path><path d="M16 2v4M8 2v4M3 10h18" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round"></path><path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01M16 18h.01" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path></svg>
+          <span style={{ fontSize: "10.5px", fontWeight: v.wHistory, letterSpacing: "-.3px", whiteSpace: "nowrap" }}>일한 기록</span>
+          <div style={{ width: "5px", height: "5px", borderRadius: "50%", background: v.dotHistory }}></div>
         </button>
         <button onClick={v.goMe} style={{ flex: "1", background: "none", border: "none", cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center", gap: "5px", paddingTop: "5px", color: v.cMe, fontFamily: "inherit" }}>
           <svg width="25" height="25" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8.2" r="3.7" fill={v.fMe} stroke="currentColor" strokeWidth="1.9"></circle><path d="M4.8 20c.4-3.6 3.4-5.6 7.2-5.6s6.8 2 7.2 5.6Z" fill={v.fMe} stroke="currentColor" strokeWidth="1.9" strokeLinejoin="round"></path></svg>
-          <span style={{ fontSize: "10.5px", fontWeight: v.wMe, letterSpacing: "-.2px", whiteSpace: "nowrap" }}>내 정보</span>
+          <span style={{ fontSize: "10.5px", fontWeight: v.wMe, letterSpacing: "-.2px", whiteSpace: "nowrap" }}>내 프로필</span>
           <div style={{ width: "5px", height: "5px", borderRadius: "50%", background: v.dotMe }}></div>
         </button>
       </div>
@@ -1860,13 +2012,23 @@ export default function MonoApp() {
                 <div style={{ display: "flex", justifyContent: "space-between", padding: "12px 0", borderTop: "1px solid var(--soft,#E5E7EB)" }}><span style={{ fontSize: "13px", color: "#8694a8", fontWeight: "600" }}>담당자</span><span style={{ fontSize: "13.5px", color: "var(--c1,#1F2226)", fontWeight: "700" }}>{v.job.manager}</span></div>
               </div>
 
-              {(v.job.safety) && (<>
-                <div style={{ marginTop: "12px", background: "#eef0f3", borderRadius: "14px", padding: "14px 15px" }}>
-                  <div style={{ fontSize: "13px", fontWeight: "800", color: "#b4690e" }}>⚠ 기초안전보건교육 이수 필요</div>
-                  <div style={{ fontSize: "12px", color: "#8694a8", fontWeight: "500", marginTop: "4px", lineHeight: "1.5" }}>이 현장은 출역 전 안전교육 이수가 필요합니다. 앱에서 바로 이수하거나 기존 이수증을 등록하세요.</div>
-                  <button onClick={v.openSafetyM} style={{ marginTop: "10px", height: "40px", padding: "0 16px", border: "none", borderRadius: "11px", background: "#b4690e", color: "#fff", fontSize: "13px", fontWeight: "700", fontFamily: "inherit", cursor: "pointer" }}>안전교육 받기 / 등록</button>
+              <div style={{ marginTop: "12px", background: "#eef0f3", borderRadius: "16px", padding: "16px 18px", border: "1px solid #e2e8f0" }}>
+                <div style={{ fontSize: "14px", fontWeight: "800", color: "#b4690e", display: "flex", alignItems: "center", gap: "6px" }}>
+                  <span>📋 이 현장에 지원하려면 준비가 필요해요</span>
                 </div>
-              </>)}
+                <div style={{ fontSize: "13px", color: "#5b6b82", fontWeight: "500", marginTop: "6px", lineHeight: "1.5", wordBreak: "keep-all" }}>
+                  전자카드, 기초안전교육, 신체검사, 출입카드를 확인해보세요.
+                </div>
+                <button
+                  onClick={() => { setJobDetail(null); setTab('me'); }}
+                  style={{
+                    marginTop: "12px", width: "100%", height: "40px", border: "none", borderRadius: "10px",
+                    background: "#b4690e", color: "#fff", fontSize: "13.5px", fontWeight: "800", cursor: "pointer"
+                  }}
+                >
+                  준비 상태 확인하기
+                </button>
+              </div>
 
               <button onClick={v.openCareer} style={{ marginTop: "12px", width: "100%", height: "50px", border: "1px dashed var(--brand-tint-2,#A5AEB8)", borderRadius: "14px", background: "#eef0f3", color: "var(--ai,#1F2226)", fontSize: "13px", fontWeight: "700", fontFamily: "inherit", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: "7px" }}>
                 <svg width="16" height="16" viewBox="0 0 18 18" fill="none"><path d="M7 11 5 13a2.2 2.2 0 0 1-3-3l2-2m6 0 2-2a2.2 2.2 0 0 1 3 3l-2 2m-6 0 4-4" stroke="var(--ai,#1F2226)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"></path></svg>

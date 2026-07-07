@@ -19,7 +19,24 @@ export function loadState(): ProfileState {
   try {
     const raw = window.localStorage.getItem(KEY);
     if (!raw) return emptyState;
-    return { ...emptyState, ...(JSON.parse(raw) as ProfileState) };
+    const parsed = JSON.parse(raw) || {};
+    
+    // Robust validation
+    const userObj = parsed.user && typeof parsed.user === 'object' ? parsed.user : null;
+    const careerCardsArr = Array.isArray(parsed.careerCards) ? parsed.careerCards : [];
+    const certificatesArr = Array.isArray(parsed.certificates) ? parsed.certificates : [];
+    const educationsArr = Array.isArray(parsed.educations) ? parsed.educations : [];
+    const interestsArr = Array.isArray(parsed.interests) ? parsed.interests : [];
+    const shareIdVal = typeof parsed.shareId === 'string' ? parsed.shareId : null;
+
+    return {
+      user: userObj,
+      careerCards: careerCardsArr,
+      certificates: certificatesArr,
+      educations: educationsArr,
+      interests: interestsArr,
+      shareId: shareIdVal,
+    };
   } catch {
     return emptyState;
   }

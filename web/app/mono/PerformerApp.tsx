@@ -135,7 +135,7 @@ export default function PerformerApp() {
             <div style={{ fontSize: "12px", marginTop: "4px" }}>사례를 등록하면 후보 신뢰도가 올라가요.</div>
           </div>
         ) : (
-          records.map((r) => (
+          (Array.isArray(records) ? records : []).map((r) => (
             <div key={r.id} style={cardBase}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: "8px" }}>
                 <span style={{ fontSize: "14.5px", fontWeight: 800, color: "var(--app-text,#4f46e5)" }}>{r.title}</span>

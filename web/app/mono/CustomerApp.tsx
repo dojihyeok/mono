@@ -163,7 +163,7 @@ export default function CustomerApp({ role = "CUSTOMER" }: { role?: "CUSTOMER" |
             <div style={{ fontSize: "12.5px", marginTop: "5px" }}>위 버튼으로 첫 요청을 등록해 보세요.</div>
           </div>
         ) : (
-          list.map((wr) => (
+          (Array.isArray(list) ? list : []).map((wr) => (
             <button
               key={wr.id}
               onClick={() => {
@@ -307,7 +307,7 @@ function CandidatePanel({ wr, onClose }: { wr: WorkRequest; onClose: () => void 
     }
   };
 
-  const addedIds = new Set(candidates.map((c) => c.candidateId));
+  const addedIds = new Set((Array.isArray(candidates) ? candidates : []).map((c) => c.candidateId));
 
   return (
     <div onClick={onClose} style={{ position: "fixed", inset: 0, background: "rgba(17,17,17,.34)", backdropFilter: "blur(3px)", zIndex: 60, display: "flex", alignItems: "flex-end" }}>
@@ -332,7 +332,7 @@ function CandidatePanel({ wr, onClose }: { wr: WorkRequest; onClose: () => void 
               </div>
             ) : (
               <div style={{ marginTop: "14px" }}>
-                {candidates.map((c) => (
+                {(Array.isArray(candidates) ? candidates : []).map((c) => (
                   <div key={c.id} style={cardBase}>
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: "8px" }}>
                       <span style={{ fontSize: "14px", fontWeight: 800, color: "var(--app-text,#4f46e5)" }}>{c.memo || CAND_TYPE_LABEL[c.candidateType]}</span>
@@ -485,7 +485,7 @@ function CandidateBrowse({
         performers.length === 0 ? (
           <EmptyDir />
         ) : (
-          performers.map((p) => (
+          (Array.isArray(performers) ? performers : []).map((p) => (
             <DirRow
               key={p.id}
               name={p.name}
@@ -503,7 +503,7 @@ function CandidateBrowse({
       ) : teams.length === 0 ? (
         <EmptyDir />
       ) : (
-        teams.map((t) => (
+        (Array.isArray(teams) ? teams : []).map((t) => (
           <DirRow
             key={t.id}
             name={t.name}
@@ -534,7 +534,7 @@ function RecoView({ recos, addedIds, onBack, onPick }: { recos: Recommendation[]
       ) : recos.length === 0 ? (
         <EmptyDir />
       ) : (
-        recos.map((r) => (
+        (Array.isArray(recos) ? recos : []).map((r) => (
           <div key={`${r.candidateType}:${r.candidateId}`} style={{ ...cardBase, display: "flex", alignItems: "center", justifyContent: "space-between", gap: "10px" }}>
             <div style={{ minWidth: 0 }}>
               <div style={{ display: "flex", alignItems: "center", gap: "7px" }}>
