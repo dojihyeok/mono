@@ -1354,36 +1354,69 @@ export default function MonoApp() {
             </div>
           )}
 
-          {/* 오늘 할 일 (Today's Checklist) */}
-          <div style={{ background: "#ffffff", border: "1px solid #e6e8ec", borderRadius: "20px", padding: "18px", marginBottom: "16px", boxShadow: "0 4px 14px -10px rgba(0,0,0,0.05)" }}>
-            <div style={{ fontSize: "15px", fontWeight: "800", color: "var(--c1,#1F2226)", marginBottom: "12px" }}>🗓️ 오늘 할 일</div>
-            <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-              <div style={{ display: "flex", alignItems: "center", gap: "10px", padding: "10px 12px", background: "#f8fafc", borderRadius: "12px" }}>
-                <span style={{ fontSize: "16px" }}>⚙️</span>
-                <div style={{ fontSize: "13px", fontWeight: "600", color: "#374151" }}>
-                  <span style={{ color: "#4f46e5", fontWeight: "800" }}>[준비]</span> 전자카드 등록이 필요해요
+          {/* 오늘 할 일 — 실 데이터 기반 동적 생성 */}
+          {(() => {
+            const todayItems: { icon: string; tag: string; tagColor: string; text: string; onClick?: () => void }[] = [];
+            if (completion < 80) {
+              todayItems.push({ icon: "👤", tag: "[프로필]", tagColor: "#8b5cf6", text: `프로필 완성도 ${completion}% — 더 높이면 매칭 확률이 올라가요`, onClick: v.goMe });
+            }
+            if (!prepChecklist.elecCard) {
+              todayItems.push({ icon: "⚙️", tag: "[준비]", tagColor: "#4f46e5", text: "전자카드 등록이 필요해요", onClick: v.goMe });
+            }
+            if (!prepChecklist.safetyEdu) {
+              todayItems.push({ icon: "🎓", tag: "[교육]", tagColor: "#f59e0b", text: "기초 안전 교육 수료증이 없어요" });
+            }
+            const pendingApps = myApps.filter((a) => a.status === "PENDING" || a.status === "REVIEWING");
+            if (pendingApps.length > 0) {
+              todayItems.push({ icon: "📬", tag: "[지원]", tagColor: "#10b981", text: `${pendingApps.length}개 공고 답변 대기 중이에요`, onClick: v.goWork });
+            }
+            const todayJobCount = (Array.isArray(realJobs) ? realJobs : []).filter((jp) =>
+              (jp.period || "").match(/일당|당일|단기|오늘/)
+            ).length;
+            if (todayJobCount > 0) {
+              todayItems.push({ icon: "🔍", tag: "[지원]", tagColor: "#10b981", text: `오늘 지원 가능한 단기 현장이 ${todayJobCount}개 있어요`, onClick: v.goJobs });
+            }
+            const hasAssignment = Array.isArray(assignments) && assignments.length > 0;
+            if (hasAssignment) {
+              const nextSite = assignments![0];
+              todayItems.push({ icon: "⏰", tag: "[출근]", tagColor: "#ef4444", text: `확정 현장: ${nextSite.jobPost?.title || "현장"} — 출근 체크를 잊지 마세요`, onClick: v.goWork });
+            }
+            const now = new Date();
+            const monthAtts = (Array.isArray(assignments) ? assignments : []).flatMap((a) => (a.attendances || []))
+              .filter((at) => { const d = new Date(at.checkInAt || at.workDate); return at.checkOutAt && d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear(); });
+            const manDays = Math.round(monthAtts.reduce((s, at) => s + (new Date(at.checkOutAt).getTime() - new Date(at.checkInAt).getTime()) / 3600000, 0) / 8 * 10) / 10;
+            if (monthAtts.length > 0) {
+              todayItems.push({ icon: "📊", tag: "[기록]", tagColor: "#f59e0b", text: `이번 달 ${manDays}공수 기록되었어요` });
+            }
+            if (todayItems.length === 0) {
+              todayItems.push({ icon: "✅", tag: "[완료]", tagColor: "#10b981", text: "오늘 할 일이 없어요. 편안한 하루 되세요! 🎉" });
+            }
+            return (
+              <div style={{ background: "#ffffff", border: "1px solid #e6e8ec", borderRadius: "20px", padding: "18px", marginBottom: "16px", boxShadow: "0 4px 14px -10px rgba(0,0,0,0.05)" }}>
+                <div style={{ fontSize: "15px", fontWeight: "800", color: "var(--c1,#1F2226)", marginBottom: "12px" }}>🗓️ 오늘 할 일</div>
+                <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                  {todayItems.map((item, i) => (
+                    <div
+                      key={i}
+                      onClick={item.onClick}
+                      style={{
+                        display: "flex", alignItems: "center", gap: "10px",
+                        padding: "10px 12px", background: "#f8fafc", borderRadius: "12px",
+                        cursor: item.onClick ? "pointer" : "default",
+                      }}
+                    >
+                      <span style={{ fontSize: "16px", flexShrink: 0 }}>{item.icon}</span>
+                      <div style={{ fontSize: "13px", fontWeight: "600", color: "#374151" }}>
+                        <span style={{ color: item.tagColor, fontWeight: "800" }}>{item.tag} </span>
+                        {item.text}
+                      </div>
+                      {item.onClick && <span style={{ marginLeft: "auto", fontSize: "11px", color: "#a0aec0" }}>›</span>}
+                    </div>
+                  ))}
                 </div>
               </div>
-              <div style={{ display: "flex", alignItems: "center", gap: "10px", padding: "10px 12px", background: "#f8fafc", borderRadius: "12px" }}>
-                <span style={{ fontSize: "16px" }}>🔍</span>
-                <div style={{ fontSize: "13px", fontWeight: "600", color: "#374151" }}>
-                  <span style={{ color: "#10b981", fontWeight: "800" }}>[지원]</span> 오늘 지원 가능한 현장이 3개 있어요
-                </div>
-              </div>
-              <div style={{ display: "flex", alignItems: "center", gap: "10px", padding: "10px 12px", background: "#f8fafc", borderRadius: "12px" }}>
-                <span style={{ fontSize: "16px" }}>⏰</span>
-                <div style={{ fontSize: "13px", fontWeight: "600", color: "#374151" }}>
-                  <span style={{ color: "#ef4444", fontWeight: "800" }}>[출근]</span> 내일 06:40 출근 예정 현장이 있어요
-                </div>
-              </div>
-              <div style={{ display: "flex", alignItems: "center", gap: "10px", padding: "10px 12px", background: "#f8fafc", borderRadius: "12px" }}>
-                <span style={{ fontSize: "16px" }}>📊</span>
-                <div style={{ fontSize: "13px", fontWeight: "600", color: "#374151" }}>
-                  <span style={{ color: "#f59e0b", fontWeight: "800" }}>[기록]</span> 이번 달 13.5공수를 기록했어요
-                </div>
-              </div>
-            </div>
-          </div>
+            );
+          })()}
 
           {/* 가이드 카드 섹션 - 홈 상단 배치 */}
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px", marginTop: "4px", marginBottom: "16px" }}>
@@ -1494,91 +1527,89 @@ export default function MonoApp() {
             </button>
           </div>
 
-          {/* 탭 본문 내용 */}
+          {/* 탭 본문 내용 — 실 API 데이터 기반 */}
           {homeTab === 'today' ? (
             <div style={{ animation: "fadeIn 0.2s ease" }}>
               <div style={{ fontSize: "13.5px", color: "#5b6b82", lineHeight: "1.6", marginBottom: "16px", fontWeight: "600", wordBreak: "keep-all" }}>
-                오늘 또는 이번 주에 바로 일할 수 있는 단기 현장을 찾아보세요. 하루 단위 또는 짧은 기간으로 일할 수 있는 현장을 모았어요. 일당, 위치, 준비물, 출근 시간을 확인하고 바로 지원할 수 있어요.
+                오늘 또는 이번 주에 바로 일할 수 있는 단기 현장을 찾아보세요.
               </div>
 
               {/* 오늘 현장 카드 목록 */}
               <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-                <div style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: "20px", padding: "18px", boxShadow: "0 4px 14px -10px rgba(0,0,0,0.05)" }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "10px" }}>
-                    <span style={{ fontSize: "11px", fontWeight: "800", color: "#4f46e5", background: "#eeebff", padding: "3px 8px", borderRadius: "6px", border: "1px solid rgba(79,70,229,0.15)" }}>하루/단기 현장</span>
-                    <span style={{ fontSize: "17px", fontWeight: "900", color: "#4f46e5" }}>일당 230,000원</span>
-                  </div>
-                  <h3 style={{ margin: "0 0 6px", fontSize: "16px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>힐스테이트 송도 더스카이</h3>
-                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px", fontSize: "13px", color: "#5b6b82", borderTop: "1px solid #f1f5f9", paddingTop: "10px", marginTop: "10px" }}>
-                    <div>📍 <strong>위치:</strong> 인천 연수구</div>
-                    <div>👷 <strong>직무:</strong> 형틀목공 조공/기공</div>
-                    <div>⏰ <strong>출근:</strong> 오전 06:40</div>
-                    <div>🎒 <strong>준비물:</strong> 안전화, 신분증</div>
-                    <div>🍚 <strong>식사·숙소:</strong> 식사 제공 (숙소 X)</div>
-                    <div>🏅 <strong>초보 가능:</strong> 초보 가능 (기초교육 필수)</div>
-                  </div>
-                  <button onClick={v.goJobs} style={{ marginTop: "14px", width: "100%", height: "42px", border: "none", borderRadius: "10px", background: "var(--c1,#1F2226)", color: "#fff", fontSize: "13.5px", fontWeight: "800", cursor: "pointer" }}>지원하러 가기</button>
-                </div>
-
-                <div style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: "20px", padding: "18px", boxShadow: "0 4px 14px -10px rgba(0,0,0,0.05)" }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "10px" }}>
-                    <span style={{ fontSize: "11px", fontWeight: "800", color: "#4f46e5", background: "#eeebff", padding: "3px 8px", borderRadius: "6px", border: "1px solid rgba(79,70,229,0.15)" }}>하루/단기 현장</span>
-                    <span style={{ fontSize: "17px", fontWeight: "900", color: "#4f46e5" }}>일당 180,000원</span>
-                  </div>
-                  <h3 style={{ margin: "0 0 6px", fontSize: "16px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>래미안 역삼 빌딩 현장</h3>
-                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px", fontSize: "13px", color: "#5b6b82", borderTop: "1px solid #f1f5f9", paddingTop: "10px", marginTop: "10px" }}>
-                    <div>📍 <strong>위치:</strong> 서울 강남구 역삼동</div>
-                    <div>👷 <strong>직무:</strong> 현장 정리 및 자재 보조</div>
-                    <div>⏰ <strong>출근:</strong> 오전 07:00</div>
-                    <div>🎒 <strong>준비물:</strong> 안전화, 작업복</div>
-                    <div>🍚 <strong>식사·숙소:</strong> 식사 제공 (숙소 X)</div>
-                    <div>🏅 <strong>초보 가능:</strong> 초보 적극 환영</div>
-                  </div>
-                  <button onClick={v.goJobs} style={{ marginTop: "14px", width: "100%", height: "42px", border: "none", borderRadius: "10px", background: "var(--c1,#1F2226)", color: "#fff", fontSize: "13.5px", fontWeight: "800", cursor: "pointer" }}>지원하러 가기</button>
-                </div>
+                {(() => {
+                  if (realJobs === null) return <div style={{ padding: "34px 0", textAlign: "center", color: "#8694a8", fontSize: "13px", fontWeight: "600" }}>공고를 불러오는 중…</div>;
+                  const todayJobs = realJobs.filter((jp) =>
+                    (jp.period || "").match(/일당|당일|단기|오늘/)
+                  ).slice(0, 3);
+                  if (todayJobs.length === 0) return (
+                    <div style={{ background: "#f8fafc", border: "1px dashed #e2e8f0", borderRadius: "20px", padding: "34px", textAlign: "center" }}>
+                      <div style={{ fontSize: "28px", marginBottom: "8px" }}>⚡</div>
+                      <div style={{ fontSize: "14px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>오늘 현장 공고가 없습니다</div>
+                      <div style={{ fontSize: "12px", color: "#8694a8", marginTop: "6px" }}>현장 찾기 탭에서 더 많은 공고를 찾아보세요.</div>
+                    </div>
+                  );
+                  return todayJobs.map((jp) => (
+                    <div
+                      key={jp.id}
+                      onClick={() => openJob(realJobs.indexOf(jp))}
+                      style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: "20px", padding: "18px", boxShadow: "0 4px 14px -10px rgba(0,0,0,0.05)", cursor: "pointer" }}
+                    >
+                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "10px" }}>
+                        <span style={{ fontSize: "11px", fontWeight: "800", color: "#4f46e5", background: "#eeebff", padding: "3px 8px", borderRadius: "6px" }}>⚡ 오늘 현장</span>
+                        <span style={{ fontSize: "16px", fontWeight: "900", color: "#4f46e5" }}>{jp.conditions || "조건협의"}</span>
+                      </div>
+                      <h3 style={{ margin: "0 0 6px", fontSize: "16px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>{jp.title}</h3>
+                      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px", fontSize: "13px", color: "#5b6b82", borderTop: "1px solid #f1f5f9", paddingTop: "10px", marginTop: "10px" }}>
+                        <div>📍 <strong>위치:</strong> {jp.region?.join(", ") || "전국"}</div>
+                        <div>👷 <strong>직무:</strong> {jp.jobType?.join(", ") || "일반노무"}</div>
+                        <div>⏰ <strong>출근:</strong> 오전 07:00</div>
+                        <div>🎒 <strong>준비물:</strong> 신분증, 안전화</div>
+                      </div>
+                      <button onClick={(e) => { e.stopPropagation(); openJob(realJobs.indexOf(jp)); }} style={{ marginTop: "14px", width: "100%", height: "42px", border: "none", borderRadius: "10px", background: "var(--c1,#1F2226)", color: "#fff", fontSize: "13.5px", fontWeight: "800", cursor: "pointer" }}>상세 정보 & 지원</button>
+                    </div>
+                  ));
+                })()}
               </div>
             </div>
           ) : (
             <div style={{ animation: "fadeIn 0.2s ease" }}>
               <div style={{ fontSize: "13.5px", color: "#5b6b82", lineHeight: "1.6", marginBottom: "16px", fontWeight: "600", wordBreak: "keep-all" }}>
-                반도체, 조선, 플랜트처럼 오래 일할 수 있는 대형 현장을 준비해보세요. 필요한 교육, 전자카드, 신체검사, 출입 절차를 단계별로 안내해드려요.
+                반도체, 조선, 플랜트처럼 안정적인 대형 현장을 모아왔어요.
               </div>
 
               {/* 대형 현장 카드 목록 */}
               <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-                <div style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: "20px", padding: "18px", boxShadow: "0 4px 14px -10px rgba(0,0,0,0.05)" }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "10px" }}>
-                    <span style={{ fontSize: "11px", fontWeight: "800", color: "#0d9488", background: "#f0fdfa", padding: "3px 8px", borderRadius: "6px", border: "1px solid rgba(13,148,136,0.15)" }}>대형 플랜트 현장</span>
-                    <span style={{ fontSize: "14px", fontWeight: "800", color: "#0d9488" }}>월평균 28공수+</span>
-                  </div>
-                  <h3 style={{ margin: "0 0 6px", fontSize: "16px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>평택 삼성반도체 P4 현장</h3>
-                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px", fontSize: "13px", color: "#5b6b82", borderTop: "1px solid #f1f5f9", paddingTop: "10px", marginTop: "10px" }}>
-                    <div>📍 <strong>산업군:</strong> 반도체 플랜트</div>
-                    <div>👷 <strong>직무:</strong> 배관설비 / 조적 / 포설</div>
-                    <div>💰 <strong>수입:</strong> ₩480만~₩650만/월</div>
-                    <div>📄 <strong>필요서류:</strong> 전자카드, 배치신검서</div>
-                    <div>🎓 <strong>필수교육:</strong> 삼성 안전교육</div>
-                    <div>🏠 <strong>기타:</strong> 숙소 제공, 통근버스</div>
-                  </div>
-                  <button onClick={() => setActiveGuide('large')} style={{ marginTop: "14px", width: "100%", height: "42px", border: "1px solid #0d9488", borderRadius: "10px", background: "#ffffff", color: "#0d9488", fontSize: "13.5px", fontWeight: "800", cursor: "pointer" }}>입문 가이드 보기</button>
-                </div>
-
-                <div style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: "20px", padding: "18px", boxShadow: "0 4px 14px -10px rgba(0,0,0,0.05)" }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "10px" }}>
-                    <span style={{ fontSize: "11px", fontWeight: "800", color: "#0d9488", background: "#f0fdfa", padding: "3px 8px", borderRadius: "6px", border: "1px solid rgba(13,148,136,0.15)" }}>대형 조선소 현장</span>
-                    <span style={{ fontSize: "14px", fontWeight: "800", color: "#0d9488" }}>월평균 26공수</span>
-                  </div>
-                  <h3 style={{ margin: "0 0 6px", fontSize: "16px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>울산 현대중공업 조선소</h3>
-                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px", fontSize: "13px", color: "#5b6b82", borderTop: "1px solid #f1f5f9", paddingTop: "10px", marginTop: "10px" }}>
-                    <div>📍 <strong>산업군:</strong> 조선·해양 플랜트</div>
-                    <div>👷 <strong>직무:</strong> 선박 용접 / 도장 / 사상</div>
-                    <div>💰 <strong>수입:</strong> ₩420만~₩580만/월</div>
-                    <div>📄 <strong>필요서류:</strong> 특수 신검서, 자격증</div>
-                    <div>🎓 <strong>필수교육:</strong> 조선소 신규 교육</div>
-                    <div>🏠 <strong>기타:</strong> 기숙사, 일비 지급</div>
-                  </div>
-                  <button onClick={() => setActiveGuide('large')} style={{ marginTop: "14px", width: "100%", height: "42px", border: "1px solid #0d9488", borderRadius: "10px", background: "#ffffff", color: "#0d9488", fontSize: "13.5px", fontWeight: "800", cursor: "pointer" }}>입문 가이드 보기</button>
-                </div>
+                {(() => {
+                  if (realJobs === null) return <div style={{ padding: "34px 0", textAlign: "center", color: "#8694a8", fontSize: "13px", fontWeight: "600" }}>공고를 불러오는 중…</div>;
+                  const largeJobs = realJobs.filter((jp) =>
+                    [jp.title, jp.conditions, jp.company?.name].join(" ").match(/반도체|조선|플랜트|대형|중공업|정유|SK|삼성|현대/)
+                  ).slice(0, 3);
+                  if (largeJobs.length === 0) return (
+                    <div style={{ background: "#f0fdfa", border: "1px dashed #99f6e4", borderRadius: "20px", padding: "34px", textAlign: "center" }}>
+                      <div style={{ fontSize: "28px", marginBottom: "8px" }}>🏗️</div>
+                      <div style={{ fontSize: "14px", fontWeight: "800", color: "#0d9488" }}>대형 현장 공고가 없습니다</div>
+                    </div>
+                  );
+                  return largeJobs.map((jp) => (
+                    <div
+                      key={jp.id}
+                      onClick={() => openJob(realJobs.indexOf(jp))}
+                      style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: "20px", padding: "18px", boxShadow: "0 4px 14px -10px rgba(0,0,0,0.05)", cursor: "pointer" }}
+                    >
+                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "10px" }}>
+                        <span style={{ fontSize: "11px", fontWeight: "800", color: "#0d9488", background: "#f0fdfa", padding: "3px 8px", borderRadius: "6px" }}>🏗️ 대형 현장</span>
+                        <span style={{ fontSize: "14px", fontWeight: "800", color: "#0d9488" }}>{jp.conditions || "조건협의"}</span>
+                      </div>
+                      <h3 style={{ margin: "0 0 6px", fontSize: "16px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>{jp.title}</h3>
+                      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px", fontSize: "13px", color: "#5b6b82", borderTop: "1px solid #f1f5f9", paddingTop: "10px", marginTop: "10px" }}>
+                        <div>📍 <strong>위치:</strong> {jp.region?.join(", ") || "전국"}</div>
+                        <div>👷 <strong>직무:</strong> {jp.jobType?.join(", ") || "일반노무"}</div>
+                        <div>📄 <strong>필요서류:</strong> 기초교육이수증 등</div>
+                      </div>
+                      <button onClick={(e) => { e.stopPropagation(); openJob(realJobs.indexOf(jp)); }} style={{ marginTop: "14px", width: "100%", height: "42px", border: "none", borderRadius: "10px", background: "var(--c1,#1F2226)", color: "#fff", fontSize: "13.5px", fontWeight: "800", cursor: "pointer" }}>상세 정보 & 지원</button>
+                    </div>
+                  ));
+                })()}
               </div>
             </div>
           )}
