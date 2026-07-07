@@ -338,12 +338,12 @@ export default function CommunityView({ userId }: { userId: string }) {
 
       {/* 3. Main Content Feed */}
       {activeTab === "CHAT" ? (
-        <div style={{ flex: 1, padding: "16px 20px 80px", display: "flex", flexDirection: "column", gap: "12px", background: "#f8f9fc" }}>
+        <div style={{ flex: 1, padding: "18px 20px 80px", display: "flex", flexDirection: "column", gap: "14px", background: "#f8f9fc" }}>
           <div style={{ display: "flex", alignItems: "center", gap: "6px", marginBottom: "4px" }}>
-            <span style={{ fontSize: "14px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>📥 활성 대화방 ({chatRooms.length}개)</span>
+            <span style={{ fontSize: "16px", fontWeight: "900", color: "var(--c1,#1F2226)" }}>📥 내 대화방 목록 ({chatRooms.length}개)</span>
           </div>
 
-          <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
             {chatRooms.map((room) => (
               <div
                 key={room.id}
@@ -352,26 +352,27 @@ export default function CommunityView({ userId }: { userId: string }) {
                   setChatRooms(prev => prev.map(r => r.id === room.id ? { ...r, unread: 0 } : r));
                 }}
                 style={{
-                  background: "#fff", border: "1px solid #e6e8ec", borderRadius: "18px", padding: "14px 16px",
-                  display: "flex", alignItems: "center", gap: "12px", cursor: "pointer", position: "relative"
+                  background: "#fff", border: "2px solid #e6e8ec", borderRadius: "20px", padding: "16px 18px",
+                  display: "flex", alignItems: "center", gap: "14px", cursor: "pointer", position: "relative",
+                  boxShadow: "0 4px 10px rgba(0,0,0,0.04)"
                 }}
               >
                 {/* 아바타 */}
-                <div style={{ width: "42px", height: "42px", borderRadius: "50%", background: "#f1f3f7", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "20px" }}>
+                <div style={{ width: "48px", height: "48px", borderRadius: "50%", background: "#f1f3f7", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "24px" }}>
                   {room.avatar}
                 </div>
                 
                 {/* 대화 정보 */}
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-                    <span style={{ fontSize: "14.5px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>{room.name}</span>
+                  <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                    <span style={{ fontSize: "16px", fontWeight: "900", color: "var(--c1,#1F2226)" }}>{room.name}</span>
                     <span style={{
-                      fontSize: "10px", fontWeight: "800", padding: "2px 6px", borderRadius: "4px",
+                      fontSize: "11px", fontWeight: "900", padding: "3px 8px", borderRadius: "6px",
                       background: room.badge === "리더" ? "#ecfdf5" : "#eff6ff",
                       color: room.badge === "리더" ? "#10b981" : "#2563eb"
                     }}>{room.badge}</span>
                   </div>
-                  <div style={{ fontSize: "12.5px", color: "#8694a8", fontWeight: "500", marginTop: "2px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                  <div style={{ fontSize: "13.5px", color: "#5b6b82", fontWeight: "700", marginTop: "4px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                     {room.subtitle}
                   </div>
                 </div>
@@ -379,8 +380,8 @@ export default function CommunityView({ userId }: { userId: string }) {
                 {/* 안읽음 배지 */}
                 {room.unread > 0 && (
                   <span style={{
-                    width: "18px", height: "18px", borderRadius: "50%", background: "#ef4444",
-                    color: "#fff", fontSize: "10px", fontWeight: "800", display: "flex",
+                    width: "22px", height: "22px", borderRadius: "50%", background: "#ef4444",
+                    color: "#fff", fontSize: "11px", fontWeight: "900", display: "flex",
                     alignItems: "center", justifyContent: "center", flex: "none"
                   }}>
                     {room.unread}
@@ -393,51 +394,53 @@ export default function CommunityView({ userId }: { userId: string }) {
           {/* 1:1 안전 대화창 오버레이 */}
           {selectedRoom && (
             <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.5)", zIndex: 120, display: "flex", alignItems: "flex-end", justifyContent: "center" }}>
-              <div style={{ background: "#fff", width: "100%", maxWidth: "480px", borderTopLeftRadius: "24px", borderTopRightRadius: "24px", padding: "20px 18px 24px", display: "flex", flexDirection: "column", height: "82vh" }}>
+              <div style={{ background: "#fff", width: "100%", maxWidth: "480px", borderTopLeftRadius: "24px", borderTopRightRadius: "24px", padding: "24px 20px 28px", display: "flex", flexDirection: "column", height: "85vh" }}>
                 
                 {/* 대화창 헤더 */}
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", paddingBottom: "12px", borderBottom: "1px solid #eef0f6" }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                    <span style={{ fontSize: "20px" }}>{selectedRoom.avatar}</span>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", paddingBottom: "14px", borderBottom: "1.5px solid #eef0f6" }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                    <span style={{ fontSize: "24px" }}>{selectedRoom.avatar}</span>
                     <div>
-                      <div style={{ fontSize: "15px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>{selectedRoom.name}</div>
-                      <div style={{ fontSize: "11px", color: "#8694a8", fontWeight: "600" }}>안전한 템플릿 대화방</div>
+                      <div style={{ fontSize: "17px", fontWeight: "900", color: "var(--c1,#1F2226)" }}>{selectedRoom.name}</div>
+                      <div style={{ fontSize: "12.5px", color: "#4f46e5", fontWeight: "800" }}>🔒 욕설 및 체불 예방 대화방</div>
                     </div>
                   </div>
-                  <button onClick={() => setSelectedRoom(null)} style={{ border: "none", background: "none", fontSize: "16px", cursor: "pointer", color: "#8694a8" }}>닫기</button>
+                  <button onClick={() => setSelectedRoom(null)} style={{ border: "none", background: "none", fontSize: "18px", fontWeight: "900", cursor: "pointer", color: "#8694a8", padding: "6px" }}>닫기</button>
                 </div>
 
                 {/* 메시지 영역 */}
-                <div className="scr" style={{ flex: 1, overflowY: "auto", padding: "16px 4px", display: "flex", flexDirection: "column", gap: "10px" }}>
+                <div className="scr" style={{ flex: 1, overflowY: "auto", padding: "18px 4px", display: "flex", flexDirection: "column", gap: "12px" }}>
                   {(chatMessages[selectedRoom.id] || []).map((msg, idx) => {
                     const isMe = msg.sender === "me";
                     return (
-                      <div key={idx} style={{ display: "flex", justifyContent: isMe ? "flex-end" : "flex-start", alignItems: "flex-end", gap: "6px" }}>
+                      <div key={idx} style={{ display: "flex", justifyContent: isMe ? "flex-end" : "flex-start", alignItems: "flex-end", gap: "8px" }}>
                         {!isMe && (
-                          <span style={{ width: "24px", height: "24px", borderRadius: "50%", background: "#f1f3f7", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "12px", marginRight: "2px", flex: "none" }}>{selectedRoom.avatar}</span>
+                          <span style={{ width: "28px", height: "28px", borderRadius: "50%", background: "#f1f3f7", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "14px", marginRight: "2px", flex: "none" }}>{selectedRoom.avatar}</span>
                         )}
-                        {isMe && <span style={{ fontSize: "10px", color: "#8694a8", fontWeight: "600" }}>{msg.time}</span>}
+                        {isMe && <span style={{ fontSize: "11px", color: "#8694a8", fontWeight: "700" }}>{msg.time}</span>}
                         
                         <div style={{
-                          maxWidth: "70%", padding: "10px 14px", borderRadius: "14px", fontSize: "13.5px", fontWeight: "600", lineHeight: "1.45",
+                          maxWidth: "75%", padding: "12px 16px", borderRadius: "16px", fontSize: "15px", fontWeight: "800", lineHeight: "1.5",
                           background: isMe ? "var(--c1,#4f46e5)" : "#f1f3f7",
                           color: isMe ? "#fff" : "var(--c1,#1F2226)",
-                          borderBottomRightRadius: isMe ? "2px" : "14px",
-                          borderBottomLeftRadius: isMe ? "14px" : "2px"
+                          borderBottomRightRadius: isMe ? "2px" : "16px",
+                          borderBottomLeftRadius: isMe ? "16px" : "2px",
+                          boxShadow: "0 2px 6px rgba(0,0,0,0.03)",
+                          wordBreak: "keep-all"
                         }}>
                           {msg.text}
                         </div>
 
-                        {!isMe && <span style={{ fontSize: "10px", color: "#8694a8", fontWeight: "600" }}>{msg.time}</span>}
+                        {!isMe && <span style={{ fontSize: "11px", color: "#8694a8", fontWeight: "700" }}>{msg.time}</span>}
                       </div>
                     );
                   })}
                 </div>
 
                 {/* 템플릿 선택 전송 패널 */}
-                <div style={{ borderTop: "1px solid #eef0f6", paddingTop: "12px" }}>
-                  <div style={{ fontSize: "12px", fontWeight: "800", color: "#5b6b82", marginBottom: "8px" }}>💬 안전 템플릿 터치하여 바로 전송</div>
-                  <div style={{ display: "flex", gap: "6px", overflowX: "auto", WebkitOverflowScrolling: "touch", scrollbarWidth: "none", paddingBottom: "10px" }}>
+                <div style={{ borderTop: "1.5px solid #eef0f6", paddingTop: "14px" }}>
+                  <div style={{ fontSize: "13.5px", fontWeight: "900", color: "#5b6b82", marginBottom: "10px" }}>💬 아래 문구를 눌러 안전하게 답장해보세요:</div>
+                  <div style={{ display: "flex", gap: "8px", overflowX: "auto", WebkitOverflowScrolling: "touch", scrollbarWidth: "none", paddingBottom: "12px" }}>
                     {CHAT_TEMPLATES.map((tmpl) => (
                       <button
                         key={tmpl}
@@ -456,9 +459,10 @@ export default function CommunityView({ userId }: { userId: string }) {
                           setChatRooms(rooms => rooms.map(r => r.id === selectedRoom.id ? { ...r, subtitle: `나: ${tmpl}` } : r));
                         }}
                         style={{
-                          flex: "none", padding: "8px 12px", border: "1px solid #4f46e5", borderRadius: "10px",
-                          background: "#eff6ff", color: "#2563eb", fontSize: "12px", fontWeight: "700", cursor: "pointer",
-                          whiteSpace: "nowrap"
+                          flex: "none", padding: "10px 16px", border: "1.5px solid #4f46e5", borderRadius: "12px",
+                          background: "#eff6ff", color: "#2563eb", fontSize: "14px", fontWeight: "900", cursor: "pointer",
+                          whiteSpace: "nowrap",
+                          boxShadow: "0 4px 8px rgba(79,70,229,0.08)"
                         }}
                       >
                         {tmpl}
@@ -471,8 +475,8 @@ export default function CommunityView({ userId }: { userId: string }) {
                     <input
                       disabled
                       type="text"
-                      placeholder="욕설 방지를 위해 안전 템플릿으로만 전송 가능합니다."
-                      style={{ flex: 1, padding: "10px 12px", border: "1px solid #e6e8ec", borderRadius: "10px", background: "#f8f9fc", fontSize: "12.5px", color: "#8694a8" }}
+                      placeholder="체불 및 욕설 시비를 예방하기 위해 안전 템플릿 전송만 지원합니다."
+                      style={{ flex: 1, padding: "12px 14px", border: "2px solid #e6e8ec", borderRadius: "12px", background: "#f8f9fc", fontSize: "13px", fontWeight: "700", color: "#8694a8" }}
                     />
                   </div>
                 </div>

@@ -1005,17 +1005,17 @@ export default function MonoApp() {
           const alreadyApplied = appliedJobs.has(jp.id);
           
           // 지원 가능 상태 체크
-          let readinessStatus = "바로 지원 가능";
+          let readinessStatus = "즉시 지원 가능";
           let readinessColor = "#10b981";
           let readinessBg = "#ecfdf5";
           
           if (isLarge) {
             if (!prepChecklist.elecCard) {
-              readinessStatus = "전자카드 필요";
+              readinessStatus = "전자카드 등록 필요";
               readinessColor = "#ef4444";
               readinessBg = "#fef2f2";
             } else if (!prepChecklist.medCheck) {
-              readinessStatus = "신체검사 필요";
+              readinessStatus = "신체검사서 등록 필요";
               readinessColor = "#f59e0b";
               readinessBg = "#fffbeb";
             }
@@ -1027,55 +1027,59 @@ export default function MonoApp() {
               onClick={() => { track("job_detail_viewed", { jobId: jp.id, source: "jobs_list" }); setJobDetail(jp); }}
               style={{
                 background: "#fff",
-                border: "1px solid #e6e8ec",
-                borderRadius: "20px",
-                padding: "17px",
-                marginBottom: "13px",
-                boxShadow: "0 4px 14px -8px rgba(0,0,0,0.08)",
+                border: "2px solid #e6e8ec",
+                borderRadius: "22px",
+                padding: "20px 22px",
+                marginBottom: "16px",
+                boxShadow: "0 6px 18px -8px rgba(0,0,0,0.1)",
                 cursor: "pointer",
                 position: "relative",
                 overflow: "hidden",
               }}
             >
               {/* 상단 유형 배지 */}
-              <div style={{ display: "flex", alignItems: "center", gap: "6px", flexWrap: "wrap", marginBottom: "10px" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap", marginBottom: "12px" }}>
                 {isUrgent && (
-                  <span style={{ fontSize: "11px", fontWeight: "800", color: "#fff", background: "#ef4444", padding: "3px 9px", borderRadius: "8px" }}>🔥 급구</span>
+                  <span style={{ fontSize: "12px", fontWeight: "900", color: "#fff", background: "#ef4444", padding: "4px 10px", borderRadius: "8px" }}>🔥 당일지급 급구</span>
                 )}
                 {isLarge && (
-                  <span style={{ fontSize: "11px", fontWeight: "800", color: "#0d9488", background: "#ccfbf1", padding: "3px 9px", borderRadius: "8px" }}>🏗️ 대형 현장</span>
+                  <span style={{ fontSize: "12px", fontWeight: "900", color: "#0d9488", background: "#ccfbf1", padding: "4px 10px", borderRadius: "8px" }}>🏗️ 대형 반도체 현장</span>
                 )}
                 {isToday && (
-                  <span style={{ fontSize: "11px", fontWeight: "800", color: "#7c3aed", background: "#ede9fe", padding: "3px 9px", borderRadius: "8px" }}>⚡ 오늘 출근</span>
+                  <span style={{ fontSize: "12px", fontWeight: "900", color: "#7c3aed", background: "#ede9fe", padding: "4px 10px", borderRadius: "8px" }}>⚡ 즉시 출근 가능</span>
                 )}
-                <span style={{ fontSize: "11px", fontWeight: "700", color: "#2563eb", background: "#eff6ff", padding: "3px 9px", borderRadius: "8px" }}>
+                <span style={{ fontSize: "12px", fontWeight: "800", color: "#2563eb", background: "#eff6ff", padding: "4px 10px", borderRadius: "8px" }}>
                   {jp.jobType?.[0] || "기술 조공"}
                 </span>
                 
                 {/* 신뢰 배지 */}
-                <span style={{ marginLeft: "auto", fontSize: "11.5px", fontWeight: "700", color: "#10b981", display: "flex", alignItems: "center", gap: "2.5px" }}>
-                  ✓ {isLarge ? "기업 확인 완료" : "반장 확인 완료"}
+                <span style={{ marginLeft: "auto", fontSize: "12.5px", fontWeight: "800", color: "#10b981", display: "flex", alignItems: "center", gap: "3px" }}>
+                  ✓ {isLarge ? "기업 인증 완료" : "현장 확인 완료"}
                 </span>
               </div>
 
               {/* 현장 정보 */}
-              <h3 style={{ margin: "0 0 4px", fontSize: "16.5px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>{jp.title}</h3>
-              <div style={{ fontSize: "12.5px", color: "#8694a8", fontWeight: "600", marginBottom: "10px" }}>
+              <h3 style={{ margin: "0 0 6px", fontSize: "19px", fontWeight: "900", color: "var(--c1,#1F2226)", lineHeight: "1.4" }}>{jp.title}</h3>
+              <div style={{ fontSize: "14.5px", color: "#5b6b82", fontWeight: "700", marginBottom: "14px" }}>
                 {jp.company ? jp.company.name : "협약 기업"} · {jp.region?.join(", ") || "전국"}
               </div>
 
-              {/* 10대 정보 요약 (출근시간, 준비물, 제공) */}
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "6px 12px", fontSize: "13px", color: "#5b6b82", borderTop: "1px solid #f1f5f9", paddingTop: "10px", marginTop: "10px" }}>
-                <div>💰 <strong>일당:</strong> <span style={{ color: "#10b981", fontWeight: "800" }}>{jp.conditions || "일당 230,000원"}</span></div>
-                <div>⏰ <strong>출근 시간:</strong> {isLarge ? "오전 06:40" : "오전 07:00"}</div>
-                <div>🎒 <strong>준비물:</strong> {jp.prepare || "안전화, 신분증"}</div>
-                <div>🏠 <strong>제공:</strong> {isLarge ? "숙소 가능, 점심 제공" : "점심 제공"}</div>
+              {/* 시니어 최적화 4대 핵심 정보 표시 */}
+              <div style={{ display: "flex", flexDirection: "column", gap: "8px", borderTop: "1.5px solid #f1f5f9", paddingTop: "14px", marginTop: "12px" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                  <span style={{ fontSize: "14.5px", color: "#8694a8", fontWeight: "700" }}>일당 (하루 단가)</span>
+                  <span style={{ fontSize: "20px", color: "#10b981", fontWeight: "900" }}>{jp.conditions || "230,000원"}</span>
+                </div>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                  <span style={{ fontSize: "14.5px", color: "#8694a8", fontWeight: "700" }}>출근 시각</span>
+                  <span style={{ fontSize: "15px", color: "var(--c1,#1F2226)", fontWeight: "800" }}>{isLarge ? "오전 06:40분까지 집결" : "오전 07:00분까지 집결"}</span>
+                </div>
               </div>
 
               {/* 하단 지원 정보 행 */}
-              <div style={{ display: "flex", gap: "8px", marginTop: "14px", alignItems: "center", justifyContent: "space-between" }}>
+              <div style={{ display: "flex", gap: "10px", marginTop: "16px", alignItems: "center", justifyContent: "space-between" }}>
                 {/* 준비 서류 필요 여부 표시 */}
-                <span style={{ fontSize: "12px", fontWeight: "800", color: readinessColor, background: readinessBg, padding: "4px 10px", borderRadius: "8px" }}>
+                <span style={{ fontSize: "13px", fontWeight: "900", color: readinessColor, background: readinessBg, padding: "6px 12px", borderRadius: "10px" }}>
                   {readinessStatus}
                 </span>
 
@@ -1083,19 +1087,20 @@ export default function MonoApp() {
                   onClick={(e) => { e.stopPropagation(); track("job_applied", { jobId: jp.id, subTab: jobSubTab }); applyToJob(jp.id); }}
                   disabled={alreadyApplied}
                   style={{
-                    height: "38px",
-                    padding: "0 18px",
+                    height: "46px",
+                    padding: "0 22px",
                     border: "none",
-                    borderRadius: "10px",
+                    borderRadius: "12px",
                     background: alreadyApplied ? "var(--soft,#E5E7EB)" : "var(--c1,#1F2226)",
                     color: alreadyApplied ? "var(--c1,#1F2226)" : "#fff",
-                    fontSize: "13px",
-                    fontWeight: "800",
+                    fontSize: "14.5px",
+                    fontWeight: "900",
                     fontFamily: "inherit",
                     cursor: alreadyApplied ? "default" : "pointer",
+                    boxShadow: alreadyApplied ? "none" : "0 4px 10px rgba(0,0,0,0.1)"
                   }}
                 >
-                  {alreadyApplied ? "지원함 ✓" : "바로 지원"}
+                  {alreadyApplied ? "지원 완료 ✓" : "일할래요! 바로 지원"}
                 </button>
               </div>
             </div>
@@ -1470,10 +1475,10 @@ export default function MonoApp() {
           })()}
 
           {/* 준비 상태 카드 */}
-          <div style={{ background: "#ffffff", border: "1px solid #e6e8ec", borderRadius: "20px", padding: "18px", marginBottom: "16px", boxShadow: "0 4px 14px -10px rgba(0,0,0,0.05)" }}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "12px" }}>
-              <span style={{ fontSize: "15px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>🚦 내 현장 준비 상태</span>
-              <span onClick={() => setTab('me')} style={{ fontSize: "12.5px", color: "#4f46e5", fontWeight: "700", cursor: "pointer" }}>상세보기 →</span>
+          <div style={{ background: "#ffffff", border: "2px solid #e6e8ec", borderRadius: "22px", padding: "20px 22px", marginBottom: "16px", boxShadow: "0 6px 16px -10px rgba(0,0,0,0.08)" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "14px" }}>
+              <span style={{ fontSize: "17px", fontWeight: "900", color: "var(--c1,#1F2226)" }}>🚦 일하기 전 필수 서류 준비</span>
+              <span onClick={() => setTab('me')} style={{ fontSize: "14px", color: "#4f46e5", fontWeight: "800", cursor: "pointer" }}>서류 등록하기 →</span>
             </div>
             
             {(() => {
@@ -1482,11 +1487,11 @@ export default function MonoApp() {
               const percent = Math.round((checkedCount / totalCount) * 100);
               return (
                 <>
-                  <div style={{ fontSize: "12.5px", color: "#5b6b82", fontWeight: "600", marginBottom: "6px" }}>
-                    총 {totalCount}개 중 <strong>{checkedCount}개</strong> 준비 완료 ({percent}%)
+                  <div style={{ fontSize: "15px", color: "#5b6b82", fontWeight: "800", marginBottom: "8px" }}>
+                    총 {totalCount}개 서류 중 <strong style={{ color: "#10b981", fontSize: "18px" }}>{checkedCount}개</strong> 준비 완료되었습니다. ({percent}%)
                   </div>
-                  <div style={{ height: "6px", background: "#eef0f3", borderRadius: "3px", overflow: "hidden", marginBottom: "14px" }}>
-                    <div style={{ width: `${percent}%`, height: "100%", background: "#10b981", borderRadius: "3px", transition: "width 0.3s ease" }}></div>
+                  <div style={{ height: "10px", background: "#eef0f3", borderRadius: "5px", overflow: "hidden", marginBottom: "18px" }}>
+                    <div style={{ width: `${percent}%`, height: "100%", background: "#10b981", borderRadius: "5px", transition: "width 0.3s ease" }}></div>
                   </div>
                 </>
               );
@@ -1500,20 +1505,20 @@ export default function MonoApp() {
                 { key: 'bankAcc', label: '계좌등록' },
                 { key: 'medCheck', label: '신체검사' },
                 { key: 'gateCard', label: '출입카드' },
-                { key: 'safetyGear', label: '안전장구' },
+                { key: 'safetyGear', label: '안전화' },
               ].map((item) => {
                 const isReady = prepChecklist[item.key as keyof typeof prepChecklist];
                 return (
                   <div
                     key={item.key}
                     style={{
-                      padding: "8px 4px", borderRadius: "10px", textAlign: "center",
+                      padding: "10px 4px", borderRadius: "12px", textAlign: "center",
                       background: isReady ? "#f0fdf4" : "#fef2f2",
-                      border: `1px solid ${isReady ? "#bbf7d0" : "#fecaca"}`
+                      border: `1.5px solid ${isReady ? "#bbf7d0" : "#fecaca"}`
                     }}
                   >
-                    <div style={{ fontSize: "10.5px", fontWeight: "800", color: isReady ? "#15803d" : "#b91c1c" }}>{item.label}</div>
-                    <div style={{ fontSize: "12px", marginTop: "2px", color: isReady ? "#16a34a" : "#dc2626" }}>{isReady ? "✓" : "⚠"}</div>
+                    <div style={{ fontSize: "12.5px", fontWeight: "900", color: isReady ? "#15803d" : "#b91c1c" }}>{item.label}</div>
+                    <div style={{ fontSize: "14px", marginTop: "4px", fontWeight: "900", color: isReady ? "#16a34a" : "#dc2626" }}>{isReady ? "✅" : "❌"}</div>
                   </div>
                 );
               })}
@@ -1525,14 +1530,15 @@ export default function MonoApp() {
                 v.goJobs();
               }}
               style={{
-                marginTop: "14px", width: "100%", height: "42px",
-                border: "1.5px solid var(--c1,#1F2226)", borderRadius: "12px",
-                background: "transparent", color: "var(--c1,#1F2226)",
-                fontSize: "13.5px", fontWeight: "800", cursor: "pointer",
+                marginTop: "16px", width: "100%", height: "48px",
+                border: "none", borderRadius: "12px",
+                background: "#4f46e5", color: "#fff",
+                fontSize: "14.5px", fontWeight: "900", cursor: "pointer",
+                boxShadow: "0 4px 12px rgba(79,70,229,0.2)",
                 transition: "all 0.2s"
               }}
             >
-              지원 가능한 현장 보기
+              지원 가능한 현장 일자리 찾기
             </button>
           </div>
 
@@ -1830,23 +1836,23 @@ export default function MonoApp() {
           {/* 검색바 */}
           <div style={{ padding: "10px 20px 0" }}>
             <div style={{ position: "relative" }}>
-              <span style={{ position: "absolute", left: "14px", top: "50%", transform: "translateY(-50%)", fontSize: "16px", pointerEvents: "none" }}>🔍</span>
+              <span style={{ position: "absolute", left: "16px", top: "50%", transform: "translateY(-50%)", fontSize: "19px", pointerEvents: "none" }}>🔍</span>
               <input
                 type="text"
-                placeholder="현장명, 직종, 지역 검색"
+                placeholder="어디로 갈까요? 현장명 또는 직종 검색"
                 value={jobSearch}
                 onChange={(e) => setJobSearch(e.target.value)}
                 style={{
                   width: "100%",
-                  height: "46px",
-                  paddingLeft: "42px",
-                  paddingRight: "14px",
-                  border: "1.5px solid #e6e8ec",
-                  borderRadius: "14px",
+                  height: "52px",
+                  paddingLeft: "46px",
+                  paddingRight: "16px",
+                  border: "2px solid #e6e8ec",
+                  borderRadius: "16px",
                   background: "#fff",
-                  fontSize: "14px",
+                  fontSize: "15.5px",
                   fontFamily: "inherit",
-                  fontWeight: "500",
+                  fontWeight: "700",
                   color: "var(--c1,#1F2226)",
                   outline: "none",
                   boxSizing: "border-box",
@@ -1856,15 +1862,15 @@ export default function MonoApp() {
           </div>
 
           {/* 빠른 필터 & 정렬 */}
-          <div style={{ padding: "10px 20px 0", display: "flex", gap: "6px", alignItems: "center" }}>
-            <div style={{ display: "flex", gap: "6px", overflowX: "auto", WebkitOverflowScrolling: "touch", scrollbarWidth: "none", flex: 1 }}>
+          <div style={{ padding: "12px 20px 0", display: "flex", gap: "8px", alignItems: "center" }}>
+            <div style={{ display: "flex", gap: "8px", overflowX: "auto", WebkitOverflowScrolling: "touch", scrollbarWidth: "none", flex: 1, paddingBottom: "4px" }}>
               {([
-                { key: "urgent", label: "🔥 급구" },
-                { key: "today", label: "⚡ 오늘 출근" },
-                { key: "large", label: "🏗️ 대형 현장" },
-                { key: "stay", label: "🏠 숙소 제공" },
-                { key: "meal", label: "🍱 식사 제공" },
-                { key: "rookie", label: "🔰 초보 가능" }
+                { key: "urgent", label: "🔥 당일지급 급구" },
+                { key: "today", label: "⚡ 즉시 출근 가능" },
+                { key: "large", label: "🏗️ 대형 반도체 현장" },
+                { key: "stay", label: "🏠 무료 숙소 지원" },
+                { key: "meal", label: "🍱 점심 식사 제공" },
+                { key: "rookie", label: "🔰 왕초보·경력무관" }
               ]).map((f) => {
                 const isActive = fastFilters.includes(f.key);
                 return (
@@ -1877,8 +1883,8 @@ export default function MonoApp() {
                       track("job_filter_selected", { filter: f.key, active: !isActive });
                     }}
                     style={{
-                      flex: "none", height: "32px", padding: "0 12px",
-                      borderRadius: "999px", fontSize: "12px", fontWeight: "700",
+                      flex: "none", height: "40px", padding: "0 16px",
+                      borderRadius: "12px", fontSize: "13.5px", fontWeight: "800",
                       background: isActive ? "var(--c1,#1F2226)" : "#f1f3f7",
                       color: isActive ? "#fff" : "#5b6b82",
                       border: "none", cursor: "pointer", whiteSpace: "nowrap"
@@ -1898,14 +1904,14 @@ export default function MonoApp() {
                 track("job_filter_selected", { sort: e.target.value });
               }}
               style={{
-                height: "32px", padding: "0 8px", borderRadius: "8px", border: "1.5px solid #e6e8ec",
-                fontSize: "12px", fontWeight: "700", color: "#5b6b82", background: "#fff", outline: "none", cursor: "pointer"
+                height: "40px", padding: "0 10px", borderRadius: "10px", border: "2px solid #e6e8ec",
+                fontSize: "13.5px", fontWeight: "800", color: "#5b6b82", background: "#fff", outline: "none", cursor: "pointer"
               }}
             >
-              <option value="closest">가까운 순</option>
+              <option value="closest">가까운 현장순</option>
               <option value="highest_wage">일당 높은 순</option>
-              <option value="today_entry">오늘 출근 가능 순</option>
-              <option value="ready_fit">준비 상태 맞는 순</option>
+              <option value="today_entry">즉시 출근 가능 순</option>
+              <option value="ready_fit">준비 서류 통과 순</option>
             </select>
           </div>
 
@@ -2077,86 +2083,131 @@ export default function MonoApp() {
 
           {workSubTab === 'attendance' ? (
             <>
-              {/* 11단계 출근·정산 실시간 스태퍼 */}
-              <div style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: "20px", padding: "16px", marginBottom: "20px" }}>
-                <div style={{ fontSize: "14px", fontWeight: "800", color: "var(--c1,#1F2226)", marginBottom: "12px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                  <span>🚦 실시간 출근·정산 흐름</span>
-                  <span style={{ fontSize: "12px", color: "#4f46e5", fontWeight: "700" }}>
+              {/* 50대 시니어 맞춤 4단계 안심 입금 스태퍼 & 오늘의 안내 */}
+              <div style={{ background: "#fff", border: "2px solid #e6e8ec", borderRadius: "22px", padding: "20px 22px", marginBottom: "20px" }}>
+                
+                {/* 오늘의 안내 큰 한마디 */}
+                <div style={{ background: "#f8fafc", borderLeft: "4px solid #4f46e5", padding: "12px 16px", borderRadius: "8px", marginBottom: "18px" }}>
+                  <div style={{ fontSize: "12.5px", fontWeight: "800", color: "#4f46e5" }}>오늘의 출근 및 정산 안내</div>
+                  <div style={{ fontSize: "16px", fontWeight: "900", color: "var(--c1,#1F2226)", marginTop: "4px", lineHeight: "1.5", wordBreak: "keep-all" }}>
                     {(() => {
                       const hasApp = myApps.length > 0;
                       const hasAssign = assignments && assignments.length > 0;
                       const hasCheckIn = assignments && assignments.some(a => a.attendances.some(at => !at.checkOutAt));
                       
-                      if (hasCheckIn) return "8단계: 근무 중 👷";
-                      if (hasAssign) return "4단계: 출근 확정 🎉";
-                      if (hasApp) return "1단계: 지원 완료 ✓";
-                      return "현장 대기 중";
+                      if (hasCheckIn) return "👷 현장에서 열심히 근무 중입니다. 퇴근 시 퇴근 버튼을 꼭 눌러주세요!";
+                      if (hasAssign) return "⏰ 출근이 확정되었습니다. 오전 06:40분까지 현장 집결지로 늦지 않게 와주세요!";
+                      if (hasApp) return "📝 일자리 지원이 접수되었습니다. 담당 반장님이 서류를 확인하는 중입니다.";
+                      return "🔍 아직 지원한 현장이 없습니다. 아래 '공고 보러가기'를 눌러 일자리를 구해보세요!";
                     })()}
-                  </span>
+                  </div>
                 </div>
 
-                <div className="scr" style={{ display: "flex", gap: "14px", overflowX: "auto", paddingBottom: "6px", WebkitOverflowScrolling: "touch", scrollbarWidth: "none" }}>
+                <div style={{ fontSize: "14.5px", fontWeight: "900", color: "var(--c1,#1F2226)", marginBottom: "14px" }}>
+                  🚦 일당 입금 진행 상황
+                </div>
+
+                {/* 4단계 단순화 가로 스태퍼 */}
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", position: "relative", padding: "10px 0" }}>
+                  {/* 뒷 배경 연결 선 */}
+                  <div style={{ position: "absolute", top: "27px", left: "10%", right: "10%", height: "3px", background: "#e2e8f0", zIndex: 1 }} />
+                  
                   {([
-                    { step: 1, label: "지원 완료" },
-                    { step: 2, label: "서류 검토" },
-                    { step: 3, label: "확정 대기" },
-                    { step: 4, label: "출근 확정" },
-                    { step: 5, label: "출발 확인" },
-                    { step: 6, label: "현장 도착" },
-                    { step: 7, label: "안전 교육" },
-                    { step: 8, label: "근무 중" },
-                    { step: 9, label: "퇴근 체크" },
-                    { step: 10, label: "정산 완료" },
-                    { step: 11, label: "평가 완료" }
+                    { step: 1, label: "지원 접수" },
+                    { step: 2, label: "출근 확정" },
+                    { step: 3, label: "근무 완료" },
+                    { step: 4, label: "입금 완료" }
                   ]).map((item) => {
                     const currentActive = (() => {
                       const hasApp = myApps.length > 0;
                       const hasAssign = assignments && assignments.length > 0;
                       const hasCheckIn = assignments && assignments.some(a => a.attendances.some(at => !at.checkOutAt));
+                      const isCompleted = assignments && assignments.some(a => a.attendances.some(at => at.checkOutAt));
                       
-                      if (hasCheckIn) return 8; // 근무 중
-                      if (hasAssign) return 4; // 출근 확정
-                      if (hasApp) return 1; // 지원 완료
+                      if (isCompleted) return 4;
+                      if (hasCheckIn) return 3;
+                      if (hasAssign) return 2;
+                      if (hasApp) return 1;
                       return 0;
                     })();
-                    
+
                     const isDone = item.step < currentActive;
                     const isActive = item.step === currentActive;
-                    
-                    let dotColor = "#cbd5e1";
+
                     let dotBg = "#fff";
+                    let dotBorder = "2.5px solid #cbd5e1";
                     let textColor = "#8694a8";
-                    let borderStyle = "2px solid #cbd5e1";
-                    
+                    let icon = item.step;
+
                     if (isDone) {
-                      dotColor = "#fff";
                       dotBg = "#10b981";
-                      borderStyle = "none";
+                      dotBorder = "none";
                       textColor = "#10b981";
+                      icon = "✓";
                     } else if (isActive) {
-                      dotColor = "#fff";
                       dotBg = "#4f46e5";
-                      borderStyle = "none";
+                      dotBorder = "none";
                       textColor = "#4f46e5";
                     }
 
                     return (
-                      <div key={item.step} style={{ flex: "none", display: "flex", flexDirection: "column", alignItems: "center", width: "64px" }}>
+                      <div key={item.step} style={{ display: "flex", flexDirection: "column", alignItems: "center", zIndex: 2, width: "70px" }}>
                         <div style={{
-                          width: "26px", height: "26px", borderRadius: "50%",
-                          background: dotBg, border: borderStyle,
+                          width: "36px", height: "36px", borderRadius: "50%",
+                          background: dotBg, border: dotBorder,
                           display: "flex", alignItems: "center", justifyContent: "center",
-                          fontSize: "11px", fontWeight: "800", color: dotColor,
-                          boxShadow: isActive ? "0 0 0 4px rgba(79,70,229,0.15)" : "none"
+                          fontSize: "14px", fontWeight: "900", color: (isActive || isDone) ? "#fff" : "#8694a8",
+                          boxShadow: isActive ? "0 0 0 5px rgba(79,70,229,0.15)" : "none"
                         }}>
-                          {isDone ? "✓" : item.step}
+                          {icon}
                         </div>
-                        <span style={{ fontSize: "11.5px", fontWeight: (isActive || isDone) ? "800" : "600", color: textColor, marginTop: "6px", whiteSpace: "nowrap", wordBreak: "keep-all" }}>
+                        <span style={{ fontSize: "13px", fontWeight: "900", color: textColor, marginTop: "8px", whiteSpace: "nowrap" }}>
                           {item.label}
                         </span>
                       </div>
                     );
                   })}
+                </div>
+              </div>
+
+              {/* 안심 노무비 지급 보장 (에스크로) 3단계 흐름도 */}
+              <div style={{ background: "#fff", border: "2px solid #e6e8ec", borderRadius: "22px", padding: "20px 22px", marginBottom: "20px" }}>
+                <div style={{ fontSize: "14.5px", fontWeight: "900", color: "var(--c1,#1F2226)", marginBottom: "12px", display: "flex", alignItems: "center", gap: "6px" }}>
+                  <span>🛡️ 안심 노무비 지급 보장 (에스크로)</span>
+                  <span style={{ fontSize: "11px", background: "#eff6ff", color: "#2563eb", padding: "2px 6px", borderRadius: "4px", fontWeight: "800" }}>안전 보장</span>
+                </div>
+                <div style={{ fontSize: "13px", color: "#5b6b82", fontWeight: "700", lineHeight: "1.5", marginBottom: "16px", wordBreak: "keep-all" }}>
+                  원청사가 노무비를 MONO 안심 에스크로 금고에 미리 예치해 두므로, 일이 끝나면 체불 걱정 없이 정산 당일 안전하게 즉시 입금됩니다.
+                </div>
+
+                {/* 3단계 도식화 흐름도 */}
+                <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: "12px", background: "#eff6ff", border: "1.5px solid #bfdbfe", borderRadius: "14px", padding: "12px 14px" }}>
+                    <span style={{ fontSize: "20px" }}>🏢</span>
+                    <div>
+                      <div style={{ fontSize: "13.5px", fontWeight: "900", color: "#1e3a8a" }}>1단계: 원청사 노무비 예치 완료</div>
+                      <div style={{ fontSize: "11.5px", fontWeight: "700", color: "#2563eb", marginTop: "2px" }}>공사 대금이 안전하게 선입금 되었습니다</div>
+                    </div>
+                    <span style={{ marginLeft: "auto", fontSize: "14px", color: "#2563eb" }}>✅</span>
+                  </div>
+
+                  <div style={{ display: "flex", alignItems: "center", gap: "12px", background: "#ede9fe", border: "1.5px solid #ddd6fe", borderRadius: "14px", padding: "12px 14px" }}>
+                    <span style={{ fontSize: "20px" }}>🔒</span>
+                    <div>
+                      <div style={{ fontSize: "13.5px", fontWeight: "900", color: "#4c1d95" }}>2단계: MONO 안심 금고 안전 보관</div>
+                      <div style={{ fontSize: "11.5px", fontWeight: "700", color: "#6d28d9", marginTop: "2px" }}>근무하시는 동안 일당을 플랫폼이 안전하게 락인 보관합니다</div>
+                    </div>
+                    <span style={{ marginLeft: "auto", fontSize: "14px", color: "#6d28d9" }}>🔒</span>
+                  </div>
+
+                  <div style={{ display: "flex", alignItems: "center", gap: "12px", background: "#ecfdf5", border: "1.5px solid #a7f3d0", borderRadius: "14px", padding: "12px 14px" }}>
+                    <span style={{ fontSize: "20px" }}>💰</span>
+                    <div>
+                      <div style={{ fontSize: "13.5px", fontWeight: "900", color: "#065f46" }}>3단계: 내 등록 계좌로 즉시 송금</div>
+                      <div style={{ fontSize: "11.5px", fontWeight: "700", color: "#059669", marginTop: "2px" }}>근무 종료 퇴근 체크 확인 즉시 입금됩니다</div>
+                    </div>
+                    <span style={{ marginLeft: "auto", fontSize: "14px", color: "#059669" }}>💸</span>
+                  </div>
                 </div>
               </div>
 
@@ -3102,31 +3153,32 @@ export default function MonoApp() {
 
       {openDocs && (
         <div onClick={() => setOpenDocs(false)} style={{ position: "absolute", inset: "0", zIndex: "60", background: "rgba(20,22,48,.55)", backdropFilter: "blur(3px)", display: "flex", alignItems: "flex-end", animation: "fadeIn .2s ease" }}>
-          <div onClick={(e) => e.stopPropagation()} style={{ width: "100%", background: "#fff", borderRadius: "28px 28px 0 0", padding: "22px 18px 26px", animation: "sheetUp .32s cubic-bezier(.22,1,.36,1)", maxHeight: "90%", display: "flex", flexDirection: "column" }}>
+          <div onClick={(e) => e.stopPropagation()} style={{ width: "100%", background: "#fff", borderRadius: "28px 28px 0 0", padding: "24px 20px 28px", animation: "sheetUp .32s cubic-bezier(.22,1,.36,1)", maxHeight: "90%", display: "flex", flexDirection: "column" }}>
             <div style={{ width: "40px", height: "4px", borderRadius: "2px", background: "#d4dae3", margin: "0 auto 16px" }}></div>
-            <div style={{ fontSize: "18px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>현장 필수 서류 & 자격 관리</div>
-            <div style={{ fontSize: "12.5px", color: "#8694a8", fontWeight: "500", marginTop: "4px", marginBottom: "16px" }}>대형 현장 출근을 위해 5대 서류 이미지 및 정보를 등록하세요.</div>
+            <div style={{ fontSize: "20px", fontWeight: "900", color: "var(--c1,#1F2226)" }}>🚧 일하기 전 필수 서류 간편 등록</div>
+            <div style={{ fontSize: "14px", color: "#5b6b82", fontWeight: "700", marginTop: "6px", marginBottom: "20px", lineHeight: "1.5", wordBreak: "keep-all" }}>
+              현장 출근 및 노무비 지급을 위해 아래 5가지 필수 서류 사진을 큼직한 [파일 등록] 버튼을 눌러 등록해주세요.
+            </div>
             
-            <div className="scr" style={{ overflowY: "auto", flex: 1, display: "flex", flexDirection: "column", gap: "16px" }}>
+            <div className="scr" style={{ overflowY: "auto", flex: 1, display: "flex", flexDirection: "column", gap: "14px" }}>
               
               {/* 5대 핵심 현장 서류 등록 섹션 */}
               <div>
-                <div style={{ fontSize: "14px", fontWeight: "800", color: "var(--c1,#1F2226)", marginBottom: "10px" }}>🚦 5대 핵심 서류 파일 등록</div>
-                <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
                   {[
                     { key: "idCard", label: "🪪 주민등록증 / 운전면허증", stateKey: "idCard" },
                     { key: "safetyEdu", label: "🔰 기초안전보건교육 이수증", stateKey: "safetyEdu" },
                     { key: "elecCard", label: "💳 건설근로자 전자카드", stateKey: "elecCard" },
-                    { key: "medCheck", label: "🩺 배치전 건강진단서 (신체검사)", stateKey: "medCheck" },
-                    { key: "safetyGear", label: "🥾 개인 안전구 (안전화·작업복)", stateKey: "safetyGear" }
+                    { key: "medCheck", label: "🩺 배치전 건강검진 진단서", stateKey: "medCheck" },
+                    { key: "safetyGear", label: "🥾 개인 안전장비 (안전화)", stateKey: "safetyGear" }
                   ].map((doc) => {
                     const isUploaded = prepChecklist[doc.stateKey as keyof typeof prepChecklist];
                     return (
-                      <div key={doc.key} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "12px", border: "1px solid #e6e8ec", borderRadius: "14px", background: isUploaded ? "#f0fdf4" : "#fff" }}>
-                        <div style={{ minWidth: 0 }}>
-                          <div style={{ fontSize: "13.5px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>{doc.label}</div>
-                          <div style={{ fontSize: "11px", color: isUploaded ? "#166534" : "#8694a8", marginTop: "2px", fontWeight: "600" }}>
-                            {isUploaded ? "파일 등록 검증 완료 ✓" : "등록된 파일이 없습니다."}
+                      <div key={doc.key} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "16px", border: "2px solid #e6e8ec", borderRadius: "16px", background: isUploaded ? "#f0fdf4" : "#fff", borderColor: isUploaded ? "#a7f3d0" : "#e6e8ec" }}>
+                        <div style={{ minWidth: 0, flex: 1, paddingRight: "10px" }}>
+                          <div style={{ fontSize: "15px", fontWeight: "900", color: "var(--c1,#1F2226)" }}>{doc.label}</div>
+                          <div style={{ fontSize: "12.5px", color: isUploaded ? "#166534" : "#8694a8", marginTop: "4px", fontWeight: "800" }}>
+                            {isUploaded ? "✅ 서류 등록 및 검증 완료" : "❌ 등록된 사진 없음 (등록 필요)"}
                           </div>
                         </div>
                         
@@ -3140,13 +3192,15 @@ export default function MonoApp() {
                             });
                           }}
                           style={{
-                            height: "32px", padding: "0 12px", border: "none", borderRadius: "8px",
-                            fontSize: "12px", fontWeight: "800", cursor: "pointer",
+                            height: "46px", padding: "0 18px", border: "none", borderRadius: "10px",
+                            fontSize: "13.5px", fontWeight: "900", cursor: "pointer",
                             background: isUploaded ? "#10b981" : "var(--c1,#1F2226)",
-                            color: "#fff"
+                            color: "#fff",
+                            whiteSpace: "nowrap",
+                            boxShadow: "0 4px 8px rgba(0,0,0,0.05)"
                           }}
                         >
-                          {isUploaded ? "변경" : "파일 업로드"}
+                          {isUploaded ? "서류 변경" : "파일 등록"}
                         </button>
                       </div>
                     );
