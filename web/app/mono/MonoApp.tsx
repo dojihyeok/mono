@@ -1924,7 +1924,7 @@ export default function MonoApp() {
             </div>
 
             <button
-              onClick={openShare}
+              onClick={v.openShare}
               style={{
                 marginTop: "12px", width: "100%", height: "42px", border: "none", borderRadius: "10px",
                 background: "var(--c1,#1F2226)", color: "#fff", fontSize: "13px", fontWeight: "800", cursor: "pointer"
