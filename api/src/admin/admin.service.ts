@@ -8,6 +8,7 @@ import {
   VisaDocStatus,
   FieldOpsFeature,
   Residency,
+  PartnerReferralStatus,
 } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 import { NotificationsService } from '../notifications/notifications.service';
@@ -467,6 +468,38 @@ export class AdminService {
         user: { select: { name: true } },
         company: { select: { name: true } },
       },
+    });
+  }
+
+  // 행정·노무 파트너 연계 신청 리스트 조회
+  async listReferrals() {
+    const referrals = await this.prisma.partnerReferral.findMany({
+      orderBy: { createdAt: 'desc' },
+    });
+
+    const requesterIds = Array.from(new Set(referrals.map((r) => r.requesterId)));
+    const users = await this.prisma.user.findMany({
+      where: { id: { in: requesterIds } },
+      select: { id: true, name: true, phone: true },
+    });
+
+    const userMap = new Map(users.map((u) => [u.id, u]));
+
+    return referrals.map((r) => ({
+      ...r,
+      user: userMap.get(r.requesterId) || null,
+    }));
+  }
+
+  // 행정·노무 파트너 연계 신청 상태 변경
+  async setReferralStatus(id: string, status: PartnerReferralStatus) {
+    const ref = await this.prisma.partnerReferral.findUnique({ where: { id } });
+    if (!ref) {
+      throw new NotFoundException('신청 정보를 찾을 수 없습니다.');
+    }
+    return this.prisma.partnerReferral.update({
+      where: { id },
+      data: { status },
     });
   }
 }

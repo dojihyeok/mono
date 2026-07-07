@@ -4,6 +4,7 @@ import { JobPostStatusDto } from './dto/job-post-status.dto';
 import { SetUserRoleDto } from './dto/set-user-role.dto';
 import { WorkRequestStatusDto } from './dto/work-request-status.dto';
 import { CommunityService } from '../community/community.service';
+import { PartnerReferralStatus } from '@prisma/client';
 
 // 운영 콘솔 BFF(/api/admin/*) → 이 컨트롤러.
 @Controller('admin')
@@ -148,5 +149,20 @@ export class AdminController {
   @Delete('community/blacklist/:id')
   removeBlacklistWord(@Param('id') id: string) {
     return this.community.removeBlacklistWord(id);
+  }
+
+  // 행정·노무 파트너 연계 신청 목록 조회
+  @Get('referrals')
+  listReferrals() {
+    return this.admin.listReferrals();
+  }
+
+  // 행정·노무 파트너 연계 신청 상태 변경
+  @Patch('referrals/:id/status')
+  setReferralStatus(
+    @Param('id') id: string,
+    @Body() body: { status: PartnerReferralStatus },
+  ) {
+    return this.admin.setReferralStatus(id, body.status);
   }
 }

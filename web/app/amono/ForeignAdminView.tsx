@@ -4,7 +4,7 @@
 // 서브탭: 체류 만료 큐 · 서류 검토 큐 · 리스크 신고 · 투입 리포트.
 import { useEffect, useState } from "react";
 import styles from "./admin.module.css";
-import { apiListRiskReports, apiSetRiskStatus, getJson } from "@/lib/apiClient";
+import { apiListRiskReports, apiSetRiskStatus, getJson, apiListAdminReferrals, apiSetReferralStatus } from "@/lib/apiClient";
 import {
   VISA_TYPES,
   DOCUMENT_KINDS,
@@ -13,7 +13,32 @@ import {
 } from "@/lib/constants";
 import ForeignNotice from "../mono/ForeignNotice";
 
-type Sub = "visas" | "documents" | "risk" | "report";
+type Sub = "visas" | "documents" | "risk" | "report" | "referrals";
+
+interface AdminReferral {
+  id: string;
+  userId: string;
+  kind: string;
+  status: string;
+  createdAt: string;
+  user?: { id: string; name?: string | null; phone?: string | null } | null;
+}
+
+const REFERRAL_KIND_LABEL: Record<string, string> = {
+  VISA: "비자 연장·행정 대행",
+  LABOR: "임금 체불·노무 상담",
+  SETTLEMENT: "정산 분쟁 해결",
+  EDUCATION: "현장 안전·교육 지원",
+  INSURANCE: "보증·재해 보험 연계",
+};
+
+const REFERRAL_STATUS_LABEL: Record<string, string> = {
+  PENDING: "접수",
+  MATCHING: "연계중",
+  COMPLETED: "연계완료",
+};
+
+const REFERRAL_STATUSES = ["PENDING", "MATCHING", "COMPLETED"] as const;
 
 const visaLabel = (v: string) => VISA_TYPES.find((x) => x.value === v)?.label ?? v;
 const docLabel = (v: string) => DOCUMENT_KINDS.find((x) => x.value === v)?.label ?? v;
@@ -71,6 +96,7 @@ export default function ForeignAdminView() {
   const [docs, setDocs] = useState<PendingDoc[] | null>(null);
   const [risks, setRisks] = useState<RiskRow[] | null>(null);
   const [report, setReport] = useState<ForeignReport | null>(null);
+  const [referrals, setReferrals] = useState<AdminReferral[] | null>(null);
 
   useEffect(() => {
     if (sub === "visas" && visas === null)
@@ -81,11 +107,18 @@ export default function ForeignAdminView() {
       void apiListRiskReports().then((r) => setRisks(r as RiskRow[]));
     if (sub === "report" && report === null)
       void getJson<ForeignReport | null>("/api/admin/foreign-report", null).then(setReport);
-  }, [sub, visas, docs, risks, report]);
+    if (sub === "referrals" && referrals === null)
+      void apiListAdminReferrals().then((r) => setReferrals(r as AdminReferral[]));
+  }, [sub, visas, docs, risks, report, referrals]);
 
   async function changeRisk(id: string, status: string) {
     await apiSetRiskStatus(id, status);
     setRisks((prev) => prev?.map((r) => (r.id === id ? { ...r, status } : r)) ?? prev);
+  }
+
+  async function changeReferralStatus(id: string, status: string) {
+    await apiSetReferralStatus(id, status);
+    setReferrals((prev) => prev?.map((r) => (r.id === id ? { ...r, status } : r)) ?? prev);
   }
 
   return (
@@ -97,6 +130,7 @@ export default function ForeignAdminView() {
             { k: "visas", t: "체류 만료" },
             { k: "documents", t: "서류 검토" },
             { k: "risk", t: "리스크 신고" },
+            { k: "referrals", t: "파트너 연계" },
             { k: "report", t: "투입 리포트" },
           ] as { k: Sub; t: string }[]
         ).map((x) => (
@@ -298,6 +332,51 @@ export default function ForeignAdminView() {
                 ))
               )}
             </div>
+          </div>
+        ))}
+
+      {/* 파트너 연계 신청 관리 큐 */}
+      {sub === "referrals" &&
+        (referrals === null ? (
+          <div className={styles.loading}>불러오는 중…</div>
+        ) : referrals.length === 0 ? (
+          <div className={styles.empty}>접수된 파트너 연계 신청이 없습니다.</div>
+        ) : (
+          <div className={styles.tableWrap}>
+            <table className={styles.table}>
+              <thead>
+                <tr>
+                  <th>기술자</th>
+                  <th>연락처</th>
+                  <th>신청 분야</th>
+                  <th>신청일</th>
+                  <th>연계 상태</th>
+                </tr>
+              </thead>
+              <tbody>
+                {referrals.map((ref) => (
+                  <tr key={ref.id}>
+                    <td>{ref.user?.name ?? "—"}</td>
+                    <td style={{ fontFamily: "monospace" }}>{ref.user?.phone ?? "—"}</td>
+                    <td style={{ fontWeight: 700 }}>{REFERRAL_KIND_LABEL[ref.kind] ?? ref.kind}</td>
+                    <td>{ref.createdAt.slice(0, 10)}</td>
+                    <td>
+                      <select
+                        value={ref.status}
+                        onChange={(e) => void changeReferralStatus(ref.id, e.target.value)}
+                        aria-label="파트너 연계 상태"
+                      >
+                        {REFERRAL_STATUSES.map((s) => (
+                          <option key={s} value={s}>
+                            {REFERRAL_STATUS_LABEL[s]}
+                          </option>
+                        ))}
+                      </select>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         ))}
 
