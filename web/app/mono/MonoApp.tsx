@@ -1237,7 +1237,7 @@ export default function MonoApp() {
       homeJobs, jobs, chips, history, steps, meRows,
       openCareer:()=>open('career'),
       openFinance:()=>open('finance'),
-      openShare:()=>open('share'),
+      openShare:()=>setOpenShareSheet(true),
       openScope:()=>open('scope'),
       openEscrow:()=>open('escrow'),
       openOffice:()=>open('office'),
