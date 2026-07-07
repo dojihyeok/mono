@@ -307,7 +307,7 @@ export default function MonoApp() {
     setTeamOpen(false);
     setLeaderProfileOpen(false);
     setConfirmState(null);
-    setEquipOpen(false);
+    setOpenEquipSheet(false);
     set({ tab: t, flipped: false, settleOpen: false, modal: null, overlay: null });
   };
   const setV = (vv) => set({ variant: vv, flipped: false });
@@ -668,13 +668,13 @@ export default function MonoApp() {
   };
 
   useEffect(() => {
-    if (!equipOpen) return;
+    if (!openEquipSheet) return;
     document.body.classList.add("scroll-lock");
-    const onKey = (e) => { if (e.key === "Escape") { e.stopPropagation(); setEquipOpen(false); } };
+    const onKey = (e) => { if (e.key === "Escape") { e.stopPropagation(); setOpenEquipSheet(false); } };
     document.addEventListener("keydown", onKey);
     const ft = window.setTimeout(() => { equipRef.current?.focus?.(); }, 20);
     return () => { window.clearTimeout(ft); document.removeEventListener("keydown", onKey); document.body.classList.remove("scroll-lock"); };
-  }, [equipOpen]);
+  }, [openEquipSheet]);
 
   useEffect(() => {
     if (!teamOpen) return;
