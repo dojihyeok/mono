@@ -61,7 +61,7 @@ interface AdminEvent {
   createdAt: string;
 }
 
-type Tab = "overview" | "foreman" | "users" | "events" | "jobposts" | "industry" | "workrequests" | "reviews" | "poc" | "foreign" | "ops";
+type Tab = "overview" | "foreman" | "users" | "events" | "jobposts" | "industry" | "workrequests" | "reviews" | "poc" | "foreign" | "ops" | "community";
 
 interface PocReport {
   generatedAt: string;
@@ -433,6 +433,7 @@ export function AdminClient() {
             { k: "reviews", t: "평가" },
             { k: "poc", t: "PoC 리포트" },
             { k: "foreign", t: "외국인 인력" },
+            { k: "community", t: "커뮤니티 관리" },
             { k: "ops", t: "운영·관심" },
             { k: "events", t: "이벤트 로그" },
           ] as { k: Tab; t: string }[]
@@ -457,6 +458,7 @@ export function AdminClient() {
         {tab === "reviews" && <ReviewsView rows={reviews} loading={loading && !reviews} />}
         {tab === "poc" && <PocView data={pocReport} loading={loading && !pocReport} />}
         {tab === "foreign" && <ForeignAdminView />}
+        {tab === "community" && <CommunityAdminView />}
         {tab === "ops" && <AdminOpsView />}
         {tab === "events" && (
           <EventsView
@@ -1015,6 +1017,186 @@ function EventsView({
           </table>
         </div>
       )}
+    </>
+  );
+}
+
+function CommunityAdminView() {
+  const [reports, setReports] = useState<any[]>([]);
+  const [blacklist, setBlacklist] = useState<any[]>([]);
+  const [newWord, setNewWord] = useState("");
+
+  const loadReports = async () => {
+    try {
+      const res = await fetch("/api/admin/community/reports");
+      if (res.ok) setReports(await res.json());
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const loadBlacklist = async () => {
+    try {
+      const res = await fetch("/api/admin/community/blacklist");
+      if (res.ok) setBlacklist(await res.json());
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  useEffect(() => {
+    void loadReports();
+    void loadBlacklist();
+  }, []);
+
+  const handleDeletePost = async (id: string) => {
+    if (!confirm("해당 게시글을 삭제하시겠습니까? 관련 신고도 함께 삭제됩니다.")) return;
+    try {
+      const res = await fetch(`/api/admin/community/posts/${id}`, { method: "DELETE" });
+      if (res.ok) {
+        alert("게시글이 삭제되었습니다.");
+        void loadReports();
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const handleAddBlacklist = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newWord.trim()) return;
+    try {
+      const res = await fetch("/api/admin/community/blacklist", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ word: newWord.trim() }),
+      });
+      if (res.ok) {
+        setNewWord("");
+        void loadBlacklist();
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const handleRemoveBlacklist = async (id: string) => {
+    try {
+      const res = await fetch(`/api/admin/community/blacklist/${id}`, { method: "DELETE" });
+      if (res.ok) {
+        void loadBlacklist();
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  return (
+    <>
+      <div className={styles.sectionTitle}>🚨 신고 내역 모니터링</div>
+      <div className={styles.panel} style={{ marginBottom: "24px" }}>
+        {reports.length === 0 ? (
+          <div className={styles.empty}>신고된 게시글이 없습니다.</div>
+        ) : (
+          <div className={styles.tableWrap}>
+            <table className={styles.table}>
+              <thead>
+                <tr>
+                  <th>신고 타입</th>
+                  <th>신고 사유</th>
+                  <th>신고 대상 텍스트</th>
+                  <th>조치</th>
+                </tr>
+              </thead>
+              <tbody>
+                {reports.map((r: any) => (
+                  <tr key={r.id}>
+                    <td>
+                      <span className={`${styles.catBadge} ${r.targetType === 'POST' ? styles.catReturn : styles.catProfile}`}>
+                        {r.targetType === 'POST' ? '게시글' : '댓글'}
+                      </span>
+                    </td>
+                    <td style={{ fontWeight: 700 }}>{r.reason}</td>
+                    <td>
+                      {r.targetTitle && <div style={{ fontSize: '11px', color: '#8694a8' }}>제목: {r.targetTitle}</div>}
+                      <div style={{ fontSize: '13px' }}>{r.targetContent}</div>
+                    </td>
+                    <td>
+                      {r.targetType === 'POST' ? (
+                        <button className={styles.filterChip} onClick={() => handleDeletePost(r.targetId)}>강제 삭제</button>
+                      ) : (
+                        <span style={{ fontSize: '12px', color: '#8694a8' }}>—</span>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
+
+      <div className={styles.sectionTitle}>금칙어 설정 및 필터 관리</div>
+      <div className={styles.panel}>
+        <form onSubmit={handleAddBlacklist} style={{ display: "flex", gap: "10px", marginBottom: "16px" }}>
+          <input
+            type="text"
+            placeholder="추가할 금칙어 입력"
+            value={newWord}
+            onChange={(e) => setNewWord(e.target.value)}
+            style={{
+              flex: 1,
+              padding: "10px 14px",
+              borderRadius: "8px",
+              border: "1px solid #e6e8ec",
+              fontSize: "14px",
+            }}
+            required
+          />
+          <button type="submit" className={styles.filterChip} style={{ padding: "0 20px" }}>추가</button>
+        </form>
+
+        <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
+          {blacklist.length === 0 ? (
+            <div className={styles.empty}>등록된 금칙어가 없습니다.</div>
+          ) : (
+            blacklist.map((item: any) => (
+              <span
+                key={item.id}
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "6px",
+                  padding: "6px 12px",
+                  borderRadius: "999px",
+                  border: "1px solid #fecaca",
+                  background: "#fffdfd",
+                  color: "#ef4444",
+                  fontSize: "13px",
+                  fontWeight: "700"
+                }}
+              >
+                {item.word}
+                <button
+                  type="button"
+                  onClick={() => handleRemoveBlacklist(item.id)}
+                  style={{
+                    border: "none",
+                    background: "none",
+                    color: "#ef4444",
+                    fontSize: "14px",
+                    fontWeight: "800",
+                    cursor: "pointer",
+                    padding: 0
+                  }}
+                >
+                  &times;
+                </button>
+              </span>
+            ))
+          )}
+        </div>
+      </div>
     </>
   );
 }

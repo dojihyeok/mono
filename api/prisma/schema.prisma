@@ -80,6 +80,8 @@ model User {
   consultRequests    ConsultRequest[]
   fieldCheckins      FieldCheckin[]
   teamPostsAuthored  TeamPost[]             @relation("TeamPostAuthor")
+  communityPosts     CommunityPost[]
+  communityComments  CommunityComment[]
 }
 
 // 경력 구간(버킷) — 표시문구(1년미만/1~3년 …)는 프론트에서 매핑
@@ -983,4 +985,51 @@ model TeamPost {
   updatedAt DateTime @updatedAt
 
   @@index([teamId])
+}
+
+model CommunityPost {
+  id          String             @id @default(cuid())
+  channel     String             // "PRIME" | "REGION" | "ROLE" | "LEADER"
+  subChannel  String             // e.g. "삼성 평택", "서울", "배관방"
+  title       String
+  content     String
+  authorId    String
+  author      User               @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  likes       Int                @default(0)
+  helps       Int                @default(0)
+  reported    Boolean            @default(false)
+  ratings     Json?              // For structured reviews: { commute: 4, food: 3, lodging: 5, env: 4, settle: 5, beginner: 4, rehire: 5 }
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
+  comments    CommunityComment[]
+
+  @@index([channel])
+  @@index([authorId])
+}
+
+model CommunityComment {
+  id        String        @id @default(cuid())
+  postId    String
+  post      CommunityPost @relation(fields: [postId], references: [id], onDelete: Cascade)
+  authorId  String
+  author    User          @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  content   String
+  createdAt DateTime      @default(now())
+
+  @@index([postId])
+}
+
+model CommunityReport {
+  id         String   @id @default(cuid())
+  targetType String   // "POST" | "COMMENT"
+  targetId   String
+  reporterId String
+  reason     String
+  createdAt  DateTime @default(now())
+}
+
+model BlacklistWord {
+  id        String   @id @default(cuid())
+  word      String   @unique
+  createdAt DateTime @default(now())
 }

@@ -1,13 +1,17 @@
-import { Body, Controller, Get, Param, Patch, Post, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
 import { AdminService } from './admin.service';
 import { JobPostStatusDto } from './dto/job-post-status.dto';
 import { SetUserRoleDto } from './dto/set-user-role.dto';
 import { WorkRequestStatusDto } from './dto/work-request-status.dto';
+import { CommunityService } from '../community/community.service';
 
 // 운영 콘솔 BFF(/api/admin/*) → 이 컨트롤러.
 @Controller('admin')
 export class AdminController {
-  constructor(private readonly admin: AdminService) {}
+  constructor(
+    private readonly admin: AdminService,
+    private readonly community: CommunityService,
+  ) {}
 
   @Get('overview')
   overview() {
@@ -118,5 +122,31 @@ export class AdminController {
   @Get('operators')
   operators() {
     return this.admin.listOperators();
+  }
+
+  // ── 커뮤니티 모니터링 및 금칙어 관리 ──
+  @Get('community/reports')
+  listCommunityReports() {
+    return this.community.listReports();
+  }
+
+  @Delete('community/posts/:id')
+  deleteCommunityPost(@Param('id') id: string) {
+    return this.community.deletePost(id);
+  }
+
+  @Get('community/blacklist')
+  listBlacklist() {
+    return this.community.listBlacklist();
+  }
+
+  @Post('community/blacklist')
+  addBlacklistWord(@Body() body: { word: string }) {
+    return this.community.addBlacklistWord(body.word);
+  }
+
+  @Delete('community/blacklist/:id')
+  removeBlacklistWord(@Param('id') id: string) {
+    return this.community.removeBlacklistWord(id);
   }
 }

@@ -19,6 +19,7 @@ import { SettlementsModule } from './settlements/settlements.module';
 import { TrainingModule } from './training/training.module';
 import { ReferralsModule } from './referrals/referrals.module';
 import { RiskModule } from './risk/risk.module';
+import { CommunityModule } from './community/community.module';
 
 @Controller()
 class HealthController {
@@ -49,6 +50,7 @@ class HealthController {
     TrainingModule,
     ReferralsModule,
     RiskModule,
+    CommunityModule,
   ],
   controllers: [HealthController],
 })

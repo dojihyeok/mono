@@ -11,6 +11,8 @@ import { track } from "@/lib/analytics";
 import { getServerId, ensureServerId, apiUpsertFieldLeaderProfile, apiGetFieldLeaderProfile, apiListEquipmentHistory, apiAddEquipmentHistory, apiDeleteEquipmentHistory, apiCreateAiLeaderInterest, apiGetTrustScore, apiGetWorkerProfile, apiGetUnreadCount, apiListNotifications, apiMarkAllRead, apiListJobPosts, apiListUserApplications, apiApplyJobPost, apiListUserAssignments, apiCheckIn, apiCheckOut, apiProposeReAttendance } from "@/lib/apiClient";
 import type { JobPost, JobApplication, Assignment, AttendanceRec } from "@/lib/types";
 import { ProfileTab as FgnProfile, VisaTab as FgnVisa, DocsTab as FgnDocs, TrainingTab as FgnTraining, SettlementTab as FgnSettlement } from "./ForeignWorkerHub";
+import CommunityView from "./components/CommunityView";
+import GlossaryView from "./GlossaryView";
 import { enablePush } from "@/lib/push";
 import { QRCodeSVG } from "qrcode.react";
 
@@ -129,6 +131,8 @@ interface AiInsight {
 export default function MonoApp() {
   const [s, setS] = useState({ tab: 'home', variant: 0, flipped: false, checkedIn: false, settleOpen: false, modal: null, overlay: null, selJob: 0, applied: false, cardView: 'me' });
   const [activeGuide, setActiveGuide] = useState<'first' | 'large' | null>(null);
+  const [workSubTab, setWorkSubTab] = useState<'attendance' | 'history'>('attendance');
+  const [glossaryOpen, setGlossaryOpen] = useState(false);
   const guideRef = useRef<HTMLDivElement>(null);
   const [homeTab, setHomeTab] = useState<'today' | 'large'>('today');
   const [prepChecklist, setPrepChecklist] = useState({
@@ -1063,18 +1067,18 @@ export default function MonoApp() {
     const meRows=[
       {label:'내 현장 프로필 (이력서)',tag:'완료',tagColor:'var(--c3,#1F2226)',icon:React.createElement('svg',{width:18,height:18,viewBox:'0 0 20 20',fill:'none'},React.createElement('circle',{cx:10,cy:7,r:3,stroke:'var(--c1,#1F2226)',strokeWidth:1.7}),React.createElement('path',{d:'M4 17c0-3 2.7-4.5 6-4.5s6 1.5 6 4.5',stroke:'var(--c1,#1F2226)',strokeWidth:1.7,strokeLinecap:'round'})),onClick:()=>openEdit()},
       {label:'준비 서류 (문서)',tag:(certificates.length+educations.length)?(certificates.length+educations.length)+'건':'',tagColor:'#8694a8',icon:React.createElement('svg',{width:18,height:18,viewBox:'0 0 20 20',fill:'none'},React.createElement('path',{d:'M5 2.5h7L16 6v11.5H5V2.5Z',stroke:'var(--c1,#1F2226)',strokeWidth:1.7,strokeLinejoin:'round'}),React.createElement('path',{d:'M12 2.5V6h4',stroke:'var(--c1,#1F2226)',strokeWidth:1.7,strokeLinejoin:'round'})),onClick:()=>setOpenDocs(true)},
-      {label:'일한 기록 (출역내역)',tag:history.length?history.length+'건':'',tagColor:'#8694a8',icon:React.createElement('svg',{width:18,height:18,viewBox:'0 0 20 20',fill:'none'},React.createElement('path',{d:'M3 17h14M5 17V8l5-3.5L15 8v9M8.5 17v-4h3v4',stroke:'var(--c1,#1F2226)',strokeWidth:1.7,strokeLinejoin:'round'})),onClick:()=>setTab('history')},
-      {label:'받을 금액 (정산)',tag:'조회',tagColor:'#8694a8',icon:React.createElement('svg',{width:18,height:18,viewBox:'0 0 20 20',fill:'none'},React.createElement('rect',{x:3,y:5,width:14,height:11,rx:2,stroke:'var(--c1,#1F2226)',strokeWidth:1.7},React.createElement('path',{d:'M3 9h14',stroke:'var(--a1,#1F2226)',strokeWidth:1.7}))),onClick:()=>setTab('history')}
+      {label:'일한 기록 (출역내역)',tag:history.length?history.length+'건':'',tagColor:'#8694a8',icon:React.createElement('svg',{width:18,height:18,viewBox:'0 0 20 20',fill:'none'},React.createElement('path',{d:'M3 17h14M5 17V8l5-3.5L15 8v9M8.5 17v-4h3v4',stroke:'var(--c1,#1F2226)',strokeWidth:1.7,strokeLinejoin:'round'})),onClick:()=>setTab('work')},
+      {label:'받을 금액 (정산)',tag:'조회',tagColor:'#8694a8',icon:React.createElement('svg',{width:18,height:18,viewBox:'0 0 20 20',fill:'none'},React.createElement('rect',{x:3,y:5,width:14,height:11,rx:2,stroke:'var(--c1,#1F2226)',strokeWidth:1.7},React.createElement('path',{d:'M3 9h14',stroke:'var(--a1,#1F2226)',strokeWidth:1.7}))),onClick:()=>setTab('work')}
     ];
 
     return {
-      isHome:tab('home'), isJobs:tab('jobs'), isWork:tab('work'), isHistory:tab('history'), isMe:tab('me'),
-      goHome:()=>setTab('home'), goJobs:()=>setTab('jobs'), goWork:()=>setTab('work'), goHistory:()=>setTab('history'), goMe:()=>setTab('me'),
-      cHome:tab('home')?green:mute, cJobs:tab('jobs')?green:mute, cWork:tab('work')?green:mute, cHistory:tab('history')?green:mute, cMe:tab('me')?green:mute,
-      fHome:tab('home')?'var(--soft,#E5E7EB)':'none', fJobs:tab('jobs')?'var(--soft,#E5E7EB)':'none', fWork:tab('work')?'var(--soft,#E5E7EB)':'none', fHistory:tab('history')?'var(--soft,#E5E7EB)':'none', fMe:tab('me')?'var(--soft,#E5E7EB)':'none',
-      wHome:tab('home')?'800':'600', wJobs:tab('jobs')?'800':'600', wWork:tab('work')?'800':'600', wHistory:tab('history')?'800':'600', wMe:tab('me')?'800':'600',
-      dotHome:tab('home')?gold:'transparent', dotJobs:tab('jobs')?gold:'transparent', dotWork:tab('work')?gold:'transparent', dotHistory:tab('history')?gold:'transparent', dotMe:tab('me')?gold:'transparent',
-      clipHistory:tab('history')?gold:'none', clipWork:tab('work')?gold:'none',
+      isHome:tab('home'), isJobs:tab('jobs'), isCommunity:tab('community'), isWork:tab('work'), isMe:tab('me'),
+      goHome:()=>setTab('home'), goJobs:()=>setTab('jobs'), goCommunity:()=>setTab('community'), goWork:()=>setTab('work'), goMe:()=>setTab('me'),
+      cHome:tab('home')?green:mute, cJobs:tab('jobs')?green:mute, cCommunity:tab('community')?green:mute, cWork:tab('work')?green:mute, cMe:tab('me')?green:mute,
+      fHome:tab('home')?'var(--soft,#E5E7EB)':'none', fJobs:tab('jobs')?'var(--soft,#E5E7EB)':'none', fCommunity:tab('community')?'var(--soft,#E5E7EB)':'none', fWork:tab('work')?'var(--soft,#E5E7EB)':'none', fMe:tab('me')?'var(--soft,#E5E7EB)':'none',
+      wHome:tab('home')?'800':'600', wJobs:tab('jobs')?'800':'600', wCommunity:tab('community')?'800':'600', wWork:tab('work')?'800':'600', wMe:tab('me')?'800':'600',
+      dotHome:tab('home')?gold:'transparent', dotJobs:tab('jobs')?gold:'transparent', dotCommunity:tab('community')?gold:'transparent', dotWork:tab('work')?gold:'transparent', dotMe:tab('me')?gold:'transparent',
+      clipCommunity:tab('community')?gold:'none', clipWork:tab('work')?gold:'none',
 
       qr,
       name: pName, initial: pInit, myJob: pJob, maskedName: pMasked,
@@ -1169,8 +1173,8 @@ export default function MonoApp() {
         <nav className="mono-sidebar-nav">
           <button type="button" onClick={v.goHome} className={`mono-sidebar-item${v.isHome ? " active" : ""}`}>홈</button>
           <button type="button" onClick={v.goJobs} className={`mono-sidebar-item${v.isJobs ? " active" : ""}`}>현장 찾기</button>
+          <button type="button" onClick={v.goCommunity} className={`mono-sidebar-item${v.isCommunity ? " active" : ""}`}>커뮤니티</button>
           <button type="button" onClick={v.goWork} className={`mono-sidebar-item${v.isWork ? " active" : ""}`}>지원·출근</button>
-          <button type="button" onClick={v.goHistory} className={`mono-sidebar-item${v.isHistory ? " active" : ""}`}>일한 기록</button>
           <button type="button" onClick={v.goMe} className={`mono-sidebar-item${v.isMe ? " active" : ""}`}>내 프로필</button>
         </nav>
         <div className="mono-sidebar-foot">현장 인력 데이터 인프라</div>
@@ -1219,6 +1223,37 @@ export default function MonoApp() {
               </div>
             </div>
           )}
+
+          {/* 오늘 할 일 (Today's Checklist) */}
+          <div style={{ background: "#ffffff", border: "1px solid #e6e8ec", borderRadius: "20px", padding: "18px", marginBottom: "16px", boxShadow: "0 4px 14px -10px rgba(0,0,0,0.05)" }}>
+            <div style={{ fontSize: "15px", fontWeight: "800", color: "var(--c1,#1F2226)", marginBottom: "12px" }}>🗓️ 오늘 할 일</div>
+            <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "10px", padding: "10px 12px", background: "#f8fafc", borderRadius: "12px" }}>
+                <span style={{ fontSize: "16px" }}>⚙️</span>
+                <div style={{ fontSize: "13px", fontWeight: "600", color: "#374151" }}>
+                  <span style={{ color: "#4f46e5", fontWeight: "800" }}>[준비]</span> 전자카드 등록이 필요해요
+                </div>
+              </div>
+              <div style={{ display: "flex", alignItems: "center", gap: "10px", padding: "10px 12px", background: "#f8fafc", borderRadius: "12px" }}>
+                <span style={{ fontSize: "16px" }}>🔍</span>
+                <div style={{ fontSize: "13px", fontWeight: "600", color: "#374151" }}>
+                  <span style={{ color: "#10b981", fontWeight: "800" }}>[지원]</span> 오늘 지원 가능한 현장이 3개 있어요
+                </div>
+              </div>
+              <div style={{ display: "flex", alignItems: "center", gap: "10px", padding: "10px 12px", background: "#f8fafc", borderRadius: "12px" }}>
+                <span style={{ fontSize: "16px" }}>⏰</span>
+                <div style={{ fontSize: "13px", fontWeight: "600", color: "#374151" }}>
+                  <span style={{ color: "#ef4444", fontWeight: "800" }}>[출근]</span> 내일 06:40 출근 예정 현장이 있어요
+                </div>
+              </div>
+              <div style={{ display: "flex", alignItems: "center", gap: "10px", padding: "10px 12px", background: "#f8fafc", borderRadius: "12px" }}>
+                <span style={{ fontSize: "16px" }}>📊</span>
+                <div style={{ fontSize: "13px", fontWeight: "600", color: "#374151" }}>
+                  <span style={{ color: "#f59e0b", fontWeight: "800" }}>[기록]</span> 이번 달 13.5공수를 기록했어요
+                </div>
+              </div>
+            </div>
+          </div>
 
           {/* 가이드 카드 섹션 - 홈 상단 배치 */}
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px", marginTop: "4px", marginBottom: "16px" }}>
@@ -1487,6 +1522,35 @@ export default function MonoApp() {
               </div>
             </div>
           )}
+          {/* AI 현장 가이드 카드 */}
+          <div style={{ background: "#eef2ff", border: "1px solid #c7d2fe", borderRadius: "20px", padding: "18px", marginTop: "16px" }}>
+            <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+              <span style={{ fontSize: "24px" }}>🤖</span>
+              <div>
+                <h4 style={{ margin: 0, fontSize: "15px", fontWeight: "800", color: "#312e81" }}>처음 보는 현장 용어가 있나요?</h4>
+                <p style={{ margin: "2px 0 0", fontSize: "12.5px", color: "#4f46e5", fontWeight: "600", lineHeight: "1.4" }}>
+                  야리끼리, 데마찌, 단도리... 현장 은어나 용어의 뜻을 AI 가이드가 알기 쉽게 설명해드려요.
+                </p>
+              </div>
+            </div>
+            <button
+              onClick={() => setGlossaryOpen(true)}
+              style={{
+                marginTop: "12px",
+                width: "100%",
+                height: "44px",
+                border: "none",
+                borderRadius: "12px",
+                background: "#4f46e5",
+                color: "#fff",
+                fontSize: "13.5px",
+                fontWeight: "800",
+                cursor: "pointer"
+              }}
+            >
+              현장 용어 물어보기
+            </button>
+          </div>
 
         </div>
         </>)}
@@ -1552,160 +1616,201 @@ export default function MonoApp() {
         </>)}
 
 
-        {(v.isHistory) && (<>
-        <div style={{ padding: "8px 20px 30px" }}>
-          <div style={{ fontSize: "22px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>일한 기록</div>
-          <div style={{ fontSize: "13px", color: "#8694a8", fontWeight: "600", marginTop: "3px" }}>최근 출역 내역과 정산 세부 기록을 확인할 수 있습니다.</div>
-
-          {/* 이번 달 근무 요약 카드 */}
-          <div style={{ background: "var(--c1,#1F2226)", borderRadius: "20px", padding: "20px", color: "#fff", marginTop: "16px", boxShadow: "0 10px 24px -10px rgba(0,0,0,0.15)" }}>
-            <div style={{ fontSize: "12px", color: "rgba(255,255,255,0.7)", fontWeight: "700" }}>2026년 7월 근무 요약</div>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginTop: "12px" }}>
-              <div>
-                <span className="mono" style={{ fontSize: "36px", fontWeight: "500" }}>12</span>
-                <span style={{ fontSize: "14px", marginLeft: "2px", fontWeight: "700" }}>일</span>
-                <span style={{ margin: "0 8px", color: "rgba(255,255,255,0.3)" }}>|</span>
-                <span className="mono" style={{ fontSize: "36px", fontWeight: "500" }}>13.5</span>
-                <span style={{ fontSize: "14px", marginLeft: "2px", fontWeight: "700" }}>공수</span>
-              </div>
-              <div style={{ textAlign: "right" }}>
-                <div style={{ fontSize: "11px", color: "rgba(255,255,255,0.6)", fontWeight: "600" }}>받을 금액 (정산 예정)</div>
-                <div style={{ fontSize: "22px", fontWeight: "800", color: "#5fd1a0" }}>₩2,760,000</div>
-              </div>
-            </div>
-          </div>
-
-          {/* 에스크로 안심정산 배너 */}
-          <div style={{ background: "#f0fdf4", border: "1px solid #bbf7d0", borderRadius: "16px", padding: "14px 16px", marginTop: "14px", display: "flex", gap: "10px", alignItems: "center" }}>
-            <span style={{ fontSize: "20px" }}>🛡️</span>
-            <div style={{ fontSize: "12px", color: "#166534", fontWeight: "600", lineHeight: "1.45", wordBreak: "keep-all" }}>
-              MONO는 근로자 보호를 위해 <strong>에스크로 안심 정산 계좌</strong>를 사용하며, 노무비 정산 증빙을 자동으로 관리합니다.
-            </div>
-          </div>
-
-          {/* 상세 출역 기록 */}
-          <div style={{ marginTop: "24px" }}>
-            <div style={{ fontSize: "15px", fontWeight: "800", color: "var(--c1,#1F2226)", marginBottom: "12px" }}>상세 출역 기록</div>
-            
-            <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-              {/* Card 1 */}
-              <div style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: "18px", padding: "16px", boxShadow: "0 4px 12px -10px rgba(0,0,0,0.05)" }}>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                  <span style={{ fontSize: "12px", fontWeight: "800", color: "#b4690e", background: "#fef3c7", padding: "3px 8px", borderRadius: "6px" }}>정산 예정</span>
-                  <span style={{ fontSize: "12.5px", color: "#8694a8", fontWeight: "600" }}>6월 19일 (금)</span>
-                </div>
-                <h4 style={{ margin: "10px 0 4px", fontSize: "15px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>힐스테이트 송도 더스카이</h4>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginTop: "8px", borderTop: "1px solid #f1f5f9", paddingTop: "8px" }}>
-                  <span style={{ fontSize: "13px", color: "#5b6b82", fontWeight: "500" }}>형틀목공 · 1.0공수 · 07:02~17:00</span>
-                  <span className="mono" style={{ fontSize: "15px", fontWeight: "700", color: "var(--c1,#1F2226)" }}>₩230,000</span>
-                </div>
-              </div>
-
-              {/* Card 2 */}
-              <div style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: "18px", padding: "16px", boxShadow: "0 4px 12px -10px rgba(0,0,0,0.05)" }}>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                  <span style={{ fontSize: "12px", fontWeight: "800", color: "#166534", background: "#dcfce7", padding: "3px 8px", borderRadius: "6px" }}>지급 완료</span>
-                  <span style={{ fontSize: "12.5px", color: "#8694a8", fontWeight: "600" }}>5월 14일 (목)</span>
-                </div>
-                <h4 style={{ margin: "10px 0 4px", fontSize: "15px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>푸르지오 김포한강</h4>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginTop: "8px", borderTop: "1px solid #f1f5f9", paddingTop: "8px" }}>
-                  <span style={{ fontSize: "13px", color: "#5b6b82", fontWeight: "500" }}>형틀목공 · 1.5공수 (연장 2H)</span>
-                  <span className="mono" style={{ fontSize: "15px", fontWeight: "700", color: "var(--c1,#1F2226)" }}>₩337,500</span>
-                </div>
-              </div>
-
-              {/* Card 3 */}
-              <div style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: "18px", padding: "16px", boxShadow: "0 4px 12px -10px rgba(0,0,0,0.05)" }}>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                  <span style={{ fontSize: "12px", fontWeight: "800", color: "#166534", background: "#dcfce7", padding: "3px 8px", borderRadius: "6px" }}>지급 완료</span>
-                  <span style={{ fontSize: "12.5px", color: "#8694a8", fontWeight: "600" }}>5월 12일 (화)</span>
-                </div>
-                <h4 style={{ margin: "10px 0 4px", fontSize: "15px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>더샵 일산 센트럴</h4>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginTop: "8px", borderTop: "1px solid #f1f5f9", paddingTop: "8px" }}>
-                  <span style={{ fontSize: "13px", color: "#5b6b82", fontWeight: "500" }}>형틀목공 · 1.0공수</span>
-                  <span className="mono" style={{ fontSize: "15px", fontWeight: "700", color: "var(--c1,#1F2226)" }}>₩230,000</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        </>)}
+        {(v.isCommunity) && (
+          <CommunityView userId={getServerId() || ""} />
+        )}
 
         {(v.isWork) && (<>
         <div style={{ padding: "8px 20px 30px" }}>
           <div style={{ fontSize: "22px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>지원·출근</div>
-          <div style={{ fontSize: "13px", color: "#8694a8", fontWeight: "600", marginTop: "3px" }}>지원 완료된 공고와 확정 현장 출퇴근을 확인할 수 있습니다.</div>
+          <div style={{ fontSize: "13px", color: "#8694a8", fontWeight: "600", marginTop: "3px" }}>지원 완료된 공고와 확정 현장 출퇴근, 정산 내역을 확인할 수 있습니다.</div>
 
-          {/* 1. 나의 지원 현황 */}
-          <div style={{ marginTop: "20px" }}>
-            <div style={{ fontSize: "15px", fontWeight: "800", color: "var(--c1,#1F2226)", marginBottom: "10px" }}>📋 나의 지원 현황</div>
-            <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-              <div style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: "18px", padding: "14px 16px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                <div>
-                  <h5 style={{ margin: 0, fontSize: "14px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>힐스테이트 송도 더스카이</h5>
-                  <span style={{ fontSize: "12px", color: "#8694a8" }}>형틀목공 · 지원일 07/06</span>
-                </div>
-                <span style={{ fontSize: "12px", fontWeight: "800", color: "#4f46e5", background: "#eeebff", padding: "4px 8px", borderRadius: "8px" }}>확정 대기</span>
-              </div>
-              <div style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: "18px", padding: "14px 16px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                <div>
-                  <h5 style={{ margin: 0, fontSize: "14px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>평택 삼성반도체 P4 현장</h5>
-                  <span style={{ fontSize: "12px", color: "#8694a8" }}>배관설비 · 지원일 07/05</span>
-                </div>
-                <span style={{ fontSize: "12px", fontWeight: "800", color: "#10b981", background: "#ecfdf5", padding: "4px 8px", borderRadius: "8px" }}>매칭 완료</span>
-              </div>
-            </div>
+          {/* Sub-tab Switcher */}
+          <div style={{ display: "flex", gap: "8px", margin: "16px 0 20px", background: "#f1f3f7", padding: "4px", borderRadius: "12px" }}>
+            <button
+              onClick={() => setWorkSubTab('attendance')}
+              style={{
+                flex: 1,
+                padding: "10px 0",
+                border: "none",
+                borderRadius: "8px",
+                fontSize: "13.5px",
+                fontWeight: "700",
+                background: workSubTab === 'attendance' ? "#fff" : "transparent",
+                color: workSubTab === 'attendance' ? "var(--c1,#1F2226)" : "#5b6b82",
+                boxShadow: workSubTab === 'attendance' ? "0 2px 6px rgba(0,0,0,0.06)" : "none",
+                cursor: "pointer",
+              }}
+            >
+              출근 & 지원 관리
+            </button>
+            <button
+              onClick={() => setWorkSubTab('history')}
+              style={{
+                flex: 1,
+                padding: "10px 0",
+                border: "none",
+                borderRadius: "8px",
+                fontSize: "13.5px",
+                fontWeight: "700",
+                background: workSubTab === 'history' ? "#fff" : "transparent",
+                color: workSubTab === 'history' ? "var(--c1,#1F2226)" : "#5b6b82",
+                boxShadow: workSubTab === 'history' ? "0 2px 6px rgba(0,0,0,0.06)" : "none",
+                cursor: "pointer",
+              }}
+            >
+              일한 기록 & 정산
+            </button>
           </div>
 
-          {/* 2. 확정 현장 & 출퇴근 */}
-          <div style={{ marginTop: "24px" }}>
-            <div style={{ fontSize: "15px", fontWeight: "800", color: "var(--c1,#1F2226)", marginBottom: "10px" }}>👷 확정 현장 & 출퇴근</div>
-
-            {(assignments === null) && (<div style={{ padding: "34px 0", textAlign: "center", color: "#8694a8", fontSize: "13px", fontWeight: "600" }}>불러오는 중…</div>)}
-            {(assignments !== null && assignments.length === 0) && (
-              <div style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: "20px", padding: "34px 22px", textAlign: "center" }}>
-                <div style={{ fontSize: "15px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>아직 확정된 현장이 없어요</div>
-                <div style={{ fontSize: "12.5px", color: "#8694a8", fontWeight: "500", marginTop: "8px", lineHeight: "1.65" }}>현장 찾기 탭에서 공고를 선택해 지원해 주세요.</div>
-                <button onClick={v.goJobs} style={{ marginTop: "16px", height: "44px", padding: "0 20px", border: "none", borderRadius: "13px", background: "var(--c1,#1F2226)", color: "#fff", fontSize: "14px", fontWeight: "800", fontFamily: "inherit", cursor: "pointer" }}>일자리 보러가기</button>
+          {workSubTab === 'attendance' ? (
+            <>
+              {/* 1. 나의 지원 현황 */}
+              <div style={{ marginTop: "20px" }}>
+                <div style={{ fontSize: "15px", fontWeight: "800", color: "var(--c1,#1F2226)", marginBottom: "10px" }}>📋 나의 지원 현황</div>
+                <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                  <div style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: "18px", padding: "14px 16px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                    <div>
+                      <h5 style={{ margin: 0, fontSize: "14px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>힐스테이트 송도 더스카이</h5>
+                      <span style={{ fontSize: "12px", color: "#8694a8" }}>형틀목공 · 지원일 07/06</span>
+                    </div>
+                    <span style={{ fontSize: "12px", fontWeight: "800", color: "#4f46e5", background: "#eeebff", padding: "4px 8px", borderRadius: "8px" }}>확정 대기</span>
+                  </div>
+                  <div style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: "18px", padding: "14px 16px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                    <div>
+                      <h5 style={{ margin: 0, fontSize: "14px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>평택 삼성반도체 P4 현장</h5>
+                      <span style={{ fontSize: "12px", color: "#8694a8" }}>배관설비 · 지원일 07/05</span>
+                    </div>
+                    <span style={{ fontSize: "12px", fontWeight: "800", color: "#10b981", background: "#ecfdf5", padding: "4px 8px", borderRadius: "8px" }}>매칭 완료</span>
+                  </div>
+                </div>
               </div>
-            )}
-            {(Array.isArray(assignments) ? assignments : []).map((a) => {
-              const openAtt = a.attendances.find((at) => !at.checkOutAt);
-              return (
-                <div key={a.id} style={{ borderRadius: "20px", background: "var(--c1,#1F2226)", padding: "18px", color: "var(--t0,#E5E7EB)", position: "relative", overflow: "hidden" }}>
-                  <div style={{ fontSize: "11.5px", fontWeight: "700", color: "var(--t1,#A5AEB8)" }}>{a.jobPost.company ? a.jobPost.company.name : "협약 기업"}{a.jobPost.region.length ? " · " + a.jobPost.region.join(", ") : ""}</div>
-                  <div style={{ fontSize: "17px", fontWeight: "800", marginTop: "3px" }}>{a.jobPost.title}</div>
-                  
-                  {/* 집결지 정보 노출 */}
-                  <div style={{ marginTop: "12px", background: "rgba(255,255,255,0.06)", borderRadius: "12px", padding: "12px 14px", fontSize: "12.5px" }}>
-                    <div style={{ color: "rgba(255,255,255,0.6)", fontWeight: "600" }}>📍 집결지 주소</div>
-                    <div style={{ color: "#fff", fontWeight: "700", marginTop: "2px" }}>경기 평택시 고덕동 삼성반도체 P4 현장 게이트 3앞</div>
-                    <div style={{ color: "rgba(255,255,255,0.6)", fontWeight: "600", marginTop: "8px" }}>⏰ 집결 시간</div>
-                    <div style={{ color: "#fff", fontWeight: "700", marginTop: "2px" }}>오전 06:40 (지각 시 출입 통제)</div>
+
+              {/* 2. 확정 현장 & 출퇴근 */}
+              <div style={{ marginTop: "24px" }}>
+                <div style={{ fontSize: "15px", fontWeight: "800", color: "var(--c1,#1F2226)", marginBottom: "10px" }}>👷 확정 현장 & 출퇴근</div>
+
+                {(assignments === null) && (<div style={{ padding: "34px 0", textAlign: "center", color: "#8694a8", fontSize: "13px", fontWeight: "600" }}>불러오는 중…</div>)}
+                {(assignments !== null && assignments.length === 0) && (
+                  <div style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: "20px", padding: "34px 22px", textAlign: "center" }}>
+                    <div style={{ fontSize: "15px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>아직 확정된 현장이 없어요</div>
+                    <div style={{ fontSize: "12.5px", color: "#8694a8", fontWeight: "500", marginTop: "8px", lineHeight: "1.65" }}>현장 찾기 탭에서 공고를 선택해 지원해 주세요.</div>
+                    <button onClick={v.goJobs} style={{ marginTop: "16px", height: "44px", padding: "0 20px", border: "none", borderRadius: "13px", background: "var(--c1,#1F2226)", color: "#fff", fontSize: "14px", fontWeight: "800", fontFamily: "inherit", cursor: "pointer" }}>일자리 보러가기</button>
+                  </div>
+                )}
+                {(Array.isArray(assignments) ? assignments : []).map((a) => {
+                  const openAtt = a.attendances.find((at) => !at.checkOutAt);
+                  return (
+                    <div key={a.id} style={{ borderRadius: "20px", background: "var(--c1,#1F2226)", padding: "18px", color: "var(--t0,#E5E7EB)", position: "relative", overflow: "hidden", marginBottom: "16px" }}>
+                      <div style={{ fontSize: "11.5px", fontWeight: "700", color: "var(--t1,#A5AEB8)" }}>{a.jobPost.company ? a.jobPost.company.name : "협약 기업"}{a.jobPost.region.length ? " · " + a.jobPost.region.join(", ") : ""}</div>
+                      <div style={{ fontSize: "17px", fontWeight: "800", marginTop: "3px" }}>{a.jobPost.title}</div>
+                      
+                      {/* 집결지 정보 노출 */}
+                      <div style={{ marginTop: "12px", background: "rgba(255,255,255,0.06)", borderRadius: "12px", padding: "12px 14px", fontSize: "12.5px" }}>
+                        <div style={{ color: "rgba(255,255,255,0.6)", fontWeight: "600" }}>📍 집결지 주소</div>
+                        <div style={{ color: "#fff", fontWeight: "700", marginTop: "2px" }}>경기 평택시 고덕동 삼성반도체 P4 현장 게이트 3앞</div>
+                        <div style={{ color: "rgba(255,255,255,0.6)", fontWeight: "600", marginTop: "8px" }}>⏰ 집결 시간</div>
+                        <div style={{ color: "#fff", fontWeight: "700", marginTop: "2px" }}>오전 06:40 (지각 시 출입 통제)</div>
+                      </div>
+
+                      <button onClick={() => (openAtt ? doCheckOut(a) : doCheckIn(a.id))} style={{ marginTop: "14px", width: "100%", height: "52px", border: "none", borderRadius: "14px", background: openAtt ? "var(--a1,#1F2226)" : "#fff", color: openAtt ? "var(--c0,#1F2226)" : "var(--c1,#1F2226)", fontSize: "16px", fontWeight: "800", fontFamily: "inherit", cursor: "pointer" }}>{openAtt ? "퇴근 체크" : "출근 체크"}</button>
+                      <div style={{ fontSize: "11px", color: "var(--t2,#A5AEB8)", textAlign: "center", marginTop: "9px" }}>QR 및 실시간 위치 기반 안전 체크인</div>
+                      {(a.attendances.length > 0) && (
+                        <div style={{ marginTop: "13px", borderTop: "1px solid rgba(255,255,255,.12)", paddingTop: "12px", display: "flex", flexDirection: "column", gap: "8px" }}>
+                          {a.attendances.slice(0, 6).map((at) => (
+                            <div key={at.id} style={{ display: "flex", justifyContent: "space-between", fontSize: "12px" }}>
+                              <span style={{ color: "var(--t2,#A5AEB8)", fontWeight: "600" }}>{at.workDate}</span>
+                              <span className="mono" style={{ color: "var(--t0,#E5E7EB)" }}>{fmtClock(at.checkInAt)} → {at.checkOutAt ? fmtClock(at.checkOutAt) : "근무 중"}</span>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* 외국인 기술자 정산 내역 */}
+              {isForeigner && (
+                <div style={{ marginTop: "24px" }}>
+                  <FgnSettlement id={getServerId() || ""} />
+                </div>
+              )}
+            </>
+          ) : (
+            <>
+              {/* 이번 달 근무 요약 카드 */}
+              <div style={{ background: "var(--c1,#1F2226)", borderRadius: "20px", padding: "20px", color: "#fff", boxShadow: "0 10px 24px -10px rgba(0,0,0,0.15)" }}>
+                <div style={{ fontSize: "12px", color: "rgba(255,255,255,0.7)", fontWeight: "700" }}>2026년 7월 근무 요약</div>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginTop: "12px" }}>
+                  <div>
+                    <span className="mono" style={{ fontSize: "36px", fontWeight: "500" }}>12</span>
+                    <span style={{ fontSize: "14px", marginLeft: "2px", fontWeight: "700" }}>일</span>
+                    <span style={{ margin: "0 8px", color: "rgba(255,255,255,0.3)" }}>|</span>
+                    <span className="mono" style={{ fontSize: "36px", fontWeight: "500" }}>13.5</span>
+                    <span style={{ fontSize: "14px", marginLeft: "2px", fontWeight: "700" }}>공수</span>
+                  </div>
+                  <div style={{ textAlign: "right" }}>
+                    <div style={{ fontSize: "11px", color: "rgba(255,255,255,0.6)", fontWeight: "600" }}>받을 금액 (정산 예정)</div>
+                    <div style={{ fontSize: "22px", fontWeight: "800", color: "#5fd1a0" }}>₩2,760,000</div>
+                  </div>
+                </div>
+              </div>
+
+              {/* 에스크로 안심정산 배너 */}
+              <div style={{ background: "#f0fdf4", border: "1px solid #bbf7d0", borderRadius: "16px", padding: "14px 16px", marginTop: "14px", display: "flex", gap: "10px", alignItems: "center" }}>
+                <span style={{ fontSize: "20px" }}>🛡️</span>
+                <div style={{ fontSize: "12px", color: "#166534", fontWeight: "600", lineHeight: "1.45", wordBreak: "keep-all" }}>
+                  MONO는 근로자 보호를 위해 <strong>에스크로 안심 정산 계좌</strong>를 사용하며, 노무비 정산 증빙을 자동으로 관리합니다.
+                </div>
+              </div>
+
+              {/* 상세 출역 기록 */}
+              <div style={{ marginTop: "24px" }}>
+                <div style={{ fontSize: "15px", fontWeight: "800", color: "var(--c1,#1F2226)", marginBottom: "12px" }}>상세 출역 기록</div>
+                
+                <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+                  {/* Card 1 */}
+                  <div style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: "18px", padding: "16px", boxShadow: "0 4px 12px -10px rgba(0,0,0,0.05)" }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                      <span style={{ fontSize: "12px", fontWeight: "800", color: "#b4690e", background: "#fef3c7", padding: "3px 8px", borderRadius: "6px" }}>정산 예정</span>
+                      <span style={{ fontSize: "12.5px", color: "#8694a8", fontWeight: "600" }}>6월 19일 (금)</span>
+                    </div>
+                    <h4 style={{ margin: "10px 0 4px", fontSize: "15px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>힐스테이트 송도 더스카이</h4>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginTop: "8px", borderTop: "1px solid #f1f5f9", paddingTop: "8px" }}>
+                      <span style={{ fontSize: "13px", color: "#5b6b82", fontWeight: "500" }}>형틀목공 · 1.0공수 · 07:02~17:00</span>
+                      <span className="mono" style={{ fontSize: "15px", fontWeight: "700", color: "var(--c1,#1F2226)" }}>₩230,000</span>
+                    </div>
                   </div>
 
-                  <button onClick={() => (openAtt ? doCheckOut(a) : doCheckIn(a.id))} style={{ marginTop: "14px", width: "100%", height: "52px", border: "none", borderRadius: "14px", background: openAtt ? "var(--a1,#1F2226)" : "#fff", color: openAtt ? "var(--c0,#1F2226)" : "var(--c1,#1F2226)", fontSize: "16px", fontWeight: "800", fontFamily: "inherit", cursor: "pointer" }}>{openAtt ? "퇴근 체크" : "출근 체크"}</button>
-                  <div style={{ fontSize: "11px", color: "var(--t2,#A5AEB8)", textAlign: "center", marginTop: "9px" }}>QR 및 실시간 위치 기반 안전 체크인</div>
-                  {(a.attendances.length > 0) && (
-                    <div style={{ marginTop: "13px", borderTop: "1px solid rgba(255,255,255,.12)", paddingTop: "12px", display: "flex", flexDirection: "column", gap: "8px" }}>
-                      {a.attendances.slice(0, 6).map((at) => (
-                        <div key={at.id} style={{ display: "flex", justifyContent: "space-between", fontSize: "12px" }}>
-                          <span style={{ color: "var(--t2,#A5AEB8)", fontWeight: "600" }}>{at.workDate}</span>
-                          <span className="mono" style={{ color: "var(--t0,#E5E7EB)" }}>{fmtClock(at.checkInAt)} → {at.checkOutAt ? fmtClock(at.checkOutAt) : "근무 중"}</span>
-                        </div>
-                      ))}
+                  {/* Card 2 */}
+                  <div style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: "18px", padding: "16px", boxShadow: "0 4px 12px -10px rgba(0,0,0,0.05)" }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                      <span style={{ fontSize: "12px", fontWeight: "800", color: "#166534", background: "#dcfce7", padding: "3px 8px", borderRadius: "6px" }}>지급 완료</span>
+                      <span style={{ fontSize: "12.5px", color: "#8694a8", fontWeight: "600" }}>5월 14일 (목)</span>
                     </div>
-                  )}
-                </div>
-              );
-            })}
-          </div>
+                    <h4 style={{ margin: "10px 0 4px", fontSize: "15px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>푸르지오 김포한강</h4>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginTop: "8px", borderTop: "1px solid #f1f5f9", paddingTop: "8px" }}>
+                      <span style={{ fontSize: "13px", color: "#5b6b82", fontWeight: "500" }}>형틀목공 · 1.5공수 (연장 2H)</span>
+                      <span className="mono" style={{ fontSize: "15px", fontWeight: "700", color: "var(--c1,#1F2226)" }}>₩337,500</span>
+                    </div>
+                  </div>
 
-          {/* 외국인 기술자 정산 내역 */}
-          {isForeigner && (
-            <div style={{ marginTop: "24px" }}>
-              <FgnSettlement id={getServerId() || ""} />
-            </div>
+                  {/* Card 3 */}
+                  <div style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: "18px", padding: "16px", boxShadow: "0 4px 12px -10px rgba(0,0,0,0.05)" }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                      <span style={{ fontSize: "12px", fontWeight: "800", color: "#166534", background: "#dcfce7", padding: "3px 8px", borderRadius: "6px" }}>지급 완료</span>
+                      <span style={{ fontSize: "12.5px", color: "#8694a8", fontWeight: "600" }}>5월 12일 (화)</span>
+                    </div>
+                    <h4 style={{ margin: "10px 0 4px", fontSize: "15px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>더샵 일산 센트럴</h4>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginTop: "8px", borderTop: "1px solid #f1f5f9", paddingTop: "8px" }}>
+                      <span style={{ fontSize: "13px", color: "#5b6b82", fontWeight: "500" }}>형틀목공 · 1.0공수</span>
+                      <span className="mono" style={{ fontSize: "15px", fontWeight: "700", color: "var(--c1,#1F2226)" }}>₩230,000</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </>
           )}
         </div>
         </>)}
@@ -1937,7 +2042,7 @@ export default function MonoApp() {
       </div>
 
 
-            <div className="mono-bottomnav" style={{ height: "84px", flex: "none", background: "rgba(249,250,253,.94)", backdropFilter: "blur(14px)", borderTop: "1px solid #e6e8ec", display: "flex", padding: "9px 6px 0", position: "relative", zIndex: "30" }}>
+    <div className="mono-bottomnav" style={{ height: "84px", flex: "none", background: "rgba(249,250,253,.94)", backdropFilter: "blur(14px)", borderTop: "1px solid #e6e8ec", display: "flex", padding: "9px 6px 0", position: "relative", zIndex: "30" }}>
         <button onClick={v.goHome} style={{ flex: "1", background: "none", border: "none", cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center", gap: "5px", paddingTop: "5px", color: v.cHome, fontFamily: "inherit" }}>
           <svg width="25" height="25" viewBox="0 0 24 24" fill="none"><path d="M4 11 12 4l8 7v8a1.2 1.2 0 0 1-1.2 1.2H15V14.5a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1V20.2H5.2A1.2 1.2 0 0 1 4 19v-8Z" fill={v.fHome} stroke="currentColor" strokeWidth="1.9" strokeLinejoin="round"></path></svg>
           <span style={{ fontSize: "10.5px", fontWeight: v.wHome, letterSpacing: "-.2px", whiteSpace: "nowrap" }}>홈</span>
@@ -1948,15 +2053,15 @@ export default function MonoApp() {
           <span style={{ fontSize: "10.5px", fontWeight: v.wJobs, letterSpacing: "-.2px", whiteSpace: "nowrap" }}>현장 찾기</span>
           <div style={{ width: "5px", height: "5px", borderRadius: "50%", background: v.dotJobs }}></div>
         </button>
+        <button onClick={v.goCommunity} style={{ flex: "1", background: "none", border: "none", cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center", gap: "5px", paddingTop: "5px", color: v.cCommunity, fontFamily: "inherit" }}>
+          <svg width="25" height="25" viewBox="0 0 24 24" fill="none"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"></path><circle cx="9" cy="7" r="4" stroke="currentColor" strokeWidth="1.9" strokeLinejoin="round" fill={v.fCommunity}></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round"></path><path d="M16 3.13a4 4 0 0 1 0 7.75" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round"></path></svg>
+          <span style={{ fontSize: "10.5px", fontWeight: v.wCommunity, letterSpacing: "-.2px", whiteSpace: "nowrap" }}>커뮤니티</span>
+          <div style={{ width: "5px", height: "5px", borderRadius: "50%", background: v.dotCommunity }}></div>
+        </button>
         <button onClick={v.goWork} style={{ flex: "1", background: "none", border: "none", cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center", gap: "5px", paddingTop: "5px", color: v.cWork, fontFamily: "inherit" }}>
           <svg width="25" height="25" viewBox="0 0 24 24" fill="none"><rect x="4.5" y="4.5" width="15" height="16.5" rx="2.8" fill={v.fWork} stroke="currentColor" strokeWidth="1.9"></rect><rect x="8.5" y="2.6" width="7" height="3.6" rx="1.3" fill={v.clipWork} stroke="currentColor" strokeWidth="1.7"></rect><path d="m8.4 12.4 1.8 1.8 3.6-3.8" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"></path><path d="M8.6 17h6.8" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round"></path></svg>
           <span style={{ fontSize: "10.5px", fontWeight: v.wWork, letterSpacing: "-.3px", whiteSpace: "nowrap" }}>지원·출근</span>
           <div style={{ width: "5px", height: "5px", borderRadius: "50%", background: v.dotWork }}></div>
-        </button>
-        <button onClick={v.goHistory} style={{ flex: "1", background: "none", border: "none", cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center", gap: "5px", paddingTop: "5px", color: v.cHistory, fontFamily: "inherit" }}>
-          <svg width="25" height="25" viewBox="0 0 24 24" fill="none"><path d="M19 4H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2Z" fill={v.fHistory} stroke="currentColor" strokeWidth="1.9" strokeLinejoin="round"></path><path d="M16 2v4M8 2v4M3 10h18" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round"></path><path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01M16 18h.01" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path></svg>
-          <span style={{ fontSize: "10.5px", fontWeight: v.wHistory, letterSpacing: "-.3px", whiteSpace: "nowrap" }}>일한 기록</span>
-          <div style={{ width: "5px", height: "5px", borderRadius: "50%", background: v.dotHistory }}></div>
         </button>
         <button onClick={v.goMe} style={{ flex: "1", background: "none", border: "none", cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center", gap: "5px", paddingTop: "5px", color: v.cMe, fontFamily: "inherit" }}>
           <svg width="25" height="25" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8.2" r="3.7" fill={v.fMe} stroke="currentColor" strokeWidth="1.9"></circle><path d="M4.8 20c.4-3.6 3.4-5.6 7.2-5.6s6.8 2 7.2 5.6Z" fill={v.fMe} stroke="currentColor" strokeWidth="1.9" strokeLinejoin="round"></path></svg>
@@ -1966,6 +2071,28 @@ export default function MonoApp() {
       </div>
 
       
+      {/* AI Glossary Overlay */}
+      {glossaryOpen && (
+        <div style={{ position: "absolute", inset: "0", zIndex: "55", background: "var(--bg,#f5f6fb)", display: "flex", flexDirection: "column", animation: "fadeIn .2s ease" }}>
+          <div style={{ flex: "none", height: "52px", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 10px 0 6px", background: "#fff", borderBottom: "1px solid #e6e8ec" }}>
+            <button onClick={() => setGlossaryOpen(false)} style={{ width: "40px", height: "40px", border: "none", background: "none", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M15 5l-7 7 7 7" stroke="var(--c1,#1F2226)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path></svg>
+            </button>
+            <span style={{ fontSize: "15px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>AI 현장 가이드 (용어 사전)</span>
+            <div style={{ width: "40px" }} />
+          </div>
+          <div style={{ flex: 1, overflowY: "auto", padding: "16px 20px" }}>
+            <div style={{ background: "var(--c1,#1F2226)", borderRadius: "20px", padding: "16px", color: "#fff", marginBottom: "16px" }}>
+              <div style={{ fontSize: "15px", fontWeight: "800" }}>💡 현장 용어 번역 & 설명</div>
+              <div style={{ fontSize: "12.5px", color: "var(--t1,#A5AEB8)", marginTop: "4px", lineHeight: "1.45" }}>
+                초보자가 이해하기 어려운 현장 전문 용어를 쉬운 표현으로 해설하고 해외 기술자를 위한 번역을 제공합니다.
+              </div>
+            </div>
+            <GlossaryView />
+          </div>
+        </div>
+      )}
+
       {(v.overlayJob) && (<>
         <div style={{ position: "absolute", inset: "0", zIndex: "55", background: "var(--bg,#f5f6fb)", display: "flex", flexDirection: "column", animation: "fadeIn .2s ease" }}>
           <div style={{ flex: "none", height: "52px", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 10px 0 6px", background: "#fff", borderBottom: "1px solid #e6e8ec" }}>
