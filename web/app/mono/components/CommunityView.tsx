@@ -43,6 +43,16 @@ interface Comment {
   createdAt: string;
 }
 
+const BAD_WORDS = ["시발", "개새끼", "쌍놈", "지랄", "존나", "병신", "미친", "호로"];
+function maskBadWords(text: string): string {
+  let masked = text;
+  BAD_WORDS.forEach((word) => {
+    const regex = new RegExp(word, "gi");
+    masked = masked.replace(regex, "*".repeat(word.length));
+  });
+  return masked;
+}
+
 export default function CommunityView({ userId }: { userId: string }) {
   const [activeTab, setActiveTab] = useState<"PRIME" | "REGION" | "ROLE" | "LEADER" | "CHAT">("PRIME");
   const [subChannel, setSubChannel] = useState<string>("삼성 평택");
@@ -69,6 +79,35 @@ export default function CommunityView({ userId }: { userId: string }) {
     beginner: 5,
     rehire: 5,
   });
+
+  // Chat Room Mockup States
+  const [selectedRoom, setSelectedRoom] = useState<any | null>(null);
+  const [chatRooms, setChatRooms] = useState([
+    { id: 1, name: "김반장 (형틀 5팀장)", subtitle: "김반장 형틀크루 · 출근 확정 확인", badge: "리더", unread: 1, avatar: "👷" },
+    { id: 2, name: "삼성물산 채용담당자", subtitle: "삼성 평택 P4 현장 · 서류 미비 안내", badge: "원청", unread: 0, avatar: "🏢" },
+    { id: 3, name: "현대건설 안전관리실", subtitle: "송도 아파트 현장 · 안전교육 공지", badge: "원청", unread: 0, avatar: "🛡️" },
+  ]);
+  const [chatMessages, setChatMessages] = useState<Record<number, Array<{ sender: "me" | "other"; text: string; time: string }>>>({
+    1: [
+      { sender: "other", text: "반장님, 내일 오전 06:40까지 평택 P4 3번 게이트 앞으로 신분증 꼭 지참해서 집결해 주시기 바랍니다.", time: "오전 09:20" },
+      { sender: "me", text: "네 알겠습니다. 내일 지각 없이 참석하겠습니다.", time: "오전 09:25" },
+      { sender: "other", text: "혹시 기초안전보건교육 이수증 사진도 준비되셨나요?", time: "오후 02:10" },
+    ],
+    2: [
+      { sender: "other", text: "지원서 검토 결과, 전자카드가 아직 등록되지 않았습니다. 출근을 위해 전자카드를 미리 모바일로 발급해 주세요.", time: "어제" },
+    ],
+    3: [
+      { sender: "other", text: "안전교육 미이수자는 내일 당일 게이트 통과가 불가능합니다. 오늘 18시 전까지 이수증 사진을 업로드 완료해 주세요.", time: "3일 전" },
+    ],
+  });
+
+  const CHAT_TEMPLATES = [
+    "확인했습니다. 내일 시간 맞춰 출근하겠습니다.",
+    "준비물과 신분증 모두 지참 완료했습니다.",
+    "부족한 전자카드/안전교육 이수증 등록을 완료했습니다.",
+    "혹시 집결지 상세 위치를 다시 안내받을 수 있을까요?",
+    "부득이한 사정으로 내일 출근이 어려울 것 같습니다. 미리 죄송합니다."
+  ];
 
   // static channels config
   const CHANNELS = {
@@ -130,6 +169,10 @@ export default function CommunityView({ userId }: { userId: string }) {
     e.preventDefault();
     if (!newTitle.trim() || !newContent.trim()) return;
 
+    // 금칙어 마스킹 적용
+    const cleanTitle = maskBadWords(newTitle);
+    const cleanContent = maskBadWords(newContent);
+
     try {
       const res = await fetch("/api/community/posts", {
         method: "POST",
@@ -137,8 +180,8 @@ export default function CommunityView({ userId }: { userId: string }) {
         body: JSON.stringify({
           channel: activeTab,
           subChannel,
-          title: newTitle,
-          content: newContent,
+          title: cleanTitle,
+          content: cleanContent,
           authorId: userId,
           ratings: activeTab === "PRIME" ? ratings : undefined,
         }),
@@ -160,13 +203,16 @@ export default function CommunityView({ userId }: { userId: string }) {
     e.preventDefault();
     if (!newComment.trim() || !detailPost) return;
 
+    // 금칙어 마스킹 적용
+    const cleanComment = maskBadWords(newComment);
+
     try {
       const res = await fetch(`/api/community/posts/${detailPost.id}/comment`, {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({
           authorId: userId,
-          content: newComment,
+          content: cleanComment,
         }),
       });
 
@@ -292,12 +338,148 @@ export default function CommunityView({ userId }: { userId: string }) {
 
       {/* 3. Main Content Feed */}
       {activeTab === "CHAT" ? (
-        <div style={{ padding: "30px 20px", textAlign: "center", color: "#8694a8" }}>
-          <div style={{ fontSize: "36px", marginBottom: "12px" }}>💬</div>
-          <h3 style={{ margin: 0, fontSize: "16px", color: "var(--c1,#1F2226)" }}>안전한 템플릿 대화방</h3>
-          <p style={{ margin: "6px 0 0", fontSize: "12.5px", lineHeight: "1.5" }}>
-            기업 인사담당자 및 리더와 대화 시 욕설 및 실명 비방을 방지하기 위해 템플릿 기반 메시지 전송 기능이 준비 중입니다.
-          </p>
+        <div style={{ flex: 1, padding: "16px 20px 80px", display: "flex", flexDirection: "column", gap: "12px", background: "#f8f9fc" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "6px", marginBottom: "4px" }}>
+            <span style={{ fontSize: "14px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>📥 활성 대화방 ({chatRooms.length}개)</span>
+          </div>
+
+          <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+            {chatRooms.map((room) => (
+              <div
+                key={room.id}
+                onClick={() => {
+                  setSelectedRoom(room);
+                  setChatRooms(prev => prev.map(r => r.id === room.id ? { ...r, unread: 0 } : r));
+                }}
+                style={{
+                  background: "#fff", border: "1px solid #e6e8ec", borderRadius: "18px", padding: "14px 16px",
+                  display: "flex", alignItems: "center", gap: "12px", cursor: "pointer", position: "relative"
+                }}
+              >
+                {/* 아바타 */}
+                <div style={{ width: "42px", height: "42px", borderRadius: "50%", background: "#f1f3f7", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "20px" }}>
+                  {room.avatar}
+                </div>
+                
+                {/* 대화 정보 */}
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                    <span style={{ fontSize: "14.5px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>{room.name}</span>
+                    <span style={{
+                      fontSize: "10px", fontWeight: "800", padding: "2px 6px", borderRadius: "4px",
+                      background: room.badge === "리더" ? "#ecfdf5" : "#eff6ff",
+                      color: room.badge === "리더" ? "#10b981" : "#2563eb"
+                    }}>{room.badge}</span>
+                  </div>
+                  <div style={{ fontSize: "12.5px", color: "#8694a8", fontWeight: "500", marginTop: "2px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                    {room.subtitle}
+                  </div>
+                </div>
+
+                {/* 안읽음 배지 */}
+                {room.unread > 0 && (
+                  <span style={{
+                    width: "18px", height: "18px", borderRadius: "50%", background: "#ef4444",
+                    color: "#fff", fontSize: "10px", fontWeight: "800", display: "flex",
+                    alignItems: "center", justifyContent: "center", flex: "none"
+                  }}>
+                    {room.unread}
+                  </span>
+                )}
+              </div>
+            ))}
+          </div>
+
+          {/* 1:1 안전 대화창 오버레이 */}
+          {selectedRoom && (
+            <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.5)", zIndex: 120, display: "flex", alignItems: "flex-end", justifyContent: "center" }}>
+              <div style={{ background: "#fff", width: "100%", maxWidth: "480px", borderTopLeftRadius: "24px", borderTopRightRadius: "24px", padding: "20px 18px 24px", display: "flex", flexDirection: "column", height: "82vh" }}>
+                
+                {/* 대화창 헤더 */}
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", paddingBottom: "12px", borderBottom: "1px solid #eef0f6" }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                    <span style={{ fontSize: "20px" }}>{selectedRoom.avatar}</span>
+                    <div>
+                      <div style={{ fontSize: "15px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>{selectedRoom.name}</div>
+                      <div style={{ fontSize: "11px", color: "#8694a8", fontWeight: "600" }}>안전한 템플릿 대화방</div>
+                    </div>
+                  </div>
+                  <button onClick={() => setSelectedRoom(null)} style={{ border: "none", background: "none", fontSize: "16px", cursor: "pointer", color: "#8694a8" }}>닫기</button>
+                </div>
+
+                {/* 메시지 영역 */}
+                <div className="scr" style={{ flex: 1, overflowY: "auto", padding: "16px 4px", display: "flex", flexDirection: "column", gap: "10px" }}>
+                  {(chatMessages[selectedRoom.id] || []).map((msg, idx) => {
+                    const isMe = msg.sender === "me";
+                    return (
+                      <div key={idx} style={{ display: "flex", justifyContent: isMe ? "flex-end" : "flex-start", alignItems: "flex-end", gap: "6px" }}>
+                        {!isMe && (
+                          <span style={{ width: "24px", height: "24px", borderRadius: "50%", background: "#f1f3f7", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "12px", marginRight: "2px", flex: "none" }}>{selectedRoom.avatar}</span>
+                        )}
+                        {isMe && <span style={{ fontSize: "10px", color: "#8694a8", fontWeight: "600" }}>{msg.time}</span>}
+                        
+                        <div style={{
+                          maxWidth: "70%", padding: "10px 14px", borderRadius: "14px", fontSize: "13.5px", fontWeight: "600", lineHeight: "1.45",
+                          background: isMe ? "var(--c1,#4f46e5)" : "#f1f3f7",
+                          color: isMe ? "#fff" : "var(--c1,#1F2226)",
+                          borderBottomRightRadius: isMe ? "2px" : "14px",
+                          borderBottomLeftRadius: isMe ? "14px" : "2px"
+                        }}>
+                          {msg.text}
+                        </div>
+
+                        {!isMe && <span style={{ fontSize: "10px", color: "#8694a8", fontWeight: "600" }}>{msg.time}</span>}
+                      </div>
+                    );
+                  })}
+                </div>
+
+                {/* 템플릿 선택 전송 패널 */}
+                <div style={{ borderTop: "1px solid #eef0f6", paddingTop: "12px" }}>
+                  <div style={{ fontSize: "12px", fontWeight: "800", color: "#5b6b82", marginBottom: "8px" }}>💬 안전 템플릿 터치하여 바로 전송</div>
+                  <div style={{ display: "flex", gap: "6px", overflowX: "auto", WebkitOverflowScrolling: "touch", scrollbarWidth: "none", paddingBottom: "10px" }}>
+                    {CHAT_TEMPLATES.map((tmpl) => (
+                      <button
+                        key={tmpl}
+                        type="button"
+                        onClick={() => {
+                          const now = new Date();
+                          const timeStr = `${now.getHours() >= 12 ? '오후' : '오전'} ${String(now.getHours() % 12 || 12).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+                          const nextMsg = { sender: "me" as const, text: tmpl, time: timeStr };
+                          
+                          setChatMessages(prev => ({
+                            ...prev,
+                            [selectedRoom.id]: [...(prev[selectedRoom.id] || []), nextMsg]
+                          }));
+                          
+                          // 최신 요약 업데이트
+                          setChatRooms(rooms => rooms.map(r => r.id === selectedRoom.id ? { ...r, subtitle: `나: ${tmpl}` } : r));
+                        }}
+                        style={{
+                          flex: "none", padding: "8px 12px", border: "1px solid #4f46e5", borderRadius: "10px",
+                          background: "#eff6ff", color: "#2563eb", fontSize: "12px", fontWeight: "700", cursor: "pointer",
+                          whiteSpace: "nowrap"
+                        }}
+                      >
+                        {tmpl}
+                      </button>
+                    ))}
+                  </div>
+
+                  {/* 입력창 비활성화 안내 */}
+                  <div style={{ display: "flex", gap: "8px", marginTop: "4px" }}>
+                    <input
+                      disabled
+                      type="text"
+                      placeholder="욕설 방지를 위해 안전 템플릿으로만 전송 가능합니다."
+                      style={{ flex: 1, padding: "10px 12px", border: "1px solid #e6e8ec", borderRadius: "10px", background: "#f8f9fc", fontSize: "12.5px", color: "#8694a8" }}
+                    />
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          )}
         </div>
       ) : (
         <div style={{ flex: 1, padding: "16px 20px 80px", display: "flex", flexDirection: "column", gap: "12px" }}>

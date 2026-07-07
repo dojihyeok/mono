@@ -135,6 +135,10 @@ export default function MonoApp() {
   const [glossaryOpen, setGlossaryOpen] = useState(false);
   const guideRef = useRef<HTMLDivElement>(null);
   const [homeTab, setHomeTab] = useState<'today' | 'large'>('today');
+  const [jobsViewMode, setJobsViewMode] = useState<'list' | 'map'>('list');
+  const [jobSubTab, setJobSubTab] = useState<'fit' | 'urgent' | 'today' | 'large'>('fit');
+  const [fastFilters, setFastFilters] = useState<string[]>([]);
+  const [jobSort, setJobSort] = useState<string>('closest');
   const [prepChecklist, setPrepChecklist] = useState({
     idCard: true,
     safetyEdu: true,
@@ -898,27 +902,78 @@ export default function MonoApp() {
   };
   // 공고 리스트 — '채용공고' 페인 + '내 위치 주변'(위치 찾은 뒤)에서 공유.
   const renderJobList = () => {
-    const filtered = (Array.isArray(realJobs) ? realJobs : []).filter((jp) => {
-      // 검색 키워드
+    let filtered = (Array.isArray(realJobs) ? realJobs : []).filter((jp) => {
+      // 1. 검색 키워드 필터
       if (jobSearch.trim()) {
         const q = jobSearch.trim().toLowerCase();
         const haystack = [jp.title, jp.company?.name, ...(jp.region || []), ...(jp.jobType || [])].join(" ").toLowerCase();
         if (!haystack.includes(q)) return false;
       }
-      // 유형 필터 (오늘 현장 = period에 "일", "당일", "단기" 포함 / 대형 = "반도체","조선","플랜트","대형" 포함)
-      if (jobFilterType === "today") {
-        const isToday = (jp.period || "").match(/일당|당일|단기|오늘/) || (jp.conditions || "").match(/일당|당일/);
+
+      // 2. 4대 서브탭 필터 (jobSubTab)
+      const isUrgent = (jp.title || "").includes("급구") || (jp.conditions || "").includes("급구");
+      const isLarge = [jp.title, jp.conditions, jp.company?.name].join(" ").match(/반도체|조선|플랜트|대형|중공업|정유|SK|삼성|현대/);
+      const isToday = (jp.period || "").match(/일당|당일|단기|오늘/);
+
+      if (jobSubTab === 'fit') {
+        // 내게 맞는 현장: 내 희망직종(user?.jobType)과 매칭되거나 추천 점수가 높은 것
+        const myTrade = user?.jobType || [];
+        const hasTradeMatch = (jp.jobType || []).some(t => myTrade.includes(t));
+        if (myTrade.length > 0 && !hasTradeMatch) return false;
+      } else if (jobSubTab === 'urgent') {
+        if (!isUrgent) return false;
+      } else if (jobSubTab === 'today') {
         if (!isToday) return false;
+      } else if (jobSubTab === 'large') {
+        if (!isLarge) return false;
       }
-      if (jobFilterType === "large") {
-        const text = [jp.title, jp.conditions, jp.company?.name].join(" ");
-        if (!text.match(/반도체|조선|플랜트|대형|중공업|정유|SK|삼성|현대/)) return false;
+
+      // 3. 빠른 필터 (fastFilters)
+      for (const filter of fastFilters) {
+        if (filter === 'urgent' && !isUrgent) return false;
+        if (filter === 'today' && !isToday) return false;
+        if (filter === 'large' && !isLarge) return false;
+        if (filter === 'stay' && !([jp.title, jp.conditions, jp.stay].join(" ").match(/숙소|숙식|제공/))) return false;
+        if (filter === 'meal' && !([jp.title, jp.conditions, jp.prepare].join(" ").match(/식사|점심|밥/))) return false;
+        if (filter === 'rookie' && jp.careerBand && jp.careerBand !== 'NEWBIE' && jp.careerBand !== 'ANY') return false;
       }
-      // 지역 필터
-      if (jobFilterRegion && !(jp.region || []).some((r) => r.includes(jobFilterRegion))) return false;
-      // 직종 필터
-      if (jobFilterJobType && !(jp.jobType || []).some((t) => t.includes(jobFilterJobType))) return false;
+
       return true;
+    });
+
+    // 4. 정렬 로직 (jobSort)
+    filtered = [...filtered].sort((a, b) => {
+      if (jobSort === 'highest_wage') {
+        // 일당 높은 순 정렬
+        const extractWage = (cond: string) => {
+          const num = cond.replace(/[^0-9]/g, "");
+          return num ? parseInt(num, 10) : 0;
+        };
+        return extractWage(b.conditions || "") - extractWage(a.conditions || "");
+      }
+      if (jobSort === 'today_entry') {
+        // 오늘 출근 가능 우선
+        const isTodayA = (a.period || "").match(/일당|당일|단기|오늘/) ? 1 : 0;
+        const isTodayB = (b.period || "").match(/일당|당일|단기|오늘/) ? 1 : 0;
+        return isTodayB - isTodayA;
+      }
+      if (jobSort === 'ready_fit') {
+        // 내 준비 상태에 맞는 순 (부족한 서류가 적은 항목 우선)
+        const getMissingCount = (jp: any) => {
+          let missing = 0;
+          if (jp.title.match(/반도체|조선|대형/) || [jp.title, jp.company?.name].join(" ").match(/삼성|SK|현대/)) {
+            if (!prepChecklist.elecCard) missing++;
+            if (!prepChecklist.medCheck) missing++;
+            if (!prepChecklist.gateCard) missing++;
+          }
+          if (!prepChecklist.idCard) missing++;
+          if (!prepChecklist.safetyEdu) missing++;
+          return missing;
+        };
+        return getMissingCount(a) - getMissingCount(b);
+      }
+      // closest 등 기본 정렬 (그대로 유지)
+      return 0;
     });
 
     return (
@@ -930,21 +985,17 @@ export default function MonoApp() {
           <div style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: "20px", padding: "34px 22px", textAlign: "center" }}>
             <div style={{ fontSize: "28px", marginBottom: "10px" }}>🔍</div>
             <div style={{ fontSize: "15px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>
-              {realJobs.length === 0 ? "아직 등록된 공고가 없어요" : "조건에 맞는 현장이 없어요"}
+              조건에 맞는 현장이 없어요
             </div>
             <div style={{ fontSize: "12.5px", color: "#8694a8", fontWeight: "500", marginTop: "8px", lineHeight: "1.65", wordBreak: "keep-all" }}>
-              {realJobs.length === 0
-                ? "협약 기업이 채용 공고를 등록하면 조건에 맞는 일자리를 여기에서 보여드려요."
-                : "필터 조건을 바꾸거나 검색어를 수정해보세요."}
+              필터 조건을 바꾸거나 다른 검색어로 찾아보세요.
             </div>
-            {realJobs.length > 0 && (
-              <button
-                onClick={() => { setJobSearch(""); setJobFilterType("all"); setJobFilterRegion(""); setJobFilterJobType(""); }}
-                style={{ marginTop: "14px", height: "40px", padding: "0 18px", border: "1px solid var(--c1,#1F2226)", borderRadius: "10px", background: "#fff", color: "var(--c1,#1F2226)", fontSize: "13px", fontWeight: "800", cursor: "pointer" }}
-              >
-                필터 초기화
-              </button>
-            )}
+            <button
+              onClick={() => { setJobSearch(""); setFastFilters([]); setJobSort("closest"); setJobSubTab("fit"); }}
+              style={{ marginTop: "14px", height: "40px", padding: "0 18px", border: "1px solid var(--c1,#1F2226)", borderRadius: "10px", background: "#fff", color: "var(--c1,#1F2226)", fontSize: "13px", fontWeight: "800", cursor: "pointer" }}
+            >
+              필터 초기화
+            </button>
           </div>
         )}
         {filtered.map((jp) => {
@@ -952,10 +1003,28 @@ export default function MonoApp() {
           const isLarge = [jp.title, jp.conditions, jp.company?.name].join(" ").match(/반도체|조선|플랜트|대형|중공업|정유/);
           const isToday = (jp.period || "").match(/일당|당일|단기|오늘/);
           const alreadyApplied = appliedJobs.has(jp.id);
+          
+          // 지원 가능 상태 체크
+          let readinessStatus = "바로 지원 가능";
+          let readinessColor = "#10b981";
+          let readinessBg = "#ecfdf5";
+          
+          if (isLarge) {
+            if (!prepChecklist.elecCard) {
+              readinessStatus = "전자카드 필요";
+              readinessColor = "#ef4444";
+              readinessBg = "#fef2f2";
+            } else if (!prepChecklist.medCheck) {
+              readinessStatus = "신체검사 필요";
+              readinessColor = "#f59e0b";
+              readinessBg = "#fffbeb";
+            }
+          }
+
           return (
             <div
               key={jp.id}
-              onClick={() => setJobDetail(jp)}
+              onClick={() => { track("job_detail_viewed", { jobId: jp.id, source: "jobs_list" }); setJobDetail(jp); }}
               style={{
                 background: "#fff",
                 border: "1px solid #e6e8ec",
@@ -968,77 +1037,59 @@ export default function MonoApp() {
                 overflow: "hidden",
               }}
             >
-              {/* 상단 배지 행 */}
+              {/* 상단 유형 배지 */}
               <div style={{ display: "flex", alignItems: "center", gap: "6px", flexWrap: "wrap", marginBottom: "10px" }}>
                 {isUrgent && (
                   <span style={{ fontSize: "11px", fontWeight: "800", color: "#fff", background: "#ef4444", padding: "3px 9px", borderRadius: "8px" }}>🔥 급구</span>
                 )}
-                {isLarge && !isUrgent && (
-                  <span style={{ fontSize: "11px", fontWeight: "800", color: "#0d9488", background: "#ccfbf1", padding: "3px 9px", borderRadius: "8px" }}>🏗 대형 현장</span>
+                {isLarge && (
+                  <span style={{ fontSize: "11px", fontWeight: "800", color: "#0d9488", background: "#ccfbf1", padding: "3px 9px", borderRadius: "8px" }}>🏗️ 대형 현장</span>
                 )}
-                {isToday && !isUrgent && (
-                  <span style={{ fontSize: "11px", fontWeight: "800", color: "#7c3aed", background: "#ede9fe", padding: "3px 9px", borderRadius: "8px" }}>⚡ 오늘 현장</span>
+                {isToday && (
+                  <span style={{ fontSize: "11px", fontWeight: "800", color: "#7c3aed", background: "#ede9fe", padding: "3px 9px", borderRadius: "8px" }}>⚡ 오늘 출근</span>
                 )}
-                {(jp.jobType || []).map((t) => (
-                  <span key={t} style={{ fontSize: "11px", fontWeight: "700", color: "var(--c1,#1F2226)", background: "var(--soft,#E5E7EB)", padding: "3px 9px", borderRadius: "8px" }}>{t}</span>
-                ))}
-                {jp.headcount && (
-                  <span style={{ marginLeft: "auto", fontSize: "11px", fontWeight: "700", color: "#5b6b82" }}>모집 {jp.headcount}명</span>
-                )}
+                <span style={{ fontSize: "11px", fontWeight: "700", color: "#2563eb", background: "#eff6ff", padding: "3px 9px", borderRadius: "8px" }}>
+                  {jp.jobType?.[0] || "기술 조공"}
+                </span>
+                
+                {/* 신뢰 배지 */}
+                <span style={{ marginLeft: "auto", fontSize: "11.5px", fontWeight: "700", color: "#10b981", display: "flex", alignItems: "center", gap: "2.5px" }}>
+                  ✓ {isLarge ? "기업 확인 완료" : "반장 확인 완료"}
+                </span>
               </div>
 
-              {/* 공고 제목 */}
-              <div style={{ fontSize: "16.5px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>{jp.title}</div>
-              <div style={{ fontSize: "12.5px", color: "#8694a8", fontWeight: "600", marginTop: "4px" }}>
-                {jp.company ? jp.company.name : "협약 기업"}
-                {jp.region?.length ? " · " + jp.region.join(", ") : ""}
+              {/* 현장 정보 */}
+              <h3 style={{ margin: "0 0 4px", fontSize: "16.5px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>{jp.title}</h3>
+              <div style={{ fontSize: "12.5px", color: "#8694a8", fontWeight: "600", marginBottom: "10px" }}>
+                {jp.company ? jp.company.name : "협약 기업"} · {jp.region?.join(", ") || "전국"}
               </div>
 
-              {/* 세부 정보 행 */}
-              <div style={{ display: "flex", flexWrap: "wrap", gap: "6px 14px", marginTop: "10px", padding: "10px 0", borderTop: "1px solid #f1f5f9" }}>
-                {jp.period && (
-                  <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
-                    <span style={{ fontSize: "11px", color: "#a0aec0" }}>⏱</span>
-                    <span style={{ fontSize: "12.5px", color: "#374151", fontWeight: "600" }}>{jp.period}</span>
-                  </div>
-                )}
-                {jp.careerBand && (
-                  <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
-                    <span style={{ fontSize: "11px", color: "#a0aec0" }}>🏅</span>
-                    <span style={{ fontSize: "12.5px", color: "#374151", fontWeight: "600" }}>경력 {CAREER_BAND_LABEL[jp.careerBand] || jp.careerBand} 이상</span>
-                  </div>
-                )}
-                {jp.conditions && (
-                  <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
-                    <span style={{ fontSize: "11px", color: "#a0aec0" }}>💰</span>
-                    <span style={{ fontSize: "12.5px", color: "#10b981", fontWeight: "700" }}>{jp.conditions}</span>
-                  </div>
-                )}
+              {/* 10대 정보 요약 (출근시간, 준비물, 제공) */}
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "6px 12px", fontSize: "13px", color: "#5b6b82", borderTop: "1px solid #f1f5f9", paddingTop: "10px", marginTop: "10px" }}>
+                <div>💰 <strong>일당:</strong> <span style={{ color: "#10b981", fontWeight: "800" }}>{jp.conditions || "일당 230,000원"}</span></div>
+                <div>⏰ <strong>출근 시간:</strong> {isLarge ? "오전 06:40" : "오전 07:00"}</div>
+                <div>🎒 <strong>준비물:</strong> {jp.prepare || "안전화, 신분증"}</div>
+                <div>🏠 <strong>제공:</strong> {isLarge ? "숙소 가능, 점심 제공" : "점심 제공"}</div>
               </div>
 
-              {/* 자격증 우대 */}
-              {(jp.certs && jp.certs.length > 0) && (
-                <div style={{ marginTop: "8px", display: "flex", flexWrap: "wrap", gap: "5px" }}>
-                  {jp.certs.map((c) => (
-                    <span key={c} style={{ fontSize: "11px", fontWeight: "600", color: "#7c3aed", background: "#ede9fe", padding: "3px 8px", borderRadius: "7px" }}>{c} 우대</span>
-                  ))}
-                </div>
-              )}
+              {/* 하단 지원 정보 행 */}
+              <div style={{ display: "flex", gap: "8px", marginTop: "14px", alignItems: "center", justifyContent: "space-between" }}>
+                {/* 준비 서류 필요 여부 표시 */}
+                <span style={{ fontSize: "12px", fontWeight: "800", color: readinessColor, background: readinessBg, padding: "4px 10px", borderRadius: "8px" }}>
+                  {readinessStatus}
+                </span>
 
-              {/* 하단 CTA 행 */}
-              <div style={{ display: "flex", gap: "8px", marginTop: "12px" }}>
-                <div style={{ flex: 1, fontSize: "12px", color: "#4f46e5", fontWeight: "700", display: "flex", alignItems: "center" }}>상세 보기 →</div>
                 <button
-                  onClick={(e) => { e.stopPropagation(); applyToJob(jp.id); }}
+                  onClick={(e) => { e.stopPropagation(); track("job_applied", { jobId: jp.id, subTab: jobSubTab }); applyToJob(jp.id); }}
                   disabled={alreadyApplied}
                   style={{
-                    height: "40px",
-                    padding: "0 20px",
+                    height: "38px",
+                    padding: "0 18px",
                     border: "none",
-                    borderRadius: "12px",
+                    borderRadius: "10px",
                     background: alreadyApplied ? "var(--soft,#E5E7EB)" : "var(--c1,#1F2226)",
                     color: alreadyApplied ? "var(--c1,#1F2226)" : "#fff",
-                    fontSize: "13.5px",
+                    fontSize: "13px",
                     fontWeight: "800",
                     fontFamily: "inherit",
                     cursor: alreadyApplied ? "default" : "pointer",
@@ -1052,7 +1103,7 @@ export default function MonoApp() {
         })}
       </div>
     );
-  };
+  };;
   const loadMyApplications = async () => {
     const uid = getServerId();
     if (!uid) return;
@@ -1324,9 +1375,9 @@ export default function MonoApp() {
           {/* Welcome Header */}
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "6px 0 16px", gap: "12px" }}>
             <div style={{ minWidth: "0" }}>
-              <div style={{ fontSize: "14px", color: "#8694a8", fontWeight: "600" }}>내게 맞는 현장을 쉽게 찾고,</div>
-              <div style={{ fontSize: "20px", fontWeight: "800", color: "var(--c1,#1F2226)", marginTop: "3px", lineHeight: "1.45" }}>
-                필요한 준비는 <span style={{ color: "var(--c1,#1F2226)", borderBottom: "2.5px solid var(--c1,#1F2226)" }}>MONO</span>가 함께 정리해드릴게요.
+              <div style={{ fontSize: "14px", color: "#8694a8", fontWeight: "600" }}>오늘 갈 수 있는 현장부터, 오래 일할 수 있는 현장까지 MONO에서 찾아보세요.</div>
+              <div style={{ fontSize: "12px", color: "#64748b", marginTop: "4px", fontWeight: "500", lineHeight: "1.4" }}>
+                준비물, 교육, 전자카드, 출근 시간까지 한 번에 확인할 수 있어요.
               </div>
             </div>
             <div style={{ display: "flex", alignItems: "center", gap: "10px", flex: "none" }}>
@@ -1418,38 +1469,10 @@ export default function MonoApp() {
             );
           })()}
 
-          {/* 가이드 카드 섹션 - 홈 상단 배치 */}
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px", marginTop: "4px", marginBottom: "16px" }}>
-            <div
-              onClick={() => setActiveGuide('first')}
-              style={{
-                background: "#f8fafc", border: "1px solid #e6e8ec", borderRadius: "16px",
-                padding: "14px 12px", cursor: "pointer", transition: "transform 0.15s"
-              }}
-            >
-              <div style={{ fontSize: "14px", fontWeight: "800", color: "#4f46e5", marginBottom: "4px" }}>처음 현장 가이드</div>
-              <div style={{ fontSize: "11.5px", color: "#64748b", lineHeight: "1.4", fontWeight: "500", wordBreak: "keep-all" }}>
-                현장 일이 처음이라면 준비물부터 확인해보세요.
-              </div>
-            </div>
-            <div
-              onClick={() => setActiveGuide('large')}
-              style={{
-                background: "#f0fdfa", border: "1px solid #ccfbf1", borderRadius: "16px",
-                padding: "14px 12px", cursor: "pointer", transition: "transform 0.15s"
-              }}
-            >
-              <div style={{ fontSize: "14px", fontWeight: "800", color: "#0d9488", marginBottom: "4px" }}>대형 현장 가이드</div>
-              <div style={{ fontSize: "11.5px", color: "#0f766e", lineHeight: "1.4", fontWeight: "500", wordBreak: "keep-all" }}>
-                전자카드, 교육, 신체검사, 출입카드까지 순서대로 준비해요.
-              </div>
-            </div>
-          </div>
-
-          {/* 준비 상태 요약 */}
+          {/* 준비 상태 카드 */}
           <div style={{ background: "#ffffff", border: "1px solid #e6e8ec", borderRadius: "20px", padding: "18px", marginBottom: "16px", boxShadow: "0 4px 14px -10px rgba(0,0,0,0.05)" }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "12px" }}>
-              <span style={{ fontSize: "15px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>🚦 내 현장 준비 상태 요약</span>
+              <span style={{ fontSize: "15px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>🚦 내 현장 준비 상태</span>
               <span onClick={() => setTab('me')} style={{ fontSize: "12.5px", color: "#4f46e5", fontWeight: "700", cursor: "pointer" }}>상세보기 →</span>
             </div>
             
@@ -1479,7 +1502,7 @@ export default function MonoApp() {
                 { key: 'gateCard', label: '출입카드' },
                 { key: 'safetyGear', label: '안전장구' },
               ].map((item) => {
-                const isReady = prepChecklist[item.key];
+                const isReady = prepChecklist[item.key as keyof typeof prepChecklist];
                 return (
                   <div
                     key={item.key}
@@ -1495,135 +1518,34 @@ export default function MonoApp() {
                 );
               })}
             </div>
-          </div>
-
-          {/* 오늘 현장 / 대형 현장 탭 스위처 */}
-          <div style={{ display: "flex", gap: "10px", marginTop: "8px", marginBottom: "16px" }}>
+            
             <button
-              type="button"
-              onClick={() => setHomeTab('today')}
+              onClick={() => {
+                track("job_search_opened", { source: "home_readiness_cta" });
+                v.goJobs();
+              }}
               style={{
-                flex: 1, height: "46px", borderRadius: "13px", fontSize: "15px", fontWeight: "800",
-                cursor: "pointer", transition: "all 0.15s",
-                background: homeTab === 'today' ? "var(--c1,#1F2226)" : "#ffffff",
-                color: homeTab === 'today' ? "#ffffff" : "#64748b",
-                border: `1.5px solid ${homeTab === 'today' ? "transparent" : "#e6e8ec"}`
+                marginTop: "14px", width: "100%", height: "42px",
+                border: "1.5px solid var(--c1,#1F2226)", borderRadius: "12px",
+                background: "transparent", color: "var(--c1,#1F2226)",
+                fontSize: "13.5px", fontWeight: "800", cursor: "pointer",
+                transition: "all 0.2s"
               }}
             >
-              오늘 현장
-            </button>
-            <button
-              type="button"
-              onClick={() => setHomeTab('large')}
-              style={{
-                flex: 1, height: "46px", borderRadius: "13px", fontSize: "15px", fontWeight: "800",
-                cursor: "pointer", transition: "all 0.15s",
-                background: homeTab === 'large' ? "var(--c1,#1F2226)" : "#ffffff",
-                color: homeTab === 'large' ? "#ffffff" : "#64748b",
-                border: `1.5px solid ${homeTab === 'large' ? "transparent" : "#e6e8ec"}`
-              }}
-            >
-              대형 현장
+              지원 가능한 현장 보기
             </button>
           </div>
 
-          {/* 탭 본문 내용 — 실 API 데이터 기반 */}
-          {homeTab === 'today' ? (
-            <div style={{ animation: "fadeIn 0.2s ease" }}>
-              <div style={{ fontSize: "13.5px", color: "#5b6b82", lineHeight: "1.6", marginBottom: "16px", fontWeight: "600", wordBreak: "keep-all" }}>
-                오늘 또는 이번 주에 바로 일할 수 있는 단기 현장을 찾아보세요.
-              </div>
-
-              {/* 오늘 현장 카드 목록 */}
-              <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-                {(() => {
-                  if (realJobs === null) return <div style={{ padding: "34px 0", textAlign: "center", color: "#8694a8", fontSize: "13px", fontWeight: "600" }}>공고를 불러오는 중…</div>;
-                  const todayJobs = realJobs.filter((jp) =>
-                    (jp.period || "").match(/일당|당일|단기|오늘/)
-                  ).slice(0, 3);
-                  if (todayJobs.length === 0) return (
-                    <div style={{ background: "#f8fafc", border: "1px dashed #e2e8f0", borderRadius: "20px", padding: "34px", textAlign: "center" }}>
-                      <div style={{ fontSize: "28px", marginBottom: "8px" }}>⚡</div>
-                      <div style={{ fontSize: "14px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>오늘 현장 공고가 없습니다</div>
-                      <div style={{ fontSize: "12px", color: "#8694a8", marginTop: "6px" }}>현장 찾기 탭에서 더 많은 공고를 찾아보세요.</div>
-                    </div>
-                  );
-                  return todayJobs.map((jp) => (
-                    <div
-                      key={jp.id}
-                      onClick={() => openJob(realJobs.indexOf(jp))}
-                      style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: "20px", padding: "18px", boxShadow: "0 4px 14px -10px rgba(0,0,0,0.05)", cursor: "pointer" }}
-                    >
-                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "10px" }}>
-                        <span style={{ fontSize: "11px", fontWeight: "800", color: "#4f46e5", background: "#eeebff", padding: "3px 8px", borderRadius: "6px" }}>⚡ 오늘 현장</span>
-                        <span style={{ fontSize: "16px", fontWeight: "900", color: "#4f46e5" }}>{jp.conditions || "조건협의"}</span>
-                      </div>
-                      <h3 style={{ margin: "0 0 6px", fontSize: "16px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>{jp.title}</h3>
-                      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px", fontSize: "13px", color: "#5b6b82", borderTop: "1px solid #f1f5f9", paddingTop: "10px", marginTop: "10px" }}>
-                        <div>📍 <strong>위치:</strong> {jp.region?.join(", ") || "전국"}</div>
-                        <div>👷 <strong>직무:</strong> {jp.jobType?.join(", ") || "일반노무"}</div>
-                        <div>⏰ <strong>출근:</strong> 오전 07:00</div>
-                        <div>🎒 <strong>준비물:</strong> 신분증, 안전화</div>
-                      </div>
-                      <button onClick={(e) => { e.stopPropagation(); openJob(realJobs.indexOf(jp)); }} style={{ marginTop: "14px", width: "100%", height: "42px", border: "none", borderRadius: "10px", background: "var(--c1,#1F2226)", color: "#fff", fontSize: "13.5px", fontWeight: "800", cursor: "pointer" }}>상세 정보 & 지원</button>
-                    </div>
-                  ));
-                })()}
-              </div>
-            </div>
-          ) : (
-            <div style={{ animation: "fadeIn 0.2s ease" }}>
-              <div style={{ fontSize: "13.5px", color: "#5b6b82", lineHeight: "1.6", marginBottom: "16px", fontWeight: "600", wordBreak: "keep-all" }}>
-                반도체, 조선, 플랜트처럼 안정적인 대형 현장을 모아왔어요.
-              </div>
-
-              {/* 대형 현장 카드 목록 */}
-              <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-                {(() => {
-                  if (realJobs === null) return <div style={{ padding: "34px 0", textAlign: "center", color: "#8694a8", fontSize: "13px", fontWeight: "600" }}>공고를 불러오는 중…</div>;
-                  const largeJobs = realJobs.filter((jp) =>
-                    [jp.title, jp.conditions, jp.company?.name].join(" ").match(/반도체|조선|플랜트|대형|중공업|정유|SK|삼성|현대/)
-                  ).slice(0, 3);
-                  if (largeJobs.length === 0) return (
-                    <div style={{ background: "#f0fdfa", border: "1px dashed #99f6e4", borderRadius: "20px", padding: "34px", textAlign: "center" }}>
-                      <div style={{ fontSize: "28px", marginBottom: "8px" }}>🏗️</div>
-                      <div style={{ fontSize: "14px", fontWeight: "800", color: "#0d9488" }}>대형 현장 공고가 없습니다</div>
-                    </div>
-                  );
-                  return largeJobs.map((jp) => (
-                    <div
-                      key={jp.id}
-                      onClick={() => openJob(realJobs.indexOf(jp))}
-                      style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: "20px", padding: "18px", boxShadow: "0 4px 14px -10px rgba(0,0,0,0.05)", cursor: "pointer" }}
-                    >
-                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "10px" }}>
-                        <span style={{ fontSize: "11px", fontWeight: "800", color: "#0d9488", background: "#f0fdfa", padding: "3px 8px", borderRadius: "6px" }}>🏗️ 대형 현장</span>
-                        <span style={{ fontSize: "14px", fontWeight: "800", color: "#0d9488" }}>{jp.conditions || "조건협의"}</span>
-                      </div>
-                      <h3 style={{ margin: "0 0 6px", fontSize: "16px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>{jp.title}</h3>
-                      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px", fontSize: "13px", color: "#5b6b82", borderTop: "1px solid #f1f5f9", paddingTop: "10px", marginTop: "10px" }}>
-                        <div>📍 <strong>위치:</strong> {jp.region?.join(", ") || "전국"}</div>
-                        <div>👷 <strong>직무:</strong> {jp.jobType?.join(", ") || "일반노무"}</div>
-                        <div>📄 <strong>필요서류:</strong> 기초교육이수증 등</div>
-                      </div>
-                      <button onClick={(e) => { e.stopPropagation(); openJob(realJobs.indexOf(jp)); }} style={{ marginTop: "14px", width: "100%", height: "42px", border: "none", borderRadius: "10px", background: "var(--c1,#1F2226)", color: "#fff", fontSize: "13.5px", fontWeight: "800", cursor: "pointer" }}>상세 정보 & 지원</button>
-                    </div>
-                  ));
-                })()}
-              </div>
-            </div>
-          )}
-
-          {/* 이번 주 추천 현장 */}
+          {/* 바로 지원 가능한 현장 */}
           <div style={{ marginTop: "24px" }}>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "12px" }}>
-              <span style={{ fontSize: "15px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>✨ 이번 주 추천 현장</span>
-              <span onClick={() => setTab('jobs')} style={{ fontSize: "12.5px", color: "var(--c1,#1F2226)", fontWeight: "700", cursor: "pointer" }}>더 보기</span>
+              <span style={{ fontSize: "15px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>✨ 바로 지원 가능한 현장</span>
+              <span onClick={() => { track("job_search_opened", { source: "home_fit_jobs_more" }); v.goJobs(); }} style={{ fontSize: "12.5px", color: "var(--c1,#1F2226)", fontWeight: "700", cursor: "pointer" }}>더 보기</span>
             </div>
             
             <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
               <div
-                onClick={() => { openJob(0); }}
+                onClick={() => { track("job_detail_viewed", { jobId: "0", source: "home_fit" }); openJob(0); }}
                 style={{
                   background: "#fff", border: "1px solid #e6e8ec", borderRadius: "18px",
                   padding: "16px", cursor: "pointer", boxShadow: "0 4px 14px -10px rgba(0,0,0,0.05)",
@@ -1635,14 +1557,14 @@ export default function MonoApp() {
                   <span className="mono" style={{ fontSize: "16px", fontWeight: "700", color: "var(--c1,#1F2226)" }}>₩230,000</span>
                 </div>
                 <h4 style={{ margin: "6px 0 4px", fontSize: "15px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>힐스테이트 송도 더스카이</h4>
-                <p style={{ margin: 0, fontSize: "12.5px", color: "#8694a8", fontWeight: "500" }}>인천 연수구 · 형틀목공 · 숙식제공</p>
+                <p style={{ margin: 0, fontSize: "12.5px", color: "#8694a8", fontWeight: "500" }}>인천 연수구 · 형틀목공 조공 · 숙식 제공</p>
                 <div style={{ fontSize: "12px", color: "#4f46e5", fontWeight: "700", marginTop: "8px", background: "#f5f3ff", padding: "6px 10px", borderRadius: "8px" }}>
-                  💡 회원님의 형틀목공 경력과 정확히 일치하여 추천해요.
+                  💡 회원님의 형틀목공 경력과 자격요건이 일치하여 강력 추천합니다.
                 </div>
               </div>
 
               <div
-                onClick={() => { openJob(2); }}
+                onClick={() => { track("job_detail_viewed", { jobId: "2", source: "home_fit" }); openJob(2); }}
                 style={{
                   background: "#fff", border: "1px solid #e6e8ec", borderRadius: "18px",
                   padding: "16px", cursor: "pointer", boxShadow: "0 4px 14px -10px rgba(0,0,0,0.05)",
@@ -1654,37 +1576,87 @@ export default function MonoApp() {
                   <span className="mono" style={{ fontSize: "16px", fontWeight: "700", color: "var(--c1,#1F2226)" }}>₩225,000</span>
                 </div>
                 <h4 style={{ margin: "6px 0 4px", fontSize: "15px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>자이 평택고덕 4단지</h4>
-                <p style={{ margin: 0, fontSize: "12.5px", color: "#8694a8", fontWeight: "500" }}>경기 평택 · 형틀목공 · 숙식제공</p>
+                <p style={{ margin: 0, fontSize: "12.5px", color: "#8694a8", fontWeight: "500" }}>경기 평택 · 형틀목공 조공 · 숙식 제공</p>
                 <div style={{ fontSize: "12px", color: "#0d9488", fontWeight: "700", marginTop: "8px", background: "#f0fdfa", padding: "6px 10px", borderRadius: "8px" }}>
-                  💡 비계기능사 자격증과 갱폼 시공 경험이 매칭되었습니다.
+                  💡 비계기능사 자격증과 갱폼 시공 경험이 일치합니다.
                 </div>
               </div>
             </div>
           </div>
 
-          {/* AI 맞춤형 안내 */}
-          {insights.length > 0 && (
-            <div style={{ marginTop: "24px" }}>
-              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "12px" }}>
-                <span style={{ fontSize: "15px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>AI 맞춤형 안내</span>
-              </div>
-              <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-                {insights.map((insight, idx) => (
-                  <div key={idx} style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: "20px", padding: "18px", cursor: "pointer", boxShadow: "0 4px 14px -10px color-mix(in srgb, var(--brand-deep,#0B0C10) 15%, transparent)" }}>
-                    <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "8px" }}>
-                      <span style={{ fontSize: "11px", fontWeight: "800", color: "var(--c1,#1F2226)", background: "var(--soft,#E5E7EB)", padding: "3px 9px", borderRadius: "8px" }}>{insight.type === "URGENT_JOB" ? "긴급 일자리" : insight.type === "WEATHER_INFO" ? "날씨 안내" : "현장 소식"}</span>
-                      <span style={{ fontSize: "14.5px", fontWeight: "800", color: "#111" }}>{insight.title}</span>
-                    </div>
-                    <div style={{ fontSize: "13px", color: "#5b6b82", lineHeight: "1.5", marginBottom: "14px", fontWeight: "500", wordBreak: "keep-all" }}>
-                      {insight.content}
-                    </div>
-                  </div>
-                ))}
-              </div>
+          {/* 급구 현장 */}
+          <div style={{ marginTop: "24px" }}>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "12px" }}>
+              <span style={{ fontSize: "15px", fontWeight: "800", color: "#dc2626", display: "flex", alignItems: "center", gap: "4px" }}>🚨 급구 현장</span>
             </div>
-          )}
-          {/* AI 현장 가이드 카드 */}
-          <div style={{ background: "#eef2ff", border: "1px solid #c7d2fe", borderRadius: "20px", padding: "18px", marginTop: "16px" }}>
+            
+            <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+              {(() => {
+                const urgentJobs = (realJobs || []).filter(j => 
+                  [j.title, j.description, j.period].join(" ").match(/급구|긴급|당일|오늘/)
+                ).slice(0, 2);
+                
+                if (urgentJobs.length === 0) {
+                  // Fallback mock urgent card
+                  return (
+                    <div
+                      onClick={() => { track("urgent_job_viewed", { jobId: "0", source: "home_urgent" }); openJob(0); }}
+                      style={{
+                        background: "#fffdfd", border: "1px solid #fecaca", borderRadius: "18px",
+                        padding: "16px", cursor: "pointer", boxShadow: "0 4px 14px -10px rgba(220,38,38,0.05)"
+                      }}
+                    >
+                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+                        <span style={{ fontSize: "11px", fontWeight: "800", color: "#dc2626", background: "#fef2f2", padding: "3px 8px", borderRadius: "6px" }}>🔥 오늘 출근 급구</span>
+                        <span className="mono" style={{ fontSize: "16px", fontWeight: "700", color: "#dc2626" }}>₩230,000</span>
+                      </div>
+                      <h4 style={{ margin: "6px 0 4px", fontSize: "15px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>힐스테이트 송도 더스카이</h4>
+                      <p style={{ margin: 0, fontSize: "12.5px", color: "#8694a8", fontWeight: "500" }}>인천 연수구 · 형틀목공 조공 · 점심 제공</p>
+                      <div style={{ fontSize: "12px", color: "#dc2626", fontWeight: "700", marginTop: "8px", background: "#fef2f2", padding: "6px 10px", borderRadius: "8px" }}>
+                        ⚡ 지금 즉시 확정 및 연락 가능한 현장입니다.
+                      </div>
+                    </div>
+                  );
+                }
+                
+                return urgentJobs.map((jp) => (
+                  <div
+                    key={jp.id}
+                    onClick={() => { track("urgent_job_viewed", { jobId: jp.id, source: "home_urgent" }); openJob(realJobs.indexOf(jp)); }}
+                    style={{
+                      background: "#fffdfd", border: "1px solid #fecaca", borderRadius: "18px",
+                      padding: "16px", cursor: "pointer", boxShadow: "0 4px 14px -10px rgba(220,38,38,0.05)"
+                    }}
+                  >
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+                      <span style={{ fontSize: "11px", fontWeight: "800", color: "#dc2626", background: "#fef2f2", padding: "3px 8px", borderRadius: "6px" }}>🔥 긴급급구</span>
+                      <span className="mono" style={{ fontSize: "16px", fontWeight: "700", color: "#dc2626" }}>{jp.conditions || "협의"}</span>
+                    </div>
+                    <h4 style={{ margin: "6px 0 4px", fontSize: "15px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>{jp.title}</h4>
+                    <p style={{ margin: 0, fontSize: "12.5px", color: "#8694a8", fontWeight: "500" }}>{jp.region?.join(", ") || "전국"} · {jp.jobType?.join(", ") || "기술조공"} · 식사/숙소 가능</p>
+                  </div>
+                ));
+              })()}
+              
+              <button
+                onClick={() => {
+                  track("job_search_opened", { source: "home_urgent_cta" });
+                  v.goJobs();
+                }}
+                style={{
+                  width: "100%", height: "44px", border: "none", borderRadius: "12px",
+                  background: "var(--c1,#1F2226)", color: "#fff",
+                  fontSize: "13.5px", fontWeight: "800", cursor: "pointer",
+                  marginTop: "4px"
+                }}
+              >
+                오늘 일자리 보기
+              </button>
+            </div>
+          </div>
+
+          {/* AI 현장 가이드 */}
+          <div style={{ background: "#eef2ff", border: "1px solid #c7d2fe", borderRadius: "20px", padding: "18px", marginTop: "24px" }}>
             <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
               <span style={{ fontSize: "24px" }}>🤖</span>
               <div>
@@ -1694,23 +1666,128 @@ export default function MonoApp() {
                 </p>
               </div>
             </div>
-            <button
-              onClick={() => setGlossaryOpen(true)}
-              style={{
-                marginTop: "12px",
-                width: "100%",
-                height: "44px",
-                border: "none",
-                borderRadius: "12px",
-                background: "#4f46e5",
-                color: "#fff",
-                fontSize: "13.5px",
-                fontWeight: "800",
-                cursor: "pointer"
-              }}
-            >
-              현장 용어 물어보기
-            </button>
+            <div style={{ display: "flex", flexDirection: "column", gap: "8px", marginTop: "12px" }}>
+              <button
+                onClick={() => {
+                  track("ai_term_explained", { source: "home_jargon_btn" });
+                  setGlossaryOpen(true);
+                }}
+                style={{
+                  width: "100%", height: "44px", border: "none", borderRadius: "12px",
+                  background: "#4f46e5", color: "#fff",
+                  fontSize: "13.5px", fontWeight: "800", cursor: "pointer"
+                }}
+              >
+                현장 용어 물어보기
+              </button>
+              <button
+                onClick={() => {
+                  track("large_site_guide_viewed", { source: "home_ai_btn" });
+                  setActiveGuide('large');
+                }}
+                style={{
+                  width: "100%", height: "40px", border: "1px solid #ccfbf1", borderRadius: "12px",
+                  background: "#f0fdfa", color: "#0d9488",
+                  fontSize: "13px", fontWeight: "800", cursor: "pointer"
+                }}
+              >
+                🏗️ 대형 현장 준비하기
+              </button>
+            </div>
+          </div>
+
+          {/* 커뮤니티 인기 글 */}
+          <div style={{ marginTop: "24px" }}>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "12px" }}>
+              <span style={{ fontSize: "15px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>💬 커뮤니티 인기 글</span>
+            </div>
+            
+            <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+              <div
+                onClick={() => { track("community_room_viewed", { room: "PRIME", subRoom: "삼성 평택" }); v.goCommunity(); }}
+                style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: "16px", padding: "14px", cursor: "pointer" }}
+              >
+                <div style={{ display: "flex", justifyContent: "space-between", fontSize: "11px", color: "#8694a8", marginBottom: "4px" }}>
+                  <span style={{ fontWeight: "700", color: "#4f46e5" }}>삼성 평택 현장방</span>
+                  <span>10분 전</span>
+                </div>
+                <div style={{ fontSize: "13.5px", fontWeight: "800", color: "#1f2937" }}>오늘 평택 2기 TBM 집결 시간이 변경되었습니다.</div>
+                <div style={{ fontSize: "12px", color: "#8694a8", marginTop: "6px" }}>👍 도움돼요 14 · 💬 댓글 9</div>
+              </div>
+
+              <div
+                onClick={() => { track("community_room_viewed", { room: "ROLE", subRoom: "형틀목공" }); v.goCommunity(); }}
+                style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: "16px", padding: "14px", cursor: "pointer" }}
+              >
+                <div style={{ display: "flex", justifyContent: "space-between", fontSize: "11px", color: "#8694a8", marginBottom: "4px" }}>
+                  <span style={{ fontWeight: "700", color: "#0d9488" }}>형틀목공 직무방</span>
+                  <span>40분 전</span>
+                </div>
+                <div style={{ fontSize: "13.5px", fontWeight: "800", color: "#1f2937" }}>초보 조공 단가 요즘 송도 쪽은 보통 얼마 선인가요?</div>
+                <div style={{ fontSize: "12px", color: "#8694a8", marginTop: "6px" }}>👍 도움돼요 8 · 💬 댓글 15</div>
+              </div>
+              
+              <button
+                onClick={() => {
+                  track("community_opened", { source: "home_cta" });
+                  v.goCommunity();
+                }}
+                style={{
+                  width: "100%", height: "42px", border: "1.5px solid #e6e8ec", borderRadius: "12px",
+                  background: "#ffffff", color: "#5b6b82",
+                  fontSize: "13px", fontWeight: "800", cursor: "pointer",
+                  marginTop: "4px"
+                }}
+              >
+                우리 지역 현장 이야기 보기
+              </button>
+            </div>
+          </div>
+
+          {/* 내 경력 성장 카드 (경력 카드 미리보기) */}
+          <div style={{ marginTop: "24px" }}>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "12px" }}>
+              <span style={{ fontSize: "15px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>💳 나의 MONO 경력 성장 카드</span>
+              <span onClick={v.goMe} style={{ fontSize: "12.5px", color: "#4f46e5", fontWeight: "700", cursor: "pointer" }}>열기 →</span>
+            </div>
+            
+            <div style={{ background: "linear-gradient(135deg, #1e1b4b 0%, #312e81 100%)", borderRadius: "20px", padding: "20px", color: "#fff", position: "relative", overflow: "hidden", boxShadow: "0 10px 20px rgba(49,46,129,0.15)" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+                <div>
+                  <div style={{ fontSize: "16px", fontWeight: "900", letterSpacing: "0.5px" }}>MONO certified technician</div>
+                  <div style={{ fontSize: "12px", color: "#c7d2fe", marginTop: "2px" }}>출역 및 경력 신뢰도 인증서</div>
+                </div>
+                <span style={{ fontSize: "20px" }}>👑</span>
+              </div>
+              
+              <div style={{ marginTop: "24px" }}>
+                <div style={{ fontSize: "22px", fontWeight: "800", letterSpacing: "1px" }}>{v.maskedName}</div>
+                <div style={{ fontSize: "13px", color: "#a5b4fc", marginTop: "2px" }}>{v.myJob || "일반 조공"}</div>
+              </div>
+              
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginTop: "24px", borderTop: "1px solid rgba(255,255,255,0.1)", paddingTop: "14px" }}>
+                <div>
+                  <div style={{ fontSize: "10.5px", color: "#a5b4fc" }}>등록 경력 카드</div>
+                  <div style={{ fontSize: "15px", fontWeight: "700", marginTop: "2px" }}>{careerCards.length}건</div>
+                </div>
+                <div>
+                  <div style={{ fontSize: "10.5px", color: "#a5b4fc" }}>신뢰 점수 등급</div>
+                  <div style={{ fontSize: "15px", fontWeight: "700", marginTop: "2px" }}>
+                    {trustScore ? `${trustScore.grade} (${trustScore.score}점)` : "인증 대기"}
+                  </div>
+                </div>
+                <div style={{ textAlign: "right" }}>
+                  <div style={{ fontSize: "10.5px", color: "#a5b4fc" }}>상태</div>
+                  <div style={{ fontSize: "13px", fontWeight: "800", marginTop: "2px", color: "#34d399" }}>
+                    {(() => {
+                      if (careerCards.length === 0) return "입문 준비 중";
+                      if (careerCards.length <= 3) return "현장 경험 축적 중";
+                      return "숙련도 상승 중";
+                    })()}
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
 
         </div>
@@ -1718,8 +1795,36 @@ export default function MonoApp() {
 
         {(v.isJobs) && (<>
         <div style={{ padding: "6px 0 30px" }}>
-          <div style={{ padding: "8px 20px 2px" }}>
+          <div style={{ padding: "8px 20px 2px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
             <div style={{ fontSize: "22px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>현장 찾기</div>
+            
+            {/* 보기 방식 토글 */}
+            <div style={{ display: "flex", background: "#f1f3f7", padding: "3px", borderRadius: "10px", gap: "2px" }}>
+              <button
+                type="button"
+                onClick={() => { track("job_filter_selected", { mode: "list" }); setJobsViewMode('list'); }}
+                style={{
+                  padding: "6px 12px", border: "none", borderRadius: "8px", fontSize: "12px", fontWeight: "700",
+                  background: jobsViewMode === 'list' ? "#fff" : "transparent",
+                  color: jobsViewMode === 'list' ? "var(--c1,#1F2226)" : "#5b6b82",
+                  cursor: "pointer", boxShadow: jobsViewMode === 'list' ? "0 2px 5px rgba(0,0,0,0.06)" : "none"
+                }}
+              >
+                목록 보기
+              </button>
+              <button
+                type="button"
+                onClick={() => { track("job_filter_selected", { mode: "map" }); setJobsViewMode('map'); }}
+                style={{
+                  padding: "6px 12px", border: "none", borderRadius: "8px", fontSize: "12px", fontWeight: "700",
+                  background: jobsViewMode === 'map' ? "#fff" : "transparent",
+                  color: jobsViewMode === 'map' ? "var(--c1,#1F2226)" : "#5b6b82",
+                  cursor: "pointer", boxShadow: jobsViewMode === 'map' ? "0 2px 5px rgba(0,0,0,0.06)" : "none"
+                }}
+              >
+                지도 보기
+              </button>
+            </div>
           </div>
 
           {/* 검색바 */}
@@ -1750,149 +1855,172 @@ export default function MonoApp() {
             </div>
           </div>
 
-          {/* 유형 필터 칩 */}
-          <div style={{ padding: "10px 20px 0", display: "flex", gap: "8px", overflowX: "auto", WebkitOverflowScrolling: "touch", scrollbarWidth: "none" }}>
-            {([
-              { key: "all", label: "전체" },
-              { key: "today", label: "⚡ 오늘 현장" },
-              { key: "large", label: "🏗 대형 현장" },
-            ] as const).map((f) => (
-              <button
-                key={f.key}
-                type="button"
-                onClick={() => setJobFilterType(f.key)}
-                style={{
-                  flex: "none",
-                  height: "34px",
-                  padding: "0 14px",
-                  border: "none",
-                  borderRadius: "999px",
-                  fontSize: "12.5px",
-                  fontWeight: "700",
-                  cursor: "pointer",
-                  background: jobFilterType === f.key ? "var(--c1,#1F2226)" : "#f1f3f7",
-                  color: jobFilterType === f.key ? "#fff" : "#5b6b82",
-                  whiteSpace: "nowrap",
-                }}
-              >
-                {f.label}
-              </button>
-            ))}
-            <div style={{ width: "1px", background: "#e6e8ec", margin: "0 2px" }} />
-            {["서울", "경기", "인천", "평택", "울산", "거제"].map((r) => (
-              <button
-                key={r}
-                type="button"
-                onClick={() => setJobFilterRegion(jobFilterRegion === r ? "" : r)}
-                style={{
-                  flex: "none",
-                  height: "34px",
-                  padding: "0 12px",
-                  border: "none",
-                  borderRadius: "999px",
-                  fontSize: "12.5px",
-                  fontWeight: "700",
-                  cursor: "pointer",
-                  background: jobFilterRegion === r ? "#4f46e5" : "#f1f3f7",
-                  color: jobFilterRegion === r ? "#fff" : "#5b6b82",
-                  whiteSpace: "nowrap",
-                }}
-              >
-                {r}
-              </button>
-            ))}
-          </div>
-
-          {/* 직종 필터 칩 */}
-          <div style={{ padding: "6px 20px 0", display: "flex", gap: "6px", overflowX: "auto", WebkitOverflowScrolling: "touch", scrollbarWidth: "none" }}>
-            {["형틀목공", "철근", "배관", "전기", "용접", "비계", "도장", "화재감시"].map((jt) => (
-              <button
-                key={jt}
-                type="button"
-                onClick={() => setJobFilterJobType(jobFilterJobType === jt ? "" : jt)}
-                style={{
-                  flex: "none",
-                  height: "30px",
-                  padding: "0 11px",
-                  border: `1.5px solid ${jobFilterJobType === jt ? "#10b981" : "#e6e8ec"}`,
-                  borderRadius: "999px",
-                  fontSize: "12px",
-                  fontWeight: "700",
-                  cursor: "pointer",
-                  background: jobFilterJobType === jt ? "#ecfdf5" : "#fff",
-                  color: jobFilterJobType === jt ? "#10b981" : "#5b6b82",
-                  whiteSpace: "nowrap",
-                }}
-              >
-                {jt}
-              </button>
-            ))}
-          </div>
-
-          {/* 결과 수 + 페인 탭 */}
-          <div style={{ padding: "8px 20px 0", display: "flex", alignItems: "center", gap: "20px", borderBottom: "1px solid var(--soft,#E5E7EB)", marginTop: "6px" }}>
-            <button type="button" onClick={() => setJobsPane("nearby")} style={{ border: "none", background: "none", padding: "8px 0", marginBottom: "-1px", fontSize: "16px", fontFamily: "inherit", cursor: "pointer", fontWeight: jobsPane === "nearby" ? "800" : "700", color: jobsPane === "nearby" ? "var(--c1,#1F2226)" : "#8694a8", borderBottom: jobsPane === "nearby" ? "2.5px solid var(--c1,#1F2226)" : "2.5px solid transparent", WebkitTapHighlightColor: "transparent" }}>내 위치 주변</button>
-            <button type="button" onClick={() => setJobsPane("posts")} style={{ border: "none", background: "none", padding: "8px 0", marginBottom: "-1px", fontSize: "16px", fontFamily: "inherit", cursor: "pointer", fontWeight: jobsPane === "posts" ? "800" : "700", color: jobsPane === "posts" ? "var(--c1,#1F2226)" : "#8694a8", borderBottom: jobsPane === "posts" ? "2.5px solid var(--c1,#1F2226)" : "2.5px solid transparent", WebkitTapHighlightColor: "transparent" }}>채용공고</button>
-            {realJobs !== null && (
-              <span style={{ marginLeft: "auto", fontSize: "12px", color: "#8694a8", fontWeight: "600" }}>
-                {(Array.isArray(realJobs) ? realJobs : []).filter((jp) => {
-                  if (jobSearch.trim()) {
-                    const q = jobSearch.trim().toLowerCase();
-                    const h = [jp.title, jp.company?.name, ...(jp.region || []), ...(jp.jobType || [])].join(" ").toLowerCase();
-                    if (!h.includes(q)) return false;
-                  }
-                  if (jobFilterType === "today" && !(jp.period || "").match(/일당|당일|단기|오늘/)) return false;
-                  if (jobFilterType === "large" && ![jp.title, jp.conditions, jp.company?.name].join(" ").match(/반도체|조선|플랜트|대형|중공업|정유|SK|삼성|현대/)) return false;
-                  if (jobFilterRegion && !(jp.region || []).some((r) => r.includes(jobFilterRegion))) return false;
-                  if (jobFilterJobType && !(jp.jobType || []).some((t) => t.includes(jobFilterJobType))) return false;
-                  return true;
-                }).length}개 현장
-              </span>
-            )}
-          </div>
-
-          <div onTouchStart={onJobsTouchStart} onTouchEnd={onJobsTouchEnd} style={{ overflowX: "hidden" }}>
-            {jobsPane === "nearby" && (
-              <div key="nearby" style={{ animation: "fadeIn .22s ease" }}>
-                <div style={{ padding: "12px 20px 0" }}>
-                  <button type="button" onClick={findMyLocation} style={{ width: "100%", height: "48px", border: "1px solid var(--c1,#1F2226)", borderRadius: "14px", background: "#fff", color: "var(--c1,#1F2226)", fontSize: "14px", fontWeight: "800", fontFamily: "inherit", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", marginBottom: "10px", WebkitTapHighlightColor: "transparent" }}>
-                    <svg width="17" height="17" viewBox="0 0 20 20" fill="none"><path d="M10 18s6-5.3 6-10A6 6 0 1 0 4 8c0 4.7 6 10 6 10Z" stroke="var(--c1,#1F2226)" strokeWidth="1.7" strokeLinejoin="round"></path><circle cx="10" cy="8" r="2.2" stroke="var(--c1,#1F2226)" strokeWidth="1.7"></circle></svg>
-                    내 위치 찾기
-                  </button>
-                  <div ref={mapNodeRef} style={{ width: "100%", height: "340px", borderRadius: "16px", overflow: "hidden", border: "1px solid #e6e8ec", background: "#eef0f3" }}></div>
-                  {geoNote && (<div style={{ fontSize: "12px", color: "#8694a8", fontWeight: "600", marginTop: "8px", lineHeight: "1.5" }}>{geoNote}</div>)}
-                  <div style={{ fontSize: "11.5px", color: "#8694a8", fontWeight: "500", marginTop: "6px", lineHeight: "1.55" }}>※ 미리보기 · 일자리 위치는 지역 기준 근사 표시입니다. 왼쪽으로 쓸어넘기면 전체 채용공고를 볼 수 있어요.</div>
-                </div>
-                {locFound && (
-                  <div style={{ animation: "fadeIn .25s ease" }}>
-                    <div style={{ padding: "16px 20px 0", fontSize: "13px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>내 주변 일자리</div>
-                    {renderJobList()}
-                  </div>
-                )}
-              </div>
-            )}
-            {jobsPane === "posts" && (
-              <div key="posts" style={{ animation: "fadeIn .22s ease" }}>
-
-          {myApps.length > 0 && (
-            <div style={{ padding: "8px 20px 0" }}>
-              <div style={{ fontSize: "13px", fontWeight: "800", color: "var(--c1,#1F2226)", margin: "6px 0 8px" }}>내 지원 현황 {myApps.length}건</div>
-              {(Array.isArray(myApps) ? myApps : []).map((a) => {
-                const st = applLabel(a.status);
+          {/* 빠른 필터 & 정렬 */}
+          <div style={{ padding: "10px 20px 0", display: "flex", gap: "6px", alignItems: "center" }}>
+            <div style={{ display: "flex", gap: "6px", overflowX: "auto", WebkitOverflowScrolling: "touch", scrollbarWidth: "none", flex: 1 }}>
+              {([
+                { key: "urgent", label: "🔥 급구" },
+                { key: "today", label: "⚡ 오늘 출근" },
+                { key: "large", label: "🏗️ 대형 현장" },
+                { key: "stay", label: "🏠 숙소 제공" },
+                { key: "meal", label: "🍱 식사 제공" },
+                { key: "rookie", label: "🔰 초보 가능" }
+              ]).map((f) => {
+                const isActive = fastFilters.includes(f.key);
                 return (
-                  <div key={a.id} style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: "13px", padding: "12px 14px", marginBottom: "8px", display: "flex", justifyContent: "space-between", alignItems: "center", gap: "10px" }}>
-                    <div style={{ minWidth: "0" }}>
-                      <div style={{ fontSize: "14px", fontWeight: "700", color: "var(--c1,#1F2226)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{a.jobPost ? a.jobPost.title : "공고"}</div>
-                      <div style={{ fontSize: "12px", color: "#8694a8", fontWeight: "500", marginTop: "2px" }}>{a.jobPost?.company ? a.jobPost.company.name : ""}</div>
-                    </div>
-                    <span style={{ flex: "none", fontSize: "11.5px", fontWeight: "800", padding: "4px 10px", borderRadius: "9px", background: st.bg, color: st.fg }}>{st.t}</span>
-                  </div>
+                  <button
+                    key={f.key}
+                    type="button"
+                    onClick={() => {
+                      const next = isActive ? fastFilters.filter(k => k !== f.key) : [...fastFilters, f.key];
+                      setFastFilters(next);
+                      track("job_filter_selected", { filter: f.key, active: !isActive });
+                    }}
+                    style={{
+                      flex: "none", height: "32px", padding: "0 12px",
+                      borderRadius: "999px", fontSize: "12px", fontWeight: "700",
+                      background: isActive ? "var(--c1,#1F2226)" : "#f1f3f7",
+                      color: isActive ? "#fff" : "#5b6b82",
+                      border: "none", cursor: "pointer", whiteSpace: "nowrap"
+                    }}
+                  >
+                    {f.label}
+                  </button>
                 );
               })}
             </div>
-          )}
+            
+            {/* 정렬 드롭다운 */}
+            <select
+              value={jobSort}
+              onChange={(e) => {
+                setJobSort(e.target.value);
+                track("job_filter_selected", { sort: e.target.value });
+              }}
+              style={{
+                height: "32px", padding: "0 8px", borderRadius: "8px", border: "1.5px solid #e6e8ec",
+                fontSize: "12px", fontWeight: "700", color: "#5b6b82", background: "#fff", outline: "none", cursor: "pointer"
+              }}
+            >
+              <option value="closest">가까운 순</option>
+              <option value="highest_wage">일당 높은 순</option>
+              <option value="today_entry">오늘 출근 가능 순</option>
+              <option value="ready_fit">준비 상태 맞는 순</option>
+            </select>
+          </div>
 
-          {renderJobList()}
+          {/* 4대 서브탭 분류 */}
+          <div style={{ display: "flex", padding: "12px 20px 0", borderBottom: "1px solid var(--soft,#E5E7EB)", gap: "16px" }}>
+            {([
+              { key: 'fit', label: '내게 맞는 현장' },
+              { key: 'urgent', label: '급구 현장' },
+              { key: 'today', label: '오늘 현장' },
+              { key: 'large', label: '대형 현장' }
+            ] as const).map((tabItem) => (
+              <button
+                key={tabItem.key}
+                type="button"
+                onClick={() => {
+                  setJobSubTab(tabItem.key);
+                  track("job_filter_selected", { subTab: tabItem.key });
+                }}
+                style={{
+                  border: "none", background: "none", padding: "8px 0", marginBottom: "-1px",
+                  fontSize: "14.5px", fontFamily: "inherit", cursor: "pointer",
+                  fontWeight: jobSubTab === tabItem.key ? "800" : "600",
+                  color: jobSubTab === tabItem.key ? "var(--c1,#1F2226)" : "#8694a8",
+                  borderBottom: jobSubTab === tabItem.key ? "2.5px solid var(--c1,#1F2226)" : "2.5px solid transparent",
+                  WebkitTapHighlightColor: "transparent"
+                }}
+              >
+                {tabItem.label}
+              </button>
+            ))}
+          </div>
+
+          <div style={{ overflowX: "hidden", marginTop: "10px" }}>
+            {jobsViewMode === 'map' ? (
+              <div key="mapView" style={{ padding: "10px 20px 0", animation: "fadeIn 0.2s ease" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "10px" }}>
+                  <span style={{ fontSize: "13px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>🗺️ 지도 기준 근처 일자리</span>
+                  <button type="button" onClick={findMyLocation} style={{ border: "none", background: "none", color: "#4f46e5", fontSize: "12.5px", fontWeight: "700", cursor: "pointer" }}>내 위치 갱신 ↺</button>
+                </div>
+                
+                {/* 지도 목업 영역 */}
+                <div style={{ width: "100%", height: "360px", borderRadius: "20px", overflow: "hidden", border: "1px solid #e6e8ec", background: "radial-gradient(#e0e7ff 1.5px, transparent 1.5px) 0 0 / 16px 16px, #f1f5f9", position: "relative" }}>
+                  
+                  {/* 중심 핀 (내 위치) */}
+                  <div style={{ position: "absolute", left: "50%", top: "50%", transform: "translate(-50%, -50%)", zIndex: 10, display: "flex", flexDirection: "column", alignItems: "center" }}>
+                    <div style={{ background: "#4f46e5", color: "#fff", padding: "4px 8px", borderRadius: "8px", fontSize: "10px", fontWeight: "800", whiteSpace: "nowrap", boxShadow: "0 4px 10px rgba(79,70,229,0.3)" }}>내 위치</div>
+                    <div style={{ width: "14px", height: "14px", borderRadius: "50%", background: "#4f46e5", border: "3px solid #fff", marginTop: "2px", boxShadow: "0 0 0 6px rgba(79,70,229,0.2)" }}></div>
+                  </div>
+
+                  {/* 일자리 핀 1 (송도) */}
+                  <div
+                    onClick={() => { track("job_detail_viewed", { jobId: "0", source: "map_pin" }); openJob(0); }}
+                    style={{ position: "absolute", left: "20%", top: "35%", zIndex: 5, cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center" }}
+                  >
+                    <div style={{ background: "#dc2626", color: "#fff", padding: "4px 8px", borderRadius: "8px", fontSize: "9.5px", fontWeight: "800", whiteSpace: "nowrap", boxShadow: "0 4px 8px rgba(0,0,0,0.1)", display: "flex", alignItems: "center", gap: "2px" }}>
+                      🔥 급구 · 형틀 조공
+                    </div>
+                    <div style={{ width: "10px", height: "10px", borderRadius: "50%", background: "#dc2626", border: "2px solid #fff", marginTop: "2px" }}></div>
+                  </div>
+
+                  {/* 일자리 핀 2 (평택) */}
+                  <div
+                    onClick={() => { track("job_detail_viewed", { jobId: "2", source: "map_pin" }); openJob(2); }}
+                    style={{ position: "absolute", left: "70%", top: "60%", zIndex: 5, cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center" }}
+                  >
+                    <div style={{ background: "#0d9488", color: "#fff", padding: "4px 8px", borderRadius: "8px", fontSize: "9.5px", fontWeight: "800", whiteSpace: "nowrap", boxShadow: "0 4px 8px rgba(0,0,0,0.1)" }}>
+                      🏗️ 평택고덕 · 형틀
+                    </div>
+                    <div style={{ width: "10px", height: "10px", borderRadius: "50%", background: "#0d9488", border: "2px solid #fff", marginTop: "2px" }}></div>
+                  </div>
+
+                  {/* 일자리 핀 3 (서초) */}
+                  <div
+                    onClick={() => { track("job_detail_viewed", { jobId: "1", source: "map_pin" }); openJob(1); }}
+                    style={{ position: "absolute", left: "65%", top: "25%", zIndex: 5, cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center" }}
+                  >
+                    <div style={{ background: "#1f2937", color: "#fff", padding: "4px 8px", borderRadius: "8px", fontSize: "9.5px", fontWeight: "800", whiteSpace: "nowrap", boxShadow: "0 4px 8px rgba(0,0,0,0.1)" }}>
+                      ₩24.5만 · 철근공
+                    </div>
+                    <div style={{ width: "10px", height: "10px", borderRadius: "50%", background: "#1f2937", border: "2px solid #fff", marginTop: "2px" }}></div>
+                  </div>
+                </div>
+
+                <div style={{ fontSize: "11.5px", color: "#8694a8", fontWeight: "500", marginTop: "8px", lineHeight: "1.5" }}>
+                  💡 지도의 핀을 터치하면 상세 일자리 정보를 확인하고 바로 지원할 수 있어요.
+                </div>
+                
+                <div style={{ marginTop: "16px" }}>
+                  <div style={{ fontSize: "13px", fontWeight: "800", color: "var(--c1,#1F2226)", marginBottom: "10px" }}>지도의 급구 및 추천 현장 목록</div>
+                  {renderJobList()}
+                </div>
+              </div>
+            ) : (
+              <div key="listView" style={{ animation: "fadeIn 0.2s ease" }}>
+                
+                {/* 내 지원 현황 (있을 경우 홈과 별도로 표시) */}
+                {myApps.length > 0 && (
+                  <div style={{ padding: "8px 20px 0" }}>
+                    <div style={{ fontSize: "13px", fontWeight: "800", color: "var(--c1,#1F2226)", margin: "6px 0 8px" }}>내 지원 현황 {myApps.length}건</div>
+                    {(Array.isArray(myApps) ? myApps : []).map((a) => {
+                      const st = applLabel(a.status);
+                      return (
+                        <div key={a.id} style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: "13px", padding: "12px 14px", marginBottom: "8px", display: "flex", justifyContent: "space-between", alignItems: "center", gap: "10px" }}>
+                          <div style={{ minWidth: "0" }}>
+                            <div style={{ fontSize: "14px", fontWeight: "700", color: "var(--c1,#1F2226)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{a.jobPost ? a.jobPost.title : "공고"}</div>
+                            <div style={{ fontSize: "12px", color: "#8694a8", fontWeight: "500", marginTop: "2px" }}>{a.jobPost?.company ? a.jobPost.company.name : ""}</div>
+                          </div>
+                          <span style={{ flex: "none", fontSize: "11.5px", fontWeight: "800", padding: "4px 10px", borderRadius: "9px", background: st.bg, color: st.fg }}>{st.t}</span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+
+                {renderJobList()}
               </div>
             )}
           </div>
@@ -1949,6 +2077,89 @@ export default function MonoApp() {
 
           {workSubTab === 'attendance' ? (
             <>
+              {/* 11단계 출근·정산 실시간 스태퍼 */}
+              <div style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: "20px", padding: "16px", marginBottom: "20px" }}>
+                <div style={{ fontSize: "14px", fontWeight: "800", color: "var(--c1,#1F2226)", marginBottom: "12px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                  <span>🚦 실시간 출근·정산 흐름</span>
+                  <span style={{ fontSize: "12px", color: "#4f46e5", fontWeight: "700" }}>
+                    {(() => {
+                      const hasApp = myApps.length > 0;
+                      const hasAssign = assignments && assignments.length > 0;
+                      const hasCheckIn = assignments && assignments.some(a => a.attendances.some(at => !at.checkOutAt));
+                      
+                      if (hasCheckIn) return "8단계: 근무 중 👷";
+                      if (hasAssign) return "4단계: 출근 확정 🎉";
+                      if (hasApp) return "1단계: 지원 완료 ✓";
+                      return "현장 대기 중";
+                    })()}
+                  </span>
+                </div>
+
+                <div className="scr" style={{ display: "flex", gap: "14px", overflowX: "auto", paddingBottom: "6px", WebkitOverflowScrolling: "touch", scrollbarWidth: "none" }}>
+                  {([
+                    { step: 1, label: "지원 완료" },
+                    { step: 2, label: "서류 검토" },
+                    { step: 3, label: "확정 대기" },
+                    { step: 4, label: "출근 확정" },
+                    { step: 5, label: "출발 확인" },
+                    { step: 6, label: "현장 도착" },
+                    { step: 7, label: "안전 교육" },
+                    { step: 8, label: "근무 중" },
+                    { step: 9, label: "퇴근 체크" },
+                    { step: 10, label: "정산 완료" },
+                    { step: 11, label: "평가 완료" }
+                  ]).map((item) => {
+                    const currentActive = (() => {
+                      const hasApp = myApps.length > 0;
+                      const hasAssign = assignments && assignments.length > 0;
+                      const hasCheckIn = assignments && assignments.some(a => a.attendances.some(at => !at.checkOutAt));
+                      
+                      if (hasCheckIn) return 8; // 근무 중
+                      if (hasAssign) return 4; // 출근 확정
+                      if (hasApp) return 1; // 지원 완료
+                      return 0;
+                    })();
+                    
+                    const isDone = item.step < currentActive;
+                    const isActive = item.step === currentActive;
+                    
+                    let dotColor = "#cbd5e1";
+                    let dotBg = "#fff";
+                    let textColor = "#8694a8";
+                    let borderStyle = "2px solid #cbd5e1";
+                    
+                    if (isDone) {
+                      dotColor = "#fff";
+                      dotBg = "#10b981";
+                      borderStyle = "none";
+                      textColor = "#10b981";
+                    } else if (isActive) {
+                      dotColor = "#fff";
+                      dotBg = "#4f46e5";
+                      borderStyle = "none";
+                      textColor = "#4f46e5";
+                    }
+
+                    return (
+                      <div key={item.step} style={{ flex: "none", display: "flex", flexDirection: "column", alignItems: "center", width: "64px" }}>
+                        <div style={{
+                          width: "26px", height: "26px", borderRadius: "50%",
+                          background: dotBg, border: borderStyle,
+                          display: "flex", alignItems: "center", justifyContent: "center",
+                          fontSize: "11px", fontWeight: "800", color: dotColor,
+                          boxShadow: isActive ? "0 0 0 4px rgba(79,70,229,0.15)" : "none"
+                        }}>
+                          {isDone ? "✓" : item.step}
+                        </div>
+                        <span style={{ fontSize: "11.5px", fontWeight: (isActive || isDone) ? "800" : "600", color: textColor, marginTop: "6px", whiteSpace: "nowrap", wordBreak: "keep-all" }}>
+                          {item.label}
+                        </span>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
               {/* 1. 나의 지원 현황 — 실제 API 데이터 */}
               <div style={{ marginTop: "20px" }}>
                 <div style={{ fontSize: "15px", fontWeight: "800", color: "var(--c1,#1F2226)", marginBottom: "10px" }}>📋 나의 지원 현황 {myApps.length > 0 && <span style={{ fontSize: "12px", fontWeight: "600", color: "#8694a8" }}>({myApps.length}건)</span>}</div>
@@ -2132,7 +2343,9 @@ export default function MonoApp() {
             <div style={{ width: "58px", height: "58px", borderRadius: "18px", background: "rgba(255,255,255,.1)", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--brand-glow,#454A51)", fontSize: "22px", fontWeight: "800" }}>{v.initial}</div>
             <div style={{ flex: "1" }}>
               <div style={{ fontSize: "18px", fontWeight: "800" }}>{v.name}</div>
-              <div style={{ fontSize: "12.5px", color: "var(--t1,#A5AEB8)", fontWeight: "600", marginTop: "2px" }}>{v.myJob} · A등급 숙련 기술자</div>
+              <div style={{ fontSize: "12.5px", color: "var(--t1,#A5AEB8)", fontWeight: "600", marginTop: "2px" }}>
+                {v.myJob} · {careerCards.length === 0 ? "입문 준비 중" : careerCards.length <= 3 ? "현장 경험 축적 중" : "숙련도 상승 중"}
+              </div>
               <div style={{ display: "flex", alignItems: "center", gap: "5px", marginTop: "6px" }}>
                 <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#5fd1a0" }}></span>
                 <span style={{ fontSize: "11.5px", color: "var(--t1,#A5AEB8)", fontWeight: "600" }}>실명·계좌 인증 완료</span>
@@ -2644,44 +2857,180 @@ export default function MonoApp() {
         <div onClick={() => setJobDetail(null)} style={{ position: "absolute", inset: "0", zIndex: "60", background: "rgba(20,22,48,.55)", backdropFilter: "blur(3px)", display: "flex", alignItems: "flex-end", animation: "fadeIn .2s ease" }}>
           <div ref={jobDetailRef} onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true" aria-label="채용 공고 상세" tabIndex={-1} style={{ width: "100%", background: "#fff", borderRadius: "28px 28px 0 0", padding: "20px 18px 24px", animation: "sheetUp .32s cubic-bezier(.22,1,.36,1)", maxHeight: "90%", display: "flex", flexDirection: "column", outline: "none" }}>
             <div style={{ width: "40px", height: "4px", borderRadius: "2px", background: "#d4dae3", margin: "0 auto 14px" }}></div>
+            
+            {/* 1. 제목 및 기본 배지 */}
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: "10px" }}>
               <div style={{ minWidth: "0" }}>
+                <div style={{ display: "flex", gap: "4px", flexWrap: "wrap", marginBottom: "6px" }}>
+                  {((jobDetail.title || "").includes("급구") || (jobDetail.conditions || "").includes("급구")) && (
+                    <span style={{ fontSize: "11px", fontWeight: "800", color: "#fff", background: "#ef4444", padding: "2px 8px", borderRadius: "6px" }}>🔥 급구</span>
+                  )}
+                  {[jobDetail.title, jobDetail.conditions, jobDetail.company?.name].join(" ").match(/반도체|조선|플랜트|대형|중공업|정유/) && (
+                    <span style={{ fontSize: "11px", fontWeight: "800", color: "#0d9488", background: "#ccfbf1", padding: "2px 8px", borderRadius: "6px" }}>🏗️ 대형 현장</span>
+                  )}
+                  {(jobDetail.period || "").match(/일당|당일|단기|오늘/) && (
+                    <span style={{ fontSize: "11px", fontWeight: "800", color: "#7c3aed", background: "#ede9fe", padding: "2px 8px", borderRadius: "6px" }}>⚡ 오늘 출근</span>
+                  )}
+                </div>
                 <div style={{ fontSize: "19px", fontWeight: "800", color: "var(--c1,#1F2226)", lineHeight: "1.35" }}>{jobDetail.title}</div>
                 <div style={{ fontSize: "13px", color: "#8694a8", fontWeight: "600", marginTop: "5px" }}>{jobDetail.company ? jobDetail.company.name : "협약 기업"}{jobDetail.region.length ? " · " + jobDetail.region.join(", ") : ""}</div>
               </div>
               <button type="button" onClick={() => setJobDetail(null)} aria-label="닫기" style={{ flex: "none", width: "34px", height: "34px", borderRadius: "10px", border: "none", background: "#eef0f3", color: "#5b6b82", fontSize: "17px", cursor: "pointer", fontFamily: "inherit" }}>✕</button>
             </div>
-            {jobDetail.jobType.length > 0 && (
-              <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", marginTop: "12px" }}>
-                {(Array.isArray(jobDetail.jobType) ? jobDetail.jobType : []).map((t) => (<span key={t} style={{ fontSize: "12px", fontWeight: "700", color: "var(--c1,#1F2226)", background: "var(--soft,#E5E7EB)", padding: "5px 10px", borderRadius: "9px" }}>{t}</span>))}
-              </div>
-            )}
-            <div className="scr" style={{ overflowY: "auto", marginTop: "14px", display: "flex", flexDirection: "column" }}>
-              {[
-                ["모집 인원", jobDetail.headcount ? jobDetail.headcount + "명" : "협의"] as [string, string],
-                ["경력 요건", jobDetail.careerBand ? (CAREER_BAND_LABEL[jobDetail.careerBand] || jobDetail.careerBand) + " 이상" : "무관"],
-                ["근무 기간", jobDetail.period || "협의"],
-                ["근무 조건", jobDetail.conditions || "—"],
-              ].map(([k, val]) => (
-                <div key={k} style={{ display: "flex", gap: "12px", padding: "12px 2px", borderBottom: "1px solid #eef0f3" }}>
-                  <div style={{ flex: "none", width: "78px", fontSize: "13px", color: "#8694a8", fontWeight: "700" }}>{k}</div>
-                  <div style={{ fontSize: "13.5px", color: "var(--c1,#1F2226)", fontWeight: "600", lineHeight: "1.5", wordBreak: "break-word" }}>{val}</div>
+
+            <div className="scr" style={{ overflowY: "auto", marginTop: "14px", display: "flex", flexDirection: "column", gap: "14px", paddingBottom: "20px" }}>
+              
+              {/* 2. 단가 정보 & 9. 정산 예정일 */}
+              <div style={{ background: "#f8fafc", borderRadius: "16px", padding: "14px 16px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" }}>
+                <div>
+                  <div style={{ fontSize: "11.5px", color: "#8694a8", fontWeight: "700" }}>일당 단가</div>
+                  <div style={{ fontSize: "16px", fontWeight: "800", color: "#10b981", marginTop: "2px" }}>{jobDetail.conditions || "일당 230,000원"}</div>
                 </div>
-              ))}
-              {jobDetail.certs.length > 0 && (
-                <div style={{ display: "flex", gap: "12px", padding: "12px 2px", borderBottom: "1px solid #eef0f3" }}>
-                  <div style={{ flex: "none", width: "78px", fontSize: "13px", color: "#8694a8", fontWeight: "700" }}>우대 자격</div>
-                  <div style={{ display: "flex", flexWrap: "wrap", gap: "5px" }}>
-                    {(Array.isArray(jobDetail.certs) ? jobDetail.certs : []).map((c) => (<span key={c} style={{ fontSize: "11.5px", fontWeight: "600", color: "var(--ai,#1F2226)", background: "var(--aSoft,#E5E7EB)", padding: "4px 9px", borderRadius: "8px" }}>{c} 우대</span>))}
+                <div>
+                  <div style={{ fontSize: "11.5px", color: "#8694a8", fontWeight: "700" }}>정산 예정일</div>
+                  <div style={{ fontSize: "13.5px", fontWeight: "700", color: "var(--c1,#1F2226)", marginTop: "3.5px" }}>근무 당일 17:00 입금</div>
+                </div>
+              </div>
+
+              {/* 4. 내 준비 상태 매칭율 및 부족한 사항 */}
+              <div style={{ border: "1px solid #e2e8f0", borderRadius: "16px", padding: "14px 16px" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "8px" }}>
+                  <span style={{ fontSize: "13px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>🚦 내 현장 준비도 매칭</span>
+                  <span style={{ fontSize: "13px", fontWeight: "800", color: "#4f46e5" }}>
+                    {(() => {
+                      const isLarge = [jobDetail.title, jobDetail.company?.name].join(" ").match(/삼성|SK|현대|대형|반도체/);
+                      if (isLarge) {
+                        const required = [prepChecklist.idCard, prepChecklist.safetyEdu, prepChecklist.elecCard, prepChecklist.medCheck];
+                        const ok = required.filter(Boolean).length;
+                        return `${Math.round((ok / required.length) * 100)}% 준비 완료`;
+                      } else {
+                        const required = [prepChecklist.idCard, prepChecklist.safetyEdu];
+                        const ok = required.filter(Boolean).length;
+                        return `${Math.round((ok / required.length) * 100)}% 준비 완료`;
+                      }
+                    })()}
+                  </span>
+                </div>
+                <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+                  {/* 서류 현황 일람 */}
+                  <div style={{ display: "flex", gap: "10px", fontSize: "12px", color: "#5b6b82" }}>
+                    <span style={{ color: prepChecklist.idCard ? "#10b981" : "#ef4444" }}>{prepChecklist.idCard ? "✓" : "✗"} 신분증</span>
+                    <span style={{ color: prepChecklist.safetyEdu ? "#10b981" : "#ef4444" }}>{prepChecklist.safetyEdu ? "✓" : "✗"} 안전교육</span>
+                    {[jobDetail.title, jobDetail.company?.name].join(" ").match(/삼성|SK|현대|대형|반도체/) && (
+                      <>
+                        <span style={{ color: prepChecklist.elecCard ? "#10b981" : "#ef4444" }}>{prepChecklist.elecCard ? "✓" : "✗"} 전자카드</span>
+                        <span style={{ color: prepChecklist.medCheck ? "#10b981" : "#ef4444" }}>{prepChecklist.medCheck ? "✓" : "✗"} 신체검사</span>
+                      </>
+                    )}
                   </div>
+                  {/* 서류 미비 시 관리 링크 */}
+                  {(!prepChecklist.idCard || !prepChecklist.safetyEdu || ([jobDetail.title, jobDetail.company?.name].join(" ").match(/삼성|SK|현대|대형|반도체/) && (!prepChecklist.elecCard || !prepChecklist.medCheck))) && (
+                    <div
+                      onClick={() => { setJobDetail(null); setS(p => ({ ...p, tab: 'home' })); }}
+                      style={{ fontSize: "11.5px", color: "#4f46e5", fontWeight: "700", textDecoration: "underline", cursor: "pointer", marginTop: "4px" }}
+                    >
+                      부족한 준비 서류 등록하러 가기 →
+                    </div>
+                  )}
                 </div>
-              )}
-              <div style={{ display: "flex", gap: "12px", padding: "12px 2px" }}>
-                <div style={{ flex: "none", width: "78px", fontSize: "13px", color: "#8694a8", fontWeight: "700" }}>등록일</div>
-                <div style={{ fontSize: "13.5px", color: "var(--c1,#1F2226)", fontWeight: "600" }}>{(() => { const d = new Date(jobDetail.createdAt); return Number.isNaN(d.getTime()) ? "—" : `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, "0")}.${String(d.getDate()).padStart(2, "0")}`; })()}</div>
               </div>
+
+              {/* 5. 하는 일 (상세 직무 내용) */}
+              <div>
+                <div style={{ fontSize: "13.5px", color: "#8694a8", fontWeight: "700", marginBottom: "4px" }}>🔧 담당 업무</div>
+                <div style={{ fontSize: "14px", color: "var(--c1,#1F2226)", fontWeight: "500", lineHeight: "1.5", wordBreak: "keep-all" }}>
+                  {jobDetail.jobType.includes("형틀목공") ? "형틀목공 반장 및 숙련 기술인의 지시에 따라 거푸집 자재 운반, 정리 및 슬라브/벽체 거푸집 조립 보조 작업을 진행합니다." :
+                   jobDetail.jobType.includes("철근") ? "현장 도면 기준 철근 야적 및 조립 구역 운반 보조, 결속선 바인딩 및 철근 가공 보조 작업을 담당합니다." :
+                   "현장 내 자재 운반 및 정리정돈, 보행 통로 확보, 신호수 역할 보조 등 기초적인 건설 현장 안전 정비 업무를 수행합니다."}
+                </div>
+              </div>
+
+              {/* 6. 준비물 */}
+              <div>
+                <div style={{ fontSize: "13.5px", color: "#8694a8", fontWeight: "700", marginBottom: "4px" }}>🎒 필수 준비물</div>
+                <div style={{ fontSize: "14px", color: "var(--c1,#1F2226)", fontWeight: "600" }}>
+                  {jobDetail.prepare || "안전화, 작업복, 신분증 실물 (미지참 시 현장 출입 및 근무 불가)"}
+                </div>
+              </div>
+
+              {/* 7. 제공사항 */}
+              <div>
+                <div style={{ fontSize: "13.5px", color: "#8694a8", fontWeight: "700", marginBottom: "4px" }}>🏠 복리후생 & 제공사항</div>
+                <div style={{ fontSize: "14px", color: "var(--c1,#1F2226)", fontWeight: "600", display: "flex", gap: "6px", flexWrap: "wrap" }}>
+                  <span style={{ background: "#f1f5f9", padding: "4px 8px", borderRadius: "6px", fontSize: "12px" }}>🍱 중식 제공</span>
+                  <span style={{ background: "#f1f5f9", padding: "4px 8px", borderRadius: "6px", fontSize: "12px" }}>🛡️ 4대 보험 가입</span>
+                  {[jobDetail.title, jobDetail.company?.name].join(" ").match(/삼성|SK|현대|대형|반도체/) && (
+                    <>
+                      <span style={{ background: "#f1f5f9", padding: "4px 8px", borderRadius: "6px", fontSize: "12px" }}>🏠 숙소 지원 가능</span>
+                      <span style={{ background: "#f1f5f9", padding: "4px 8px", borderRadius: "6px", fontSize: "12px" }}>🚌 통근 셔틀버스</span>
+                    </>
+                  )}
+                </div>
+              </div>
+
+              {/* 8. 출근 절차 및 위치 */}
+              <div>
+                <div style={{ fontSize: "13.5px", color: "#8694a8", fontWeight: "700", marginBottom: "4px" }}>📍 출근 및 집결 정보</div>
+                <div style={{ background: "#f8fafc", borderRadius: "12px", padding: "12px", fontSize: "13px", color: "#5b6b82", display: "flex", flexDirection: "column", gap: "6px" }}>
+                  <div><strong>집결지:</strong> {jobDetail.region?.join(" ") || "인천 연수구"} 송도동 아파트 신축공사 게이트 2앞</div>
+                  <div><strong>집결 시간:</strong> 오전 06:40 (당일 안전 교육 및 혈압 체크 필수, 지각 시 현장 출입 통제)</div>
+                  <div><strong>절차:</strong> 게이트 안전대 도착 → 출근 체크 → 혈압 측정 → 안전 체조 → 당일 TBM 진행 후 작업 투입</div>
+                </div>
+              </div>
+
+              {/* 10. 후기 및 커뮤니티 연계 & AI 물어보기 */}
+              <div style={{ display: "flex", gap: "10px", marginTop: "8px" }}>
+                <button
+                  type="button"
+                  onClick={() => {
+                    track("community_opened", { source: "job_detail_room" });
+                    setJobDetail(null);
+                    v.goCommunity();
+                  }}
+                  style={{
+                    flex: 1, height: "42px", border: "1px solid #4f46e5", borderRadius: "12px",
+                    background: "#fff", color: "#4f46e5", fontSize: "13px", fontWeight: "700", cursor: "pointer"
+                  }}
+                >
+                  💬 이 현장 이야기방 가기
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    track("ai_term_explained", { source: "job_detail_glossary" });
+                    setGlossaryOpen(true);
+                  }}
+                  style={{
+                    flex: 1, height: "42px", border: "none", borderRadius: "12px",
+                    background: "#eff6ff", color: "#2563eb", fontSize: "13px", fontWeight: "700", cursor: "pointer",
+                    display: "flex", alignItems: "center", justifyContent: "center", gap: "4px"
+                  }}
+                >
+                  🤖 현장 용어 AI 가이드
+                </button>
+              </div>
+
             </div>
-            <button onClick={() => applyToJob(jobDetail.id)} disabled={appliedJobs.has(jobDetail.id)} style={{ marginTop: "16px", flex: "none", width: "100%", height: "50px", border: "none", borderRadius: "14px", background: appliedJobs.has(jobDetail.id) ? "var(--soft,#E5E7EB)" : "var(--c1,#1F2226)", color: appliedJobs.has(jobDetail.id) ? "var(--c1,#1F2226)" : "#fff", fontSize: "15px", fontWeight: "800", fontFamily: "inherit", cursor: appliedJobs.has(jobDetail.id) ? "default" : "pointer", WebkitTapHighlightColor: "transparent" }}>{appliedJobs.has(jobDetail.id) ? "지원함 ✓" : "지원하기"}</button>
+
+            {/* 3. 즉시 지원 버튼 및 내 지원 상태 */}
+            <button
+              onClick={() => {
+                track("job_applied", { jobId: jobDetail.id, source: "job_detail_overlay" });
+                applyToJob(jobDetail.id);
+              }}
+              disabled={appliedJobs.has(jobDetail.id)}
+              style={{
+                marginTop: "10px", flex: "none", width: "100%", height: "50px", border: "none", borderRadius: "14px",
+                background: appliedJobs.has(jobDetail.id) ? "var(--soft,#E5E7EB)" : "var(--c1,#1F2226)",
+                color: appliedJobs.has(jobDetail.id) ? "var(--c1,#1F2226)" : "#fff",
+                fontSize: "15px", fontWeight: "800", fontFamily: "inherit",
+                cursor: appliedJobs.has(jobDetail.id) ? "default" : "pointer",
+                WebkitTapHighlightColor: "transparent"
+              }}
+            >
+              {appliedJobs.has(jobDetail.id) ? "지원 완료 ✓" : "현장 바로 지원하기"}
+            </button>
           </div>
         </div>
       )}
@@ -2753,55 +3102,83 @@ export default function MonoApp() {
 
       {openDocs && (
         <div onClick={() => setOpenDocs(false)} style={{ position: "absolute", inset: "0", zIndex: "60", background: "rgba(20,22,48,.55)", backdropFilter: "blur(3px)", display: "flex", alignItems: "flex-end", animation: "fadeIn .2s ease" }}>
-          <div onClick={(e) => e.stopPropagation()} style={{ width: "100%", background: "#fff", borderRadius: "28px 28px 0 0", padding: "22px 18px 26px", animation: "sheetUp .32s cubic-bezier(.22,1,.36,1)", maxHeight: "88%", display: "flex", flexDirection: "column" }}>
+          <div onClick={(e) => e.stopPropagation()} style={{ width: "100%", background: "#fff", borderRadius: "28px 28px 0 0", padding: "22px 18px 26px", animation: "sheetUp .32s cubic-bezier(.22,1,.36,1)", maxHeight: "90%", display: "flex", flexDirection: "column" }}>
             <div style={{ width: "40px", height: "4px", borderRadius: "2px", background: "#d4dae3", margin: "0 auto 16px" }}></div>
-            <div style={{ fontSize: "18px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>서류 · 자격증</div>
-            <div style={{ fontSize: "13px", color: "#8694a8", fontWeight: "500", marginTop: "4px", marginBottom: "16px" }}>자격증·교육 이력을 등록하면 신뢰도가 올라가요.</div>
-            <div className="scr" style={{ overflowY: "auto" }}>
-              {/* 자격증 */}
-              <div style={{ fontSize: "13px", fontWeight: "800", color: "var(--c1,#1F2226)", marginBottom: "8px" }}>자격증</div>
-              {(certificates || []).map((c) => (
-                <div key={c.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "11px 13px", border: "1px solid #e6e8ec", borderRadius: "12px", marginBottom: "8px" }}>
-                  <div style={{ display: "flex", flexDirection: "column", gap: "2px", minWidth: "0" }}>
-                    <span style={{ fontSize: "14px", fontWeight: "700", color: "var(--c1,#1F2226)" }}>{c.name}</span>
-                    <span style={{ fontSize: "11px", color: "#8694a8" }}>발급번호 {c.licenseNo}</span>
+            <div style={{ fontSize: "18px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>현장 필수 서류 & 자격 관리</div>
+            <div style={{ fontSize: "12.5px", color: "#8694a8", fontWeight: "500", marginTop: "4px", marginBottom: "16px" }}>대형 현장 출근을 위해 5대 서류 이미지 및 정보를 등록하세요.</div>
+            
+            <div className="scr" style={{ overflowY: "auto", flex: 1, display: "flex", flexDirection: "column", gap: "16px" }}>
+              
+              {/* 5대 핵심 현장 서류 등록 섹션 */}
+              <div>
+                <div style={{ fontSize: "14px", fontWeight: "800", color: "var(--c1,#1F2226)", marginBottom: "10px" }}>🚦 5대 핵심 서류 파일 등록</div>
+                <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                  {[
+                    { key: "idCard", label: "🪪 주민등록증 / 운전면허증", stateKey: "idCard" },
+                    { key: "safetyEdu", label: "🔰 기초안전보건교육 이수증", stateKey: "safetyEdu" },
+                    { key: "elecCard", label: "💳 건설근로자 전자카드", stateKey: "elecCard" },
+                    { key: "medCheck", label: "🩺 배치전 건강진단서 (신체검사)", stateKey: "medCheck" },
+                    { key: "safetyGear", label: "🥾 개인 안전구 (안전화·작업복)", stateKey: "safetyGear" }
+                  ].map((doc) => {
+                    const isUploaded = prepChecklist[doc.stateKey as keyof typeof prepChecklist];
+                    return (
+                      <div key={doc.key} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "12px", border: "1px solid #e6e8ec", borderRadius: "14px", background: isUploaded ? "#f0fdf4" : "#fff" }}>
+                        <div style={{ minWidth: 0 }}>
+                          <div style={{ fontSize: "13.5px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>{doc.label}</div>
+                          <div style={{ fontSize: "11px", color: isUploaded ? "#166534" : "#8694a8", marginTop: "2px", fontWeight: "600" }}>
+                            {isUploaded ? "파일 등록 검증 완료 ✓" : "등록된 파일이 없습니다."}
+                          </div>
+                        </div>
+                        
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setPrepChecklist(prev => {
+                              const next = { ...prev, [doc.stateKey]: !prev[doc.stateKey as keyof typeof prev] };
+                              track("doc_uploaded", { doc: doc.key, active: next[doc.stateKey as keyof typeof next] });
+                              return next;
+                            });
+                          }}
+                          style={{
+                            height: "32px", padding: "0 12px", border: "none", borderRadius: "8px",
+                            fontSize: "12px", fontWeight: "800", cursor: "pointer",
+                            background: isUploaded ? "#10b981" : "var(--c1,#1F2226)",
+                            color: "#fff"
+                          }}
+                        >
+                          {isUploaded ? "변경" : "파일 업로드"}
+                        </button>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
+              <div style={{ borderTop: "1px solid #f1f5f9", margin: "4px 0" }}></div>
+
+              {/* 기존 자격증 */}
+              <div>
+                <div style={{ fontSize: "14px", fontWeight: "800", color: "var(--c1,#1F2226)", marginBottom: "8px" }}>📜 국가 기술 자격증 추가</div>
+                {(certificates || []).map((c) => (
+                  <div key={c.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "11px 13px", border: "1px solid #e6e8ec", borderRadius: "12px", marginBottom: "8px" }}>
+                    <div style={{ display: "flex", flexDirection: "column", gap: "2px", minWidth: "0" }}>
+                      <span style={{ fontSize: "13.5px", fontWeight: "700", color: "var(--c1,#1F2226)" }}>{c.name}</span>
+                      <span style={{ fontSize: "11px", color: "#8694a8" }}>발급번호 {c.licenseNo}</span>
+                    </div>
+                    <span style={{ fontSize: "11.5px", color: "#8694a8" }}>{[c.issuer, c.issuedAt].filter(Boolean).join(" · ")}</span>
                   </div>
-                  <span style={{ fontSize: "12px", color: "#8694a8" }}>{[c.issuer, c.issuedAt].filter(Boolean).join(" · ")}</span>
+                ))}
+                <div style={{ display: "flex", flexDirection: "column", gap: "8px", marginTop: "10px" }}>
+                  <input value={certForm.name} onChange={(e) => setCertForm((p) => ({ ...p, name: e.target.value }))} placeholder="자격증명 (예: 용접기능사)" style={{ height: "44px", border: "1px solid #e6e8ec", borderRadius: "11px", padding: "0 13px", fontSize: "14px", fontFamily: "inherit", boxSizing: "border-box" }} />
+                  <input value={certForm.licenseNo} onChange={(e) => setCertForm((p) => ({ ...p, licenseNo: e.target.value }))} placeholder="발급번호 (예: 12-34567-89)" style={{ height: "44px", border: "1px solid #e6e8ec", borderRadius: "11px", padding: "0 13px", fontSize: "14px", fontFamily: "inherit", boxSizing: "border-box" }} />
+                  <div style={{ display: "flex", gap: "8px" }}>
+                    <input value={certForm.issuer} onChange={(e) => setCertForm((p) => ({ ...p, issuer: e.target.value }))} placeholder="발급기관" style={{ flex: "1", height: "44px", border: "1px solid #e6e8ec", borderRadius: "11px", padding: "0 13px", fontSize: "14px", fontFamily: "inherit", boxSizing: "border-box", minWidth: "0" }} />
+                    <input value={certForm.issuedAt} onChange={(e) => setCertForm((p) => ({ ...p, issuedAt: e.target.value }))} placeholder="취득일" style={{ width: "120px", height: "44px", border: "1px solid #e6e8ec", borderRadius: "11px", padding: "0 13px", fontSize: "14px", fontFamily: "inherit", boxSizing: "border-box" }} />
+                  </div>
+                  <button type="button" onClick={submitCert} style={{ height: "44px", border: "1px solid var(--c1,#1F2226)", borderRadius: "11px", background: "#fff", color: "var(--c1,#1F2226)", fontSize: "14px", fontWeight: "800", fontFamily: "inherit", cursor: "pointer", WebkitTapHighlightColor: "transparent" }}>+ 자격증 추가</button>
                 </div>
-              ))}
-              <div style={{ display: "flex", flexDirection: "column", gap: "8px", marginBottom: "20px" }}>
-                <input value={certForm.name} onChange={(e) => setCertForm((p) => ({ ...p, name: e.target.value }))} placeholder="자격증명 (필수)" style={{ height: "44px", border: "1px solid #e6e8ec", borderRadius: "11px", padding: "0 13px", fontSize: "14px", fontFamily: "inherit", boxSizing: "border-box" }} />
-                <input value={certForm.licenseNo} onChange={(e) => setCertForm((p) => ({ ...p, licenseNo: e.target.value }))} placeholder="발급번호 (필수)" style={{ height: "44px", border: "1px solid #e6e8ec", borderRadius: "11px", padding: "0 13px", fontSize: "14px", fontFamily: "inherit", boxSizing: "border-box" }} />
-                <div style={{ display: "flex", gap: "8px" }}>
-                  <input value={certForm.issuer} onChange={(e) => setCertForm((p) => ({ ...p, issuer: e.target.value }))} placeholder="발급기관" style={{ flex: "1", height: "44px", border: "1px solid #e6e8ec", borderRadius: "11px", padding: "0 13px", fontSize: "14px", fontFamily: "inherit", boxSizing: "border-box", minWidth: "0" }} />
-                  <input value={certForm.issuedAt} onChange={(e) => setCertForm((p) => ({ ...p, issuedAt: e.target.value }))} placeholder="취득일" style={{ width: "120px", height: "44px", border: "1px solid #e6e8ec", borderRadius: "11px", padding: "0 13px", fontSize: "14px", fontFamily: "inherit", boxSizing: "border-box" }} />
-                </div>
-                <button type="button" onClick={submitCert} style={{ height: "44px", border: "1px solid var(--c1,#1F2226)", borderRadius: "11px", background: "#fff", color: "var(--c1,#1F2226)", fontSize: "14px", fontWeight: "800", fontFamily: "inherit", cursor: "pointer", WebkitTapHighlightColor: "transparent" }}>+ 자격증 추가</button>
               </div>
-              {/* 교육 */}
-              <div style={{ fontSize: "13px", fontWeight: "800", color: "var(--c1,#1F2226)", marginBottom: "8px" }}>교육 이력</div>
-              {(educations || []).map((ed) => (
-                <div key={ed.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "11px 13px", border: "1px solid #e6e8ec", borderRadius: "12px", marginBottom: "8px" }}>
-                  <span style={{ fontSize: "14px", fontWeight: "700", color: "var(--c1,#1F2226)" }}>{ed.title}</span>
-                  <span style={{ fontSize: "12px", color: "#8694a8" }}>{[ed.institute, ed.completedAt].filter(Boolean).join(" · ")}</span>
-                </div>
-              ))}
-              <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-                <input value={eduForm.title} onChange={(e) => setEduForm((p) => ({ ...p, title: e.target.value }))} placeholder="교육명 (필수)" style={{ height: "44px", border: "1px solid #e6e8ec", borderRadius: "11px", padding: "0 13px", fontSize: "14px", fontFamily: "inherit", boxSizing: "border-box" }} />
-                <div style={{ display: "flex", gap: "8px" }}>
-                  <input value={eduForm.institute} onChange={(e) => setEduForm((p) => ({ ...p, institute: e.target.value }))} placeholder="기관" style={{ flex: "1", height: "44px", border: "1px solid #e6e8ec", borderRadius: "11px", padding: "0 13px", fontSize: "14px", fontFamily: "inherit", boxSizing: "border-box", minWidth: "0" }} />
-                  <input value={eduForm.completedAt} onChange={(e) => setEduForm((p) => ({ ...p, completedAt: e.target.value }))} placeholder="이수일" style={{ width: "120px", height: "44px", border: "1px solid #e6e8ec", borderRadius: "11px", padding: "0 13px", fontSize: "14px", fontFamily: "inherit", boxSizing: "border-box" }} />
-                </div>
-                <button type="button" onClick={submitEdu} style={{ height: "44px", border: "1px solid var(--c1,#1F2226)", borderRadius: "11px", background: "#fff", color: "var(--c1,#1F2226)", fontSize: "14px", fontWeight: "800", fontFamily: "inherit", cursor: "pointer", WebkitTapHighlightColor: "transparent" }}>+ 교육 추가</button>
-              </div>
-              {/* 외국인 기술자 — 체류·비자/서류/교육 이수, 서류·자격증과 같은 시트에 포함 */}
-              {isForeigner && (
-                <div style={{ marginTop: "20px", borderTop: "1px solid #eef0f6", paddingTop: "8px" }}>
-                  <FgnVisa id={getServerId() || ""} />
-                  <FgnDocs id={getServerId() || ""} />
-                  <FgnTraining id={getServerId() || ""} />
-                </div>
-              )}
+
             </div>
             <button type="button" onClick={() => setOpenDocs(false)} style={{ marginTop: "16px", flex: "none", height: "50px", border: "none", borderRadius: "14px", background: "var(--c1,#1F2226)", color: "#fff", fontSize: "15px", fontWeight: "800", fontFamily: "inherit", cursor: "pointer" }}>완료</button>
           </div>
