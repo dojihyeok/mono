@@ -161,6 +161,21 @@ export default function MonoApp() {
     }
   }, []);
 
+  // ChunkLoadError 자동 복구 — 새 배포 후 브라우저가 구버전 청크를 요청하면 자동 새로고침
+  useEffect(() => {
+    const handler = (e: ErrorEvent) => {
+      if (e.message && e.message.includes("Loading chunk")) {
+        const KEY = "mono_chunk_reloaded";
+        if (!sessionStorage.getItem(KEY)) {
+          sessionStorage.setItem(KEY, "1");
+          window.location.reload();
+        }
+      }
+    };
+    window.addEventListener("error", handler);
+    return () => window.removeEventListener("error", handler);
+  }, []);
+
   const isForeigner = user?.residency === "OVERSEAS" || (workerProfile?.nationality && workerProfile?.nationality !== "대한민국");
   const onPickInterest = (f) => {
     // 클릭 이벤트(개별 + 공통) → /api/events, 신규면 등록(InterestRegistration) + interest_submitted
