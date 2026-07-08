@@ -2797,14 +2797,14 @@ export default function BMPage() {
           background: 'rgba(252,252,254,0.95)',
           backdropFilter: 'blur(20px)',
           borderBottom: '1px solid rgba(0,0,0,0.06)',
-          padding: '28px 30px',
+          padding: '16px 20px',
           position: 'sticky', top: 0, zIndex: 30,
         }}
       >
         <div style={{ maxWidth: 1400, margin: '0 auto' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16, marginBottom: 12 }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-              <h1 style={{ fontSize: 26, fontWeight: 950, margin: 0, letterSpacing: '-0.03em', color: '#0f172a' }}>
+              <h1 style={{ fontSize: 24, fontWeight: 950, margin: 0, letterSpacing: '-0.03em', color: '#0f172a' }}>
                 모두의 창업 1라운드 수요 검증 보드
               </h1>
               <span
@@ -2844,18 +2844,20 @@ export default function BMPage() {
               </button>
             </div>
           </div>
-          <p style={{ fontSize: 16, color: '#64748b', margin: '0 0 10px 0', fontWeight: 700, lineHeight: 1.5 }}>
+          <p style={{ fontSize: 14, color: '#64748b', margin: '4px 0 0 0', fontWeight: 700, lineHeight: 1.4 }}>
             앱 출시 전 콜드메일, 인터뷰, 설문으로 빠르게 검증할 고객·수익모델·기능 수요를 정리합니다.
           </p>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 6, background: '#f8fafc', padding: '14px 18px', borderRadius: 12, border: '1px solid #cbd5e1', marginBottom: 8 }}>
-            <div style={{ fontSize: 13.5, color: '#1e293b', lineHeight: 1.6, fontWeight: 650, wordBreak: 'keep-all' }}>
-              1라운드에서는 완성된 앱 출시를 기다리지 않고, MVP 화면과 서비스 소개 자료를 활용해 수행 기업, 현장 리더, 협력사, 교육기관, 원청·대기업의 실제 수요를 먼저 확인합니다. 콜드메일, 전화, 오프라인 미팅, 설문을 통해 공고 등록, 후보 열람, 팀 매칭, 출근·정산 리포트, 커뮤니티, AI 현장 가이드에 대한 필요성과 비용 지불 의향을 검증합니다.
-            </div>
-          </div>
         </div>
       </header>
 
       <main style={{ maxWidth: 1400, margin: '0 auto', padding: '28px 28px 60px' }}>
+
+        {/* ── 1라운드 상세 안내 패널 (헤더에서 메인으로 이동) ── */}
+        <section style={{ display: 'flex', flexDirection: 'column', gap: 6, background: '#f8fafc', padding: '16px 20px', borderRadius: 12, border: '1px solid #e2e8f0', marginBottom: 20 }}>
+          <div style={{ fontSize: 13.5, color: '#334155', lineHeight: 1.6, fontWeight: 650, wordBreak: 'keep-all' }}>
+            1라운드에서는 완성된 앱 출시를 기다리지 않고, MVP 화면과 서비스 소개 자료를 활용해 수행 기업, 현장 리더, 협력사, 교육기관, 원청·대기업의 실제 수요를 먼저 확인합니다. 콜드메일, 전화, 오프라인 미팅, 설문을 통해 공고 등록, 후보 열람, 팀 매칭, 출근·정산 리포트, 커뮤니티, AI 현장 가이드에 대한 필요성과 비용 지불 의향을 검증합니다.
+          </div>
+        </section>
 
                 {/* ── BM 핵심 메시지 배너 ── */}
         <section
