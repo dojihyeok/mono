@@ -206,6 +206,7 @@ body.scroll-lock {
 
 /* MonoApp — 하이브리드(웹+앱) 반응형: 모바일=전체화면 / 데스크톱=가운데 폰 프레임 */
 .mono-stage {
+  min-height: 100vh;
   min-height: 100dvh;
   display: flex;
   justify-content: center;
@@ -214,6 +215,7 @@ body.scroll-lock {
 }
 .mono-frame {
   width: 100%;
+  height: 100vh;
   height: 100dvh;
   display: flex;
   flex-direction: column;
@@ -298,6 +300,7 @@ body.scroll-lock {
   .mono-frame {
     flex: 0 1 720px;
     max-width: 720px;
+    height: 100vh;
     height: 100dvh;
     margin-left: auto;
     margin-right: auto;

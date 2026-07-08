@@ -1606,8 +1606,13 @@ export default function MonoApp() {
               const percent = Math.round((checkedCount / totalCount) * 100);
               return (
                 <>
-                  <div style={{ fontSize: "15px", color: "#5b6b82", fontWeight: "800", marginBottom: "8px" }}>
-                    총 {totalCount}개 서류 중 <strong style={{ color: "#10b981", fontSize: "18px" }}>{checkedCount}개</strong> 준비 완료되었습니다. ({percent}%)
+                  <div style={{ fontSize: "15px", color: "#5b6b82", fontWeight: "800", marginBottom: "4px" }}>
+                    총 {totalCount}개 서류 중 <strong style={{ color: "#10b981", fontSize: "18.5px" }}>{checkedCount}개</strong> 준비 완료되었습니다. ({percent}%)
+                  </div>
+                  <div style={{ fontSize: "13px", color: "#4f46e5", fontWeight: "700", marginBottom: "12px", lineHeight: "1.4" }}>
+                    {percent === 100 
+                      ? "🎉 모든 필수 서류가 등록되었습니다! 즉시 현장 출근이 가능합니다."
+                      : "💡 부족한 서류를 마저 등록하시면 대형 건설 현장 매칭이 더욱 빨라집니다."}
                   </div>
                   <div style={{ height: "10px", background: "#eef0f3", borderRadius: "5px", overflow: "hidden", marginBottom: "18px" }}>
                     <div style={{ width: `${percent}%`, height: "100%", background: "#10b981", borderRadius: "5px", transition: "width 0.3s ease" }}></div>
@@ -1631,13 +1636,17 @@ export default function MonoApp() {
                   <div
                     key={item.key}
                     style={{
-                      padding: "10px 4px", borderRadius: "12px", textAlign: "center",
+                      padding: "12px 2px", borderRadius: "12px", textAlign: "center",
                       background: isReady ? "#f0fdf4" : "#fef2f2",
-                      border: `1.5px solid ${isReady ? "#bbf7d0" : "#fecaca"}`
+                      border: `2px solid ${isReady ? "#22c55e" : "#ef4444"}`,
+                      boxShadow: "0 2px 4px rgba(0,0,0,0.02)"
                     }}
                   >
-                    <div style={{ fontSize: "12.5px", fontWeight: "900", color: isReady ? "#15803d" : "#b91c1c" }}>{item.label}</div>
-                    <div style={{ fontSize: "14px", marginTop: "4px", fontWeight: "900", color: isReady ? "#16a34a" : "#dc2626" }}>{isReady ? "✅" : "❌"}</div>
+                    <div style={{ fontSize: "13.5px", fontWeight: "950", color: isReady ? "#166534" : "#991b1b" }}>{item.label}</div>
+                    <div style={{ fontSize: "11.5px", marginTop: "6px", fontWeight: "900", color: isReady ? "#15803d" : "#b91c1c", display: "flex", alignItems: "center", justifyContent: "center", gap: "2px" }}>
+                      <span>{isReady ? "✅" : "❌"}</span>
+                      <span>{isReady ? "준비완료" : "미등록"}</span>
+                    </div>
                   </div>
                 );
               })}
@@ -1678,7 +1687,9 @@ export default function MonoApp() {
                 }}
               >
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
-                  <span style={{ fontSize: "11px", fontWeight: "800", color: "#4f46e5", background: "#eeebff", padding: "3px 8px", borderRadius: "6px" }}>98.5% 매칭</span>
+                  <span style={{ fontSize: "11.5px", fontWeight: "850", color: "#4f46e5", background: "#eeebff", padding: "3.5px 9px", borderRadius: "6px" }}>
+                    98.5% 매칭 (내 경력과 거의 일치해요)
+                  </span>
                   <span className="mono" style={{ fontSize: "16px", fontWeight: "700", color: "var(--c1,#1F2226)" }}>₩230,000</span>
                 </div>
                 <h4 style={{ margin: "6px 0 4px", fontSize: "15px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>힐스테이트 송도 더스카이</h4>
@@ -2810,30 +2821,30 @@ export default function MonoApp() {
       </div>
 
 
-    <div className="mono-bottomnav" style={{ height: "84px", flex: "none", background: "rgba(249,250,253,.94)", backdropFilter: "blur(14px)", borderTop: "1px solid #e6e8ec", display: "flex", padding: "9px 6px 0", position: "relative", zIndex: "30" }}>
-        <button onClick={v.goHome} style={{ flex: "1", background: "none", border: "none", cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center", gap: "5px", paddingTop: "5px", color: v.cHome, fontFamily: "inherit" }}>
-          <svg width="25" height="25" viewBox="0 0 24 24" fill="none"><path d="M4 11 12 4l8 7v8a1.2 1.2 0 0 1-1.2 1.2H15V14.5a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1V20.2H5.2A1.2 1.2 0 0 1 4 19v-8Z" fill={v.fHome} stroke="currentColor" strokeWidth="1.9" strokeLinejoin="round"></path></svg>
-          <span style={{ fontSize: "10.5px", fontWeight: v.wHome, letterSpacing: "-.2px", whiteSpace: "nowrap" }}>홈</span>
+    <div className="mono-bottomnav" style={{ height: "92px", flex: "none", background: "rgba(249,250,253,.96)", backdropFilter: "blur(16px)", borderTop: "1px solid #e6e8ec", display: "flex", padding: "10px 6px 0", position: "sticky", bottom: 0, left: 0, right: 0, zIndex: "30" }}>
+        <button onClick={v.goHome} style={{ flex: "1", minHeight: "56px", background: "none", border: "none", cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center", gap: "5px", paddingTop: "4px", color: v.cHome, fontFamily: "inherit", WebkitTapHighlightColor: "transparent" }}>
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M4 11 12 4l8 7v8a1.2 1.2 0 0 1-1.2 1.2H15V14.5a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1V20.2H5.2A1.2 1.2 0 0 1 4 19v-8Z" fill={v.fHome} stroke="currentColor" strokeWidth="1.9" strokeLinejoin="round"></path></svg>
+          <span style={{ fontSize: "13.5px", fontWeight: v.wHome, letterSpacing: "-.2px", whiteSpace: "nowrap" }}>홈</span>
           <div style={{ width: "5px", height: "5px", borderRadius: "50%", background: v.dotHome }}></div>
         </button>
-        <button onClick={v.goJobs} style={{ flex: "1", background: "none", border: "none", cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center", gap: "5px", paddingTop: "5px", color: v.cJobs, fontFamily: "inherit" }}>
-          <svg width="25" height="25" viewBox="0 0 24 24" fill="none"><path d="M6 15.5a6 6 0 0 1 12 0" fill={v.fJobs} stroke="currentColor" strokeWidth="1.9"></path><path d="M3.5 15.5h17" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round"></path><path d="M10.4 9.8V7.4A1.6 1.6 0 0 1 12 5.8a1.6 1.6 0 0 1 1.6 1.6v2.4" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"></path><path d="M12 18.5v0" stroke="currentColor" strokeWidth="2" strokeLinecap="round"></path></svg>
-          <span style={{ fontSize: "10.5px", fontWeight: v.wJobs, letterSpacing: "-.2px", whiteSpace: "nowrap" }}>현장 찾기</span>
+        <button onClick={v.goJobs} style={{ flex: "1", minHeight: "56px", background: "none", border: "none", cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center", gap: "5px", paddingTop: "4px", color: v.cJobs, fontFamily: "inherit", WebkitTapHighlightColor: "transparent" }}>
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M6 15.5a6 6 0 0 1 12 0" fill={v.fJobs} stroke="currentColor" strokeWidth="1.9"></path><path d="M3.5 15.5h17" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round"></path><path d="M10.4 9.8V7.4A1.6 1.6 0 0 1 12 5.8a1.6 1.6 0 0 1 1.6 1.6v2.4" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"></path><path d="M12 18.5v0" stroke="currentColor" strokeWidth="2" strokeLinecap="round"></path></svg>
+          <span style={{ fontSize: "13.5px", fontWeight: v.wJobs, letterSpacing: "-.2px", whiteSpace: "nowrap" }}>현장 찾기</span>
           <div style={{ width: "5px", height: "5px", borderRadius: "50%", background: v.dotJobs }}></div>
         </button>
-        <button onClick={v.goCommunity} style={{ flex: "1", background: "none", border: "none", cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center", gap: "5px", paddingTop: "5px", color: v.cCommunity, fontFamily: "inherit" }}>
-          <svg width="25" height="25" viewBox="0 0 24 24" fill="none"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"></path><circle cx="9" cy="7" r="4" stroke="currentColor" strokeWidth="1.9" strokeLinejoin="round" fill={v.fCommunity}></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round"></path><path d="M16 3.13a4 4 0 0 1 0 7.75" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round"></path></svg>
-          <span style={{ fontSize: "10.5px", fontWeight: v.wCommunity, letterSpacing: "-.2px", whiteSpace: "nowrap" }}>커뮤니티</span>
+        <button onClick={v.goCommunity} style={{ flex: "1", minHeight: "56px", background: "none", border: "none", cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center", gap: "5px", paddingTop: "4px", color: v.cCommunity, fontFamily: "inherit", WebkitTapHighlightColor: "transparent" }}>
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"></path><circle cx="9" cy="7" r="4" stroke="currentColor" strokeWidth="1.9" strokeLinejoin="round" fill={v.fCommunity}></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round"></path><path d="M16 3.13a4 4 0 0 1 0 7.75" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round"></path></svg>
+          <span style={{ fontSize: "13.5px", fontWeight: v.wCommunity, letterSpacing: "-.2px", whiteSpace: "nowrap" }}>커뮤니티</span>
           <div style={{ width: "5px", height: "5px", borderRadius: "50%", background: v.dotCommunity }}></div>
         </button>
-        <button onClick={v.goWork} style={{ flex: "1", background: "none", border: "none", cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center", gap: "5px", paddingTop: "5px", color: v.cWork, fontFamily: "inherit" }}>
-          <svg width="25" height="25" viewBox="0 0 24 24" fill="none"><rect x="4.5" y="4.5" width="15" height="16.5" rx="2.8" fill={v.fWork} stroke="currentColor" strokeWidth="1.9"></rect><rect x="8.5" y="2.6" width="7" height="3.6" rx="1.3" fill={v.clipWork} stroke="currentColor" strokeWidth="1.7"></rect><path d="m8.4 12.4 1.8 1.8 3.6-3.8" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"></path><path d="M8.6 17h6.8" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round"></path></svg>
-          <span style={{ fontSize: "10.5px", fontWeight: v.wWork, letterSpacing: "-.3px", whiteSpace: "nowrap" }}>지원·출근</span>
+        <button onClick={v.goWork} style={{ flex: "1", minHeight: "56px", background: "none", border: "none", cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center", gap: "5px", paddingTop: "4px", color: v.cWork, fontFamily: "inherit", WebkitTapHighlightColor: "transparent" }}>
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><rect x="4.5" y="4.5" width="15" height="16.5" rx="2.8" fill={v.fWork} stroke="currentColor" strokeWidth="1.9"></rect><rect x="8.5" y="2.6" width="7" height="3.6" rx="1.3" fill={v.clipWork} stroke="currentColor" strokeWidth="1.7"></rect><path d="m8.4 12.4 1.8 1.8 3.6-3.8" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"></path><path d="M8.6 17h6.8" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round"></path></svg>
+          <span style={{ fontSize: "13.5px", fontWeight: v.wWork, letterSpacing: "-.3px", whiteSpace: "nowrap" }}>지원·출근</span>
           <div style={{ width: "5px", height: "5px", borderRadius: "50%", background: v.dotWork }}></div>
         </button>
-        <button onClick={v.goMe} style={{ flex: "1", background: "none", border: "none", cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center", gap: "5px", paddingTop: "5px", color: v.cMe, fontFamily: "inherit" }}>
-          <svg width="25" height="25" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8.2" r="3.7" fill={v.fMe} stroke="currentColor" strokeWidth="1.9"></circle><path d="M4.8 20c.4-3.6 3.4-5.6 7.2-5.6s6.8 2 7.2 5.6Z" fill={v.fMe} stroke="currentColor" strokeWidth="1.9" strokeLinejoin="round"></path></svg>
-          <span style={{ fontSize: "10.5px", fontWeight: v.wMe, letterSpacing: "-.2px", whiteSpace: "nowrap" }}>내 프로필</span>
+        <button onClick={v.goMe} style={{ flex: "1", minHeight: "56px", background: "none", border: "none", cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center", gap: "5px", paddingTop: "4px", color: v.cMe, fontFamily: "inherit", WebkitTapHighlightColor: "transparent" }}>
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8.2" r="3.7" fill={v.fMe} stroke="currentColor" strokeWidth="1.9"></circle><path d="M4.8 20c.4-3.6 3.4-5.6 7.2-5.6s6.8 2 7.2 5.6Z" fill={v.fMe} stroke="currentColor" strokeWidth="1.9" strokeLinejoin="round"></path></svg>
+          <span style={{ fontSize: "13.5px", fontWeight: v.wMe, letterSpacing: "-.2px", whiteSpace: "nowrap" }}>내 프로필</span>
           <div style={{ width: "5px", height: "5px", borderRadius: "50%", background: v.dotMe }}></div>
         </button>
       </div>
