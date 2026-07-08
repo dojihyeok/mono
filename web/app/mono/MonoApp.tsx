@@ -1454,35 +1454,7 @@ export default function MonoApp() {
             </div>
           </div>
 
-          {/* 👵👴 쉬운 큰글씨 화면 토글 배너 */}
-          <div 
-            style={{ 
-              display: "flex", 
-              justifyContent: "space-between", 
-              alignItems: "center", 
-              background: easyMode ? "#eff6ff" : "#f8fafc", 
-              padding: "14px 20px", 
-              borderRadius: "16px", 
-              marginBottom: "20px", 
-              border: `2px solid ${easyMode ? "#3b82f6" : "#cbd5e1"}`, 
-              cursor: "pointer",
-              boxShadow: "0 2px 8px rgba(0,0,0,0.03)",
-              transition: "all 0.2s"
-            }} 
-            onClick={() => setEasyMode(!easyMode)}
-          >
-            <div style={{ display: "flex", flexDirection: "column", gap: "2px", minWidth: 0 }}>
-              <span style={{ fontSize: "16px", fontWeight: "950", color: easyMode ? "#1e40af" : "#1e293b" }}>
-                {easyMode ? "✨ 일반 화면으로 돌아가기 (작은 글씨)" : "👵👴 어르신용 쉬운 큰글씨 화면 켜기"}
-              </span>
-              <span style={{ fontSize: "12.5px", color: "#64748b", fontWeight: "600" }}>
-                {easyMode ? "글씨가 커지고 복잡한 정보들이 숨김 처리되었습니다." : "복잡한 안전 퀴즈나 서류를 숨기고 일자리 정보만 크게 봅니다."}
-              </span>
-            </div>
-            <span style={{ background: easyMode ? "#3b82f6" : "#64748b", color: "#fff", padding: "6px 14px", borderRadius: "20px", fontSize: "13.5px", fontWeight: "900", flexShrink: 0 }}>
-              {easyMode ? "켜짐" : "꺼짐"}
-            </span>
-          </div>
+
 
           {!easyMode ? (
             <>
@@ -1798,20 +1770,21 @@ export default function MonoApp() {
                           </div>
                         </>
                       ) : (
-                        <>
-                          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "8px" }}>
-                            <span style={{ fontSize: "13px", fontWeight: "900", color: "#dc2626", background: "#fee2e2", padding: "4px 10px", borderRadius: "8px" }}>
-                              🔥 긴급! 오늘 바로 일하기
-                            </span>
-                            <span style={{ fontSize: "22px", fontWeight: "950", color: "#dc2626" }}>일당 23만원</span>
+                        <div style={{ display: "flex", gap: "16px", alignItems: "center" }}>
+                          <div style={{ width: "76px", height: "76px", borderRadius: "16px", background: "#fff5f5", border: "2px solid #feb2b2", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "36px", flexShrink: 0 }}>🚨</div>
+                          <div style={{ flex: 1, minWidth: 0 }}>
+                            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "4px" }}>
+                              <span style={{ fontSize: "12px", fontWeight: "900", color: "#dc2626", background: "#fee2e2", padding: "2px 8px", borderRadius: "6px" }}>🔥 긴급급구</span>
+                              <strong style={{ fontSize: "21px", fontWeight: "950", color: "#dc2626" }}>일당 23만원</strong>
+                            </div>
+                            <h4 style={{ margin: "4px 0 6px", fontSize: "19px", fontWeight: "950", color: "#0f172a" }}>힐스테이트 송도 더스카이</h4>
+                            <div style={{ display: "flex", flexWrap: "wrap", gap: "3px 10px", fontSize: "14.5px", color: "#dc2626", fontWeight: "800" }}>
+                              <span>📍 인천 연수구 (당일지급)</span>
+                              <span>👷 형틀목공 조공 (초보조공)</span>
+                              <span>🏠 점심제공 (장비 대여)</span>
+                            </div>
                           </div>
-                          <h4 style={{ margin: "4px 0 10px", fontSize: "20px", fontWeight: "950", color: "#0f172a" }}>힐스테이트 송도 더스카이</h4>
-                          <div style={{ display: "flex", flexDirection: "column", gap: "6px", fontSize: "15.5px", color: "#334155", fontWeight: "800", background: "#fef2f2", padding: "12px 14px", borderRadius: "12px" }}>
-                            <div>📍 위치: 인천 연수구 (당일지급 가능)</div>
-                            <div>👷 직종: 형틀목공 조공 (초보 조공)</div>
-                            <div>🏠 대우: 현장 점심 제공 및 안전 장비 일체 대여</div>
-                          </div>
-                        </>
+                        </div>
                       )}
                     </div>
                   );
@@ -2676,6 +2649,31 @@ export default function MonoApp() {
                 )}
               </div>
             </div>
+          </div>
+
+          {/* ⚙️ 화면 보기 설정 */}
+          <div style={{ background: "#fff", border: "1.5px solid #cbd5e1", borderRadius: "18px", padding: "16px", marginTop: "14px", display: "flex", justifyContent: "space-between", alignItems: "center", boxShadow: "0 2px 8px rgba(0,0,0,0.02)" }}>
+            <div style={{ minWidth: 0, paddingRight: "10px" }}>
+              <div style={{ fontSize: "15.5px", fontWeight: "950", color: "#1e293b" }}>👵👴 어르신용 쉬운 큰글씨 화면</div>
+              <div style={{ fontSize: "12.5px", color: "#64748b", fontWeight: "650", marginTop: "3px", lineHeight: "1.35" }}>안전 퀴즈와 복잡한 서류를 숨기고 일자리 정보만 크게 봅니다.</div>
+            </div>
+            <button 
+              type="button"
+              onClick={() => setEasyMode(!easyMode)} 
+              style={{ 
+                background: easyMode ? "#3b82f6" : "#64748b", 
+                color: "#fff", 
+                border: "none", 
+                padding: "8px 18px", 
+                borderRadius: "12px", 
+                fontSize: "14px", 
+                fontWeight: "900", 
+                cursor: "pointer",
+                flexShrink: 0
+              }}
+            >
+              {easyMode ? "사용 중" : "사용 안함"}
+            </button>
           </div>
 
           {/* 프로필 완성도 */}
