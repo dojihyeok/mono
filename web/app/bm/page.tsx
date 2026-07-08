@@ -2242,6 +2242,7 @@ export default function BMPage() {
   const [selectedSegments, setSelectedSegments] = useState<string[]>([]);
   const [selectedScenario, setSelectedScenario] = useState<string | null>(null);
   const [selectedFeatures, setSelectedFeatures] = useState<string[]>([]);
+  const [activeSurveyRole, setActiveSurveyRole] = useState<'worker' | 'leader' | 'company' | 'enterprise' | 'education'>('worker');
 
   const toggleFeature = (feat: string) => {
     if (selectedFeatures.includes(feat)) {
@@ -2804,7 +2805,7 @@ export default function BMPage() {
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 5 }}>
               <h1 style={{ fontSize: 26, fontWeight: 950, margin: 0, letterSpacing: '-0.03em', color: '#0f172a' }}>
-                MONO 수익화 전략 대시보드
+                모두의 창업 1라운드 수요 검증 보드
               </h1>
               <span
                 style={{
@@ -2813,18 +2814,15 @@ export default function BMPage() {
                   borderRadius: 999, border: '1px solid rgba(79,70,229,0.2)',
                 }}
               >
-                v2.5
+                PO 검증단계
               </span>
             </div>
-            <p style={{ fontSize: 16, color: '#64748b', margin: '0 0 10px 0', fontWeight: 600, lineHeight: 1.5 }}>
-              MONO는 현장 찾기, 커뮤니티, 출근, 정산, AI 가이드를 연결해 기술자와 기업이 반복해서 사용할 수 있는 수익모델을 만듭니다.
+            <p style={{ fontSize: 16, color: '#64748b', margin: '0 0 10px 0', fontWeight: 700, lineHeight: 1.5 }}>
+              앱 출시 전 콜드메일, 인터뷰, 설문으로 빠르게 검증할 고객·수익모델·기능 수요를 정리합니다.
             </p>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 6, background: '#f8fafc', padding: '14px 18px', borderRadius: 12, border: '1px solid #e2e8f0', marginBottom: 8 }}>
-              <div style={{ fontSize: 13, color: '#475569', lineHeight: 1.6, fontWeight: 550 }}>
-                <strong>💡 기술자:</strong> 현장을 쉽고 안심하게 찾고, 커뮤니티에서 현장 평판 정보를 얻고, AI에게 모르는 현장 용어를 물어볼 수 있습니다.
-              </div>
-              <div style={{ fontSize: 13, color: '#475569', lineHeight: 1.6, fontWeight: 550 }}>
-                <strong>🏢 기업:</strong> 필요한 근로자와 시공 팀을 빠르게 확보하고, 급구 현장과 대형 현장의 결원을 실시간으로 채울 수 있습니다.
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 6, background: '#f8fafc', padding: '14px 18px', borderRadius: 12, border: '1px solid #cbd5e1', marginBottom: 8 }}>
+              <div style={{ fontSize: 13.5, color: '#1e293b', lineHeight: 1.6, fontWeight: 650, wordBreak: 'keep-all' }}>
+                1라운드에서는 완성된 앱 출시를 기다리지 않고, MVP 화면과 서비스 소개 자료를 활용해 수행 기업, 현장 리더, 협력사, 교육기관, 원청·대기업의 실제 수요를 먼저 확인합니다. 콜드메일, 전화, 오프라인 미팅, 설문을 통해 공고 등록, 후보 열람, 팀 매칭, 출근·정산 리포트, 커뮤니티, AI 현장 가이드에 대한 필요성과 비용 지불 의향을 검증합니다.
               </div>
             </div>
           </div>
