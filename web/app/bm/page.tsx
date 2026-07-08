@@ -2258,6 +2258,43 @@ export default function BMPage() {
   const [selectedBM, setSelectedBM] = useState<BM | null>(null);
   const [selectedSegmentIdx, setSelectedSegmentIdx] = useState<number>(0);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [isLeadModalOpen, setIsLeadModalOpen] = useState(false);
+  const [leadForm, setLeadForm] = useState({ companyName: '', contactName: '', contactMethod: '', interests: [] as string[], message: '' });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const toggleLeadInterest = (feat: string) => {
+    if (leadForm.interests.includes(feat)) {
+      setLeadForm(prev => ({ ...prev, interests: prev.interests.filter(f => f !== feat) }));
+    } else {
+      setLeadForm(prev => ({ ...prev, interests: [...prev.interests, feat] }));
+    }
+  };
+
+  const submitLead = async () => {
+    if (!leadForm.companyName || !leadForm.contactName || !leadForm.contactMethod) {
+      alert("회사명, 담당자 이름, 연락처를 입력해 주세요.");
+      return;
+    }
+    setIsSubmitting(true);
+    try {
+      const res = await fetch("/api/bm-inquiry", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(leadForm),
+      });
+      if (res.ok) {
+        alert("성공적으로 접수되었습니다. 빠르게 확인 후 연락드리겠습니다!");
+        setIsLeadModalOpen(false);
+        setLeadForm({ companyName: '', contactName: '', contactMethod: '', interests: [], message: '' });
+      } else {
+        alert("접수에 실패했습니다. 다시 시도해 주세요.");
+      }
+    } catch (e) {
+      alert("오류가 발생했습니다.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   // Toggle Competitor Tag Filter
   const toggleCompetitor = (tag: CompetitorTag) => {
@@ -2831,6 +2868,16 @@ export default function BMPage() {
                 }}
               >
                 필터 초기화
+              </button>
+              <button
+                onClick={() => setIsLeadModalOpen(true)}
+                style={{
+                  padding: '10px 20px', background: 'linear-gradient(135deg, #10b981, #047857)',
+                  border: 'none', borderRadius: 10, fontSize: 14, fontWeight: 800, cursor: 'pointer',
+                  color: '#ffffff', boxShadow: '0 4px 12px rgba(16,185,129,0.2)',
+                }}
+              >
+                도입 문의 / 콜드메일 회신 🚀
               </button>
               <button
                 onClick={() => window.location.href = '#competitors-analysis'}
@@ -4053,6 +4100,57 @@ export default function BMPage() {
           </div>
         </section>
       </main>
+
+      {/* ── Lead Modal ── */}
+      {isLeadModalOpen && (
+        <div style={{
+          position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: 10000,
+          background: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20
+        }}>
+          <div style={{ background: '#fff', padding: 24, borderRadius: 16, width: '100%', maxWidth: 480, maxHeight: '90vh', overflowY: 'auto' }}>
+            <h3 style={{ fontSize: 20, fontWeight: 800, color: '#1e293b', margin: '0 0 16px' }}>도입 문의 및 콜드메일 회신</h3>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+              <div>
+                <label style={{ display: 'block', fontSize: 13, fontWeight: 700, color: '#64748b', marginBottom: 4 }}>회사명 / 소속 <span style={{ color: '#ef4444' }}>*</span></label>
+                <input value={leadForm.companyName} onChange={e => setLeadForm(prev => ({...prev, companyName: e.target.value}))} style={{ width: '100%', padding: '10px 12px', borderRadius: 8, border: '1px solid #cbd5e1', fontSize: 14, color: '#0f172a' }} placeholder="예: 건설 주식회사" />
+              </div>
+              <div>
+                <label style={{ display: 'block', fontSize: 13, fontWeight: 700, color: '#64748b', marginBottom: 4 }}>담당자 성함 <span style={{ color: '#ef4444' }}>*</span></label>
+                <input value={leadForm.contactName} onChange={e => setLeadForm(prev => ({...prev, contactName: e.target.value}))} style={{ width: '100%', padding: '10px 12px', borderRadius: 8, border: '1px solid #cbd5e1', fontSize: 14, color: '#0f172a' }} placeholder="예: 홍길동 과장" />
+              </div>
+              <div>
+                <label style={{ display: 'block', fontSize: 13, fontWeight: 700, color: '#64748b', marginBottom: 4 }}>연락처 (전화 또는 이메일) <span style={{ color: '#ef4444' }}>*</span></label>
+                <input value={leadForm.contactMethod} onChange={e => setLeadForm(prev => ({...prev, contactMethod: e.target.value}))} style={{ width: '100%', padding: '10px 12px', borderRadius: 8, border: '1px solid #cbd5e1', fontSize: 14, color: '#0f172a' }} placeholder="예: 010-0000-0000" />
+              </div>
+              <div>
+                <label style={{ display: 'block', fontSize: 13, fontWeight: 700, color: '#64748b', marginBottom: 8 }}>관심 항목 (다중 선택)</label>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+                  {['공고/현장 등록', '지원자 열람/팀 매칭', '출근/정산 리포트', '안전/교육 커뮤니티', 'AI 기능'].map(feat => (
+                    <button key={feat} onClick={() => toggleLeadInterest(feat)} style={{
+                      padding: '6px 12px', borderRadius: 20, fontSize: 13, fontWeight: 600, cursor: 'pointer',
+                      border: leadForm.interests.includes(feat) ? '1px solid #3b82f6' : '1px solid #e2e8f0',
+                      background: leadForm.interests.includes(feat) ? '#eff6ff' : '#f8fafc',
+                      color: leadForm.interests.includes(feat) ? '#2563eb' : '#64748b'
+                    }}>
+                      {feat}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <label style={{ display: 'block', fontSize: 13, fontWeight: 700, color: '#64748b', marginBottom: 4 }}>추가 문의사항 (선택)</label>
+                <textarea value={leadForm.message} onChange={e => setLeadForm(prev => ({...prev, message: e.target.value}))} style={{ width: '100%', padding: '10px 12px', borderRadius: 8, border: '1px solid #cbd5e1', fontSize: 14, minHeight: 80, color: '#0f172a' }} placeholder="자유롭게 남겨주세요." />
+              </div>
+            </div>
+            <div style={{ display: 'flex', gap: 8, marginTop: 24 }}>
+              <button onClick={() => setIsLeadModalOpen(false)} style={{ flex: 1, padding: 12, borderRadius: 8, border: 'none', background: '#f1f5f9', color: '#475569', fontWeight: 700, cursor: 'pointer' }}>취소</button>
+              <button onClick={submitLead} disabled={isSubmitting} style={{ flex: 2, padding: 12, borderRadius: 8, border: 'none', background: '#3b82f6', color: '#fff', fontWeight: 700, cursor: isSubmitting ? 'not-allowed' : 'pointer' }}>
+                {isSubmitting ? '접수 중...' : '제출하기'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* ── Drawer Overlay ── */}
       {drawerOpen && (

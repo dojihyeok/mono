@@ -61,7 +61,18 @@ interface AdminEvent {
   createdAt: string;
 }
 
-type Tab = "overview" | "foreman" | "users" | "events" | "jobposts" | "industry" | "workrequests" | "reviews" | "poc" | "foreign" | "ops" | "community";
+type Tab = "overview" | "foreman" | "users" | "events" | "jobposts" | "industry" | "workrequests" | "reviews" | "poc" | "foreign" | "ops" | "community" | "bm-leads";
+
+interface AdminBMInquiry {
+  id: string;
+  companyName: string;
+  contactName: string;
+  contactMethod: string;
+  interests: string[];
+  message: string | null;
+  status: string;
+  createdAt: string;
+}
 
 interface PocReport {
   generatedAt: string;
@@ -203,7 +214,24 @@ export function AdminClient() {
   const [reviews, setReviews] = useState<AdminReview[] | null>(null);
   const [pocReport, setPocReport] = useState<PocReport | null>(null);
   const [eventCat, setEventCat] = useState<EventCategory | "all">("all");
+  const [bmLeads, setBmLeads] = useState<AdminBMInquiry[] | null>(null);
   const [loading, setLoading] = useState(false);
+
+  const loadBmLeads = useCallback(async () => {
+    setLoading(true);
+    try {
+      const res = await fetch("/api/admin/bm-inquiries", { cache: "no-store" });
+      if (!res.ok) return;
+      const data = await res.json();
+      if (data.success) {
+        setBmLeads(data.inquiries);
+      }
+    } catch {
+      /* best-effort */
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
   const loadOverview = useCallback(async () => {
     setLoading(true);
@@ -386,7 +414,8 @@ export function AdminClient() {
     if (tab === "workrequests" && workRequests === null) void loadWorkRequests();
     if (tab === "reviews" && reviews === null) void loadReviews();
     if (tab === "poc" && pocReport === null) void loadPoc();
-  }, [tab, users, events, jobposts, foremanReqs, workRequests, reviews, pocReport, loadUsers, loadEvents, loadJobPosts, loadForemanReqs, loadWorkRequests, loadReviews, loadPoc]);
+    if (tab === "bm-leads" && bmLeads === null) void loadBmLeads();
+  }, [tab, users, events, jobposts, foremanReqs, workRequests, reviews, pocReport, bmLeads, loadUsers, loadEvents, loadJobPosts, loadForemanReqs, loadWorkRequests, loadReviews, loadPoc, loadBmLeads]);
 
   const refresh = () => {
     if (tab === "overview" || tab === "industry") void loadOverview();
@@ -395,6 +424,7 @@ export function AdminClient() {
     else if (tab === "workrequests") void loadWorkRequests();
     else if (tab === "reviews") void loadReviews();
     else if (tab === "poc") void loadPoc();
+    else if (tab === "bm-leads") void loadBmLeads();
     else if (tab === "foreman") {
       void loadForemanReqs();
       void loadOverview();
@@ -425,6 +455,7 @@ export function AdminClient() {
         {(
           [
             { k: "overview", t: "Overview" },
+            { k: "bm-leads", t: "B2B 리드" },
             { k: "industry", t: "산업·유형" },
             { k: "foreman", t: "반장 승인" },
             { k: "users", t: "기술자" },
@@ -468,6 +499,55 @@ export function AdminClient() {
             setCat={setEventCat}
             loading={loading && !events}
           />
+        )}
+        {tab === "bm-leads" && (
+          <div className={styles.panel}>
+            <div className={styles.sectionTitle}>BM B2B 리드 (콜드메일 응답)</div>
+            {!bmLeads ? (
+              <div className={styles.empty}>로딩 중...</div>
+            ) : bmLeads.length === 0 ? (
+              <div className={styles.empty}>접수된 리드가 없습니다.</div>
+            ) : (
+              <div className={styles.tableWrap}>
+                <table className={styles.table}>
+                  <thead>
+                    <tr>
+                      <th>일시</th>
+                      <th>회사명</th>
+                      <th>담당자</th>
+                      <th>연락처</th>
+                      <th>관심 항목</th>
+                      <th>추가 문의사항</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {bmLeads.map(lead => (
+                      <tr key={lead.id}>
+                        <td>{new Date(lead.createdAt).toLocaleString('ko-KR')}</td>
+                        <td style={{ fontWeight: 700 }}>{lead.companyName}</td>
+                        <td>{lead.contactName}</td>
+                        <td>{lead.contactMethod}</td>
+                        <td>
+                          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
+                            {lead.interests.map(feat => (
+                              <span key={feat} style={{ padding: '2px 6px', background: '#eff6ff', color: '#2563eb', borderRadius: 4, fontSize: 11, fontWeight: 700 }}>
+                                {feat}
+                              </span>
+                            ))}
+                          </div>
+                        </td>
+                        <td>
+                          <div style={{ fontSize: 12, color: '#475569', maxWidth: 200, wordBreak: 'break-all' }}>
+                            {lead.message || '-'}
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
         )}
       </main>
     </div>
@@ -1199,4 +1279,5 @@ function CommunityAdminView() {
       </div>
     </>
   );
+
 }
