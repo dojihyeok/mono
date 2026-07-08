@@ -2801,9 +2801,9 @@ export default function BMPage() {
           position: 'sticky', top: 0, zIndex: 30,
         }}
       >
-        <div style={{ maxWidth: 1400, margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 16 }}>
-          <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 5 }}>
+        <div style={{ maxWidth: 1400, margin: '0 auto' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16, marginBottom: 12 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
               <h1 style={{ fontSize: 26, fontWeight: 950, margin: 0, letterSpacing: '-0.03em', color: '#0f172a' }}>
                 모두의 창업 1라운드 수요 검증 보드
               </h1>
@@ -2817,40 +2817,40 @@ export default function BMPage() {
                 PO 검증단계
               </span>
             </div>
-            <p style={{ fontSize: 16, color: '#64748b', margin: '0 0 10px 0', fontWeight: 700, lineHeight: 1.5 }}>
-              앱 출시 전 콜드메일, 인터뷰, 설문으로 빠르게 검증할 고객·수익모델·기능 수요를 정리합니다.
-            </p>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 6, background: '#f8fafc', padding: '14px 18px', borderRadius: 12, border: '1px solid #cbd5e1', marginBottom: 8 }}>
-              <div style={{ fontSize: 13.5, color: '#1e293b', lineHeight: 1.6, fontWeight: 650, wordBreak: 'keep-all' }}>
-                1라운드에서는 완성된 앱 출시를 기다리지 않고, MVP 화면과 서비스 소개 자료를 활용해 수행 기업, 현장 리더, 협력사, 교육기관, 원청·대기업의 실제 수요를 먼저 확인합니다. 콜드메일, 전화, 오프라인 미팅, 설문을 통해 공고 등록, 후보 열람, 팀 매칭, 출근·정산 리포트, 커뮤니티, AI 현장 가이드에 대한 필요성과 비용 지불 의향을 검증합니다.
-              </div>
+            <div style={{ display: 'flex', gap: 8 }}>
+              <button
+                onClick={() => {
+                  clearCompetitors();
+                  clearSegments();
+                  clearFeatures();
+                  setSelectedScenario(null);
+                }}
+                style={{
+                  padding: '10px 20px', background: '#ffffff', border: '1px solid #cbd5e1',
+                  borderRadius: 10, fontSize: 14, fontWeight: 700, cursor: 'pointer', color: '#475569',
+                }}
+              >
+                필터 초기화
+              </button>
+              <button
+                onClick={() => window.location.href = '#competitors-analysis'}
+                style={{
+                  padding: '10px 20px', background: 'linear-gradient(135deg, #4f46e5, #3730a3)',
+                  border: 'none', borderRadius: 10, fontSize: 14, fontWeight: 800, cursor: 'pointer',
+                  color: '#ffffff', boxShadow: '0 4px 12px rgba(79,70,229,0.2)',
+                }}
+              >
+                경쟁사 상세 분석 ↓
+              </button>
             </div>
           </div>
-          <div style={{ display: 'flex', gap: 8 }}>
-            <button
-              onClick={() => {
-                clearCompetitors();
-                clearSegments();
-                clearFeatures();
-                setSelectedScenario(null);
-              }}
-              style={{
-                padding: '10px 20px', background: '#ffffff', border: '1px solid #cbd5e1',
-                borderRadius: 10, fontSize: 14, fontWeight: 700, cursor: 'pointer', color: '#475569',
-              }}
-            >
-              필터 초기화
-            </button>
-            <button
-              onClick={() => window.location.href = '#competitors-analysis'}
-              style={{
-                padding: '10px 20px', background: 'linear-gradient(135deg, #4f46e5, #3730a3)',
-                border: 'none', borderRadius: 10, fontSize: 14, fontWeight: 800, cursor: 'pointer',
-                color: '#ffffff', boxShadow: '0 4px 12px rgba(79,70,229,0.2)',
-              }}
-            >
-              경쟁사 상세 분석 ↓
-            </button>
+          <p style={{ fontSize: 16, color: '#64748b', margin: '0 0 10px 0', fontWeight: 700, lineHeight: 1.5 }}>
+            앱 출시 전 콜드메일, 인터뷰, 설문으로 빠르게 검증할 고객·수익모델·기능 수요를 정리합니다.
+          </p>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 6, background: '#f8fafc', padding: '14px 18px', borderRadius: 12, border: '1px solid #cbd5e1', marginBottom: 8 }}>
+            <div style={{ fontSize: 13.5, color: '#1e293b', lineHeight: 1.6, fontWeight: 650, wordBreak: 'keep-all' }}>
+              1라운드에서는 완성된 앱 출시를 기다리지 않고, MVP 화면과 서비스 소개 자료를 활용해 수행 기업, 현장 리더, 협력사, 교육기관, 원청·대기업의 실제 수요를 먼저 확인합니다. 콜드메일, 전화, 오프라인 미팅, 설문을 통해 공고 등록, 후보 열람, 팀 매칭, 출근·정산 리포트, 커뮤니티, AI 현장 가이드에 대한 필요성과 비용 지불 의향을 검증합니다.
+            </div>
           </div>
         </div>
       </header>
