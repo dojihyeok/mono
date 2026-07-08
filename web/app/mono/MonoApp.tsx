@@ -946,12 +946,18 @@ export default function MonoApp() {
 
       // 3. 빠른 필터 (fastFilters)
       for (const filter of fastFilters) {
-        if (filter === 'urgent' && !isUrgent) return false;
-        if (filter === 'today' && !isToday) return false;
-        if (filter === 'large' && !isLarge) return false;
-        if (filter === 'stay' && !([jp.title, jp.conditions, jp.stay].join(" ").match(/숙소|숙식|제공/))) return false;
-        if (filter === 'meal' && !([jp.title, jp.conditions, jp.prepare].join(" ").match(/식사|점심|밥/))) return false;
+        if (filter === 'urgent' && !isToday) return false;
+        if (filter === 'stay' && !([jp.title, jp.conditions, jp.stay || ""].join(" ").match(/숙소|숙식|제공|가능/))) return false;
+        if (filter === 'meal' && !([jp.title, jp.conditions, jp.prepare || ""].join(" ").match(/식사|점심|밥|제공/))) return false;
         if (filter === 'rookie' && jp.careerBand && jp.careerBand !== 'NEWBIE' && jp.careerBand !== 'ANY') return false;
+        if (filter === 'high_pay') {
+          const rawWage = jp.conditions || "";
+          const num = parseInt(rawWage.replace(/[^0-9]/g, "")) || 0;
+          if (num < 220000 && !rawWage.match(/고단가|야간|연장|특근/)) return false;
+        }
+        if (filter === 'long_term' && !([jp.title, jp.description || "", jp.period || ""].join(" ").match(/장기|상주|오래|개월|년/))) return false;
+        if (filter === 'large' && !isLarge) return false;
+        if (filter === 'safety' && !([jp.title, jp.description || "", jp.prepare || ""].join(" ").match(/안전|교육|이수|지급|보호구/))) return false;
       }
 
       return true;
@@ -1080,15 +1086,53 @@ export default function MonoApp() {
                 {jp.company ? jp.company.name : "협약 기업"} · {jp.region?.join(", ") || "전국"}
               </div>
 
-              {/* 시니어 최적화 4대 핵심 정보 표시 */}
-              <div style={{ display: "flex", flexDirection: "column", gap: "8px", borderTop: "1.5px solid #f1f5f9", paddingTop: "14px", marginTop: "12px" }}>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                  <span style={{ fontSize: "14.5px", color: "#8694a8", fontWeight: "700" }}>일당 (하루 단가)</span>
-                  <span style={{ fontSize: "20px", color: "#10b981", fontWeight: "900" }}>{jp.conditions || "230,000원"}</span>
+              {/* 시니어 최적화 9대 핵심 가치 및 근무환경 정보 표시 */}
+              <div style={{ borderTop: "1.5px solid #f1f5f9", paddingTop: "14px", marginTop: "12px", display: "flex", flexDirection: "column", gap: "10px" }}>
+                {/* 1. 일당 및 공수 (가장 중요하므로 크게 노출) */}
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
+                  <span style={{ fontSize: "14.5px", color: "#8694a8", fontWeight: "750" }}>하루 일당 (하루 단가)</span>
+                  <div style={{ textAlign: "right" }}>
+                    <span style={{ fontSize: "22px", color: "#10b981", fontWeight: "950" }}>{jp.conditions || "230,000원"}</span>
+                    <div style={{ fontSize: "12px", color: "#64748b", fontWeight: "700", marginTop: "2px" }}>기본 1공수 / 연장 시 가산금 지급</div>
+                  </div>
                 </div>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                  <span style={{ fontSize: "14.5px", color: "#8694a8", fontWeight: "700" }}>출근 시각</span>
-                  <span style={{ fontSize: "15px", color: "var(--c1,#1F2226)", fontWeight: "800" }}>{isLarge ? "오전 06:40분까지 집결" : "오전 07:00분까지 집결"}</span>
+
+                {/* 2. 복리후생 및 현장 환경 그리드 뱃지 */}
+                <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", marginTop: "4px" }}>
+                  {/* 식사 */}
+                  <span style={{ fontSize: "12px", fontWeight: "800", color: "#2563eb", background: "#eff6ff", padding: "4px 10px", borderRadius: "8px" }}>
+                    🍱 {[jp.title, jp.prepare || ""].join(" ").match(/식사|점심|밥/) ? "점심 식사 제공" : "식사 지급"}
+                  </span>
+                  {/* 숙소 */}
+                  <span style={{ fontSize: "12px", fontWeight: "800", color: "#0d9488", background: "#f0fdfa", padding: "4px 10px", borderRadius: "8px" }}>
+                    🏠 {([jp.title, jp.conditions, jp.stay || ""].join(" ").match(/숙소|숙식/)) ? "무료 숙소 지원" : "출퇴근 현장"}
+                  </span>
+                  {/* 이동 */}
+                  <span style={{ fontSize: "12px", fontWeight: "800", color: "#4f46e5", background: "#f5f3ff", padding: "4px 10px", borderRadius: "8px" }}>
+                    🚌 {isLarge ? "통근버스 운행" : "집결지 차량 지원"}
+                  </span>
+                  {/* 안전 */}
+                  <span style={{ fontSize: "12px", fontWeight: "800", color: "#ea580c", background: "#fff7ed", padding: "4px 10px", borderRadius: "8px" }}>
+                    🛡️ {isLarge ? "안전교육 필수 · 보호구 전원 지급" : "보호구 개인 지참 (안전화)"}
+                  </span>
+                  {/* 초보 가능 */}
+                  <span style={{ fontSize: "12px", fontWeight: "800", color: "#059669", background: "#ecfdf5", padding: "4px 10px", borderRadius: "8px" }}>
+                    🔰 {jp.careerBand === "NEWBIE" || jp.careerBand === "ANY" ? "초보·입문 가능" : "경력자 우대"}
+                  </span>
+                  {/* 정산 */}
+                  <span style={{ fontSize: "12px", fontWeight: "800", color: "#475569", background: "#f1f5f9", padding: "4px 10px", borderRadius: "8px" }}>
+                    💳 {isToday ? "당일 즉시 정산" : "익월 15일 주급/월급 정산"}
+                  </span>
+                </div>
+
+                {/* 3. 현장 평판 및 성장성 정보 */}
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", background: "#f8fafc", padding: "10px 12px", borderRadius: "12px", fontSize: "13px", marginTop: "4px" }}>
+                  <span style={{ color: "#475569", fontWeight: "750" }}>
+                    🌟 현장 후기 <strong>4.6</strong> <span style={{ color: "#94a3b8", fontWeight: "600" }}>(재요청 많은 현장)</span>
+                  </span>
+                  <span style={{ color: "#312e81", fontWeight: "850" }}>
+                    🏗️ {isLarge ? "대형 반도체 경력 축적" : "기술 전수 가능 현장"}
+                  </span>
                 </div>
               </div>
 
@@ -1396,9 +1440,9 @@ export default function MonoApp() {
           {/* Welcome Header */}
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "6px 0 16px", gap: "12px" }}>
             <div style={{ minWidth: "0" }}>
-              <div style={{ fontSize: "14px", color: "#8694a8", fontWeight: "600" }}>오늘 갈 수 있는 현장부터, 오래 일할 수 있는 현장까지 MONO에서 찾아보세요.</div>
-              <div style={{ fontSize: "12px", color: "#64748b", marginTop: "4px", fontWeight: "500", lineHeight: "1.4" }}>
-                준비물, 교육, 전자카드, 출근 시간까지 한 번에 확인할 수 있어요.
+              <div style={{ fontSize: "17px", color: "var(--c1,#1F2226)", fontWeight: "900", wordBreak: "keep-all" }}>더 좋은 현장, 더 나은 대우를 찾을 수 있도록 MONO가 함께합니다.</div>
+              <div style={{ fontSize: "13px", color: "#64748b", marginTop: "5px", fontWeight: "700", lineHeight: "1.45", wordBreak: "keep-all" }}>
+                일당, 준비물, 식사·숙소, 출근 시간, 안전 조건까지 확인하고 지원하세요.
               </div>
             </div>
             <div style={{ display: "flex", alignItems: "center", gap: "10px", flex: "none" }}>
@@ -1970,12 +2014,14 @@ export default function MonoApp() {
           <div style={{ padding: "12px 20px 0", display: "flex", gap: "8px", alignItems: "center" }}>
             <div style={{ display: "flex", gap: "8px", overflowX: "auto", WebkitOverflowScrolling: "touch", scrollbarWidth: "none", flex: 1, paddingBottom: "4px" }}>
               {([
-                { key: "urgent", label: "🔥 당일지급 급구" },
-                { key: "today", label: "⚡ 즉시 출근 가능" },
-                { key: "large", label: "🏗️ 대형 반도체 현장" },
-                { key: "stay", label: "🏠 무료 숙소 지원" },
-                { key: "meal", label: "🍱 점심 식사 제공" },
-                { key: "rookie", label: "🔰 왕초보·경력무관" }
+                { key: "urgent", label: "📅 오늘 바로 일할 수 있어요" },
+                { key: "stay", label: "🏠 숙소가 필요해요" },
+                { key: "meal", label: "🍱 식사가 중요해요" },
+                { key: "rookie", label: "🔰 초보도 갈 수 있어요" },
+                { key: "high_pay", label: "💰 더 많이 벌고 싶어요" },
+                { key: "long_term", label: "🗓️ 오래 일하고 싶어요" },
+                { key: "large", label: "🏗️ 대형 현장 경험을 쌓고 싶어요" },
+                { key: "safety", label: "🛡️ 안전한 현장을 찾고 싶어요" }
               ]).map((f) => {
                 const isActive = fastFilters.includes(f.key);
                 return (

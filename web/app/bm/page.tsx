@@ -2414,165 +2414,79 @@ export default function BMPage() {
     // Recommendations Data
   const recommendationsList = [
     {
-      id: 'job-posting',
-      name: 'B2B 기업 공고 과금',
+      id: 'urgent-job-posting',
+      name: '1. 급구 현장·공고 등록 과금',
       priority: 'P0' as Priority,
-      label: '즉시 검증',
-      reason: '가장 빠르게 실제 구인 수요를 확보하고 검증 가능',
-      target: '수행 기업·시공사',
+      label: '1라운드 핵심',
+      reason: '급하게 사람이 필요할 때 네이버 밴드나 전화 대신 MONO 급구 현장 공고를 즉시 노출',
+      target: '수행 기업, 협력사, 현장 리더',
       velocity: '매우 빠름',
       devDiff: '낮음',
       salesDiff: '보통',
       legalRisk: '낮음',
       lockInEffect: '보통',
       recommend: '적극 추천',
+      pricing: '건당 3만~10만원',
+      events: 'urgent_job_posted, urgent_job_boost_clicked, quote_requested',
+      goal: '기업 공고·급구 요청 10~30건 확보'
     },
     {
-      id: 'map-urgent-sponsored',
-      name: '급구 현장 상단 노출',
+      id: 'profile-access-billing',
+      name: '2. 프로필·팀 열람 / 후보 검토 과금',
       priority: 'P0' as Priority,
-      label: '즉시 검증',
-      reason: '착공 직전이나 당일 인력 펑크 시 지도/리스트 최상단 노출로 초고속 채용 연결',
-      target: '수행 기업',
-      velocity: '매우 빠름',
-      devDiff: '낮음',
-      salesDiff: '낮음',
-      legalRisk: '낮음',
-      lockInEffect: '보통',
-      recommend: '적극 추천',
-    },
-    {
-      id: 'map-geo-ads',
-      name: '위치 기반 현장 광고',
-      priority: 'P0' as Priority,
-      label: '즉시 검증',
-      reason: '사용자 GPS와 지도 탭 기반으로 반경 내 근거리 맞춤 현장 매칭 광고 제공',
-      target: '수행 기업·협력사',
-      velocity: '빠름',
-      devDiff: '낮음',
-      salesDiff: '낮음',
-      legalRisk: '낮음',
-      lockInEffect: '보통',
-      recommend: '적극 추천',
-    },
-    {
-      id: 'ai-glossary',
-      name: 'AI 현장 용어 설명',
-      priority: 'P0' as Priority,
-      label: '즉시 검증',
-      reason: '현장 은어 및 표준어 번역을 통해 사용자 가입 및 플랫폼 재방문을 강력 유도',
-      target: '기술자',
-      velocity: '매우 빠름',
-      devDiff: '보통',
-      salesDiff: '낮음',
-      legalRisk: '낮음',
-      lockInEffect: '매우 높음',
-      recommend: '적극 추천',
-    },
-    {
-      id: 'workspace-subscription',
-      name: 'Partner Workspace 구독',
-      priority: 'P0' as Priority,
-      label: '즉시 검증',
-      reason: '현장 노무비 정산 보조 및 증빙 관리 기반의 월 정기 구독 락인',
-      target: '수행 기업·협력사',
-      velocity: '보통',
-      devDiff: '보통',
-      salesDiff: '높음',
-      legalRisk: '낮음',
-      lockInEffect: '매우 높음',
-      recommend: '적극 추천',
-    },
-    {
-      id: 'profile-access',
-      name: '프로필·팀 열람 과금',
-      priority: 'P0' as Priority,
-      label: '즉시 검증',
-      reason: '기량 평판 검증이 완료된 정예 인재 풀의 조회 가치 제공',
-      target: '수행 기업·협력사',
+      label: '1라운드 핵심',
+      reason: '경력, 자격, 준비 상태, 팀 정보를 검증하여 신뢰도 있는 후보를 검토하는 기능 제공',
+      target: '수행 기업, 협력사',
       velocity: '빠름',
       devDiff: '낮음',
       salesDiff: '보통',
       legalRisk: '보통',
       lockInEffect: '보통',
       recommend: '적극 추천',
+      pricing: '월 10만~30만원 패키지',
+      events: 'profile_viewed_by_company, team_profile_viewed, candidate_saved',
+      goal: '후보 저장·상담 요청 20건 이상'
     },
     {
-      id: 'community-role-ads',
-      name: '직무방 채용 광고',
-      priority: 'P1' as Priority,
-      label: '확장 검증',
-      reason: '전기, 배관, 용접 등 직무방 커뮤니티의 관심사와 특정 공고 타겟 노출 연결',
-      target: '수행 기업',
-      velocity: '빠름',
+      id: 'team-matching-success',
+      name: '3. 팀 단위 매칭 상담 / 성공 수수료',
+      priority: 'P0' as Priority,
+      label: '1라운드 핵심',
+      reason: '검증된 현장 리더와 팀을 기업 작업 요청에 다이렉트 연결하여 성공 수수료 수취',
+      target: '수행 기업, 현장 리더',
+      velocity: '보통',
       devDiff: '낮음',
       salesDiff: '보통',
-      legalRisk: '낮음',
-      lockInEffect: '보통',
-      recommend: '추천',
-    },
-    {
-      id: 'community-leader-pro',
-      name: '현장 리더 그룹방 Pro',
-      priority: 'P1' as Priority,
-      label: '확장 검증',
-      reason: '작업 반장(리더)의 팀원 체크인, 공지, 정산서 발급 기능 제공 및 구독 락인',
-      target: '현장 리더',
-      velocity: '보통',
-      devDiff: '보통',
-      salesDiff: '보통',
-      legalRisk: '낮음',
+      legalRisk: '보통',
       lockInEffect: '높음',
-      recommend: '추천',
+      recommend: '적극 추천',
+      pricing: '상담 무료, 매칭 시 성공 수수료',
+      events: 'team_proposed, team_consult_requested, team_matching_success',
+      goal: '현장 리더·팀 10~30팀 등록, 팀 제안 5~10건'
     },
     {
-      id: 'global-multilingual-job',
-      name: '다국어 공고 번역',
+      id: 'workspace-lite',
+      name: 'Partner Workspace Lite 구독',
       priority: 'P1' as Priority,
-      label: '확장 검증',
-      reason: '외국인 근로자를 타겟으로 한국 현장 구인 공고를 실시간 번역 배포 지원',
+      label: '2라운드 전환',
+      reason: '현장 노무비 정산 보조 및 주휴수당/퇴직공제회 증빙 관리 기반의 월 정기 구독 락인',
       target: '수행 기업·협력사',
-      velocity: '빠름',
-      devDiff: '보통',
-      salesDiff: '보통',
-      legalRisk: '낮음',
-      lockInEffect: '보통',
-      recommend: '추천',
-    },
-    {
-      id: 'edu-alliance',
-      name: '교육기관 제휴',
-      priority: 'P1' as Priority,
-      label: '확장 검증',
-      reason: '국비지원 훈련 수료생 프로필과 실시간 채용 공고 다이렉트 매칭 수수료 연계',
-      target: '기술자·교육기관',
       velocity: '보통',
       devDiff: '보통',
       salesDiff: '높음',
       legalRisk: '낮음',
-      lockInEffect: '높음',
+      lockInEffect: '매우 높음',
       recommend: '추천',
+      pricing: '월 4만~15만원',
+      events: 'workspace_active_daily, partner_payroll_processed',
+      goal: '현장 활성 구독 계정 5개 이상'
     },
     {
-      id: 'matching-fee',
-      name: '팀 단위 매칭 수수료',
-      priority: 'P1' as Priority,
-      label: '확장 검증',
-      reason: '견적 이후 거래 이탈을 줄이는 MONO 차별화 핵심 가치 입증',
-      target: '현장 리더·수행 기업',
-      velocity: '보통',
-      devDiff: '보통',
-      salesDiff: '보통',
-      legalRisk: '보통',
-      lockInEffect: '높음',
-      recommend: '추천',
-    },
-    {
-      id: 'attendance-report',
+      id: 'attendance-report-poc',
       name: '출역·정산 리포트',
       priority: 'P1' as Priority,
-      label: '확장 검증',
-      reason: '실시간 근로 증적 기반의 대관 청구/세무 검증 서류 대행 리드',
+      label: 'PoC 이후 확장',
+      reason: '원청 요구 규격에 맞는 근로 증적 자동 생성 및 세무 서류 검증 대행',
       target: '협력사·원청',
       velocity: '보통',
       devDiff: '보통',
@@ -2580,6 +2494,94 @@ export default function BMPage() {
       legalRisk: '낮음',
       lockInEffect: '보통',
       recommend: '추천',
+      pricing: '리포트 당 건별 과금',
+      events: 'general_con_monitoring_active',
+      goal: 'PoC 리포트 발행 3건 이상'
+    },
+    {
+      id: 'community-ads',
+      name: '커뮤니티 직무 채용 광고',
+      priority: 'P2' as Priority,
+      label: '나중 확장 (사용자 활성화 이후)',
+      reason: '전기, 배관, 형틀 등 직무방 커뮤니티의 트래픽을 활용한 스폰서 광고 및 배너 노출',
+      target: '수행 기업',
+      velocity: '빠름',
+      devDiff: '낮음',
+      salesDiff: '보통',
+      legalRisk: '낮음',
+      lockInEffect: '보통',
+      recommend: '추천',
+      pricing: '클릭당 과금(CPC) 또는 월 고정광고',
+      events: 'community_room_viewed',
+      goal: '배너 노출 수 1,000회 이상'
+    },
+    {
+      id: 'ai-guide-pro',
+      name: 'AI 현장 가이드 Pro',
+      priority: 'P2' as Priority,
+      label: '나중 확장 (사용량 검증 이후)',
+      reason: '현장 용어 번역 및 안전 작업 지침 상세 제공을 통한 개인 유료 구독 전환',
+      target: '기술자',
+      velocity: '매우 빠름',
+      devDiff: '보통',
+      salesDiff: '낮음',
+      legalRisk: '낮음',
+      lockInEffect: '매우 높음',
+      recommend: '추천',
+      pricing: '월 4,900원 구독',
+      events: 'ai_term_explained, jargon_searched',
+      goal: '유료 가입자 50명 확보'
+    },
+    {
+      id: 'edu-alliance-link',
+      name: '교육기관 수료생 매칭 제휴',
+      priority: 'P2' as Priority,
+      label: '나중 확장 (수요 신청 이후)',
+      reason: '건설 기술 교육기관 수료생 평판 카드를 채용 공고와 연동하여 취업 성공 수수료 연계',
+      target: '기술자·교육기관',
+      velocity: '보통',
+      devDiff: '보통',
+      salesDiff: '높음',
+      legalRisk: '낮음',
+      lockInEffect: '높음',
+      recommend: '추천',
+      pricing: '성공 건당 제휴 수수료',
+      events: 'edu_alliance_sync',
+      goal: '교육생 프로필 100건 확보'
+    },
+    {
+      id: 'finance-insurance-alliance',
+      name: '금융·보험 제휴 상품',
+      priority: 'P2' as Priority,
+      label: '나중 확장 (데이터 축적 이후)',
+      reason: '실시간 출역 정산 데이터를 기반으로 일용직 전용 간편 대출 및 단기 상해보험 연계',
+      target: '기술자·금융사',
+      velocity: '느림',
+      devDiff: '높음',
+      salesDiff: '매우 높음',
+      legalRisk: '높음',
+      lockInEffect: '매우 높음',
+      recommend: '보류',
+      pricing: '금융 제휴 중개 수수료 1~2%',
+      events: 'finance_insurance_sync',
+      goal: '금융 상품 조회 50건 이상'
+    },
+    {
+      id: 'enterprise-esg-report',
+      name: '원청·대기업 PoC 리포트',
+      priority: 'P2' as Priority,
+      label: '나중 확장 (Anchor PoC 이후)',
+      reason: '대형 시공사의 ESG 안전 보건 고용 유발 지수 보고서 증적 자료 API 공급',
+      target: '대기업, 원청',
+      velocity: '느림',
+      devDiff: '보통',
+      salesDiff: '높음',
+      legalRisk: '낮음',
+      lockInEffect: '높음',
+      recommend: '추천',
+      pricing: '연간 라이선스 또는 커스텀 용역',
+      events: 'enterprise_esg_sync',
+      goal: '원청 PoC 1건 성공'
     }
   ];
 
@@ -2865,14 +2867,57 @@ export default function BMPage() {
           </div>
         </section>
 
-        {/* ── 5. 먼저 시작하면 좋은 서비스 (추천 초기 BM) ── */}
-        <section style={{ marginBottom: 36 }}>
-          <div style={{ fontSize: 13.5, fontWeight: 800, color: '#475569', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 12 }}>
-            💡 먼저 시작하면 좋은 추천 초기 BM 및 상세 판단 기준
+        {/* ── 1라운드 핵심 수요 검증 질문 콕핏 ── */}
+        <section
+          style={{
+            background: 'linear-gradient(135deg, #f8fafc, #f1f5f9)',
+            border: '2px dashed #cbd5e1',
+            borderRadius: '16px',
+            padding: '24px 28px',
+            marginBottom: '28px',
+            boxShadow: '0 4px 12px rgba(0,0,0,0.01)',
+          }}
+        >
+          <div style={{ fontSize: 13.5, fontWeight: 900, color: '#4f46e5', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 12 }}>
+            💡 1라운드 핵심 수요 검증 및 멘토 설득용 인터뷰 질문 콕핏
           </div>
-          <div className="recommendation-grid">
-            {recommendationsList.map((card) => {
-              const bmObj = BM_DATA.find((b) => b.id === card.id);
+          <div style={{ fontSize: 14.5, color: '#475569', fontWeight: '600', lineHeight: 1.6, marginBottom: 16 }}>
+            1라운드에서는 대규모 플랫폼 수익을 자랑하기보다, <strong>&quot;수행 기업과 협력사가 실제로 비용을 전환하여 지불할 의사가 있는가&quot;</strong>를 아래의 검증 질문들을 통해 즉시 인터뷰하고 증거를 수집하는 것이 핵심입니다.
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
+            <div style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: 12, padding: '16px 20px' }}>
+              <div style={{ fontSize: 14, fontWeight: 800, color: '#1e3a8a', marginBottom: 8 }}>🏢 구인 기업 (수행 기업 / 협력사) 대상 질문</div>
+              <div style={{ fontSize: 13.5, color: '#334155', fontWeight: '600', lineHeight: '1.6', wordBreak: 'keep-all' }}>
+                &quot;현재 인력사무소, 소개 수수료, 네이버 밴드 공고, 전화 모집, 현장 운영 비용 중 일부를 <strong>MONO의 급구 공고, 검증 프로필, 팀 매칭</strong>으로 전환할 의사가 있습니까?&quot;
+              </div>
+              <div style={{ fontSize: 13.5, color: '#334155', fontWeight: '600', lineHeight: '1.6', marginTop: 10, borderTop: '1px dashed #e2e8f0', paddingTop: 8, wordBreak: 'keep-all' }}>
+                &quot;급하게 현장 인력이 필요할 때 MONO에 구인 공고를 등록하고, 경력·준비상태가 보증된 기술자나 팀을 미리 확인할 수 있다면 <strong>건당 비용(3만~10만원)을 지불할 의향</strong>이 있습니까?&quot;
+              </div>
+            </div>
+            <div style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: 12, padding: '16px 20px' }}>
+              <div style={{ fontSize: 14, fontWeight: 800, color: '#166534', marginBottom: 8 }}>👷 현장 리더 (반장 / 팀장) 대상 질문</div>
+              <div style={{ fontSize: 13.5, color: '#334155', fontWeight: '600', lineHeight: '1.6', wordBreak: 'keep-all' }}>
+                &quot;MONO에 팀을 등록하면 대형 시공사나 수행 기업의 직접적인 작업 요청(오더)을 받을 수 있고, 출근·정산·재요청 이력이 투명하게 쌓인다면 <strong>MONO를 주력 팀 관리/영업 도구로 사용할 의사</strong>가 있습니까?&quot;
+              </div>
+              <div style={{ fontSize: 12, color: '#64748b', fontWeight: '700', marginTop: 16 }}>
+                💡 1라운드 목표: 위 질문들을 기반으로 실제 기업 인터뷰 10곳 및 현장 리더 15팀 이상의 상세 피드백 확보
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ── 5. 먼저 시작하면 좋은 서비스 (추천 초기 BM) ── */}
+        <section style={{ marginBottom: '28px' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+            <div style={{ fontSize: 15, fontWeight: 950, color: '#1e3a8a', display: 'flex', alignItems: 'center', gap: 6 }}>
+              <span>🚀</span> 1라운드 즉시 검증 핵심 BM (초기 검증 모델)
+            </div>
+            <span style={{ fontSize: 12, fontWeight: 800, background: '#dbeafe', color: '#1e40af', padding: '3px 10px', borderRadius: 6 }}>MVP 즉시 실행</span>
+          </div>
+          
+          <div className="recommendation-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px', marginBottom: '24px' }}>
+            {recommendationsList.filter(r => r.priority === 'P0').map((card) => {
+              const bmObj = BM_DATA.find((b) => b.id === 'job-posting' || b.id === 'workspace-subscription');
               const pStyle = getPriorityStyle(card.priority);
               const isSelected = selectedScenario ? activeScenarioObj?.sequence.includes(card.id) : true;
               return (
@@ -2880,9 +2925,7 @@ export default function BMPage() {
                   key={card.id}
                   className="recommendation-card"
                   onClick={() => {
-                    if (bmObj) {
-                      openDrawer(bmObj, 2); // Open segment index 2 (수행 기업)
-                    }
+                    if (bmObj) openDrawer(bmObj, 2);
                   }}
                   style={{
                     border: `2px solid ${pStyle.border}`,
@@ -2891,31 +2934,89 @@ export default function BMPage() {
                   }}
                 >
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
-                    <span style={{ fontSize: 11, fontWeight: 900, background: pStyle.badgeBg, color: pStyle.badgeText, padding: '2px 8px', borderRadius: 4, border: `1px solid ${pStyle.border}30` }}>
+                    <span style={{ fontSize: 11, fontWeight: 900, background: pStyle.badgeBg, color: pStyle.badgeText, padding: '2px 8px', borderRadius: 4 }}>
                       {card.label}
                     </span>
                     <span style={{ fontSize: 13, fontWeight: 900, color: pStyle.titleColor }}>
                       {card.priority}
                     </span>
                   </div>
-                  <div style={{ fontSize: 16.5, fontWeight: 900, color: pStyle.titleColor, marginBottom: 4 }}>
+                  <div style={{ fontSize: 17, fontWeight: 950, color: pStyle.titleColor, marginBottom: 4 }}>
                     {card.name}
                   </div>
                   <div style={{ fontSize: 12.5, color: pStyle.subColor, fontWeight: 800, marginBottom: 8 }}>
                     대상: {card.target}
                   </div>
-                  <p style={{ margin: 0, fontSize: 13, color: pStyle.textColor, lineHeight: 1.5, wordBreak: 'keep-all', minHeight: 48, marginBottom: 10 }}>
+                  <p style={{ margin: '0 0 12px 0', fontSize: 13, color: pStyle.textColor, lineHeight: 1.5, wordBreak: 'keep-all', minHeight: 44 }}>
                     {card.reason}
                   </p>
                   
-                  {/* Detailed metrics added */}
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6px', fontSize: '11.5px', color: pStyle.subColor, borderTop: `1px solid ${pStyle.borderTopColor}`, paddingTop: '8px', marginTop: '8px' }}>
-                    <div>매출 속도: <strong style={{ color: pStyle.titleColor }}>{card.velocity}</strong></div>
-                    <div>개발 난이도: <strong style={{ color: pStyle.titleColor }}>{card.devDiff}</strong></div>
-                    <div>영업 난이도: <strong style={{ color: pStyle.titleColor }}>{card.salesDiff}</strong></div>
-                    <div>법률 리스크: <strong style={{ color: pStyle.titleColor }}>{card.legalRisk}</strong></div>
-                    <div>락인 효과: <strong style={{ color: pStyle.titleColor }}>{card.lockInEffect}</strong></div>
-                    <div>추천 여부: <strong style={{ color: pStyle.accentColor }}>{card.recommend}</strong></div>
+                  {/* 세부 검증 실험 지표 추가 */}
+                  <div style={{ background: '#fff', borderRadius: 10, padding: 10, border: '1px solid #e2e8f0', fontSize: 12, display: 'flex', flexDirection: 'column', gap: 6, marginBottom: 10 }}>
+                    <div>💰 가격 모델: <strong>{(card as any).pricing}</strong></div>
+                    <div style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>📊 검증 이벤트: <code>{(card as any).events}</code></div>
+                    <div>🎯 1R 검증 목표: <strong style={{ color: '#4f46e5' }}>{(card as any).goal}</strong></div>
+                  </div>
+                  
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6px', fontSize: '11.5px', color: pStyle.subColor, borderTop: `1px solid ${pStyle.borderTopColor}`, paddingTop: '8px' }}>
+                    <div>매출 속도: <strong>{card.velocity}</strong></div>
+                    <div>개발 난이도: <strong>{card.devDiff}</strong></div>
+                    <div>영업 난이도: <strong>{card.salesDiff}</strong></div>
+                    <div>법률 리스크: <strong>{card.legalRisk}</strong></div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </section>
+
+        {/* ── 6. 나중에 확장할 BM (2라운드~장기 로드맵) ── */}
+        <section style={{ marginBottom: 36 }}>
+          <div style={{ fontSize: 14.5, fontWeight: 900, color: '#475569', marginBottom: 12, display: 'flex', alignItems: 'center', gap: 6 }}>
+            <span>📈</span> 나중에 확장할 BM (2라운드 이후 로드맵)
+          </div>
+          
+          <div className="recommendation-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px' }}>
+            {recommendationsList.filter(r => r.priority !== 'P0').map((card) => {
+              const bmObj = BM_DATA.find((b) => b.id === 'workspace-subscription');
+              const pStyle = getPriorityStyle(card.priority);
+              const isSelected = selectedScenario ? activeScenarioObj?.sequence.includes(card.id) : true;
+              return (
+                <div
+                  key={card.id}
+                  className="recommendation-card"
+                  onClick={() => {
+                    if (bmObj) openDrawer(bmObj, 2);
+                  }}
+                  style={{
+                    border: `1.5px solid #cbd5e1`,
+                    background: '#f8fafc',
+                    opacity: isSelected ? 1 : 0.45,
+                  }}
+                >
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+                    <span style={{ fontSize: 11, fontWeight: 800, background: '#e2e8f0', color: '#475569', padding: '2px 8px', borderRadius: 4 }}>
+                      {card.label}
+                    </span>
+                    <span style={{ fontSize: 13, fontWeight: 800, color: '#475569' }}>
+                      {card.priority}
+                    </span>
+                  </div>
+                  <div style={{ fontSize: 15.5, fontWeight: 900, color: '#334155', marginBottom: 4 }}>
+                    {card.name}
+                  </div>
+                  <div style={{ fontSize: 12, color: '#64748b', fontWeight: 800, marginBottom: 8 }}>
+                    대상: {card.target}
+                  </div>
+                  <p style={{ margin: '0 0 10px 0', fontSize: 12.5, color: '#475569', lineHeight: 1.5, wordBreak: 'keep-all', minHeight: 40 }}>
+                    {card.reason}
+                  </p>
+                  
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '4px', fontSize: '11px', color: '#64748b', borderTop: '1px solid #e2e8f0', paddingTop: '8px' }}>
+                    <div>매출 속도: <strong>{card.velocity}</strong></div>
+                    <div>개발 난이도: <strong>{card.devDiff}</strong></div>
+                    <div>영업 난이도: <strong>{card.salesDiff}</strong></div>
+                    <div>락인 효과: <strong>{card.lockInEffect}</strong></div>
                   </div>
                 </div>
               );
