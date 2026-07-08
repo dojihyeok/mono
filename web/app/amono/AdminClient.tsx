@@ -216,6 +216,45 @@ export function AdminClient() {
   const [eventCat, setEventCat] = useState<EventCategory | "all">("all");
   const [bmLeads, setBmLeads] = useState<AdminBMInquiry[] | null>(null);
   const [loading, setLoading] = useState(false);
+  const [showLeadForm, setShowLeadForm] = useState(false);
+  const [leadForm, setLeadForm] = useState({ companyName: '', contactName: '', contactMethod: '', interests: [] as string[], message: '' });
+  const [isSubmittingLead, setIsSubmittingLead] = useState(false);
+
+  const LEAD_INTEREST_OPTIONS = ['정산·임금 자동화', '반장·리더 네트워크', '현장 인력 매칭', '안전·서류 관리', '외국인 인력', '현장 SaaS', 'IR·투자 문의', '기타'];
+
+  const toggleLeadInterest = (feat: string) => {
+    setLeadForm(prev => prev.interests.includes(feat)
+      ? { ...prev, interests: prev.interests.filter(f => f !== feat) }
+      : { ...prev, interests: [...prev.interests, feat] }
+    );
+  };
+
+  const submitAdminLead = async () => {
+    if (!leadForm.companyName || !leadForm.contactName || !leadForm.contactMethod) {
+      alert('회사명, 담당자 이름, 연락처를 입력해 주세요.');
+      return;
+    }
+    setIsSubmittingLead(true);
+    try {
+      const res = await fetch('/api/bm-inquiry', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(leadForm),
+      });
+      if (res.ok) {
+        setShowLeadForm(false);
+        setLeadForm({ companyName: '', contactName: '', contactMethod: '', interests: [], message: '' });
+        setBmLeads(null);
+        void loadBmLeads();
+      } else {
+        alert('접수에 실패했습니다.');
+      }
+    } catch {
+      alert('오류가 발생했습니다.');
+    } finally {
+      setIsSubmittingLead(false);
+    }
+  };
 
   const loadBmLeads = useCallback(async () => {
     setLoading(true);
@@ -501,53 +540,139 @@ export function AdminClient() {
           />
         )}
         {tab === "bm-leads" && (
-          <div className={styles.panel}>
-            <div className={styles.sectionTitle}>BM B2B 리드 (콜드메일 응답)</div>
-            {!bmLeads ? (
-              <div className={styles.empty}>로딩 중...</div>
-            ) : bmLeads.length === 0 ? (
-              <div className={styles.empty}>접수된 리드가 없습니다.</div>
-            ) : (
-              <div className={styles.tableWrap}>
-                <table className={styles.table}>
-                  <thead>
-                    <tr>
-                      <th>일시</th>
-                      <th>회사명</th>
-                      <th>담당자</th>
-                      <th>연락처</th>
-                      <th>관심 항목</th>
-                      <th>추가 문의사항</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {bmLeads.map(lead => (
-                      <tr key={lead.id}>
-                        <td>{new Date(lead.createdAt).toLocaleString('ko-KR')}</td>
-                        <td style={{ fontWeight: 700 }}>{lead.companyName}</td>
-                        <td>{lead.contactName}</td>
-                        <td>{lead.contactMethod}</td>
-                        <td>
-                          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
-                            {lead.interests.map(feat => (
-                              <span key={feat} style={{ padding: '2px 6px', background: '#eff6ff', color: '#2563eb', borderRadius: 4, fontSize: 11, fontWeight: 700 }}>
-                                {feat}
-                              </span>
-                            ))}
-                          </div>
-                        </td>
-                        <td>
-                          <div style={{ fontSize: 12, color: '#475569', maxWidth: 200, wordBreak: 'break-all' }}>
-                            {lead.message || '-'}
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+          <>
+            {/* ── 리드 직접 추가 폼 ── */}
+            <div className={styles.panel} style={{ marginBottom: 16 }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: showLeadForm ? 20 : 0 }}>
+                <div className={styles.sectionTitle} style={{ marginBottom: 0 }}>🚀 도입 문의 / 콜드메일 회신 직접 등록</div>
+                <button
+                  className={styles.filterChip}
+                  style={{ padding: '6px 16px', fontWeight: 700, background: showLeadForm ? '#f1f5f9' : '#2563eb', color: showLeadForm ? '#64748b' : '#fff', border: 'none', borderRadius: 8, cursor: 'pointer' }}
+                  onClick={() => setShowLeadForm(v => !v)}
+                >
+                  {showLeadForm ? '✕ 닫기' : '+ 리드 추가'}
+                </button>
               </div>
-            )}
-          </div>
+              {showLeadForm && (
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+                  <div>
+                    <label style={{ fontSize: 12, fontWeight: 700, color: '#475569', display: 'block', marginBottom: 4 }}>회사명 *</label>
+                    <input
+                      value={leadForm.companyName}
+                      onChange={e => setLeadForm(p => ({ ...p, companyName: e.target.value }))}
+                      placeholder="예: (주)현장건설"
+                      style={{ width: '100%', padding: '8px 12px', border: '1px solid #e2e8f0', borderRadius: 8, fontSize: 14, boxSizing: 'border-box' }}
+                    />
+                  </div>
+                  <div>
+                    <label style={{ fontSize: 12, fontWeight: 700, color: '#475569', display: 'block', marginBottom: 4 }}>담당자 이름 *</label>
+                    <input
+                      value={leadForm.contactName}
+                      onChange={e => setLeadForm(p => ({ ...p, contactName: e.target.value }))}
+                      placeholder="예: 김철수 부장"
+                      style={{ width: '100%', padding: '8px 12px', border: '1px solid #e2e8f0', borderRadius: 8, fontSize: 14, boxSizing: 'border-box' }}
+                    />
+                  </div>
+                  <div>
+                    <label style={{ fontSize: 12, fontWeight: 700, color: '#475569', display: 'block', marginBottom: 4 }}>연락처 (전화 / 이메일) *</label>
+                    <input
+                      value={leadForm.contactMethod}
+                      onChange={e => setLeadForm(p => ({ ...p, contactMethod: e.target.value }))}
+                      placeholder="예: 010-1234-5678 또는 kim@company.com"
+                      style={{ width: '100%', padding: '8px 12px', border: '1px solid #e2e8f0', borderRadius: 8, fontSize: 14, boxSizing: 'border-box' }}
+                    />
+                  </div>
+                  <div>
+                    <label style={{ fontSize: 12, fontWeight: 700, color: '#475569', display: 'block', marginBottom: 4 }}>추가 문의 내용</label>
+                    <input
+                      value={leadForm.message}
+                      onChange={e => setLeadForm(p => ({ ...p, message: e.target.value }))}
+                      placeholder="콜드메일 내용 요약, 특이사항 등"
+                      style={{ width: '100%', padding: '8px 12px', border: '1px solid #e2e8f0', borderRadius: 8, fontSize: 14, boxSizing: 'border-box' }}
+                    />
+                  </div>
+                  <div style={{ gridColumn: '1 / -1' }}>
+                    <label style={{ fontSize: 12, fontWeight: 700, color: '#475569', display: 'block', marginBottom: 8 }}>관심 항목</label>
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+                      {LEAD_INTEREST_OPTIONS.map(opt => (
+                        <button
+                          key={opt}
+                          type="button"
+                          onClick={() => toggleLeadInterest(opt)}
+                          style={{
+                            padding: '5px 12px', borderRadius: 999, fontSize: 12, fontWeight: 700, cursor: 'pointer',
+                            border: leadForm.interests.includes(opt) ? '1.5px solid #2563eb' : '1.5px solid #e2e8f0',
+                            background: leadForm.interests.includes(opt) ? '#eff6ff' : '#f8fafc',
+                            color: leadForm.interests.includes(opt) ? '#2563eb' : '#64748b',
+                          }}
+                        >
+                          {opt}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                  <div style={{ gridColumn: '1 / -1', textAlign: 'right' }}>
+                    <button
+                      onClick={submitAdminLead}
+                      disabled={isSubmittingLead}
+                      style={{ padding: '10px 28px', background: '#2563eb', color: '#fff', border: 'none', borderRadius: 8, fontWeight: 700, fontSize: 14, cursor: isSubmittingLead ? 'not-allowed' : 'pointer', opacity: isSubmittingLead ? 0.7 : 1 }}
+                    >
+                      {isSubmittingLead ? '접수 중...' : '✅ 리드 접수'}
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* ── 리드 목록 ── */}
+            <div className={styles.panel}>
+              <div className={styles.sectionTitle}>B2B 리드 목록 ({bmLeads ? bmLeads.length : '…'}건)</div>
+              {!bmLeads ? (
+                <div className={styles.empty}>로딩 중...</div>
+              ) : bmLeads.length === 0 ? (
+                <div className={styles.empty}>접수된 리드가 없습니다.</div>
+              ) : (
+                <div className={styles.tableWrap}>
+                  <table className={styles.table}>
+                    <thead>
+                      <tr>
+                        <th>일시</th>
+                        <th>회사명</th>
+                        <th>담당자</th>
+                        <th>연락처</th>
+                        <th>관심 항목</th>
+                        <th>추가 문의사항</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {bmLeads.map(lead => (
+                        <tr key={lead.id}>
+                          <td>{new Date(lead.createdAt).toLocaleString('ko-KR')}</td>
+                          <td style={{ fontWeight: 700 }}>{lead.companyName}</td>
+                          <td>{lead.contactName}</td>
+                          <td>{lead.contactMethod}</td>
+                          <td>
+                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
+                              {lead.interests.map(feat => (
+                                <span key={feat} style={{ padding: '2px 6px', background: '#eff6ff', color: '#2563eb', borderRadius: 4, fontSize: 11, fontWeight: 700 }}>
+                                  {feat}
+                                </span>
+                              ))}
+                            </div>
+                          </td>
+                          <td>
+                            <div style={{ fontSize: 12, color: '#475569', maxWidth: 200, wordBreak: 'break-all' }}>
+                              {lead.message || '-'}
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </div>
+          </>
         )}
       </main>
     </div>
