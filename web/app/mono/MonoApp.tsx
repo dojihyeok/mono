@@ -1432,7 +1432,7 @@ export default function MonoApp() {
       <div style={{ height: "calc(env(safe-area-inset-top, 0px) + 14px)", flex: "none" }}></div>
 
       
-      <div key={s.tab} className="scr" style={{ flex: "1", overflowY: "auto", overflowX: "hidden", position: "relative", animation: "tabIn .26s ease both" }}>
+      <div key={s.tab} className="scr" style={{ flex: "1", overflowY: "auto", overflowX: "hidden", position: "relative", paddingBottom: "110px", animation: "tabIn .26s ease both" }}>
 
         
         {(v.isHome) && (<>
