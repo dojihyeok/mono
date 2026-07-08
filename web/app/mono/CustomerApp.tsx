@@ -33,7 +33,7 @@ import type {
 } from "@/lib/types";
 
 const CONTRACT_TYPES = [
-  { value: "DAILY", label: "일급(상용)" },
+  { value: "DAILY", label: "일당(상용)" },
   { value: "UNIT", label: "단가/물량" },
   { value: "LUMP_SUM", label: "도급(일괄)" },
   { value: "MONTHLY", label: "월급/상주" },
@@ -136,21 +136,21 @@ export default function CustomerApp({ role = "CUSTOMER" }: { role?: "CUSTOMER" |
           {isOperator ? "+ 새 프로젝트 현장 등록" : "+ 새 작업요청 등록"}
         </button>
 
-        {/* 내 정산 관리 (Sprint 6) */}
-        <h2 style={sectionTitle}>근로자 정산 및 결제 관리</h2>
+        {/* 내 받을 금액 관리 (Sprint 6) */}
+        <h2 style={sectionTitle}>근로자 받을 금액 및 결제 관리</h2>
         <SettlementManager companyId={user?.id || "temp-company-id"} />
         <button
           onClick={() => {
             void import("@/lib/apiClient").then(({ apiCreateReferral }) => {
-              apiCreateReferral({ kind: "SETTLEMENT", note: "안심 정산 및 에스크로 도입 상담" })
-                .then(() => alert("안심 정산 도입 상담이 접수되었습니다. 담당자가 곧 연락드리겠습니다."))
+              apiCreateReferral({ kind: "SETTLEMENT", note: "안심 받을 금액 및 에스크로 도입 상담" })
+                .then(() => alert("안심 받을 금액 도입 상담이 접수되었습니다. 담당자가 곧 연락드리겠습니다."))
                 .catch(() => alert("접수에 실패했습니다. 다시 시도해주세요."));
             });
             track("referral_requested", { kind: "SETTLEMENT" });
           }}
           style={{ ...cardBase, display: "block", width: "100%", textAlign: "center", cursor: "pointer", fontFamily: "inherit", marginTop: "12px", background: "var(--c1,#4f46e5)", color: "#fff", fontWeight: 800 }}
         >
-          안심 정산 및 에스크로 도입 상담 (무료)
+          안심 받을 금액 및 에스크로 도입 상담 (무료)
         </button>
 
         {/* 내 작업요청 현황 */}

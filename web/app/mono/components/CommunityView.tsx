@@ -103,7 +103,7 @@ export default function CommunityView({ userId }: { userId: string }) {
 
   const CHAT_TEMPLATES = [
     "확인했습니다. 내일 시간 맞춰 출근하겠습니다.",
-    "준비물과 신분증 모두 지참 완료했습니다.",
+    "준비할 것과 신분증 모두 지참 완료했습니다.",
     "부족한 전자카드/안전교육 이수증 등록을 완료했습니다.",
     "혹시 집결지 상세 위치를 다시 안내받을 수 있을까요?",
     "부득이한 사정으로 내일 출근이 어려울 것 같습니다. 미리 죄송합니다."
@@ -305,7 +305,7 @@ export default function CommunityView({ userId }: { userId: string }) {
               cursor: "pointer",
             }}
           >
-            {tab === "PRIME" ? "원청방" : tab === "REGION" ? "지역방" : tab === "ROLE" ? "직무방" : tab === "LEADER" ? "그룹방" : "채팅"}
+            {tab === "PRIME" ? "대형 현장방" : tab === "REGION" ? "지역방" : tab === "ROLE" ? "직무방" : tab === "LEADER" ? "그룹방" : "채팅"}
           </button>
         ))}
       </div>
@@ -574,7 +574,7 @@ export default function CommunityView({ userId }: { userId: string }) {
         <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.5)", zIndex: 100, display: "flex", alignItems: "flex-end", justifyContent: "center" }}>
           <div style={{ background: "#fff", width: "100%", maxWidth: "480px", borderTopLeftRadius: "24px", borderTopRightRadius: "24px", padding: "24px", display: "flex", flexDirection: "column", maxHeight: "88vh", overflowY: "auto", animation: "slideUp 0.3s ease" }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
-              <span style={{ fontSize: "18px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>{activeTab === "PRIME" ? "원청방 평가 작성" : "커뮤니티 글쓰기"}</span>
+              <span style={{ fontSize: "18px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>{activeTab === "PRIME" ? "대형 현장방 평가 작성" : "커뮤니티 글쓰기"}</span>
               <button onClick={() => setWriteOpen(false)} style={{ border: "none", background: "none", fontSize: "16px", cursor: "pointer", color: "#8694a8" }}>닫기</button>
             </div>
 
@@ -593,7 +593,7 @@ export default function CommunityView({ userId }: { userId: string }) {
                     { key: "food", label: "식사 만족도 (대기, 질 등)" },
                     { key: "lodging", label: "숙소 상태 (거리, 청결 등)" },
                     { key: "env", label: "근무 환경 (화장실, 안전 등)" },
-                    { key: "settle", label: "정산 지급 (일정 준수 등)" },
+                    { key: "settle", label: "받을 금액 지급 (일정 준수 등)" },
                     { key: "beginner", label: "초보자 적응 편의성" },
                     { key: "rehire", label: "재방문 의향" },
                   ].map((item) => (
@@ -677,7 +677,7 @@ export default function CommunityView({ userId }: { userId: string }) {
                     { key: "food", label: "식사 만족도" },
                     { key: "lodging", label: "숙소 상태" },
                     { key: "env", label: "근무 환경" },
-                    { key: "settle", label: "정산/지급" },
+                    { key: "settle", label: "받을 금액/지급" },
                     { key: "beginner", label: "초보 적응" },
                     { key: "rehire", label: "재방문 의향" },
                   ].map((item) => {

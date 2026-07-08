@@ -259,7 +259,7 @@ function Landing({ onStart, onBrowse, onLogin }: { onStart: () => void; onBrowse
   return (
     <>
       <section className={styles.hero}>
-        <div className={styles.heroEyebrow}>현장 인력 데이터 인프라 · 기업 파트너</div>
+        <div className={styles.heroEyebrow}>현장 기술자·팀 데이터 인프라 · 기업 파트너</div>
         <h1 className={styles.heroTitle}>
           채용 공고를 먼저 등록하면,
           <br />
@@ -467,8 +467,8 @@ function Dashboard({
           [
             { k: "info", t: "협약 정보" },
             { k: "post", t: "채용 공고" },
-            { k: "work_requests", t: "현장작업 요청" },
-            { k: "applications", t: "지원자" },
+            { k: "work_requests", t: "현장현장 작업 요청" },
+            { k: "applications", t: "후보자" },
             { k: "workers", t: "기술자 조회" },
             { k: "saved", t: "관심 기술자" },
           ] as { k: Tab; t: string }[]
@@ -563,7 +563,7 @@ function PostTab({ companyId, reloadCompany }: { companyId: string; reloadCompan
   }, [load]);
 
   const del = async (postId: string) => {
-    if (!window.confirm("이 공고를 삭제할까요? 연결된 지원·출역 기록도 함께 삭제됩니다.")) return;
+    if (!window.confirm("이 공고를 삭제할까요? 연결된 지원·출근 기록도 함께 삭제됩니다.")) return;
     try {
       const res = await fetch(`/api/companies/${companyId}/job-posts/${postId}`, { method: "DELETE" });
       if (!res.ok) return;
@@ -1014,12 +1014,12 @@ function ApplicationsTab({ companyId }: { companyId: string }) {
 
   return (
     <>
-      <div className={styles.sectionTitle}>지원자 {apps ? `(${apps.length})` : ""}</div>
+      <div className={styles.sectionTitle}>후보자 {apps ? `(${apps.length})` : ""}</div>
       {apps === null ? (
         <div className={styles.empty}>불러오는 중…</div>
       ) : apps.length === 0 ? (
         <div className={styles.panel}>
-          <div className={styles.empty}>아직 지원자가 없습니다. 채용 공고가 노출되면 지원자가 여기에 표시됩니다.</div>
+          <div className={styles.empty}>아직 후보자가 없습니다. 채용 공고가 노출되면 후보자가 여기에 표시됩니다.</div>
         </div>
       ) : (
         <div className={styles.workerGrid}>
@@ -1135,7 +1135,7 @@ function WorkRequestsTab({ companyId, reloadCompany }: { companyId: string; relo
   return (
     <>
       <div className={styles.panel}>
-        <div className={styles.panelTitle}>현장작업 요청 등록</div>
+        <div className={styles.panelTitle}>현장현장 작업 요청 등록</div>
         <div className={styles.panelSub}>팀 단위, 공종 단위로 현장작업을 발주 요청합니다.</div>
 
         <div className={styles.field}>
@@ -1171,16 +1171,16 @@ function WorkRequestsTab({ companyId, reloadCompany }: { companyId: string; relo
         </div>
 
         <button className={styles.btnPrimary} style={{ marginTop: "16px" }} onClick={submit} disabled={!valid || busy}>
-          {busy ? "등록 중…" : "작업 요청 등록하기"}
+          {busy ? "등록 중…" : "현장 작업 요청 등록하기"}
         </button>
       </div>
 
-      <div className={styles.sectionTitle}>등록한 현장작업 요청 {requests ? `(${requests.length})` : ""}</div>
+      <div className={styles.sectionTitle}>등록한 현장현장 작업 요청 {requests ? `(${requests.length})` : ""}</div>
       {requests === null ? (
         <div className={styles.empty}>불러오는 중…</div>
       ) : requests.length === 0 ? (
         <div className={styles.panel}>
-          <div className={styles.empty}>아직 등록한 작업 요청이 없습니다.</div>
+          <div className={styles.empty}>아직 등록한 현장 작업 요청이 없습니다.</div>
         </div>
       ) : (
         <div className={styles.workerGrid}>
@@ -1207,8 +1207,8 @@ function PocBanner() {
   return (
     <div className={styles.pocBanner}>
       <div className={styles.pocText}>
-        <div className={styles.pocTitle}>현장에 바로 투입할 인력이 필요하신가요?</div>
-        <div className={styles.pocSub}>인력 요청·시범 운영(PoC)을 신청하면 담당 매니저가 조건에 맞는 기술자 매칭을 도와드립니다.</div>
+        <div className={styles.pocTitle}>현장에 바로 투입할 기술자·팀이 필요하신가요?</div>
+        <div className={styles.pocSub}>기술자·팀 요청·시범 운영(PoC)을 신청하면 담당 매니저가 조건에 맞는 기술자 매칭을 도와드립니다.</div>
       </div>
       <button
         className={styles.btnGhost}
@@ -1220,7 +1220,7 @@ function PocBanner() {
         disabled={done}
         style={done ? { opacity: 0.6 } : undefined}
       >
-        {done ? "신청 완료 ✓" : "인력 요청 · PoC 신청"}
+        {done ? "신청 완료 ✓" : "기술자·팀 요청 · PoC 신청"}
       </button>
     </div>
   );

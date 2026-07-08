@@ -148,23 +148,23 @@ export default function PerformerApp() {
           ))
         )}
 
-        {/* 내 정산 관리 (Sprint 6) */}
+        {/* 내 받을 금액 관리 (Sprint 6) */}
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", margin: "30px 0 12px" }}>
-          <h2 style={{ margin: 0, fontSize: "15px", fontWeight: 800, letterSpacing: "-.3px", color: "var(--app-text,#4f46e5)" }}>소속 근로자 정산 관리</h2>
+          <h2 style={{ margin: 0, fontSize: "15px", fontWeight: 800, letterSpacing: "-.3px", color: "var(--app-text,#4f46e5)" }}>소속 근로자 받을 금액 관리</h2>
         </div>
         <SettlementManager companyId={companyId || "temp-company-id"} />
         <button
           onClick={() => {
             void import("@/lib/apiClient").then(({ apiCreateReferral }) => {
-              apiCreateReferral({ kind: "SETTLEMENT", note: "안심 정산 및 에스크로 도입 상담 (수행기업)" })
-                .then(() => alert("안심 정산 도입 상담이 접수되었습니다. 담당자가 곧 연락드리겠습니다."))
+              apiCreateReferral({ kind: "SETTLEMENT", note: "안심 받을 금액 및 에스크로 도입 상담 (수행기업)" })
+                .then(() => alert("안심 받을 금액 도입 상담이 접수되었습니다. 담당자가 곧 연락드리겠습니다."))
                 .catch(() => alert("접수에 실패했습니다. 다시 시도해주세요."));
             });
             track("referral_requested", { kind: "SETTLEMENT", context: "performer" });
           }}
           style={{ ...cardBase, display: "block", width: "100%", textAlign: "center", cursor: "pointer", fontFamily: "inherit", marginTop: "12px", background: "var(--c1,#4f46e5)", color: "#fff", fontWeight: 800 }}
         >
-          안심 정산 및 에스크로 도입 상담 (무료)
+          안심 받을 금액 및 에스크로 도입 상담 (무료)
         </button>
 
         {/* 외국인 기술자 후보 검색 (dev-plan-foreign-workforce §5-5) */}

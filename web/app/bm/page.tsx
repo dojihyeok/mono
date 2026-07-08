@@ -48,7 +48,7 @@ interface CompetitorDetail {
 }
 
 interface CellInfo {
-  segment: '기술자' | '현장 리더' | '수행 기업' | '협력사' | '원청' | '대기업' | '정부·지자체' | '외국인 기술자' | '교육기관';
+  segment: '기술자' | '현장 리더' | '현장 운영사' | '협력사' | '원청' | '대기업' | '정부·지자체' | '외국인 기술자' | '교육기관';
   description: string;
   stage: string;
   competitors: string[];
@@ -112,7 +112,7 @@ const ORIGINAL_BM_DATA: BM[] = [
         monoStrategy: '팀 스케줄 맞춤형 대량 공고 추천 시스템',
       },
       {
-        segment: '수행 기업',
+        segment: '현장 운영사',
         description: '정예 기술인 단기/상시 모집용 상단 노출 유료 등록',
         stage: '유료 전환 대상',
         competitors: ['가다', '숨고'],
@@ -180,7 +180,7 @@ const ORIGINAL_BM_DATA: BM[] = [
         limitation: '개별 단발성 매칭에 머무르며 시공사 SaaS나 정산 리포트로의 락인이 부재함',
         monoResponse: 'MONO는 단순 일당 중개가 아닌 B2B 현장 노무/출역/계약 SaaS와 락인',
         monoAvoid: '대규모 직채용 형태의 일용직 노임 직접 선지급(금융 부담 가중)',
-        linkableBMs: ['B2B 기업 공고 과금', '출역·정산 리포트'],
+        linkableBMs: ['B2B 기업 공고 과금', '출근·비용 리포트'],
       },
     ],
   },
@@ -213,7 +213,7 @@ const ORIGINAL_BM_DATA: BM[] = [
         monoStrategy: '팀원 전체 출역 현황 간편 캘린더 인터페이스 제공',
       },
       {
-        segment: '수행 기업',
+        segment: '현장 운영사',
         description: '다수 현장의 가동률 및 소속 기술인의 실시간 출역 상태 대시보드 통합 관리',
         stage: '유료 구독제',
         competitors: ['Procore', 'Workrise'],
@@ -287,7 +287,7 @@ const ORIGINAL_BM_DATA: BM[] = [
   },
   {
     id: 'profile-access',
-    name: '프로필·팀 열람 과금',
+    name: '프로필·팀 프로필 열람',
     tier: 'core',
     priority: 'P0',
     strategyTags: ['fast-validation', 'leader-net'],
@@ -314,7 +314,7 @@ const ORIGINAL_BM_DATA: BM[] = [
         monoStrategy: 'Certified Field Leader 인증 및 가용 팀원 수 시각화',
       },
       {
-        segment: '수행 기업',
+        segment: '현장 운영사',
         description: '현장 근처 특정 기량자 및 인증 리더 프로필 비교 열람',
         stage: '유료 크레딧',
         competitors: ['Thumbtack'],
@@ -382,13 +382,13 @@ const ORIGINAL_BM_DATA: BM[] = [
         limitation: '전문가의 실시간 현장 가동 여부 및 소속 팀원의 보증 데이터를 제공하지 못함',
         monoResponse: 'MONO는 Certified 검증 및 소속 팀원의 투입 가용 현황을 결합 제공',
         monoAvoid: '검증되지 않은 가짜 이력 프로필의 단순 목록 노출',
-        linkableBMs: ['프로필·팀 열람 과금', 'B2B 기업 공고 과금'],
+        linkableBMs: ['프로필·팀 프로필 열람', 'B2B 기업 공고 과금'],
       },
     ],
   },
   {
     id: 'matching-fee',
-    name: '팀 단위 매칭 수수료',
+    name: '현장 리더·팀 매칭 수수료',
     tier: 'core',
     priority: 'P1',
     strategyTags: ['leader-net', 'lock-in'],
@@ -415,7 +415,7 @@ const ORIGINAL_BM_DATA: BM[] = [
         monoStrategy: '플랫폼 에스크로 결제를 통해 작업반장 대금 선지급 보장',
       },
       {
-        segment: '수행 기업',
+        segment: '현장 운영사',
         description: '공기 단축을 위한 패키지 전문 시공팀 일괄 소싱',
         stage: '유료 매칭 (수수료 3%)',
         competitors: ['숨고', 'Taskrabbit'],
@@ -483,7 +483,7 @@ const ORIGINAL_BM_DATA: BM[] = [
         limitation: '견적 완료 후 오프라인 직거래로 이탈하여 매칭 이후 대금 정산 수수료 수취 실패 (견적 이후 거래 이탈)',
         monoResponse: '견적 이후 거래 이탈을 줄이는 MONO 차별화 핵심으로 계약-출역-정산 일체화',
         monoAvoid: '매칭 이후 관리/정산 단계가 없는 단순 연락처·견적 중개 서비스',
-        linkableBMs: ['팀 단위 매칭 수수료', '금융·보험 제휴형'],
+        linkableBMs: ['현장 리더·팀 매칭 수수료', '금융·보험 제휴형'],
       },
       {
         name: 'Taskrabbit',
@@ -493,13 +493,13 @@ const ORIGINAL_BM_DATA: BM[] = [
         limitation: '현장의 복잡한 B2B 컴플라이언스(안전 교육, 출역 대장, 조세 신고) 지원 불가',
         monoResponse: 'B2B 건설 현장 노무 대장 자동 취합 및 안전패스 검증을 결합',
         monoAvoid: '소액 단순 심부름/가사 노동 중심의 단기 C2C 매칭 시장 진입',
-        linkableBMs: ['팀 단위 매칭 수수료', '검증 API·컴플라이언스'],
+        linkableBMs: ['현장 리더·팀 매칭 수수료', '검증 API·컴플라이언스'],
       },
     ],
   },
   {
     id: 'attendance-report',
-    name: '출역·정산 리포트',
+    name: '출근·비용 리포트',
     tier: 'core',
     priority: 'P1',
     strategyTags: ['lock-in', 'finance'],
@@ -526,7 +526,7 @@ const ORIGINAL_BM_DATA: BM[] = [
         monoStrategy: '앱 내 체크인 데이터 기반 1초 청구서 생성 및 전송',
       },
       {
-        segment: '수행 기업',
+        segment: '현장 운영사',
         description: '일용직 고용 세무 정부 신고 대장 자동 변환 및 원클릭 내보내기',
         stage: '구독제 포함',
         competitors: ['Workrise'],
@@ -594,7 +594,7 @@ const ORIGINAL_BM_DATA: BM[] = [
         limitation: '미국 시장 특화로 한국의 주휴수당, 퇴직공제부금 기초 데이터 정리 등 현지 노무 규제 미지원',
         monoResponse: '한국 건설 노동법(일용직 주휴수당, 세무)에 맞춘 노무비 정산 보조 및 증빙 관리 SaaS 제공',
         monoAvoid: '팩토링 금융 비용을 무리하게 전액 떠안는 고위험 여신 거래 개시',
-        linkableBMs: ['출역·정산 리포트', 'Partner Workspace 구독', '장비·자재 연계 수수료'],
+        linkableBMs: ['출근·비용 리포트', 'Partner Workspace 구독', '장비·자재 연계 수수료'],
       },
     ],
   },
@@ -627,7 +627,7 @@ const ORIGINAL_BM_DATA: BM[] = [
         monoStrategy: '작업 요청서 작성 단계에서 리더의 장비 즉시 매칭',
       },
       {
-        segment: '수행 기업',
+        segment: '현장 운영사',
         description: '현장 인근 장비 임대 및 부자재 소싱 (수수료 발생)',
         stage: '중개 수수료 (1.5%)',
         competitors: ['Workrise'],
@@ -717,7 +717,7 @@ const ORIGINAL_BM_DATA: BM[] = [
         monoStrategy: '현장 투입 전 스케줄링 시점에 적격 스크리닝 사전 작동',
       },
       {
-        segment: '수행 기업',
+        segment: '현장 운영사',
         description: '원청 입찰 시 필요한 기업 신용도, 재해율 컴플라이언스 프로필 제출',
         stage: '유료 인증',
         competitors: ['Avetta'],
@@ -818,7 +818,7 @@ const ORIGINAL_BM_DATA: BM[] = [
         monoStrategy: '기존 소개소 채널을 MONO 시스템에 통합하여 이중 관리 제거',
       },
       {
-        segment: '수행 기업',
+        segment: '현장 운영사',
         description: '오프라인 주선 인력 출역 대장의 자동 연계 및 취합',
         stage: 'SaaS 무료 탑재',
         competitors: [],
@@ -908,7 +908,7 @@ const ORIGINAL_BM_DATA: BM[] = [
         monoStrategy: '팀의 수주 이력 및 원청 안전도 평점을 결합한 대안 금융',
       },
       {
-        segment: '수행 기업',
+        segment: '현장 운영사',
         description: '투입 근로자 전원 간편 상해보험 일괄 가입 및 증명서 획득',
         stage: '보험 제휴 수수료',
         competitors: [],
@@ -998,7 +998,7 @@ const ORIGINAL_BM_DATA: BM[] = [
         monoStrategy: '리더 대시보드 내 팀원 안전 서류 만료 D-Day 알람',
       },
       {
-        segment: '수행 기업',
+        segment: '현장 운영사',
         description: '미이수 신규 근로자 사전 감지 및 교육 자동 접수',
         stage: '구독 옵션',
         competitors: ['Avetta'],
@@ -1088,7 +1088,7 @@ const ORIGINAL_BM_DATA: BM[] = [
         monoStrategy: '무재해 팀 이력을 누적하여 수주 가산점 획득 지원',
       },
       {
-        segment: '수행 기업',
+        segment: '현장 운영사',
         description: 'ESG 우수 상생 기업 보고서 발급 및 원청 제출',
         stage: '유료 발급',
         competitors: ['Avetta'],
@@ -1178,7 +1178,7 @@ const ORIGINAL_BM_DATA: BM[] = [
         monoStrategy: 'AI 음성 및 다국어 템플릿 기반 실시간 시각 작업 지시',
       },
       {
-        segment: '수행 기업',
+        segment: '현장 운영사',
         description: '합법 고용 허가 및 비자 만료 경고 관리 컴플라이언스',
         stage: '유료 수수료',
         competitors: [],
@@ -1268,7 +1268,7 @@ const ORIGINAL_BM_DATA: BM[] = [
         monoStrategy: '공정 스케줄러 내 AI 자동 예측 보조 추천 엔진 탑재',
       },
       {
-        segment: '수행 기업',
+        segment: '현장 운영사',
         description: '3D 도면 연동을 통한 공정별 최적 자재/장비 수량 자동 소싱 추천',
         stage: '장기 구독제',
         competitors: ['Procore'],
@@ -1399,7 +1399,7 @@ interface NewBMInput {
   descriptions: {
     기술자: string;
     '현장 리더': string;
-    '수행 기업': string;
+    '현장 운영사': string;
     협력사: string;
     원청: string;
     대기업: string;
@@ -1411,13 +1411,13 @@ interface NewBMInput {
 
 function createBM(input: NewBMInput): BM {
   const segments: (keyof typeof input.descriptions)[] = [
-    '기술자', '현장 리더', '수행 기업', '협력사', '원청', '대기업', '정부·지자체', '외국인 기술자', '교육기관'
+    '기술자', '현장 리더', '현장 운영사', '협력사', '원청', '대기업', '정부·지자체', '외국인 기술자', '교육기관'
   ];
   
   const cells: CellInfo[] = segments.map((seg) => {
     let stage = '초기 무료';
     let pricingType = '무료';
-    if (['수행 기업', '협력사', '원청', '대기업'].includes(seg)) {
+    if (['현장 운영사', '협력사', '원청', '대기업'].includes(seg)) {
       stage = input.tier === 'core' ? '유료 전환 대상' : '구독 옵션';
       pricingType = input.pricingAssumption;
     }
@@ -1474,7 +1474,7 @@ const NEW_BM_DATA: BM[] = [
     descriptions: {
       '기술자': '현장 식사, 숙소, 출근 난이도 등 실제 근무환경 익명 평가 및 공유',
       '현장 리더': '팀원들의 익명 피드백을 기반으로 한 현장 개선 요청 자료 활용',
-      '수행 기업': '원청방 내 아군 현장 평판 및 리스크 실시간 모니터링',
+      '현장 운영사': '원청방 내 아군 현장 평판 및 리스크 실시간 모니터링',
       '협력사': '우수 현장 인증 배지를 통한 평판 강화 및 수주 경쟁력 확보',
       '원청': '하도급 협력사 현장의 실시간 노무 분위기 및 만족도 리포트 구매',
       '대기업': 'ESG 상생 실사 및 협력사 만족도 공시 증적 자료로 활용',
@@ -1499,7 +1499,7 @@ const NEW_BM_DATA: BM[] = [
     descriptions: {
       '기술자': '내 거주지 근처 현장의 급구/단기 구인 광고 실시간 확인',
       '현장 리더': '동네 근처에서 바로 출퇴근 가능한 팀원 긴급 초빙 광고 집행',
-      '수행 기업': '지역방 상단 배너를 통한 특정 거점 현장 인력 신속 확보',
+      '현장 운영사': '지역방 상단 배너를 통한 특정 거점 현장 인력 신속 확보',
       '협력사': '인근 지역 기술자 집중 타겟팅으로 광고 효율성 극대화',
       '원청': '관내 인력 우선 고용 정책 지표 충족을 위한 광고 활용',
       '대기업': '지역 사회 상생 고용 창출 캠페인 및 공고 연계 노출',
@@ -1524,7 +1524,7 @@ const NEW_BM_DATA: BM[] = [
     descriptions: {
       '기술자': '내 직무(전기, 용접 등)에 완벽 매칭되는 고단가 전문 공고 수신',
       '현장 리더': '정예 준기공/기공 핀포인트 모집을 위한 직무방 공고 타겟 노출',
-      '수행 기업': '기량 보증이 요구되는 직무방에 유료 공고 집중 살포',
+      '현장 운영사': '기량 보증이 요구되는 직무방에 유료 공고 집중 살포',
       '협력사': '특수 직종 결원 발생 시 타겟 직무 광고로 헤드헌팅 비용 절감',
       '원청': '현장 필수 자격 기공 매칭 정합성 제고로 안전 품질 확보',
       '대기업': '사내 협력사 직무 교육 이수 완료자 매칭 지원 채널 확보',
@@ -1549,7 +1549,7 @@ const NEW_BM_DATA: BM[] = [
     descriptions: {
       '기술자': '반장이 개설한 Pro 그룹방에서 실시간 공지, 집결지, 일당 정산 수신',
       '현장 리더': '팀원 출퇴근 원클릭 확인, 모임 공지 자동 정리, 정산서 자동 발급',
-      '수행 기업': '소속 리더들의 전용 그룹방을 통해 인력 투입 정확도 간접 모니터링',
+      '현장 운영사': '소속 리더들의 전용 그룹방을 통해 인력 투입 정확도 간접 모니터링',
       '협력사': '리더 Pro 연계로 현장 출력 일보 수집 및 대조 공수 80% 감축',
       '원청': '위임된 안전보건 공지 사항이 현장 근로자 개개인에게 도달했는지 확인',
       '대기업': '협력사 현장 조직(팀 단위)별 안전 준수 이력 스코어링 추적',
@@ -1569,12 +1569,12 @@ const NEW_BM_DATA: BM[] = [
     pricingAssumption: '프로필 검증 심사 및 배지 유지 월 ₩19,000',
     mvpValidation: '인증 배지 장착 시 프로필 클릭율 35% 상승 검증',
     arpu: '₩19,000/월',
-    gtm: '평가와 이력이 양호한 우수 리더와 수행 기업에 신뢰 배지를 주어 매칭 극대화',
+    gtm: '평가와 이력이 양호한 우수 리더와 현장 운영사에 신뢰 배지를 주어 매칭 극대화',
     lockIn: ['플랫폼 인증 평판 평판 지표'],
     descriptions: {
-      '기술자': '검증 배지가 달린 신뢰할 수 있는 우수 수행 기업 공고 우선 지원',
+      '기술자': '검증 배지가 달린 신뢰할 수 있는 우수 현장 운영사 공고 우선 지원',
       '현장 리더': 'Certified 리더 배지 장착으로 단가 협상력 및 팀원 모집력 우위 확보',
-      '수행 기업': '좋은 평가를 받은 검증 기업 배지로 일용직 구인 미스매칭 90% 예방',
+      '현장 운영사': '좋은 평가를 받은 검증 기업 배지로 일용직 구인 미스매칭 90% 예방',
       '협력사': '원청 입찰 시 MONO 검증 우수 협력사 배지 실적으로 제출',
       '원청': '신뢰도가 검증된 우수 시공팀과 하청 파트너 안심 선별 계약',
       '대기업': '사내 ESG 위원회 추천 검증 협력업체 리스트 자동 편입',
@@ -1592,19 +1592,19 @@ const NEW_BM_DATA: BM[] = [
     competitorTags: ['blind'],
     features: ['community', 'report'],
     pricingAssumption: '연간 평판 관리 패키지 ₩1,200,000 / 연',
-    mvpValidation: '수행 기업 3개사 대상 평판 개선 유료 피드백 진행',
+    mvpValidation: '현장 운영사 3개사 대상 평판 개선 유료 피드백 진행',
     arpu: '₩100,000/월',
     gtm: '커뮤니티 내의 기업 관련 소문, 노무 이슈, 복지 만족도 지표를 대시보드로 정제해 전달',
     lockIn: ['실시간 고용 브랜드 지표'],
     descriptions: {
       '기술자': '내가 남긴 근무 후기가 모여 기업의 고용 문화를 개선하는 선순환 참여',
       '현장 리더': '우리 팀이 투입될 기업의 노무 관리 스타일 및 대금 지급 투명성 파악',
-      '수행 기업': '노무비 체불 루머 등 악성 소문 즉시 모니터링 및 브랜드 평판 개선 조치',
+      '현장 운영사': '노무비 체불 루머 등 악성 소문 즉시 모니터링 및 브랜드 평판 개선 조치',
       '협력사': '우수 고용 브랜드 지표를 활용해 정예 기술직 상시 유입 채널 구축',
       '원청': '하청사의 노사 갈등 리스크를 사전에 예방하고 원활한 현장 조율 유도',
       '대기업': '협력사 공급망 리스크(노사 분규, 갑질 등) 사전 예방 및 모니터링',
       '정부·지자체': '지역 건설업 고용 분규 가능성 조기 감지 경보 시스템',
-      '외국인 기술자': '체불 우려가 있거나 차별 대우가 있는 악덕 수행 기업 사전 필터링',
+      '외국인 기술자': '체불 우려가 있거나 차별 대우가 있는 악덕 현장 운영사 사전 필터링',
       '교육기관': '수료생들을 믿고 보낼 수 있는 안심 고용 기업 추천 매뉴얼 제작'
     }
   }),
@@ -1612,7 +1612,7 @@ const NEW_BM_DATA: BM[] = [
   // ── 3-2. 지도 기반 급구 현장 BM ──
   createBM({
     id: 'map-urgent-sponsored',
-    name: '급구 현장 상단 노출',
+    name: '급구 현장 우선 노출',
     tier: 'core',
     priority: 'P0',
     strategyTags: ['fast-validation', 'lock-in'],
@@ -1626,7 +1626,7 @@ const NEW_BM_DATA: BM[] = [
     descriptions: {
       '기술자': '오늘/내일 당장 출근하여 고단가를 받을 수 있는 급구 공고 우선 확인',
       '현장 리더': '팀원 펑크 시 지도 주변에서 가동 가능한 인력을 즉시 타겟 소싱',
-      '수행 기업': '지체상금 방지를 위해 당일 현장 투입 인력 초고속 소싱 광고 진행',
+      '현장 운영사': '지체상금 방지를 위해 당일 현장 투입 인력 초고속 소싱 광고 진행',
       '협력사': '현장 투입 12시간 전 결원 충원용 상단 스폰서 배너 집행',
       '원청': '협력사의 인력 결원 공백을 인근 급구 광고 유도로 신속 해결 유도',
       '대기업': '돌발적인 인력 부족으로 인한 공기 지연 리스크 원천 통제',
@@ -1651,7 +1651,7 @@ const NEW_BM_DATA: BM[] = [
     descriptions: {
       '기술자': '출퇴근 차량 동선 및 거주 반경에 최적화된 근거리 현장 지도 조회',
       '현장 리더': '장거리 출퇴근 피로가 없는 인근 거주 팀원 우선 매칭',
-      '수행 기업': '현장 인근 숙소 거주자 또는 지역 근로자 매칭으로 여비 절감',
+      '현장 운영사': '현장 인근 숙소 거주자 또는 지역 근로자 매칭으로 여비 절감',
       '협력사': '지도 기반 반경 마케팅으로 통근 셔틀 배치 최적화 및 구인 비용 단축',
       '원청': '지역 근로자 고용 50% 의무 비율 지표를 완벽하게 준수 지원',
       '대기업': '현장 인근 지역 소상공인 식당, 숙소 제휴 광고 동시 연계 노출',
@@ -1676,7 +1676,7 @@ const NEW_BM_DATA: BM[] = [
     descriptions: {
       '기술자': '매칭 보증 및 대금 100% 안심 지급 에스크로 무료 이용',
       '현장 리더': '팀원 긴급 조달 성공 시 플랫폼 매칭 보증금 자동 정산',
-      '수행 기업': '인력 펑크 시 대체 인원 조달에 따른 합리적인 건당 매칭 수수료 결제',
+      '현장 운영사': '인력 펑크 시 대체 인원 조달에 따른 합리적인 건당 매칭 수수료 결제',
       '협력사': '용역 소개 수수료 대비 50% 이상 저렴한 다이렉트 매칭 수수료 이용',
       '원청': '직거래 이탈 없는 플랫폼 보증 근로로 임금 노무 리스크 제로화',
       '대기업': '하청사의 임금 직불 거래 비중 감소 및 노무비 지급 모니터링',
@@ -1701,7 +1701,7 @@ const NEW_BM_DATA: BM[] = [
     descriptions: {
       '기술자': '지도에서 눈에 띄는 대형 현장 및 안전 보증 현장 핀을 손쉽게 식별',
       '현장 리더': '우리 팀이 작업 중인 현장을 지도에 핀으로 홍보하여 대량 구인 확보',
-      '수행 기업': '지도상에서 기업 로고를 노출하여 고용 브랜드 신뢰도 및 인지도 확보',
+      '현장 운영사': '지도상에서 기업 로고를 노출하여 고용 브랜드 신뢰도 및 인지도 확보',
       '협력사': '우수 등급 현장임을 알리는 골드 핀 광고로 기량 좋은 숙련공 선점',
       '원청': '안전 보증 최우수 현장 핀 홍보로 근로자 유입율 대폭 상승',
       '대기업': '대규모 반도체/조선소 프로젝트의 랜드마크 핀 브랜딩 효과 획득',
@@ -1726,7 +1726,7 @@ const NEW_BM_DATA: BM[] = [
     descriptions: {
       '기술자': '어느 지역에 일자리가 많고 내 직무 단가가 오르는지 수요 지도 무료 열람',
       '현장 리더': '단가가 잘 나오는 활성 현장 거점으로 팀 이동 배치 전략 수립',
-      '수행 기업': '다음 프로젝트 착공 전 해당 지역 인력 수급 난이도 사전 진단',
+      '현장 운영사': '다음 프로젝트 착공 전 해당 지역 인력 수급 난이도 사전 진단',
       '협력사': '경쟁사들의 지역별 인력 투입 규모 및 노임 수급 트렌드 분석 활용',
       '원청': '지역별 노임 상승률 및 기공 부족 예측을 통한 최적 공사비 산출',
       '대기업': '글로벌/국내 대규모 투자 시 노무 공급망 리스크 리포트 연계 분석',
@@ -1753,7 +1753,7 @@ const NEW_BM_DATA: BM[] = [
     descriptions: {
       '기술자': '하바키, 단도리, 데나오시 등 어려운 현장 용어 뜻 즉시 모바일로 확인',
       '현장 리더': '초보 팀원에게 용어를 매번 소리쳐 설명하지 않아도 되게끔 AI 공유 활용',
-      '수행 기업': '현장 용어 이해 부족으로 생기는 오시공 및 작업 실수 50% 방지',
+      '현장 운영사': '현장 용어 이해 부족으로 생기는 오시공 및 작업 실수 50% 방지',
       '협력사': '신규 채용 기술인의 현업 직무 적응 기간 단축 및 소통 효율화',
       '원청': '외국인 및 초보 근로자의 용어 불통으로 인한 현장 안전 사고 예방',
       '대기업': '안전 보건 교육 부문에 AI 다국어 용어 사전 탑재 지원',
@@ -1778,7 +1778,7 @@ const NEW_BM_DATA: BM[] = [
     descriptions: {
       '기술자': '어려운 우대 사항, 기재 안 된 준비물, 숙식 제공 조건을 한눈에 요약 확인',
       '현장 리더': '공고 등록 시 구직자가 좋아할 핵심 포인트(일당, 시간)를 AI가 돋보이게 자동 요약',
-      '수행 기업': '어렵고 긴 공고 대신 구직자가 끌리는 최적화 텍스트로 전환하여 지원수 확보',
+      '현장 운영사': '어렵고 긴 공고 대신 구직자가 끌리는 최적화 텍스트로 전환하여 지원수 확보',
       '협력사': '공고 작성 공수를 90% 줄이고 지원 자격 미달자의 지원 필터링 자동화',
       '원청': '구인 정보 공시 투명성 확보로 일용직 구직 사기 예방 효과',
       '대기업': '공고 표준 양식 자동 유도 및 정보 누락으로 인한 노무 위반 예방',
@@ -1803,7 +1803,7 @@ const NEW_BM_DATA: BM[] = [
     descriptions: {
       '기술자': '현장 출근 첫날 필요한 안전화 기재 여부, 기초교육 이수증 등록 상태 자동 체크',
       '현장 리더': '팀원 지원 시 안전 규정에 맞는 필수 면허(예: 지게차) 소지 여부 AI 검증',
-      '수행 기업': '자격 미달자가 현장에 출근하여 되돌려보내는 당일 펑크 낭비 예방',
+      '현장 운영사': '자격 미달자가 현장에 출근하여 되돌려보내는 당일 펑크 낭비 예방',
       '협력사': '고용 보험 및 건설안전 서류 사전 검증 공수를 플랫폼 단에서 자동화',
       '원청': '미자격자의 불법 투입(예: 타워크레인 면허 없음)을 원천 차단',
       '대기업': '안전 보건 가이드라인 상의 의무 자격 검증 이력 디지털 증적 아카이빙',
@@ -1828,7 +1828,7 @@ const NEW_BM_DATA: BM[] = [
     descriptions: {
       '기술자': '반장의 어수선한 지시 사항 대신 AI가 깔끔하게 정리해 준 내일의 작업 요약 수신',
       '현장 리더': '팀원 투입 명단 정리, 집결지 공지, 작업 도구 준비 카톡 공지 자동 생성',
-      '수행 기업': '리더가 작성하는 일일 작업 일보를 AI가 수집하여 표준 양식으로 본사 자동 전송',
+      '현장 운영사': '리더가 작성하는 일일 작업 일보를 AI가 수집하여 표준 양식으로 본사 자동 전송',
       '협력사': '여러 작업 반장의 수기 현장 특이 사항 데이터를 분석 가능한 디지털 데이터로 통합',
       '원청': '매일 아침 TBM(Tool Box Meeting) 안전 미팅 내용을 AI 보조로 자동 기록 및 제출',
       '대기업': '현장 작업 지시 기록의 법적 재해 예방 의무(TBM 증적) 준수성 자동 감사',
@@ -1853,7 +1853,7 @@ const NEW_BM_DATA: BM[] = [
     descriptions: {
       '기술자': '명확하고 정제된 고품질의 구인 조건 공고를 받아 오해 없는 구직 활동',
       '현장 리더': '기업이 올린 공고 양식이 정밀하여 우리 시공팀의 투입 범위 결정 용이',
-      '수행 기업': '구인 담당자의 작문 고민 해결 및 기공 단가에 최적화된 우대 조건 자동 매칭 추천',
+      '현장 운영사': '구인 담당자의 작문 고민 해결 및 기공 단가에 최적화된 우대 조건 자동 매칭 추천',
       '협력사': '다수 현장의 대량 공고 동시 배포 시 통일성 있는 표준 조건 공고 대량 퍼블리싱',
       '원청': '하도급 공고 내 독소조항(노동법 위반 문구)을 AI가 사전에 필터링하여 브랜드 보호',
       '대기업': '표준 안전 양식에 기반한 적법 채용 문구 준수 강제화',
@@ -1878,7 +1878,7 @@ const NEW_BM_DATA: BM[] = [
     descriptions: {
       '기술자': 'AI Pro 가입 반장이 이끄는 현장에서 보다 명확하고 안전한 근로 가이드 수혜',
       '현장 리더': '한국어-다국어 자동 실시간 TBM 지시 및 캘린더 정산 자동 조력',
-      '수행 기업': 'AI Pro 라이선스 통합을 통해 본사 구인-현장 노무 관리를 일원화된 AI 관리 비서로 해결',
+      '현장 운영사': 'AI Pro 라이선스 통합을 통해 본사 구인-현장 노무 관리를 일원화된 AI 관리 비서로 해결',
       '협력사': '출역 체크인 연동을 통해 미승인 건이나 특이 출퇴근 스코어를 AI 비서가 즉시 알림',
       '원청': '안전 감찰, 일용직 대장, 법적 증빙에 필요한 종합 AI 보고서 템플릿 생성',
       '대기업': 'ESG 보고 및 협력사 안전성 평가를 AI 분석 라이선스로 매끄럽게 추출',
@@ -1905,7 +1905,7 @@ const NEW_BM_DATA: BM[] = [
     descriptions: {
       '기술자': '안전 미팅 및 작업 중 들리는 알 수 없는 현장 용어를 모국어 텍스트/음성으로 변환 조회',
       '현장 리더': '외국인 근로자에게 확성기로 소리 지를 필요 없이 모바일 번역 지시서로 완벽 소통',
-      '수행 기업': '언어 소통 장벽으로 인한 작업 지연 제거 및 안전사고 발생 확률 70% 차단',
+      '현장 운영사': '언어 소통 장벽으로 인한 작업 지연 제거 및 안전사고 발생 확률 70% 차단',
       '협력사': '다국어 현장 안전 교육 자료 배포 및 현장 안내판 번역 패키지 적용',
       '원청': '현장 내 의사 불통으로 일어나는 안전보건법 위반 벌금형 리스크 예방',
       '대기업': '글로벌 ESG 가이드라인 상의 이주 노동자 인권 보호(정보 접근권) 지표 획득',
@@ -1916,7 +1916,7 @@ const NEW_BM_DATA: BM[] = [
   }),
   createBM({
     id: 'global-multilingual-job',
-    name: '다국어 공고 번역',
+    name: '외국어 공고 안내',
     tier: 'expansion',
     priority: 'P1',
     strategyTags: ['global-workers'],
@@ -1925,12 +1925,12 @@ const NEW_BM_DATA: BM[] = [
     pricingAssumption: '공고 등록 시 다국어 번역 옵션 적용 건당 ₩15,000',
     mvpValidation: '번역 공고 등록 후 외국인 근로자 지원율 3배 증가 검증',
     arpu: '₩15,000/건',
-    gtm: '수행 기업이 올린 한국어 채용 공고를 원클릭으로 합법 외국인 기술자 타겟 다국어 공고로 번역 배포',
+    gtm: '현장 운영사이 올린 한국어 채용 공고를 원클릭으로 합법 외국인 기술자 타겟 다국어 공고로 번역 배포',
     lockIn: ['다국어 다변향 공고 데이터'],
     descriptions: {
       '기술자': '외국인 동료들에게 보낼 번역된 공고 링크를 안심하고 공유 및 가이드',
       '현장 리더': '외국인 팀원 충원 시 다국어 공고를 활용해 현지 커뮤니티에 빠르게 전파',
-      '수행 기업': '인력이 부족한 대형 현장에서 검증된 합법 비자 소지 외국인을 다국어 공고로 대량 모집',
+      '현장 운영사': '인력이 부족한 대형 현장에서 검증된 합법 비자 소지 외국인을 다국어 공고로 대량 모집',
       '협력사': '외국인 쿼터 한도 내에서 다국어로 홍보하여 최적 기량의 외국인 인재 우선 확보',
       '원청': '불법 체류자 유입 방지를 위해 비자 조건이 명시된 다국어 표준 공고 유도',
       '대기업': '해외 투자 현장 및 사내 다국적 인력 고용 기준 표준화 확립',
@@ -1955,9 +1955,9 @@ const NEW_BM_DATA: BM[] = [
     descriptions: {
       '기술자': '한국 현장 투입 첫날 안심 정착을 위한 다국어 현장 안내 가이드 이용',
       '현장 리더': '외국인 신입 팀원의 비자 유효성, 안전 교육증 유무를 수기 대조 없이 원클릭 검증 온보딩',
-      '수행 기업': '외국인 배치 초기 관리 비용 대폭 감소 및 무단 이탈율 80% 예방',
+      '현장 운영사': '외국인 배치 초기 관리 비용 대폭 감소 및 무단 이탈율 80% 예방',
       '협력사': '외국인 투입 시 복잡한 비자 행정 서류 및 노동청 신고 서류 자동 준비 대행',
-      '원청': '규정을 준수하는 합법 외국인 인력 공급망의 투명한 입일 온보딩 보증',
+      '원청': '규정을 준수하는 합법 외국인 기술자 공급망의 투명한 입일 온보딩 보증',
       '대기업': '다국적 근로자 고용 표준 온보딩 실사를 통한 안전 사고율 및 민원 차단',
       '정부·지자체': '지역 비자 특화(F-2-R) 근로자들의 초기 지역사회 안정 정착 교육 패키지 지원',
       '외국인 기술자': '비자 연장 서류 안내, 기초안전교육 예약, 한국 은행 송금 카드 개설 패키지 획득',
@@ -1966,21 +1966,21 @@ const NEW_BM_DATA: BM[] = [
   }),
   createBM({
     id: 'global-saas',
-    name: '외국인 인력 관리 SaaS',
+    name: '외국인 기술자 관리',
     tier: 'longterm',
     priority: 'P2',
     strategyTags: ['global-workers', 'lock-in'],
     competitorTags: ['workrise', 'avetta'],
     features: ['translation', 'report'],
-    pricingAssumption: '외국인 인력 관리 라이선스 월 ₩99,000~₩290,000',
-    mvpValidation: '수행 기업 5개사 대상 외국인 비자 모니터링 PoC 운영',
+    pricingAssumption: '외국인 기술자 관리 라이선스 월 ₩99,000~₩290,000',
+    mvpValidation: '현장 운영사 5개사 대상 외국인 비자 모니터링 PoC 운영',
     arpu: '₩190,000/월',
     gtm: '체류 자격(E-9, H-2, F-4 등), 만료일, 안전 교육 이력, 근태 데이터를 대시보드로 통합 관리하는 솔루션',
     lockIn: ['비자 갱신 실시간 알림 데이터베이스'],
     descriptions: {
       '기술자': '나의 비자 기간 갱신 필요 시점을 플랫폼에서 스마트폰 Push 알림으로 적시 수신',
       '현장 리더': '불법 체류 단속에 걸려 현장이 마비될 우려가 없는 합법 상태 외국인 팀원 가동성 확인',
-      '수행 기업': '비자 만료 사전 감지로 대체 인력 마련 계획 수립 및 과태료 리스크 원천 소멸',
+      '현장 운영사': '비자 만료 사전 감지로 대체 인력 마련 계획 수립 및 과태료 리스크 원천 소멸',
       '협력사': '현장별 외국인 쿼터 계산 및 복잡한 노무 대장 작성을 완전 자동화로 단축',
       '원청': '하도급 공사장에 출입하는 모든 외국인의 적격성 데이터를 실시간 증적 감사 가능',
       '대기업': '글로벌 공급망 노동 안전 준수 및 합법 인력 운용 감사 패키지 구축',
@@ -2007,7 +2007,7 @@ const NEW_BM_DATA: BM[] = [
     descriptions: {
       '기술자': '현장에 가기 전 알아야 할 기본 공종별 지식, 준비물, 안전 수칙을 무료 텍스트/영상 마스터',
       '현장 리더': '아무것도 모르는 생초보 대신 입문 가이드를 이수하고 온 신입 팀원 선별 채용',
-      '수행 기업': '현장 투입 첫날 발생할 수 있는 안전 부주의 및 오시공 확률 최소화',
+      '현장 운영사': '현장 투입 첫날 발생할 수 있는 안전 부주의 및 오시공 확률 최소화',
       '협력사': '본사 차원에서 가이드 이수자 우대 채용 필터로 검증 인재 선별',
       '원청': '건설 근로자 직종별 직무 소양 상향 평준화로 하자 및 하도급 관리 편의성 증대',
       '대기업': '사내 협력사 신입 근로자 표준 안전 교육 보조 커리큘럼 탑재',
@@ -2032,7 +2032,7 @@ const NEW_BM_DATA: BM[] = [
     descriptions: {
       '기술자': '단가를 올리는 데 필요한 기술 요건, 필요 현장 일수, 추천 면허 가이드 수강',
       '현장 리더': '팀원의 기술 성장 로드맵을 설계하고, 승급에 따른 기량 등급 플랫폼 보증 참여',
-      '수행 기업': '현장 경력이 증명된 진짜 숙련 기술자를 승급 이력을 토대로 검증하고 영입',
+      '현장 운영사': '현장 경력이 증명된 진짜 숙련 기술자를 승급 이력을 토대로 검증하고 영입',
       '협력사': '연차/기량 등급별 노임 단가 산정의 표준 가이드라인 데이터 획득',
       '원청': '공종별 고급 기공 비율 투입 정합성을 모니터링하여 시공 안전도 확보',
       '대기업': '협력사 기술인 자격 승급 제도 설계 및 상생 성장 기금 연동 운용',
@@ -2057,7 +2057,7 @@ const NEW_BM_DATA: BM[] = [
     descriptions: {
       '기술자': '전문학교 수료 즉시 MONO 보증 현장으로 낙하산 매칭 취업',
       '현장 리더': '이론과 실습 기본기가 검증된 직업전문학교 출신 파릇파릇한 조공들 영입',
-      '수행 기업': '용역소 인력 대신 기본기가 충실한 교육 수료 인재 공급망 확보',
+      '현장 운영사': '용역소 인력 대신 기본기가 충실한 교육 수료 인재 공급망 확보',
       '협력사': '채용 파이프라인에 직업 전문학교 연계를 자동화하여 인사 채용 비용 최소화',
       '원청': '현장 기능 인력의 고령화 방지 및 전문 훈련을 마친 젊은 기능직 수급 확보',
       '대기업': '사외 협력사 인재 매칭 지원 사회 공헌 프로그램으로 교육기관 제휴 기금 지원',
@@ -2086,7 +2086,7 @@ const COMPETITORS_ANALYSIS: CompetitorDetail[] = [
     limitation: '팀 단위 관리 기능 부재, 장기 상용 노무 SaaS 데이터 부족, 커뮤니티 및 AI 용어/성장 경로 미비',
     monoResponse: '현장 리더(작업반장)를 통한 팀 단위 출역 체크인 및 노무 관리 SaaS 연계, AI 용어 가이드 도입',
     monoAvoid: '대규모 직채용 형태의 일용직 노임 직접 선지급(금융 부담 가중)',
-    linkableBMs: ['B2B 기업 공고 과금', '출역·정산 리포트', 'Partner Workspace 구독', '급구 현장 상단 노출'],
+    linkableBMs: ['B2B 기업 공고 과금', '출근·비용 리포트', 'Partner Workspace 구독', '급구 현장 우선 노출'],
   },
   {
     name: '숨고 (Soomgo)',
@@ -2096,7 +2096,7 @@ const COMPETITORS_ANALYSIS: CompetitorDetail[] = [
     limitation: '견적 완료 후 오프라인 직거래로 이탈하여 매칭 이후 대금 정산 수수료 수취 실패 (거래 이탈 문제)',
     monoResponse: '표준 요청서 기반 매칭, 안심 에스크로 결제와 출역 체크인 연계로 최종 정산까지 플랫폼 내 유지',
     monoAvoid: '매칭 이후 관리/정산 단계가 없는 단순 연락처·견적 중개 서비스',
-    linkableBMs: ['팀 단위 매칭 수수료', '금융·보험 제휴형', '당일 매칭 수수료'],
+    linkableBMs: ['현장 리더·팀 매칭 수수료', '금융·보험 제휴형', '당일 매칭 수수료'],
   },
   {
     name: '블라인드 (Blind)',
@@ -2126,7 +2126,7 @@ const COMPETITORS_ANALYSIS: CompetitorDetail[] = [
     limitation: '대형 산업 건설 현장의 복잡한 B2B 컴플라이언스(안전 교육, 출역 대장, 조세 신고) 지원 불가',
     monoResponse: '출역 대장 자동 생성 및 안전 교육 이수증 확인 등 법령 준수 기능 결합',
     monoAvoid: '소액 단순 심부름/가사 노동 중심의 단기 C2C 매칭 시장 진입',
-    linkableBMs: ['팀 단위 매칭 수수료', '검증 API·컴플라이언스', '당일 매칭 수수료'],
+    linkableBMs: ['현장 리더·팀 매칭 수수료', '검증 API·컴플라이언스', '당일 매칭 수수료'],
   },
   {
     name: 'Workrise',
@@ -2136,7 +2136,7 @@ const COMPETITORS_ANALYSIS: CompetitorDetail[] = [
     limitation: '미국 시장 특화로 한국의 주휴수당, 퇴직공제부금 기초 데이터 정리 등 국내법 특수성 미지원, 다국어 번역 미흡',
     monoResponse: '한국 건설 노동법(일용직 주휴수당, 세무)에 맞춘 노무비 정산 보조 및 다국어 번역 지원 SaaS 제공',
     monoAvoid: '팩토링 금융 비용을 무리하게 전액 떠안는 고위험 여신 거래 개시',
-    linkableBMs: ['출역·정산 리포트', 'Partner Workspace 구독', '외국인 인력 관리 SaaS'],
+    linkableBMs: ['출근·비용 리포트', 'Partner Workspace 구독', '외국인 기술자 관리'],
   },
   {
     name: 'Procore',
@@ -2157,8 +2157,8 @@ const SCENARIOS = [
     flow: '공고 과금 → 프로필 열람 → Partner Workspace 구독',
     metrics: 'B2B 현금 흐름 및 리드 과금',
     sequence: ['job-posting', 'profile-access', 'workspace-subscription', 'map-urgent-sponsored', 'map-geo-ads'],
-    description: '수요자(수행 기업, 협력사)가 즉각적인 채용 결원을 메우고 검증 리더 정보를 열람하는 니즈에 포커싱해 빠른 매출을 유도하는 시나리오입니다.',
-    customers: ['수행 기업', '협력사', '현장 리더'],
+    description: '수요자(현장 운영사, 협력사)가 즉각적인 채용 결원을 메우고 검증 리더 정보를 열람하는 니즈에 포커싱해 빠른 매출을 유도하는 시나리오입니다.',
+    customers: ['현장 운영사', '협력사', '현장 리더'],
     lockins: ['기량 검증 데이터', 'Certified 리더 배지'],
   },
   {
@@ -2168,7 +2168,7 @@ const SCENARIOS = [
     metrics: '사용자 및 협력사 잔존율(LTV), 거래 이탈 방지',
     sequence: ['workspace-subscription', 'attendance-report', 'matching-fee', 'community-leader-pro'],
     description: '출역 명세 및 정산 리포트를 협력사/기술자가 직접 생성·제공받게 함으로써 오프라인으로의 직거래 이탈을 방지하고 잔존시키는 전략입니다.',
-    customers: ['현장 리더', '수행 기업', '협력사'],
+    customers: ['현장 리더', '현장 운영사', '협력사'],
     lockins: ['표준 요청서', '출역 확인 체크인', '정산 증빙', '평가·재요청 루프'],
   },
   {
@@ -2178,7 +2178,7 @@ const SCENARIOS = [
     metrics: '커뮤니티 DAU, 채용 광고 CTR, 리포트 판매량',
     sequence: ['community-prime-report', 'community-local-ads', 'community-role-ads', 'community-leader-pro'],
     description: '현장 커뮤니티(원청, 지역, 직무방)를 활성화하여 기술자 트래픽을 락인하고, 원청 대상 리포트 판매 및 타겟형 직무 채용 광고로 수익을 다각화하는 전략입니다.',
-    customers: ['기술자', '현장 리더', '수행 기업', '원청'],
+    customers: ['기술자', '현장 리더', '현장 운영사', '원청'],
     lockins: ['독점 현장 만족도 통계', 'Certified 리더 배지'],
   },
   {
@@ -2187,18 +2187,18 @@ const SCENARIOS = [
     flow: 'AI 현장 용어 설명 → AI 지원 준비 체크 → AI Pro 구독',
     metrics: 'AI 피드백 채택율, Pro 구독 전환율, 공고 등록 가속도',
     sequence: ['ai-glossary', 'ai-easy-job-desc', 'ai-prep-checker', 'ai-leader-assistant'],
-    description: '기술자의 가입 및 잔존을 유도하는 무료 AI 용어 설명을 마케팅 리드로 활용하고, 리더와 기업용 공고 작성 및 TBM 자동 기록 보조 기능을 유료 Pro 구독으로 연동하는 전략입니다.',
-    customers: ['기술자', '현장 리더', '수행 기업'],
+    description: '기술자의 가입 및 잔존을 유도하는 무료 AI 현장 용어 도움을 마케팅 리드로 활용하고, 리더와 기업용 공고 작성 및 TBM 자동 기록 보조 기능을 유료 Pro 구독으로 연동하는 전략입니다.',
+    customers: ['기술자', '현장 리더', '현장 운영사'],
     lockins: ['AI 템플릿 아카이브', '기량 진단 이력'],
   },
   {
     id: 'global-workers',
-    name: '외국인 인력 확장 전략',
-    flow: '다국어 공고 번역 → 외국인 온보딩 패키지 → 외국인 인력 관리 SaaS',
+    name: '외국인 기술자 확장 전략',
+    flow: '외국어 공고 안내 → 외국인 온보딩 패키지 → 외국인 기술자 관리',
     metrics: '외국인 매칭 성공률, 비자 진위 검증 성공률, SaaS 유지율',
     sequence: ['global-jargon-translation', 'global-multilingual-job', 'global-onboarding-pack', 'global-saas'],
-    description: '국내 현장 구인난을 극복하기 위해 외국인 인력의 비자 안전성과 다국어 소통을 지원하고, 기업 대상 외국인 인력 관리 SaaS를 업셀하는 전략입니다.',
-    customers: ['외국인 기술자', '수행 기업', '협력사', '원청'],
+    description: '국내 현장 구인난을 극복하기 위해 외국인 기술자의 비자 안전성과 다국어 소통을 지원하고, 기업 대상 외국인 기술자 관리를 업셀하는 전략입니다.',
+    customers: ['외국인 기술자', '현장 운영사', '협력사', '원청'],
     lockins: ['실시간 비자 트래커', '다국어 안전 보건 이력'],
   },
   {
@@ -2228,7 +2228,7 @@ const SCENARIOS = [
     metrics: '외국인 송출 수수료, 연동 대행 ARR',
     sequence: ['global-visa-support', 'global-saas'],
     description: '현장 인력 부족을 보완하기 위해 비자 컴플라이언스가 증빙된 외국인 근로자를 온보딩하고 지원하여 플랫폼 유입률을 확보하는 전략입니다.',
-    customers: ['기술자', '현장 리더', '수행 기업', '협력사'],
+    customers: ['기술자', '현장 리더', '현장 운영사', '협력사'],
     lockins: ['다국어 안전 교육 이력', '출입국데이터 연동 비자 트래커'],
   },
 ];
@@ -2421,7 +2421,7 @@ export default function BMPage() {
       group: 'cashflow',
       label: '즉시 캐시플로우',
       reason: '급하게 사람이 필요할 때 네이버 밴드나 전화 대신 MONO 급구 현장 공고를 즉시 노출',
-      target: '수행 기업, 협력사',
+      target: '현장 운영사, 협력사',
       velocity: '매우 빠름',
       devDiff: '낮음',
       salesDiff: '보통',
@@ -2447,7 +2447,7 @@ export default function BMPage() {
       group: 'cashflow',
       label: '즉시 캐시플로우',
       reason: '경력, 자격, 준비 상태, 팀 정보를 검증하여 신뢰도 있는 후보를 검토하는 기능 제공',
-      target: '수행 기업, 협력사',
+      target: '현장 운영사, 협력사',
       velocity: '빠름',
       devDiff: '낮음',
       salesDiff: '보통',
@@ -2520,12 +2520,12 @@ export default function BMPage() {
     },
     {
       id: 'team-matching-success',
-      name: '팀 단위 매칭 상담 / 성공 수수료',
+      name: '현장 리더·팀 매칭 상담 / 성공 수수료',
       priority: 'P1' as Priority,
       group: 'midterm',
       label: '중기 핵심 BM',
       reason: '검증된 현장 리더와 팀을 기업 작업 요청에 다이렉트 연결하여 성공 수수료 수취',
-      target: '수행 기업, 현장 리더',
+      target: '현장 운영사, 현장 리더',
       velocity: '보통',
       devDiff: '낮음',
       salesDiff: '보통',
@@ -2543,7 +2543,7 @@ export default function BMPage() {
       group: 'midterm',
       label: '중기 핵심 BM',
       reason: '현장 노무비 정산 보조 및 주휴수당/퇴직공제회 증빙 관리 기반의 월 정기 구독 락인',
-      target: '수행 기업·협력사',
+      target: '현장 운영사·협력사',
       velocity: '보통',
       devDiff: '보통',
       salesDiff: '높음',
@@ -2564,7 +2564,7 @@ export default function BMPage() {
     },
     {
       id: 'attendance-report-poc',
-      name: '출역·정산 리포트',
+      name: '출근·비용 리포트',
       priority: 'P1' as Priority,
       group: 'midterm',
       label: '중기 핵심 BM',
@@ -2587,7 +2587,7 @@ export default function BMPage() {
       group: 'longterm',
       label: '장기 확장 로드맵',
       reason: '전기, 배관, 형틀 등 직무방 커뮤니티의 트래픽을 활용한 스폰서 광고 및 배너 노출',
-      target: '수행 기업',
+      target: '현장 운영사',
       velocity: '빠름',
       devDiff: '낮음',
       salesDiff: '보통',
@@ -2855,7 +2855,7 @@ export default function BMPage() {
         {/* ── 1라운드 상세 안내 패널 (헤더에서 메인으로 이동) ── */}
         <section style={{ display: 'flex', flexDirection: 'column', gap: 6, background: '#f8fafc', padding: '16px 20px', borderRadius: 12, border: '1px solid #e2e8f0', marginBottom: 20 }}>
           <div style={{ fontSize: 13.5, color: '#334155', lineHeight: 1.6, fontWeight: 650, wordBreak: 'keep-all' }}>
-            1라운드에서는 완성된 앱 출시를 기다리지 않고, MVP 화면과 서비스 소개 자료를 활용해 수행 기업, 현장 리더, 협력사, 교육기관, 원청·대기업의 실제 수요를 먼저 확인합니다. 콜드메일, 전화, 오프라인 미팅, 설문을 통해 공고 등록, 후보 열람, 팀 매칭, 출근·정산 리포트, 커뮤니티, AI 현장 가이드에 대한 필요성과 비용 지불 의향을 검증합니다.
+            1라운드에서는 완성된 앱 출시를 기다리지 않고, MVP 화면과 서비스 소개 자료를 활용해 현장 운영사, 현장 리더, 협력사, 교육기관, 원청·대기업의 실제 수요를 먼저 확인합니다. 콜드메일, 전화, 오프라인 미팅, 설문을 통해 공고 등록, 후보 열람, 팀 매칭, 출근·정산 리포트, 커뮤니티, AI 현장 가이드에 대한 필요성과 비용 지불 의향을 검증합니다.
           </div>
         </section>
 
@@ -2874,7 +2874,7 @@ export default function BMPage() {
         >
           <span style={{ fontSize: 20 }}>🚀</span>
           <span style={{ fontSize: 14.5, fontWeight: 800, color: '#1e40af', lineHeight: 1.45 }}>
-            MONO의 수익모델은 공고 과금에서 시작해 커뮤니티, 지도 기반 급구 매칭, 팀 운영, AI 가이드, 교육·번역·외국인 인력 관리로 확장됩니다.
+            MONO의 수익모델은 공고 과금에서 시작해 커뮤니티, 지도 기반 급구 매칭, 팀 운영, AI 가이드, 교육·번역·외국인 기술자 관리로 확장됩니다.
           </span>
         </section>
 
@@ -2990,13 +2990,13 @@ export default function BMPage() {
                 </thead>
                 <tbody>
                   {[
-                    { name: '급구 현장 공고 과금', target: '수행 기업, 협력사, 현장 리더', method: '콜드메일로 “급구 공고 등록 의향” 확인', metric: '회신율, 미팅 전환, 공고 등록 의향' },
-                    { name: '프로필·팀 열람 과금', target: '수행 기업, 협력사', method: '샘플 기술자·팀 프로필을 보여주고 열람 비용 의향 확인', metric: '후보 열람 관심, 가격 반응' },
-                    { name: '팀 단위 매칭 수수료', target: '수행 기업, 현장 리더', method: '작업 요청서 샘플로 팀 매칭 상담 의향 확인', metric: '상담 요청, 팀 등록 의향' },
-                    { name: 'Partner Workspace Lite', target: '수행 기업, 협력사', method: '공고·후보·출근 관리 화면 시안 공유', metric: '데모 요청, 유료 기능 관심' },
+                    { name: '급구 현장 공고 과금', target: '현장 운영사, 협력사, 현장 리더', method: '콜드메일로 “급구 공고 등록 의향” 확인', metric: '회신율, 미팅 전환, 공고 등록 의향' },
+                    { name: '프로필·팀 프로필 열람', target: '현장 운영사, 협력사', method: '샘플 기술자·팀 프로필을 보여주고 열람 비용 의향 확인', metric: '후보 열람 관심, 가격 반응' },
+                    { name: '현장 리더·팀 매칭 수수료', target: '현장 운영사, 현장 리더', method: '작업 요청서 샘플로 팀 매칭 상담 의향 확인', metric: '상담 요청, 팀 등록 의향' },
+                    { name: 'Partner Workspace Lite', target: '현장 운영사, 협력사', method: '공고·후보·출근 관리 화면 시안 공유', metric: '데모 요청, 유료 기능 관심' },
                     { name: '출근·정산 리포트', target: '협력사, 원청', method: '샘플 리포트를 보여주고 운영 필요성 확인', metric: '리포트 관심, PoC 요청' },
                     { name: '교육기관 제휴', target: '교육기관', method: '초보자 현장 입문·자격 교육 수요 확인', metric: '제휴 미팅, 교육 등록 관심' },
-                    { name: '커뮤니티 채용 광고', target: '수행 기업, 현장 리더', method: '지역방·직무방 공고 노출 의향 확인', metric: '광고 관심, 타깃 직무' },
+                    { name: '커뮤니티 채용 광고', target: '현장 운영사, 현장 리더', method: '지역방·직무방 공고 노출 의향 확인', metric: '광고 관심, 타깃 직무' },
                     { name: 'AI 현장 가이드', target: '기술자, 외국인 기술자, 교육기관', method: '현장 용어 설명·번역 데모 설문', metric: '기능 선호도, 재사용 의향' }
                   ].map((bm, idx) => (
                     <tr key={idx} style={{ borderBottom: idx === 7 ? 'none' : '1px solid #e2e8f0' }} className="bm-row">
@@ -3020,7 +3020,7 @@ export default function BMPage() {
               {[
                 { key: 'worker', label: '👷 기술자 대상' },
                 { key: 'leader', label: '⚡ 현장 리더 대상' },
-                { key: 'company', label: '🏢 수행 기업·협력사' },
+                { key: 'company', label: '🏢 현장 운영사·협력사' },
                 { key: 'enterprise', label: '🏗️ 원청·대기업' },
                 { key: 'education', label: '🏫 교육기관' }
               ].map(role => (
@@ -3138,7 +3138,7 @@ export default function BMPage() {
               </div>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', marginBottom: '16px' }}>
                 {[
-                  { tag: '수행 기업', goal: '공고·팀 매칭 수요 확인' },
+                  { tag: '현장 운영사', goal: '공고·팀 매칭 수요 확인' },
                   { tag: '협력사', goal: '출근·정산·후보 검토 확인' },
                   { tag: '현장 리더', goal: '팀 등록·급구 모집 확인' },
                   { tag: '교육기관', goal: '초보자 교육·자격 제휴' },
@@ -3205,7 +3205,7 @@ export default function BMPage() {
                   { label: '응답 수집', value: '10건 이상' },
                   { label: '심층 인터뷰', value: '10명 이상' },
                   { label: '설문 응답', value: '30건 이상' },
-                  { label: '수행 기업 미팅', value: '5건 이상' },
+                  { label: '현장 운영사 미팅', value: '5건 이상' },
                   { label: '현장 리더 인터뷰', value: '5명 이상' }
                 ].map((target, idx) => (
                   <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', padding: '4px 0', borderBottom: '1px solid #f1f5f9' }}>
@@ -3226,7 +3226,7 @@ export default function BMPage() {
               </p>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                 {[
-                  '1. 1라운드 수요 검증 대상(수행 기업, 협력사 등)과 설계 질문들이 이탈 없이 예리하게 정비되었습니까?',
+                  '1. 1라운드 수요 검증 대상(현장 운영사, 협력사 등)과 설계 질문들이 이탈 없이 예리하게 정비되었습니까?',
                   '2. 앱 출시 전에 PoC 의향과 비용 지불 의사를 확인하기 위해 제시된 8가지 간접 수익모델의 우선순위가 타당합니까?',
                   '3. 콜드메일 100건 발송을 통한 유료 기능 지향성 및 PoC 전환 확인 지표 설정이 적정합니까?'
                 ].map((item, idx) => (
@@ -4336,14 +4336,14 @@ const TIER_CONFIG = {
 const SEGMENT_COLORS = [
   '#0284c7', // Sky (기술자)
   '#4f46e5', // Indigo (현장 리더)
-  '#0d9488', // Teal (수행 기업)
+  '#0d9488', // Teal (현장 운영사)
   '#0891b2', // Cyan (협력사)
   '#2563eb', // Blue (원청)
   '#7c3aed', // Violet (대기업)
   '#db2777'  // Pink (정부·지자체)
 ];
 
-const SEGMENTS = ['기술자', '현장 리더', '수행 기업', '협력사', '원청', '대기업', '정부·지자체'] as const;
+const SEGMENTS = ['기술자', '현장 리더', '현장 운영사', '협력사', '원청', '대기업', '정부·지자체'] as const;
 
 interface SegmentDetail {
   name: typeof SEGMENTS[number];
@@ -4357,7 +4357,7 @@ interface SegmentDetail {
 const SEGMENT_DETAILS: SegmentDetail[] = [
   { name: '기술자', role: '사용자', priority: 'P0', colorBg: '#f0f9ff', colorText: '#0284c7', border: 'rgba(2,132,199,0.2)' },
   { name: '현장 리더', role: '공급망', priority: 'P0', colorBg: '#faf5ff', colorText: '#4f46e5', border: 'rgba(79,70,229,0.2)' },
-  { name: '수행 기업', role: '초기 결제 고객', priority: 'P0', colorBg: '#f0fdfa', colorText: '#0d9488', border: 'rgba(13,148,136,0.2)' },
+  { name: '현장 운영사', role: '초기 결제 고객', priority: 'P0', colorBg: '#f0fdfa', colorText: '#0d9488', border: 'rgba(13,148,136,0.2)' },
   { name: '협력사', role: '반복 운영 고객', priority: 'P1', colorBg: '#ecfeff', colorText: '#0891b2', border: 'rgba(8,145,178,0.2)' },
   { name: '원청', role: '표준화 고객', priority: 'P1', colorBg: '#eff6ff', colorText: '#2563eb', border: 'rgba(37,99,235,0.2)' },
   { name: '대기업', role: '전략 투자·상생 고객', priority: 'P2', colorBg: '#faf5ff', colorText: '#7c3aed', border: 'rgba(124,58,237,0.2)' },

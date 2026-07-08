@@ -30,7 +30,7 @@ export default function WorkerProfile({ user, onUpdate }: { user: any; onUpdate:
                 borderBottom: activeTab === tab ? "2px solid #4f46e5" : "none",
               }}
             >
-              {tab === "info" ? "기본 정보" : tab === "career" ? "경력 카드" : "문서/인증"}
+              {tab === "info" ? "기본 정보" : tab === "career" ? "경력 카드" : "준비 서류/준비 상태"}
             </button>
           ))}
         </div>

@@ -77,7 +77,7 @@ export default function SettlementManager({ companyId }: { companyId: string }) 
     return (
       <div style={{ ...card, position: "relative" }}>
         <button onClick={() => setIsCreating(false)} style={{ position: "absolute", top: 18, right: 18, background: "none", border: "none", fontSize: 20, cursor: "pointer", color: "var(--app-text-tertiary,#8694a8)" }}>&times;</button>
-        <h3 style={{ margin: "0 0 16px", fontSize: 16, fontWeight: 800 }}>새 정산명세서 발행</h3>
+        <h3 style={{ margin: "0 0 16px", fontSize: 16, fontWeight: 800 }}>새 받을 금액명세서 발행</h3>
         
         <div style={{ marginBottom: 12 }}>
           <label style={{ display: "block", fontSize: 12, fontWeight: 700, marginBottom: 4 }}>기술자(User ID)</label>
@@ -85,12 +85,12 @@ export default function SettlementManager({ companyId }: { companyId: string }) 
         </div>
         
         <div style={{ marginBottom: 16 }}>
-          <label style={{ display: "block", fontSize: 12, fontWeight: 700, marginBottom: 4 }}>정산 기간 (예: 2026-06)</label>
+          <label style={{ display: "block", fontSize: 12, fontWeight: 700, marginBottom: 4 }}>받을 금액 기간 (예: 2026-06)</label>
           <input style={inputStyle} value={period} onChange={(e) => setPeriod(e.target.value)} placeholder="YYYY-MM" />
         </div>
 
         <div style={{ marginBottom: 16, borderTop: "1px solid #e6e8ec", paddingTop: 12 }}>
-          <h4 style={{ margin: "0 0 8px", fontSize: 14 }}>정산 항목 추가</h4>
+          <h4 style={{ margin: "0 0 8px", fontSize: 14 }}>받을 금액 항목 추가</h4>
           <div style={{ display: "flex", gap: 8, marginBottom: 8 }}>
             <select style={{ ...inputStyle, flex: 1 }} value={newKind} onChange={(e) => setNewKind(e.target.value as string)}>
               <option value="">유형 선택</option>
@@ -131,19 +131,19 @@ export default function SettlementManager({ companyId }: { companyId: string }) 
 
   return (
     <div style={{ padding: "0 4px" }}>
-      <button style={{ ...primaryBtn, marginBottom: 16 }} onClick={() => setIsCreating(true)}>+ 새 정산명세서 발행</button>
+      <button style={{ ...primaryBtn, marginBottom: 16 }} onClick={() => setIsCreating(true)}>+ 새 받을 금액명세서 발행</button>
 
       {loading ? (
         <div style={{ textAlign: "center", padding: 20, color: "#8694a8" }}>불러오는 중...</div>
       ) : list.length === 0 ? (
-        <div style={{ textAlign: "center", padding: 20, color: "#8694a8" }}>등록된 정산 내역이 없습니다.</div>
+        <div style={{ textAlign: "center", padding: 20, color: "#8694a8" }}>등록된 받을 금액 내역이 없습니다.</div>
       ) : (
         list.map((s) => {
           const total = (s.items || []).reduce((acc: number, it: any) => acc + (it.kind === "DEDUCTION" ? -Math.abs(it.amount) : it.amount), 0);
           return (
             <div key={s.id} style={card}>
               <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
-                <span style={{ fontWeight: 800, fontSize: 14 }}>{s.period} 정산</span>
+                <span style={{ fontWeight: 800, fontSize: 14 }}>{s.period} 받을 금액</span>
                 <span style={{ fontSize: 12, fontWeight: 800, padding: "2px 8px", borderRadius: 10, background: s.status === "DISPUTED" ? "#ffe5e5" : "#ecedfb", color: s.status === "DISPUTED" ? "#d90000" : "#4f46e5" }}>
                   {s.status}
                 </span>
@@ -158,7 +158,7 @@ export default function SettlementManager({ companyId }: { companyId: string }) 
                   </div>
                 ))}
                 <div style={{ display: "flex", justifyContent: "space-between", fontSize: 13, fontWeight: 800, borderTop: "1px solid #e6e8ec", paddingTop: 8, marginTop: 8 }}>
-                  <span>총 정산액</span>
+                  <span>총 받을 금액액</span>
                   <span style={{ color: "var(--c1,#4f46e5)" }}>{total.toLocaleString()}원</span>
                 </div>
               </div>

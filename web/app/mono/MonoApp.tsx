@@ -71,7 +71,7 @@ const shLabel = { display: "block", fontSize: "13px", fontWeight: 800, color: "v
 const shInput = { width: "100%", boxSizing: "border-box", height: "48px", padding: "0 14px", borderRadius: "13px", border: "1px solid #e6e8ec", background: "#fff", color: "#111111", fontSize: "15px", fontFamily: "inherit", outline: "none" };
 const shPill = (on) => ({ padding: "9px 14px", borderRadius: "999px", border: `1.5px solid ${on ? "var(--c1,#1F2226)" : "#e6e8ec"}`, background: on ? "var(--c1,#1F2226)" : "#fff", color: on ? "#fff" : "var(--app-text-secondary,#5b6b82)", fontSize: "13.5px", fontWeight: on ? 800 : 600, fontFamily: "inherit", cursor: "pointer" });
 
-// 일자리 탭 — 기업이 등록한 실제 채용 공고(/api/job-posts)
+// 현장 탭 — 기업이 등록한 실제 채용 공고(/api/job-posts)
 // JobPost 타입은 @/lib/types 에서 가져옴
 
 // 알림 — 매칭 공고 등(인앱 알림센터)
@@ -105,7 +105,7 @@ interface TeamData {
   members: { userId: string; name: string | null; jobType: string[]; region: string[] }[];
 }
 
-// 출역·정산 탭 — 배정(ACCEPTED) 현장 + 출역 기록(/api/users/:id/assignments)
+// 출근·받을 금액 탭 — 배정(ACCEPTED) 현장 + 출근 기록(/api/users/:id/assignments)
 function fmtClock(iso: string): string {
   const d = new Date(iso);
   const p = (n: number) => String(n).padStart(2, "0");
@@ -154,7 +154,7 @@ export default function MonoApp() {
     careerCards, addCareerCard, completion } = useProfile(); // 온보딩 프로필 + 관심/서류 + 현장 경력 + 완성도
   const [openInterest, setOpenInterest] = useState(false); // 관심 기능 신청 시트
 
-  // 신규 추가: 계약서 서명, 정산 영수증, 퀴즈, 은어 검색 상태
+  // 신규 추가: 계약서 서명, 받을 금액 영수증, 퀴즈, 은어 검색 상태
   const [openContractModal, setOpenContractModal] = useState(false);
   const [contractSigned, setContractSigned] = useState(false);
   const [openSettlementInvoice, setOpenSettlementInvoice] = useState<any>(null);
@@ -385,7 +385,7 @@ export default function MonoApp() {
     prevTabRef.current = s.tab;
   }, [s.tab, completion]);
 
-  // 일자리 탭 — 공고 + 내 지원 현황.
+  // 현장 탭 — 공고 + 내 지원 현황.
   const [realJobs, setRealJobs] = useState<JobPost[] | null>(null);
   const [appliedJobs, setAppliedJobs] = useState<Set<string>>(new Set());
   const [myApps, setMyApps] = useState<JobApplication[]>([]);
@@ -409,7 +409,7 @@ export default function MonoApp() {
     };
   }, [jobDetail]);
 
-  // 알림센터(종+패널) — 미읽음 수 폴링, 패널 열기 시 목록 로드 + 모두 읽음, 항목 클릭 → 일자리 탭.
+  // 알림센터(종+패널) — 미읽음 수 폴링, 패널 열기 시 목록 로드 + 모두 읽음, 항목 클릭 → 현장 탭.
   const [notifs, setNotifs] = useState<NotifItem[]>([]);
   const [unread, setUnread] = useState(0);
   const [notifOpen, setNotifOpen] = useState(false);
@@ -1077,7 +1077,7 @@ export default function MonoApp() {
                 
                 {/* 신뢰 배지 */}
                 <span style={{ marginLeft: "auto", fontSize: "12.5px", fontWeight: "800", color: "#10b981", display: "flex", alignItems: "center", gap: "3px" }}>
-                  ✓ {isLarge ? "기업 인증 완료" : "현장 확인 완료"}
+                  ✓ {isLarge ? "기업 준비 상태 완료" : "현장 확인 완료"}
                 </span>
               </div>
 
@@ -1120,9 +1120,9 @@ export default function MonoApp() {
                   <span style={{ fontSize: "12px", fontWeight: "800", color: "#059669", background: "#ecfdf5", padding: "4px 10px", borderRadius: "8px" }}>
                     🔰 {jp.careerBand === "NEWBIE" || jp.careerBand === "ANY" ? "초보·입문 가능" : "경력자 우대"}
                   </span>
-                  {/* 정산 */}
+                  {/* 받을 금액 */}
                   <span style={{ fontSize: "12px", fontWeight: "800", color: "#475569", background: "#f1f5f9", padding: "4px 10px", borderRadius: "8px" }}>
-                    💳 {isToday ? "당일 즉시 정산" : "익월 15일 주급/월급 정산"}
+                    💳 {isToday ? "당일 즉시 받을 금액" : "익월 15일 주급/월급 받을 금액"}
                   </span>
                 </div>
 
@@ -1199,7 +1199,7 @@ export default function MonoApp() {
     await loadMyApplications();
   };
 
-  // 출역·정산 탭 — 배정(ACCEPTED) 현장 + 출근/퇴근 체크.
+  // 출근·받을 금액 탭 — 배정(ACCEPTED) 현장 + 출근/퇴근 체크.
   const [assignments, setAssignments] = useState<Assignment[] | null>(null);
   const workLoadedRef = useRef(false);
   const loadAssignments = () => {
@@ -1220,7 +1220,7 @@ export default function MonoApp() {
     track("check_in", { applicationId: appId });
     apiCheckIn(appId).then(() => loadAssignments()).catch(() => undefined);
   };
-  // ── 출역 역류 루프 (재출역 제안) UI 상태 ──
+  // ── 출근 역류 루프 (재출근 제안) UI 상태 ──
   const [checkoutSheetApp, setCheckoutSheetApp] = useState<Assignment | null>(null);
   const [reattendSelected, setReattendSelected] = useState<string[]>([]);
   const [reattendBusy, setReattendBusy] = useState(false);
@@ -1239,7 +1239,7 @@ export default function MonoApp() {
 
     const gold='var(--a1,#1F2226)', green='var(--c1,#1F2226)', mute='#8694a8';
 
-    // 온보딩 데이터 → 경력카드 표시값(없으면 데모 폴백)
+    // 온보딩 데이터 → 현장 경력 표시값(없으면 데모 폴백)
     const pName = (user && user.name && user.name.trim()) ? user.name.trim() : '김현장';
     const pInit = pName.charAt(0) || '김';
     const pJobArr = (user && user.jobType) ? (Array.isArray(user.jobType) ? user.jobType : [user.jobType]) : [];
@@ -1252,7 +1252,7 @@ export default function MonoApp() {
     const qr=makeQR('var(--c0,#1F2226)');
 
     // steps timeline
-    const labels=['지원 완료','기업 확인 중','출역 확정','출근 대기','출근 완료','퇴근 완료','근무 확정','정산 예정','정산 완료'];
+    const labels=['지원 완료','기업 확인 중','출근 확정','출근 대기','출근 완료','퇴근 완료','근무 확정','받을 금액 예정','받을 금액 완료'];
     const times=['06.15 14:20','06.16 09:00','06.16 18:30','06.18 06:40', ci?'06.18 07:02':'', '', '', '', ''];
     const cur = ci?4:3; // current active index
     const steps=labels.map((label,i)=>{
@@ -1277,9 +1277,9 @@ export default function MonoApp() {
       company:opt.company,people:opt.people,hours:opt.hours,settleWay:opt.settleWay,prepare:opt.prepare,risk:opt.risk,manager:opt.manager,grad:opt.grad,month:opt.month});
 
     const jobs=[
-      mk('형틀목공','힐스테이트 송도 더스카이','인천 연수구','4.2km','6/19','230,000','숙식 제공','4.9','형틀목공 5년+ 경력과 갱폼·알폼 보유 기술이 현장 요구 조건과 정확히 일치합니다. 출역 신뢰도 98.5%로 우선 추천.',{instant:true,safety:true,company:'대주건설(주)',people:'12명',hours:'07:00–17:00',settleWay:'주급 · 에스크로 안전정산',prepare:'안전화·안전모(현장 지급), 신분증',risk:'보통 · 고소작업 일부 포함',manager:'현장소장 박정호',grad:'var(--c3,#1F2226)',month:'6월'}),
-      mk('철근공','래미안 원베일리','서울 서초구','11.8km','6/20','245,000','숙식 미제공','4.7','선호 근무지(서울)와 평점 4.8, 최근 12개월 무결근 이력이 반영되었습니다.',{company:'삼성물산 협력 · 동성건설',people:'8명',hours:'07:00–16:30',settleWay:'월급 · 계좌이체',prepare:'개인 공구, 안전화',risk:'낮음',manager:'노무담당 김선영',grad:'var(--c1,#1F2226)'}),
-      mk('형틀목공','자이 평택고덕 4단지','경기 평택','38km','6/21','225,000','숙식 제공','4.6','보유 자격증(비계기능사)과 갱폼 시공 경험이 매칭되었습니다. 숙식 제공으로 원거리 출역 가능.',{instant:true,company:'GS건설 협력 · 한울ENG',people:'20명',hours:'06:30–16:30',settleWay:'주급 · 에스크로 안전정산',prepare:'안전장구 일체 지급',risk:'보통',manager:'반장 이강우',grad:'var(--c1,#1F2226)'})
+      mk('형틀목공','힐스테이트 송도 더스카이','인천 연수구','4.2km','6/19','230,000','숙식 제공','4.9','형틀목공 5년+ 경력과 갱폼·알폼 보유 기술이 현장 요구 조건과 정확히 일치합니다. 출근 신뢰도 98.5%로 우선 추천.',{instant:true,safety:true,company:'대주건설(주)',people:'12명',hours:'07:00–17:00',settleWay:'주급 · 에스크로 안전받을 금액',prepare:'안전화·안전모(현장 지급), 신분증',risk:'보통 · 고소작업 일부 포함',manager:'현장소장 박정호',grad:'var(--c3,#1F2226)',month:'6월'}),
+      mk('철근공','래미안 원베일리','서울 서초구','11.8km','6/20','245,000','숙식 미제공','4.7','선호 현장 위치(서울)와 평점 4.8, 최근 12개월 무결근 이력이 반영되었습니다.',{company:'삼성물산 협력 · 동성건설',people:'8명',hours:'07:00–16:30',settleWay:'월급 · 계좌이체',prepare:'개인 공구, 안전화',risk:'낮음',manager:'노무담당 김선영',grad:'var(--c1,#1F2226)'}),
+      mk('형틀목공','자이 평택고덕 4단지','경기 평택','38km','6/21','225,000','숙식 제공','4.6','보유 자격증(비계기능사)과 갱폼 시공 경험이 매칭되었습니다. 숙식 제공으로 원거리 출근 가능.',{instant:true,company:'GS건설 협력 · 한울ENG',people:'20명',hours:'06:30–16:30',settleWay:'주급 · 에스크로 안전받을 금액',prepare:'안전장구 일체 지급',risk:'보통',manager:'반장 이강우',grad:'var(--c1,#1F2226)'})
     ];
     jobs.forEach((j,i)=>{ j.onOpen=()=>openJob(i); });
     const homeJobs=[
@@ -1288,7 +1288,7 @@ export default function MonoApp() {
     ];
     const job=jobs[s.selJob]||jobs[0];
 
-    const chipDefs=['전체','형틀목공','철근공','콘크리트','서울/경기','즉시 출역'];
+    const chipDefs=['전체','형틀목공','철근공','콘크리트','서울/경기','즉시 출근'];
     const chips=chipDefs.map((label,i)=>({ label, bg:i===0?green:'#fff', fg:i===0?'#fff':'#5b6b82', bd:i===0?green:'#e6e8ec' }));
 
     const history=[
@@ -1298,24 +1298,24 @@ export default function MonoApp() {
 
     // modals
     const M={
-      career:{ title:'경력 자동 확인', status:'구현 예정', body:'건설근로자공제회 퇴직공제 가입 이력과 연계하여 근무 경력을 자동 검증하는 기능입니다. 실제 서비스에서는 기관 인증 데이터 기반으로 경력이 자동 확인됩니다.', note:'건설근로자공제회 데이터 연동 협의·API 준비 중' },
+      career:{ title:'경력 자동 확인', status:'구현 예정', body:'건설근로자공제회 퇴직공제 가입 이력과 연계하여 근무 경력을 자동 검증하는 기능입니다. 실제 서비스에서는 기관 준비 상태 데이터 기반으로 경력이 자동 확인됩니다.', note:'건설근로자공제회 데이터 연동 협의·API 준비 중' },
       safety:{ title:'안전교육 자동 검증', status:'구현 예정', body:'안전보건공단의 기초안전보건교육 이수 정보와 연동하여 현장별 필수 교육 이수 여부를 자동 확인합니다. 현재는 근로자 제출 자료 기반으로 운영됩니다.', note:'안전보건공단 데이터 연동 협의 중' },
-      finance:{ title:'금융 자산화 연계', status:'구현 예정', body:'축적된 근무 이력·정산 데이터와 기술 신뢰도 점수를 기반으로 신용평가사·카드사와 연계한 대안 신용평가 및 금융 상품을 준비하고 있습니다.', note:'신용평가사·카드사 제휴 및 모델 개발 준비 중' },
-      escrow:{ title:'에스크로 안전정산', status:'구현 예정', body:'기업이 예치한 정산금을 근무 확정 시 안전하게 지급하는 구조입니다. 지급 PG·오픈뱅킹 연동을 통해 정산 누락과 임금 체불 위험을 줄입니다.', note:'지급 PG·오픈뱅킹 연동 준비 중' },
-      share:{ title:'경력카드 공유', status:'사용 가능', body:'공개용 경력카드 링크와 QR을 생성하여 기업에 제출할 수 있습니다. 주민번호·계좌·상세 정산액은 자동으로 마스킹되며, 열람 로그가 기록됩니다.', note:'외부 링크는 7일 후 자동 만료됩니다' },
-      scope:{ title:'공개 범위 설정', status:'사용 가능', body:'기업 또는 외부인이 경력카드를 열람할 때 공개할 항목을 직접 선택합니다. 이름 마스킹, 정산액 비공개, 상세 평가 비공개 등을 항목별로 제어할 수 있습니다.', note:'기본값: 이름 일부 마스킹 · 상세 정산액 비공개' },
+      finance:{ title:'금융 자산화 연계', status:'구현 예정', body:'축적된 근무 이력·받을 금액 데이터와 기술 신뢰도 점수를 기반으로 신용평가사·카드사와 연계한 대안 신용평가 및 금융 상품을 준비하고 있습니다.', note:'신용평가사·카드사 제휴 및 모델 개발 준비 중' },
+      escrow:{ title:'에스크로 안전받을 금액', status:'구현 예정', body:'기업이 예치한 받을 금액금을 근무 확정 시 안전하게 지급하는 구조입니다. 지급 PG·오픈뱅킹 연동을 통해 받을 금액 누락과 임금 체불 위험을 줄입니다.', note:'지급 PG·오픈뱅킹 연동 준비 중' },
+      share:{ title:'현장 경력 공유', status:'사용 가능', body:'공개용 현장 경력 링크와 QR을 생성하여 기업에 제출할 수 있습니다. 주민번호·계좌·상세 받을 금액액은 자동으로 마스킹되며, 열람 로그가 기록됩니다.', note:'외부 링크는 7일 후 자동 만료됩니다' },
+      scope:{ title:'공개 범위 설정', status:'사용 가능', body:'기업 또는 외부인이 현장 경력를 열람할 때 공개할 항목을 직접 선택합니다. 이름 마스킹, 받을 금액액 비공개, 상세 평가 비공개 등을 항목별로 제어할 수 있습니다.', note:'기본값: 이름 일부 마스킹 · 상세 받을 금액액 비공개' },
       detailReq:{ title:'상세보기 요청 흐름', status:'사용 가능', body:'기업이 상세보기를 요청하면 ① 근로자에게 알림이 발송되고 ② 근로자가 공개 범위를 선택한 뒤 ③ 기업에게 제한된 상세 정보가 공개됩니다. 모든 열람 내역은 로그로 저장됩니다.', note:'열람 로그 저장 · 공개 범위는 언제든 회수 가능' },
-      office:{ title:'오프라인 인력사무소 연동', status:'구현 예정', body:'기존 인력사무소의 출역부·배정표·전화 확인·정산 업무를 디지털화하는 기능입니다. 제휴 사무소 모집, 현장 배정 표준화, 수수료 정책, 개인정보 처리 동의 체계를 준비 중입니다.', note:'제휴 인력사무소 모집 및 배정 프로세스 표준화 진행 중' },
-      attend:{ title:'출근·퇴근 체크', status:'구현 예정', body:'현장 도착·퇴근 시 GPS·QR로 출퇴근을 기록하고 출역 내역을 자동 정리하는 기능입니다. 기업 배정·정산과 연동됩니다.', note:'현장 출입 연동 및 위치 인증 방식 설계 중' },
-      apply:{ title:'출역 신청', status:'구현 예정', body:'공고에 출역을 신청하면 기업이 확인 후 배정하는 기능입니다. 배정 결과는 알림으로 안내됩니다.', note:'기업 배정·승인 흐름 연동 준비 중' }
+      office:{ title:'오프라인 인력사무소 연동', status:'구현 예정', body:'기존 인력사무소의 출근부·배정표·전화 확인·받을 금액 업무를 디지털화하는 기능입니다. 제휴 사무소 모집, 현장 배정 표준화, 수수료 정책, 개인정보 처리 동의 체계를 준비 중입니다.', note:'제휴 인력사무소 모집 및 배정 프로세스 표준화 진행 중' },
+      attend:{ title:'출근·퇴근 체크', status:'구현 예정', body:'현장 도착·퇴근 시 GPS·QR로 출퇴근을 기록하고 출근 내역을 자동 정리하는 기능입니다. 기업 배정·받을 금액과 연동됩니다.', note:'현장 출입 연동 및 위치 준비 상태 방식 설계 중' },
+      apply:{ title:'출근 신청', status:'구현 예정', body:'공고에 출근을 신청하면 기업이 확인 후 배정하는 기능입니다. 배정 결과는 알림으로 안내됩니다.', note:'기업 배정·승인 흐름 연동 준비 중' }
     };
     const m=s.modal?M[s.modal]:null;
 
     const meRows=[
-      {label:'내 현장 프로필 (이력서)',tag:'완료',tagColor:'var(--c3,#1F2226)',icon:React.createElement('svg',{width:18,height:18,viewBox:'0 0 20 20',fill:'none'},React.createElement('circle',{cx:10,cy:7,r:3,stroke:'var(--c1,#1F2226)',strokeWidth:1.7}),React.createElement('path',{d:'M4 17c0-3 2.7-4.5 6-4.5s6 1.5 6 4.5',stroke:'var(--c1,#1F2226)',strokeWidth:1.7,strokeLinecap:'round'})),onClick:()=>openEdit()},
-      {label:'준비 서류 (문서)',tag:(certificates.length+educations.length)?(certificates.length+educations.length)+'건':'',tagColor:'#8694a8',icon:React.createElement('svg',{width:18,height:18,viewBox:'0 0 20 20',fill:'none'},React.createElement('path',{d:'M5 2.5h7L16 6v11.5H5V2.5Z',stroke:'var(--c1,#1F2226)',strokeWidth:1.7,strokeLinejoin:'round'}),React.createElement('path',{d:'M12 2.5V6h4',stroke:'var(--c1,#1F2226)',strokeWidth:1.7,strokeLinejoin:'round'})),onClick:()=>setOpenDocs(true)},
-      {label:'일한 기록 (출역내역)',tag:history.length?history.length+'건':'',tagColor:'#8694a8',icon:React.createElement('svg',{width:18,height:18,viewBox:'0 0 20 20',fill:'none'},React.createElement('path',{d:'M3 17h14M5 17V8l5-3.5L15 8v9M8.5 17v-4h3v4',stroke:'var(--c1,#1F2226)',strokeWidth:1.7,strokeLinejoin:'round'})),onClick:()=>setTab('work')},
-      {label:'받을 금액 (정산)',tag:'조회',tagColor:'#8694a8',icon:React.createElement('svg',{width:18,height:18,viewBox:'0 0 20 20',fill:'none'},React.createElement('rect',{x:3,y:5,width:14,height:11,rx:2,stroke:'var(--c1,#1F2226)',strokeWidth:1.7},React.createElement('path',{d:'M3 9h14',stroke:'var(--a1,#1F2226)',strokeWidth:1.7}))),onClick:()=>setTab('work')}
+      {label:'내 현장 프로필 (내 현장 프로필)',tag:'완료',tagColor:'var(--c3,#1F2226)',icon:React.createElement('svg',{width:18,height:18,viewBox:'0 0 20 20',fill:'none'},React.createElement('circle',{cx:10,cy:7,r:3,stroke:'var(--c1,#1F2226)',strokeWidth:1.7}),React.createElement('path',{d:'M4 17c0-3 2.7-4.5 6-4.5s6 1.5 6 4.5',stroke:'var(--c1,#1F2226)',strokeWidth:1.7,strokeLinecap:'round'})),onClick:()=>openEdit()},
+      {label:'준비 서류 (준비 서류)',tag:(certificates.length+educations.length)?(certificates.length+educations.length)+'건':'',tagColor:'#8694a8',icon:React.createElement('svg',{width:18,height:18,viewBox:'0 0 20 20',fill:'none'},React.createElement('path',{d:'M5 2.5h7L16 6v11.5H5V2.5Z',stroke:'var(--c1,#1F2226)',strokeWidth:1.7,strokeLinejoin:'round'}),React.createElement('path',{d:'M12 2.5V6h4',stroke:'var(--c1,#1F2226)',strokeWidth:1.7,strokeLinejoin:'round'})),onClick:()=>setOpenDocs(true)},
+      {label:'일한 기록 (일한 기록)',tag:history.length?history.length+'건':'',tagColor:'#8694a8',icon:React.createElement('svg',{width:18,height:18,viewBox:'0 0 20 20',fill:'none'},React.createElement('path',{d:'M3 17h14M5 17V8l5-3.5L15 8v9M8.5 17v-4h3v4',stroke:'var(--c1,#1F2226)',strokeWidth:1.7,strokeLinejoin:'round'})),onClick:()=>setTab('work')},
+      {label:'받을 금액 (받을 금액)',tag:'조회',tagColor:'#8694a8',icon:React.createElement('svg',{width:18,height:18,viewBox:'0 0 20 20',fill:'none'},React.createElement('rect',{x:3,y:5,width:14,height:11,rx:2,stroke:'var(--c1,#1F2226)',strokeWidth:1.7},React.createElement('path',{d:'M3 9h14',stroke:'var(--a1,#1F2226)',strokeWidth:1.7}))),onClick:()=>setTab('work')}
     ];
 
     return {
@@ -1367,7 +1367,7 @@ export default function MonoApp() {
       job,
       applied:s.applied,
       applyJob:()=>open('apply'),
-      applyLabel: s.applied?'출역 신청 완료 · 기업 확인 중':'출역 신청',
+      applyLabel: s.applied?'출근 신청 완료 · 기업 확인 중':'출근 신청',
       applyBg: s.applied?'var(--soft,#E5E7EB)':'var(--c1,#1F2226)',
       applyFg: s.applied?'var(--c3,#1F2226)':'#fff',
 
@@ -1379,7 +1379,7 @@ export default function MonoApp() {
         {k:'참여 현장', v:'37곳'},
         {k:'무결근 기간', v:'최근 12개월'}
       ],
-      privateRows:['주민등록번호','계좌 정보','상세 정산액','연락처','상세 평가 코멘트'],
+      privateRows:['주민등록번호','계좌 정보','상세 받을 금액액','연락처','상세 평가 코멘트'],
       isMyView:s.cardView==='me', isPublicView:s.cardView==='public',
       setMyView:()=>setCardView('me'), setPublicView:()=>{ if(s.cardView!=='public') track('profile_previewed'); setCardView('public'); },
       viewMeBg:s.cardView==='me'?'var(--c1,#1F2226)':'transparent', viewMeFg:s.cardView==='me'?'#fff':'#5b6b82',
@@ -1441,7 +1441,7 @@ export default function MonoApp() {
           {/* Welcome Header */}
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "6px 0 16px", gap: "12px" }}>
             <div style={{ minWidth: "0" }}>
-              <div style={{ fontSize: "20px", color: "var(--c1,#1F2226)", fontWeight: "950", wordBreak: "keep-all" }}>반가워요! 오늘의 추천 일자리입니다.</div>
+              <div style={{ fontSize: "20px", color: "var(--c1,#1F2226)", fontWeight: "950", wordBreak: "keep-all" }}>반가워요! 오늘의 추천 현장입니다.</div>
             </div>
             <div style={{ display: "flex", alignItems: "center", gap: "10px", flex: "none" }}>
               <button type="button" onClick={openNotifs} aria-label="알림" style={{ position: "relative", width: "44px", height: "44px", border: "1px solid #e6e8ec", borderRadius: "14px", background: "#fff", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", padding: "0" }}>
@@ -1668,7 +1668,7 @@ export default function MonoApp() {
                 transition: "all 0.2s"
               }}
             >
-              지원 가능한 현장 일자리 찾기
+              지원 가능한 현장 현장 찾기
             </button>
           </div>
           </>
@@ -1676,7 +1676,7 @@ export default function MonoApp() {
             <div style={{ background: "#e0f2fe", border: "2px solid #bae6fd", borderRadius: "18px", padding: "16px 20px", marginBottom: "20px", boxShadow: "0 4px 14px -10px rgba(2,132,199,0.05)" }}>
               <div style={{ fontSize: "15.5px", fontWeight: "900", color: "#0369a1", lineHeight: "1.45" }}>
                 💡 <strong>쉬운 큰글씨 화면 작동 중</strong><br />
-                복잡한 퀴즈나 서류 등록 없이 아래에서 일자리를 즉시 조회하세요.
+                복잡한 퀴즈나 서류 등록 없이 아래에서 현장를 즉시 조회하세요.
               </div>
             </div>
           )}
@@ -1821,7 +1821,7 @@ export default function MonoApp() {
                   marginTop: "4px"
                 }}
               >
-                오늘 일자리 보기
+                오늘 현장 보기
               </button>
             </div>
           </div>
@@ -1956,7 +1956,7 @@ export default function MonoApp() {
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
                 <div>
                   <div style={{ fontSize: "16px", fontWeight: "900", letterSpacing: "0.5px" }}>MONO certified technician</div>
-                  <div style={{ fontSize: "12px", color: "#c7d2fe", marginTop: "2px" }}>출역 및 경력 신뢰도 인증서</div>
+                  <div style={{ fontSize: "12px", color: "#c7d2fe", marginTop: "2px" }}>출근 및 경력 신뢰도 준비 상태서</div>
                 </div>
                 <span style={{ fontSize: "20px" }}>👑</span>
               </div>
@@ -1974,7 +1974,7 @@ export default function MonoApp() {
                 <div>
                   <div style={{ fontSize: "10.5px", color: "#a5b4fc" }}>신뢰 점수 등급</div>
                   <div style={{ fontSize: "15px", fontWeight: "700", marginTop: "2px" }}>
-                    {trustScore ? `${trustScore.grade} (${trustScore.score}점)` : "인증 대기"}
+                    {trustScore ? `${trustScore.grade} (${trustScore.score}점)` : "준비 상태 대기"}
                   </div>
                 </div>
                 <div style={{ textAlign: "right" }}>
@@ -2145,7 +2145,7 @@ export default function MonoApp() {
             {jobsViewMode === 'map' ? (
               <div key="mapView" style={{ padding: "10px 20px 0", animation: "fadeIn 0.2s ease" }}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "10px" }}>
-                  <span style={{ fontSize: "13px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>🗺️ 지도 기준 근처 일자리</span>
+                  <span style={{ fontSize: "13px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>🗺️ 지도 기준 근처 현장</span>
                   <button type="button" onClick={findMyLocation} style={{ border: "none", background: "none", color: "#4f46e5", fontSize: "12.5px", fontWeight: "700", cursor: "pointer" }}>내 위치 갱신 ↺</button>
                 </div>
                 
@@ -2158,7 +2158,7 @@ export default function MonoApp() {
                     <div style={{ width: "14px", height: "14px", borderRadius: "50%", background: "#4f46e5", border: "3px solid #fff", marginTop: "2px", boxShadow: "0 0 0 6px rgba(79,70,229,0.2)" }}></div>
                   </div>
 
-                  {/* 일자리 핀 1 (송도) */}
+                  {/* 현장 핀 1 (송도) */}
                   <div
                     onClick={() => { track("job_detail_viewed", { jobId: "0", source: "map_pin" }); openJob(0); }}
                     style={{ position: "absolute", left: "20%", top: "35%", zIndex: 5, cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center" }}
@@ -2169,7 +2169,7 @@ export default function MonoApp() {
                     <div style={{ width: "10px", height: "10px", borderRadius: "50%", background: "#dc2626", border: "2px solid #fff", marginTop: "2px" }}></div>
                   </div>
 
-                  {/* 일자리 핀 2 (평택) */}
+                  {/* 현장 핀 2 (평택) */}
                   <div
                     onClick={() => { track("job_detail_viewed", { jobId: "2", source: "map_pin" }); openJob(2); }}
                     style={{ position: "absolute", left: "70%", top: "60%", zIndex: 5, cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center" }}
@@ -2180,7 +2180,7 @@ export default function MonoApp() {
                     <div style={{ width: "10px", height: "10px", borderRadius: "50%", background: "#0d9488", border: "2px solid #fff", marginTop: "2px" }}></div>
                   </div>
 
-                  {/* 일자리 핀 3 (서초) */}
+                  {/* 현장 핀 3 (서초) */}
                   <div
                     onClick={() => { track("job_detail_viewed", { jobId: "1", source: "map_pin" }); openJob(1); }}
                     style={{ position: "absolute", left: "65%", top: "25%", zIndex: 5, cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center" }}
@@ -2193,7 +2193,7 @@ export default function MonoApp() {
                 </div>
 
                 <div style={{ fontSize: "11.5px", color: "#8694a8", fontWeight: "500", marginTop: "8px", lineHeight: "1.5" }}>
-                  💡 지도의 핀을 터치하면 상세 일자리 정보를 확인하고 바로 지원할 수 있어요.
+                  💡 지도의 핀을 터치하면 상세 현장 정보를 확인하고 바로 지원할 수 있어요.
                 </div>
                 
                 <div style={{ marginTop: "16px" }}>
@@ -2238,7 +2238,7 @@ export default function MonoApp() {
         {(v.isWork) && (<>
         <div style={{ padding: "8px 20px 30px" }}>
           <div style={{ fontSize: "22px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>지원·출근</div>
-          <div style={{ fontSize: "13px", color: "#8694a8", fontWeight: "600", marginTop: "3px" }}>지원 완료된 공고와 확정 현장 출퇴근, 정산 내역을 확인할 수 있습니다.</div>
+          <div style={{ fontSize: "13px", color: "#8694a8", fontWeight: "600", marginTop: "3px" }}>지원 완료된 공고와 확정 현장 출퇴근, 받을 금액 내역을 확인할 수 있습니다.</div>
 
           {/* Sub-tab Switcher */}
           <div style={{ display: "flex", gap: "8px", margin: "16px 0 20px", background: "#f1f3f7", padding: "4px", borderRadius: "12px" }}>
@@ -2274,7 +2274,7 @@ export default function MonoApp() {
                 cursor: "pointer",
               }}
             >
-              일한 기록 & 정산
+              일한 기록 & 받을 금액
             </button>
           </div>
 
@@ -2285,7 +2285,7 @@ export default function MonoApp() {
                 
                 {/* 오늘의 안내 큰 한마디 */}
                 <div style={{ background: "#f8fafc", borderLeft: "4px solid #4f46e5", padding: "12px 16px", borderRadius: "8px", marginBottom: "18px" }}>
-                  <div style={{ fontSize: "12.5px", fontWeight: "800", color: "#4f46e5" }}>오늘의 출근 및 정산 안내</div>
+                  <div style={{ fontSize: "12.5px", fontWeight: "800", color: "#4f46e5" }}>오늘의 출근 및 받을 금액 안내</div>
                   <div style={{ fontSize: "16px", fontWeight: "900", color: "var(--c1,#1F2226)", marginTop: "4px", lineHeight: "1.5", wordBreak: "keep-all" }}>
                     {(() => {
                       const hasApp = myApps.length > 0;
@@ -2294,8 +2294,8 @@ export default function MonoApp() {
                       
                       if (hasCheckIn) return "👷 현장에서 열심히 근무 중입니다. 퇴근 시 퇴근 버튼을 꼭 눌러주세요!";
                       if (hasAssign) return "⏰ 출근이 확정되었습니다. 오전 06:40분까지 현장 집결지로 늦지 않게 와주세요!";
-                      if (hasApp) return "📝 일자리 지원이 접수되었습니다. 담당 반장님이 서류를 확인하는 중입니다.";
-                      return "🔍 아직 지원한 현장이 없습니다. 아래 '공고 보러가기'를 눌러 일자리를 구해보세요!";
+                      if (hasApp) return "📝 현장 지원이 접수되었습니다. 담당 반장님이 서류를 확인하는 중입니다.";
+                      return "🔍 아직 지원한 현장이 없습니다. 아래 '공고 보러가기'를 눌러 현장를 구해보세요!";
                     })()}
                   </div>
                 </div>
@@ -2374,7 +2374,7 @@ export default function MonoApp() {
                   <span style={{ fontSize: "11px", background: "#eff6ff", color: "#2563eb", padding: "2px 6px", borderRadius: "4px", fontWeight: "800" }}>안전 보장</span>
                 </div>
                 <div style={{ fontSize: "13px", color: "#5b6b82", fontWeight: "700", lineHeight: "1.5", marginBottom: "16px", wordBreak: "keep-all" }}>
-                  원청사가 노무비를 MONO 안심 에스크로 금고에 미리 예치해 두므로, 일이 끝나면 체불 걱정 없이 정산 당일 안전하게 즉시 입금됩니다.
+                  원청사가 노무비를 MONO 안심 에스크로 금고에 미리 예치해 두므로, 일이 끝나면 체불 걱정 없이 받을 금액 당일 안전하게 즉시 입금됩니다.
                 </div>
 
                 {/* 3단계 도식화 흐름도 */}
@@ -2448,7 +2448,7 @@ export default function MonoApp() {
                   <div style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: "20px", padding: "34px 22px", textAlign: "center" }}>
                     <div style={{ fontSize: "15px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>아직 확정된 현장이 없어요</div>
                     <div style={{ fontSize: "12.5px", color: "#8694a8", fontWeight: "500", marginTop: "8px", lineHeight: "1.65" }}>현장 찾기 탭에서 공고를 선택해 지원해 주세요.</div>
-                    <button onClick={v.goJobs} style={{ marginTop: "16px", height: "44px", padding: "0 20px", border: "none", borderRadius: "13px", background: "var(--c1,#1F2226)", color: "#fff", fontSize: "14px", fontWeight: "800", fontFamily: "inherit", cursor: "pointer" }}>일자리 보러가기</button>
+                    <button onClick={v.goJobs} style={{ marginTop: "16px", height: "44px", padding: "0 20px", border: "none", borderRadius: "13px", background: "var(--c1,#1F2226)", color: "#fff", fontSize: "14px", fontWeight: "800", fontFamily: "inherit", cursor: "pointer" }}>현장 보러가기</button>
                   </div>
                 )}
                 {(Array.isArray(assignments) ? assignments : []).map((a) => {
@@ -2524,7 +2524,7 @@ export default function MonoApp() {
                 })}
               </div>
 
-              {/* 외국인 기술자 정산 내역 */}
+              {/* 외국인 기술자 받을 금액 내역 */}
               {isForeigner && (
                 <div style={{ marginTop: "24px" }}>
                   <FgnSettlement id={getServerId() || ""} />
@@ -2533,7 +2533,7 @@ export default function MonoApp() {
             </>
           ) : (
             <>
-              {/* 이번 달 근무 요약 — 실제 출역 데이터 기반 계산 */}
+              {/* 이번 달 근무 요약 — 실제 출근 데이터 기반 계산 */}
               {(() => {
                 const now = new Date();
                 const thisMonth = now.getMonth();
@@ -2556,8 +2556,8 @@ export default function MonoApp() {
                         <span style={{ fontSize: "14px", marginLeft: "2px", fontWeight: "700" }}>공수</span>
                       </div>
                       <div style={{ textAlign: "right" }}>
-                        <div style={{ fontSize: "11px", color: "rgba(255,255,255,0.6)", fontWeight: "600" }}>정산 내역</div>
-                        <div style={{ fontSize: "14px", fontWeight: "700", color: "rgba(255,255,255,0.5)" }}>{workDays === 0 ? "출역 기록 없음" : "정산 정보 확인 중"}</div>
+                        <div style={{ fontSize: "11px", color: "rgba(255,255,255,0.6)", fontWeight: "600" }}>받을 금액 내역</div>
+                        <div style={{ fontSize: "14px", fontWeight: "700", color: "rgba(255,255,255,0.5)" }}>{workDays === 0 ? "출근 기록 없음" : "받을 금액 정보 확인 중"}</div>
                       </div>
                     </div>
                     {workDays === 0 && (
@@ -2567,17 +2567,17 @@ export default function MonoApp() {
                 );
               })()}
 
-              {/* 에스크로 안심정산 배너 */}
+              {/* 에스크로 안심받을 금액 배너 */}
               <div style={{ background: "#f0fdf4", border: "1px solid #bbf7d0", borderRadius: "16px", padding: "14px 16px", marginTop: "14px", display: "flex", gap: "10px", alignItems: "center" }}>
                 <span style={{ fontSize: "20px" }}>🛡️</span>
                 <div style={{ fontSize: "12px", color: "#166534", fontWeight: "600", lineHeight: "1.45", wordBreak: "keep-all" }}>
-                  MONO는 근로자 보호를 위해 <strong>에스크로 안심 정산 계좌</strong>를 사용하며, 노무비 정산 증빙을 자동으로 관리합니다.
+                  MONO는 근로자 보호를 위해 <strong>에스크로 안심 급여 받을 계좌</strong>를 사용하며, 노무비 받을 금액 증빙을 자동으로 관리합니다.
                 </div>
               </div>
 
-              {/* 상세 출역 기록 — assignments.attendances 실 데이터 */}
+              {/* 상세 출근 기록 — assignments.attendances 실 데이터 */}
               <div style={{ marginTop: "24px" }}>
-                <div style={{ fontSize: "15px", fontWeight: "800", color: "var(--c1,#1F2226)", marginBottom: "12px" }}>상세 출역 기록</div>
+                <div style={{ fontSize: "15px", fontWeight: "800", color: "var(--c1,#1F2226)", marginBottom: "12px" }}>상세 출근 기록</div>
                 {(() => {
                   const allAtts = (Array.isArray(assignments) ? assignments : []).flatMap((a) =>
                     (a.attendances || []).map((at) => ({ ...at, jobTitle: a.jobPost?.title, jobType: a.jobPost?.jobType?.[0], company: a.jobPost?.company?.name }))
@@ -2586,7 +2586,7 @@ export default function MonoApp() {
                     return (
                       <div style={{ background: "#f8fafc", border: "1px dashed #e2e8f0", borderRadius: "16px", padding: "28px", textAlign: "center" }}>
                         <div style={{ fontSize: "24px", marginBottom: "8px" }}>📂</div>
-                        <div style={{ fontSize: "13px", fontWeight: "700", color: "var(--c1,#1F2226)" }}>아직 출역 기록이 없어요</div>
+                        <div style={{ fontSize: "13px", fontWeight: "700", color: "var(--c1,#1F2226)" }}>아직 출근 기록이 없어요</div>
                         <div style={{ fontSize: "12px", color: "#8694a8", marginTop: "4px", wordBreak: "keep-all" }}>확정된 현장에서 출근 체크를 하면 기록이 남아요</div>
                       </div>
                     );
@@ -2607,7 +2607,7 @@ export default function MonoApp() {
                             style={{ background: "#fff", border: "1.5px solid #e6e8ec", borderRadius: "18px", padding: "16px", boxShadow: "0 4px 12px -10px rgba(0,0,0,0.05)", cursor: "pointer" }}
                           >
                             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                              <span style={{ fontSize: "12px", fontWeight: "800", color: "#166534", background: "#dcfce7", padding: "3px 8px", borderRadius: "6px" }}>출역 완료</span>
+                              <span style={{ fontSize: "12px", fontWeight: "800", color: "#166534", background: "#dcfce7", padding: "3px 8px", borderRadius: "6px" }}>출근 완료</span>
                               <span style={{ fontSize: "12.5px", color: "#8694a8", fontWeight: "600" }}>{dateLabel}</span>
                             </div>
                             <div style={{ margin: "10px 0 4px", fontSize: "15.5px", fontWeight: "900", color: "var(--c1,#1F2226)" }}>{at.jobTitle || "현장"}</div>
@@ -2640,7 +2640,7 @@ export default function MonoApp() {
               </div>
               <div style={{ display: "flex", alignItems: "center", gap: "5px", marginTop: "6px" }}>
                 <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#5fd1a0" }}></span>
-                <span style={{ fontSize: "11.5px", color: "var(--t1,#A5AEB8)", fontWeight: "600" }}>실명·계좌 인증 완료</span>
+                <span style={{ fontSize: "11.5px", color: "var(--t1,#A5AEB8)", fontWeight: "600" }}>실명·계좌 준비 상태 완료</span>
               </div>
             </div>
           </div>
@@ -2648,7 +2648,7 @@ export default function MonoApp() {
           <div style={{ background: "#fff", border: "1.5px solid #cbd5e1", borderRadius: "18px", padding: "16px", marginTop: "14px", display: "flex", justifyContent: "space-between", alignItems: "center", boxShadow: "0 2px 8px rgba(0,0,0,0.02)" }}>
             <div style={{ minWidth: 0, paddingRight: "10px" }}>
               <div style={{ fontSize: "15px", fontWeight: "950", color: "#1e293b" }}>👵👴 어르신용 쉬운 큰글씨 화면</div>
-              <div style={{ fontSize: "12px", color: "#64748b", fontWeight: "650", marginTop: "3px", lineHeight: "1.35" }}>일자리 정보만 크게 봅니다.</div>
+              <div style={{ fontSize: "12px", color: "#64748b", fontWeight: "650", marginTop: "3px", lineHeight: "1.35" }}>현장 정보만 크게 봅니다.</div>
             </div>
             <button 
               type="button"
@@ -2704,7 +2704,7 @@ export default function MonoApp() {
                 { key: "idCard", label: "신분증 제출 완료", desc: "본인 확인 및 증빙용" },
                 { key: "safetyEdu", label: "기초안전보건교육 이수증", desc: "건설현장 필수 교육 이수" },
                 { key: "elecCard", label: "건설근로자 전자카드", desc: "출퇴근 기록 및 퇴직공제 적립" },
-                { key: "bankAcc", label: "급여 받을 계좌 등록", desc: "노무비 정산용 본인 계좌" }
+                { key: "bankAcc", label: "급여 받을 계좌 등록", desc: "노무비 받을 금액용 본인 계좌" }
               ].map((item) => {
                 const checked = (prepChecklist as any)[item.key];
                 return (
@@ -2741,7 +2741,7 @@ export default function MonoApp() {
 
           <div style={{ background: "#fff", border: "1.5px solid #e2e8f0", borderRadius: "20px", padding: "18px", marginTop: "14px" }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "12px" }}>
-              <span style={{ fontSize: "14.5px", fontWeight: "900", color: "#1e293b" }}>💳 일한 기록 (경력카드)</span>
+              <span style={{ fontSize: "14.5px", fontWeight: "900", color: "#1e293b" }}>💳 일한 기록 (현장 경력)</span>
               <button onClick={() => alert("공유")} style={{ background: "none", border: "none", color: "#4f46e5", fontSize: "13px", fontWeight: "800", cursor: "pointer" }}>공유</button>
             </div>
             
@@ -2798,7 +2798,7 @@ export default function MonoApp() {
 
           <div style={{ background: "linear-gradient(135deg, #f0fdf4, #dcfce7)", border: "1.5px solid #bbf7d0", borderRadius: "20px", padding: "18px", marginTop: "14px" }}>
             <div style={{ fontSize: "14.5px", fontWeight: "955", color: "#166534", marginBottom: "8px", display: "flex", alignItems: "center", gap: "6px" }}>
-              <span>🚀</span> AI 성장 가이드
+              <span>🚀</span> AI 기술 성장 가이드
             </div>
             <p style={{ fontSize: "12.5px", color: "#166534", fontWeight: "700", margin: "0 0 12px 0", lineHeight: "1.4" }}>
               비계/배관 준기공 레벨업을 위해 “도면 해독 기술 교육”을 이수하면 일당 상승에 유리합니다.
@@ -2886,7 +2886,7 @@ export default function MonoApp() {
               <div style={{ position: "absolute", inset: "0", background: "transparent" }}></div>
               <div style={{ position: "relative", display: "flex", gap: "6px", marginBottom: "9px" }}>
                 <span style={{ fontSize: "11px", fontWeight: "700", color: "var(--c1,#1F2226)", background: "var(--a1,#1F2226)", padding: "4px 9px", borderRadius: "8px" }}>{v.job.trade}</span>
-                {(v.job.instant) && (<><span style={{ fontSize: "11px", fontWeight: "700", color: "#fff", background: "rgba(180,105,14,.9)", padding: "4px 9px", borderRadius: "8px" }}>즉시 출역</span></>)}
+                {(v.job.instant) && (<><span style={{ fontSize: "11px", fontWeight: "700", color: "#fff", background: "rgba(180,105,14,.9)", padding: "4px 9px", borderRadius: "8px" }}>즉시 출근</span></>)}
               </div>
               <div style={{ position: "relative", fontSize: "21px", fontWeight: "800", color: "#fff" }}>{v.job.name}</div>
               <div style={{ position: "relative", display: "flex", alignItems: "center", gap: "5px", marginTop: "5px" }}>
@@ -2897,12 +2897,12 @@ export default function MonoApp() {
 
             <div style={{ padding: "18px 20px 22px" }}>
               <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between" }}>
-                <div><div style={{ fontSize: "12px", color: "#8694a8", fontWeight: "600" }}>일급</div><div style={{ display: "flex", alignItems: "baseline", gap: "2px", marginTop: "2px" }}><span style={{ fontSize: "16px", color: "var(--c1,#1F2226)", fontWeight: "700" }}>₩</span><span className="mono" style={{ fontSize: "30px", fontWeight: "500", color: "var(--c1,#1F2226)" }}>{v.job.pay}</span></div></div>
+                <div><div style={{ fontSize: "12px", color: "#8694a8", fontWeight: "600" }}>일당</div><div style={{ display: "flex", alignItems: "baseline", gap: "2px", marginTop: "2px" }}><span style={{ fontSize: "16px", color: "var(--c1,#1F2226)", fontWeight: "700" }}>₩</span><span className="mono" style={{ fontSize: "30px", fontWeight: "500", color: "var(--c1,#1F2226)" }}>{v.job.pay}</span></div></div>
                 <span style={{ fontSize: "11.5px", fontWeight: "700", color: "var(--ai,#1F2226)", background: "var(--aSoft,#E5E7EB)", padding: "6px 11px", borderRadius: "10px" }}>{v.job.settleWay}</span>
               </div>
 
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px", marginTop: "18px" }}>
-                <div style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: "14px", padding: "13px 14px" }}><div style={{ fontSize: "11px", color: "#8694a8", fontWeight: "600" }}>출역일</div><div style={{ fontSize: "14.5px", fontWeight: "700", color: "var(--c1,#1F2226)", marginTop: "3px" }}>{v.job.date}</div></div>
+                <div style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: "14px", padding: "13px 14px" }}><div style={{ fontSize: "11px", color: "#8694a8", fontWeight: "600" }}>출근일</div><div style={{ fontSize: "14.5px", fontWeight: "700", color: "var(--c1,#1F2226)", marginTop: "3px" }}>{v.job.date}</div></div>
                 <div style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: "14px", padding: "13px 14px" }}><div style={{ fontSize: "11px", color: "#8694a8", fontWeight: "600" }}>근무 시간</div><div style={{ fontSize: "14.5px", fontWeight: "700", color: "var(--c1,#1F2226)", marginTop: "3px" }}>{v.job.hours}</div></div>
                 <div style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: "14px", padding: "13px 14px" }}><div style={{ fontSize: "11px", color: "#8694a8", fontWeight: "600" }}>필요 인원</div><div style={{ fontSize: "14.5px", fontWeight: "700", color: "var(--c1,#1F2226)", marginTop: "3px" }}>{v.job.people}</div></div>
                 <div style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: "14px", padding: "13px 14px" }}><div style={{ fontSize: "11px", color: "#8694a8", fontWeight: "600" }}>숙식</div><div style={{ fontSize: "14.5px", fontWeight: "700", color: "var(--c1,#1F2226)", marginTop: "3px" }}>{v.job.stay}</div></div>
@@ -2910,7 +2910,7 @@ export default function MonoApp() {
 
               <div style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: "16px", padding: "4px 16px", marginTop: "12px" }}>
                 <div style={{ display: "flex", justifyContent: "space-between", padding: "12px 0" }}><span style={{ fontSize: "13px", color: "#8694a8", fontWeight: "600" }}>근무 위치</span><span style={{ fontSize: "13.5px", color: "var(--c1,#1F2226)", fontWeight: "700" }}>{v.job.loc} · {v.job.dist}</span></div>
-                <div style={{ display: "flex", justifyContent: "space-between", padding: "12px 0", borderTop: "1px solid var(--soft,#E5E7EB)" }}><span style={{ fontSize: "13px", color: "#8694a8", fontWeight: "600" }}>준비물</span><span style={{ fontSize: "13px", color: "var(--c1,#1F2226)", fontWeight: "700", textAlign: "right", maxWidth: "60%" }}>{v.job.prepare}</span></div>
+                <div style={{ display: "flex", justifyContent: "space-between", padding: "12px 0", borderTop: "1px solid var(--soft,#E5E7EB)" }}><span style={{ fontSize: "13px", color: "#8694a8", fontWeight: "600" }}>준비할 것</span><span style={{ fontSize: "13px", color: "var(--c1,#1F2226)", fontWeight: "700", textAlign: "right", maxWidth: "60%" }}>{v.job.prepare}</span></div>
                 <div style={{ display: "flex", justifyContent: "space-between", padding: "12px 0", borderTop: "1px solid var(--soft,#E5E7EB)" }}><span style={{ fontSize: "13px", color: "#8694a8", fontWeight: "600" }}>현장 위험도</span><span style={{ fontSize: "13.5px", color: "#b4690e", fontWeight: "700" }}>{v.job.risk}</span></div>
                 <div style={{ display: "flex", justifyContent: "space-between", padding: "12px 0", borderTop: "1px solid var(--soft,#E5E7EB)" }}><span style={{ fontSize: "13px", color: "#8694a8", fontWeight: "600" }}>담당자</span><span style={{ fontSize: "13.5px", color: "var(--c1,#1F2226)", fontWeight: "700" }}>{v.job.manager}</span></div>
               </div>
@@ -3135,14 +3135,14 @@ export default function MonoApp() {
 
             <div className="scr" style={{ overflowY: "auto", marginTop: "14px", display: "flex", flexDirection: "column", gap: "14px", paddingBottom: "20px" }}>
               
-              {/* 2. 단가 정보 & 9. 정산 예정일 */}
+              {/* 2. 단가 정보 & 9. 받을 금액 예정일 */}
               <div style={{ background: "#f8fafc", borderRadius: "16px", padding: "14px 16px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" }}>
                 <div>
                   <div style={{ fontSize: "11.5px", color: "#8694a8", fontWeight: "700" }}>일당 단가</div>
                   <div style={{ fontSize: "16px", fontWeight: "800", color: "#10b981", marginTop: "2px" }}>{jobDetail.conditions || "일당 230,000원"}</div>
                 </div>
                 <div>
-                  <div style={{ fontSize: "11.5px", color: "#8694a8", fontWeight: "700" }}>정산 예정일</div>
+                  <div style={{ fontSize: "11.5px", color: "#8694a8", fontWeight: "700" }}>받을 금액 예정일</div>
                   <div style={{ fontSize: "13.5px", fontWeight: "700", color: "var(--c1,#1F2226)", marginTop: "3.5px" }}>근무 당일 17:00 입금</div>
                 </div>
               </div>
@@ -3200,17 +3200,17 @@ export default function MonoApp() {
                 </div>
               </div>
 
-              {/* 6. 준비물 */}
+              {/* 6. 준비할 것 */}
               <div>
-                <div style={{ fontSize: "13.5px", color: "#8694a8", fontWeight: "700", marginBottom: "4px" }}>🎒 필수 준비물</div>
+                <div style={{ fontSize: "13.5px", color: "#8694a8", fontWeight: "700", marginBottom: "4px" }}>🎒 필수 준비할 것</div>
                 <div style={{ fontSize: "14px", color: "var(--c1,#1F2226)", fontWeight: "600" }}>
                   {jobDetail.prepare || "안전화, 작업복, 신분증 실물 (미지참 시 현장 출입 및 근무 불가)"}
                 </div>
               </div>
 
-              {/* 7. 제공사항 */}
+              {/* 7. 제공되는 것 */}
               <div>
-                <div style={{ fontSize: "13.5px", color: "#8694a8", fontWeight: "700", marginBottom: "4px" }}>🏠 복리후생 & 제공사항</div>
+                <div style={{ fontSize: "13.5px", color: "#8694a8", fontWeight: "700", marginBottom: "4px" }}>🏠 복리후생 & 제공되는 것</div>
                 <div style={{ fontSize: "14px", color: "var(--c1,#1F2226)", fontWeight: "600", display: "flex", gap: "6px", flexWrap: "wrap" }}>
                   <span style={{ background: "#f1f5f9", padding: "4px 8px", borderRadius: "6px", fontSize: "12px" }}>🍱 중식 제공</span>
                   <span style={{ background: "#f1f5f9", padding: "4px 8px", borderRadius: "6px", fontSize: "12px" }}>🛡️ 4대 보험 가입</span>
@@ -3447,7 +3447,7 @@ export default function MonoApp() {
         <div onClick={() => setOpenShareSheet(false)} style={{ position: "absolute", inset: "0", zIndex: "60", background: "rgba(20,22,48,.55)", backdropFilter: "blur(3px)", display: "flex", alignItems: "flex-end", animation: "fadeIn .2s ease" }}>
           <div onClick={(e) => e.stopPropagation()} style={{ width: "100%", background: "#fff", borderRadius: "28px 28px 0 0", padding: "22px 18px 26px", animation: "sheetUp .32s cubic-bezier(.22,1,.36,1)", maxHeight: "90%", overflowY: "auto" }}>
             <div style={{ width: "40px", height: "4px", borderRadius: "2px", background: "#d4dae3", margin: "0 auto 16px" }}></div>
-            <div style={{ fontSize: "18px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>경력카드 공유</div>
+            <div style={{ fontSize: "18px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>현장 경력 공유</div>
             <div style={{ fontSize: "13px", color: "#8694a8", fontWeight: "500", marginTop: "4px", marginBottom: "16px" }}>링크와 QR로 내 경력 프로필을 공유하세요. 민감 정보는 자동으로 가려집니다.</div>
             {(() => {
               const url = shareUrl();
@@ -3622,12 +3622,12 @@ export default function MonoApp() {
         </div>
       )}
 
-      {/* 퇴근 및 재출역 제안 (반장용 Checkout Sheet) */}
+      {/* 퇴근 및 재출근 제안 (반장용 Checkout Sheet) */}
       {checkoutSheetApp && (
         <div onClick={() => setCheckoutSheetApp(null)} style={{ position: "absolute", inset: "0", zIndex: "70", background: "rgba(20,22,48,.55)", backdropFilter: "blur(3px)", display: "flex", alignItems: "flex-end", animation: "fadeIn .2s ease" }}>
           <div onClick={(e) => e.stopPropagation()} style={{ width: "100%", background: "#fff", borderRadius: "28px 28px 0 0", padding: "22px 18px 26px", animation: "sheetUp .32s cubic-bezier(.22,1,.36,1)", maxHeight: "90%", display: "flex", flexDirection: "column" }}>
             <div style={{ width: "40px", height: "4px", borderRadius: "2px", background: "#d4dae3", margin: "0 auto 16px" }}></div>
-            <div style={{ fontSize: "18px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>퇴근 체크 및 재출역 제안</div>
+            <div style={{ fontSize: "18px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>퇴근 체크 및 재출근 제안</div>
             <div style={{ fontSize: "13px", color: "#8694a8", fontWeight: "500", marginTop: "4px", marginBottom: "16px" }}>내일도 이 현장에 부를 팀원을 선택해주세요.</div>
             
             <div className="scr" style={{ overflowY: "auto", flex: "1", minHeight: "0", display: "flex", flexDirection: "column", gap: "10px" }}>
@@ -3667,7 +3667,7 @@ export default function MonoApp() {
                 setReattendBusy(false);
               }
             }} style={{ marginTop: "16px", flex: "none", height: "50px", border: "none", borderRadius: "14px", background: "var(--c1,#1F2226)", color: "#fff", fontSize: "15px", fontWeight: "800", fontFamily: "inherit", cursor: "pointer", opacity: reattendBusy ? ".7" : "1" }}>
-              {reattendBusy ? "처리 중..." : (reattendSelected.length > 0 ? `${reattendSelected.length}명 재출역 제안 및 퇴근` : "퇴근 체크만 하기")}
+              {reattendBusy ? "처리 중..." : (reattendSelected.length > 0 ? `${reattendSelected.length}명 재출근 제안 및 퇴근` : "퇴근 체크만 하기")}
             </button>
           </div>
         </div>
@@ -3733,12 +3733,12 @@ export default function MonoApp() {
         </div>
       )}
 
-      {/* 2. 상세 노무비 정산서 및 에스크로 확인서 모달 */}
+      {/* 2. 상세 노무비 받을 금액서 및 에스크로 확인서 모달 */}
       {openSettlementInvoice && (
         <div onClick={() => setOpenSettlementInvoice(null)} style={{ position: "absolute", inset: "0", zIndex: "70", background: "rgba(20,22,48,.55)", backdropFilter: "blur(3px)", display: "flex", alignItems: "flex-end", animation: "fadeIn .2s ease" }}>
           <div onClick={(e) => e.stopPropagation()} style={{ width: "100%", background: "#fff", borderRadius: "28px 28px 0 0", padding: "24px 20px 28px", animation: "sheetUp .32s cubic-bezier(.22,1,.36,1)", maxHeight: "90%", display: "flex", flexDirection: "column" }}>
             <div style={{ width: "40px", height: "4px", borderRadius: "2px", background: "#d4dae3", margin: "0 auto 16px" }}></div>
-            <div style={{ fontSize: "20px", fontWeight: "900", color: "var(--c1,#1F2226)" }}>🛡️ 상세 노무비 안심 정산서</div>
+            <div style={{ fontSize: "20px", fontWeight: "900", color: "var(--c1,#1F2226)" }}>🛡️ 상세 노무비 안심 받을 금액서</div>
             <div style={{ fontSize: "13.5px", color: "#8694a8", fontWeight: "700", marginTop: "4px", marginBottom: "16px" }}>근무에 따른 노무비 선입금 보증 상태 및 세금 공제 영수증입니다.</div>
 
             {/* 에스크로 예치증 확인 카드 */}
@@ -3782,7 +3782,7 @@ export default function MonoApp() {
               );
             })()}
 
-            <button type="button" onClick={() => setOpenSettlementInvoice(null)} style={{ height: "50px", border: "none", borderRadius: "14px", background: "var(--c1,#1F2226)", color: "#fff", fontSize: "15px", fontWeight: "900", cursor: "pointer" }}>정산 영수증 닫기</button>
+            <button type="button" onClick={() => setOpenSettlementInvoice(null)} style={{ height: "50px", border: "none", borderRadius: "14px", background: "var(--c1,#1F2226)", color: "#fff", fontSize: "15px", fontWeight: "900", cursor: "pointer" }}>받을 금액 영수증 닫기</button>
           </div>
         </div>
       )}

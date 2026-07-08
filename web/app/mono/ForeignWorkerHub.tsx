@@ -1,6 +1,6 @@
 "use client";
 
-// 외국인 기술자 통합 화면 (dev-plan-foreign-workforce) — 프로필·체류/비자·서류·교육·정산·용어.
+// 외국인 기술자 통합 화면 (dev-plan-foreign-workforce) — 프로필·체류/비자·서류·교육·받을 금액·용어.
 // 6탭 single client component. best-effort API(실패해도 UI 안 막음). 모바일 우선 인라인 스타일.
 import { CSSProperties, useEffect, useRef, useState } from "react";
 import { track } from "@/lib/analytics";
@@ -100,7 +100,7 @@ const primaryBtn: CSSProperties = {
 const won = (n: number) => `${n.toLocaleString("ko-KR")}원`;
 const orUndef = (s: string) => (s.trim() ? s.trim() : undefined);
 
-// 정산 항목·상태 영문 라벨(언어 토글용 간단 매핑).
+// 받을 금액 항목·상태 영문 라벨(언어 토글용 간단 매핑).
 const ITEM_EN: Record<string, string> = {
   BASE_WAGE: "Base wage",
   OVERTIME: "Overtime / Night / Holiday",
@@ -125,7 +125,7 @@ const TABS: { key: Tab; label: string }[] = [
   { key: "visa", label: "체류·비자" },
   { key: "documents", label: "서류" },
   { key: "training", label: "교육" },
-  { key: "settlement", label: "정산" },
+  { key: "settlement", label: "받을 금액" },
   { key: "glossary", label: "용어" },
   { key: "guide", label: "가이드" },
 ];
@@ -672,7 +672,7 @@ export function TrainingTab({ id }: { id: string }) {
 }
 
 // ════════════════════════════════════════════════════════════════════
-// 정산
+// 받을 금액
 // ════════════════════════════════════════════════════════════════════
 const itemLabel = (v: string) => SETTLEMENT_ITEM_KINDS.find((x) => x.value === v)?.label ?? v;
 
@@ -698,8 +698,8 @@ export function SettlementTab({ id }: { id: string }) {
   return (
     <>
       <div style={{ ...card, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        <div style={{ fontWeight: 800, fontSize: 15, color: TEXT }}>정산 내역</div>
-        <div style={{ display: "flex", gap: 6 }} role="group" aria-label="정산 표시 언어">
+        <div style={{ fontWeight: 800, fontSize: 15, color: TEXT }}>받을 금액 내역</div>
+        <div style={{ display: "flex", gap: 6 }} role="group" aria-label="받을 금액 표시 언어">
           <button type="button" aria-pressed={!en} aria-label="한국어 표시" style={pill(!en)} onClick={() => setEn(false)}>
             한
           </button>
@@ -710,7 +710,7 @@ export function SettlementTab({ id }: { id: string }) {
       </div>
 
       {list.length === 0 ? (
-        <div style={{ ...card, textAlign: "center", color: SUB }}>{en ? "No settlements yet." : "정산 내역이 없어요."}</div>
+        <div style={{ ...card, textAlign: "center", color: SUB }}>{en ? "No settlements yet." : "받을 금액 내역이 없어요."}</div>
       ) : (
         list.map((s) => {
           const total = s.items.reduce((sum, it) => sum + it.amount, 0);
@@ -750,7 +750,7 @@ export function SettlementTab({ id }: { id: string }) {
               <button
                 type="button"
                 onClick={() => dispute(s.id)}
-                aria-label={`${s.period} 정산 분쟁 신고`}
+                aria-label={`${s.period} 받을 금액 분쟁 신고`}
                 disabled={s.status === "DISPUTED"}
                 style={{
                   width: "100%",
@@ -765,7 +765,7 @@ export function SettlementTab({ id }: { id: string }) {
                   cursor: s.status === "DISPUTED" ? "default" : "pointer",
                 }}
               >
-                {s.status === "DISPUTED" ? (en ? "Dispute reported" : "분쟁 신고됨") : en ? "Report dispute" : "정산 분쟁 신고"}
+                {s.status === "DISPUTED" ? (en ? "Dispute reported" : "분쟁 신고됨") : en ? "Report dispute" : "받을 금액 분쟁 신고"}
               </button>
             </div>
           );
