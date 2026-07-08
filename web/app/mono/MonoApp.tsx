@@ -2629,9 +2629,8 @@ export default function MonoApp() {
 
         {(v.isMe) && (<>
         <div style={{ padding: "8px 20px 30px" }}>
-          <div style={{ fontSize: "22px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>내 프로필</div>
+          <div style={{ fontSize: "22px", fontWeight: "955", color: "#0f172a", letterSpacing: "-0.5px" }}>내 프로필</div>
           
-          {/* 사용자 정보 카드 */}
           <div style={{ marginTop: "14px", background: "var(--c1,#1F2226)", borderRadius: "20px", padding: "20px", color: "var(--t0,#E5E7EB)", display: "flex", alignItems: "center", gap: "14px" }}>
             <div style={{ width: "58px", height: "58px", borderRadius: "18px", background: "rgba(255,255,255,.1)", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--brand-glow,#454A51)", fontSize: "22px", fontWeight: "800" }}>{v.initial}</div>
             <div style={{ flex: "1" }}>
@@ -2642,20 +2641,14 @@ export default function MonoApp() {
               <div style={{ display: "flex", alignItems: "center", gap: "5px", marginTop: "6px" }}>
                 <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#5fd1a0" }}></span>
                 <span style={{ fontSize: "11.5px", color: "var(--t1,#A5AEB8)", fontWeight: "600" }}>실명·계좌 인증 완료</span>
-                {trustScore && trustScore.score > 0 && (
-                  <span style={{ marginLeft: "4px", padding: "2px 6px", background: "rgba(255,255,255,0.2)", borderRadius: "6px", fontSize: "11px", fontWeight: "700" }}>
-                    ⭐ 신뢰 {trustScore.score}점
-                  </span>
-                )}
               </div>
             </div>
           </div>
 
-          {/* ⚙️ 화면 보기 설정 */}
           <div style={{ background: "#fff", border: "1.5px solid #cbd5e1", borderRadius: "18px", padding: "16px", marginTop: "14px", display: "flex", justifyContent: "space-between", alignItems: "center", boxShadow: "0 2px 8px rgba(0,0,0,0.02)" }}>
             <div style={{ minWidth: 0, paddingRight: "10px" }}>
-              <div style={{ fontSize: "15.5px", fontWeight: "950", color: "#1e293b" }}>👵👴 어르신용 쉬운 큰글씨 화면</div>
-              <div style={{ fontSize: "12.5px", color: "#64748b", fontWeight: "650", marginTop: "3px", lineHeight: "1.35" }}>안전 퀴즈와 복잡한 서류를 숨기고 일자리 정보만 크게 봅니다.</div>
+              <div style={{ fontSize: "15px", fontWeight: "950", color: "#1e293b" }}>👵👴 어르신용 쉬운 큰글씨 화면</div>
+              <div style={{ fontSize: "12px", color: "#64748b", fontWeight: "650", marginTop: "3px", lineHeight: "1.35" }}>일자리 정보만 크게 봅니다.</div>
             </div>
             <button 
               type="button"
@@ -2666,7 +2659,7 @@ export default function MonoApp() {
                 border: "none", 
                 padding: "8px 18px", 
                 borderRadius: "12px", 
-                fontSize: "14px", 
+                fontSize: "13.5px", 
                 fontWeight: "900", 
                 cursor: "pointer",
                 flexShrink: 0
@@ -2676,63 +2669,69 @@ export default function MonoApp() {
             </button>
           </div>
 
-          {/* 프로필 완성도 */}
-          <div style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: "18px", padding: "14px", marginTop: "14px" }}>
-            <div style={{ fontSize: "12px", fontWeight: "700", color: "#8694a8", marginBottom: "6px" }}>프로필 완성도 {v.completion}%{v.completion >= 100 ? " · 모든 항목 완료" : v.completion >= 80 ? " · 검증 프로필 완성" : " · 채울수록 신뢰도가 올라가요"}</div>
+          <div style={{ background: "#fff", border: "1.5px solid #e2e8f0", borderRadius: "18px", padding: "14px", marginTop: "14px" }}>
+            <div style={{ fontSize: "12.5px", fontWeight: "900", color: "#64748b", marginBottom: "6px" }}>
+              준비 상태 완성도 {v.completion}% {v.completion >= 100 ? "· 모든 준비 완료" : "· 채울수록 지원 합격률 상승"}
+            </div>
             <div style={{ height: "6px", background: "#eef0f3", borderRadius: "4px", overflow: "hidden" }}>
-              <div style={{ width: `${v.completion}%`, height: "100%", background: "var(--c3,#1F2226)", borderRadius: "4px", transition: "width .5s cubic-bezier(.22,1,.36,1)" }}></div>
+              <div style={{ width: `${v.completion}%`, height: "100%", background: "#4f46e5", borderRadius: "4px", transition: "width .5s ease" }}></div>
             </div>
           </div>
 
-          {/* 현장 준비 상태 (인증) */}
-          <div style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: "20px", padding: "18px", marginTop: "14px" }}>
-            <div style={{ fontSize: "15px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>🚦 현장 준비 상태</div>
-            <div style={{ fontSize: "12.5px", color: "#8694a8", fontWeight: "500", marginTop: "4px", marginBottom: "16px", lineHeight: "1.45", wordBreak: "keep-all" }}>
-              대형 현장 지원에 필요한 준비를 확인해보세요. 각 항목을 탭하여 완료 상태를 시뮬레이션할 수 있습니다.
+          <div style={{ background: "#fff", border: "1.5px solid #e2e8f0", borderRadius: "20px", padding: "18px", marginTop: "14px" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "12px" }}>
+              <span style={{ fontSize: "14.5px", fontWeight: "900", color: "#1e293b" }}>📋 내 현장 프로필</span>
+              <button onClick={() => alert("정보 수정")} style={{ background: "none", border: "none", color: "#4f46e5", fontSize: "13.5px", fontWeight: "850", cursor: "pointer" }}>수정</button>
             </div>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px" }}>
+              <div style={{ background: "#f8fafc", padding: "10px", borderRadius: "10px" }}>
+                <div style={{ fontSize: "11.5px", color: "#64748b", fontWeight: "700" }}>희망 직무</div>
+                <div style={{ fontSize: "13.5px", fontWeight: "900", color: "#1e293b", marginTop: "2px" }}>{v.myJob || "배관 조공"}</div>
+              </div>
+              <div style={{ background: "#f8fafc", padding: "10px", borderRadius: "10px" }}>
+                <div style={{ fontSize: "11.5px", color: "#64748b", fontWeight: "700" }}>활동 지역</div>
+                <div style={{ fontSize: "13.5px", fontWeight: "900", color: "#1e293b", marginTop: "2px" }}>{v.myRegion || "인천 연수구"}</div>
+              </div>
+            </div>
+          </div>
 
-            <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+          <div style={{ background: "#fff", border: "1.5px solid #e2e8f0", borderRadius: "20px", padding: "18px", marginTop: "14px" }}>
+            <div style={{ fontSize: "14.5px", fontWeight: "900", color: "#1e293b", marginBottom: "4px" }}>🚦 현장 준비 서류</div>
+            <div style={{ fontSize: "12px", color: "#64748b", fontWeight: "650", marginBottom: "14px" }}>각 서류를 클릭하여 준비 상태를 시뮬레이션할 수 있습니다.</div>
+
+            <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
               {[
-                { key: "idCard", label: "신분증 제출 (이름·주민번호)", desc: "본인 확인 및 노무비 지급 증빙용" },
-                { key: "safetyEdu", label: "기초안전보건교육 이수증", desc: "건설 현장 출입 필수 법정 교육" },
-                { key: "elecCard", label: "건설근로자 전자카드", desc: "퇴직공제 신고 및 출퇴근용 태그 카드" },
-                { key: "bankAcc", label: "노무비 정산 계좌 등록", desc: "본인 명의 예금주 검증 완료 계좌" },
-                { key: "medCheck", label: "배치전/특수 신체검사서", desc: "대형 현장 및 유해공정 필수 검진" },
-                { key: "gateCard", label: "현장 출입카드 발급", desc: "평택 삼성반도체/조선소 등 현장 등록" },
-                { key: "safetyGear", label: "안전화 · 작업복 구비", desc: "현장 작업용 개인 보호구 준비" },
+                { key: "idCard", label: "신분증 제출 완료", desc: "본인 확인 및 증빙용" },
+                { key: "safetyEdu", label: "기초안전보건교육 이수증", desc: "건설현장 필수 교육 이수" },
+                { key: "elecCard", label: "건설근로자 전자카드", desc: "출퇴근 기록 및 퇴직공제 적립" },
+                { key: "bankAcc", label: "급여 받을 계좌 등록", desc: "노무비 정산용 본인 계좌" }
               ].map((item) => {
-                const checked = prepChecklist[item.key];
+                const checked = (prepChecklist as any)[item.key];
                 return (
                   <div
                     key={item.key}
                     onClick={() => {
-                      setPrepChecklist(prev => ({
+                      setPrepChecklist((prev: any) => ({
                         ...prev,
                         [item.key]: !prev[item.key]
                       }));
                     }}
                     style={{
-                      display: "flex", alignItems: "center", gap: "12px", padding: "12px 14px",
-                      borderRadius: "14px", border: "1px solid #e6e8ec", background: checked ? "#f8fafc" : "#fff",
+                      display: "flex", alignItems: "center", gap: "12px", padding: "10px 12px",
+                      borderRadius: "12px", border: "1px solid #cbd5e1", background: checked ? "#f0fdf4" : "#fff",
                       cursor: "pointer", transition: "all 0.15s"
                     }}
                   >
                     <div style={{
-                      width: "20px", height: "20px", borderRadius: "6px",
+                      width: "18px", height: "18px", borderRadius: "5px",
                       border: `2px solid ${checked ? "#10b981" : "#cbd5e1"}`,
                       background: checked ? "#10b981" : "transparent",
                       display: "flex", alignItems: "center", justifyContent: "center",
-                      color: "#fff", fontSize: "12px", fontWeight: "900", flex: "none"
-                    }}>
-                      {checked ? "✓" : ""}
-                    </div>
-                    <div style={{ flex: "1" }}>
-                      <div style={{ fontSize: "13.5px", fontWeight: "800", color: checked ? "var(--c1,#1F2226)" : "#64748b" }}>
-                        {item.label}
-                      </div>
-                      <div style={{ fontSize: "11px", color: "#8694a8", marginTop: "2px", fontWeight: "500" }}>
-                        {item.desc}
-                      </div>
+                      color: "#fff", fontSize: "11px", fontWeight: "900", flex: "none"
+                    }}>{checked ? "✓" : ""}</div>
+                    <div style={{ flex: 1 }}>
+                      <div style={{ fontSize: "13px", fontWeight: "900", color: checked ? "#166534" : "#475569" }}>{item.label}</div>
+                      <div style={{ fontSize: "11px", color: "#64748b", marginTop: "1px" }}>{item.desc}</div>
                     </div>
                   </div>
                 );
@@ -2740,141 +2739,77 @@ export default function MonoApp() {
             </div>
           </div>
 
-          {/* 나의 MONO 경력카드 (Consolidated Card View) */}
-          <div style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: "20px", padding: "18px", marginTop: "14px" }}>
-            <div style={{ fontSize: "15px", fontWeight: "800", color: "var(--c1,#1F2226)", marginBottom: "12px" }}>💳 나의 MONO 경력카드</div>
+          <div style={{ background: "#fff", border: "1.5px solid #e2e8f0", borderRadius: "20px", padding: "18px", marginTop: "14px" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "12px" }}>
+              <span style={{ fontSize: "14.5px", fontWeight: "900", color: "#1e293b" }}>💳 일한 기록 (경력카드)</span>
+              <button onClick={() => alert("공유")} style={{ background: "none", border: "none", color: "#4f46e5", fontSize: "13px", fontWeight: "800", cursor: "pointer" }}>공유</button>
+            </div>
             
-            <div style={{ borderRadius: "18px", padding: "18px", background: "var(--c1,#1F2226)", position: "relative", overflow: "hidden", border: "1px solid color-mix(in srgb, var(--brand,#1F2226) 22%, transparent)" }}>
+            <div style={{ background: "linear-gradient(135deg, #1e1b4b 0%, #312e81 100%)", borderRadius: "16px", padding: "16px", color: "#fff" }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
                 <div>
-                  <div style={{ display: "flex", alignItems: "center", gap: "7px" }}>
-                    <span style={{ color: "var(--t0,#E5E7EB)", fontWeight: "800", fontSize: "15px" }}>MONO</span>
-                  </div>
-                  <div style={{ fontSize: "9px", color: "var(--t2,#A5AEB8)", fontWeight: "700", marginTop: "4px" }}>인증 경력카드</div>
+                  <div style={{ fontSize: "13px", fontWeight: "900" }}>MONO Certified Profile</div>
                 </div>
-                <span style={{ fontSize: "11px", fontWeight: "800", color: "#fff", background: "rgba(255,255,255,0.15)", padding: "4px 8px", borderRadius: "8px" }}>A등급</span>
+                <span style={{ fontSize: "11px", fontWeight: "900", color: "#fff", background: "rgba(255,255,255,0.15)", padding: "3px 8px", borderRadius: "6px" }}>A등급</span>
               </div>
-              <div style={{ marginTop: "22px" }}>
-                <div style={{ fontSize: "16px", color: "#fff", fontWeight: "800" }}>{v.name} · {v.myJob}</div>
-                <div style={{ fontSize: "11.5px", color: "var(--t1,#A5AEB8)", fontWeight: "600", marginTop: "4px" }}>
-                  경력 {(careerCards || []).length}건 · 자격증 {(certificates || []).length}개
+              <div style={{ marginTop: "18px" }}>
+                <div style={{ fontSize: "18px", color: "#fff", fontWeight: "900" }}>{v.maskedName} · {v.myJob || "일반 조공"}</div>
+                <div style={{ fontSize: "11.5px", color: "#a5b4fc", fontWeight: "600", marginTop: "2px" }}>
+                  총 일한 현장: <strong>{careerCards.length}건</strong>
                 </div>
               </div>
             </div>
+          </div>
 
+          <div style={{ background: "#fff", border: "1.5px solid #e2e8f0", borderRadius: "20px", padding: "18px", marginTop: "14px" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "10px" }}>
+              <span style={{ fontSize: "14.5px", fontWeight: "900", color: "#1e293b" }}>🎖️ 자격 및 교육 이수</span>
+              <span onClick={() => alert("추가")} style={{ fontSize: "13.5px", color: "#4f46e5", fontWeight: "850", cursor: "pointer" }}>+ 추가</span>
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+              <div style={{ padding: "10px 12px", background: "#f8fafc", borderRadius: "10px", border: "1px solid #cbd5e1" }}>
+                <div style={{ fontSize: "13px", fontWeight: "900", color: "#1e293b" }}>건설업 기초안전보건교육</div>
+                <div style={{ fontSize: "11px", color: "#64748b", marginTop: "2px" }}>한국산업안전공단 연동완료</div>
+              </div>
+            </div>
+          </div>
+
+          <div style={{ background: "#fff", border: "1.5px solid #e2e8f0", borderRadius: "20px", padding: "18px", marginTop: "14px" }}>
+            <div style={{ fontSize: "14.5px", fontWeight: "900", color: "#1e293b", marginBottom: "10px" }}>🛠️ 사용 가능한 장비</div>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
+              {["안전모", "전기 드릴", "용접 토치"].map((gear, i) => (
+                <span key={i} style={{ fontSize: "12px", background: "#f1f5f9", color: "#334155", padding: "4px 10px", borderRadius: "8px", fontWeight: "800" }}>{gear}</span>
+              ))}
+            </div>
+          </div>
+
+          <div style={{ background: "#fff", border: "1.5px solid #e2e8f0", borderRadius: "20px", padding: "18px", marginTop: "14px" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "10px" }}>
+              <span style={{ fontSize: "14.5px", fontWeight: "900", color: "#1e293b" }}>🏦 급여 받을 계좌</span>
+              <button onClick={() => alert("변경")} style={{ background: "none", border: "none", color: "#4f46e5", fontSize: "13px", fontWeight: "800", cursor: "pointer" }}>변경</button>
+            </div>
+            <div style={{ padding: "12px 14px", background: "#f8fafc", borderRadius: "10px", border: "1px solid #e2e8f0", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+              <div>
+                <div style={{ fontSize: "13.5px", fontWeight: "900", color: "#1e293b" }}>신한은행 110-***-123456</div>
+                <div style={{ fontSize: "11px", color: "#64748b", marginTop: "2px" }}>예금주: {v.name}</div>
+              </div>
+            </div>
+          </div>
+
+          <div style={{ background: "linear-gradient(135deg, #f0fdf4, #dcfce7)", border: "1.5px solid #bbf7d0", borderRadius: "20px", padding: "18px", marginTop: "14px" }}>
+            <div style={{ fontSize: "14.5px", fontWeight: "955", color: "#166534", marginBottom: "8px", display: "flex", alignItems: "center", gap: "6px" }}>
+              <span>🚀</span> AI 성장 가이드
+            </div>
+            <p style={{ fontSize: "12.5px", color: "#166534", fontWeight: "700", margin: "0 0 12px 0", lineHeight: "1.4" }}>
+              비계/배관 준기공 레벨업을 위해 “도면 해독 기술 교육”을 이수하면 일당 상승에 유리합니다.
+            </p>
             <button
-              onClick={v.openShare}
-              style={{
-                marginTop: "12px", width: "100%", height: "42px", border: "none", borderRadius: "10px",
-                background: "var(--c1,#1F2226)", color: "#fff", fontSize: "13px", fontWeight: "800", cursor: "pointer"
-              }}
-            >
-              경력카드 QR / 링크 공유하기
+              onClick={() => alert("직무 추천받기")}
+              style={{ width: "100%", height: "38px", background: "#166534", color: "#fff", border: "none", borderRadius: "10px", fontSize: "12.5px", fontWeight: "900", cursor: "pointer" }}>
+              처음 시작할 직무 추천받기
             </button>
           </div>
 
-          {/* 경력 / 자격 리스트 관리 */}
-          <div style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: "20px", padding: "18px", marginTop: "14px" }}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "12px" }}>
-              <span style={{ fontSize: "15px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>🛠️ 현장 경력 ({careerCards.length}건)</span>
-              <span onClick={() => setOpenCareerSheet(true)} style={{ fontSize: "12.5px", color: "#4f46e5", fontWeight: "700", cursor: "pointer" }}>+ 추가</span>
-            </div>
-            {careerCards.length === 0 ? (
-              <div style={{ fontSize: "12.5px", color: "#8694a8", padding: "8px 0" }}>등록된 현장 경력이 없습니다.</div>
-            ) : (
-              <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-                {careerCards.map((card) => (
-                  <div key={card.id} style={{ padding: "10px 12px", background: "#f8fafc", border: "1px solid #e6e8ec", borderRadius: "12px", fontSize: "13px" }}>
-                    <div style={{ fontWeight: "800", color: "var(--c1,#1F2226)" }}>{card.projectName}</div>
-                    <div style={{ color: "#8694a8", fontSize: "11.5px", marginTop: "2px" }}>{card.company} · {card.trade} · {card.days}공수</div>
-                  </div>
-                ))}
-              </div>
-            )}
-
-            <div style={{ borderTop: "1px solid #f1f5f9", margin: "14px 0" }}></div>
-
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "12px" }}>
-              <span style={{ fontSize: "15px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>📜 자격증 및 교육 ({certificates.length + educations.length}건)</span>
-              <span onClick={() => setOpenDocs(true)} style={{ fontSize: "12.5px", color: "#4f46e5", fontWeight: "700", cursor: "pointer" }}>+ 관리</span>
-            </div>
-            {certificates.length === 0 && educations.length === 0 ? (
-              <div style={{ fontSize: "12.5px", color: "#8694a8", padding: "8px 0" }}>등록된 서류가 없습니다.</div>
-            ) : (
-              <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-                {certificates.map((c) => (
-                  <div key={c.id} style={{ padding: "10px 12px", background: "#f0fdfa", border: "1px solid #ccfbf1", borderRadius: "12px", fontSize: "13px", display: "flex", justifyContent: "space-between" }}>
-                    <span style={{ fontWeight: "800", color: "#0f766e" }}>{c.name}</span>
-                    <span style={{ fontSize: "11px", color: "#0d9488" }}>자격증</span>
-                  </div>
-                ))}
-                {educations.map((e) => (
-                  <div key={e.id} style={{ padding: "10px 12px", background: "#f5f3ff", border: "1px solid #ddd6fe", borderRadius: "12px", fontSize: "13px", display: "flex", justifyContent: "space-between" }}>
-                    <span style={{ fontWeight: "800", color: "#5b21b6" }}>{e.title}</span>
-                    <span style={{ fontSize: "11px", color: "#7c3aed" }}>교육이수</span>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-
-          {/* 프로필 서브 링크 메뉴 */}
-          <div style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: "18px", padding: "14px 6px", marginTop: "14px" }}>
-            {(v.meRows || []).map((row, _i1) => (<React.Fragment key={_i1}>
-              <div onClick={row.onClick} style={{ display: "flex", alignItems: "center", gap: "13px", padding: "13px 14px", cursor: "pointer" }}>
-                <div style={{ width: "34px", height: "34px", borderRadius: "11px", background: "#eef0f3", display: "flex", alignItems: "center", justifyContent: "center", flex: "none" }}>{row.icon}</div>
-                <span style={{ flex: "1", fontSize: "14.5px", fontWeight: "600", color: "var(--c1,#1F2226)" }}>{row.label}</span>
-                <span style={{ fontSize: "12px", fontWeight: "700", color: row.tagColor }}>{row.tag}</span>
-                <svg width="8" height="14" viewBox="0 0 8 14" fill="none"><path d="m1 1 6 6-6 6" stroke="#8694a8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path></svg>
-              </div>
-            </React.Fragment>))}
-          </div>
-
-          {/* 내 팀(반장) */}
-          <div style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: "18px", padding: "16px", marginTop: "14px" }}>
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-              <span style={{ fontSize: "15px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>내 팀{team && isForeman ? ` · ${team.memberCount}명` : ""}</span>
-              {isForeman && (<button type="button" onClick={openTeamSheet} style={{ border: "none", background: "none", fontSize: "12.5px", color: "var(--c1,#1F2226)", fontWeight: "800", fontFamily: "inherit", cursor: "pointer", padding: "4px 2px", WebkitTapHighlightColor: "transparent" }}>{team ? "+ 팀원 추가" : "+ 팀 만들기"}</button>)}
-            </div>
-            <div style={{ fontSize: "12px", color: "#8694a8", fontWeight: "500", marginTop: "4px", lineHeight: "1.5" }}>{isForeman ? "함께 일하는 팀을 한 번에 등록하세요." : "반장은 관리자 승인 후 팀을 만들 수 있어요."}</div>
-            {!isForeman && (
-              myRequested ? (
-                <div style={{ marginTop: "12px", padding: "11px 14px", borderRadius: "12px", background: "var(--soft,#E5E7EB)", fontSize: "12.5px", fontWeight: "800", color: "var(--c1,#1F2226)", textAlign: "center" }}>반장 승인 대기 중…</div>
-              ) : (
-                <button type="button" onClick={requestForeman} style={{ marginTop: "12px", width: "100%", height: "44px", border: "1px solid var(--c1,#1F2226)", borderRadius: "12px", background: "#fff", color: "var(--c1,#1F2226)", fontSize: "13.5px", fontWeight: "800", fontFamily: "inherit", cursor: "pointer", WebkitTapHighlightColor: "transparent" }}>반장 신청하기</button>
-              )
-            )}
-            {isForeman && team && team.members.length > 0 && (
-              <div style={{ display: "flex", flexDirection: "column", gap: "8px", marginTop: "12px" }}>
-                {(team?.members && Array.isArray(team.members) ? team.members : []).map((m) => (
-                  <div key={m.userId} style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-                    <div style={{ flex: "none", width: "32px", height: "32px", borderRadius: "50%", background: "var(--soft,#E5E7EB)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "13px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>{(m.name || "팀").slice(0, 1)}</div>
-                    <span style={{ flex: "1", fontSize: "14px", fontWeight: "700", color: "var(--c1,#1F2226)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{m.name || "이름 미등록"}</span>
-                    {m.jobType.length > 0 && (<span style={{ flex: "none", fontSize: "11px", fontWeight: "700", color: "var(--c1,#1F2226)", background: "var(--soft,#E5E7EB)", padding: "3px 8px", borderRadius: "7px" }}>{m.jobType[0]}</span>)}
-                  </div>
-                ))}
-              </div>
-            )}
-            {isForeman && team && (
-              <button type="button" onClick={deleteTeam} style={{ marginTop: "12px", border: "none", background: "none", color: "#d9534f", fontSize: "12.5px", fontWeight: "700", fontFamily: "inherit", cursor: "pointer", padding: "2px 0", WebkitTapHighlightColor: "transparent" }}>팀 삭제</button>
-            )}
-          </div>
-          
-          <button
-            onClick={() => {
-              try {
-                window.localStorage.removeItem("mono.profile");
-              } catch {
-                /* noop */
-              }
-              window.location.href = "/mono";
-            }}
-            style={{ marginTop: "16px", width: "100%", height: "46px", border: "1px solid #d4dae3", borderRadius: "13px", background: "#fff", color: "#5b6b82", fontSize: "14px", fontWeight: "700", fontFamily: "inherit", cursor: "pointer", WebkitTapHighlightColor: "transparent" }}
-          >
-            로그아웃
-          </button>
-          <button type="button" onClick={deleteAccount} style={{ marginTop: "10px", width: "100%", height: "44px", border: "none", borderRadius: "13px", background: "none", color: "#d9534f", fontSize: "13px", fontWeight: "700", fontFamily: "inherit", cursor: "pointer", WebkitTapHighlightColor: "transparent" }}>회원 탈퇴</button>
-          <div style={{ textAlign: "center", marginTop: "18px", fontSize: "11.5px", color: "#8694a8", fontWeight: "500" }}>MONO v1.0 · 현장 인력 데이터 인프라</div>
         </div>
         </>)}
 
