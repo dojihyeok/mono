@@ -153,6 +153,22 @@ export default function MonoApp() {
     careerCards, addCareerCard, completion } = useProfile(); // 온보딩 프로필 + 관심/서류 + 현장 경력 + 완성도
   const [openInterest, setOpenInterest] = useState(false); // 관심 기능 신청 시트
 
+  // 신규 추가: 계약서 서명, 정산 영수증, 퀴즈, 은어 검색 상태
+  const [openContractModal, setOpenContractModal] = useState(false);
+  const [contractSigned, setContractSigned] = useState(false);
+  const [openSettlementInvoice, setOpenSettlementInvoice] = useState<any>(null);
+  const [openQuizModal, setOpenQuizModal] = useState(false);
+  const [quizAnswered, setQuizAnswered] = useState(false);
+  const [aiGlossarySearch, setAiGlossarySearch] = useState<string>("");
+
+  // localStorage 연동 복원
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setContractSigned(localStorage.getItem("mono_contract_signed") === "true");
+      setQuizAnswered(localStorage.getItem("mono_quiz_answered") === "true");
+    }
+  }, []);
+
   // #5 신뢰 점수 (TrustScore)
   const [trustScore, setTrustScore] = useState<TrustScore | null>(null);
   const [workerProfile, setWorkerProfile] = useState<any>(null);
@@ -1396,6 +1412,65 @@ export default function MonoApp() {
             </div>
           </div>
 
+          {/* 오늘의 1분 안전 퀴즈 위젯 */}
+          <div style={{ background: "#ffffff", border: "2px solid #e6e8ec", borderRadius: "22px", padding: "18px 20px", marginBottom: "16px", boxShadow: "0 4px 14px -10px rgba(0,0,0,0.05)" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "10px" }}>
+              <span style={{ fontSize: "15px", fontWeight: "900", color: "#4f46e5" }}>🚨 오늘의 1분 안전 퀴즈 (신뢰 +10점)</span>
+              {quizAnswered && <span style={{ fontSize: "12px", color: "#10b981", fontWeight: "800" }}>완료됨 ✓</span>}
+            </div>
+            {!quizAnswered ? (
+              <div>
+                <div style={{ fontSize: "14.5px", fontWeight: "800", color: "var(--c1,#1F2226)", lineHeight: "1.5" }}>
+                  Q. 높은 곳(고소) 작업 시, 추락 방지를 위해 신체와 현장 구조물을 단단히 결속시키는 장비는 무엇일까요?
+                </div>
+                <div style={{ display: "flex", flexDirection: "column", gap: "8px", marginTop: "12px" }}>
+                  <button
+                    type="button"
+                    onClick={() => alert("❌ 오답입니다! 다른 정답을 골라보세요.")}
+                    style={{ height: "40px", borderRadius: "10px", border: "1.5px solid #e6e8ec", background: "#fff", fontSize: "13.5px", fontWeight: "700", cursor: "pointer", textAlign: "left", paddingLeft: "14px" }}
+                  >
+                    1. 🥾 일반 가죽 장갑
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      alert("🎉 정답입니다! 신뢰도 점수 +10점이 가산되었습니다.");
+                      setQuizAnswered(true);
+                      localStorage.setItem("mono_quiz_answered", "true");
+                      setTrustScore(prev => {
+                        if (prev) {
+                          const nextScore = prev.score + 10;
+                          let nextGrade = prev.grade;
+                          if (nextScore >= 95) nextGrade = "A등급";
+                          return { ...prev, score: nextScore, grade: nextGrade };
+                        }
+                        return { score: 10, grade: "C등급" };
+                      });
+                      track("quiz_completed", { score_gain: 10 });
+                    }}
+                    style={{ height: "40px", borderRadius: "10px", border: "1.5px solid #4f46e5", background: "#eff6ff", color: "#2563eb", fontSize: "13.5px", fontWeight: "800", cursor: "pointer", textAlign: "left", paddingLeft: "14px" }}
+                  >
+                    2. ⛓️ 안전고리가 달린 추락방지용 안전대
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => alert("❌ 오답입니다! 다른 정답을 골라보세요.")}
+                    style={{ height: "40px", borderRadius: "10px", border: "1.5px solid #e6e8ec", background: "#fff", fontSize: "13.5px", fontWeight: "700", cursor: "pointer", textAlign: "left", paddingLeft: "14px" }}
+                  >
+                    3. 🧢 햇빛 가림용 작업 모자
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div style={{ display: "flex", alignItems: "center", gap: "10px", background: "#f0fdf4", padding: "12px", borderRadius: "12px" }}>
+                <span style={{ fontSize: "20px" }}>🏆</span>
+                <span style={{ fontSize: "14px", fontWeight: "800", color: "#166534" }}>
+                  오늘의 안전 수칙을 마스터했습니다! (+10점 반영 완료)
+                </span>
+              </div>
+            )}
+          </div>
+
           {/* Active Attendance Badge/Card (if checked-in) */}
           {s.checkedIn && (
             <div style={{ borderRadius: "20px", background: "var(--c1,#1F2226)", padding: "16px", color: "var(--t0,#E5E7EB)", position: "relative", overflow: "hidden", marginBottom: "16px", boxShadow: "0 10px 24px -10px color-mix(in srgb, var(--brand,#1F2226) 80%, transparent)" }}>
@@ -1668,25 +1743,55 @@ export default function MonoApp() {
               <div>
                 <h4 style={{ margin: 0, fontSize: "15px", fontWeight: "800", color: "#312e81" }}>처음 보는 현장 용어가 있나요?</h4>
                 <p style={{ margin: "2px 0 0", fontSize: "12.5px", color: "#4f46e5", fontWeight: "600", lineHeight: "1.4" }}>
-                  야리끼리, 데마찌, 단도리... 현장 은어나 용어의 뜻을 AI 가이드가 알기 쉽게 설명해드려요.
+                  야리끼리, 데마찌, 단도리, 공구리, 덴조, 하바키 등 뜻을 알고 싶은 단어를 아래에 입력해 보세요.
                 </p>
               </div>
             </div>
-            <div style={{ display: "flex", flexDirection: "column", gap: "8px", marginTop: "12px" }}>
+            
+            {/* 용어 즉석 입력 검색창 */}
+            <div style={{ display: "flex", gap: "8px", marginTop: "14px" }}>
+              <input
+                type="text"
+                id="jargon_search_input"
+                placeholder="예: 데마찌, 공구리, 야리끼리"
+                style={{
+                  flex: 1, minWidth: 0, height: "46px", border: "2px solid #c7d2fe", borderRadius: "12px",
+                  padding: "0 12px", fontSize: "14px", fontWeight: "800", fontFamily: "inherit",
+                  outline: "none"
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    const val = (e.currentTarget as HTMLInputElement).value;
+                    if (val.trim()) {
+                      setAiGlossarySearch(val.trim());
+                      track("jargon_searched", { word: val.trim() });
+                    }
+                  }
+                }}
+              />
               <button
+                type="button"
                 onClick={() => {
-                  track("ai_term_explained", { source: "home_jargon_btn" });
-                  setGlossaryOpen(true);
+                  const inputEl = document.getElementById("jargon_search_input") as HTMLInputElement;
+                  if (inputEl && inputEl.value.trim()) {
+                    setAiGlossarySearch(inputEl.value.trim());
+                    track("jargon_searched", { word: inputEl.value.trim() });
+                  } else {
+                    alert("검색할 단어를 입력해주세요. (예: 데마찌)");
+                  }
                 }}
                 style={{
-                  width: "100%", height: "44px", border: "none", borderRadius: "12px",
-                  background: "#4f46e5", color: "#fff",
-                  fontSize: "13.5px", fontWeight: "800", cursor: "pointer"
+                  flex: "none", width: "70px", height: "46px", border: "none", borderRadius: "12px",
+                  background: "#4f46e5", color: "#fff", fontSize: "13.5px", fontWeight: "900", cursor: "pointer"
                 }}
               >
-                현장 용어 물어보기
+                검색
               </button>
+            </div>
+
+            <div style={{ display: "flex", flexDirection: "column", gap: "8px", marginTop: "10px" }}>
               <button
+                type="button"
                 onClick={() => {
                   track("large_site_guide_viewed", { source: "home_ai_btn" });
                   setActiveGuide('large');
@@ -2258,9 +2363,32 @@ export default function MonoApp() {
                   const openAtt = a.attendances.find((at) => !at.checkOutAt);
                   return (
                     <div key={a.id} style={{ borderRadius: "20px", background: "var(--c1,#1F2226)", padding: "18px", color: "var(--t0,#E5E7EB)", position: "relative", overflow: "hidden", marginBottom: "16px" }}>
-                      <div style={{ fontSize: "11.5px", fontWeight: "700", color: "var(--t1,#A5AEB8)" }}>{a.jobPost.company ? a.jobPost.company.name : "협약 기업"}{a.jobPost.region.length ? " · " + a.jobPost.region.join(", ") : ""}</div>
-                      <div style={{ fontSize: "17px", fontWeight: "800", marginTop: "3px" }}>{a.jobPost.title}</div>
+                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                        <div style={{ fontSize: "11.5px", fontWeight: "700", color: "var(--t1,#A5AEB8)" }}>{a.jobPost.company ? a.jobPost.company.name : "협약 기업"}{a.jobPost.region.length ? " · " + a.jobPost.region.join(", ") : ""}</div>
+                        <span style={{ fontSize: "11px", fontWeight: "800", color: contractSigned ? "#10b981" : "#f59e0b", background: contractSigned ? "#f0fdf4" : "#fffbeb", padding: "2px 8px", borderRadius: "6px" }}>
+                          {contractSigned ? "계약 서명 완료 ✓" : "📝 계약 서명 대기"}
+                        </span>
+                      </div>
+                      <div style={{ fontSize: "17px", fontWeight: "800", marginTop: "5px" }}>{a.jobPost.title}</div>
                       
+                      {/* 계약서 체결 유도 배너 */}
+                      {!contractSigned && (
+                        <div style={{ marginTop: "12px", background: "rgba(245,158,11,0.15)", border: "1px solid rgba(245,158,11,0.3)", borderRadius: "12px", padding: "12px", fontSize: "13px", color: "#fef3c7" }}>
+                          <div style={{ fontWeight: "800", color: "#fbbf24" }}>⚠️ 미서명 안내</div>
+                          <div style={{ marginTop: "2px", fontWeight: "600", lineHeight: "1.4" }}>아직 안심 근로계약 서명이 완료되지 않았습니다. 출근 체크 전에 계약 체결을 완료해 주세요.</div>
+                          <button
+                            type="button"
+                            onClick={() => setOpenContractModal(true)}
+                            style={{
+                              marginTop: "8px", width: "100%", height: "36px", border: "none", borderRadius: "8px",
+                              background: "#fbbf24", color: "#78350f", fontSize: "12.5px", fontWeight: "800", cursor: "pointer"
+                            }}
+                          >
+                            🖋️ 근로계약서 확인 및 서명하기
+                          </button>
+                        </div>
+                      )}
+
                       {/* 집결지 정보 노출 */}
                       <div style={{ marginTop: "12px", background: "rgba(255,255,255,0.06)", borderRadius: "12px", padding: "12px 14px", fontSize: "12.5px" }}>
                         <div style={{ color: "rgba(255,255,255,0.6)", fontWeight: "600" }}>📍 집결지 주소</div>
@@ -2269,7 +2397,25 @@ export default function MonoApp() {
                         <div style={{ color: "#fff", fontWeight: "700", marginTop: "2px" }}>오전 06:40 (지각 시 출입 통제)</div>
                       </div>
 
-                      <button onClick={() => (openAtt ? doCheckOut(a) : doCheckIn(a.id))} style={{ marginTop: "14px", width: "100%", height: "52px", border: "none", borderRadius: "14px", background: openAtt ? "var(--a1,#1F2226)" : "#fff", color: openAtt ? "var(--c0,#1F2226)" : "var(--c1,#1F2226)", fontSize: "16px", fontWeight: "800", fontFamily: "inherit", cursor: "pointer" }}>{openAtt ? "퇴근 체크" : "출근 체크"}</button>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          if (!openAtt && !contractSigned) {
+                            setOpenContractModal(true);
+                          } else {
+                            openAtt ? doCheckOut(a) : doCheckIn(a.id);
+                          }
+                        }}
+                        style={{
+                          marginTop: "14px", width: "100%", height: "52px", border: "none", borderRadius: "14px",
+                          background: openAtt ? "var(--a1,#1F2226)" : "#fff",
+                          color: openAtt ? "var(--c0,#1F2226)" : "var(--c1,#1F2226)",
+                          fontSize: "16px", fontWeight: "900", fontFamily: "inherit", cursor: "pointer"
+                        }}
+                      >
+                        {openAtt ? "퇴근 체크" : (contractSigned ? "출근 체크" : "출근 체크 (계약 서명 필요)")}
+                      </button>
+                      
                       <div style={{ fontSize: "11px", color: "var(--t2,#A5AEB8)", textAlign: "center", marginTop: "9px" }}>QR 및 실시간 위치 기반 안전 체크인</div>
                       {(a.attendances.length > 0) && (
                         <div style={{ marginTop: "13px", borderTop: "1px solid rgba(255,255,255,.12)", paddingTop: "12px", display: "flex", flexDirection: "column", gap: "8px" }}>
@@ -2363,15 +2509,19 @@ export default function MonoApp() {
                         const hours = at.checkOutAt ? (new Date(at.checkOutAt).getTime() - inDate.getTime()) / 3600000 : 0;
                         const manDay = Math.round(hours / 8 * 10) / 10;
                         return (
-                          <div key={at.id} style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: "18px", padding: "16px", boxShadow: "0 4px 12px -10px rgba(0,0,0,0.05)" }}>
+                          <div
+                            key={at.id}
+                            onClick={() => setOpenSettlementInvoice({ conditions: "일당 230,000원", title: at.jobTitle })}
+                            style={{ background: "#fff", border: "1.5px solid #e6e8ec", borderRadius: "18px", padding: "16px", boxShadow: "0 4px 12px -10px rgba(0,0,0,0.05)", cursor: "pointer" }}
+                          >
                             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                               <span style={{ fontSize: "12px", fontWeight: "800", color: "#166534", background: "#dcfce7", padding: "3px 8px", borderRadius: "6px" }}>출역 완료</span>
                               <span style={{ fontSize: "12.5px", color: "#8694a8", fontWeight: "600" }}>{dateLabel}</span>
                             </div>
-                            <div style={{ margin: "10px 0 4px", fontSize: "15px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>{at.jobTitle || "현장"}</div>
-                            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginTop: "8px", borderTop: "1px solid #f1f5f9", paddingTop: "8px" }}>
-                              <span style={{ fontSize: "13px", color: "#5b6b82", fontWeight: "500" }}>{at.jobType || ""}{at.jobType ? " · " : ""}{manDay}공수 · {inTime}~{outTime}</span>
-                              <span style={{ fontSize: "12px", color: "#8694a8", fontWeight: "600" }}>{manDay}일</span>
+                            <div style={{ margin: "10px 0 4px", fontSize: "15.5px", fontWeight: "900", color: "var(--c1,#1F2226)" }}>{at.jobTitle || "현장"}</div>
+                            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "8px", borderTop: "1px solid #f1f5f9", paddingTop: "8px" }}>
+                              <span style={{ fontSize: "13px", color: "#5b6b82", fontWeight: "600" }}>{at.jobType || ""}{at.jobType ? " · " : ""}{manDay}공수 · {inTime}~{outTime}</span>
+                              <span style={{ fontSize: "11.5px", color: "#4f46e5", background: "#f5f3ff", padding: "2px 8px", borderRadius: "6px", fontWeight: "800" }}>명세서 보기 📑</span>
                             </div>
                           </div>
                         );
@@ -3465,6 +3615,189 @@ export default function MonoApp() {
             }} style={{ marginTop: "16px", flex: "none", height: "50px", border: "none", borderRadius: "14px", background: "var(--c1,#1F2226)", color: "#fff", fontSize: "15px", fontWeight: "800", fontFamily: "inherit", cursor: "pointer", opacity: reattendBusy ? ".7" : "1" }}>
               {reattendBusy ? "처리 중..." : (reattendSelected.length > 0 ? `${reattendSelected.length}명 재출역 제안 및 퇴근` : "퇴근 체크만 하기")}
             </button>
+          </div>
+        </div>
+      )}
+
+      {/* 1. 모바일 근로계약서 서명 모달 */}
+      {openContractModal && (
+        <div onClick={() => setOpenContractModal(false)} style={{ position: "absolute", inset: "0", zIndex: "70", background: "rgba(20,22,48,.55)", backdropFilter: "blur(3px)", display: "flex", alignItems: "flex-end", animation: "fadeIn .2s ease" }}>
+          <div onClick={(e) => e.stopPropagation()} style={{ width: "100%", background: "#fff", borderRadius: "28px 28px 0 0", padding: "24px 20px 28px", animation: "sheetUp .32s cubic-bezier(.22,1,.36,1)", maxHeight: "90%", display: "flex", flexDirection: "column" }}>
+            <div style={{ width: "40px", height: "4px", borderRadius: "2px", background: "#d4dae3", margin: "0 auto 16px" }}></div>
+            <div style={{ fontSize: "20px", fontWeight: "900", color: "var(--c1,#1F2226)" }}>📝 모바일 근로계약서 간편 서명</div>
+            <div style={{ fontSize: "13.5px", color: "#5b6b82", fontWeight: "700", marginTop: "4px", marginBottom: "16px", lineHeight: "1.5", wordBreak: "keep-all" }}>
+              안전한 근로 제공과 체불 예방을 위해 계약 내용을 확인하신 후, 하단 서명란에 이름을 기입해 서명해주세요.
+            </div>
+
+            <div className="scr" style={{ overflowY: "auto", flex: "1", padding: "12px", background: "#f8fafc", borderRadius: "14px", border: "1.5px solid #e6e8ec", marginBottom: "16px", display: "flex", flexDirection: "column", gap: "10px" }}>
+              <div style={{ fontSize: "14px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>[안심 근로 계약 요약]</div>
+              <div style={{ fontSize: "13.5px", color: "#374151", lineHeight: "1.6", fontWeight: "700" }}>
+                • <strong>계약 주체:</strong> MONO 협약 기업 및 현장 근로자 {v.maskedName}<br/>
+                • <strong>근무 단가 (일당):</strong> 해당 공고에 확정된 하루 임금 (안심 에스크로 예치 보장)<br/>
+                • <strong>소득세 원천징수:</strong> 세법에 의거하여 일당 총액의 3.3% 공제 후 계좌 즉시 입금<br/>
+                • <strong>의무 사항:</strong> 현장 안전 규정 준수 및 필수 보호구(안전화 등) 상시 착용
+              </div>
+            </div>
+
+            {/* 가상 서명란 입력 박스 */}
+            <div style={{ marginBottom: "20px" }}>
+              <div style={{ fontSize: "14px", fontWeight: "900", color: "#5b6b82", marginBottom: "8px" }}>🖋️ 서명란 (이름을 정자로 입력해주세요)</div>
+              <input
+                type="text"
+                placeholder="예: 김민수"
+                id="sign_name_input"
+                style={{
+                  width: "100%", height: "48px", border: "2px solid #4f46e5", borderRadius: "12px",
+                  padding: "0 14px", fontSize: "16px", fontFamily: "inherit", fontWeight: "800",
+                  outline: "none", boxSizing: "border-box"
+                }}
+              />
+            </div>
+
+            <div style={{ display: "flex", gap: "10px" }}>
+              <button type="button" onClick={() => setOpenContractModal(false)} style={{ flex: 1, height: "50px", border: "1.5px solid #e6e8ec", borderRadius: "14px", background: "#fff", color: "#5b6b82", fontSize: "15px", fontWeight: "800", cursor: "pointer" }}>닫기</button>
+              <button
+                type="button"
+                onClick={() => {
+                  const inputVal = (document.getElementById("sign_name_input") as HTMLInputElement)?.value || "";
+                  if (!inputVal.trim()) {
+                    alert("서명을 위해 이름을 입력해주세요.");
+                    return;
+                  }
+                  alert("🎉 근로계약 서명이 완료되었습니다! 이제 안전하게 출근을 진행하실 수 있습니다.");
+                  setContractSigned(true);
+                  localStorage.setItem("mono_contract_signed", "true");
+                  setOpenContractModal(false);
+                  track("contract_signed", { name_length: inputVal.length });
+                }}
+                style={{ flex: 1.5, height: "50px", border: "none", borderRadius: "14px", background: "#4f46e5", color: "#fff", fontSize: "15px", fontWeight: "900", cursor: "pointer", boxShadow: "0 4px 12px rgba(79,70,229,0.2)" }}
+              >
+                동의하고 계약 서명 완료
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 2. 상세 노무비 정산서 및 에스크로 확인서 모달 */}
+      {openSettlementInvoice && (
+        <div onClick={() => setOpenSettlementInvoice(null)} style={{ position: "absolute", inset: "0", zIndex: "70", background: "rgba(20,22,48,.55)", backdropFilter: "blur(3px)", display: "flex", alignItems: "flex-end", animation: "fadeIn .2s ease" }}>
+          <div onClick={(e) => e.stopPropagation()} style={{ width: "100%", background: "#fff", borderRadius: "28px 28px 0 0", padding: "24px 20px 28px", animation: "sheetUp .32s cubic-bezier(.22,1,.36,1)", maxHeight: "90%", display: "flex", flexDirection: "column" }}>
+            <div style={{ width: "40px", height: "4px", borderRadius: "2px", background: "#d4dae3", margin: "0 auto 16px" }}></div>
+            <div style={{ fontSize: "20px", fontWeight: "900", color: "var(--c1,#1F2226)" }}>🛡️ 상세 노무비 안심 정산서</div>
+            <div style={{ fontSize: "13.5px", color: "#8694a8", fontWeight: "700", marginTop: "4px", marginBottom: "16px" }}>근무에 따른 노무비 선입금 보증 상태 및 세금 공제 영수증입니다.</div>
+
+            {/* 에스크로 예치증 확인 카드 */}
+            <div style={{ display: "flex", alignItems: "center", gap: "10px", background: "#eff6ff", border: "1.5px solid #bfdbfe", borderRadius: "14px", padding: "12px 14px", marginBottom: "16px" }}>
+              <span style={{ fontSize: "22px" }}>🔒</span>
+              <div style={{ flex: 1 }}>
+                <div style={{ fontSize: "14.5px", fontWeight: "900", color: "#1e3a8a" }}>MONO 에스크로 예치증 Verified</div>
+                <div style={{ fontSize: "12px", fontWeight: "700", color: "#2563eb", marginTop: "2px", lineHeight: "1.4" }}>원청사가 예치한 노무비가 안전하게 플랫폼 안심금고에 잠금되어 있습니다.</div>
+              </div>
+            </div>
+
+            {/* 세금 원천세 3.3% 계산 명세서 */}
+            {(() => {
+              // conditions 등에서 wage 액수 추출
+              const rawWage = openSettlementInvoice.conditions || "일당 230,000원";
+              const wageNum = parseInt(rawWage.replace(/[^0-9]/g, "")) || 230000;
+              const tax = Math.floor(wageNum * 0.03);
+              const localTax = Math.floor(wageNum * 0.003);
+              const totalDeduction = tax + localTax;
+              const netPay = wageNum - totalDeduction;
+
+              return (
+                <div style={{ border: "2px solid #e6e8ec", borderRadius: "16px", padding: "16px", marginBottom: "20px" }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "10px", fontSize: "15px", fontWeight: "800", color: "#8694a8" }}>
+                    <span>기본 일당 (하루 단가)</span>
+                    <span style={{ color: "var(--c1,#1F2226)", fontWeight: "900" }}>{wageNum.toLocaleString()} 원</span>
+                  </div>
+                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "8px", fontSize: "14px", fontWeight: "700", color: "#8694a8" }}>
+                    <span>소득세 공제 (3.0%)</span>
+                    <span style={{ color: "#ef4444", fontWeight: "800" }}>- {tax.toLocaleString()} 원</span>
+                  </div>
+                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "12px", fontSize: "14px", fontWeight: "700", color: "#8694a8", borderBottom: "1.5px dashed #e2e8f0", paddingBottom: "12px" }}>
+                    <span>지방소득세 (0.3%)</span>
+                    <span style={{ color: "#ef4444", fontWeight: "800" }}>- {localTax.toLocaleString()} 원</span>
+                  </div>
+                  <div style={{ display: "flex", justifyContent: "space-between", fontSize: "18px", fontWeight: "900", color: "#10b981", paddingTop: "4px" }}>
+                    <span>최종 내 계좌 입금액</span>
+                    <span>{netPay.toLocaleString()} 원</span>
+                  </div>
+                </div>
+              );
+            })()}
+
+            <button type="button" onClick={() => setOpenSettlementInvoice(null)} style={{ height: "50px", border: "none", borderRadius: "14px", background: "var(--c1,#1F2226)", color: "#fff", fontSize: "15px", fontWeight: "900", cursor: "pointer" }}>정산 영수증 닫기</button>
+          </div>
+        </div>
+      )}
+
+      {/* 3. AI 현장 은어 번역기 모달 */}
+      {aiGlossarySearch && (
+        <div onClick={() => setAiGlossarySearch("")} style={{ position: "absolute", inset: "0", zIndex: "70", background: "rgba(20,22,48,.55)", backdropFilter: "blur(3px)", display: "flex", alignItems: "flex-end", animation: "fadeIn .2s ease" }}>
+          <div onClick={(e) => e.stopPropagation()} style={{ width: "100%", background: "#fff", borderRadius: "28px 28px 0 0", padding: "24px 20px 28px", animation: "sheetUp .32s cubic-bezier(.22,1,.36,1)", maxHeight: "90%", display: "flex", flexDirection: "column" }}>
+            <div style={{ width: "40px", height: "4px", borderRadius: "2px", background: "#d4dae3", margin: "0 auto 16px" }}></div>
+            <div style={{ fontSize: "20px", fontWeight: "900", color: "var(--c1,#1F2226)" }}>🤖 MONO AI 현장 용어 번역기</div>
+            <div style={{ fontSize: "13.5px", color: "#8694a8", fontWeight: "700", marginTop: "4px", marginBottom: "16px" }}>현장에서 널리 쓰이는 은어의 정확한 표준어 뜻과 안전 가이드를 제공합니다.</div>
+
+            {(() => {
+              const query = aiGlossarySearch.trim();
+              let standard = "검색된 단어가 없습니다.";
+              let desc = "준비 중이거나 현장에서 사용되지 않는 단어일 수 있습니다.";
+              let safetyRule = "기본 안전수칙(안전모 장착, 안전화 착용)을 철저히 지키시기 바랍니다.";
+
+              if (query.match(/데마찌|데마찌선언/)) {
+                standard = "대기 / 휴업 (현장 사정으로 취소)";
+                desc = "비가 오거나 현장 자재 미비 등의 이유로 오늘 일거리가 취소되어 작업을 대기하거나 집으로 철수함을 뜻합니다. 에스크로 약관에 따라 대기 수당 보장 조항을 확인하세요.";
+                safetyRule = "현장에서 철수할 때에도 집결지 및 차량 탑승 시의 안전 보건 요령을 필히 준수하세요.";
+              } else if (query.match(/공구리/)) {
+                standard = "콘크리트 타설 작업";
+                desc = "시멘트, 모래, 자갈을 섞은 콘크리트를 철근 거푸집에 붓고 메우는 작업을 일컫는 현장 외래어입니다.";
+                safetyRule = "타설 시에는 튀는 시멘트 용액이 눈이나 피부에 닿지 않도록 방진 안경과 장갑, 안전화를 필수 착용하세요.";
+              } else if (query.match(/덴조/)) {
+                standard = "천장 마감 작업";
+                desc = "천장에 석고보드나 텍스를 대고 깔끔하게 마감하는 내부 목공·인테리어 공정을 의미합니다.";
+                safetyRule = "높은 곳에서 일하므로 반드시 흔들리지 않는 튼튼한 비계 발판(아시바)을 확인하고, 고소 작업용 추락방지 벨트를 결속하세요.";
+              } else if (query.match(/하바키/)) {
+                standard = "걸레받이 작업";
+                desc = "벽면 하단 바닥과 닿는 경계부에 얇은 판이나 몰딩을 덧대어 깔끔하게 마감하는 작업입니다.";
+                safetyRule = "절단기나 타카 등 뾰족하고 날카로운 도구를 사용하므로 손끼임 및 보안경 착용에 특별히 유의하세요.";
+              } else if (query.match(/야리끼리/)) {
+                standard = "도급/할당제 (일당 완수 퇴근)";
+                desc = "오늘 해야 할 작업 분량을 지정해 두고, 이를 모두 마치면 정해진 시간 이전이라도 일찍 조기 퇴근하는 도급식 노동 형태입니다.";
+                safetyRule = "빨리 끝내기 위해 급하게 서두르다 보면 심각한 안전사고(발 디딤 불량, 낙하 등)가 유발되므로, 단독 가속 작업을 절대 금합니다.";
+              } else if (query.match(/단도리/)) {
+                standard = "채비 / 작업 준비 상태 조율";
+                desc = "작업을 원활하게 시작하기 위해 필요한 자재, 연장, 동선, 안전 조치를 미리 마련하고 정리해두는 것을 의미합니다.";
+                safetyRule = "현장 출근 즉시 TBM(툴박스 미팅)에 참여하고, 오늘 해야 할 작업의 단도리가 잘 되었는지 팀장 및 반장과 소통하세요.";
+              }
+
+              return (
+                <div style={{ border: "2px solid #e6e8ec", borderRadius: "16px", padding: "16px", marginBottom: "20px", background: "#f8fafc" }}>
+                  <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                    <div>
+                      <span style={{ fontSize: "12px", background: "#eef2ff", color: "#4f46e5", padding: "2px 6px", borderRadius: "4px", fontWeight: "800" }}>현장 은어</span>
+                      <div style={{ fontSize: "18px", fontWeight: "900", color: "#dc2626", marginTop: "4px" }}>{query}</div>
+                    </div>
+                    <div style={{ borderTop: "1px dashed #e2e8f0", paddingTop: "8px" }}>
+                      <span style={{ fontSize: "12px", background: "#eff6ff", color: "#2563eb", padding: "2px 6px", borderRadius: "4px", fontWeight: "800" }}>표준 한글 용어</span>
+                      <div style={{ fontSize: "16px", fontWeight: "900", color: "#1e3a8a", marginTop: "4px" }}>{standard}</div>
+                    </div>
+                    <div style={{ borderTop: "1px dashed #e2e8f0", paddingTop: "8px" }}>
+                      <span style={{ fontSize: "12px", background: "#ede9fe", color: "#6d28d9", padding: "2px 6px", borderRadius: "4px", fontWeight: "800" }}>세부 설명</span>
+                      <div style={{ fontSize: "13.5px", fontWeight: "700", color: "#374151", marginTop: "4px", lineHeight: "1.5" }}>{desc}</div>
+                    </div>
+                    <div style={{ borderTop: "1px dashed #e2e8f0", paddingTop: "8px" }}>
+                      <span style={{ fontSize: "12px", background: "#fef2f2", color: "#ef4444", padding: "2px 6px", borderRadius: "4px", fontWeight: "800" }}>🚨 AI 추천 안전 수칙</span>
+                      <div style={{ fontSize: "13.5px", fontWeight: "800", color: "#b91c1c", marginTop: "4px", lineHeight: "1.5" }}>{safetyRule}</div>
+                    </div>
+                  </div>
+                </div>
+              );
+            })()}
+
+            <button type="button" onClick={() => setAiGlossarySearch("")} style={{ height: "50px", border: "none", borderRadius: "14px", background: "var(--c1,#1F2226)", color: "#fff", fontSize: "15px", fontWeight: "900", cursor: "pointer" }}>번역 닫기</button>
           </div>
         </div>
       )}
