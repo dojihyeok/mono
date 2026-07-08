@@ -3,116 +3,76 @@
 > 현장 전문가를 위한 하이엔드 핀테크 & 경력 관리 슈퍼앱
 
 현장 근로자·기술자가 현장 경력을 **신뢰 가능한 데이터 자산**으로 쌓는 모바일 우선 슈퍼앱입니다.
-가입 → 90초 온보딩 → **경력카드 앱**(경력·일자리·출역/정산·신뢰도)으로 이어지는 흐름을 제공합니다.
+가입 ➜ 90초 온보딩 ➜ **시니어 맞춤형 경력카드 사용자 앱**(경력·일자리·출역/정산·신뢰도)으로 이어지는 유기적인 흐름을 제공합니다.
 
 ---
 
-## 무엇으로 만들었나 (기술 스택)
+## 🌐 MONO 서비스 도메인 & 경로 리스트
 
-| 구분 | 사용 기술 |
-| --- | --- |
-| **프레임워크** | Next.js 14 (App Router) |
-| **언어** | **TypeScript** — Next.js는 "언어"가 아니라 React 기반 **프레임워크**입니다. |
-| **UI** | React 18 |
-| **스타일** | Vanilla CSS Modules + CSS 변수 디자인 토큰 (`app/globals.css`) · 테마: **MONO Tech-Blue** |
-| **애니메이션** | Framer Motion |
-| **DB / ORM** | Prisma *(현재 화면은 DB 없이 동작)* |
+상용 서버(`https://mono.dojiung.com`)에 매핑 및 작동 중인 서비스 경로 구조입니다.
+
+| URL 경로 | 서비스 명칭 | 대상 사용자 | 핵심 기능 및 용도 |
+| :--- | :--- | :--- | :--- |
+| **`/mono`** | **사용자 앱 (Worker App)** | 현장 기술자 / 근로자 | 현장 찾기, 간편 출근·퇴근 QR 체크인, 5대 필수 서류 관리, 실시간 출근 4단계 스태퍼, 커뮤니티(원청방·지역방·직무방·1:1 채팅) (50대 시니어 맞춤 대화면 지원) |
+| **`/partner`** | **파트너 포털 (Company Portal)** | B2B 원청사 / 구인 기업 | 채용공고 등록 및 관리, 지원자 이력서 검토 및 채용 확정, 노무비 청구 및 에스크로 정산 보조, 출역 현황 실시간 조회 |
+| **`/amono`** | **통합 관리자 포털 (Admin Portal)** | MONO 본사 / 플랫폼 운영사 | 가입 회원 승인, 외국인 기술자 비자 및 체류 서류(H-2/E-9 등) 적법성 검증, 불법 금칙어 게시물 블라인드, 리더 인증 심사 |
+| **`/request`** | **공사 의뢰 페이지 (Request)** | 건축주 / 시공사 / 개인 | 일자리 구인 의뢰 및 공사 세부 사항(예산, 인원, 기간) 등록, 구인 접수 완료 시 고유 의뢰번호(`REQ-`...) 발급 및 자동 매칭 연계 |
+| **`/leader`** | **공인 현장 리더 디렉토리** | 의뢰인 / B2B 구인 기업 | 플랫폼이 검증한 등급별(Captain/Partner/Certified) 반장·팀장 목록 조회, 팀 규모 및 장비 보유 이력 확인, 다이렉트 공사 견적 요청 |
+| **`/p/[id]`** | **경력카드 QR 공유 페이지** | 현장 관리자 / 원청사 | 개인 기술자의 인증 경력 건수, 자격증, 신뢰도 등급을 모바일 QR코드 및 웹 링크 형태로 외부 현장에 안전하게 공유 (민감 정보 마스킹) |
+| **`/bm`** | **비즈니스 모델 매트릭스** | 투자자 / 본사 전략 기획 | 7대 고객 세그먼트별 38대 비즈니스 모델(BM) 시뮬레이션, 매출 기여도 및 법률적 리스크 대시보드 검토 |
+| **`/analytics`** | **통합 분석 대시보드** | 플랫폼 마케터 / 기획자 | 사용자 앱과 B2B 웹에서 발생하는 모든 행동 로그(총 17대 로그 이벤트)의 실시간 트래킹 통계 지표 시각화 |
+| **`/`** | **메인 웰컴 인덱스** | 일반 방문자 | 플랫폼 브랜드 소개 및 각 대상자별(기술자/반장/기업) 서비스 바로가기 인덱스 게이트웨이 |
 
 ---
 
-## 로컬에서 실행하기
+## 🛠️ 모노레포 프로젝트 구조 (Monorepo)
 
-### 1단계 — 미리 설치할 프로그램 (딱 2개)
+본 프로젝트는 프론트엔드와 백엔드가 분리된 Monorepo 아키텍처를 취하고 있습니다.
 
-| 프로그램 | 버전 | 받는 곳 |
-| --- | --- | --- |
-| **Node.js** | **20 LTS 권장** (최소 18.18). 설치하면 `npm`이 함께 깔립니다. | https://nodejs.org |
-| **Git** | 최신 아무 버전 | https://git-scm.com |
+```
+/ (Root)
+├─ web/                      # Next.js 14+ (App Router) 웹 프론트엔드
+│  ├─ app/
+│  │  ├─ mono/               #   /mono 사용자 앱
+│  │  ├─ partner/            #   /partner 파트너 웹
+│  │  ├─ amono/              #   /amono 어드민 웹
+│  │  ├─ bm/                 #   /bm 비즈니스 모델 매트릭스
+│  │  ├─ leader/             #   /leader 현장 리더 디렉토리
+│  │  └─ request/            #   /request 공사 의뢰 페이지
+│  └─ package.json
+├─ api/                      # NestJS 백엔드 API 서비스 (Docker 컨테이너화)
+│  ├─ src/                   # DB 비즈니스 로직 및 모듈
+│  ├─ prisma/                # PostgreSQL DB Schema & Migrations
+│  └─ package.json
+├─ docker-compose.yml        # 로컬 Docker 구동 설정 (Postgres 및 api 컨테이너화)
+└─ README.md
+```
 
-설치가 잘 됐는지 확인:
+---
 
+## 🚀 로컬 개발 환경 구동 방법
+
+### 1. 백엔드 API & DB (Docker 구동)
+Docker가 켜진 상태에서 루트 디렉토리에서 다음을 입력합니다:
 ```bash
-node -v     # v20.x (또는 v18.18 이상)
-npm -v
-git --version
+docker compose up -d --build
 ```
+- PostgreSQL DB는 로컬 포트 `5434`에 바인딩됩니다.
+- NestJS API 서버는 로컬 포트 `8004`에 컨테이너로 구동됩니다.
 
-> 데이터베이스(PostgreSQL)는 **지금 단계에선 필요 없습니다.** 아래 3줄만으로 바로 돌아갑니다.
-
-### 2단계 — 내려받아 실행 (복붙 3줄)
-
+### 2. 프론트엔드 웹 (Next.js 로컬 구동)
+`web/` 디렉토리로 이동하여 패키지 설치 및 개발 모드를 실행합니다:
 ```bash
-git clone https://github.com/YOungJEEE/MoNo.git
-cd MoNo
-npm install        # 의존성 설치 (끝나면 prisma generate 가 자동 실행됨)
-npm run dev        # 개발 서버 시작
+cd web
+npm install
+npm run dev
 ```
-
-브라우저에서 **http://localhost:3000** 을 엽니다.
-
-- `/` 에서 시작 → **프로필 만들기** → 가입 → 온보딩 → **시작하기** 를 누르면 앱(`/mono`)으로 이어집니다.
-- 앱 화면을 바로 보려면 → **http://localhost:3000/mono**
-- 모바일·좁은 창에서는 **전체화면**, PC 넓은 창에서는 **가운데 폰 프레임**으로 보입니다(하이브리드 반응형).
-
-> **`.env` / DATABASE_URL 설정 불필요** — 현재 화면은 브라우저 localStorage·정적 데이터로 동작합니다.
-> (실제 DB 저장은 [아래 "데이터베이스" 단계](#데이터베이스-이후-단계-지금은-불필요)에서)
-
-### 자주 쓰는 명령
-
-| 명령 | 설명 |
-| --- | --- |
-| `npm install` | 의존성 설치 |
-| `npm run dev` | 개발 서버 (http://localhost:3000) |
-| `npm run build` | 프로덕션 빌드 |
-| `npm run start` | 빌드 결과 실행 |
-| `npm run lint` | 코드 검사 (ESLint) |
-
-### 잘 안 될 때
-
-- `npm install` 에서 멈추면 Node 버전부터 확인 (`node -v` 이 18.18 미만이면 20 LTS로 업데이트).
-- 포트 충돌(3000 사용 중)이면: `npm run dev -- -p 3001` 로 다른 포트 사용.
-- 캐시 꼬임이 의심되면: `rm -rf .next && npm run dev`.
+- 브라우저에서 **`http://localhost:3000`** 또는 **`http://localhost:3000/mono`**로 접속하여 모바일 우선 뷰를 테스트합니다.
 
 ---
 
-## 프로젝트 구조 (현재)
-
-```
-app/
-├─ layout.tsx              # 루트 레이아웃 (전역 CSS 로드)
-├─ globals.css             # 디자인 토큰(CSS 변수) — 톤앤매너 단일 소스 · 테마 Tech-Blue
-├─ manifest.ts             # PWA 매니페스트
-├─ (app)/                  # 가입·온보딩 진입 플로우
-│  ├─ page.tsx             #   /            랜딩
-│  ├─ signup/page.tsx      #   /signup      휴대폰·이메일 가입
-│  └─ onboarding/page.tsx  #   /onboarding  90초 기본 프로필 → '시작하기' → /mono
-└─ mono/
-   ├─ page.tsx
-   └─ MonoApp.tsx          #   /mono        근로자 앱 (5탭: 홈·일자리·경력카드·출역정산·내정보)
-
-components/                 # 공용 UI (AppShell, Button, TopBar, BottomNav 등)
-lib/                        # 상태·저장(ProfileContext, store) · 타입(types) · analytics
-prisma/schema.prisma        # DB 스키마 (이후 단계)
-docs/                       # 작업 기준 문서 (technical-handover, user-app-guidelines 등)
-```
-
-App Router 기반이며, Atomic Design을 지양하고 **페이지별 `Client.tsx` 중심**으로 관리합니다.
-
----
-
-## 데이터베이스 (이후 단계, 지금은 불필요)
-
-경력·이벤트 데이터를 실제로 DB에 저장하는 단계부터 PostgreSQL 이 필요합니다.
-
-```bash
-cp .env.example .env       # DATABASE_URL 입력
-npx prisma migrate dev     # 스키마를 로컬 DB 에 반영
-```
-
----
-
-## 작업 기준
-
-- 새 컴포넌트/페이지는 `app/globals.css`의 CSS 변수를 **재사용**해 톤앤매너 유지(테마: MONO Tech-Blue).
-- Framer Motion의 `layout` 프로퍼티 남발 주의(리페인팅 비용).
-- 상세 기준은 루트의 `CLAUDE.md` 및 `docs/` 참고.
+## 🚦 50대 시니어 친화적 UI 개선점
+- **글씨 및 터치 영역 확대**: 텍스트 가독성을 높이고 버튼 크기를 20% 키워 시니어 근로자의 조작 피로를 해소하였습니다.
+- **핵심 정보 간소화**: 구직 목록 카드를 일당, 직무, 출근 시간, 집결지 위주로 명료화하였습니다.
+- **안심 노무비(에스크로) 지급 보장**: 노무비 3단계 시각화(원청 예치 -> 금고 보관 -> 즉시 입금)로 체불 걱정 없는 환경을 직관적으로 증명합니다.
+- **간편 서류 콕핏**: 5대 서류 업로드 완료 상태를 대형 초록 체크 표시와 함께 한글로 명시하여 진행 상황을 손쉽게 인지합니다.
