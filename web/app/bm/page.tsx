@@ -2852,12 +2852,6 @@ export default function BMPage() {
 
       <main style={{ maxWidth: 1400, margin: '0 auto', padding: '28px 28px 60px' }}>
 
-        {/* ── 1라운드 상세 안내 패널 (헤더에서 메인으로 이동) ── */}
-        <section style={{ display: 'flex', flexDirection: 'column', gap: 6, background: '#f8fafc', padding: '16px 20px', borderRadius: 12, border: '1px solid #e2e8f0', marginBottom: 20 }}>
-          <div style={{ fontSize: 13.5, color: '#334155', lineHeight: 1.6, fontWeight: 650, wordBreak: 'keep-all' }}>
-            1라운드에서는 완성된 앱 출시를 기다리지 않고, MVP 화면과 서비스 소개 자료를 활용해 현장 운영사, 현장 리더, 협력사, 교육기관, 원청·대기업의 실제 수요를 먼저 확인합니다. 콜드메일, 전화, 오프라인 미팅, 설문을 통해 공고 등록, 후보 열람, 팀 매칭, 출근·정산 리포트, 커뮤니티, AI 현장 가이드에 대한 필요성과 비용 지불 의향을 검증합니다.
-          </div>
-        </section>
 
                 {/* ── BM 핵심 메시지 배너 ── */}
         <section
