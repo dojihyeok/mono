@@ -1672,14 +1672,7 @@ export default function MonoApp() {
             </button>
           </div>
           </>
-          ) : (
-            <div style={{ background: "#e0f2fe", border: "2px solid #bae6fd", borderRadius: "18px", padding: "16px 20px", marginBottom: "20px", boxShadow: "0 4px 14px -10px rgba(2,132,199,0.05)" }}>
-              <div style={{ fontSize: "15.5px", fontWeight: "900", color: "#0369a1", lineHeight: "1.45" }}>
-                💡 <strong>쉬운 큰글씨 화면 작동 중</strong><br />
-                복잡한 퀴즈나 서류 등록 없이 아래에서 현장를 즉시 조회하세요.
-              </div>
-            </div>
-          )}
+          ) : null}
 
           {/* 바로 지원 가능한 현장 */}
           <div style={{ marginTop: "24px" }}>
