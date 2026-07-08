@@ -1424,7 +1424,7 @@ export default function MonoApp() {
           <button type="button" onClick={v.goWork} className={`mono-sidebar-item${v.isWork ? " active" : ""}`}>지원·출근</button>
           <button type="button" onClick={v.goMe} className={`mono-sidebar-item${v.isMe ? " active" : ""}`}>내 프로필</button>
         </nav>
-        <div className="mono-sidebar-foot">현장 인력 데이터 인프라</div>
+        <div className="mono-sidebar-foot">현장 인력 데이터 인프라 · v0.1.0</div>
       </aside>
 <div className="mono-frame scr">
 
@@ -2887,6 +2887,8 @@ export default function MonoApp() {
 
 
     <div className="mono-bottomnav" style={{ height: "92px", flex: "none", background: "rgba(249,250,253,.96)", backdropFilter: "blur(16px)", borderTop: "1px solid #e6e8ec", display: "flex", padding: "10px 6px 0", position: "sticky", bottom: 0, left: 0, right: 0, zIndex: "30" }}>
+        {/* 모바일 버전 표시 */}
+        <div style={{ position: "absolute", left: "12px", bottom: "4px", fontSize: "9.5px", color: "#94a3b8", fontWeight: "800", pointerEvents: "none" }}>v0.1.0</div>
         <button onClick={v.goHome} style={{ flex: "1", minHeight: "56px", background: "none", border: "none", cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center", gap: "5px", paddingTop: "4px", color: v.cHome, fontFamily: "inherit", WebkitTapHighlightColor: "transparent" }}>
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M4 11 12 4l8 7v8a1.2 1.2 0 0 1-1.2 1.2H15V14.5a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1V20.2H5.2A1.2 1.2 0 0 1 4 19v-8Z" fill={v.fHome} stroke="currentColor" strokeWidth="1.9" strokeLinejoin="round"></path></svg>
           <span style={{ fontSize: "13.5px", fontWeight: v.wHome, letterSpacing: "-.2px", whiteSpace: "nowrap" }}>홈</span>
