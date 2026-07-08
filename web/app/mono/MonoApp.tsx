@@ -133,7 +133,7 @@ export default function MonoApp() {
   const [activeGuide, setActiveGuide] = useState<'first' | 'large' | null>(null);
   const [workSubTab, setWorkSubTab] = useState<'attendance' | 'history'>('attendance');
   const [glossaryOpen, setGlossaryOpen] = useState(false);
-  const [easyMode, setEasyMode] = useState(false);
+  const [easyMode, setEasyMode] = useState(true);
   const guideRef = useRef<HTMLDivElement>(null);
   const [homeTab, setHomeTab] = useState<'today' | 'large'>('today');
   const [jobsViewMode, setJobsViewMode] = useState<'list' | 'map'>('list');
@@ -1441,10 +1441,7 @@ export default function MonoApp() {
           {/* Welcome Header */}
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "6px 0 16px", gap: "12px" }}>
             <div style={{ minWidth: "0" }}>
-              <div style={{ fontSize: "17px", color: "var(--c1,#1F2226)", fontWeight: "900", wordBreak: "keep-all" }}>더 좋은 현장, 더 나은 대우를 찾을 수 있도록 MONO가 함께합니다.</div>
-              <div style={{ fontSize: "13px", color: "#64748b", marginTop: "5px", fontWeight: "700", lineHeight: "1.45", wordBreak: "keep-all" }}>
-                일당, 준비물, 식사·숙소, 출근 시간, 안전 조건까지 확인하고 지원하세요.
-              </div>
+              <div style={{ fontSize: "20px", color: "var(--c1,#1F2226)", fontWeight: "950", wordBreak: "keep-all" }}>반가워요! 오늘의 추천 일자리입니다.</div>
             </div>
             <div style={{ display: "flex", alignItems: "center", gap: "10px", flex: "none" }}>
               <button type="button" onClick={openNotifs} aria-label="알림" style={{ position: "relative", width: "44px", height: "44px", border: "1px solid #e6e8ec", borderRadius: "14px", background: "#fff", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", padding: "0" }}>
