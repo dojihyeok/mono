@@ -3204,6 +3204,240 @@ export default function BMPage() {
           </div>
         </section>
 
+        {/* ── 콜드메일·인터뷰·설문 실행계획 ── */}
+        <section style={{ background: '#ffffff', border: '2px solid #cbd5e1', borderRadius: '16px', padding: '28px', marginBottom: '28px', boxShadow: '0 4px 20px rgba(0,0,0,0.02)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '20px' }}>
+            <span style={{ fontSize: '22px' }}>📬</span>
+            <h2 style={{ fontSize: '18px', fontWeight: '955', color: '#0f172a', margin: 0 }}>7. 콜드메일·인터뷰·설문 실행계획</h2>
+          </div>
+          <p style={{ fontSize: '14.5px', color: '#64748b', fontWeight: '650', marginTop: 2, marginBottom: '24px', lineHeight: 1.5, wordBreak: 'keep-all' }}>
+            앱 출시 전에도 MVP 화면과 서비스 소개 자료를 활용해 콜드메일, 인터뷰, 설문으로 수요를 검증합니다. 이해관계자별로 필요한 기능과 비용 지불 의향을 수집합니다.
+          </p>
+          {/* 1. PO 단계 핵심 검증 구조 */}
+          <div style={{ marginBottom: '28px' }}>
+            <h3 style={{ fontSize: '15px', fontWeight: '900', color: '#4f46e5', marginBottom: '12px' }}>📋 PO 단계 핵심 검증 구조</h3>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '14px' }}>
+              {[
+                { title: '서비스 소개', purpose: 'MONO가 무엇을 해결하는지 설명', output: '1페이지 소개서, MVP 화면', color: '#3b82f6', bg: '#eff6ff' },
+                { title: '콜드메일', purpose: '기업·기관에 빠르게 수요 확인', output: '발송 리스트, 회신율', color: '#10b981', bg: '#ecfdf5' },
+                { title: '인터뷰', purpose: '실제 문제와 비용 전환 의향 확인', output: '인터뷰 기록', color: '#f59e0b', bg: '#fffbeb' },
+                { title: '설문', purpose: '이해관계자별 필요한 기능 수집', output: '기능 우선순위 데이터', color: '#8b5cf6', bg: '#f5f3ff' }
+              ].map((item, idx) => (
+                <div key={idx} style={{ background: item.bg, border: `1px solid ${item.color}30`, borderRadius: '14px', padding: '16px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                  <span style={{ fontSize: '12px', fontWeight: '900', color: item.color, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Step 0{idx+1} · {item.title}</span>
+                  <div style={{ fontSize: '14.5px', fontWeight: '950', color: '#1e293b' }}>{item.purpose}</div>
+                  <div style={{ marginTop: 'auto', fontSize: '12.5px', color: '#475569', fontWeight: '750', borderTop: '1px dashed rgba(0,0,0,0.06)', paddingTop: '6px' }}>
+                    📁 산출물: <strong>{item.output}</strong>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* 3. 이해관계자별 설문·인터뷰 설계 */}
+          <div style={{ marginBottom: '28px' }}>
+            <h3 style={{ fontSize: '15px', fontWeight: '900', color: '#4f46e5', marginBottom: '12px' }}>🗣️ 이해관계자별 설문·인터뷰 설계</h3>
+
+            {/* 탭 헤더 */}
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '14px', borderBottom: '1px solid #e2e8f0', paddingBottom: '8px' }}>
+              {SURVEY_ROLES.map(role => (
+                <button
+                  key={role.key}
+                  type="button"
+                  onClick={() => setActiveSurveyRole(role.key as any)}
+                  style={{
+                    padding: '8px 16px',
+                    borderRadius: '8px',
+                    border: 'none',
+                    fontSize: '13px',
+                    fontWeight: '900',
+                    cursor: 'pointer',
+                    background: activeSurveyRole === role.key ? '#4f46e5' : '#f1f5f9',
+                    color: activeSurveyRole === role.key ? '#ffffff' : '#475569',
+                    transition: 'all 0.15s'
+                  }}
+                >
+                  {role.label}
+                </button>
+              ))}
+            </div>
+
+            {/* 탭 본문: 미리보기 3개 + 전체보기 */}
+            {SURVEY_ROLES.filter(role => role.key === activeSurveyRole).map(role => (
+              <div key={role.key} style={{ background: '#f8fafc', border: '1px solid #cbd5e1', borderRadius: '12px', padding: '18px' }}>
+                <div style={{ display: 'grid', gap: '10px' }}>
+                  {role.questions.slice(0, 3).map((q, idx) => (
+                    <div key={idx} style={{ display: 'flex', background: '#fff', border: '1px solid #e2e8f0', borderRadius: '8px', padding: '10px 14px', gap: '14px', alignItems: 'center' }}>
+                      <span style={{ fontSize: '12px', fontWeight: '950', color: role.color, background: role.bg, padding: '2px 8px', borderRadius: '4px', flexShrink: 0 }}>{q.topic}</span>
+                      <span style={{ fontSize: '13.5px', color: '#1e293b', fontWeight: '750' }}>{q.question}</span>
+                    </div>
+                  ))}
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setSurveyModalOpen(true)}
+                  style={{
+                    marginTop: '12px', width: '100%', padding: '10px', borderRadius: '8px',
+                    border: `1.5px dashed ${role.color}`, background: '#fff', color: role.color,
+                    fontSize: '13px', fontWeight: '900', cursor: 'pointer',
+                  }}
+                >
+                  질문지 전체보기 ({role.questions.length}문항) →
+                </button>
+              </div>
+            ))}
+          </div>
+
+          {/* 4. 콜드메일 실행계획 & 설문 구조 */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '20px', marginBottom: '28px' }}>
+            
+            {/* 콜드메일 실행계획 */}
+            <div style={{ background: '#fafafa', border: '1px solid #cbd5e1', borderRadius: '14px', padding: '20px' }}>
+              <div style={{ fontSize: '14.5px', fontWeight: '955', color: '#0f172a', marginBottom: '14px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <span>📬</span> 콜드메일 실행 및 대상별 1차 목표
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', marginBottom: '16px' }}>
+                {[
+                  { tag: '현장 운영사', goal: '공고·팀 매칭 수요 확인' },
+                  { tag: '협력사', goal: '출근·정산·후보 검토 확인' },
+                  { tag: '현장 리더', goal: '팀 등록·급구 모집 확인' },
+                  { tag: '교육기관', goal: '초보자 교육·자격 제휴' },
+                  { tag: '장비·자재사', goal: 'Field Ops 제휴 수요' },
+                  { tag: '원청·대기업', goal: '상생·협력 관리 PoC' }
+                ].map((target, idx) => (
+                  <div key={idx} style={{ background: '#fff', border: '1px solid #e2e8f0', padding: '8px 12px', borderRadius: '8px' }}>
+                    <div style={{ fontSize: '12px', fontWeight: '900', color: '#4f46e5' }}>{target.tag}</div>
+                    <div style={{ fontSize: '12.5px', fontWeight: '750', color: '#334155', marginTop: '2px' }}>{target.goal}</div>
+                  </div>
+                ))}
+              </div>
+              <div style={{ background: '#fff', border: '1px dashed #cbd5e1', borderRadius: '10px', padding: '12px 14px' }}>
+                <div style={{ fontSize: '12px', fontWeight: '900', color: '#64748b' }}>✉️ 메일 작성 가이드라인</div>
+                <div style={{ fontSize: '12.5px', color: '#1e293b', fontWeight: '750', marginTop: '6px', lineHeight: '1.45' }}>
+                  <strong>제목:</strong> “현장 인력 모집·출근 관리 관련 PoC 제안드립니다”<br/>
+                  <strong>내용:</strong> 구인난/출근관리의 문제를 제기하고 MONO의 평판 데이터 기반의 해결책(홈, 현장찾기, 프로필, BM 데모)을 공유한 뒤, 15분 미팅 인터뷰(비용 지불 의사 확인)를 수집하는 CTA로 연결.
+                </div>
+              </div>
+            </div>
+
+            {/* 설문 구조 (3분 미만) */}
+            <div style={{ background: '#fafafa', border: '1px solid #cbd5e1', borderRadius: '14px', padding: '20px' }}>
+              <div style={{ fontSize: '14.5px', fontWeight: '955', color: '#0f172a', marginBottom: '14px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <span>📝</span> 3분 신속 설문 구조
+              </div>
+              
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                <div style={{ background: '#fff', border: '1px solid #e2e8f0', padding: '10px 12px', borderRadius: '8px' }}>
+                  <div style={{ fontSize: '12px', fontWeight: '900', color: '#94a3b8' }}>공통 설문 문항</div>
+                  <div style={{ fontSize: '12.5px', fontWeight: '700', color: '#334155', marginTop: '4px', lineHeight: '1.45' }}>
+                    1. 역할 선택 (기술자/리더/기업/원청 등)<br/>
+                    2. 현재 가장 불편한 점 (구인난, 정산 공수 등)<br/>
+                    3. MONO에서 가장 유용해 보이는 기능<br/>
+                    4. <strong>비용을 지불할 가능성이 있는 기능</strong>
+                  </div>
+                </div>
+                <div style={{ background: '#fff', border: '1px solid #e2e8f0', padding: '10px 12px', borderRadius: '8px' }}>
+                  <div style={{ fontSize: '12px', fontWeight: '900', color: '#4f46e5' }}>핵심 기능 선택 리스트</div>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px', marginTop: '6px' }}>
+                    {['급구 공고', '검증 프로필', '팀 매칭', '출근 관리', '정산 항목', '준비 가이드', '커뮤니티', 'AI 설명', '번역', '교육 연계'].map((feat, i) => (
+                      <span key={i} style={{ fontSize: '11px', background: '#eff6ff', color: '#1e40af', padding: '2px 6px', borderRadius: '4px', fontWeight: '800' }}>{feat}</span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        {/* ── 8. 멘토·투자자 피드백 질문 ── */}
+        <section style={{ background: '#ffffff', border: '2px solid #cbd5e1', borderRadius: '16px', padding: '28px', marginBottom: '28px', boxShadow: '0 4px 20px rgba(0,0,0,0.02)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '20px' }}>
+            <span style={{ fontSize: '22px' }}>💬</span>
+            <h2 style={{ fontSize: '18px', fontWeight: '955', color: '#0f172a', margin: 0 }}>8. 멘토·투자자 피드백 질문</h2>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.2fr', gap: '20px' }}>
+            
+            {/* 실행 목표 수치 */}
+            <div style={{ background: '#fff', border: '1.5px solid #cbd5e1', borderRadius: '14px', padding: '20px' }}>
+              <div style={{ fontSize: '14.5px', fontWeight: '955', color: '#0f172a', marginBottom: '12px' }}>📊 PO 단계 실행 목표 지표</div>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
+                {[
+                  { label: '공고 등록 의향', value: '5건 이상' },
+                  { label: '팀 등록 의향', value: '5팀 이상' },
+                  { label: '유료 기능 관심', value: '5건 이상' },
+                  { label: 'PoC 협의 관심', value: '2건 이상' },
+                  { label: '콜드메일 발송', value: '100건' },
+                  { label: '응답 수집', value: '10건 이상' },
+                  { label: '심층 인터뷰', value: '10명 이상' },
+                  { label: '설문 응답', value: '30건 이상' },
+                  { label: '현장 운영사 미팅', value: '5건 이상' },
+                  { label: '현장 리더 인터뷰', value: '5명 이상' }
+                ].map((target, idx) => (
+                  <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', padding: '4px 0', borderBottom: '1px solid #f1f5f9' }}>
+                    <span style={{ fontSize: '12.5px', color: '#64748b', fontWeight: '700' }}>{target.label}</span>
+                    <strong style={{ fontSize: '13px', color: '#0f172a', fontWeight: '900' }}>{target.value}</strong>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* 멘토 피드백 획득용 검토 질문 */}
+            <div style={{ background: 'linear-gradient(135deg, #fefafd, #fff1f2)', border: '1.5px dashed #fda4af', borderRadius: '14px', padding: '20px' }}>
+              <div style={{ fontSize: '14.5px', fontWeight: '955', color: '#be123c', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <span>💬</span> 멘토·투자자 피드백 질문
+              </div>
+              <p style={{ fontSize: '13px', color: '#4c0519', fontWeight: '650', lineHeight: '1.45', margin: '0 0 12px 0' }}>
+                수익화 전략의 우선순위와 검증 방식이 적절한지 확인하기 위한 질문입니다.
+              </p>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                {[
+                  '1. MONO가 먼저 검증해야 할 수익모델이 급구 현장 공고, 후보 프로필·팀 열람, 팀 단위 매칭 중심으로 설정된 것이 적절한지 확인하고 싶습니다.',
+                  '2. 앱 출시 전 콜드메일, 인터뷰, 설문, MVP 화면 공유만으로 비용 지불 의향과 PoC 관심도를 확인하는 방식이 충분히 실행 가능한지 피드백 받고 싶습니다.',
+                  '3. 고객군을 기술자, 현장 리더, 현장 운영사, 협력사, 원청, 대기업, 정부·지자체로 나누고 각각의 수익모델을 다르게 설계한 방향이 적절한지 확인하고 싶습니다.'
+                ].map((item, idx) => (
+                  <div key={idx} style={{ background: '#fff', border: '1px solid #fecdd3', borderRadius: '8px', padding: '8px 12px', fontSize: '12.5px', color: '#9f1239', fontWeight: '800', lineHeight: '1.4' }}>
+                    {item}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        {/* ── 9. 다음 실행 액션 ── */}
+        <section style={{ background: '#ffffff', border: '2px solid #cbd5e1', borderRadius: '16px', padding: '28px', marginBottom: '28px', boxShadow: '0 4px 20px rgba(0,0,0,0.02)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+            <span style={{ fontSize: '22px' }}>✅</span>
+            <h2 style={{ fontSize: '18px', fontWeight: '955', color: '#0f172a', margin: 0 }}>9. 다음 실행 액션</h2>
+          </div>
+          <p style={{ fontSize: '14.5px', color: '#64748b', fontWeight: '650', marginTop: 2, marginBottom: '20px', lineHeight: 1.5, wordBreak: 'keep-all' }}>
+            이 보드에서 정리한 수익화 전략을 바탕으로 지금 바로 착수할 실행 항목입니다. 콜드메일 발송·회신 관리 등 실제 실행은 <strong style={{ color: '#4f46e5' }}>관리자 웹(B2B 리드)</strong>에서 진행합니다. 카드를 클릭하면 상세 내용을 볼 수 있습니다.
+          </p>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '14px' }}>
+            {NEXT_ACTIONS.map((a) => (
+              <div
+                key={a.step}
+                onClick={() => setActionModalItem(a as any)}
+                style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '12px', padding: '14px 16px', display: 'flex', gap: '12px', alignItems: 'flex-start', cursor: 'pointer', transition: 'all 0.15s' }}
+                className="recommendation-card"
+              >
+                <span style={{ fontSize: '12px', fontWeight: '950', color: '#ffffff', background: '#4f46e5', width: '22px', height: '22px', borderRadius: '999px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>{a.step}</span>
+                <div>
+                  <div style={{ fontSize: '14px', fontWeight: '900', color: '#0f172a' }}>{a.title}</div>
+                  <div style={{ fontSize: '12.5px', fontWeight: '650', color: '#64748b', marginTop: '2px' }}>{a.target}</div>
+                  {a.adminLink && (
+                    <span style={{ display: 'inline-block', marginTop: '6px', fontSize: '11px', fontWeight: '900', color: '#4f46e5', background: '#eef2ff', padding: '2px 8px', borderRadius: '4px' }}>
+                      관리자 웹에서 실행
+                    </span>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
         {/* ── 6. 나중에 확장할 BM (2라운드~장기 로드맵) ── */}
         <section style={{ marginBottom: 36 }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
@@ -3915,240 +4149,6 @@ export default function BMPage() {
                 </li>
               </ul>
             </div>
-          </div>
-        </section>
-
-        {/* ── 콜드메일·인터뷰·설문 실행계획 ── */}
-        <section style={{ background: '#ffffff', border: '2px solid #cbd5e1', borderRadius: '16px', padding: '28px', marginBottom: '28px', boxShadow: '0 4px 20px rgba(0,0,0,0.02)' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '20px' }}>
-            <span style={{ fontSize: '22px' }}>📬</span>
-            <h2 style={{ fontSize: '18px', fontWeight: '955', color: '#0f172a', margin: 0 }}>7. 콜드메일·인터뷰·설문 실행계획</h2>
-          </div>
-          <p style={{ fontSize: '14.5px', color: '#64748b', fontWeight: '650', marginTop: 2, marginBottom: '24px', lineHeight: 1.5, wordBreak: 'keep-all' }}>
-            앱 출시 전에도 MVP 화면과 서비스 소개 자료를 활용해 콜드메일, 인터뷰, 설문으로 수요를 검증합니다. 이해관계자별로 필요한 기능과 비용 지불 의향을 수집합니다.
-          </p>
-          {/* 1. PO 단계 핵심 검증 구조 */}
-          <div style={{ marginBottom: '28px' }}>
-            <h3 style={{ fontSize: '15px', fontWeight: '900', color: '#4f46e5', marginBottom: '12px' }}>📋 PO 단계 핵심 검증 구조</h3>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '14px' }}>
-              {[
-                { title: '서비스 소개', purpose: 'MONO가 무엇을 해결하는지 설명', output: '1페이지 소개서, MVP 화면', color: '#3b82f6', bg: '#eff6ff' },
-                { title: '콜드메일', purpose: '기업·기관에 빠르게 수요 확인', output: '발송 리스트, 회신율', color: '#10b981', bg: '#ecfdf5' },
-                { title: '인터뷰', purpose: '실제 문제와 비용 전환 의향 확인', output: '인터뷰 기록', color: '#f59e0b', bg: '#fffbeb' },
-                { title: '설문', purpose: '이해관계자별 필요한 기능 수집', output: '기능 우선순위 데이터', color: '#8b5cf6', bg: '#f5f3ff' }
-              ].map((item, idx) => (
-                <div key={idx} style={{ background: item.bg, border: `1px solid ${item.color}30`, borderRadius: '14px', padding: '16px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                  <span style={{ fontSize: '12px', fontWeight: '900', color: item.color, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Step 0{idx+1} · {item.title}</span>
-                  <div style={{ fontSize: '14.5px', fontWeight: '950', color: '#1e293b' }}>{item.purpose}</div>
-                  <div style={{ marginTop: 'auto', fontSize: '12.5px', color: '#475569', fontWeight: '750', borderTop: '1px dashed rgba(0,0,0,0.06)', paddingTop: '6px' }}>
-                    📁 산출물: <strong>{item.output}</strong>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* 3. 이해관계자별 설문·인터뷰 설계 */}
-          <div style={{ marginBottom: '28px' }}>
-            <h3 style={{ fontSize: '15px', fontWeight: '900', color: '#4f46e5', marginBottom: '12px' }}>🗣️ 이해관계자별 설문·인터뷰 설계</h3>
-
-            {/* 탭 헤더 */}
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '14px', borderBottom: '1px solid #e2e8f0', paddingBottom: '8px' }}>
-              {SURVEY_ROLES.map(role => (
-                <button
-                  key={role.key}
-                  type="button"
-                  onClick={() => setActiveSurveyRole(role.key as any)}
-                  style={{
-                    padding: '8px 16px',
-                    borderRadius: '8px',
-                    border: 'none',
-                    fontSize: '13px',
-                    fontWeight: '900',
-                    cursor: 'pointer',
-                    background: activeSurveyRole === role.key ? '#4f46e5' : '#f1f5f9',
-                    color: activeSurveyRole === role.key ? '#ffffff' : '#475569',
-                    transition: 'all 0.15s'
-                  }}
-                >
-                  {role.label}
-                </button>
-              ))}
-            </div>
-
-            {/* 탭 본문: 미리보기 3개 + 전체보기 */}
-            {SURVEY_ROLES.filter(role => role.key === activeSurveyRole).map(role => (
-              <div key={role.key} style={{ background: '#f8fafc', border: '1px solid #cbd5e1', borderRadius: '12px', padding: '18px' }}>
-                <div style={{ display: 'grid', gap: '10px' }}>
-                  {role.questions.slice(0, 3).map((q, idx) => (
-                    <div key={idx} style={{ display: 'flex', background: '#fff', border: '1px solid #e2e8f0', borderRadius: '8px', padding: '10px 14px', gap: '14px', alignItems: 'center' }}>
-                      <span style={{ fontSize: '12px', fontWeight: '950', color: role.color, background: role.bg, padding: '2px 8px', borderRadius: '4px', flexShrink: 0 }}>{q.topic}</span>
-                      <span style={{ fontSize: '13.5px', color: '#1e293b', fontWeight: '750' }}>{q.question}</span>
-                    </div>
-                  ))}
-                </div>
-                <button
-                  type="button"
-                  onClick={() => setSurveyModalOpen(true)}
-                  style={{
-                    marginTop: '12px', width: '100%', padding: '10px', borderRadius: '8px',
-                    border: `1.5px dashed ${role.color}`, background: '#fff', color: role.color,
-                    fontSize: '13px', fontWeight: '900', cursor: 'pointer',
-                  }}
-                >
-                  질문지 전체보기 ({role.questions.length}문항) →
-                </button>
-              </div>
-            ))}
-          </div>
-
-          {/* 4. 콜드메일 실행계획 & 설문 구조 */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '20px', marginBottom: '28px' }}>
-            
-            {/* 콜드메일 실행계획 */}
-            <div style={{ background: '#fafafa', border: '1px solid #cbd5e1', borderRadius: '14px', padding: '20px' }}>
-              <div style={{ fontSize: '14.5px', fontWeight: '955', color: '#0f172a', marginBottom: '14px', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <span>📬</span> 콜드메일 실행 및 대상별 1차 목표
-              </div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', marginBottom: '16px' }}>
-                {[
-                  { tag: '현장 운영사', goal: '공고·팀 매칭 수요 확인' },
-                  { tag: '협력사', goal: '출근·정산·후보 검토 확인' },
-                  { tag: '현장 리더', goal: '팀 등록·급구 모집 확인' },
-                  { tag: '교육기관', goal: '초보자 교육·자격 제휴' },
-                  { tag: '장비·자재사', goal: 'Field Ops 제휴 수요' },
-                  { tag: '원청·대기업', goal: '상생·협력 관리 PoC' }
-                ].map((target, idx) => (
-                  <div key={idx} style={{ background: '#fff', border: '1px solid #e2e8f0', padding: '8px 12px', borderRadius: '8px' }}>
-                    <div style={{ fontSize: '12px', fontWeight: '900', color: '#4f46e5' }}>{target.tag}</div>
-                    <div style={{ fontSize: '12.5px', fontWeight: '750', color: '#334155', marginTop: '2px' }}>{target.goal}</div>
-                  </div>
-                ))}
-              </div>
-              <div style={{ background: '#fff', border: '1px dashed #cbd5e1', borderRadius: '10px', padding: '12px 14px' }}>
-                <div style={{ fontSize: '12px', fontWeight: '900', color: '#64748b' }}>✉️ 메일 작성 가이드라인</div>
-                <div style={{ fontSize: '12.5px', color: '#1e293b', fontWeight: '750', marginTop: '6px', lineHeight: '1.45' }}>
-                  <strong>제목:</strong> “현장 인력 모집·출근 관리 관련 PoC 제안드립니다”<br/>
-                  <strong>내용:</strong> 구인난/출근관리의 문제를 제기하고 MONO의 평판 데이터 기반의 해결책(홈, 현장찾기, 프로필, BM 데모)을 공유한 뒤, 15분 미팅 인터뷰(비용 지불 의사 확인)를 수집하는 CTA로 연결.
-                </div>
-              </div>
-            </div>
-
-            {/* 설문 구조 (3분 미만) */}
-            <div style={{ background: '#fafafa', border: '1px solid #cbd5e1', borderRadius: '14px', padding: '20px' }}>
-              <div style={{ fontSize: '14.5px', fontWeight: '955', color: '#0f172a', marginBottom: '14px', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <span>📝</span> 3분 신속 설문 구조
-              </div>
-              
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                <div style={{ background: '#fff', border: '1px solid #e2e8f0', padding: '10px 12px', borderRadius: '8px' }}>
-                  <div style={{ fontSize: '12px', fontWeight: '900', color: '#94a3b8' }}>공통 설문 문항</div>
-                  <div style={{ fontSize: '12.5px', fontWeight: '700', color: '#334155', marginTop: '4px', lineHeight: '1.45' }}>
-                    1. 역할 선택 (기술자/리더/기업/원청 등)<br/>
-                    2. 현재 가장 불편한 점 (구인난, 정산 공수 등)<br/>
-                    3. MONO에서 가장 유용해 보이는 기능<br/>
-                    4. <strong>비용을 지불할 가능성이 있는 기능</strong>
-                  </div>
-                </div>
-                <div style={{ background: '#fff', border: '1px solid #e2e8f0', padding: '10px 12px', borderRadius: '8px' }}>
-                  <div style={{ fontSize: '12px', fontWeight: '900', color: '#4f46e5' }}>핵심 기능 선택 리스트</div>
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px', marginTop: '6px' }}>
-                    {['급구 공고', '검증 프로필', '팀 매칭', '출근 관리', '정산 항목', '준비 가이드', '커뮤니티', 'AI 설명', '번역', '교육 연계'].map((feat, i) => (
-                      <span key={i} style={{ fontSize: '11px', background: '#eff6ff', color: '#1e40af', padding: '2px 6px', borderRadius: '4px', fontWeight: '800' }}>{feat}</span>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </section>
-
-        {/* ── 8. 멘토·투자자 피드백 질문 ── */}
-        <section style={{ background: '#ffffff', border: '2px solid #cbd5e1', borderRadius: '16px', padding: '28px', marginBottom: '28px', boxShadow: '0 4px 20px rgba(0,0,0,0.02)' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '20px' }}>
-            <span style={{ fontSize: '22px' }}>💬</span>
-            <h2 style={{ fontSize: '18px', fontWeight: '955', color: '#0f172a', margin: 0 }}>8. 멘토·투자자 피드백 질문</h2>
-          </div>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.2fr', gap: '20px' }}>
-            
-            {/* 실행 목표 수치 */}
-            <div style={{ background: '#fff', border: '1.5px solid #cbd5e1', borderRadius: '14px', padding: '20px' }}>
-              <div style={{ fontSize: '14.5px', fontWeight: '955', color: '#0f172a', marginBottom: '12px' }}>📊 PO 단계 실행 목표 지표</div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
-                {[
-                  { label: '공고 등록 의향', value: '5건 이상' },
-                  { label: '팀 등록 의향', value: '5팀 이상' },
-                  { label: '유료 기능 관심', value: '5건 이상' },
-                  { label: 'PoC 협의 관심', value: '2건 이상' },
-                  { label: '콜드메일 발송', value: '100건' },
-                  { label: '응답 수집', value: '10건 이상' },
-                  { label: '심층 인터뷰', value: '10명 이상' },
-                  { label: '설문 응답', value: '30건 이상' },
-                  { label: '현장 운영사 미팅', value: '5건 이상' },
-                  { label: '현장 리더 인터뷰', value: '5명 이상' }
-                ].map((target, idx) => (
-                  <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', padding: '4px 0', borderBottom: '1px solid #f1f5f9' }}>
-                    <span style={{ fontSize: '12.5px', color: '#64748b', fontWeight: '700' }}>{target.label}</span>
-                    <strong style={{ fontSize: '13px', color: '#0f172a', fontWeight: '900' }}>{target.value}</strong>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* 멘토 피드백 획득용 검토 질문 */}
-            <div style={{ background: 'linear-gradient(135deg, #fefafd, #fff1f2)', border: '1.5px dashed #fda4af', borderRadius: '14px', padding: '20px' }}>
-              <div style={{ fontSize: '14.5px', fontWeight: '955', color: '#be123c', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <span>💬</span> 멘토·투자자 피드백 질문
-              </div>
-              <p style={{ fontSize: '13px', color: '#4c0519', fontWeight: '650', lineHeight: '1.45', margin: '0 0 12px 0' }}>
-                수익화 전략의 우선순위와 검증 방식이 적절한지 확인하기 위한 질문입니다.
-              </p>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                {[
-                  '1. MONO가 먼저 검증해야 할 수익모델이 급구 현장 공고, 후보 프로필·팀 열람, 팀 단위 매칭 중심으로 설정된 것이 적절한지 확인하고 싶습니다.',
-                  '2. 앱 출시 전 콜드메일, 인터뷰, 설문, MVP 화면 공유만으로 비용 지불 의향과 PoC 관심도를 확인하는 방식이 충분히 실행 가능한지 피드백 받고 싶습니다.',
-                  '3. 고객군을 기술자, 현장 리더, 현장 운영사, 협력사, 원청, 대기업, 정부·지자체로 나누고 각각의 수익모델을 다르게 설계한 방향이 적절한지 확인하고 싶습니다.'
-                ].map((item, idx) => (
-                  <div key={idx} style={{ background: '#fff', border: '1px solid #fecdd3', borderRadius: '8px', padding: '8px 12px', fontSize: '12.5px', color: '#9f1239', fontWeight: '800', lineHeight: '1.4' }}>
-                    {item}
-                  </div>
-                ))}
-              </div>
-            </div>
-
-          </div>
-        </section>
-
-        {/* ── 9. 다음 실행 액션 ── */}
-        <section style={{ background: '#ffffff', border: '2px solid #cbd5e1', borderRadius: '16px', padding: '28px', marginBottom: '28px', boxShadow: '0 4px 20px rgba(0,0,0,0.02)' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
-            <span style={{ fontSize: '22px' }}>✅</span>
-            <h2 style={{ fontSize: '18px', fontWeight: '955', color: '#0f172a', margin: 0 }}>9. 다음 실행 액션</h2>
-          </div>
-          <p style={{ fontSize: '14.5px', color: '#64748b', fontWeight: '650', marginTop: 2, marginBottom: '20px', lineHeight: 1.5, wordBreak: 'keep-all' }}>
-            이 보드에서 정리한 수익화 전략을 바탕으로 지금 바로 착수할 실행 항목입니다. 콜드메일 발송·회신 관리 등 실제 실행은 <strong style={{ color: '#4f46e5' }}>관리자 웹(B2B 리드)</strong>에서 진행합니다. 카드를 클릭하면 상세 내용을 볼 수 있습니다.
-          </p>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '14px' }}>
-            {NEXT_ACTIONS.map((a) => (
-              <div
-                key={a.step}
-                onClick={() => setActionModalItem(a as any)}
-                style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '12px', padding: '14px 16px', display: 'flex', gap: '12px', alignItems: 'flex-start', cursor: 'pointer', transition: 'all 0.15s' }}
-                className="recommendation-card"
-              >
-                <span style={{ fontSize: '12px', fontWeight: '950', color: '#ffffff', background: '#4f46e5', width: '22px', height: '22px', borderRadius: '999px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>{a.step}</span>
-                <div>
-                  <div style={{ fontSize: '14px', fontWeight: '900', color: '#0f172a' }}>{a.title}</div>
-                  <div style={{ fontSize: '12.5px', fontWeight: '650', color: '#64748b', marginTop: '2px' }}>{a.target}</div>
-                  {a.adminLink && (
-                    <span style={{ display: 'inline-block', marginTop: '6px', fontSize: '11px', fontWeight: '900', color: '#4f46e5', background: '#eef2ff', padding: '2px 8px', borderRadius: '4px' }}>
-                      관리자 웹에서 실행
-                    </span>
-                  )}
-                </div>
-              </div>
-            ))}
           </div>
         </section>
 
