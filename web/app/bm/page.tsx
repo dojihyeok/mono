@@ -3208,7 +3208,7 @@ export default function BMPage() {
         <section style={{ background: '#ffffff', border: '2px solid #cbd5e1', borderRadius: '16px', padding: '28px', marginBottom: '28px', boxShadow: '0 4px 20px rgba(0,0,0,0.02)' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '20px' }}>
             <span style={{ fontSize: '22px' }}>📬</span>
-            <h2 style={{ fontSize: '18px', fontWeight: '955', color: '#0f172a', margin: 0 }}>7. 콜드메일·인터뷰·설문 실행계획</h2>
+            <h2 style={{ fontSize: '18px', fontWeight: '955', color: '#0f172a', margin: 0 }}>콜드메일·인터뷰·설문 실행계획</h2>
           </div>
           <p style={{ fontSize: '14.5px', color: '#64748b', fontWeight: '650', marginTop: 2, marginBottom: '24px', lineHeight: 1.5, wordBreak: 'keep-all' }}>
             앱 출시 전에도 MVP 화면과 서비스 소개 자료를 활용해 콜드메일, 인터뷰, 설문으로 수요를 검증합니다. 이해관계자별로 필요한 기능과 비용 지불 의향을 수집합니다.
@@ -3354,7 +3354,7 @@ export default function BMPage() {
         <section style={{ background: '#ffffff', border: '2px solid #cbd5e1', borderRadius: '16px', padding: '28px', marginBottom: '28px', boxShadow: '0 4px 20px rgba(0,0,0,0.02)' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '20px' }}>
             <span style={{ fontSize: '22px' }}>💬</span>
-            <h2 style={{ fontSize: '18px', fontWeight: '955', color: '#0f172a', margin: 0 }}>8. 멘토·투자자 피드백 질문</h2>
+            <h2 style={{ fontSize: '18px', fontWeight: '955', color: '#0f172a', margin: 0 }}>멘토·투자자 피드백 질문</h2>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.2fr', gap: '20px' }}>
             
@@ -3410,7 +3410,7 @@ export default function BMPage() {
         <section style={{ background: '#ffffff', border: '2px solid #cbd5e1', borderRadius: '16px', padding: '28px', marginBottom: '28px', boxShadow: '0 4px 20px rgba(0,0,0,0.02)' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
             <span style={{ fontSize: '22px' }}>✅</span>
-            <h2 style={{ fontSize: '18px', fontWeight: '955', color: '#0f172a', margin: 0 }}>9. 다음 실행 액션</h2>
+            <h2 style={{ fontSize: '18px', fontWeight: '955', color: '#0f172a', margin: 0 }}>다음 실행 액션</h2>
           </div>
           <p style={{ fontSize: '14.5px', color: '#64748b', fontWeight: '650', marginTop: 2, marginBottom: '20px', lineHeight: 1.5, wordBreak: 'keep-all' }}>
             이 보드에서 정리한 수익화 전략을 바탕으로 지금 바로 착수할 실행 항목입니다. 콜드메일 발송·회신 관리 등 실제 실행은 <strong style={{ color: '#4f46e5' }}>관리자 웹(B2B 리드)</strong>에서 진행합니다. 카드를 클릭하면 상세 내용을 볼 수 있습니다.
