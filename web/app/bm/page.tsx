@@ -2913,6 +2913,15 @@ export default function BMPage() {
         <div style={{ maxWidth: 1400, margin: '0 auto' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+              <span
+                style={{
+                  fontSize: 12, fontWeight: 950, color: '#ffffff',
+                  background: '#4f46e5', width: 22, height: 22, borderRadius: 999,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
+                }}
+              >
+                1
+              </span>
               <h1 style={{ fontSize: 24, fontWeight: 950, margin: 0, letterSpacing: '-0.03em', color: '#0f172a' }}>
                 MONO 수익화 전략 분석 보드
               </h1>
@@ -3402,7 +3411,9 @@ export default function BMPage() {
                 );
               })}
             </div>
-          </div>\n\n          {/* 4. MONO Strategy Simulation filter */}
+          </div>
+
+          {/* 4. MONO Strategy Simulation filter */}
           <div style={{ background: '#ffffff', border: '1px solid #cbd5e1', borderRadius: 12, padding: '16px 20px' }}>
             <div style={{ fontSize: 13, fontWeight: 800, color: '#475569', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 10 }}>
               🚀 MONO 성장 전략 시뮬레이션 필터
@@ -3700,7 +3711,7 @@ export default function BMPage() {
         <section style={{ background: '#ffffff', border: '2px solid #cbd5e1', borderRadius: '16px', padding: '28px', marginBottom: '28px', boxShadow: '0 4px 20px rgba(0,0,0,0.02)' }}>
           {/* 2. 앱 출시 전 검증 가능한 수익모델 */}
           <div style={{ marginBottom: '28px' }}>
-            <h3 style={{ fontSize: '15px', fontWeight: '900', color: '#4f46e5', marginBottom: '12px' }}>💰 앱 출시 전 검증 가능한 수익모델</h3>
+            <h3 style={{ fontSize: '15px', fontWeight: '900', color: '#4f46e5', marginBottom: '12px' }}>💰 4. 앱 출시 전 검증 가능한 수익모델</h3>
             <div style={{ overflowX: 'auto', border: '1px solid #cbd5e1', borderRadius: '12px' }}>
               <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '13.5px' }}>
                 <thead>
@@ -3740,7 +3751,7 @@ export default function BMPage() {
         <section id="competitors-analysis" style={{ marginTop: 20 }}>
           <div style={{ borderBottom: '2px solid #cbd5e1', paddingBottom: 10, marginBottom: 20 }}>
             <h2 style={{ fontSize: 20, fontWeight: 900, margin: 0, color: '#0f172a', display: 'flex', alignItems: 'center', gap: 8 }}>
-              📊 경쟁사 벤치마크 및 MONO 대응 전략 분석
+              📊 5. 경쟁사 벤치마크 및 MONO 대응 전략 분석
             </h2>
             <p style={{ margin: '4px 0 0', fontSize: 14, color: '#64748b', fontWeight: 500 }}>
               기존 성공 업체의 비즈니스 모델을 파악하고 MONO가 적용할 전략과 피해야 할 금기 전략을 매핑합니다.
@@ -3911,7 +3922,7 @@ export default function BMPage() {
         <section style={{ background: '#ffffff', border: '2px solid #cbd5e1', borderRadius: '16px', padding: '28px', marginBottom: '28px', boxShadow: '0 4px 20px rgba(0,0,0,0.02)' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '20px' }}>
             <span style={{ fontSize: '22px' }}>📬</span>
-            <h2 style={{ fontSize: '18px', fontWeight: '955', color: '#0f172a', margin: 0 }}>콜드메일·인터뷰·설문 실행계획</h2>
+            <h2 style={{ fontSize: '18px', fontWeight: '955', color: '#0f172a', margin: 0 }}>7. 콜드메일·인터뷰·설문 실행계획</h2>
           </div>
           <p style={{ fontSize: '14.5px', color: '#64748b', fontWeight: '650', marginTop: 2, marginBottom: '24px', lineHeight: 1.5, wordBreak: 'keep-all' }}>
             앱 출시 전에도 MVP 화면과 서비스 소개 자료를 활용해 콜드메일, 인터뷰, 설문으로 수요를 검증합니다. 이해관계자별로 필요한 기능과 비용 지불 의향을 수집합니다.
@@ -4055,7 +4066,10 @@ export default function BMPage() {
 
         {/* ── 8. 멘토·투자자 피드백 질문 ── */}
         <section style={{ background: '#ffffff', border: '2px solid #cbd5e1', borderRadius: '16px', padding: '28px', marginBottom: '28px', boxShadow: '0 4px 20px rgba(0,0,0,0.02)' }}>
-          {/* 5. 수익화 전략 우선순위 & 멘토·투자자 피드백 */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '20px' }}>
+            <span style={{ fontSize: '22px' }}>💬</span>
+            <h2 style={{ fontSize: '18px', fontWeight: '955', color: '#0f172a', margin: 0 }}>8. 멘토·투자자 피드백 질문</h2>
+          </div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.2fr', gap: '20px' }}>
             
             {/* 실행 목표 수치 */}
@@ -4110,7 +4124,7 @@ export default function BMPage() {
         <section style={{ background: '#ffffff', border: '2px solid #cbd5e1', borderRadius: '16px', padding: '28px', marginBottom: '28px', boxShadow: '0 4px 20px rgba(0,0,0,0.02)' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
             <span style={{ fontSize: '22px' }}>✅</span>
-            <h2 style={{ fontSize: '18px', fontWeight: '955', color: '#0f172a', margin: 0 }}>다음 실행 액션</h2>
+            <h2 style={{ fontSize: '18px', fontWeight: '955', color: '#0f172a', margin: 0 }}>9. 다음 실행 액션</h2>
           </div>
           <p style={{ fontSize: '14.5px', color: '#64748b', fontWeight: '650', marginTop: 2, marginBottom: '20px', lineHeight: 1.5, wordBreak: 'keep-all' }}>
             이 보드에서 정리한 수익화 전략을 바탕으로 지금 바로 착수할 실행 항목입니다. 콜드메일 발송·회신 관리 등 실제 실행은 <strong style={{ color: '#4f46e5' }}>관리자 웹(B2B 리드)</strong>에서 진행합니다. 카드를 클릭하면 상세 내용을 볼 수 있습니다.
