@@ -175,9 +175,10 @@ body.scroll-lock {
   }
 }
 
-/* 인쇄(=브라우저 'PDF로 저장') 시 .printable 영역만 노출 — 경력 요약서 */
+/* 인쇄(=브라우저 'PDF로 저장') 시 .printable 영역만 노출 — 경력 요약서.
+   :has(.printable)로 범위를 좁혀 .printable이 없는 일반 페이지(/bm 등)는 인쇄 시 그대로 노출되도록 함. */
 @media print {
-  body * {
+  body:has(.printable) * {
     visibility: hidden;
   }
   .printable,
