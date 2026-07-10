@@ -2830,7 +2830,7 @@ export default function MonoApp() {
       </div>
 
 
-    <div className="mono-bottomnav" style={{ height: "92px", flex: "none", background: "rgba(249,250,253,.96)", backdropFilter: "blur(16px)", borderTop: "1px solid #e6e8ec", display: "flex", padding: "10px 6px 0", position: "sticky", bottom: 0, left: 0, right: 0, zIndex: "30" }}>
+    <div className="mono-bottomnav" style={{ minHeight: "calc(92px + env(safe-area-inset-bottom, 0px))", flex: "none", background: "rgba(249,250,253,.96)", backdropFilter: "blur(16px)", borderTop: "1px solid #e6e8ec", display: "flex", padding: "10px 6px calc(env(safe-area-inset-bottom, 0px) + 6px)", position: "sticky", bottom: 0, left: 0, right: 0, zIndex: "30" }}>
         {/* 모바일 버전 표시 */}
         <div style={{ position: "absolute", left: "12px", bottom: "4px", fontSize: "9.5px", color: "#94a3b8", fontWeight: "800", pointerEvents: "none" }}>v0.1.0</div>
         <button onClick={v.goHome} style={{ flex: "1", minHeight: "56px", background: "none", border: "none", cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center", gap: "5px", paddingTop: "4px", color: v.cHome, fontFamily: "inherit", WebkitTapHighlightColor: "transparent" }}>
