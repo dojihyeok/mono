@@ -1033,3 +1033,81 @@ model BlacklistWord {
   word      String   @unique
   createdAt DateTime @default(now())
 }
+
+// ── BM 검증 CRM (Phase 3) — 콜드메일 리드 → 인터뷰 → 설문 → PoC 관심 파이프라인 ──
+
+enum LeadSegment {
+  OPERATOR // 현장 운영사
+  PARTNER // 협력사
+  FIELD_LEADER // 현장 리더
+  EDUCATION // 교육기관
+  CLIENT // 원청
+}
+
+enum LeadInterestBM {
+  URGENT_JOB_POSTING // 급구 현장·공고 등록 과금
+  CANDIDATE_VIEW // 프로필·팀 열람/후보 검토 과금
+  TEAM_MATCHING // 팀 단위 매칭 상담/성공 수수료
+  ATTENDANCE_REPORT // 출근·정산 리포트
+  AI_GUIDE // AI 현장 가이드
+}
+
+enum LeadStage {
+  COLD_EMAIL_SENT
+  REPLIED
+  INTERVIEW_SCHEDULED
+  INTERVIEW_DONE
+  POC_INTEREST
+}
+
+enum PaymentIntent {
+  NONE
+  CONSIDERING
+  BUDGETED
+  POC_READY
+}
+
+model Lead {
+  id              String           @id @default(cuid())
+  name            String
+  company         String?
+  segment         LeadSegment
+  contact         String
+  industry        String?
+  region          String?
+  interestBMs     LeadInterestBM[]
+  stage           LeadStage        @default(COLD_EMAIL_SENT)
+  paymentIntent   PaymentIntent    @default(NONE)
+  followUp        String?
+  interviews      Interview[]
+  surveyResponses SurveyResponse[]
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+
+  @@index([stage])
+  @@index([segment])
+}
+
+model Interview {
+  id             String    @id @default(cuid())
+  leadId         String
+  lead           Lead      @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  scheduledAt    DateTime?
+  completedAt    DateTime?
+  notes          String?
+  followUpAction String?
+  createdAt      DateTime  @default(now())
+
+  @@index([leadId])
+}
+
+model SurveyResponse {
+  id        String   @id @default(cuid())
+  leadId    String?
+  lead      Lead?    @relation(fields: [leadId], references: [id], onDelete: SetNull)
+  role      String // bm/page.tsx SURVEY_ROLES 키(worker/leader/operator/partner/enterprise/government/education)
+  answers   Json // { topic, question, answer }[]
+  createdAt DateTime @default(now())
+
+  @@index([leadId])
+}

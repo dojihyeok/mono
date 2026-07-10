@@ -4,7 +4,12 @@ import { JobPostStatusDto } from './dto/job-post-status.dto';
 import { SetUserRoleDto } from './dto/set-user-role.dto';
 import { WorkRequestStatusDto } from './dto/work-request-status.dto';
 import { CommunityService } from '../community/community.service';
-import { PartnerReferralStatus } from '@prisma/client';
+import { PartnerReferralStatus, LeadStage } from '@prisma/client';
+import { CreateLeadDto } from './dto/create-lead.dto';
+import { UpdateLeadDto } from './dto/update-lead.dto';
+import { CreateInterviewDto } from './dto/create-interview.dto';
+import { UpdateInterviewDto } from './dto/update-interview.dto';
+import { CreateSurveyResponseDto } from './dto/create-survey-response.dto';
 
 // 운영 콘솔 BFF(/api/admin/*) → 이 컨트롤러.
 @Controller('admin')
@@ -79,6 +84,54 @@ export class AdminController {
   @Get('reviews')
   reviews(@Query('limit') limit?: string) {
     return this.admin.listReviews(limit ? Number(limit) : 100);
+  }
+
+  // 후보 관리(BM 검증 P0-2) — 관심 기술자 저장 + 상담 요청 현황
+  @Get('candidates')
+  candidates(@Query('limit') limit?: string) {
+    return this.admin.listCandidates(limit ? Number(limit) : 100);
+  }
+
+  // 팀 관리(BM 검증 P0-3) — 팀 + 팀원 + 반장
+  @Get('teams')
+  teams(@Query('limit') limit?: string) {
+    return this.admin.listTeams(limit ? Number(limit) : 100);
+  }
+
+  // ── 리드 관리(BM 검증 CRM) ──
+  @Get('leads')
+  leads(@Query('stage') stage?: LeadStage, @Query('limit') limit?: string) {
+    return this.admin.listLeads(stage, limit ? Number(limit) : 200);
+  }
+
+  @Post('leads')
+  createLead(@Body() dto: CreateLeadDto) {
+    return this.admin.createLead(dto);
+  }
+
+  @Patch('leads/:id')
+  updateLead(@Param('id') id: string, @Body() dto: UpdateLeadDto) {
+    return this.admin.updateLead(id, dto);
+  }
+
+  @Post('interviews')
+  createInterview(@Body() dto: CreateInterviewDto) {
+    return this.admin.createInterview(dto);
+  }
+
+  @Patch('interviews/:id')
+  updateInterview(@Param('id') id: string, @Body() dto: UpdateInterviewDto) {
+    return this.admin.updateInterview(id, dto);
+  }
+
+  @Get('survey-responses')
+  surveyResponses(@Query('limit') limit?: string) {
+    return this.admin.listSurveyResponses(limit ? Number(limit) : 200);
+  }
+
+  @Post('survey-responses')
+  createSurveyResponse(@Body() dto: CreateSurveyResponseDto) {
+    return this.admin.createSurveyResponse(dto);
   }
 
   // PoC 리포트 — 산업별 수요·공급 집계 (§7.3)

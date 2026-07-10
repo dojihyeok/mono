@@ -6,6 +6,7 @@ import { EVENT_CATALOG, type AnalyticsEventName, type EventCategory } from "@/li
 import { CAREER_BAND_LABEL, INTEREST_FEATURES } from "@/lib/constants";
 import ForeignAdminView from "./ForeignAdminView";
 import AdminOpsView from "./AdminOpsView";
+import { LeadsView, InterviewsView, SurveyResponsesView, PocInterestView } from "./LeadCrmView";
 
 interface Overview {
   counts: {
@@ -61,7 +62,7 @@ interface AdminEvent {
   createdAt: string;
 }
 
-type Tab = "overview" | "foreman" | "users" | "events" | "jobposts" | "industry" | "workrequests" | "reviews" | "poc" | "foreign" | "ops" | "community" | "bm-leads";
+type Tab = "overview" | "foreman" | "users" | "events" | "jobposts" | "industry" | "workrequests" | "reviews" | "poc" | "foreign" | "ops" | "community" | "bm-leads" | "candidates" | "teams" | "leads" | "interviews" | "surveys" | "poc-interest";
 
 interface AdminBMInquiry {
   id: string;
@@ -99,6 +100,35 @@ interface AdminReview {
   comment: string | null;
   createdAt: string;
   rater: { name: string | null; role: string } | null;
+}
+interface AdminSavedWorker {
+  id: string;
+  memo: string | null;
+  createdAt: string;
+  company: { id: string; name: string };
+  user: { id: string; name: string | null; jobType: string[]; region: string[]; careerYears: string | null };
+}
+interface AdminConsultRequest {
+  id: string;
+  status: string;
+  memo: string | null;
+  createdAt: string;
+  company: { id: string; name: string };
+  targetUser: { id: string; name: string | null };
+}
+interface AdminCandidates {
+  saved: AdminSavedWorker[];
+  consults: AdminConsultRequest[];
+}
+interface AdminTeam {
+  id: string;
+  name: string;
+  industries: string[];
+  workTypes: string[];
+  regions: string[];
+  createdAt: string;
+  leader: { id: string; name: string | null; phone: string | null };
+  members: { user: { id: string; name: string | null } }[];
 }
 
 // 캐노니컬 라벨(운영 콘솔 표시용)
@@ -215,6 +245,8 @@ export function AdminClient() {
   const [pocReport, setPocReport] = useState<PocReport | null>(null);
   const [eventCat, setEventCat] = useState<EventCategory | "all">("all");
   const [bmLeads, setBmLeads] = useState<AdminBMInquiry[] | null>(null);
+  const [candidates, setCandidates] = useState<AdminCandidates | null>(null);
+  const [teams, setTeams] = useState<AdminTeam[] | null>(null);
   const [loading, setLoading] = useState(false);
   const [showLeadForm, setShowLeadForm] = useState(false);
   const [leadForm, setLeadForm] = useState({ companyName: '', contactName: '', contactMethod: '', interests: [] as string[], message: '' });
@@ -392,6 +424,32 @@ export function AdminClient() {
     }
   }, []);
 
+  const loadCandidates = useCallback(async () => {
+    setLoading(true);
+    try {
+      const res = await fetch("/api/admin/candidates?limit=200", { cache: "no-store" });
+      if (!res.ok) return;
+      setCandidates((await res.json()) as AdminCandidates);
+    } catch {
+      /* best-effort */
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  const loadTeams = useCallback(async () => {
+    setLoading(true);
+    try {
+      const res = await fetch("/api/admin/teams?limit=200", { cache: "no-store" });
+      if (!res.ok) return;
+      setTeams((await res.json()) as AdminTeam[]);
+    } catch {
+      /* best-effort */
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
   const loadPoc = useCallback(async () => {
     setLoading(true);
     try {
@@ -454,7 +512,9 @@ export function AdminClient() {
     if (tab === "reviews" && reviews === null) void loadReviews();
     if (tab === "poc" && pocReport === null) void loadPoc();
     if (tab === "bm-leads" && bmLeads === null) void loadBmLeads();
-  }, [tab, users, events, jobposts, foremanReqs, workRequests, reviews, pocReport, bmLeads, loadUsers, loadEvents, loadJobPosts, loadForemanReqs, loadWorkRequests, loadReviews, loadPoc, loadBmLeads]);
+    if (tab === "candidates" && candidates === null) void loadCandidates();
+    if (tab === "teams" && teams === null) void loadTeams();
+  }, [tab, users, events, jobposts, foremanReqs, workRequests, reviews, pocReport, bmLeads, candidates, teams, loadUsers, loadEvents, loadJobPosts, loadForemanReqs, loadWorkRequests, loadReviews, loadPoc, loadBmLeads, loadCandidates, loadTeams]);
 
   const refresh = () => {
     if (tab === "overview" || tab === "industry") void loadOverview();
@@ -464,7 +524,11 @@ export function AdminClient() {
     else if (tab === "reviews") void loadReviews();
     else if (tab === "poc") void loadPoc();
     else if (tab === "bm-leads") void loadBmLeads();
-    else if (tab === "foreman") {
+    else if (tab === "candidates") void loadCandidates();
+    else if (tab === "teams") void loadTeams();
+    else if (tab === "leads" || tab === "interviews" || tab === "surveys" || tab === "poc-interest" || tab === "foreign" || tab === "community" || tab === "ops") {
+      /* 자체 fetch 컴포넌트 — 탭 전환/컴포넌트 자체 새로고침으로 갱신 */
+    } else if (tab === "foreman") {
       void loadForemanReqs();
       void loadOverview();
     } else void loadEvents();
@@ -500,6 +564,12 @@ export function AdminClient() {
             { k: "users", t: "기술자" },
             { k: "workrequests", t: "작업요청" },
             { k: "jobposts", t: "채용 공고" },
+            { k: "leads", t: "리드 관리" },
+            { k: "interviews", t: "인터뷰 관리" },
+            { k: "surveys", t: "설문 응답 관리" },
+            { k: "poc-interest", t: "PoC 관심 관리" },
+            { k: "candidates", t: "후보 관리" },
+            { k: "teams", t: "팀 관리" },
             { k: "reviews", t: "평가" },
             { k: "poc", t: "PoC 리포트" },
             { k: "foreign", t: "외국인 인력" },
@@ -525,6 +595,12 @@ export function AdminClient() {
         {tab === "users" && <UsersView rows={users} loading={loading && !users} />}
         {tab === "workrequests" && <WorkRequestsView rows={workRequests} loading={loading && !workRequests} onStatus={setWrStatus} />}
         {tab === "jobposts" && <JobPostsView rows={jobposts} loading={loading && !jobposts} onStatus={setJobPostStatus} />}
+        {tab === "leads" && <LeadsView />}
+        {tab === "interviews" && <InterviewsView />}
+        {tab === "surveys" && <SurveyResponsesView />}
+        {tab === "poc-interest" && <PocInterestView />}
+        {tab === "candidates" && <CandidatesView data={candidates} loading={loading && !candidates} />}
+        {tab === "teams" && <TeamsView rows={teams} loading={loading && !teams} />}
         {tab === "reviews" && <ReviewsView rows={reviews} loading={loading && !reviews} />}
         {tab === "poc" && <PocView data={pocReport} loading={loading && !pocReport} />}
         {tab === "foreign" && <ForeignAdminView />}
@@ -1081,6 +1157,127 @@ function WorkRequestsView({ rows, loading, onStatus }: { rows: AdminWorkRequest[
 }
 
 // 평가 모니터링(§6.6) — 최근 다방향 평가.
+// 후보 관리(BM 검증 P0-2) — 관심 기술자 저장 + 상담 요청 현황
+function CandidatesView({ data, loading }: { data: AdminCandidates | null; loading: boolean }) {
+  if (loading) return <div className={styles.loading}>후보 데이터를 불러오는 중…</div>;
+  if (!data) return <div className={styles.empty}>데이터를 불러오지 못했습니다.</div>;
+  return (
+    <>
+      <div className={styles.sectionTitle}>관심 기술자 저장 {data.saved.length}건</div>
+      {data.saved.length === 0 ? (
+        <div className={styles.empty}>아직 저장된 관심 기술자가 없습니다.</div>
+      ) : (
+        <div className={styles.tableWrap}>
+          <table className={styles.table}>
+            <thead>
+              <tr>
+                <th>기업</th>
+                <th>기술자</th>
+                <th>직군</th>
+                <th>지역</th>
+                <th>메모</th>
+                <th>저장일</th>
+              </tr>
+            </thead>
+            <tbody>
+              {data.saved.map((s) => (
+                <tr key={s.id}>
+                  <td style={{ fontWeight: 700 }}>{s.company.name}</td>
+                  <td>{s.user.name ?? "—"}</td>
+                  <td>
+                    <div className={styles.chips}>
+                      {s.user.jobType.map((j) => (
+                        <span className={styles.chip} key={j}>{j}</span>
+                      ))}
+                    </div>
+                  </td>
+                  <td>{s.user.region.join(", ") || "—"}</td>
+                  <td style={{ maxWidth: 180, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{s.memo ?? "—"}</td>
+                  <td className={styles.mono}>{new Date(s.createdAt).toLocaleDateString("ko-KR")}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+
+      <div className={styles.sectionTitle} style={{ marginTop: 24 }}>상담 요청 {data.consults.length}건</div>
+      {data.consults.length === 0 ? (
+        <div className={styles.empty}>아직 접수된 상담 요청이 없습니다.</div>
+      ) : (
+        <div className={styles.tableWrap}>
+          <table className={styles.table}>
+            <thead>
+              <tr>
+                <th>기업</th>
+                <th>대상 기술자</th>
+                <th>상태</th>
+                <th>메모</th>
+                <th>요청일</th>
+              </tr>
+            </thead>
+            <tbody>
+              {data.consults.map((c) => (
+                <tr key={c.id}>
+                  <td style={{ fontWeight: 700 }}>{c.company.name}</td>
+                  <td>{c.targetUser.name ?? "—"}</td>
+                  <td>{c.status}</td>
+                  <td style={{ maxWidth: 180, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{c.memo ?? "—"}</td>
+                  <td className={styles.mono}>{new Date(c.createdAt).toLocaleDateString("ko-KR")}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </>
+  );
+}
+
+// 팀 관리(BM 검증 P0-3) — 팀 + 팀원 + 반장
+function TeamsView({ rows, loading }: { rows: AdminTeam[] | null; loading: boolean }) {
+  if (loading) return <div className={styles.loading}>팀 데이터를 불러오는 중…</div>;
+  if (!rows) return <div className={styles.empty}>데이터를 불러오지 못했습니다.</div>;
+  if (rows.length === 0) return <div className={styles.empty}>아직 등록된 팀이 없습니다.</div>;
+  return (
+    <>
+      <div className={styles.sectionTitle}>등록 팀 {rows.length}건</div>
+      <div className={styles.tableWrap}>
+        <table className={styles.table}>
+          <thead>
+            <tr>
+              <th>팀명</th>
+              <th>반장</th>
+              <th>팀원</th>
+              <th>산업</th>
+              <th>지역</th>
+              <th>등록일</th>
+            </tr>
+          </thead>
+          <tbody>
+            {rows.map((t) => (
+              <tr key={t.id}>
+                <td style={{ fontWeight: 700 }}>{t.name}</td>
+                <td>{t.leader.name ?? "—"}<span className={styles.mono} style={{ marginLeft: 6, opacity: 0.6 }}>{t.leader.phone ?? ""}</span></td>
+                <td className={styles.countCell}>{t.members.length}명</td>
+                <td>
+                  <div className={styles.chips}>
+                    {t.industries.map((i) => (
+                      <span className={styles.chip} key={i}>{INDUSTRY_LABEL_KO[i] ?? i}</span>
+                    ))}
+                  </div>
+                </td>
+                <td>{t.regions.join(", ") || "—"}</td>
+                <td className={styles.mono}>{new Date(t.createdAt).toLocaleDateString("ko-KR")}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </>
+  );
+}
+
 function ReviewsView({ rows, loading }: { rows: AdminReview[] | null; loading: boolean }) {
   if (loading) return <div className={styles.loading}>평가를 불러오는 중…</div>;
   if (!rows) return <div className={styles.empty}>데이터를 불러오지 못했습니다.</div>;

@@ -9,9 +9,15 @@ import {
   FieldOpsFeature,
   Residency,
   PartnerReferralStatus,
+  LeadStage,
 } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 import { NotificationsService } from '../notifications/notifications.service';
+import { CreateLeadDto } from './dto/create-lead.dto';
+import { UpdateLeadDto } from './dto/update-lead.dto';
+import { CreateInterviewDto } from './dto/create-interview.dto';
+import { UpdateInterviewDto } from './dto/update-interview.dto';
+import { CreateSurveyResponseDto } from './dto/create-survey-response.dto';
 
 // 운영 콘솔(/amono)용 집계·조회. 현재는 기술자(User) 도메인 기준.
 // 기업·공고 카운트는 /partner 도메인 구현 후 채워진다(지금은 0).
@@ -318,6 +324,113 @@ export class AdminService {
       orderBy: { createdAt: 'desc' },
       take: Math.min(Math.max(Number.isFinite(limit) ? limit : 100, 1), 500),
       include: { rater: { select: { name: true, role: true } } },
+    });
+  }
+
+  // 후보 관리(BM 검증 P0-2) — 기업이 저장한 관심 기술자 + 상담 요청 현황(최신순)
+  async listCandidates(limit = 100) {
+    const take = Math.min(Math.max(Number.isFinite(limit) ? limit : 100, 1), 500);
+    const [saved, consults] = await Promise.all([
+      this.prisma.savedWorker.findMany({
+        orderBy: { createdAt: 'desc' },
+        take,
+        include: {
+          company: { select: { id: true, name: true } },
+          user: { select: { id: true, name: true, jobType: true, region: true, careerYears: true } },
+        },
+      }),
+      this.prisma.consultRequest.findMany({
+        orderBy: { createdAt: 'desc' },
+        take,
+        include: {
+          company: { select: { id: true, name: true } },
+          targetUser: { select: { id: true, name: true } },
+        },
+      }),
+    ]);
+    return { saved, consults };
+  }
+
+  // 팀 관리(BM 검증 P0-3) — 팀 + 팀원 + 반장 정보(최신순)
+  async listTeams(limit = 100) {
+    return this.prisma.team.findMany({
+      orderBy: { createdAt: 'desc' },
+      take: Math.min(Math.max(Number.isFinite(limit) ? limit : 100, 1), 500),
+      include: {
+        leader: { select: { id: true, name: true, phone: true } },
+        members: { include: { user: { select: { id: true, name: true } } } },
+      },
+    });
+  }
+
+  // ── 리드 관리(BM 검증 CRM) — 콜드메일 리드 → 인터뷰 → 설문 → PoC 관심 ──
+
+  listLeads(stage?: LeadStage, limit = 200) {
+    return this.prisma.lead.findMany({
+      where: stage ? { stage } : undefined,
+      orderBy: { createdAt: 'desc' },
+      take: Math.min(Math.max(Number.isFinite(limit) ? limit : 200, 1), 500),
+      include: {
+        interviews: { orderBy: { createdAt: 'desc' } },
+        surveyResponses: { orderBy: { createdAt: 'desc' } },
+      },
+    });
+  }
+
+  createLead(dto: CreateLeadDto) {
+    return this.prisma.lead.create({ data: dto });
+  }
+
+  async updateLead(id: string, dto: UpdateLeadDto) {
+    try {
+      return await this.prisma.lead.update({ where: { id }, data: dto });
+    } catch (e) {
+      if (e instanceof Prisma.PrismaClientKnownRequestError && e.code === 'P2025') {
+        throw new NotFoundException(`Lead ${id} not found`);
+      }
+      throw e;
+    }
+  }
+
+  createInterview(dto: CreateInterviewDto) {
+    return this.prisma.interview.create({
+      data: {
+        leadId: dto.leadId,
+        scheduledAt: dto.scheduledAt ? new Date(dto.scheduledAt) : undefined,
+        notes: dto.notes,
+      },
+    });
+  }
+
+  async updateInterview(id: string, dto: UpdateInterviewDto) {
+    try {
+      return await this.prisma.interview.update({
+        where: { id },
+        data: {
+          completedAt: dto.completedAt ? new Date(dto.completedAt) : undefined,
+          notes: dto.notes,
+          followUpAction: dto.followUpAction,
+        },
+      });
+    } catch (e) {
+      if (e instanceof Prisma.PrismaClientKnownRequestError && e.code === 'P2025') {
+        throw new NotFoundException(`Interview ${id} not found`);
+      }
+      throw e;
+    }
+  }
+
+  listSurveyResponses(limit = 200) {
+    return this.prisma.surveyResponse.findMany({
+      orderBy: { createdAt: 'desc' },
+      take: Math.min(Math.max(Number.isFinite(limit) ? limit : 200, 1), 500),
+      include: { lead: { select: { id: true, name: true, company: true } } },
+    });
+  }
+
+  createSurveyResponse(dto: CreateSurveyResponseDto) {
+    return this.prisma.surveyResponse.create({
+      data: { leadId: dto.leadId, role: dto.role, answers: dto.answers },
     });
   }
 
