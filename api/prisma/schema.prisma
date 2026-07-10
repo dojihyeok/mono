@@ -1157,3 +1157,131 @@ model SurveyResponse {
 
   @@index([leadId])
 }
+
+// ── /bm 내부 BM 검증 페이지 (v1.2) — 수익모델 실험·검증 기록 ──
+enum BmEvidenceType {
+  PAID // 실제 결제
+  REPEAT // 재구매
+  PILOT // 실제 사용·실증
+  LOI // 문서화된 의향
+  INTERVIEW // 인터뷰
+  SURVEY // 설문
+  HYPOTHESIS // 미검증 가설
+  TECH_REVIEW // 기술 검토
+  POC_PLANNED // PoC 범위·일정 합의
+  PARTNERED // 협력 문서·계약
+}
+
+enum BmHypothesisStatus {
+  P0_NOW
+  P1_NEXT
+  P2_LATER
+  HOLD
+  KILL
+}
+
+enum BmExperimentStage {
+  BACKLOG
+  READY
+  RUNNING
+  ANALYZING
+  COMPLETED
+}
+
+enum BmDecision {
+  KEEP
+  CHANGE
+  HOLD
+  KILL
+}
+
+model BmHypothesis {
+  id                String              @id @default(cuid())
+  name              String // BM명
+  customerSegment   String // 고객군
+  problem           String
+  valueProposition  String
+  pricingHypothesis String // 가격 가설
+  revenueType       String // 수익 유형 (거래형/반복매출 등)
+  currentEvidence   String // 현재 증거
+  evidenceLevel     BmEvidenceType
+  nextExperiment    String
+  successCriteria   String
+  failureCriteria   String?
+  owner             String
+  dueDate           DateTime?
+  status            BmHypothesisStatus @default(P1_NEXT)
+  unitEconomics     Json? // 가격/할인/원가/PG비용/영업비용/CAC/GrossMargin/MRR/이탈률/LTV/회수기간 — 초기값은 가설
+  experiments       BmExperiment[]
+  decisions         BmDecisionLog[]
+  nextActions       BmNextAction[]
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+
+  @@index([status])
+}
+
+model BmExperiment {
+  id              String            @id @default(cuid())
+  hypothesisId    String
+  hypothesis      BmHypothesis      @relation(fields: [hypothesisId], references: [id], onDelete: Cascade)
+  title String // 가설
+  targetCustomer  String?
+  method          String?
+  periodStart     DateTime?
+  periodEnd       DateTime?
+  sampleTarget    String?
+  successCriteria String?
+  cost            String?
+  result          String?
+  learning        String?
+  nextDecision    String?
+  stage           BmExperimentStage @default(BACKLOG)
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+
+  @@index([hypothesisId])
+  @@index([stage])
+}
+
+model BmDecisionLog {
+  id           String        @id @default(cuid())
+  hypothesisId String?
+  hypothesis   BmHypothesis? @relation(fields: [hypothesisId], references: [id], onDelete: SetNull)
+  bmName       String
+  decision     BmDecision
+  rationale    String
+  approver     String
+  nextReviewAt DateTime?
+  createdAt    DateTime      @default(now())
+
+  @@index([hypothesisId])
+}
+
+model BmNextAction {
+  id              String        @id @default(cuid())
+  action          String
+  owner           String
+  dueDate         DateTime?
+  hypothesisId    String?
+  hypothesis      BmHypothesis? @relation(fields: [hypothesisId], references: [id], onDelete: SetNull)
+  successCriteria String?
+  blocker         String?
+  status          String        @default("OPEN") // OPEN/DONE/BLOCKED
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  @@index([hypothesisId])
+}
+
+model BmRevenueObjective {
+  id              String   @id @default(cuid())
+  period          String // 예: "2026 Q3"
+  targetRevenue   String
+  keyBm           String
+  successCriteria String
+  owner           String
+  status          String   @default("ACTIVE")
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}

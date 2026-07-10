@@ -124,17 +124,16 @@ export type AnalyticsEventName =
   | "partner_referral_requested"
   | "risk_report_submitted"
   | "overseas_candidate_registered"
-  // /bm 공개 페이지(BM 개발 개선 요청서 v1.1 §20)
-  | "bm_core_model_viewed"
-  | "bm_revenue_flow_scrolled"
-  | "bm_field_pass_viewed"
-  | "bm_field_pass_cta_clicked"
-  | "bm_customer_tab_selected"
-  | "bm_expansion_roadmap_opened"
-  | "bm_poc_cta_clicked"
-  | "bm_contact_cta_clicked"
-  | "founder_profile_clicked"
-  | "team_readiness_viewed";
+  // /bm 내부 BM 검증 페이지(내부 BM 검증 페이지 개발 요청서 v1.2 §15)
+  | "bm_page_viewed"
+  | "bm_hypothesis_opened"
+  | "bm_experiment_created"
+  | "bm_experiment_completed"
+  | "bm_evidence_uploaded"
+  | "bm_decision_recorded"
+  | "bm_unit_economics_updated"
+  | "bm_compliance_gate_opened"
+  | "bm_expansion_roadmap_opened";
 
 // 정본 이벤트 카탈로그(PDF #1 6장 기준). 관리자 화면·문서의 단일 출처.
 // Record<AnalyticsEventName,...> 라 union 과 항상 동기화됨(누락 시 컴파일 에러).
@@ -262,17 +261,16 @@ export const EVENT_CATALOG: Record<
   partner_referral_requested: { category: "foreign", label: "행정·노무 파트너 연계 신청" },
   risk_report_submitted: { category: "foreign", label: "리스크 신고" },
   overseas_candidate_registered: { category: "foreign", label: "해외 예비 기술자 등록" },
-  // /bm 공개 페이지
-  bm_core_model_viewed: { category: "bm", label: "Core BM 카드 열람" },
-  bm_revenue_flow_scrolled: { category: "bm", label: "Revenue Flow 조회" },
-  bm_field_pass_viewed: { category: "bm", label: "Field Pass 섹션 조회" },
-  bm_field_pass_cta_clicked: { category: "bm", label: "Field Pass CTA 클릭" },
-  bm_customer_tab_selected: { category: "bm", label: "고객군 탭 선택" },
+  // /bm 내부 BM 검증 페이지
+  bm_page_viewed: { category: "bm", label: "/bm 페이지 조회" },
+  bm_hypothesis_opened: { category: "bm", label: "BM 가설 카드 열람" },
+  bm_experiment_created: { category: "bm", label: "실험 등록" },
+  bm_experiment_completed: { category: "bm", label: "실험 단계 전환" },
+  bm_evidence_uploaded: { category: "bm", label: "증거 자료 업로드" },
+  bm_decision_recorded: { category: "bm", label: "의사결정 기록" },
+  bm_unit_economics_updated: { category: "bm", label: "Unit Economics 갱신" },
+  bm_compliance_gate_opened: { category: "bm", label: "Compliance Gates 조회" },
   bm_expansion_roadmap_opened: { category: "bm", label: "확장 로드맵 펼침" },
-  bm_poc_cta_clicked: { category: "bm", label: "PoC CTA 클릭" },
-  bm_contact_cta_clicked: { category: "bm", label: "기술·사업 제휴 CTA 클릭" },
-  founder_profile_clicked: { category: "bm", label: "대표자 프로필 링크 클릭" },
-  team_readiness_viewed: { category: "bm", label: "Team Readiness 조회" },
 };
 
 export interface LoggedEvent {

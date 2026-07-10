@@ -20,6 +20,7 @@ import { TrainingModule } from './training/training.module';
 import { ReferralsModule } from './referrals/referrals.module';
 import { RiskModule } from './risk/risk.module';
 import { CommunityModule } from './community/community.module';
+import { BmModule } from './bm/bm.module';
 
 @Controller()
 class HealthController {
@@ -51,6 +52,7 @@ class HealthController {
     ReferralsModule,
     RiskModule,
     CommunityModule,
+    BmModule,
   ],
   controllers: [HealthController],
 })
