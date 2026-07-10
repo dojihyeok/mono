@@ -24,7 +24,8 @@ interface Summary {
   retention: { window: string; cohort: number; returned: number; rate: number }[];
   aha: { behavior: string; users: number; returnRate: number }[];
   interest: { feature: string; count: number }[];
-  // BM 검증(P0) 지표 — 후보 열람 퍼널 + 유료 기능 관심
+  // BM 검증(P0) 지표 — 급구 공고 + 후보 열람 퍼널 + 유료 기능 관심
+  urgentJobFunnel: FunnelStep[];
   candidateFunnel: FunnelStep[];
   paidFeatureInterest: FunnelStep[];
   // §7.2~7.6 — 유형/산업/FieldOps/AI/유형별 리텐션
@@ -155,6 +156,7 @@ export function AnalysClient() {
           <>
             <div className={styles.sectionTitle}>🎯 BM 검증 지표 (P0 우선순위)</div>
             <div className={styles.cols}>
+              <Funnel title="급구 공고 검증 (P0-1)" steps={data.urgentJobFunnel} />
               <Funnel title="후보 열람 검증 (P0-2)" steps={data.candidateFunnel} />
               <Funnel title="유료 기능 관심 (P0-1·2·3)" steps={data.paidFeatureInterest} />
               <Funnel title="팀 매칭 검증 (P0-3)" steps={data.funnelsByRole?.fieldLeader ?? []} />

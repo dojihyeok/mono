@@ -115,6 +115,8 @@ function fmtClock(iso: string): string {
 function applLabel(status: string): { t: string; bg: string; fg: string } {
   if (status === "ACCEPTED") return { t: "배정 완료", bg: "#e4f7ec", fg: "#128a4e" };
   if (status === "REJECTED") return { t: "반려", bg: "#eef0f3", fg: "#6b7787" };
+  if (status === "REVIEWING") return { t: "기업 확인 중", bg: "#fef3c7", fg: "#92400e" };
+  if (status === "CONTACT_PENDING") return { t: "담당자 연락 예정", bg: "#dbeafe", fg: "#1d4ed8" };
   return { t: "지원 완료", bg: "var(--soft,#E5E7EB)", fg: "var(--c1,#1F2226)" };
 }
 
@@ -356,9 +358,11 @@ export default function MonoApp() {
   const toggleSettle = () => set((st) => ({ settleOpen: !st.settleOpen }));
   const open = (m) => set({ modal: m });
   const close = () => set({ modal: null });
-  const openJob = (i) => set({ overlay: 'job', selJob: i, applied: false });
-  const closeOverlay = () => set({ overlay: null });
-  const applyJob = () => set({ applied: true });
+  // 공고 상세는 실사용 시트(jobDetail)로 통일 — 데모 오버레이(하드코딩 jobs 배열) 제거.
+  const openJob = (i) => {
+    const jp = (realJobs || [])[i] ?? (realJobs && realJobs[0]) ?? null;
+    if (jp) setJobDetail(jp);
+  };
   const setCardView = (vw) => set({ cardView: vw });
 
   // 현장 경력 시트 접근성 — ESC 닫기 · body 스크롤 잠금 · 오픈 시 패널로 포커스 이동(CLAUDE.md 6).
@@ -1181,12 +1185,13 @@ export default function MonoApp() {
   };
   const jobsLoadedRef = useRef(false);
   useEffect(() => {
-    if (s.tab !== "jobs" || jobsLoadedRef.current) return;
+    // 홈 탭의 공고 카드도 openJob(realJobs 기준)을 쓰므로 jobs 탭 진입을 기다리지 않고 마운트 시 즉시 로드.
+    if (jobsLoadedRef.current) return;
     jobsLoadedRef.current = true;
     apiListJobPosts({ limit: 60 }).then((d) => setRealJobs(d || []));
     loadMyApplications();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [s.tab]);
+  }, []);
 
   // 공고 지원 — 서버 계정(serverId) 보장 후 지원. 멱등(서버 upsert) + 내 지원 현황 갱신.
   const applyToJob = async (jobPostId: string) => {
@@ -1361,16 +1366,6 @@ export default function MonoApp() {
       openDetailReq:()=>open('detailReq'),
       openSafetyM:()=>open('safety'),
 
-      // job detail overlay
-      overlayJob:s.overlay==='job',
-      closeOverlay:()=>closeOverlay(),
-      job,
-      applied:s.applied,
-      applyJob:()=>open('apply'),
-      applyLabel: s.applied?'출근 신청 완료 · 기업 확인 중':'출근 신청',
-      applyBg: s.applied?'var(--soft,#E5E7EB)':'var(--c1,#1F2226)',
-      applyFg: s.applied?'var(--c3,#1F2226)':'#fff',
-
       // permission-based card view
       publicRows:[
         {k:'안전교육 이수', v:'이수 완료 (100%)'},
@@ -1543,7 +1538,7 @@ export default function MonoApp() {
             if (!prepChecklist.safetyEdu) {
               todayItems.push({ icon: "🎓", tag: "[교육]", tagColor: "#f59e0b", text: "기초 안전 교육 수료증이 없어요" });
             }
-            const pendingApps = myApps.filter((a) => a.status === "PENDING" || a.status === "REVIEWING");
+            const pendingApps = myApps.filter((a) => a.status === "PENDING" || a.status === "REVIEWING" || a.status === "CONTACT_PENDING");
             if (pendingApps.length > 0) {
               todayItems.push({ icon: "📬", tag: "[지원]", tagColor: "#10b981", text: `${pendingApps.length}개 공고 답변 대기 중이에요`, onClick: v.goWork });
             }
@@ -2919,85 +2914,6 @@ export default function MonoApp() {
         </div>
       )}
 
-      {(v.overlayJob) && (<>
-        <div style={{ position: "absolute", inset: "0", zIndex: "55", background: "var(--bg,#f5f6fb)", display: "flex", flexDirection: "column", animation: "fadeIn .2s ease" }}>
-          <div style={{ flex: "none", height: "52px", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 10px 0 6px", background: "#fff", borderBottom: "1px solid #e6e8ec" }}>
-            <button onClick={v.closeOverlay} style={{ width: "40px", height: "40px", border: "none", background: "none", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M15 5l-7 7 7 7" stroke="var(--c1,#1F2226)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path></svg>
-            </button>
-            <span style={{ fontSize: "15px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>공고 상세</span>
-            <button style={{ width: "40px", height: "40px", border: "none", background: "none", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M14 7a2.5 2.5 0 1 0-2.4-3.1L7.9 6A2.5 2.5 0 1 0 6 10c.6 0 1.2-.2 1.6-.6l3.9 2.3A2.5 2.5 0 1 0 14 13c-.7 0-1.3.3-1.7.7l-3.8-2.2c.1-.3.2-.6.2-.9l3.7-2.2c.4.4 1 .8 1.6.8Z" fill="#8694a8"></path></svg>
-            </button>
-          </div>
-
-          <div className="scr" style={{ flex: "1", overflowY: "auto" }}>
-            <div style={{ height: "170px", background: v.job.grad, position: "relative", display: "flex", flexDirection: "column", justifyContent: "flex-end", padding: "18px" }}>
-              <div style={{ position: "absolute", inset: "0", background: "transparent" }}></div>
-              <div style={{ position: "relative", display: "flex", gap: "6px", marginBottom: "9px" }}>
-                <span style={{ fontSize: "11px", fontWeight: "700", color: "var(--c1,#1F2226)", background: "var(--a1,#1F2226)", padding: "4px 9px", borderRadius: "8px" }}>{v.job.trade}</span>
-                {(v.job.instant) && (<><span style={{ fontSize: "11px", fontWeight: "700", color: "#fff", background: "rgba(180,105,14,.9)", padding: "4px 9px", borderRadius: "8px" }}>즉시 출근</span></>)}
-              </div>
-              <div style={{ position: "relative", fontSize: "21px", fontWeight: "800", color: "#fff" }}>{v.job.name}</div>
-              <div style={{ position: "relative", display: "flex", alignItems: "center", gap: "5px", marginTop: "5px" }}>
-                <span style={{ fontSize: "12.5px", color: "rgba(255,255,255,.85)", fontWeight: "600" }}>{v.job.company}</span>
-                {(v.job.verified) && (<><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1 8.7 2.3l2.1-.2.6 2 1.6 1.4-1 1.8.3 2.1-2 .8L8.7 12 7 11l-1.7 1.4-1.8-1.4-2-.8.3-2.1-1-1.8L2.4 4l.6-2 2.1.2L7 1Z" fill="var(--a1,#1F2226)"></path><path d="m5 7 1.4 1.4L9.4 5.2" stroke="var(--c1,#1F2226)" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"></path></svg></>)}
-              </div>
-            </div>
-
-            <div style={{ padding: "18px 20px 22px" }}>
-              <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between" }}>
-                <div><div style={{ fontSize: "12px", color: "#8694a8", fontWeight: "600" }}>일당</div><div style={{ display: "flex", alignItems: "baseline", gap: "2px", marginTop: "2px" }}><span style={{ fontSize: "16px", color: "var(--c1,#1F2226)", fontWeight: "700" }}>₩</span><span className="mono" style={{ fontSize: "30px", fontWeight: "500", color: "var(--c1,#1F2226)" }}>{v.job.pay}</span></div></div>
-                <span style={{ fontSize: "11.5px", fontWeight: "700", color: "var(--ai,#1F2226)", background: "var(--aSoft,#E5E7EB)", padding: "6px 11px", borderRadius: "10px" }}>{v.job.settleWay}</span>
-              </div>
-
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px", marginTop: "18px" }}>
-                <div style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: "14px", padding: "13px 14px" }}><div style={{ fontSize: "11px", color: "#8694a8", fontWeight: "600" }}>출근일</div><div style={{ fontSize: "14.5px", fontWeight: "700", color: "var(--c1,#1F2226)", marginTop: "3px" }}>{v.job.date}</div></div>
-                <div style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: "14px", padding: "13px 14px" }}><div style={{ fontSize: "11px", color: "#8694a8", fontWeight: "600" }}>근무 시간</div><div style={{ fontSize: "14.5px", fontWeight: "700", color: "var(--c1,#1F2226)", marginTop: "3px" }}>{v.job.hours}</div></div>
-                <div style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: "14px", padding: "13px 14px" }}><div style={{ fontSize: "11px", color: "#8694a8", fontWeight: "600" }}>필요 인원</div><div style={{ fontSize: "14.5px", fontWeight: "700", color: "var(--c1,#1F2226)", marginTop: "3px" }}>{v.job.people}</div></div>
-                <div style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: "14px", padding: "13px 14px" }}><div style={{ fontSize: "11px", color: "#8694a8", fontWeight: "600" }}>숙식</div><div style={{ fontSize: "14.5px", fontWeight: "700", color: "var(--c1,#1F2226)", marginTop: "3px" }}>{v.job.stay}</div></div>
-              </div>
-
-              <div style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: "16px", padding: "4px 16px", marginTop: "12px" }}>
-                <div style={{ display: "flex", justifyContent: "space-between", padding: "12px 0" }}><span style={{ fontSize: "13px", color: "#8694a8", fontWeight: "600" }}>근무 위치</span><span style={{ fontSize: "13.5px", color: "var(--c1,#1F2226)", fontWeight: "700" }}>{v.job.loc} · {v.job.dist}</span></div>
-                <div style={{ display: "flex", justifyContent: "space-between", padding: "12px 0", borderTop: "1px solid var(--soft,#E5E7EB)" }}><span style={{ fontSize: "13px", color: "#8694a8", fontWeight: "600" }}>준비할 것</span><span style={{ fontSize: "13px", color: "var(--c1,#1F2226)", fontWeight: "700", textAlign: "right", maxWidth: "60%" }}>{v.job.prepare}</span></div>
-                <div style={{ display: "flex", justifyContent: "space-between", padding: "12px 0", borderTop: "1px solid var(--soft,#E5E7EB)" }}><span style={{ fontSize: "13px", color: "#8694a8", fontWeight: "600" }}>현장 위험도</span><span style={{ fontSize: "13.5px", color: "#b4690e", fontWeight: "700" }}>{v.job.risk}</span></div>
-                <div style={{ display: "flex", justifyContent: "space-between", padding: "12px 0", borderTop: "1px solid var(--soft,#E5E7EB)" }}><span style={{ fontSize: "13px", color: "#8694a8", fontWeight: "600" }}>담당자</span><span style={{ fontSize: "13.5px", color: "var(--c1,#1F2226)", fontWeight: "700" }}>{v.job.manager}</span></div>
-              </div>
-
-              <div style={{ marginTop: "12px", background: "#eef0f3", borderRadius: "16px", padding: "16px 18px", border: "1px solid #e2e8f0" }}>
-                <div style={{ fontSize: "14px", fontWeight: "800", color: "#b4690e", display: "flex", alignItems: "center", gap: "6px" }}>
-                  <span>📋 이 현장에 지원하려면 준비가 필요해요</span>
-                </div>
-                <div style={{ fontSize: "13px", color: "#5b6b82", fontWeight: "500", marginTop: "6px", lineHeight: "1.5", wordBreak: "keep-all" }}>
-                  전자카드, 기초안전교육, 신체검사, 출입카드를 확인해보세요.
-                </div>
-                <button
-                  onClick={() => { setJobDetail(null); setTab('me'); }}
-                  style={{
-                    marginTop: "12px", width: "100%", height: "40px", border: "none", borderRadius: "10px",
-                    background: "#b4690e", color: "#fff", fontSize: "13.5px", fontWeight: "800", cursor: "pointer"
-                  }}
-                >
-                  준비 상태 확인하기
-                </button>
-              </div>
-
-              <button onClick={v.openCareer} style={{ marginTop: "12px", width: "100%", height: "50px", border: "1px dashed var(--brand-tint-2,#A5AEB8)", borderRadius: "14px", background: "#eef0f3", color: "var(--ai,#1F2226)", fontSize: "13px", fontWeight: "700", fontFamily: "inherit", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: "7px" }}>
-                <svg width="16" height="16" viewBox="0 0 18 18" fill="none"><path d="M7 11 5 13a2.2 2.2 0 0 1-3-3l2-2m6 0 2-2a2.2 2.2 0 0 1 3 3l-2 2m-6 0 4-4" stroke="var(--ai,#1F2226)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"></path></svg>
-                경력·자격 자동 확인 (기관 연동)
-              </button>
-            </div>
-          </div>
-
-          <div style={{ flex: "none", padding: "12px 18px 16px", background: "#fff", borderTop: "1px solid #e6e8ec", display: "flex", gap: "10px" }}>
-            <button style={{ flex: "none", width: "52px", height: "52px", border: "1px solid #d4dae3", borderRadius: "14px", background: "#fff", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 20s-7-4.4-7-9.3A3.7 3.7 0 0 1 12 7a3.7 3.7 0 0 1 7 3.7C19 15.6 12 20 12 20Z" stroke="var(--c1,#1F2226)" strokeWidth="1.7" strokeLinejoin="round"></path></svg>
-            </button>
-            <button onClick={v.applyJob} style={{ flex: "1", height: "52px", border: "none", borderRadius: "14px", background: v.applyBg, color: v.applyFg, fontSize: "15.5px", fontWeight: "800", fontFamily: "inherit", cursor: "pointer" }}>{v.applyLabel}</button>
-          </div>
-        </div>
-      </>)}
 
       
 

@@ -36,6 +36,8 @@ interface JobPost {
   period?: string | null;
   conditions?: string | null;
   status: string;
+  isUrgent?: boolean;
+  siteType?: string | null;
   createdAt: string;
 }
 interface Worker {
@@ -547,6 +549,8 @@ function PostTab({ companyId, reloadCompany }: { companyId: string; reloadCompan
   const [careerLabel, setCareerLabel] = useState("");
   const [period, setPeriod] = useState("");
   const [conditions, setConditions] = useState("");
+  const [isUrgent, setIsUrgent] = useState(false);
+  const [siteType, setSiteType] = useState<"" | "TODAY" | "LARGE">("");
   const [busy, setBusy] = useState(false);
 
   const load = useCallback(async () => {
@@ -589,12 +593,15 @@ function PostTab({ companyId, reloadCompany }: { companyId: string; reloadCompan
       if (careerLabel) body.careerBand = CAREER_BAND[careerLabel as keyof typeof CAREER_BAND];
       if (period.trim()) body.period = period.trim();
       if (conditions.trim()) body.conditions = conditions.trim();
+      if (isUrgent) body.isUrgent = true;
+      if (siteType) body.siteType = siteType;
       await fetch(`/api/companies/${companyId}/job-posts`, {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify(body),
       });
       track("job_post_submitted", { jobType, region });
+      if (isUrgent) track("urgent_job_post_requested", { jobType, region });
       setTitle("");
       setJobType([]);
       setRegion([]);
@@ -602,6 +609,8 @@ function PostTab({ companyId, reloadCompany }: { companyId: string; reloadCompan
       setCareerLabel("");
       setPeriod("");
       setConditions("");
+      setIsUrgent(false);
+      setSiteType("");
       await load();
       reloadCompany();
     } finally {
@@ -664,6 +673,50 @@ function PostTab({ companyId, reloadCompany }: { companyId: string; reloadCompan
             <input className={styles.input} value={conditions} onChange={(e) => setConditions(e.target.value)} placeholder="예: 숙식 제공 · 주급" />
           </div>
         </div>
+
+        <div className={styles.field}>
+          <div className={styles.label}>현장 유형</div>
+          <div style={{ display: "flex", gap: 8 }}>
+            {([
+              { key: "", label: "일반" },
+              { key: "TODAY", label: "오늘 현장" },
+              { key: "LARGE", label: "대형 현장" },
+            ] as const).map((opt) => (
+              <button
+                key={opt.key}
+                type="button"
+                className={`${styles.chip} ${siteType === opt.key ? styles.chipOn : ""}`}
+                onClick={() => setSiteType(opt.key)}
+              >
+                {opt.label}
+              </button>
+            ))}
+          </div>
+        </div>
+        <label style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 12, cursor: "pointer" }}>
+          <input
+            type="checkbox"
+            checked={isUrgent}
+            onChange={(e) => {
+              setIsUrgent(e.target.checked);
+              if (e.target.checked) track("urgent_job_post_clicked");
+            }}
+          />
+          <span style={{ fontSize: 14, fontWeight: 600 }}>🔥 급구 공고로 등록 (상단 우선 노출)</span>
+        </label>
+        {isUrgent && (
+          <div style={{ marginTop: 8 }}>
+            <button
+              type="button"
+              className={styles.btnGhost}
+              onClick={() => track("job_boost_interest_submitted")}
+              style={{ fontSize: 13 }}
+            >
+              💰 상단 노출 유료 옵션 안내 받기
+            </button>
+          </div>
+        )}
+
         <button className={styles.btnPrimary} onClick={submit} disabled={!valid || busy} style={{ marginTop: 22, width: "100%" }}>
           {busy ? "등록 중…" : "채용 공고 등록"}
         </button>
@@ -688,7 +741,12 @@ function PostTab({ companyId, reloadCompany }: { companyId: string; reloadCompan
             return (
               <div className={styles.listItem} key={p.id}>
                 <div className={styles.itemBody}>
-                  <div className={styles.itemTitle}>{p.title}</div>
+                  <div className={styles.itemTitle}>
+                    {p.isUrgent && <span style={{ color: "#dc2626", fontWeight: 800, marginRight: 4 }}>🔥급구</span>}
+                    {p.siteType === "TODAY" && <span style={{ color: "#2563eb", fontWeight: 700, marginRight: 4 }}>[오늘현장]</span>}
+                    {p.siteType === "LARGE" && <span style={{ color: "#7c3aed", fontWeight: 700, marginRight: 4 }}>[대형현장]</span>}
+                    {p.title}
+                  </div>
                   <div className={styles.itemSub}>
                     {p.jobType.join(", ")}
                     {p.headcount ? ` · ${p.headcount}명` : ""}
@@ -1028,6 +1086,10 @@ function appStatusBadge(status: string): { label: string; cls: string } {
       return { label: "수락(배정)", cls: styles.badgeOpen };
     case "REJECTED":
       return { label: "반려", cls: styles.badgeClosed };
+    case "REVIEWING":
+      return { label: "확인 중", cls: styles.badgePending };
+    case "CONTACT_PENDING":
+      return { label: "담당자 연락 예정", cls: styles.badgePending };
     default:
       return { label: "지원함", cls: styles.badgePending };
   }
@@ -1049,7 +1111,7 @@ function ApplicationsTab({ companyId }: { companyId: string }) {
     void load();
   }, [load]);
 
-  const setStatus = async (id: string, status: "ACCEPTED" | "REJECTED") => {
+  const setStatus = async (id: string, status: "ACCEPTED" | "REJECTED" | "REVIEWING" | "CONTACT_PENDING") => {
     setApps((p) => (p ? p.map((a) => (a.id === id ? { ...a, status } : a)) : p));
     if (status === "ACCEPTED") track("application_accepted", { applicationId: id });
     try {
@@ -1110,15 +1172,27 @@ function ApplicationsTab({ companyId }: { companyId: string }) {
                     <b>{a.user._count.educations}</b>교육
                   </div>
                 </div>
-                {a.status === "APPLIED" && (
-                  <div className={styles.cardActions} style={{ display: "flex", gap: "8px" }}>
-                    <button className={styles.btnSm} onClick={() => setStatus(a.id, "REJECTED")}>
-                      반려
-                    </button>
-                    <button className={styles.btnPrimary} style={{ flex: 1, height: "38px", fontSize: "13px" }} onClick={() => setStatus(a.id, "ACCEPTED")}>
-                      수락(배정)
-                    </button>
-                  </div>
+                {(a.status === "APPLIED" || a.status === "REVIEWING" || a.status === "CONTACT_PENDING") && (
+                  <>
+                    {a.status === "APPLIED" && (
+                      <div className={styles.cardActions} style={{ display: "flex", gap: "8px", marginTop: "6px" }}>
+                        <button className={styles.btnSm} onClick={() => setStatus(a.id, "REVIEWING")} style={{ flex: 1, fontSize: "12px" }}>
+                          확인 중으로 표시
+                        </button>
+                        <button className={styles.btnSm} onClick={() => setStatus(a.id, "CONTACT_PENDING")} style={{ flex: 1, fontSize: "12px" }}>
+                          연락 예정으로 표시
+                        </button>
+                      </div>
+                    )}
+                    <div className={styles.cardActions} style={{ display: "flex", gap: "8px" }}>
+                      <button className={styles.btnSm} onClick={() => setStatus(a.id, "REJECTED")}>
+                        반려
+                      </button>
+                      <button className={styles.btnPrimary} style={{ flex: 1, height: "38px", fontSize: "13px" }} onClick={() => setStatus(a.id, "ACCEPTED")}>
+                        수락(배정)
+                      </button>
+                    </div>
+                  </>
                 )}
               </div>
             );

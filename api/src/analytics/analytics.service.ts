@@ -147,7 +147,14 @@ export class AnalyticsService {
         .map((g) => ({ industry: g.industry, count: g._count._all })),
     };
 
-    // ── §7.7 BM 검증(P0) — 후보 열람 퍼널 + 유료 기능 관심 ──
+    // ── §7.7 BM 검증(P0) — 급구 공고 검증 + 후보 열람 퍼널 + 유료 기능 관심 ──
+    // 급구 공고 검증(P0-1): JobPost.isUrgent 실필드 기준 등록 수 + 등록의향/노출관심 이벤트
+    const urgentJobPostCount = await this.prisma.jobPost.count({ where: { isUrgent: true } });
+    const urgentJobFunnel = [
+      { label: '급구 등록 관심', count: cnt('urgent_job_post_clicked') },
+      { label: '급구 공고 등록', count: urgentJobPostCount },
+      { label: '상단 노출 관심', count: cnt('job_boost_interest_submitted') },
+    ];
     // 후보 열람 검증: 프로필 조회 → 관심 저장 → 상담 요청(파트너 포털 /partner 기준)
     const candidateFunnel = [
       { label: '프로필 조회', count: cnt('worker_profile_viewed_by_company') },
@@ -217,7 +224,8 @@ export class AnalyticsService {
         workersSaved,
         pocInterest: cnt('poc_interest_submitted'),
       },
-      // BM 검증(P0) 지표 — 후보 열람 퍼널 + 유료 기능 관심
+      // BM 검증(P0) 지표 — 급구 공고 + 후보 열람 퍼널 + 유료 기능 관심
+      urgentJobFunnel,
       candidateFunnel,
       paidFeatureInterest,
       funnels: {

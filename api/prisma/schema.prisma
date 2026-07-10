@@ -238,6 +238,9 @@ model JobPost {
   foreignAllowed      Boolean       @default(false) // 외국인 채용 가능
   requiredVisaTypes   VisaType[] // 요구 체류자격
   interpreterProvided Boolean       @default(false) // 통역 제공
+  // ── BM 검증(P0-1) — 급구 공고 과금 대상 실필드화 ──
+  isUrgent            Boolean       @default(false) // 급구 공고(상단 노출 과금 대상)
+  siteType            JobSiteType? // 오늘 현장 / 대형 현장 분류
   createdAt           DateTime      @default(now())
   updatedAt           DateTime      @updatedAt
 
@@ -248,6 +251,12 @@ model JobPost {
 
   @@index([companyId])
   @@index([status])
+  @@index([isUrgent])
+}
+
+enum JobSiteType {
+  TODAY // 오늘 현장(당일)
+  LARGE // 대형 현장
 }
 
 model SavedWorker {
@@ -268,6 +277,8 @@ model SavedWorker {
 
 enum ApplicationStatus {
   APPLIED // 지원함
+  REVIEWING // 기업 확인 중
+  CONTACT_PENDING // 담당자 연락 예정
   ACCEPTED // 수락(현장 배정)
   REJECTED // 반려
 }

@@ -49,6 +49,9 @@ export type AnalyticsEventName =
   | "company_interest_submitted"
   | "job_post_started"
   | "job_post_submitted"
+  | "urgent_job_post_clicked"
+  | "urgent_job_post_requested"
+  | "job_boost_interest_submitted"
   | "worker_search"
   | "worker_profile_viewed_by_company" // 구 worker_profile_viewed
   | "candidate_saved" // 구 worker_saved
@@ -171,6 +174,9 @@ export const EVENT_CATALOG: Record<
   company_interest_submitted: { category: "company", label: "기업 관심 신청" },
   job_post_started: { category: "company", label: "채용 공고 작성 시작" },
   job_post_submitted: { category: "company", label: "채용 공고 등록" },
+  urgent_job_post_clicked: { category: "company", label: "급구 공고 등록 관심" },
+  urgent_job_post_requested: { category: "company", label: "급구 공고 등록 요청" },
+  job_boost_interest_submitted: { category: "company", label: "상단 노출 관심" },
   worker_search: { category: "company", label: "기술자 검색" },
   worker_profile_viewed_by_company: { category: "company", label: "기술자 프로필 조회" }, // 구 worker_profile_viewed
   candidate_saved: { category: "company", label: "관심 기술자 저장" }, // 구 worker_saved

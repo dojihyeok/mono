@@ -1,6 +1,7 @@
 import {
   ArrayMinSize,
   IsArray,
+  IsBoolean,
   IsEnum,
   IsInt,
   IsOptional,
@@ -8,7 +9,7 @@ import {
   Min,
   MinLength,
 } from 'class-validator';
-import { CareerBand } from '@prisma/client';
+import { CareerBand, JobSiteType } from '@prisma/client';
 
 // 채용 공고 선등록 (DB: JobPost, 초기 status PENDING=승인 대기)
 export class CreateJobPostDto {
@@ -47,4 +48,13 @@ export class CreateJobPostDto {
   @IsOptional()
   @IsString()
   conditions?: string; // 근무 조건
+
+  // ── BM 검증(P0-1) — 급구 공고 과금 대상 ──
+  @IsOptional()
+  @IsBoolean()
+  isUrgent?: boolean; // 급구 공고(상단 노출 과금 대상)
+
+  @IsOptional()
+  @IsEnum(JobSiteType)
+  siteType?: JobSiteType; // 오늘 현장 / 대형 현장
 }

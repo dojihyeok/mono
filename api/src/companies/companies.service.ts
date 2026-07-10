@@ -78,6 +78,8 @@ export class CompaniesService {
         region: dto.region,
         period: dto.period,
         conditions: dto.conditions,
+        isUrgent: dto.isUrgent ?? false,
+        siteType: dto.siteType,
       },
     });
     await this.prisma.company.updateMany({
