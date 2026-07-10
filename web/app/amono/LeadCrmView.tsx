@@ -322,7 +322,7 @@ export function InterviewsView() {
   if (!leads) return <div className={styles.loading}>불러오는 중…</div>;
   const rows = leads.flatMap((l) => l.interviews.map((iv) => ({ ...iv, leadName: l.name, leadCompany: l.company })));
 
-  if (rows.length === 0) return <div className={styles.empty}>등록된 인터뷰가 없습니다. 리드 관리 탭에서 "+ 인터뷰"로 추가하세요.</div>;
+  if (rows.length === 0) return <div className={styles.empty}>등록된 인터뷰가 없습니다. 리드 관리 탭에서 &quot;+ 인터뷰&quot;로 추가하세요.</div>;
 
   return (
     <div className={styles.panel}>
@@ -509,7 +509,7 @@ export function PocInterestView() {
     <div className={styles.panel}>
       <div className={styles.sectionTitle}>PoC 관심 리드 {leads.length}건</div>
       {leads.length === 0 ? (
-        <div className={styles.empty}>아직 PoC 관심 단계인 리드가 없습니다. 리드 관리 탭에서 단계를 "PoC 관심"으로 바꾸면 여기에 표시됩니다.</div>
+        <div className={styles.empty}>아직 PoC 관심 단계인 리드가 없습니다. 리드 관리 탭에서 단계를 &quot;PoC 관심&quot;으로 바꾸면 여기에 표시됩니다.</div>
       ) : (
         <div className={styles.tableWrap}>
           <table className={styles.table}>
