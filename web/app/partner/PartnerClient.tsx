@@ -143,6 +143,7 @@ export function PartnerClient() {
       id = null;
     }
     track("page_view", { screen: "partner" });
+    track("partner_page_viewed", {});
     if (id) {
       void loadCompany(id).then((ok) => {
         if (ok) {
@@ -285,7 +286,7 @@ function Landing({ onStart, onBrowse, onLogin }: { onStart: () => void; onBrowse
           선등록하고, 조건에 맞는 기술자 프로필을 우선 열람할 수 있습니다.
         </p>
         <div className={styles.heroActions}>
-          <button className={styles.btnPrimary} onClick={onStart}>
+          <button className={styles.btnPrimary} onClick={() => { track('partner_poc_cta_clicked', { source: 'hero' }); onStart(); }}>
             기업 협약 신청하기
           </button>
           <button className={styles.btnGhost} onClick={onBrowse}>
@@ -317,6 +318,138 @@ function Landing({ onStart, onBrowse, onLogin }: { onStart: () => void; onBrowse
           <div className={styles.pointDesc}>관심 기술자를 저장하고, 시범 운영(PoC) 전환을 신청할 수 있습니다.</div>
         </div>
       </div>
+
+      {/* ── 기업의 문제 (기업용 Partner·Field Pass 웹 개발 요청서 v1.0 §1) ── */}
+      <section style={{ marginTop: 48 }}>
+        <div style={{ fontSize: 13, fontWeight: 850, color: '#4f46e5', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 12 }}>Problem</div>
+        <h2 style={{ fontSize: 22, fontWeight: 950, color: '#0f172a', margin: '0 0 16px 0' }}>현장 인력 운영, 이런 어려움이 있습니다</h2>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 10 }}>
+          {[
+            '필요한 기술자를 찾는 것부터 오래 걸린다',
+            '기술자의 실제 경험·자격을 확인하기 어렵다',
+            '급한 인력 수요를 빠르게 채우기 어렵다',
+            '출역·정산·평가 정보가 여러 도구에 흩어져 있다',
+            '현장별 준비상태·권한 관리가 매번 반복된다',
+          ].map((t) => (
+            <div key={t} style={{ background: '#fff', border: '1px solid #e6e8ec', borderRadius: 14, padding: '14px 16px', fontSize: 13.5, color: '#334155', fontWeight: 650, lineHeight: 1.55, wordBreak: 'keep-all' }}>
+              {t}
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ── 제품 포트폴리오 (§5) ── */}
+      <section style={{ marginTop: 48 }} onMouseEnter={() => track('partner_product_viewed', {})}>
+        <div style={{ fontSize: 13, fontWeight: 850, color: '#4f46e5', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 12 }}>Product</div>
+        <h2 style={{ fontSize: 22, fontWeight: 950, color: '#0f172a', margin: '0 0 16px 0' }}>기업 제품 포트폴리오</h2>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 14 }}>
+          {[
+            { title: '급구 공고', items: ['직종·지역 타기팅', '긴급 알림', '상단 노출', '기간 연장', '성과 리포트'] },
+            { title: '검증 프로필·팀', items: ['경력·자격·교육 확인', '후보 저장', '연락 요청', '팀 조회', '검증상태'] },
+            { title: 'Partner Workspace', items: ['현장·팀원 관리', '출역·공수', '정산 참고자료', '평가·재요청', '증빙·리포트'] },
+            { title: 'MONO Field Pass', items: ['현장 준비상태', '신원·자격·교육', '출입권한', 'QR·NFC·카드·OTAC 확장', '출입 기록', '근태·정산·경력 연결'] },
+          ].map((p) => (
+            <div
+              key={p.title}
+              onMouseEnter={() => { if (p.title === 'Partner Workspace') track('partner_workspace_viewed', {}); }}
+              style={{ background: '#fff', border: '1px solid #e6e8ec', borderRadius: 16, padding: 20 }}
+            >
+              <div style={{ fontSize: 15.5, fontWeight: 900, color: '#0f172a', marginBottom: 10 }}>{p.title}</div>
+              <ul style={{ margin: 0, paddingLeft: 18, fontSize: 12.5, color: '#5b6b82', lineHeight: 1.75, fontWeight: 600 }}>
+                {p.items.map((it) => <li key={it}>{it}</li>)}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ── 구매부서별 가치 (§6) ── */}
+      <section style={{ marginTop: 48 }}>
+        <div style={{ fontSize: 13, fontWeight: 850, color: '#4f46e5', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 12 }}>By Department</div>
+        <h2 style={{ fontSize: 22, fontWeight: 950, color: '#0f172a', margin: '0 0 16px 0' }}>구매부서별 가치</h2>
+        <div style={{ overflowX: 'auto' }}>
+          <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13, minWidth: 480 }}>
+            <thead>
+              <tr style={{ borderBottom: '2px solid #e6e8ec', textAlign: 'left' }}>
+                <th style={{ padding: '8px 10px', color: '#94a3b8', fontWeight: 800 }}>조직</th>
+                <th style={{ padding: '8px 10px', color: '#94a3b8', fontWeight: 800 }}>가치</th>
+              </tr>
+            </thead>
+            <tbody>
+              {[
+                ['현장 운영', '급구 채용·출역 현황'],
+                ['협력사 관리', '투입 인력·자격·교육 통합'],
+                ['안전환경', '교육·검진·자격 만료 확인'],
+                ['보안', '사용자·단말·권한 기반 인증'],
+                ['인사·노무', '출역·공수·정산 근거'],
+                ['감사', '권한·출입·변경 이력'],
+                ['IT·OT', '기존 출입·설비 시스템 API 연동'],
+              ].map(([org, val]) => (
+                <tr key={org} style={{ borderBottom: '1px solid #f1f5f9' }}>
+                  <td style={{ padding: '9px 10px', fontWeight: 800, color: '#0f172a' }}>{org}</td>
+                  <td style={{ padding: '9px 10px', color: '#5b6b82', fontWeight: 600 }}>{val}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      {/* ── 보안·컴플라이언스 (§14) ── */}
+      <section style={{ marginTop: 48 }}>
+        <div style={{ fontSize: 13, fontWeight: 850, color: '#4f46e5', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 12 }}>Security</div>
+        <h2 style={{ fontSize: 22, fontWeight: 950, color: '#0f172a', margin: '0 0 16px 0' }}>보안·컴플라이언스</h2>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 10 }}>
+          {[
+            '현장별·기업별 접근권한 분리',
+            '최소정보 노출 원칙',
+            '인증·조회·권한변경 감사로그',
+            '증빙문서 암호화',
+            '계약종료 시 권한 회수',
+            '위치정보는 신고·동의 이후 활용',
+            '생체정보 기본 미사용',
+            '근태 기록과 임금 확정 분리',
+            '고객사 시스템과 책임분계 계약',
+          ].map((t) => (
+            <div key={t} style={{ display: 'flex', alignItems: 'flex-start', gap: 8, fontSize: 13, color: '#334155', fontWeight: 650, lineHeight: 1.5 }}>
+              <span style={{ color: '#4f46e5' }}>✓</span>
+              <span style={{ wordBreak: 'keep-all' }}>{t}</span>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ── 도입 방식 · PoC (§3, §11) ── */}
+      <section style={{ marginTop: 48 }}>
+        <div style={{ fontSize: 13, fontWeight: 850, color: '#4f46e5', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 12 }}>Adoption</div>
+        <h2 style={{ fontSize: 22, fontWeight: 950, color: '#0f172a', margin: '0 0 16px 0' }}>도입 방식</h2>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 12, marginBottom: 20 }}>
+          {[
+            ['1', '문의', '기업 협약 신청 또는 상담 요청'],
+            ['2', '상담·범위 확정', '급구 공고·Workspace·Field Pass 중 필요한 범위를 함께 정합니다'],
+            ['3', 'PoC·도입', '합의된 범위로 시범 운영 후 정식 도입'],
+          ].map(([n, t, d]) => (
+            <div key={n} className={styles.pointCard}>
+              <div className={styles.pointNum}>{n}</div>
+              <div className={styles.pointTitle}>{t}</div>
+              <div className={styles.pointDesc}>{d}</div>
+            </div>
+          ))}
+        </div>
+        <div style={{ background: '#0f172a', borderRadius: 16, padding: 22 }}>
+          <div style={{ fontSize: 14, fontWeight: 900, color: '#fff', marginBottom: 8 }}>Field Pass PoC가 궁금하신가요?</div>
+          <p style={{ margin: '0 0 14px 0', fontSize: 13, color: '#cbd5e1', fontWeight: 600, lineHeight: 1.6, wordBreak: 'keep-all' }}>
+            현장·이용자·출입구 범위, 인증 방식, 기간, 성공 기준까지 Field Pass 상세 페이지에서 확인할 수 있습니다.
+          </p>
+          <a
+            href="/partner/field-pass"
+            onClick={() => track('partner_field_pass_viewed', { source: 'landing_poc' })}
+            style={{ display: 'inline-block', fontSize: 13, fontWeight: 800, color: '#0f172a', background: '#fff', borderRadius: 10, padding: '9px 18px', textDecoration: 'none' }}
+          >
+            MONO Field Pass 자세히 보기 →
+          </a>
+        </div>
+      </section>
     </>
   );
 }
@@ -355,6 +488,7 @@ function SignupForm({
       const c = (await res.json()) as Company;
       track("company_signup_completed");
       track("company_interest_submitted");
+      track("partner_contact_submitted", {});
       onDone(c);
     } catch {
       setBusy(false);
