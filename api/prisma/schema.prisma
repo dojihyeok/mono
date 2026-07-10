@@ -82,6 +82,7 @@ model User {
   teamPostsAuthored  TeamPost[]             @relation("TeamPostAuthor")
   communityPosts     CommunityPost[]
   communityComments  CommunityComment[]
+  sitePrepItems      SitePrepItem[] // 현장 준비 서류(Field Pass P0) — §Phase F
 }
 
 // 경력 구간(버킷) — 표시문구(1년미만/1~3년 …)는 프론트에서 매핑
@@ -836,6 +837,40 @@ model DocumentRecord {
   createdAt  DateTime      @default(now())
 
   @@index([userId, kind])
+}
+
+// 현장 준비 서류 7종(Field Pass P0) — 자가신고(제출) → 관리자 승인/반려. 파일 업로드 없이 상태 워크플로우만.
+enum SitePrepKind {
+  ID_CARD
+  SAFETY_EDU
+  ELEC_CARD
+  BANK_ACC
+  MED_CHECK
+  GATE_CARD
+  SAFETY_GEAR
+}
+
+enum SitePrepStatus {
+  SUBMITTED
+  VERIFIED
+  REJECTED
+}
+
+model SitePrepItem {
+  id         String         @id @default(cuid())
+  userId     String
+  user       User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  kind       SitePrepKind
+  status     SitePrepStatus @default(SUBMITTED)
+  reviewedBy String? // 관리자 검토자
+  reviewedAt DateTime?
+  memo       String? // 반려 사유
+  createdAt  DateTime       @default(now())
+  updatedAt  DateTime       @updatedAt
+
+  @@unique([userId, kind])
+  @@index([userId])
+  @@index([status])
 }
 
 // 현장 용어 사전 (PDF §4) — 내부 태그 NOGADA_TERM, 외부명 "외국인 현장 용어 번역"

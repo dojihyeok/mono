@@ -12,6 +12,7 @@ import { WorkerProfileDto } from './dto/worker-profile.dto';
 import { OperatorProfileDto } from './dto/operator-profile.dto';
 import { VisaStatusDto } from './dto/visa-status.dto';
 import { DocumentRecordDto } from './dto/document-record.dto';
+import { SubmitSitePrepDto } from './dto/site-prep.dto';
 import { CreateEquipmentHistoryDto } from './dto/create-equipment-history.dto';
 import { UpdateConsultRequestDto } from './dto/update-consult-request.dto';
 
@@ -446,6 +447,25 @@ export class UsersService {
       where: { userId },
       orderBy: { createdAt: 'desc' },
     });
+  }
+
+  // 현장 준비 서류 제출(Field Pass P0) — 이미 VERIFIED면 유지(no-op), 아니면 SUBMITTED로 upsert(반려 후 재제출 포함)
+  async submitSitePrep(userId: string, dto: SubmitSitePrepDto) {
+    await this.ensureUser(userId);
+    const existing = await this.prisma.sitePrepItem.findUnique({
+      where: { userId_kind: { userId, kind: dto.kind } },
+    });
+    if (existing?.status === 'VERIFIED') return existing;
+    return this.prisma.sitePrepItem.upsert({
+      where: { userId_kind: { userId, kind: dto.kind } },
+      create: { userId, kind: dto.kind, status: 'SUBMITTED' },
+      update: { status: 'SUBMITTED', memo: null, reviewedBy: null, reviewedAt: null },
+    });
+  }
+
+  // 현장 준비 서류 목록
+  listSitePrep(userId: string) {
+    return this.prisma.sitePrepItem.findMany({ where: { userId } });
   }
 
   // ── 공고 저장 (SavedJob) ──

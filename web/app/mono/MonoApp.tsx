@@ -8,7 +8,7 @@ import React, { useState, useRef, useEffect, useMemo } from "react";
 import { useProfile } from "@/lib/ProfileContext";
 import { JOB_TYPES, CAREER_YEARS, REGIONS, INTEREST_FEATURES, CAREER_BAND_LABEL, INDUSTRIES } from "@/lib/constants";
 import { track } from "@/lib/analytics";
-import { getServerId, ensureServerId, apiUpsertFieldLeaderProfile, apiGetFieldLeaderProfile, apiListEquipmentHistory, apiAddEquipmentHistory, apiDeleteEquipmentHistory, apiCreateAiLeaderInterest, apiGetTrustScore, apiGetWorkerProfile, apiGetUnreadCount, apiListNotifications, apiMarkAllRead, apiListJobPosts, apiListUserApplications, apiApplyJobPost, apiListUserAssignments, apiCheckIn, apiCheckOut, apiProposeReAttendance } from "@/lib/apiClient";
+import { getServerId, ensureServerId, apiUpsertFieldLeaderProfile, apiGetFieldLeaderProfile, apiListEquipmentHistory, apiAddEquipmentHistory, apiDeleteEquipmentHistory, apiCreateAiLeaderInterest, apiGetTrustScore, apiGetWorkerProfile, apiGetUnreadCount, apiListNotifications, apiMarkAllRead, apiListJobPosts, apiListUserApplications, apiApplyJobPost, apiListUserAssignments, apiCheckIn, apiCheckOut, apiProposeReAttendance, apiListSitePrep, apiSubmitSitePrep } from "@/lib/apiClient";
 import type { JobPost, JobApplication, Assignment, AttendanceRec } from "@/lib/types";
 import { ProfileTab as FgnProfile, VisaTab as FgnVisa, DocsTab as FgnDocs, TrainingTab as FgnTraining, SettlementTab as FgnSettlement } from "./ForeignWorkerHub";
 import CommunityView from "./components/CommunityView";
@@ -141,15 +141,29 @@ export default function MonoApp() {
   const [jobSubTab, setJobSubTab] = useState<'fit' | 'urgent' | 'today' | 'large'>('fit');
   const [fastFilters, setFastFilters] = useState<string[]>([]);
   const [jobSort, setJobSort] = useState<string>('closest');
-  const [prepChecklist, setPrepChecklist] = useState({
-    idCard: true,
-    safetyEdu: true,
-    elecCard: false,
-    bankAcc: true,
-    medCheck: false,
-    gateCard: false,
-    safetyGear: true,
-  });
+  // 현장 준비 서류(Field Pass P0) — 자가신고 제출 → 관리자 승인/반려. 실 API 연동(SitePrepItem).
+  const [prepItems, setPrepItems] = useState([]);
+  const PREP_KIND_MAP = {
+    idCard: "ID_CARD",
+    safetyEdu: "SAFETY_EDU",
+    elecCard: "ELEC_CARD",
+    bankAcc: "BANK_ACC",
+    medCheck: "MED_CHECK",
+    gateCard: "GATE_CARD",
+    safetyGear: "SAFETY_GEAR",
+  };
+  const prepStatusOf = (key) => prepItems.find((p) => p.kind === PREP_KIND_MAP[key])?.status ?? "NONE";
+  const prepMemoOf = (key) => prepItems.find((p) => p.kind === PREP_KIND_MAP[key])?.memo ?? "";
+  const prepChecklist = Object.fromEntries(
+    Object.keys(PREP_KIND_MAP).map((key) => [key, prepStatusOf(key) === "VERIFIED"])
+  );
+  const submitPrepItem = async (key) => {
+    const uid = await ensureServerId();
+    if (!uid) return;
+    const updated = await apiSubmitSitePrep(uid, PREP_KIND_MAP[key]);
+    if (updated) setPrepItems((prev) => [...prev.filter((p) => p.kind !== PREP_KIND_MAP[key]), updated]);
+    track("site_prep_submitted", { kind: PREP_KIND_MAP[key] });
+  };
   const { user, updateUser, setBasicProfile, registerInterest, interests,
     addCertificate, addEducation, certificates, educations,
     careerCards, addCareerCard, completion } = useProfile(); // 온보딩 프로필 + 관심/서류 + 현장 경력 + 완성도
@@ -180,6 +194,7 @@ export default function MonoApp() {
     if (sid) {
       apiGetTrustScore("WORKER", sid).then(t => setTrustScore(t));
       apiGetWorkerProfile(sid).then(p => setWorkerProfile(p));
+      apiListSitePrep(sid).then(items => setPrepItems(items || []));
     }
   }, []);
 
@@ -2646,8 +2661,11 @@ export default function MonoApp() {
           </div>
 
           <div style={{ background: "#fff", border: "1.5px solid #e2e8f0", borderRadius: "20px", padding: "18px", marginTop: "14px" }}>
-            <div style={{ fontSize: "14.5px", fontWeight: "900", color: "#1e293b", marginBottom: "4px" }}>🚦 현장 준비 서류</div>
-            <div style={{ fontSize: "12px", color: "#64748b", fontWeight: "650", marginBottom: "14px" }}>각 서류를 클릭하여 준비 상태를 시뮬레이션할 수 있습니다.</div>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "4px" }}>
+              <span style={{ fontSize: "14.5px", fontWeight: "900", color: "#1e293b" }}>🚦 현장 준비 서류</span>
+              <button onClick={() => setOpenDocs(true)} style={{ background: "none", border: "none", color: "#4f46e5", fontSize: "13px", fontWeight: "850", cursor: "pointer" }}>서류 등록하기 →</button>
+            </div>
+            <div style={{ fontSize: "12px", color: "#64748b", fontWeight: "650", marginBottom: "14px" }}>제출하면 관리자 검토 후 승인됩니다.</div>
 
             <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
               {[
@@ -2656,33 +2674,27 @@ export default function MonoApp() {
                 { key: "elecCard", label: "건설근로자 전자카드", desc: "출퇴근 기록 및 퇴직공제 적립" },
                 { key: "bankAcc", label: "급여 받을 계좌 등록", desc: "노무비 받을 금액용 본인 계좌" }
               ].map((item) => {
-                const checked = (prepChecklist as any)[item.key];
+                const status = prepStatusOf(item.key);
+                const badge = status === "VERIFIED"
+                  ? { text: "✅ 승인완료", color: "#166534", bg: "#f0fdf4", border: "#cbd5e1" }
+                  : status === "SUBMITTED"
+                  ? { text: "⏳ 검토중", color: "#92400e", bg: "#fffbeb", border: "#fde68a" }
+                  : status === "REJECTED"
+                  ? { text: "⚠️ 반려", color: "#991b1b", bg: "#fef2f2", border: "#fecaca" }
+                  : { text: "미제출", color: "#475569", bg: "#fff", border: "#cbd5e1" };
                 return (
                   <div
                     key={item.key}
-                    onClick={() => {
-                      setPrepChecklist((prev: any) => ({
-                        ...prev,
-                        [item.key]: !prev[item.key]
-                      }));
-                    }}
                     style={{
                       display: "flex", alignItems: "center", gap: "12px", padding: "10px 12px",
-                      borderRadius: "12px", border: "1px solid #cbd5e1", background: checked ? "#f0fdf4" : "#fff",
-                      cursor: "pointer", transition: "all 0.15s"
+                      borderRadius: "12px", border: `1px solid ${badge.border}`, background: badge.bg,
                     }}
                   >
-                    <div style={{
-                      width: "18px", height: "18px", borderRadius: "5px",
-                      border: `2px solid ${checked ? "#10b981" : "#cbd5e1"}`,
-                      background: checked ? "#10b981" : "transparent",
-                      display: "flex", alignItems: "center", justifyContent: "center",
-                      color: "#fff", fontSize: "11px", fontWeight: "900", flex: "none"
-                    }}>{checked ? "✓" : ""}</div>
                     <div style={{ flex: 1 }}>
-                      <div style={{ fontSize: "13px", fontWeight: "900", color: checked ? "#166534" : "#475569" }}>{item.label}</div>
+                      <div style={{ fontSize: "13px", fontWeight: "900", color: status === "VERIFIED" ? "#166534" : "#475569" }}>{item.label}</div>
                       <div style={{ fontSize: "11px", color: "#64748b", marginTop: "1px" }}>{item.desc}</div>
                     </div>
+                    <div style={{ fontSize: "12px", fontWeight: "800", color: badge.color, flexShrink: 0 }}>{badge.text}</div>
                   </div>
                 );
               })}
@@ -3286,51 +3298,57 @@ export default function MonoApp() {
             <div style={{ width: "40px", height: "4px", borderRadius: "2px", background: "#d4dae3", margin: "0 auto 16px" }}></div>
             <div style={{ fontSize: "20px", fontWeight: "900", color: "var(--c1,#1F2226)" }}>🚧 일하기 전 필수 서류 간편 등록</div>
             <div style={{ fontSize: "14px", color: "#5b6b82", fontWeight: "700", marginTop: "6px", marginBottom: "20px", lineHeight: "1.5", wordBreak: "keep-all" }}>
-              현장 출근 및 노무비 지급을 위해 아래 5가지 필수 서류 사진을 큼직한 [파일 등록] 버튼을 눌러 등록해주세요.
+              현장 출근 및 노무비 지급을 위해 아래 서류를 제출해주세요. 제출 후 관리자 검토를 거쳐 승인됩니다.
             </div>
-            
+
             <div className="scr" style={{ overflowY: "auto", flex: 1, display: "flex", flexDirection: "column", gap: "14px" }}>
-              
-              {/* 5대 핵심 현장 서류 등록 섹션 */}
+
+              {/* 현장 준비 서류 7종 제출 섹션 */}
               <div>
                 <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
                   {[
-                    { key: "idCard", label: "🪪 주민등록증 / 운전면허증", stateKey: "idCard" },
-                    { key: "safetyEdu", label: "🔰 기초안전보건교육 이수증", stateKey: "safetyEdu" },
-                    { key: "elecCard", label: "💳 건설근로자 전자카드", stateKey: "elecCard" },
-                    { key: "medCheck", label: "🩺 배치전 건강검진 진단서", stateKey: "medCheck" },
-                    { key: "safetyGear", label: "🥾 개인 안전장비 (안전화)", stateKey: "safetyGear" }
+                    { key: "idCard", label: "🪪 주민등록증 / 운전면허증" },
+                    { key: "safetyEdu", label: "🔰 기초안전보건교육 이수증" },
+                    { key: "elecCard", label: "💳 건설근로자 전자카드" },
+                    { key: "bankAcc", label: "🏦 급여 받을 계좌 등록" },
+                    { key: "medCheck", label: "🩺 배치전 건강검진 진단서" },
+                    { key: "gateCard", label: "🔑 현장 출입카드" },
+                    { key: "safetyGear", label: "🥾 개인 안전장비 (안전화)" }
                   ].map((doc) => {
-                    const isUploaded = prepChecklist[doc.stateKey as keyof typeof prepChecklist];
+                    const status = prepStatusOf(doc.key);
+                    const statusText = status === "VERIFIED" ? "✅ 서류 등록 및 승인 완료"
+                      : status === "SUBMITTED" ? "⏳ 제출 완료 · 관리자 검토중"
+                      : status === "REJECTED" ? `⚠️ 반려됨${prepMemoOf(doc.key) ? `: ${prepMemoOf(doc.key)}` : ""}`
+                      : "❌ 제출된 서류 없음 (제출 필요)";
+                    const statusColor = status === "VERIFIED" ? "#166534" : status === "SUBMITTED" ? "#92400e" : status === "REJECTED" ? "#991b1b" : "#8694a8";
+                    const bg = status === "VERIFIED" ? "#f0fdf4" : status === "SUBMITTED" ? "#fffbeb" : status === "REJECTED" ? "#fef2f2" : "#fff";
+                    const border = status === "VERIFIED" ? "#a7f3d0" : status === "SUBMITTED" ? "#fde68a" : status === "REJECTED" ? "#fecaca" : "#e6e8ec";
+                    const canSubmit = status === "NONE" || status === "REJECTED";
                     return (
-                      <div key={doc.key} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "16px", border: "2px solid #e6e8ec", borderRadius: "16px", background: isUploaded ? "#f0fdf4" : "#fff", borderColor: isUploaded ? "#a7f3d0" : "#e6e8ec" }}>
+                      <div key={doc.key} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "16px", border: "2px solid #e6e8ec", borderRadius: "16px", background: bg, borderColor: border }}>
                         <div style={{ minWidth: 0, flex: 1, paddingRight: "10px" }}>
                           <div style={{ fontSize: "15px", fontWeight: "900", color: "var(--c1,#1F2226)" }}>{doc.label}</div>
-                          <div style={{ fontSize: "12.5px", color: isUploaded ? "#166534" : "#8694a8", marginTop: "4px", fontWeight: "800" }}>
-                            {isUploaded ? "✅ 서류 등록 및 검증 완료" : "❌ 등록된 사진 없음 (등록 필요)"}
+                          <div style={{ fontSize: "12.5px", color: statusColor, marginTop: "4px", fontWeight: "800" }}>
+                            {statusText}
                           </div>
                         </div>
-                        
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setPrepChecklist(prev => {
-                              const next = { ...prev, [doc.stateKey]: !prev[doc.stateKey as keyof typeof prev] };
-                              track("doc_uploaded", { doc: doc.key, active: next[doc.stateKey as keyof typeof next] });
-                              return next;
-                            });
-                          }}
-                          style={{
-                            height: "46px", padding: "0 18px", border: "none", borderRadius: "10px",
-                            fontSize: "13.5px", fontWeight: "900", cursor: "pointer",
-                            background: isUploaded ? "#10b981" : "var(--c1,#1F2226)",
-                            color: "#fff",
-                            whiteSpace: "nowrap",
-                            boxShadow: "0 4px 8px rgba(0,0,0,0.05)"
-                          }}
-                        >
-                          {isUploaded ? "서류 변경" : "파일 등록"}
-                        </button>
+
+                        {canSubmit && (
+                          <button
+                            type="button"
+                            onClick={() => submitPrepItem(doc.key)}
+                            style={{
+                              height: "46px", padding: "0 18px", border: "none", borderRadius: "10px",
+                              fontSize: "13.5px", fontWeight: "900", cursor: "pointer",
+                              background: "var(--c1,#1F2226)",
+                              color: "#fff",
+                              whiteSpace: "nowrap",
+                              boxShadow: "0 4px 8px rgba(0,0,0,0.05)"
+                            }}
+                          >
+                            {status === "REJECTED" ? "다시 제출" : "제출하기"}
+                          </button>
+                        )}
                       </div>
                     );
                   })}

@@ -4,12 +4,13 @@ import { JobPostStatusDto } from './dto/job-post-status.dto';
 import { SetUserRoleDto } from './dto/set-user-role.dto';
 import { WorkRequestStatusDto } from './dto/work-request-status.dto';
 import { CommunityService } from '../community/community.service';
-import { PartnerReferralStatus, LeadStage } from '@prisma/client';
+import { PartnerReferralStatus, LeadStage, SitePrepStatus } from '@prisma/client';
 import { CreateLeadDto } from './dto/create-lead.dto';
 import { UpdateLeadDto } from './dto/update-lead.dto';
 import { CreateInterviewDto } from './dto/create-interview.dto';
 import { UpdateInterviewDto } from './dto/update-interview.dto';
 import { CreateSurveyResponseDto } from './dto/create-survey-response.dto';
+import { ReviewSitePrepDto } from './dto/review-site-prep.dto';
 
 // 운영 콘솔 BFF(/api/admin/*) → 이 컨트롤러.
 @Controller('admin')
@@ -96,6 +97,17 @@ export class AdminController {
   @Get('teams')
   teams(@Query('limit') limit?: string) {
     return this.admin.listTeams(limit ? Number(limit) : 100);
+  }
+
+  // 현장 준비 서류 검토(Field Pass P0) — 자가신고 제출 목록 조회 + 승인/반려
+  @Get('site-prep')
+  listSitePrep(@Query('status') status?: SitePrepStatus, @Query('limit') limit?: string) {
+    return this.admin.listSitePrepItems(status, limit ? Number(limit) : 200);
+  }
+
+  @Patch('site-prep/:id')
+  reviewSitePrep(@Param('id') id: string, @Body() dto: ReviewSitePrepDto) {
+    return this.admin.reviewSitePrepItem(id, dto);
   }
 
   // ── 리드 관리(BM 검증 CRM) ──

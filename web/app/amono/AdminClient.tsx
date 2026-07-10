@@ -7,6 +7,7 @@ import { CAREER_BAND_LABEL, INTEREST_FEATURES } from "@/lib/constants";
 import ForeignAdminView from "./ForeignAdminView";
 import AdminOpsView from "./AdminOpsView";
 import { LeadsView, InterviewsView, SurveyResponsesView, PocInterestView } from "./LeadCrmView";
+import { SitePrepReviewView } from "./SitePrepReviewView";
 
 interface Overview {
   counts: {
@@ -62,7 +63,7 @@ interface AdminEvent {
   createdAt: string;
 }
 
-type Tab = "overview" | "foreman" | "users" | "events" | "jobposts" | "industry" | "workrequests" | "reviews" | "poc" | "foreign" | "ops" | "community" | "bm-leads" | "candidates" | "teams" | "leads" | "interviews" | "surveys" | "poc-interest";
+type Tab = "overview" | "foreman" | "users" | "events" | "jobposts" | "industry" | "workrequests" | "reviews" | "poc" | "foreign" | "ops" | "community" | "bm-leads" | "candidates" | "teams" | "leads" | "interviews" | "surveys" | "poc-interest" | "site-prep";
 
 interface AdminBMInquiry {
   id: string;
@@ -526,7 +527,7 @@ export function AdminClient() {
     else if (tab === "bm-leads") void loadBmLeads();
     else if (tab === "candidates") void loadCandidates();
     else if (tab === "teams") void loadTeams();
-    else if (tab === "leads" || tab === "interviews" || tab === "surveys" || tab === "poc-interest" || tab === "foreign" || tab === "community" || tab === "ops") {
+    else if (tab === "leads" || tab === "interviews" || tab === "surveys" || tab === "poc-interest" || tab === "foreign" || tab === "community" || tab === "ops" || tab === "site-prep") {
       /* 자체 fetch 컴포넌트 — 탭 전환/컴포넌트 자체 새로고침으로 갱신 */
     } else if (tab === "foreman") {
       void loadForemanReqs();
@@ -570,6 +571,7 @@ export function AdminClient() {
             { k: "poc-interest", t: "PoC 관심 관리" },
             { k: "candidates", t: "후보 관리" },
             { k: "teams", t: "팀 관리" },
+            { k: "site-prep", t: "현장 준비 서류 검토" },
             { k: "reviews", t: "평가" },
             { k: "poc", t: "PoC 리포트" },
             { k: "foreign", t: "외국인 인력" },
@@ -601,6 +603,7 @@ export function AdminClient() {
         {tab === "poc-interest" && <PocInterestView />}
         {tab === "candidates" && <CandidatesView data={candidates} loading={loading && !candidates} />}
         {tab === "teams" && <TeamsView rows={teams} loading={loading && !teams} />}
+        {tab === "site-prep" && <SitePrepReviewView />}
         {tab === "reviews" && <ReviewsView rows={reviews} loading={loading && !reviews} />}
         {tab === "poc" && <PocView data={pocReport} loading={loading && !pocReport} />}
         {tab === "foreign" && <ForeignAdminView />}

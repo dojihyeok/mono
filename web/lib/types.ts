@@ -284,6 +284,19 @@ export interface TrainingRecord {
   certUrl?: string | null;
 }
 
+// 현장 준비 서류(Field Pass P0) — ID_CARD|SAFETY_EDU|ELEC_CARD|BANK_ACC|MED_CHECK|GATE_CARD|SAFETY_GEAR
+export interface SitePrepItem {
+  id: string;
+  userId: string;
+  kind: string;
+  status: string; // SUBMITTED | VERIFIED | REJECTED
+  reviewedBy?: string | null;
+  reviewedAt?: string | null;
+  memo?: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface GlossaryTranslation {
   id: string;
   lang: string;

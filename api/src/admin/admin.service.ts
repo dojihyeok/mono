@@ -10,6 +10,7 @@ import {
   Residency,
   PartnerReferralStatus,
   LeadStage,
+  SitePrepStatus,
 } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 import { NotificationsService } from '../notifications/notifications.service';
@@ -18,6 +19,7 @@ import { UpdateLeadDto } from './dto/update-lead.dto';
 import { CreateInterviewDto } from './dto/create-interview.dto';
 import { UpdateInterviewDto } from './dto/update-interview.dto';
 import { CreateSurveyResponseDto } from './dto/create-survey-response.dto';
+import { ReviewSitePrepDto } from './dto/review-site-prep.dto';
 
 // 운영 콘솔(/amono)용 집계·조회. 현재는 기술자(User) 도메인 기준.
 // 기업·공고 카운트는 /partner 도메인 구현 후 채워진다(지금은 0).
@@ -361,6 +363,36 @@ export class AdminService {
         members: { include: { user: { select: { id: true, name: true } } } },
       },
     });
+  }
+
+  // ── 현장 준비 서류 검토(Field Pass P0) — 자가신고 → 관리자 승인/반려 ──
+
+  listSitePrepItems(status?: SitePrepStatus, limit = 200) {
+    return this.prisma.sitePrepItem.findMany({
+      where: status ? { status } : undefined,
+      orderBy: { createdAt: 'desc' },
+      take: Math.min(Math.max(Number.isFinite(limit) ? limit : 200, 1), 500),
+      include: { user: { select: { id: true, name: true, phone: true } } },
+    });
+  }
+
+  async reviewSitePrepItem(id: string, dto: ReviewSitePrepDto) {
+    try {
+      return await this.prisma.sitePrepItem.update({
+        where: { id },
+        data: {
+          status: dto.status,
+          memo: dto.memo,
+          reviewedBy: 'admin',
+          reviewedAt: new Date(),
+        },
+      });
+    } catch (e) {
+      if (e instanceof Prisma.PrismaClientKnownRequestError && e.code === 'P2025') {
+        throw new NotFoundException(`SitePrepItem ${id} not found`);
+      }
+      throw e;
+    }
   }
 
   // ── 리드 관리(BM 검증 CRM) — 콜드메일 리드 → 인터뷰 → 설문 → PoC 관심 ──

@@ -16,6 +16,7 @@ import type {
   VisaStatus,
   DocumentRecord,
   TrainingRecord,
+  SitePrepItem,
   GlossaryTerm,
   Settlement,
   PartnerReferral,
@@ -640,6 +641,14 @@ export async function apiDeleteTraining(userId: string, tid: string): Promise<bo
   } catch {
     return false;
   }
+}
+
+// ── 현장 준비 서류(Field Pass P0) — 자가신고 제출 / 목록 ──
+export function apiListSitePrep(userId: string): Promise<SitePrepItem[]> {
+  return getJson<SitePrepItem[]>(`/api/users/${userId}/site-prep`, []);
+}
+export function apiSubmitSitePrep(userId: string, kind: string): Promise<SitePrepItem | null> {
+  return postJson<SitePrepItem>(`/api/users/${userId}/site-prep`, { kind });
 }
 
 // ── 현장 용어 사전 (§4) ──

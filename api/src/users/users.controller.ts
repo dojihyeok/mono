@@ -11,6 +11,7 @@ import { OperatorProfileDto } from './dto/operator-profile.dto';
 import { CreateEquipmentHistoryDto } from './dto/create-equipment-history.dto';
 import { VisaStatusDto } from './dto/visa-status.dto';
 import { DocumentRecordDto } from './dto/document-record.dto';
+import { SubmitSitePrepDto } from './dto/site-prep.dto';
 import { UpdateConsultRequestDto } from './dto/update-consult-request.dto';
 import { UsersService } from './users.service';
 
@@ -119,6 +120,17 @@ export class UsersController {
   @Get('users/:id/documents')
   listDocuments(@Param('id') id: string) {
     return this.users.listDocuments(id);
+  }
+
+  // 현장 준비 서류 7종(Field Pass P0) — 자가신고 제출 / 목록
+  @Post('users/:id/site-prep')
+  submitSitePrep(@Param('id') id: string, @Body() dto: SubmitSitePrepDto) {
+    return this.users.submitSitePrep(id, dto);
+  }
+
+  @Get('users/:id/site-prep')
+  listSitePrep(@Param('id') id: string) {
+    return this.users.listSitePrep(id);
   }
 
   // 회원 탈퇴 (User 삭제 — 연관 데이터 cascade)
