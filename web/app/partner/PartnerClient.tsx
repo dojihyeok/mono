@@ -8,6 +8,7 @@ import {
   CAREER_YEARS,
   CAREER_BAND,
   CAREER_BAND_LABEL,
+  INDUSTRIES,
 } from "@/lib/constants";
 import { track } from "@/lib/analytics";
 
@@ -55,9 +56,21 @@ interface Saved {
   userId: string;
   user: Worker;
 }
+interface TeamDir {
+  id: string;
+  name: string;
+  leaderId: string;
+  industries: string[];
+  workTypes: string[];
+  regions: string[];
+  safetyRate: number | null;
+  equipOperators: number | null;
+  leader: { id: string; name: string | null } | null;
+  _count: { members: number };
+}
 
 type View = "landing" | "signup" | "login" | "dashboard";
-type Tab = "info" | "post" | "workers" | "saved" | "applications" | "work_requests";
+type Tab = "info" | "post" | "workers" | "teams" | "saved" | "applications" | "work_requests";
 
 const COMPANY_STATUS_LABEL: Record<string, string> = {
   INQUIRY: "문의 접수",
@@ -472,6 +485,7 @@ function Dashboard({
             { k: "work_requests", t: "현장현장 작업 요청" },
             { k: "applications", t: "후보자" },
             { k: "workers", t: "기술자 조회" },
+            { k: "teams", t: "팀 조회" },
             { k: "saved", t: "관심 기술자" },
           ] as { k: Tab; t: string }[]
         ).map((x) => (
@@ -493,6 +507,7 @@ function Dashboard({
       {tab === "work_requests" && <WorkRequestsTab companyId={company.id} reloadCompany={reloadCompany} />}
       {tab === "applications" && <ApplicationsTab companyId={company.id} />}
       {tab === "workers" && <WorkersTab companyId={company.id} reloadCompany={reloadCompany} />}
+      {tab === "teams" && <TeamsTab companyId={company.id} />}
       {tab === "saved" && <SavedTab companyId={company.id} />}
 
       <PocBanner />
@@ -966,6 +981,176 @@ function WorkersTab({ companyId, reloadCompany }: { companyId: string; reloadCom
   );
 }
 
+function TeamsTab({ companyId }: { companyId: string }) {
+  const [teams, setTeams] = useState<TeamDir[] | null>(null);
+  const [consultedIds, setConsultedIds] = useState<Set<string>>(new Set());
+  const [industry, setIndustry] = useState("");
+  const [region, setRegion] = useState("");
+
+  const search = useCallback(async () => {
+    setTeams(null);
+    const qs = new URLSearchParams();
+    if (industry) qs.set("industry", industry);
+    if (region) qs.set("region", region);
+    try {
+      const res = await fetch(`/api/teams?${qs.toString()}`, { cache: "no-store" });
+      const data = (await res.json()) as TeamDir[];
+      setTeams(data);
+    } catch {
+      setTeams([]);
+    }
+  }, [industry, region]);
+
+  const loadConsulted = useCallback(async () => {
+    try {
+      const res = await fetch(`/api/companies/${companyId}/consult-requests`, { cache: "no-store" });
+      const data = (await res.json()) as { targetUserId: string }[];
+      setConsultedIds(new Set(data.map((c) => c.targetUserId)));
+    } catch {
+      /* noop */
+    }
+  }, [companyId]);
+
+  useEffect(() => {
+    void search();
+    void loadConsulted();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const requestConsult = async (team: TeamDir) => {
+    setConsultedIds((p) => new Set(p).add(team.leaderId));
+    try {
+      const res = await fetch(`/api/companies/${companyId}/consult-requests`, {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ targetUserId: team.leaderId, memo: `[팀매칭] ${team.name}` }),
+      });
+      if (!res.ok) throw new Error("consult request failed");
+      track("team_matching_consult_requested", { teamId: team.id });
+    } catch {
+      setConsultedIds((p) => {
+        const n = new Set(p);
+        n.delete(team.leaderId);
+        return n;
+      });
+    }
+  };
+
+  return (
+    <>
+      <div className={styles.panel}>
+        <div className={styles.panelTitle}>팀 조회</div>
+        <div className={styles.panelSub}>산업분야·지역으로 필터링해 현장에 투입 가능한 팀을 찾습니다.</div>
+        <div className={styles.field}>
+          <div className={styles.label}>산업분야</div>
+          <div className={styles.chips}>
+            <button type="button" className={`${styles.chip} ${industry === "" ? styles.chipOn : ""}`} onClick={() => setIndustry("")}>
+              전체
+            </button>
+            {INDUSTRIES.map((i) => (
+              <button key={i.value} type="button" className={`${styles.chip} ${industry === i.value ? styles.chipOn : ""}`} onClick={() => setIndustry(i.value)}>
+                {i.label}
+              </button>
+            ))}
+          </div>
+        </div>
+        <div className={styles.field}>
+          <div className={styles.label}>지역</div>
+          <div className={styles.chips}>
+            <button type="button" className={`${styles.chip} ${region === "" ? styles.chipOn : ""}`} onClick={() => setRegion("")}>
+              전체
+            </button>
+            {REGIONS.map((r) => (
+              <button key={r} type="button" className={`${styles.chip} ${region === r ? styles.chipOn : ""}`} onClick={() => setRegion(r)}>
+                {r}
+              </button>
+            ))}
+          </div>
+        </div>
+        <button className={styles.btnPrimary} onClick={search} style={{ marginTop: 20 }}>
+          팀 검색
+        </button>
+      </div>
+
+      <PaidFeatureBanner
+        feature="TEAM_MATCHING"
+        title="팀 단위로 바로 매칭받고 싶으신가요?"
+        sub="여러 팀을 비교하고 조건에 맞는 팀과 성사되면 매칭 수수료로 정산하는 기능이 준비 중입니다. 관심 있으시면 먼저 안내해 드립니다."
+        cta="유료 기능 안내 받기"
+      />
+
+      <div className={styles.sectionTitle}>{teams ? `검색 결과 ${teams.length}팀` : "검색 중…"}</div>
+      {teams === null ? (
+        <div className={styles.empty}>불러오는 중…</div>
+      ) : teams.length === 0 ? (
+        <div className={styles.panel}>
+          <div className={styles.empty}>조건에 맞는 팀이 아직 없습니다. 현장 리더의 팀 등록이 늘면 이곳에 표시됩니다.</div>
+        </div>
+      ) : (
+        <div className={styles.workerGrid}>
+          {teams.map((t) => {
+            const consulted = consultedIds.has(t.leaderId);
+            return (
+              <div
+                className={styles.workerCard}
+                key={t.id}
+                onClick={() => track("team_profile_viewed_by_company", { teamId: t.id })}
+              >
+                <div className={styles.workerHead}>
+                  <div className={styles.avatar}>{t.name?.charAt(0) ?? "·"}</div>
+                  <div>
+                    <div className={styles.workerName}>{t.name}</div>
+                    <div className={styles.workerMeta}>
+                      반장 {t.leader?.name ?? "미상"} · 팀원 {t._count.members}명
+                      {t.regions.length ? ` · ${t.regions.join(", ")}` : ""}
+                    </div>
+                  </div>
+                </div>
+                <div className={styles.tagRow}>
+                  {t.industries.map((i) => (
+                    <span className={styles.tag} key={i}>
+                      {INDUSTRIES.find((x) => x.value === i)?.label ?? i}
+                    </span>
+                  ))}
+                  {t.workTypes.map((w) => (
+                    <span className={styles.tag} key={w}>
+                      {w}
+                    </span>
+                  ))}
+                </div>
+                <div className={styles.statRow}>
+                  <div className={styles.stat}>
+                    <b>{t._count.members}</b>팀원
+                  </div>
+                  <div className={styles.stat}>
+                    <b>{t.safetyRate != null ? `${Math.round(t.safetyRate * 100)}%` : "-"}</b>안전이수율
+                  </div>
+                  <div className={styles.stat}>
+                    <b>{t.equipOperators ?? 0}</b>장비운용
+                  </div>
+                </div>
+                <div className={styles.cardActions} style={{ display: "flex", gap: 8 }}>
+                  <button
+                    className={`${styles.btnSm} ${consulted ? styles.btnSmSaved : ""}`}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      requestConsult(t);
+                    }}
+                    disabled={consulted}
+                    style={{ flex: 1 }}
+                  >
+                    {consulted ? "상담 요청됨 ✓" : "상담 요청"}
+                  </button>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
+    </>
+  );
+}
+
 function SavedTab({ companyId }: { companyId: string }) {
   const [saved, setSaved] = useState<Saved[] | null>(null);
   const [consultedIds, setConsultedIds] = useState<Set<string>>(new Set());
@@ -1327,7 +1512,7 @@ function WorkRequestsTab({ companyId, reloadCompany }: { companyId: string; relo
   );
 }
 
-function PaidFeatureBanner({ feature, title, sub, cta }: { feature: "JOB_POSTING_FEE" | "CANDIDATE_VIEW_FEE"; title: string; sub: string; cta: string }) {
+function PaidFeatureBanner({ feature, title, sub, cta }: { feature: "JOB_POSTING_FEE" | "CANDIDATE_VIEW_FEE" | "TEAM_MATCHING"; title: string; sub: string; cta: string }) {
   const [done, setDone] = useState(false);
   return (
     <div className={styles.pocBanner}>

@@ -56,6 +56,8 @@ export type AnalyticsEventName =
   | "worker_profile_viewed_by_company" // 구 worker_profile_viewed
   | "candidate_saved" // 구 worker_saved
   | "candidate_consult_requested"
+  | "team_profile_viewed_by_company"
+  | "team_matching_consult_requested"
   | "workforce_request_submitted"
   | "poc_interest_submitted" // 구 poc_interest_clicked
   | "paid_feature_interest_submitted"
@@ -181,6 +183,8 @@ export const EVENT_CATALOG: Record<
   worker_profile_viewed_by_company: { category: "company", label: "기술자 프로필 조회" }, // 구 worker_profile_viewed
   candidate_saved: { category: "company", label: "관심 기술자 저장" }, // 구 worker_saved
   candidate_consult_requested: { category: "company", label: "후보 상담 요청" },
+  team_profile_viewed_by_company: { category: "company", label: "팀 프로필 조회" },
+  team_matching_consult_requested: { category: "company", label: "팀 매칭 상담 요청" },
   workforce_request_submitted: { category: "company", label: "인력 요청 제출" },
   poc_interest_submitted: { category: "company", label: "PoC 관심 신청" }, // 구 poc_interest_clicked
   paid_feature_interest_submitted: { category: "company", label: "유료 기능 관심" },

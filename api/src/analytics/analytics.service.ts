@@ -161,6 +161,13 @@ export class AnalyticsService {
       { label: '관심 저장', count: cnt('candidate_saved') },
       { label: '상담 요청', count: cnt('candidate_consult_requested') },
     ];
+    // 팀 매칭 검증(P0-3): 현장리더 등록 → 팀 생성(실 카운트) → 팀 매칭 상담 요청
+    const teamCount = await this.prisma.team.count();
+    const teamMatchingFunnel = [
+      { label: '현장리더 등록', count: cnt('field_leader_registered') },
+      { label: '팀 생성', count: teamCount },
+      { label: '팀 매칭 상담 요청', count: cnt('team_matching_consult_requested') },
+    ];
     // 유료 기능 관심: paid_feature_interest_submitted를 props.feature 기준으로 집계(단순 JS 집계).
     const paidFeatureEvents = await this.prisma.analyticsEvent.findMany({
       where: { name: 'paid_feature_interest_submitted' },
@@ -227,6 +234,7 @@ export class AnalyticsService {
       // BM 검증(P0) 지표 — 급구 공고 + 후보 열람 퍼널 + 유료 기능 관심
       urgentJobFunnel,
       candidateFunnel,
+      teamMatchingFunnel,
       paidFeatureInterest,
       funnels: {
         signup: [

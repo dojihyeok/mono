@@ -27,6 +27,7 @@ interface Summary {
   // BM 검증(P0) 지표 — 급구 공고 + 후보 열람 퍼널 + 유료 기능 관심
   urgentJobFunnel: FunnelStep[];
   candidateFunnel: FunnelStep[];
+  teamMatchingFunnel: FunnelStep[];
   paidFeatureInterest: FunnelStep[];
   // §7.2~7.6 — 유형/산업/FieldOps/AI/유형별 리텐션
   commonFunnel: FunnelStep[];
@@ -158,8 +159,8 @@ export function AnalysClient() {
             <div className={styles.cols}>
               <Funnel title="급구 공고 검증 (P0-1)" steps={data.urgentJobFunnel} />
               <Funnel title="후보 열람 검증 (P0-2)" steps={data.candidateFunnel} />
+              <Funnel title="팀 매칭 검증 (P0-3)" steps={data.teamMatchingFunnel ?? []} />
               <Funnel title="유료 기능 관심 (P0-1·2·3)" steps={data.paidFeatureInterest} />
-              <Funnel title="팀 매칭 검증 (P0-3)" steps={data.funnelsByRole?.fieldLeader ?? []} />
             </div>
 
             <div className={styles.sectionTitle}>개요</div>
