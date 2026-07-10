@@ -50,10 +50,12 @@ export type AnalyticsEventName =
   | "job_post_started"
   | "job_post_submitted"
   | "worker_search"
-  | "worker_profile_viewed"
-  | "worker_saved"
+  | "worker_profile_viewed_by_company" // 구 worker_profile_viewed
+  | "candidate_saved" // 구 worker_saved
+  | "candidate_consult_requested"
   | "workforce_request_submitted"
-  | "poc_interest_clicked"
+  | "poc_interest_submitted" // 구 poc_interest_clicked
+  | "paid_feature_interest_submitted"
   | "company_return_visit"
   // 지원·배정·출역 (지원 → 수락 → 출역)
   | "job_application_submitted"
@@ -65,6 +67,7 @@ export type AnalyticsEventName =
   | "industry_selected"
   | "residency_selected" // 내국인/외국인 선택(온보딩)
   | "field_leader_requested" // 구 foreman_requested
+  | "field_leader_registered" // 관리자 승인으로 role=FIELD_LEADER 확정(서버측 발행)
   | "team_created" // 구 team_registered
   | "team_deleted"
   | "coworker_recalled"
@@ -169,10 +172,12 @@ export const EVENT_CATALOG: Record<
   job_post_started: { category: "company", label: "채용 공고 작성 시작" },
   job_post_submitted: { category: "company", label: "채용 공고 등록" },
   worker_search: { category: "company", label: "기술자 검색" },
-  worker_profile_viewed: { category: "company", label: "기술자 프로필 조회" },
-  worker_saved: { category: "company", label: "관심 기술자 저장" },
+  worker_profile_viewed_by_company: { category: "company", label: "기술자 프로필 조회" }, // 구 worker_profile_viewed
+  candidate_saved: { category: "company", label: "관심 기술자 저장" }, // 구 worker_saved
+  candidate_consult_requested: { category: "company", label: "후보 상담 요청" },
   workforce_request_submitted: { category: "company", label: "인력 요청 제출" },
-  poc_interest_clicked: { category: "company", label: "PoC 관심 신청" },
+  poc_interest_submitted: { category: "company", label: "PoC 관심 신청" }, // 구 poc_interest_clicked
+  paid_feature_interest_submitted: { category: "company", label: "유료 기능 관심" },
   company_return_visit: { category: "company", label: "기업 재방문" },
   // 지원·배정·출역
   job_application_submitted: { category: "work", label: "공고 지원" },
@@ -184,6 +189,7 @@ export const EVENT_CATALOG: Record<
   industry_selected: { category: "signup", label: "산업유형 선택" },
   residency_selected: { category: "signup", label: "내국인/외국인 선택" },
   field_leader_requested: { category: "work", label: "현장리더(반장) 승인 신청" }, // 구 foreman_requested
+  field_leader_registered: { category: "work", label: "현장리더(반장) 승인 완료" },
   team_created: { category: "work", label: "작업팀 등록" }, // 구 team_registered
   team_deleted: { category: "work", label: "작업팀 삭제" },
   coworker_recalled: { category: "return", label: "동료 재호출" },

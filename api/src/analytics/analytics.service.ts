@@ -167,6 +167,7 @@ export class AnalyticsService {
         { label: '리더 신청', count: cnt('field_leader_requested') },
         { label: '리더 프로필 시작', count: cnt('field_leader_profile_started') },
         { label: '리더 프로필 완료', count: cnt('field_leader_profile_completed') },
+        { label: '반장 승인 완료', count: cnt('field_leader_registered') },
         { label: '팀 등록', count: cnt('team_created') },
       ],
       customer: [
@@ -187,7 +188,7 @@ export class AnalyticsService {
         companies,
         jobPosts,
         workersSaved,
-        pocInterest: cnt('poc_interest_clicked'),
+        pocInterest: cnt('poc_interest_submitted'),
       },
       funnels: {
         signup: [
@@ -206,8 +207,8 @@ export class AnalyticsService {
           { label: '기업 가입', count: cnt('company_signup_completed') },
           { label: '공고 등록', count: cnt('job_post_submitted') },
           { label: '기술자 검색', count: cnt('worker_search') },
-          { label: '관심 저장', count: cnt('worker_saved') },
-          { label: 'PoC 신청', count: cnt('poc_interest_clicked') },
+          { label: '관심 저장', count: cnt('candidate_saved') },
+          { label: 'PoC 신청', count: cnt('poc_interest_submitted') },
         ],
       },
       retention,

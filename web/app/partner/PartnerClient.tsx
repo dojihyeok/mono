@@ -669,6 +669,13 @@ function PostTab({ companyId, reloadCompany }: { companyId: string; reloadCompan
         </button>
       </div>
 
+      <PaidFeatureBanner
+        feature="JOB_POSTING_FEE"
+        title="급한 자리를 더 빨리 채우고 싶으신가요?"
+        sub="긴급 공고 상단 노출 등 유료 기능이 준비 중입니다. 관심 있으시면 먼저 안내해 드립니다."
+        cta="유료 기능 안내 받기"
+      />
+
       <div className={styles.sectionTitle}>등록한 공고 {posts ? `(${posts.length})` : ""}</div>
       <div className={styles.panel}>
         {posts === null ? (
@@ -822,7 +829,7 @@ function WorkersTab({ companyId, reloadCompany }: { companyId: string; reloadCom
         body: JSON.stringify({ userId }),
       });
       if (!res.ok) throw new Error("save failed");
-      track("worker_saved", { userId });
+      track("candidate_saved", { userId });
       reloadCompany();
     } catch {
       // 실패 시 낙관적 추가 롤백(재시도 가능하게)
@@ -870,6 +877,13 @@ function WorkersTab({ companyId, reloadCompany }: { companyId: string; reloadCom
         </button>
       </div>
 
+      <PaidFeatureBanner
+        feature="CANDIDATE_VIEW_FEE"
+        title="더 많은 후보 정보를 열람하고 싶으신가요?"
+        sub="경력·자격·출근 이력까지 상세히 볼 수 있는 후보 열람 기능이 준비 중입니다. 관심 있으시면 먼저 안내해 드립니다."
+        cta="유료 기능 안내 받기"
+      />
+
       <div className={styles.sectionTitle}>{workers ? `검색 결과 ${workers.length}명` : "검색 중…"}</div>
       {workers === null ? (
         <div className={styles.empty}>불러오는 중…</div>
@@ -885,7 +899,7 @@ function WorkersTab({ companyId, reloadCompany }: { companyId: string; reloadCom
               worker={w}
               saved={savedIds.has(w.id)}
               onSave={() => save(w.id)}
-              onView={() => track("worker_profile_viewed", { userId: w.id })}
+              onView={() => track("worker_profile_viewed_by_company", { userId: w.id })}
             />
           ))}
         </div>
@@ -896,6 +910,7 @@ function WorkersTab({ companyId, reloadCompany }: { companyId: string; reloadCom
 
 function SavedTab({ companyId }: { companyId: string }) {
   const [saved, setSaved] = useState<Saved[] | null>(null);
+  const [consultedIds, setConsultedIds] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     (async () => {
@@ -905,8 +920,34 @@ function SavedTab({ companyId }: { companyId: string }) {
       } catch {
         setSaved([]);
       }
+      try {
+        const res = await fetch(`/api/companies/${companyId}/consult-requests`, { cache: "no-store" });
+        const data = (await res.json()) as { targetUserId: string }[];
+        setConsultedIds(new Set(data.map((c) => c.targetUserId)));
+      } catch {
+        /* noop */
+      }
     })();
   }, [companyId]);
+
+  const requestConsult = async (userId: string) => {
+    setConsultedIds((p) => new Set(p).add(userId));
+    try {
+      const res = await fetch(`/api/companies/${companyId}/consult-requests`, {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ targetUserId: userId }),
+      });
+      if (!res.ok) throw new Error("consult request failed");
+      track("candidate_consult_requested", { userId });
+    } catch {
+      setConsultedIds((p) => {
+        const n = new Set(p);
+        n.delete(userId);
+        return n;
+      });
+    }
+  };
 
   return (
     <>
@@ -948,6 +989,16 @@ function SavedTab({ companyId }: { companyId: string }) {
                 <div className={styles.stat}>
                   <b>{s.user._count.educations}</b>교육
                 </div>
+              </div>
+              <div className={styles.cardActions} style={{ display: "flex", gap: 8 }}>
+                <button
+                  className={`${styles.btnSm} ${consultedIds.has(s.userId) ? styles.btnSmSaved : ""}`}
+                  onClick={() => requestConsult(s.userId)}
+                  disabled={consultedIds.has(s.userId)}
+                  style={{ flex: 1 }}
+                >
+                  {consultedIds.has(s.userId) ? "상담 요청됨 ✓" : "상담 요청"}
+                </button>
               </div>
             </div>
           ))}
@@ -1202,6 +1253,29 @@ function WorkRequestsTab({ companyId, reloadCompany }: { companyId: string; relo
   );
 }
 
+function PaidFeatureBanner({ feature, title, sub, cta }: { feature: "JOB_POSTING_FEE" | "CANDIDATE_VIEW_FEE"; title: string; sub: string; cta: string }) {
+  const [done, setDone] = useState(false);
+  return (
+    <div className={styles.pocBanner}>
+      <div className={styles.pocText}>
+        <div className={styles.pocTitle}>{title}</div>
+        <div className={styles.pocSub}>{sub}</div>
+      </div>
+      <button
+        className={styles.btnGhost}
+        onClick={() => {
+          track("paid_feature_interest_submitted", { feature });
+          setDone(true);
+        }}
+        disabled={done}
+        style={done ? { opacity: 0.6 } : undefined}
+      >
+        {done ? "신청 완료 ✓" : cta}
+      </button>
+    </div>
+  );
+}
+
 function PocBanner() {
   const [done, setDone] = useState(false);
   return (
@@ -1213,7 +1287,7 @@ function PocBanner() {
       <button
         className={styles.btnGhost}
         onClick={() => {
-          track("poc_interest_clicked");
+          track("poc_interest_submitted");
           track("workforce_request_submitted");
           setDone(true);
         }}

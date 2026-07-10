@@ -178,6 +178,12 @@ export class AdminService {
         where: { id },
         data: { role, foremanRequested: false },
       });
+      // BM 검증 지표: 반장 승인 완료 시점(팀 매칭 BM 퍼널의 핵심 전환). best-effort — 실패해도 승인 자체는 막지 않음.
+      if (role === 'FIELD_LEADER') {
+        this.prisma.analyticsEvent
+          .create({ data: { name: 'field_leader_registered', userId: id } })
+          .catch(() => undefined);
+      }
       return { ok: true };
     } catch (e) {
       if (e instanceof Prisma.PrismaClientKnownRequestError && e.code === 'P2025') {

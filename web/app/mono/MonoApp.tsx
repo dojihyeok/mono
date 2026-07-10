@@ -769,7 +769,7 @@ export default function MonoApp() {
       .then((r) => r.json())
       .then((d) => {
         if (d && d.id) { setTeam(d as TeamData); setTeamOpen(false); }
-        else setTeamMsg("잠시 후 다시 시도해 주세요");
+        else setTeamMsg(d?.message || "잠시 후 다시 시도해 주세요");
       })
       .catch(() => setTeamMsg("잠시 후 다시 시도해 주세요"));
   };
@@ -1564,6 +1564,9 @@ export default function MonoApp() {
             const manDays = Math.round(monthAtts.reduce((s, at) => s + (new Date(at.checkOutAt).getTime() - new Date(at.checkInAt).getTime()) / 3600000, 0) / 8 * 10) / 10;
             if (monthAtts.length > 0) {
               todayItems.push({ icon: "📊", tag: "[기록]", tagColor: "#f59e0b", text: `이번 달 ${manDays}공수 기록되었어요` });
+            }
+            if (!isForeman && !myRequested) {
+              todayItems.push({ icon: "👷", tag: "[성장]", tagColor: "#4f46e5", text: "팀을 등록하고 반장으로 활동해보세요", onClick: v.goMe });
             }
             if (todayItems.length === 0) {
               todayItems.push({ icon: "✅", tag: "[완료]", tagColor: "#10b981", text: "오늘 할 일이 없어요. 편안한 하루 되세요! 🎉" });
@@ -2786,6 +2789,60 @@ export default function MonoApp() {
                 <div style={{ fontSize: "13.5px", fontWeight: "900", color: "#1e293b" }}>신한은행 110-***-123456</div>
                 <div style={{ fontSize: "11px", color: "#64748b", marginTop: "2px" }}>예금주: {v.name}</div>
               </div>
+            </div>
+          </div>
+
+          <div style={{ background: "#fff", border: "1.5px solid #e2e8f0", borderRadius: "20px", padding: "18px", marginTop: "14px" }}>
+            <div style={{ fontSize: "14.5px", fontWeight: "900", color: "#1e293b", marginBottom: "8px" }}>👷 반장·현장리더로 활동하기</div>
+            {!isForeman && !myRequested && (
+              <>
+                <p style={{ fontSize: "12.5px", color: "#475569", fontWeight: "700", margin: "0 0 12px 0", lineHeight: "1.4" }}>
+                  팀을 등록하면 팀 단위로 현장에 매칭되고, 성사 시 수수료 혜택이 있어요.
+                </p>
+                <button
+                  type="button"
+                  onClick={requestForeman}
+                  style={{ width: "100%", height: "40px", background: "#4f46e5", color: "#fff", border: "none", borderRadius: "10px", fontSize: "13px", fontWeight: "900", cursor: "pointer" }}
+                >
+                  반장 신청하기
+                </button>
+              </>
+            )}
+            {!isForeman && myRequested && (
+              <div style={{ padding: "12px 14px", background: "#f8fafc", borderRadius: "10px", border: "1px solid #e2e8f0", fontSize: "12.5px", color: "#64748b", fontWeight: "800" }}>
+                ⏳ 반장 승인 대기중 — 관리자 승인 후 팀 등록과 현장리더 프로필을 이용할 수 있어요.
+              </div>
+            )}
+            {isForeman && (
+              <>
+                {team ? (
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "12px 14px", background: "#f8fafc", borderRadius: "10px", border: "1px solid #e2e8f0", marginBottom: "10px" }}>
+                    <div>
+                      <div style={{ fontSize: "13.5px", fontWeight: "900", color: "#1e293b" }}>{team.name}</div>
+                      <div style={{ fontSize: "11px", color: "#64748b", marginTop: "2px" }}>팀원 {team.memberCount}명</div>
+                    </div>
+                    <button type="button" onClick={openTeamSheet} style={{ background: "none", border: "none", color: "#4f46e5", fontSize: "13px", fontWeight: "800", cursor: "pointer" }}>팀 정보 수정</button>
+                  </div>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={openTeamSheet}
+                    style={{ width: "100%", height: "40px", background: "#4f46e5", color: "#fff", border: "none", borderRadius: "10px", fontSize: "13px", fontWeight: "900", cursor: "pointer", marginBottom: "10px" }}
+                  >
+                    + 팀 등록하기
+                  </button>
+                )}
+                <button type="button" onClick={openLeaderProfile} style={{ background: "none", border: "none", color: "#4f46e5", fontSize: "12.5px", fontWeight: "800", cursor: "pointer", padding: 0 }}>현장리더 프로필 관리</button>
+              </>
+            )}
+            <div style={{ marginTop: "12px", paddingTop: "10px", borderTop: "1px dashed #e2e8f0" }}>
+              {aiDone ? (
+                <span style={{ fontSize: "11.5px", color: "#94a3b8", fontWeight: "800" }}>관심 등록 완료 ✓</span>
+              ) : (
+                <button type="button" onClick={registerAiLeader} style={{ background: "none", border: "none", color: "#64748b", fontSize: "11.5px", fontWeight: "800", cursor: "pointer", padding: 0 }}>
+                  🤖 AI 현장리더 서비스에도 관심 있어요
+                </button>
+              )}
             </div>
           </div>
 
