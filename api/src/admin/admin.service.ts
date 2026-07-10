@@ -395,6 +395,24 @@ export class AdminService {
     }
   }
 
+  // ── 출근 관리(Field Pass P0) — Attendance를 application.user/jobPost로 조인해 조회 ──
+
+  listAttendances(date?: string, limit = 200) {
+    return this.prisma.attendance.findMany({
+      where: date ? { workDate: date } : undefined,
+      orderBy: { checkInAt: 'desc' },
+      take: Math.min(Math.max(Number.isFinite(limit) ? limit : 200, 1), 500),
+      include: {
+        application: {
+          select: {
+            user: { select: { id: true, name: true, phone: true } },
+            jobPost: { select: { id: true, title: true, company: { select: { name: true } } } },
+          },
+        },
+      },
+    });
+  }
+
   // ── 리드 관리(BM 검증 CRM) — 콜드메일 리드 → 인터뷰 → 설문 → PoC 관심 ──
 
   listLeads(stage?: LeadStage, limit = 200) {

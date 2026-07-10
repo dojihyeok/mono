@@ -110,6 +110,12 @@ export class AdminController {
     return this.admin.reviewSitePrepItem(id, dto);
   }
 
+  // 출근 관리(Field Pass P0) — 날짜 필터 조회
+  @Get('attendances')
+  attendances(@Query('date') date?: string, @Query('limit') limit?: string) {
+    return this.admin.listAttendances(date, limit ? Number(limit) : 200);
+  }
+
   // ── 리드 관리(BM 검증 CRM) ──
   @Get('leads')
   leads(@Query('stage') stage?: LeadStage, @Query('limit') limit?: string) {
