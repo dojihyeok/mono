@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 // ─────────────────────────────────────────────
 // Types
@@ -2246,6 +2246,23 @@ export default function BMPage() {
   const [surveyModalOpen, setSurveyModalOpen] = useState(false);
   const [actionModalItem, setActionModalItem] = useState<null | { step: string; title: string; target: string; detail: string; location: string; adminLink: boolean }>(null);
 
+  // PO 실행 목표 지표의 실제 집계값(있는 항목만) — /analytics 백엔드 실집계와 연결.
+  const [liveMetrics, setLiveMetrics] = useState<Record<string, number> | null>(null);
+  useEffect(() => {
+    fetch('/api/analytics/summary', { cache: 'no-store' })
+      .then((r) => r.json())
+      .then((d) => {
+        const paidFeatureTotal = (d.paidFeatureInterest ?? []).reduce((s: number, x: { count: number }) => s + x.count, 0);
+        const teamCreated = (d.funnelsByRole?.fieldLeader ?? []).find((s: { label: string }) => s.label === '팀 등록')?.count ?? 0;
+        setLiveMetrics({
+          '유료 기능 관심': paidFeatureTotal,
+          'PoC 협의 관심': d.overview?.pocInterest ?? 0,
+          '팀 등록 의향': teamCreated,
+        });
+      })
+      .catch(() => undefined);
+  }, []);
+
   const toggleFeature = (feat: string) => {
     if (selectedFeatures.includes(feat)) {
       setSelectedFeatures(selectedFeatures.filter((f) => f !== feat));
@@ -3376,7 +3393,12 @@ export default function BMPage() {
                 ].map((target, idx) => (
                   <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', padding: '4px 0', borderBottom: '1px solid #f1f5f9' }}>
                     <span style={{ fontSize: '12.5px', color: '#64748b', fontWeight: '700' }}>{target.label}</span>
-                    <strong style={{ fontSize: '13px', color: '#0f172a', fontWeight: '900' }}>{target.value}</strong>
+                    <strong style={{ fontSize: '13px', color: '#0f172a', fontWeight: '900' }}>
+                      {target.value}
+                      {liveMetrics && target.label in liveMetrics && (
+                        <span style={{ marginLeft: '6px', fontWeight: '800', color: '#4f46e5' }}>(현재 {liveMetrics[target.label]}건)</span>
+                      )}
+                    </strong>
                   </div>
                 ))}
               </div>

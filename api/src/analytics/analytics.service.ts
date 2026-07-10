@@ -147,6 +147,33 @@ export class AnalyticsService {
         .map((g) => ({ industry: g.industry, count: g._count._all })),
     };
 
+    // ── §7.7 BM 검증(P0) — 후보 열람 퍼널 + 유료 기능 관심 ──
+    // 후보 열람 검증: 프로필 조회 → 관심 저장 → 상담 요청(파트너 포털 /partner 기준)
+    const candidateFunnel = [
+      { label: '프로필 조회', count: cnt('worker_profile_viewed_by_company') },
+      { label: '관심 저장', count: cnt('candidate_saved') },
+      { label: '상담 요청', count: cnt('candidate_consult_requested') },
+    ];
+    // 유료 기능 관심: paid_feature_interest_submitted를 props.feature 기준으로 집계(단순 JS 집계).
+    const paidFeatureEvents = await this.prisma.analyticsEvent.findMany({
+      where: { name: 'paid_feature_interest_submitted' },
+      select: { props: true },
+    });
+    const paidFeatureCounts: Record<string, number> = {};
+    for (const e of paidFeatureEvents) {
+      const feature = (e.props as { feature?: string } | null)?.feature ?? '기타';
+      paidFeatureCounts[feature] = (paidFeatureCounts[feature] ?? 0) + 1;
+    }
+    const PAID_FEATURE_LABEL: Record<string, string> = {
+      JOB_POSTING_FEE: '공고 등록비 관심',
+      CANDIDATE_VIEW_FEE: '후보 열람비 관심',
+      TEAM_MATCHING: '팀 매칭 수수료 관심',
+    };
+    const paidFeatureInterest = Object.entries(paidFeatureCounts).map(([feature, count]) => ({
+      label: PAID_FEATURE_LABEL[feature] ?? feature,
+      count,
+    }));
+
     // ── §7.2 공통 온보딩 퍼널(정본) + 유형별 퍼널 ──
     const commonFunnel = [
       { label: '방문', count: cnt('page_view') },
@@ -190,6 +217,9 @@ export class AnalyticsService {
         workersSaved,
         pocInterest: cnt('poc_interest_submitted'),
       },
+      // BM 검증(P0) 지표 — 후보 열람 퍼널 + 유료 기능 관심
+      candidateFunnel,
+      paidFeatureInterest,
       funnels: {
         signup: [
           { label: '방문', count: cnt('page_view') },
