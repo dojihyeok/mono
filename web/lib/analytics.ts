@@ -123,11 +123,22 @@ export type AnalyticsEventName =
   | "training_completed"
   | "partner_referral_requested"
   | "risk_report_submitted"
-  | "overseas_candidate_registered";
+  | "overseas_candidate_registered"
+  // /bm 공개 페이지(BM 개발 개선 요청서 v1.1 §20)
+  | "bm_core_model_viewed"
+  | "bm_revenue_flow_scrolled"
+  | "bm_field_pass_viewed"
+  | "bm_field_pass_cta_clicked"
+  | "bm_customer_tab_selected"
+  | "bm_expansion_roadmap_opened"
+  | "bm_poc_cta_clicked"
+  | "bm_contact_cta_clicked"
+  | "founder_profile_clicked"
+  | "team_readiness_viewed";
 
 // 정본 이벤트 카탈로그(PDF #1 6장 기준). 관리자 화면·문서의 단일 출처.
 // Record<AnalyticsEventName,...> 라 union 과 항상 동기화됨(누락 시 컴파일 에러).
-export type EventCategory = "signup" | "profile" | "interest" | "return" | "company" | "work" | "foreign";
+export type EventCategory = "signup" | "profile" | "interest" | "return" | "company" | "work" | "foreign" | "bm";
 
 export const EVENT_CATALOG: Record<
   AnalyticsEventName,
@@ -251,6 +262,17 @@ export const EVENT_CATALOG: Record<
   partner_referral_requested: { category: "foreign", label: "행정·노무 파트너 연계 신청" },
   risk_report_submitted: { category: "foreign", label: "리스크 신고" },
   overseas_candidate_registered: { category: "foreign", label: "해외 예비 기술자 등록" },
+  // /bm 공개 페이지
+  bm_core_model_viewed: { category: "bm", label: "Core BM 카드 열람" },
+  bm_revenue_flow_scrolled: { category: "bm", label: "Revenue Flow 조회" },
+  bm_field_pass_viewed: { category: "bm", label: "Field Pass 섹션 조회" },
+  bm_field_pass_cta_clicked: { category: "bm", label: "Field Pass CTA 클릭" },
+  bm_customer_tab_selected: { category: "bm", label: "고객군 탭 선택" },
+  bm_expansion_roadmap_opened: { category: "bm", label: "확장 로드맵 펼침" },
+  bm_poc_cta_clicked: { category: "bm", label: "PoC CTA 클릭" },
+  bm_contact_cta_clicked: { category: "bm", label: "기술·사업 제휴 CTA 클릭" },
+  founder_profile_clicked: { category: "bm", label: "대표자 프로필 링크 클릭" },
+  team_readiness_viewed: { category: "bm", label: "Team Readiness 조회" },
 };
 
 export interface LoggedEvent {
