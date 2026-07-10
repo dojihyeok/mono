@@ -139,11 +139,26 @@ export type AnalyticsEventName =
   | "service_primary_cta_clicked"
   | "service_enterprise_cta_clicked"
   | "service_field_pass_clicked"
-  | "service_faq_opened";
+  | "service_faq_opened"
+  // /partner 기업용 Partner·Field Pass 웹(개발 요청서 v1.0 §15)
+  | "partner_page_viewed"
+  | "partner_product_viewed"
+  | "partner_workspace_viewed"
+  | "partner_field_pass_viewed"
+  | "partner_poc_cta_clicked"
+  | "partner_contact_submitted"
+  | "field_pass_security_viewed"
+  // /analytics 마케팅 Analytics 웹(마케팅 Analytics 웹 개발 요청서 v1.0 §5)
+  | "campaign_landing_viewed"
+  | "marketing_cta_clicked"
+  | "job_applied"
+  | "enterprise_lead_submitted"
+  | "poc_requested"
+  | "referral_shared";
 
 // 정본 이벤트 카탈로그(PDF #1 6장 기준). 관리자 화면·문서의 단일 출처.
 // Record<AnalyticsEventName,...> 라 union 과 항상 동기화됨(누락 시 컴파일 에러).
-export type EventCategory = "signup" | "profile" | "interest" | "return" | "company" | "work" | "foreign" | "bm" | "service";
+export type EventCategory = "signup" | "profile" | "interest" | "return" | "company" | "work" | "foreign" | "bm" | "service" | "partner" | "marketing";
 
 export const EVENT_CATALOG: Record<
   AnalyticsEventName,
@@ -283,6 +298,21 @@ export const EVENT_CATALOG: Record<
   service_enterprise_cta_clicked: { category: "service", label: "기업용 MONO CTA 클릭" },
   service_field_pass_clicked: { category: "service", label: "Field Pass 자세히 보기 클릭" },
   service_faq_opened: { category: "service", label: "FAQ 항목 펼침" },
+  // /partner 기업용 Partner·Field Pass 웹
+  partner_page_viewed: { category: "partner", label: "/partner 페이지 조회" },
+  partner_product_viewed: { category: "partner", label: "제품 포트폴리오 조회" },
+  partner_workspace_viewed: { category: "partner", label: "Partner Workspace 카드 조회" },
+  partner_field_pass_viewed: { category: "partner", label: "Field Pass 상세 조회" },
+  partner_poc_cta_clicked: { category: "partner", label: "PoC/상담 CTA 클릭" },
+  partner_contact_submitted: { category: "partner", label: "기업 문의 제출" },
+  field_pass_security_viewed: { category: "partner", label: "Field Pass 보안 자료 조회" },
+  // /analytics 마케팅 Analytics 웹
+  campaign_landing_viewed: { category: "marketing", label: "캠페인 랜딩 조회" },
+  marketing_cta_clicked: { category: "marketing", label: "마케팅 CTA 클릭" },
+  job_applied: { category: "marketing", label: "공고 지원(캠페인 유입)" },
+  enterprise_lead_submitted: { category: "marketing", label: "기업 리드 제출(캠페인 유입)" },
+  poc_requested: { category: "marketing", label: "PoC 신청(캠페인 유입)" },
+  referral_shared: { category: "marketing", label: "추천 링크 생성·공유" },
 };
 
 export interface LoggedEvent {
