@@ -398,6 +398,6 @@ export interface AttendanceRec {
 
 export interface Assignment {
   id: string;
-  jobPost: { id: string; title: string; region: string[]; company: { name: string } | null } | null;
+  jobPost: { id: string; title: string; region: string[]; conditions?: string | null; jobType?: string[]; company: { name: string } | null } | null;
   attendances: AttendanceRec[];
 }

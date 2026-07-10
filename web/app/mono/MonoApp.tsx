@@ -2512,13 +2512,6 @@ export default function MonoApp() {
                   );
                 })}
               </div>
-
-              {/* 외국인 기술자 받을 금액 내역 */}
-              {isForeigner && (
-                <div style={{ marginTop: "24px" }}>
-                  <FgnSettlement id={getServerId() || ""} />
-                </div>
-              )}
             </>
           ) : (
             <>
@@ -2569,7 +2562,7 @@ export default function MonoApp() {
                 <div style={{ fontSize: "15px", fontWeight: "800", color: "var(--c1,#1F2226)", marginBottom: "12px" }}>상세 출근 기록</div>
                 {(() => {
                   const allAtts = (Array.isArray(assignments) ? assignments : []).flatMap((a) =>
-                    (a.attendances || []).map((at) => ({ ...at, jobTitle: a.jobPost?.title, jobType: a.jobPost?.jobType?.[0], company: a.jobPost?.company?.name }))
+                    (a.attendances || []).map((at) => ({ ...at, jobTitle: a.jobPost?.title, jobType: a.jobPost?.jobType?.[0], company: a.jobPost?.company?.name, conditions: a.jobPost?.conditions }))
                   ).filter((at) => at.checkOutAt).sort((a, b) => new Date(b.checkInAt).getTime() - new Date(a.checkInAt).getTime());
                   if (allAtts.length === 0) {
                     return (
@@ -2592,7 +2585,7 @@ export default function MonoApp() {
                         return (
                           <div
                             key={at.id}
-                            onClick={() => setOpenSettlementInvoice({ conditions: "일당 230,000원", title: at.jobTitle })}
+                            onClick={() => setOpenSettlementInvoice({ conditions: at.conditions, title: at.jobTitle })}
                             style={{ background: "#fff", border: "1.5px solid #e6e8ec", borderRadius: "18px", padding: "16px", boxShadow: "0 4px 12px -10px rgba(0,0,0,0.05)", cursor: "pointer" }}
                           >
                             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
@@ -2610,6 +2603,11 @@ export default function MonoApp() {
                     </div>
                   );
                 })()}
+              </div>
+
+              {/* 받을 금액 내역(실제 Settlement 원장) — 내국인/외국인 공통 노출 */}
+              <div style={{ marginTop: "24px" }}>
+                <FgnSettlement id={getServerId() || ""} />
               </div>
             </>
           )}

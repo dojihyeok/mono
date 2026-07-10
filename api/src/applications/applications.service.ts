@@ -66,6 +66,8 @@ export class ApplicationsService {
             id: true,
             title: true,
             region: true,
+            conditions: true,
+            jobType: true,
             company: { select: { name: true } },
           },
         },
