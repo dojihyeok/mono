@@ -1034,20 +1034,20 @@ model TeamPost {
 }
 
 model CommunityPost {
-  id          String             @id @default(cuid())
-  channel     String             // "PRIME" | "REGION" | "ROLE" | "LEADER"
-  subChannel  String             // e.g. "삼성 평택", "서울", "배관방"
-  title       String
-  content     String
-  authorId    String
-  author      User               @relation(fields: [authorId], references: [id], onDelete: Cascade)
-  likes       Int                @default(0)
-  helps       Int                @default(0)
-  reported    Boolean            @default(false)
-  ratings     Json?              // For structured reviews: { commute: 4, food: 3, lodging: 5, env: 4, settle: 5, beginner: 4, rehire: 5 }
-  createdAt   DateTime           @default(now())
-  updatedAt   DateTime           @updatedAt
-  comments    CommunityComment[]
+  id         String             @id @default(cuid())
+  channel    String // "PRIME" | "REGION" | "ROLE" | "LEADER"
+  subChannel String // e.g. "삼성 평택", "서울", "배관방"
+  title      String
+  content    String
+  authorId   String
+  author     User               @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  likes      Int                @default(0)
+  helps      Int                @default(0)
+  reported   Boolean            @default(false)
+  ratings    Json? // For structured reviews: { commute: 4, food: 3, lodging: 5, env: 4, settle: 5, beginner: 4, rehire: 5 }
+  createdAt  DateTime           @default(now())
+  updatedAt  DateTime           @updatedAt
+  comments   CommunityComment[]
 
   @@index([channel])
   @@index([authorId])
@@ -1067,7 +1067,7 @@ model CommunityComment {
 
 model CommunityReport {
   id         String   @id @default(cuid())
-  targetType String   // "POST" | "COMMENT"
+  targetType String // "POST" | "COMMENT"
   targetId   String
   reporterId String
   reason     String
@@ -1196,7 +1196,7 @@ enum BmDecision {
 }
 
 model BmHypothesis {
-  id                String              @id @default(cuid())
+  id                String             @id @default(cuid())
   name              String // BM명
   customerSegment   String // 고객군
   problem           String
@@ -1215,8 +1215,8 @@ model BmHypothesis {
   experiments       BmExperiment[]
   decisions         BmDecisionLog[]
   nextActions       BmNextAction[]
-  createdAt         DateTime            @default(now())
-  updatedAt         DateTime            @updatedAt
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
 
   @@index([status])
 }
@@ -1225,7 +1225,7 @@ model BmExperiment {
   id              String            @id @default(cuid())
   hypothesisId    String
   hypothesis      BmHypothesis      @relation(fields: [hypothesisId], references: [id], onDelete: Cascade)
-  title String // 가설
+  title           String // 가설
   targetCustomer  String?
   method          String?
   periodStart     DateTime?
@@ -1284,4 +1284,102 @@ model BmRevenueObjective {
   status          String   @default("ACTIVE")
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
+}
+
+// ── /amono 관리자 운영·컴플라이언스 (v1.0) ──
+enum ComplianceStatus {
+  READY
+  REPORT_REQUIRED
+  LICENSE_GATE
+  PARTNER_REQUIRED
+  LEGAL_REVIEW
+  BLOCKED
+}
+
+model ComplianceItem {
+  id                String           @id @default(cuid())
+  name              String // 예: "직업정보제공사업", "유료직업소개사업", "위치기반서비스", "통신판매업", "PG 계약", "교육기관 제휴", "금융·보험 제휴", "OTAC 라이선스", "기업 API 계약"
+  status            ComplianceStatus @default(LEGAL_REVIEW)
+  authority         String? // 관할 기관
+  appliedAt         DateTime? // 신청일
+  completedAt       DateTime? // 완료일
+  registrationNo    String? // 등록번호
+  renewalAt         DateTime? // 갱신일
+  evidenceDoc       String? // 증빙문서(파일명/URL 텍스트로만 저장, 실제 업로드 인프라는 범위 밖)
+  owner             String? // 담당자
+  legalOpinion      String? // 법률 의견
+  linkedFeatureFlag String? // 연결 기능 플래그 키(FeatureFlag.key와 느슨하게 연결, FK 아님)
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+
+  @@index([status])
+}
+
+model FeatureFlag {
+  id        String   @id @default(cuid())
+  key       String   @unique // 예: JOB_INFORMATION_SERVICE, ACTIVE_CANDIDATE_RECOMMENDATION 등
+  enabled   Boolean  @default(false)
+  updatedBy String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum FieldPassEventResult {
+  SUCCESS
+  FAILED
+  BLOCKED
+}
+
+model FieldPassSite {
+  id        String               @id @default(cuid())
+  name      String
+  gates     Json? // 출입구 목록(간단 배열로 저장: [{name, authMethod}])
+  status    String               @default("PLANNED") // PLANNED/PILOT/LIVE
+  createdAt DateTime             @default(now())
+  updatedAt DateTime             @updatedAt
+  events    FieldPassAuthEvent[]
+}
+
+model FieldPassAuthEvent {
+  id         String               @id @default(cuid())
+  siteId     String
+  site       FieldPassSite        @relation(fields: [siteId], references: [id], onDelete: Cascade)
+  gateName   String?
+  authMethod String // QR/NFC/카드/OTAC 등
+  result     FieldPassEventResult
+  reason     String? // 실패·차단 사유
+  occurredAt DateTime             @default(now())
+
+  @@index([siteId])
+  @@index([result])
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  actor     String // 관리자 식별(이름/이메일 등 자유 텍스트 — 별도 인증 시스템 없음)
+  action    String // 관리자 로그인/정보 조회/데이터 수정/권한 변경/문서 다운로드/인증 실패/기능 플래그 변경/규제 상태 변경
+  target    String? // 대상 리소스(예: "ComplianceItem:xxx", "FeatureFlag:XXX")
+  detail    String?
+  createdAt DateTime @default(now())
+
+  @@index([action])
+  @@index([createdAt])
+}
+
+enum AlertStatus {
+  OPEN
+  ACKNOWLEDGED
+  RESOLVED
+}
+
+model OperationsAlert {
+  id        String      @id @default(cuid())
+  type      String // 신고·등록 만료/사업장 주소 변경/직업상담원 변경/제휴 계약 만료/보증보험 갱신/위치정보 약관 개정/자격·교육 만료/OTAC 라이선스 만료/PoC KPI 이상
+  message   String
+  dueDate   DateTime?
+  status    AlertStatus @default(OPEN)
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+
+  @@index([status])
 }

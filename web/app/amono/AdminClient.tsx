@@ -9,6 +9,7 @@ import AdminOpsView from "./AdminOpsView";
 import { LeadsView, InterviewsView, SurveyResponsesView, PocInterestView } from "./LeadCrmView";
 import { SitePrepReviewView } from "./SitePrepReviewView";
 import { AttendanceAdminView } from "./AttendanceAdminView";
+import { ComplianceView, FeatureFlagsView, FieldPassOpsView, AuditLogsView, AlertsView } from "./ComplianceOpsView";
 
 interface Overview {
   counts: {
@@ -64,7 +65,7 @@ interface AdminEvent {
   createdAt: string;
 }
 
-type Tab = "overview" | "foreman" | "users" | "events" | "jobposts" | "industry" | "workrequests" | "reviews" | "poc" | "foreign" | "ops" | "community" | "bm-leads" | "candidates" | "teams" | "leads" | "interviews" | "surveys" | "poc-interest" | "site-prep" | "attendances";
+type Tab = "overview" | "foreman" | "users" | "events" | "jobposts" | "industry" | "workrequests" | "reviews" | "poc" | "foreign" | "ops" | "community" | "bm-leads" | "candidates" | "teams" | "leads" | "interviews" | "surveys" | "poc-interest" | "site-prep" | "attendances" | "compliance" | "feature-flags" | "field-pass-ops" | "audit-logs" | "alerts";
 
 interface AdminBMInquiry {
   id: string;
@@ -528,7 +529,7 @@ export function AdminClient() {
     else if (tab === "bm-leads") void loadBmLeads();
     else if (tab === "candidates") void loadCandidates();
     else if (tab === "teams") void loadTeams();
-    else if (tab === "leads" || tab === "interviews" || tab === "surveys" || tab === "poc-interest" || tab === "foreign" || tab === "community" || tab === "ops" || tab === "site-prep" || tab === "attendances") {
+    else if (tab === "leads" || tab === "interviews" || tab === "surveys" || tab === "poc-interest" || tab === "foreign" || tab === "community" || tab === "ops" || tab === "site-prep" || tab === "attendances" || tab === "compliance" || tab === "feature-flags" || tab === "field-pass-ops" || tab === "audit-logs" || tab === "alerts") {
       /* 자체 fetch 컴포넌트 — 탭 전환/컴포넌트 자체 새로고침으로 갱신 */
     } else if (tab === "foreman") {
       void loadForemanReqs();
@@ -574,6 +575,11 @@ export function AdminClient() {
             { k: "teams", t: "팀 관리" },
             { k: "site-prep", t: "현장 준비 서류 검토" },
             { k: "attendances", t: "출근 관리" },
+            { k: "compliance", t: "컴플라이언스" },
+            { k: "feature-flags", t: "기능 플래그" },
+            { k: "field-pass-ops", t: "Field Pass 운영" },
+            { k: "audit-logs", t: "감사로그" },
+            { k: "alerts", t: "알림" },
             { k: "reviews", t: "평가" },
             { k: "poc", t: "PoC 리포트" },
             { k: "foreign", t: "외국인 인력" },
@@ -607,6 +613,11 @@ export function AdminClient() {
         {tab === "teams" && <TeamsView rows={teams} loading={loading && !teams} />}
         {tab === "site-prep" && <SitePrepReviewView />}
         {tab === "attendances" && <AttendanceAdminView />}
+        {tab === "compliance" && <ComplianceView />}
+        {tab === "feature-flags" && <FeatureFlagsView />}
+        {tab === "field-pass-ops" && <FieldPassOpsView />}
+        {tab === "audit-logs" && <AuditLogsView />}
+        {tab === "alerts" && <AlertsView />}
         {tab === "reviews" && <ReviewsView rows={reviews} loading={loading && !reviews} />}
         {tab === "poc" && <PocView data={pocReport} loading={loading && !pocReport} />}
         {tab === "foreign" && <ForeignAdminView />}

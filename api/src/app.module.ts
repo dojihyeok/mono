@@ -21,6 +21,7 @@ import { ReferralsModule } from './referrals/referrals.module';
 import { RiskModule } from './risk/risk.module';
 import { CommunityModule } from './community/community.module';
 import { BmModule } from './bm/bm.module';
+import { AmonoModule } from './amono/amono.module';
 
 @Controller()
 class HealthController {
@@ -53,6 +54,7 @@ class HealthController {
     RiskModule,
     CommunityModule,
     BmModule,
+    AmonoModule,
   ],
   controllers: [HealthController],
 })
