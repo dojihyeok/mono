@@ -133,11 +133,17 @@ export type AnalyticsEventName =
   | "bm_decision_recorded"
   | "bm_unit_economics_updated"
   | "bm_compliance_gate_opened"
-  | "bm_expansion_roadmap_opened";
+  | "bm_expansion_roadmap_opened"
+  // /service 서비스 소개 웹(서비스 소개 웹 개발 요청서 v1.0 §11)
+  | "service_page_viewed"
+  | "service_primary_cta_clicked"
+  | "service_enterprise_cta_clicked"
+  | "service_field_pass_clicked"
+  | "service_faq_opened";
 
 // 정본 이벤트 카탈로그(PDF #1 6장 기준). 관리자 화면·문서의 단일 출처.
 // Record<AnalyticsEventName,...> 라 union 과 항상 동기화됨(누락 시 컴파일 에러).
-export type EventCategory = "signup" | "profile" | "interest" | "return" | "company" | "work" | "foreign" | "bm";
+export type EventCategory = "signup" | "profile" | "interest" | "return" | "company" | "work" | "foreign" | "bm" | "service";
 
 export const EVENT_CATALOG: Record<
   AnalyticsEventName,
@@ -271,6 +277,12 @@ export const EVENT_CATALOG: Record<
   bm_unit_economics_updated: { category: "bm", label: "Unit Economics 갱신" },
   bm_compliance_gate_opened: { category: "bm", label: "Compliance Gates 조회" },
   bm_expansion_roadmap_opened: { category: "bm", label: "확장 로드맵 펼침" },
+  // /service 서비스 소개 웹
+  service_page_viewed: { category: "service", label: "/service 페이지 조회" },
+  service_primary_cta_clicked: { category: "service", label: "MONO 시작하기 CTA 클릭" },
+  service_enterprise_cta_clicked: { category: "service", label: "기업용 MONO CTA 클릭" },
+  service_field_pass_clicked: { category: "service", label: "Field Pass 자세히 보기 클릭" },
+  service_faq_opened: { category: "service", label: "FAQ 항목 펼침" },
 };
 
 export interface LoggedEvent {
