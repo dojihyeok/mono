@@ -384,6 +384,24 @@ export function AdminClient() {
     [loadJobPosts],
   );
 
+  // 크롤링 공고 검수 대기(PENDING) 전체 일괄 승인
+  const bulkApproveCrawled = useCallback(async () => {
+    const targets = (jobposts ?? []).filter((j) => j.source !== "PARTNER" && j.status === "PENDING");
+    if (targets.length === 0) return;
+    if (!window.confirm(`크롤링 검수 대기 ${targets.length}건을 전체 승인할까요? 승인하면 사용자 앱에 바로 노출됩니다.`)) return;
+    setJobposts((p) => (p ? p.map((j) => (targets.some((t) => t.id === j.id) ? { ...j, status: "OPEN" } : j)) : p));
+    await Promise.all(
+      targets.map((j) =>
+        fetch(`/api/admin/job-posts/${j.id}/status`, {
+          method: "PATCH",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ status: "OPEN" }),
+        }).catch(() => {}),
+      ),
+    );
+    void loadJobPosts();
+  }, [jobposts, loadJobPosts]);
+
   const loadForemanReqs = useCallback(async () => {
     setLoading(true);
     try {
@@ -613,7 +631,7 @@ export function AdminClient() {
         {tab === "foreman" && <ForemanView rows={foremanReqs} loading={loading && !foremanReqs} onApprove={approveForeman} onReject={rejectForeman} />}
         {tab === "users" && <UsersView rows={users} loading={loading && !users} />}
         {tab === "workrequests" && <WorkRequestsView rows={workRequests} loading={loading && !workRequests} onStatus={setWrStatus} />}
-        {tab === "jobposts" && <JobPostsView rows={jobposts} loading={loading && !jobposts} onStatus={setJobPostStatus} />}
+        {tab === "jobposts" && <JobPostsView rows={jobposts} loading={loading && !jobposts} onStatus={setJobPostStatus} onBulkApprove={bulkApproveCrawled} />}
         {tab === "leads" && <LeadsView />}
         {tab === "interviews" && <InterviewsView />}
         {tab === "surveys" && <SurveyResponsesView />}
@@ -1024,10 +1042,12 @@ function JobPostsView({
   rows,
   loading,
   onStatus,
+  onBulkApprove,
 }: {
   rows: AdminJobPost[] | null;
   loading: boolean;
   onStatus: (id: string, status: "OPEN" | "CLOSED" | "PENDING") => void;
+  onBulkApprove: () => void;
 }) {
   const [expanded, setExpanded] = useState<Set<string>>(new Set());
   if (loading) return <div className={styles.loading}>채용 공고를 불러오는 중…</div>;
@@ -1036,9 +1056,16 @@ function JobPostsView({
   const crawledPending = rows.filter((j) => j.source !== "PARTNER" && j.status === "PENDING").length;
   return (
     <>
-      <div className={styles.sectionTitle}>
-        채용 공고 {rows.length}건 · 승인 시 기술자에게 노출
-        {crawledPending > 0 && ` · 크롤링 검수 대기 ${crawledPending}건`}
+      <div className={styles.sectionTitle} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "10px", flexWrap: "wrap" }}>
+        <span>
+          채용 공고 {rows.length}건 · 승인 시 기술자에게 노출
+          {crawledPending > 0 && ` · 크롤링 검수 대기 ${crawledPending}건`}
+        </span>
+        {crawledPending > 0 && (
+          <button className={styles.filterChip} onClick={onBulkApprove}>
+            크롤링 검수 대기 {crawledPending}건 전체 승인
+          </button>
+        )}
       </div>
       <div className={styles.tableWrap}>
         <table className={styles.table}>
