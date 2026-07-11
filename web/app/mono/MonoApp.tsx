@@ -2663,14 +2663,12 @@ export default function MonoApp() {
               <span style={{ fontSize: "14.5px", fontWeight: "900", color: "#1e293b" }}>🚦 현장 준비 서류</span>
               <button onClick={() => setOpenDocs(true)} style={{ background: "none", border: "none", color: "#4f46e5", fontSize: "13px", fontWeight: "850", cursor: "pointer" }}>서류 등록하기 →</button>
             </div>
-            <div style={{ fontSize: "12px", color: "#64748b", fontWeight: "650", marginBottom: "14px" }}>제출하면 관리자 검토 후 승인됩니다.</div>
-
             <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
               {[
-                { key: "idCard", label: "신분증 제출 완료", desc: "본인 확인 및 증빙용" },
-                { key: "safetyEdu", label: "기초안전보건교육 이수증", desc: "건설현장 필수 교육 이수" },
-                { key: "elecCard", label: "건설근로자 전자카드", desc: "출퇴근 기록 및 퇴직공제 적립" },
-                { key: "bankAcc", label: "급여 받을 계좌 등록", desc: "노무비 받을 금액용 본인 계좌" }
+                { key: "idCard", label: "신분증" },
+                { key: "safetyEdu", label: "안전교육" },
+                { key: "elecCard", label: "전자카드" },
+                { key: "bankAcc", label: "계좌" }
               ].map((item) => {
                 const status = prepStatusOf(item.key);
                 const badge = status === "VERIFIED"
@@ -2688,11 +2686,8 @@ export default function MonoApp() {
                       borderRadius: "12px", border: `1px solid ${badge.border}`, background: badge.bg,
                     }}
                   >
-                    <div style={{ flex: 1 }}>
-                      <div style={{ fontSize: "13px", fontWeight: "900", color: status === "VERIFIED" ? "#166534" : "#475569" }}>{item.label}</div>
-                      <div style={{ fontSize: "11px", color: "#64748b", marginTop: "1px" }}>{item.desc}</div>
-                    </div>
-                    <div style={{ fontSize: "12px", fontWeight: "800", color: badge.color, flexShrink: 0 }}>{badge.text}</div>
+                    <div style={{ flex: 1, fontSize: "14.5px", fontWeight: "900", color: status === "VERIFIED" ? "#166534" : "#475569" }}>{item.label}</div>
+                    <div style={{ fontSize: "13px", fontWeight: "800", color: badge.color, flexShrink: 0 }}>{badge.text}</div>
                   </div>
                 );
               })}
@@ -3294,10 +3289,7 @@ export default function MonoApp() {
         <div onClick={() => setOpenDocs(false)} style={{ position: "absolute", inset: "0", zIndex: "60", background: "rgba(20,22,48,.55)", backdropFilter: "blur(3px)", display: "flex", alignItems: "flex-end", animation: "fadeIn .2s ease" }}>
           <div onClick={(e) => e.stopPropagation()} style={{ width: "100%", background: "#fff", borderRadius: "28px 28px 0 0", padding: "24px 20px 28px", animation: "sheetUp .32s cubic-bezier(.22,1,.36,1)", maxHeight: "90%", display: "flex", flexDirection: "column" }}>
             <div style={{ width: "40px", height: "4px", borderRadius: "2px", background: "#d4dae3", margin: "0 auto 16px" }}></div>
-            <div style={{ fontSize: "20px", fontWeight: "900", color: "var(--c1,#1F2226)" }}>🚧 일하기 전 필수 서류 간편 등록</div>
-            <div style={{ fontSize: "14px", color: "#5b6b82", fontWeight: "700", marginTop: "6px", marginBottom: "20px", lineHeight: "1.5", wordBreak: "keep-all" }}>
-              현장 출근 및 노무비 지급을 위해 아래 서류를 제출해주세요. 제출 후 관리자 검토를 거쳐 승인됩니다.
-            </div>
+            <div style={{ fontSize: "20px", fontWeight: "900", color: "var(--c1,#1F2226)", marginBottom: "20px" }}>🚧 필수 서류 등록</div>
 
             <div className="scr" style={{ overflowY: "auto", flex: 1, display: "flex", flexDirection: "column", gap: "14px" }}>
 
@@ -3305,19 +3297,19 @@ export default function MonoApp() {
               <div>
                 <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
                   {[
-                    { key: "idCard", label: "🪪 주민등록증 / 운전면허증" },
-                    { key: "safetyEdu", label: "🔰 기초안전보건교육 이수증" },
-                    { key: "elecCard", label: "💳 건설근로자 전자카드" },
-                    { key: "bankAcc", label: "🏦 급여 받을 계좌 등록" },
-                    { key: "medCheck", label: "🩺 배치전 건강검진 진단서" },
-                    { key: "gateCard", label: "🔑 현장 출입카드" },
-                    { key: "safetyGear", label: "🥾 개인 안전장비 (안전화)" }
+                    { key: "idCard", label: "🪪 신분증" },
+                    { key: "safetyEdu", label: "🔰 안전교육" },
+                    { key: "elecCard", label: "💳 전자카드" },
+                    { key: "bankAcc", label: "🏦 계좌" },
+                    { key: "medCheck", label: "🩺 건강검진" },
+                    { key: "gateCard", label: "🔑 출입카드" },
+                    { key: "safetyGear", label: "🥾 안전화" }
                   ].map((doc) => {
                     const status = prepStatusOf(doc.key);
-                    const statusText = status === "VERIFIED" ? "✅ 서류 등록 및 승인 완료"
-                      : status === "SUBMITTED" ? "⏳ 제출 완료 · 관리자 검토중"
-                      : status === "REJECTED" ? `⚠️ 반려됨${prepMemoOf(doc.key) ? `: ${prepMemoOf(doc.key)}` : ""}`
-                      : "❌ 제출된 서류 없음 (제출 필요)";
+                    const statusText = status === "VERIFIED" ? "✅ 승인완료"
+                      : status === "SUBMITTED" ? "⏳ 검토중"
+                      : status === "REJECTED" ? `⚠️ 반려${prepMemoOf(doc.key) ? `: ${prepMemoOf(doc.key)}` : ""}`
+                      : "미제출";
                     const statusColor = status === "VERIFIED" ? "#166534" : status === "SUBMITTED" ? "#92400e" : status === "REJECTED" ? "#991b1b" : "#8694a8";
                     const bg = status === "VERIFIED" ? "#f0fdf4" : status === "SUBMITTED" ? "#fffbeb" : status === "REJECTED" ? "#fef2f2" : "#fff";
                     const border = status === "VERIFIED" ? "#a7f3d0" : status === "SUBMITTED" ? "#fde68a" : status === "REJECTED" ? "#fecaca" : "#e6e8ec";
