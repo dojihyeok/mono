@@ -79,6 +79,7 @@ const HYPOTHESIS_SCENARIO_MAP: Record<string, string> = {
   'Partner Workspace': 'workspace',
   'MONO Field Pass': 'field-pass',
   '외국인 허브': 'foreign-hub',
+  '검증 프로필·팀 데이터': 'profile-trust',
 };
 function scenarioForHypothesis(name: string): string {
   return HYPOTHESIS_SCENARIO_MAP[name] ?? 'all';

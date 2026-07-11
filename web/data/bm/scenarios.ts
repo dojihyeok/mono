@@ -38,6 +38,14 @@ export const SCENARIO_PRESETS: BMScenario[] = [
     assumptionVersion: 'v1.3',
   },
   {
+    id: 'profile-trust',
+    name: '검증 프로필·팀 데이터',
+    linkedBmId: 'profile-access',
+    defaultInputs: DEFAULT_INPUTS,
+    enabledFeatures: ['trust'],
+    assumptionVersion: 'v1.3',
+  },
+  {
     id: 'all',
     name: '전체 BM 진화',
     linkedBmId: 'all',
