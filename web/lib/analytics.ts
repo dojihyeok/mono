@@ -154,11 +154,16 @@ export type AnalyticsEventName =
   | "job_applied"
   | "enterprise_lead_submitted"
   | "poc_requested"
-  | "referral_shared";
+  | "referral_shared"
+  // 비공개 데이터룸(투자·TIPS 자료)
+  | "dataroom_page_viewed"
+  | "dataroom_founder_profile_clicked"
+  | "dataroom_team_readiness_viewed"
+  | "dataroom_document_requested";
 
 // 정본 이벤트 카탈로그(PDF #1 6장 기준). 관리자 화면·문서의 단일 출처.
 // Record<AnalyticsEventName,...> 라 union 과 항상 동기화됨(누락 시 컴파일 에러).
-export type EventCategory = "signup" | "profile" | "interest" | "return" | "company" | "work" | "foreign" | "bm" | "service" | "partner" | "marketing";
+export type EventCategory = "signup" | "profile" | "interest" | "return" | "company" | "work" | "foreign" | "bm" | "service" | "partner" | "marketing" | "dataroom";
 
 export const EVENT_CATALOG: Record<
   AnalyticsEventName,
@@ -313,6 +318,11 @@ export const EVENT_CATALOG: Record<
   enterprise_lead_submitted: { category: "marketing", label: "기업 리드 제출(캠페인 유입)" },
   poc_requested: { category: "marketing", label: "PoC 신청(캠페인 유입)" },
   referral_shared: { category: "marketing", label: "추천 링크 생성·공유" },
+  // 비공개 데이터룸
+  dataroom_page_viewed: { category: "dataroom", label: "데이터룸 조회" },
+  dataroom_founder_profile_clicked: { category: "dataroom", label: "대표자 프로필 링크 클릭" },
+  dataroom_team_readiness_viewed: { category: "dataroom", label: "Team Readiness 조회" },
+  dataroom_document_requested: { category: "dataroom", label: "추가 자료 요청" },
 };
 
 export interface LoggedEvent {
