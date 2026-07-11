@@ -104,12 +104,13 @@ async function extractBandSingle(page) {
   await page.waitForTimeout(1500);
   const raw = await page.evaluate(() => document.body.innerText);
 
-  if (/멤버만\s*볼\s*수\s*있습니다/.test(raw)) {
+  // "게시글은 멤버만 볼 수 있습니다"는 밴드 소개란에 항상 붙는 고정 문구라(멤버여도 보임)
+  // 실제 접근 차단 여부는 본문 시작 마커("글 옵션")가 있는지로 판단해야 한다.
+  const optIdx = raw.indexOf("글 옵션");
+  if (optIdx < 0) {
     throw new Error("멤버 전용 글 — 이 밴드 멤버로 가입/로그인된 세션이 필요함");
   }
-
-  const optIdx = raw.indexOf("글 옵션");
-  const afterStart = optIdx >= 0 ? raw.slice(optIdx + 4) : raw;
+  const afterStart = raw.slice(optIdx + 4);
   const endIdx = afterStart.search(/\n\s*표정짓기/);
   const body = (endIdx >= 0 ? afterStart.slice(0, endIdx) : afterStart).trim();
 
@@ -135,13 +136,36 @@ async function extractBandSingle(page) {
   };
 }
 
+const LIST_TARGET_COUNT = Number(process.env.CRAWL_LIST_LIMIT) || 100;
+
+function normalizeBandUrl(h) {
+  const path = h.startsWith("http") ? h.replace(/^https?:\/\/[^/]+/, "") : h;
+  // band.us(대표 도메인)과 www.band.us는 쿠키 스코프가 달라 세션이 안 먹을 수 있어
+  // 로그인 세션이 실제로 저장된 www.band.us로 항상 통일한다.
+  return `https://www.band.us${path}`;
+}
+
+async function collectPostUrls(page, bandId) {
+  const hrefs = await page.$$eval("a[href*='/post/']", (as) => as.map((a) => a.getAttribute("href")));
+  return hrefs.map(normalizeBandUrl).filter((h) => h.includes(`/band/${bandId}/post/`));
+}
+
 async function listBandPostUrls(page, bandId) {
   await page.waitForTimeout(2000);
-  const hrefs = await page.$$eval("a[href*='/post/']", (as) => as.map((a) => a.getAttribute("href")));
-  const abs = hrefs
-    .map((h) => (h.startsWith("http") ? h : `https://www.band.us${h}`))
-    .filter((h) => h.includes(`/band/${bandId}/post/`));
-  return [...new Set(abs)];
+  const found = new Set(await collectPostUrls(page, bandId));
+
+  // 밴드 목록은 무한스크롤이라 스크롤해야 더 로드된다. 목표 개수에 도달하거나,
+  // 연속으로 스크롤해도 새 글이 안 늘어나면(끝까지 본 것) 중단한다.
+  let stagnantRounds = 0;
+  for (let round = 0; round < 40 && found.size < LIST_TARGET_COUNT && stagnantRounds < 4; round++) {
+    const before = found.size;
+    await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+    await page.waitForTimeout(1200);
+    for (const u of await collectPostUrls(page, bandId)) found.add(u);
+    stagnantRounds = found.size > before ? 0 : stagnantRounds + 1;
+  }
+
+  return [...found].slice(0, LIST_TARGET_COUNT);
 }
 
 async function submit(record, source, sourceUrl) {
