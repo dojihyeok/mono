@@ -159,7 +159,18 @@ export type AnalyticsEventName =
   | "dataroom_page_viewed"
   | "dataroom_founder_profile_clicked"
   | "dataroom_team_readiness_viewed"
-  | "dataroom_document_requested";
+  | "dataroom_document_requested"
+  // /bm, /bm/simulator (내부 BM 검증 페이지 개선 개발 요청서 v1.3 §19)
+  | "bm_simulator_link_clicked"
+  | "bm_scenario_summary_viewed"
+  | "bm_scenario_decision_created"
+  | "simulator_viewed"
+  | "simulator_scenario_loaded"
+  | "simulator_input_changed"
+  | "simulator_feature_toggled"
+  | "simulator_saved"
+  | "simulator_shared"
+  | "simulator_returned_to_bm";
 
 // 정본 이벤트 카탈로그(PDF #1 6장 기준). 관리자 화면·문서의 단일 출처.
 // Record<AnalyticsEventName,...> 라 union 과 항상 동기화됨(누락 시 컴파일 에러).
@@ -323,6 +334,17 @@ export const EVENT_CATALOG: Record<
   dataroom_founder_profile_clicked: { category: "dataroom", label: "대표자 프로필 링크 클릭" },
   dataroom_team_readiness_viewed: { category: "dataroom", label: "Team Readiness 조회" },
   dataroom_document_requested: { category: "dataroom", label: "추가 자료 요청" },
+  // /bm, /bm/simulator
+  bm_simulator_link_clicked: { category: "bm", label: "시뮬레이터 진입 링크 클릭" },
+  bm_scenario_summary_viewed: { category: "bm", label: "Scenario Summary 조회" },
+  bm_scenario_decision_created: { category: "bm", label: "시뮬레이션 근거 의사결정 기록" },
+  simulator_viewed: { category: "bm", label: "시뮬레이터 조회" },
+  simulator_scenario_loaded: { category: "bm", label: "시뮬레이터 시나리오 프리셋 로드" },
+  simulator_input_changed: { category: "bm", label: "시뮬레이터 입력값 변경" },
+  simulator_feature_toggled: { category: "bm", label: "시뮬레이터 기능 트리거 토글" },
+  simulator_saved: { category: "bm", label: "시뮬레이터 시나리오 저장" },
+  simulator_shared: { category: "bm", label: "시뮬레이터 URL 공유" },
+  simulator_returned_to_bm: { category: "bm", label: "시뮬레이터에서 /bm 복귀" },
 };
 
 export interface LoggedEvent {

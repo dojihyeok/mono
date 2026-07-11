@@ -2,6 +2,9 @@
 
 import { useState, useEffect } from 'react';
 import { track } from '@/lib/analytics';
+import { loadSavedScenarios, fmtWon } from '@/lib/bm/simulator-engine';
+import { SCENARIO_PRESETS } from '@/data/bm/scenarios';
+import type { SavedScenario } from '@/types/bm';
 
 // ─────────────────────────────────────────────
 // Types
@@ -69,6 +72,25 @@ function Badge({ badge }: { badge: BadgeStyle }) {
 function evidenceBadgeFor(level: string): BadgeStyle {
   return EVIDENCE_BADGE[level.toLowerCase() as EvidenceType] ?? EVIDENCE_BADGE.hypothesis;
 }
+
+// BM 가설명 → /bm/simulator 시나리오 프리셋 매핑(v1.3 §5)
+const HYPOTHESIS_SCENARIO_MAP: Record<string, string> = {
+  '급구 현장 공고': 'urgent-posting',
+  'Partner Workspace': 'workspace',
+  'MONO Field Pass': 'field-pass',
+  '외국인 허브': 'foreign-hub',
+};
+function scenarioForHypothesis(name: string): string {
+  return HYPOTHESIS_SCENARIO_MAP[name] ?? 'all';
+}
+
+// 시뮬레이터 Assumption 상태 배지(v1.3 §18) — BM 카드의 Evidence 배지와는 다른 별도 어휘
+const ASSUMPTION_BADGE: Record<string, BadgeStyle> = {
+  hypothesis: { label: 'HYPOTHESIS', color: '#64748b', bg: '#f8fafc', border: '#e2e8f0' },
+  benchmark: { label: 'BENCHMARK', color: '#166534', bg: '#f0fdf4', border: '#bbf7d0' },
+  estimated: { label: 'ESTIMATED', color: '#1d4ed8', bg: '#eff6ff', border: '#bfdbfe' },
+  observed: { label: 'OBSERVED', color: '#7c3aed', bg: '#f5f3ff', border: '#ddd6fe' },
+};
 
 const HYPOTHESIS_STATUS_BADGE: Record<string, BadgeStyle> = {
   P0_NOW: { label: 'P0 NOW', color: '#b91c1c', bg: '#fef2f2', border: '#fecaca' },
@@ -2462,6 +2484,7 @@ export default function BmBoard({ role }: { role: 'admin' | 'mentor' }) {
   const [decisions, setDecisions] = useState<BmDecisionLogData[]>([]);
   const [nextActions, setNextActions] = useState<BmNextActionData[]>([]);
   const [revenueObjectives, setRevenueObjectives] = useState<BmRevenueObjectiveData[]>(SEED_REVENUE_OBJECTIVES);
+  const [savedScenarios, setSavedScenarios] = useState<SavedScenario[]>([]);
 
   const reloadHypotheses = () => fetch('/api/bm/hypotheses', { cache: 'no-store' }).then((r) => r.json()).then((d) => { if (Array.isArray(d) && d.length > 0) setHypotheses(d); }).catch(() => undefined);
   const reloadExperiments = () => fetch('/api/bm/experiments', { cache: 'no-store' }).then((r) => r.json()).then((d) => { if (Array.isArray(d)) setExperiments(d); }).catch(() => undefined);
@@ -2475,6 +2498,7 @@ export default function BmBoard({ role }: { role: 'admin' | 'mentor' }) {
     reloadDecisions();
     reloadNextActions();
     reloadRevenueObjectives();
+    setSavedScenarios(loadSavedScenarios());
     track('bm_page_viewed', {});
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -2516,12 +2540,10 @@ export default function BmBoard({ role }: { role: 'admin' | 'mentor' }) {
       .then(reloadNextActions);
   };
 
-  const advanceExperimentStage = (exp: BmExperimentData) => {
+  const updateExperimentStage = (id: string, stage: string) => {
     if (isMentor) return;
-    const idx = EXPERIMENT_STAGES.indexOf(exp.stage as typeof EXPERIMENT_STAGES[number]);
-    const next = EXPERIMENT_STAGES[Math.min(idx + 1, EXPERIMENT_STAGES.length - 1)];
-    fetch(`/api/bm/experiments/${exp.id}`, { method: 'PATCH', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ stage: next }) })
-      .then(() => { track('bm_experiment_completed', { experimentId: exp.id, stage: next }); reloadExperiments(); });
+    fetch(`/api/bm/experiments/${id}`, { method: 'PATCH', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ stage }) })
+      .then(() => { track('bm_experiment_completed', { experimentId: id, stage }); reloadExperiments(); });
   };
 
   const toggleFeature = (feat: string) => {
@@ -3222,6 +3244,31 @@ export default function BmBoard({ role }: { role: 'admin' | 'mentor' }) {
           </div>
         </section>
 
+        {/* ── Strategic Validation (v1.3 §3.2) — 매출과 직접 연결되지 않는 기술·대기업·파트너십 검증 ── */}
+        <section style={{ marginBottom: 32 }}>
+          <div style={{ fontSize: 13, fontWeight: 850, color: '#4f46e5', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 4 }}>
+            Strategic Validation
+          </div>
+          <p style={{ fontSize: 12.5, color: '#94a3b8', fontWeight: 650, margin: '0 0 12px 0' }}>
+            Revenue Objective(직접 매출)와 혼동하지 않는 기술·대기업·파트너십 장기 해자 검증 항목입니다.
+          </p>
+          <div style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: 14, padding: '16px 18px' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+              {[
+                '센스톤 OTAC 기술 적합성 확인',
+                'Field Pass PoC 후보 1곳 확보',
+                '구매부서·예산 확인',
+                '기술협력 또는 PoC 문서 1건',
+              ].map((item) => (
+                <div key={item} style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 13, color: '#334155', fontWeight: 650 }}>
+                  <span style={{ color: '#4f46e5' }}>▸</span>
+                  <span>{item}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
         {/* ── Active BM Hypotheses (v1.2 §5, §6) ── */}
         <section id="core-bm" style={{ marginBottom: 32, scrollMarginTop: 70 }}>
           <div style={{ fontSize: 13, fontWeight: 850, color: '#4f46e5', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 12 }}>
@@ -3263,6 +3310,13 @@ export default function BmBoard({ role }: { role: 'admin' | 'mentor' }) {
                   {h.failureCriteria && <div>🛑 실패 기준: <strong>{h.failureCriteria}</strong></div>}
                   <div style={{ fontSize: 11, color: '#94a3b8' }}>담당자: {h.owner}{h.dueDate ? ` · 마감 ${h.dueDate.slice(0, 10)}` : ''}</div>
                 </div>
+                <a
+                  href={`/bm/simulator?scenario=${scenarioForHypothesis(h.name)}`}
+                  onClick={(e) => { e.stopPropagation(); track('bm_simulator_link_clicked', { hypothesisId: h.id, scenario: scenarioForHypothesis(h.name) }); }}
+                  style={{ marginTop: 4, fontSize: 12.5, fontWeight: 800, color: '#1d4ed8', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 4 }}
+                >
+                  📊 수익 시뮬레이션 →
+                </a>
               </div>
             ))}
           </div>
@@ -3327,69 +3381,93 @@ export default function BmBoard({ role }: { role: 'admin' | 'mentor' }) {
               <button onClick={submitNewExperiment} style={{ padding: '7px 16px', background: '#4f46e5', color: '#fff', border: 'none', borderRadius: 8, fontSize: 12.5, fontWeight: 800, cursor: 'pointer' }}>등록</button>
             </div>
           )}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 10 }}>
-            {EXPERIMENT_STAGES.map((stage) => (
-              <div key={stage} style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: 12, padding: 10, display: 'flex', flexDirection: 'column', gap: 8, minHeight: 120 }}>
-                <div style={{ fontSize: 11, fontWeight: 900, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{stage}</div>
-                {experiments.filter((e) => e.stage === stage).map((e) => {
-                  const parent = hypotheses.find((h) => h.id === e.hypothesisId);
-                  return (
-                    <div key={e.id} style={{ background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: 10, padding: '10px 12px', display: 'flex', flexDirection: 'column', gap: 4 }}>
-                      <div style={{ fontSize: 12.5, fontWeight: 850, color: '#0f172a' }}>{e.title}</div>
-                      {parent && <div style={{ fontSize: 11, color: '#4f46e5', fontWeight: 700 }}>{parent.name}</div>}
-                      {e.successCriteria && <div style={{ fontSize: 11, color: '#64748b' }}>기준: {e.successCriteria}</div>}
-                      {!isMentor && stage !== 'COMPLETED' && (
-                        <button onClick={() => advanceExperimentStage(e)} style={{ marginTop: 4, fontSize: 11, fontWeight: 800, color: '#4f46e5', background: 'transparent', border: 'none', cursor: 'pointer', textAlign: 'left', padding: 0 }}>
-                          다음 단계로 →
-                        </button>
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* ── Unit Economics (v1.2 §10) ── */}
-        <section style={{ background: '#ffffff', border: '2px solid #cbd5e1', borderRadius: 16, padding: 28, marginBottom: 32, boxShadow: '0 4px 20px rgba(0,0,0,0.02)' }}>
-          <div style={{ fontSize: 13, fontWeight: 850, color: '#4f46e5', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 4 }}>
-            Unit Economics
-          </div>
-          <p style={{ fontSize: 13, color: '#64748b', fontWeight: 650, margin: '0 0 16px 0', lineHeight: 1.5 }}>
-            초기 값은 가설로 표시합니다. {isMentor ? '멘토 권한에서는 수치가 마스킹됩니다.' : ''}
-          </p>
-          {isMentor ? (
-            <div style={{ fontSize: 13, color: '#94a3b8', fontWeight: 700 }}>🔒 권한 필요 — Unit Economics는 관리자만 조회할 수 있습니다.</div>
+          {experiments.length === 0 ? (
+            <div style={{ background: '#f8fafc', border: '1.5px dashed #cbd5e1', borderRadius: 12, padding: 24, textAlign: 'center', color: '#94a3b8', fontSize: 13 }}>
+              등록된 실험이 없습니다. &quot;+ 실험 추가&quot;로 첫 실험을 등록해보세요.
+            </div>
           ) : (
             <div style={{ overflowX: 'auto' }}>
               <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 12.5 }}>
                 <thead>
                   <tr style={{ borderBottom: '2px solid #e2e8f0', textAlign: 'left' }}>
-                    {['BM', '가격', '직접원가', 'CAC', 'Gross Margin', 'MRR', '이탈률', '예상 LTV', '회수기간'].map((h) => (
-                      <th key={h} style={{ padding: '8px 10px', color: '#64748b', fontWeight: 800, whiteSpace: 'nowrap' }}>{h}</th>
+                    {['BM', '현재 실험', '상태', '성공 기준', '시뮬레이션'].map((h) => (
+                      <th key={h} style={{ padding: '8px 10px', color: '#94a3b8', fontWeight: 800, whiteSpace: 'nowrap' }}>{h}</th>
                     ))}
                   </tr>
                 </thead>
                 <tbody>
-                  {hypotheses.map((h) => {
-                    const u = h.unitEconomics ?? {};
+                  {experiments.map((e) => {
+                    const parent = hypotheses.find((h) => h.id === e.hypothesisId);
                     return (
-                      <tr key={h.id} style={{ borderBottom: '1px solid #f1f5f9' }}>
-                        <td style={{ padding: '8px 10px', fontWeight: 800, color: '#0f172a' }}>{h.name}</td>
-                        <td style={{ padding: '8px 10px' }}>{u.price ?? '가설'}</td>
-                        <td style={{ padding: '8px 10px' }}>{u.directCost ?? '가설'}</td>
-                        <td style={{ padding: '8px 10px' }}>{u.cac ?? '가설'}</td>
-                        <td style={{ padding: '8px 10px' }}>{u.grossMargin ?? '가설'}</td>
-                        <td style={{ padding: '8px 10px' }}>{u.mrr ?? '가설'}</td>
-                        <td style={{ padding: '8px 10px' }}>{u.churnRate ?? '가설'}</td>
-                        <td style={{ padding: '8px 10px' }}>{u.expectedLtv ?? '가설'}</td>
-                        <td style={{ padding: '8px 10px' }}>{u.paybackPeriod ?? '가설'}</td>
+                      <tr key={e.id} style={{ borderBottom: '1px solid #f1f5f9' }}>
+                        <td style={{ padding: '9px 10px', fontWeight: 800, color: '#0f172a', whiteSpace: 'nowrap' }}>{parent?.name ?? '-'}</td>
+                        <td style={{ padding: '9px 10px', color: '#334155', fontWeight: 650 }}>{e.title}</td>
+                        <td style={{ padding: '9px 10px' }}>
+                          {isMentor ? (
+                            <span style={{ fontSize: 11, fontWeight: 800, color: '#4f46e5' }}>{e.stage}</span>
+                          ) : (
+                            <select
+                              value={e.stage}
+                              onChange={(ev) => updateExperimentStage(e.id, ev.target.value)}
+                              style={{ fontSize: 11, fontWeight: 800, border: '1px solid #e2e8f0', borderRadius: 6, padding: '3px 6px', color: '#334155' }}
+                            >
+                              {EXPERIMENT_STAGES.map((s) => <option key={s} value={s}>{s}</option>)}
+                            </select>
+                          )}
+                        </td>
+                        <td style={{ padding: '9px 10px', color: '#64748b' }}>{e.successCriteria || '-'}</td>
+                        <td style={{ padding: '9px 10px' }}>
+                          {parent ? (
+                            <a
+                              href={`/bm/simulator?scenario=${scenarioForHypothesis(parent.name)}`}
+                              onClick={() => track('bm_simulator_link_clicked', { hypothesisId: parent.id, scenario: scenarioForHypothesis(parent.name), source: 'experiment_board' })}
+                              style={{ fontSize: 12, fontWeight: 800, color: '#1d4ed8', textDecoration: 'none' }}
+                            >
+                              열기 →
+                            </a>
+                          ) : '-'}
+                        </td>
                       </tr>
                     );
                   })}
                 </tbody>
               </table>
+            </div>
+          )}
+        </section>
+
+        {/* ── Scenario Summary (v1.3 §7, 구 Unit Economics v1.2 §10) ── */}
+        <section
+          style={{ background: '#ffffff', border: '2px solid #cbd5e1', borderRadius: 16, padding: 28, marginBottom: 32, boxShadow: '0 4px 20px rgba(0,0,0,0.02)' }}
+          onMouseEnter={() => track('bm_scenario_summary_viewed', {})}
+        >
+          <div style={{ fontSize: 13, fontWeight: 850, color: '#4f46e5', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 4 }}>
+            Scenario Summary
+          </div>
+          <p style={{ fontSize: 13, color: '#64748b', fontWeight: 650, margin: '0 0 16px 0', lineHeight: 1.5 }}>
+            /bm/simulator에서 저장한 시나리오 결과입니다. 값은 계산 가정치이며, 실제 결제·계약 데이터로 검증되기 전까지는 BENCHMARK/HYPOTHESIS 상태입니다.
+          </p>
+          {savedScenarios.length === 0 ? (
+            <div style={{ background: '#f8fafc', border: '1.5px dashed #cbd5e1', borderRadius: 12, padding: 24, textAlign: 'center', color: '#94a3b8', fontSize: 13 }}>
+              저장된 시나리오가 없습니다. BM 카드의 &quot;수익 시뮬레이션 →&quot;에서 시나리오를 만들고 저장해보세요.
+            </div>
+          ) : (
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 12 }}>
+              {savedScenarios.slice(0, 9).map((s) => (
+                <div key={s.id} style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: 14, padding: 16, display: 'flex', flexDirection: 'column', gap: 6 }}>
+                  <div style={{ fontSize: 13.5, fontWeight: 900, color: '#0f172a' }}>{s.name}</div>
+                  <div style={{ fontSize: 20, fontWeight: 950, color: '#1d4ed8' }}>{fmtWon(s.arr)}<span style={{ fontSize: 11, color: '#94a3b8', fontWeight: 650 }}> ARR</span></div>
+                  <div style={{ fontSize: 11.5, color: '#64748b' }}>월 {fmtWon(s.monthly)}</div>
+                  <Badge badge={ASSUMPTION_BADGE[s.assumptionStatus] ?? ASSUMPTION_BADGE.hypothesis} />
+                  <div style={{ fontSize: 10.5, color: '#94a3b8' }}>마지막 저장: {s.updatedAt.slice(0, 10)}</div>
+                  <a
+                    href={`/bm/simulator?scenario=${SCENARIO_PRESETS.find((p) => p.linkedBmId === s.linkedBm)?.id ?? 'all'}`}
+                    style={{ marginTop: 4, fontSize: 12, fontWeight: 800, color: '#1d4ed8', textDecoration: 'none' }}
+                  >
+                    열기 →
+                  </a>
+                </div>
+              ))}
             </div>
           )}
         </section>
