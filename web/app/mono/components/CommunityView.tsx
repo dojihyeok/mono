@@ -64,6 +64,9 @@ export default function CommunityView({ userId }: { userId: string }) {
   const [comments, setComments] = useState<Comment[]>([]);
   const [newComment, setNewComment] = useState("");
   const [writeOpen, setWriteOpen] = useState(false);
+  // 대형 현장방(PRIME)에서만 의미 있는 선택: 정량 평가로 남길지, 자유 글로 남길지.
+  // choose = 아직 선택 전(진입 화면), review = 평가하기, free = 자유 글쓰기.
+  const [writeMode, setWriteMode] = useState<"choose" | "review" | "free">("free");
   const [reportOpen, setReportOpen] = useState(false);
   const [reportReason, setReportReason] = useState("");
 
@@ -183,7 +186,7 @@ export default function CommunityView({ userId }: { userId: string }) {
           title: cleanTitle,
           content: cleanContent,
           authorId: userId,
-          ratings: activeTab === "PRIME" ? ratings : undefined,
+          ratings: activeTab === "PRIME" && writeMode === "review" ? ratings : undefined,
         }),
       });
 
@@ -545,7 +548,10 @@ export default function CommunityView({ userId }: { userId: string }) {
       {/* Floating write button */}
       {activeTab !== "CHAT" && (
         <button
-          onClick={() => setWriteOpen(true)}
+          onClick={() => {
+            setWriteMode(activeTab === "PRIME" ? "choose" : "free");
+            setWriteOpen(true);
+          }}
           style={{
             position: "absolute",
             bottom: "94px",
@@ -574,18 +580,40 @@ export default function CommunityView({ userId }: { userId: string }) {
         <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.5)", zIndex: 100, display: "flex", alignItems: "flex-end", justifyContent: "center" }}>
           <div style={{ background: "#fff", width: "100%", maxWidth: "480px", borderTopLeftRadius: "24px", borderTopRightRadius: "24px", padding: "24px", display: "flex", flexDirection: "column", maxHeight: "88vh", overflowY: "auto", animation: "slideUp 0.3s ease" }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
-              <span style={{ fontSize: "18px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>{activeTab === "PRIME" ? "대형 현장방 평가 작성" : "커뮤니티 글쓰기"}</span>
+              <span style={{ fontSize: "18px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>
+                {writeMode === "choose" ? "무엇을 남기시겠어요?" : writeMode === "review" ? "대형 현장방 평가 작성" : "커뮤니티 글쓰기"}
+              </span>
               <button onClick={() => setWriteOpen(false)} style={{ border: "none", background: "none", fontSize: "16px", cursor: "pointer", color: "#8694a8" }}>닫기</button>
             </div>
 
+            {writeMode === "choose" ? (
+              <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                <button
+                  type="button"
+                  onClick={() => setWriteMode("review")}
+                  style={{ textAlign: "left", padding: "16px", border: "1.5px solid #e6e8ec", borderRadius: "16px", background: "#f8f9fc", cursor: "pointer" }}
+                >
+                  <div style={{ fontSize: "15px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>⭐ 현장 평가하기</div>
+                  <div style={{ fontSize: "12.5px", color: "#8694a8", fontWeight: "600", marginTop: "4px" }}>출근·식사·숙소 등 7개 항목을 1~5점으로 남겨요.</div>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setWriteMode("free")}
+                  style={{ textAlign: "left", padding: "16px", border: "1.5px solid #e6e8ec", borderRadius: "16px", background: "#fff", cursor: "pointer" }}
+                >
+                  <div style={{ fontSize: "15px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>✏️ 자유 글쓰기</div>
+                  <div style={{ fontSize: "12.5px", color: "#8694a8", fontWeight: "600", marginTop: "4px" }}>질문이나 소식을 평가 없이 자유롭게 남겨요.</div>
+                </button>
+              </div>
+            ) : (
             <form onSubmit={handleWriteSubmit} style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
               <div>
                 <label style={{ fontSize: "12.5px", fontWeight: "700", color: "#5b6b82", display: "block", marginBottom: "6px" }}>채널</label>
                 <div style={{ fontSize: "14px", fontWeight: "800", color: "var(--c1,#4f46e5)" }}>{activeTab === "PRIME" ? "대형 원청 현장방" : activeTab === "REGION" ? "지역 특화방" : "직무 전문 정보방"} &gt; {subChannel}</div>
               </div>
 
-              {/* Prime structured ratings block */}
-              {activeTab === "PRIME" && (
+              {/* Prime structured ratings block — "평가하기"를 선택했을 때만 노출 */}
+              {writeMode === "review" && (
                 <div style={{ background: "#f8f9fc", borderRadius: "18px", padding: "16px", display: "flex", flexDirection: "column", gap: "12px" }}>
                   <div style={{ fontSize: "13.5px", fontWeight: "800", color: "var(--c1,#1F2226)", marginBottom: "4px" }}>📊 현장 정량 평가 (1~5점)</div>
                   {[
@@ -647,6 +675,7 @@ export default function CommunityView({ userId }: { userId: string }) {
                 게시물 등록하기
               </button>
             </form>
+            )}
           </div>
         </div>
       )}
