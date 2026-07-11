@@ -69,42 +69,63 @@
 }
 
 /* 탭 */
-.tabs {
+/* 좌측 사이드바 + 본문 레이아웃 */
+.layout {
   display: flex;
-  gap: 4px;
-  padding: 0 24px;
-  border-bottom: 1px solid #e5e9f0;
-  background: rgba(255, 255, 255, 0.92);
+  align-items: flex-start;
+}
+
+.sidebar {
+  flex: none;
+  width: 220px;
   position: sticky;
   top: 63px;
-  z-index: 19;
+  height: calc(100dvh - 63px);
+  overflow-y: auto;
+  padding: 16px 10px 40px;
+  border-right: 1px solid #e5e9f0;
+  background: rgba(255, 255, 255, 0.92);
+}
+.sidebarGroupTitle {
+  padding: 14px 10px 6px;
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: #9aa3b2;
+}
+.sidebarGroupTitle:first-child {
+  padding-top: 4px;
 }
 .tab {
   position: relative;
-  padding: 13px 14px;
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 9px 10px;
+  border-radius: 8px;
   background: none;
   border: none;
-  color: #6b7686;
+  color: #4b5565;
   font-size: 13.5px;
   font-weight: 700;
   font-family: inherit;
   cursor: pointer;
 }
-.tabActive {
-  color: #111827;
+.tab:hover {
+  background: #f1f2f8;
 }
-.tabActive::after {
-  content: "";
-  position: absolute;
-  left: 8px;
-  right: 8px;
-  bottom: -1px;
-  height: 2px;
-  border-radius: 2px;
+.tabActive {
+  color: #fff;
+  background: var(--brand,#504968);
+}
+.tabActive:hover {
   background: var(--brand,#504968);
 }
 
 .container {
+  flex: 1;
+  min-width: 0;
   max-width: 1120px;
   margin: 0 auto;
   padding: 22px 24px 60px;

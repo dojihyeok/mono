@@ -584,48 +584,79 @@ export function AdminClient() {
         </button>
       </header>
 
-      <nav className={styles.tabs}>
-        {(
-          [
-            { k: "overview", t: "Overview" },
-            { k: "bm-leads", t: "B2B 리드" },
-            { k: "industry", t: "산업·유형" },
-            { k: "foreman", t: "반장 승인" },
-            { k: "users", t: "기술자" },
-            { k: "workrequests", t: "작업요청" },
-            { k: "jobposts", t: "채용 공고" },
-            { k: "leads", t: "리드 관리" },
-            { k: "interviews", t: "인터뷰 관리" },
-            { k: "surveys", t: "설문 응답 관리" },
-            { k: "poc-interest", t: "PoC 관심 관리" },
-            { k: "candidates", t: "후보 관리" },
-            { k: "teams", t: "팀 관리" },
-            { k: "site-prep", t: "현장 준비 서류 검토" },
-            { k: "attendances", t: "출근 관리" },
-            { k: "compliance", t: "컴플라이언스" },
-            { k: "feature-flags", t: "기능 플래그" },
-            { k: "field-pass-ops", t: "Field Pass 운영" },
-            { k: "audit-logs", t: "감사로그" },
-            { k: "alerts", t: "알림" },
-            { k: "reviews", t: "평가" },
-            { k: "poc", t: "PoC 리포트" },
-            { k: "foreign", t: "외국인 인력" },
-            { k: "community", t: "커뮤니티 관리" },
-            { k: "ops", t: "운영·관심" },
-            { k: "events", t: "이벤트 로그" },
-          ] as { k: Tab; t: string }[]
-        ).map((x) => (
-          <button
-            key={x.k}
-            className={`${styles.tab} ${tab === x.k ? styles.tabActive : ""}`}
-            onClick={() => setTab(x.k)}
-          >
-            {x.t}
-          </button>
-        ))}
-      </nav>
+      <div className={styles.layout}>
+        <aside className={styles.sidebar}>
+          {(
+            [
+              { title: null, tabs: [{ k: "overview", t: "Overview" }] },
+              {
+                title: "인력 운영",
+                tabs: [
+                  { k: "users", t: "기술자" },
+                  { k: "foreman", t: "반장 승인" },
+                  { k: "teams", t: "팀 관리" },
+                  { k: "candidates", t: "후보 관리" },
+                  { k: "foreign", t: "외국인 인력" },
+                  { k: "site-prep", t: "현장 준비 서류 검토" },
+                  { k: "attendances", t: "출근 관리" },
+                ],
+              },
+              {
+                title: "공고·매칭",
+                tabs: [
+                  { k: "jobposts", t: "채용 공고" },
+                  { k: "workrequests", t: "작업요청" },
+                  { k: "industry", t: "산업·유형" },
+                ],
+              },
+              {
+                title: "영업·CRM",
+                tabs: [
+                  { k: "bm-leads", t: "B2B 리드" },
+                  { k: "leads", t: "리드 관리" },
+                  { k: "interviews", t: "인터뷰 관리" },
+                  { k: "surveys", t: "설문 응답 관리" },
+                  { k: "poc-interest", t: "PoC 관심 관리" },
+                  { k: "poc", t: "PoC 리포트" },
+                ],
+              },
+              {
+                title: "거버넌스",
+                tabs: [
+                  { k: "compliance", t: "컴플라이언스" },
+                  { k: "feature-flags", t: "기능 플래그" },
+                  { k: "field-pass-ops", t: "Field Pass 운영" },
+                  { k: "audit-logs", t: "감사로그" },
+                  { k: "alerts", t: "알림" },
+                ],
+              },
+              {
+                title: "커뮤니티·기타",
+                tabs: [
+                  { k: "community", t: "커뮤니티 관리" },
+                  { k: "reviews", t: "평가" },
+                  { k: "ops", t: "운영·관심" },
+                  { k: "events", t: "이벤트 로그" },
+                ],
+              },
+            ] as { title: string | null; tabs: { k: Tab; t: string }[] }[]
+          ).map((group, i) => (
+            <div key={group.title ?? `g${i}`}>
+              {group.title && <div className={styles.sidebarGroupTitle}>{group.title}</div>}
+              {group.tabs.map((x) => (
+                <button
+                  key={x.k}
+                  className={`${styles.tab} ${tab === x.k ? styles.tabActive : ""}`}
+                  onClick={() => setTab(x.k)}
+                >
+                  {x.t}
+                </button>
+              ))}
+            </div>
+          ))}
+        </aside>
 
-      <main className={styles.container}>
+        <main className={styles.container}>
         {tab === "overview" && <OverviewView data={overview} loading={loading && !overview} />}
         {tab === "industry" && <IndustryView data={overview} loading={loading && !overview} />}
         {tab === "foreman" && <ForemanView rows={foremanReqs} loading={loading && !foremanReqs} onApprove={approveForeman} onReject={rejectForeman} />}
@@ -794,7 +825,8 @@ export function AdminClient() {
             </div>
           </>
         )}
-      </main>
+        </main>
+      </div>
     </div>
   );
 }
