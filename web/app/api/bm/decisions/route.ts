@@ -1,9 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getBmRole, unauthorized, forbiddenForMentor, BM_API } from '@/lib/bmProxy';
+import { BM_API } from '@/lib/bmProxy';
 
 export async function GET(req: NextRequest) {
-  const role = await getBmRole(req);
-  if (!role) return unauthorized();
   const qs = req.nextUrl.search;
   const res = await fetch(`${BM_API}/bm/decisions${qs}`, { cache: 'no-store' });
   const data = await res.json().catch(() => []);
@@ -11,9 +9,6 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
-  const role = await getBmRole(req);
-  if (!role) return unauthorized();
-  if (role !== 'admin') return forbiddenForMentor();
   const body = await req.json().catch(() => ({}));
   const res = await fetch(`${BM_API}/bm/decisions`, {
     method: 'POST',

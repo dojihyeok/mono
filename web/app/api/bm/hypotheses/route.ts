@@ -1,19 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getBmRole, unauthorized, forbiddenForMentor, maskHypothesisForRole, BM_API } from '@/lib/bmProxy';
+import { BM_API } from '@/lib/bmProxy';
 
-export async function GET(req: NextRequest) {
-  const role = await getBmRole(req);
-  if (!role) return unauthorized();
+export async function GET() {
   const res = await fetch(`${BM_API}/bm/hypotheses`, { cache: 'no-store' });
   const data = await res.json().catch(() => []);
-  const masked = Array.isArray(data) ? data.map((h) => maskHypothesisForRole(h, role)) : data;
-  return NextResponse.json(masked, { status: res.status });
+  return NextResponse.json(data, { status: res.status });
 }
 
 export async function POST(req: NextRequest) {
-  const role = await getBmRole(req);
-  if (!role) return unauthorized();
-  if (role !== 'admin') return forbiddenForMentor();
   const body = await req.json().catch(() => ({}));
   const res = await fetch(`${BM_API}/bm/hypotheses`, {
     method: 'POST',

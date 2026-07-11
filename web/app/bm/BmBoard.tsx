@@ -3119,9 +3119,6 @@ export default function BmBoard({ role }: { role: 'admin' | 'mentor' }) {
               <span style={{ fontSize: 12, fontWeight: 800, color: '#4f46e5', background: 'rgba(79,70,229,0.08)', padding: '3px 12px', borderRadius: 999, border: '1px solid rgba(79,70,229,0.2)' }}>
                 내부용
               </span>
-              <span style={{ fontSize: 11.5, fontWeight: 800, color: isMentor ? '#9333ea' : '#166534', background: isMentor ? '#faf5ff' : '#f0fdf4', padding: '3px 10px', borderRadius: 999, border: `1px solid ${isMentor ? 'rgba(147,51,234,0.25)' : 'rgba(22,101,52,0.2)'}` }}>
-                {isMentor ? '멘토 · 읽기 전용' : '관리자'}
-              </span>
             </div>
             <div style={{ display: 'flex', gap: 8 }}>
               <button
@@ -3135,12 +3132,6 @@ export default function BmBoard({ role }: { role: 'admin' | 'mentor' }) {
                 style={{ padding: '10px 20px', background: 'linear-gradient(135deg, #4f46e5, #3730a3)', border: 'none', borderRadius: 10, fontSize: 14, fontWeight: 800, cursor: 'pointer', color: '#ffffff', boxShadow: '0 4px 12px rgba(79,70,229,0.2)' }}
               >
                 경쟁사 상세 분석 ↓
-              </button>
-              <button
-                onClick={() => { fetch('/api/bm/logout', { method: 'POST' }).then(() => { window.location.href = '/bm/login'; }); }}
-                style={{ padding: '10px 16px', background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: 10, fontSize: 13, fontWeight: 700, cursor: 'pointer', color: '#94a3b8' }}
-              >
-                로그아웃
               </button>
             </div>
           </div>

@@ -41,12 +41,6 @@ export default function DataroomClient() {
               비공개 · 투자자 전용
             </span>
           </div>
-          <button
-            onClick={() => { fetch('/api/dataroom/logout', { method: 'POST' }).then(() => { window.location.href = '/dataroom/login'; }); }}
-            style={{ padding: '8px 16px', background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.15)', borderRadius: 8, fontSize: 12.5, fontWeight: 700, color: '#cbd5e1', cursor: 'pointer' }}
-          >
-            로그아웃
-          </button>
         </div>
       </header>
 

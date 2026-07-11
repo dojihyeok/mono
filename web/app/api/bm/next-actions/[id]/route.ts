@@ -1,10 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getBmRole, unauthorized, forbiddenForMentor, BM_API } from '@/lib/bmProxy';
+import { BM_API } from '@/lib/bmProxy';
 
 export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
-  const role = await getBmRole(req);
-  if (!role) return unauthorized();
-  if (role !== 'admin') return forbiddenForMentor();
   const body = await req.json().catch(() => ({}));
   const res = await fetch(`${BM_API}/bm/next-actions/${params.id}`, {
     method: 'PATCH',
@@ -15,10 +12,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
   return NextResponse.json(data, { status: res.status });
 }
 
-export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
-  const role = await getBmRole(req);
-  if (!role) return unauthorized();
-  if (role !== 'admin') return forbiddenForMentor();
+export async function DELETE(_req: NextRequest, { params }: { params: { id: string } }) {
   const res = await fetch(`${BM_API}/bm/next-actions/${params.id}`, { method: 'DELETE' });
   const data = await res.json().catch(() => ({}));
   return NextResponse.json(data, { status: res.status });
