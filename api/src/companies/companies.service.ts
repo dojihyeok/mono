@@ -175,7 +175,8 @@ export class CompaniesService {
         conditions: true,
         status: true,
         createdAt: true,
-        company: { select: { name: true, region: true } },
+        source: true,
+        company: { select: { name: true, region: true, contactPhone: true } },
       },
     });
   }

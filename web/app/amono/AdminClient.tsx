@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { Fragment, useCallback, useEffect, useMemo, useState } from "react";
 import styles from "./admin.module.css";
 import { EVENT_CATALOG, type AnalyticsEventName, type EventCategory } from "@/lib/analytics";
 import { CAREER_BAND_LABEL, INTEREST_FEATURES } from "@/lib/constants";
@@ -174,8 +174,17 @@ interface AdminJobPost {
   region: string[];
   status: string;
   createdAt: string;
-  company: { name: string } | null;
+  company: { name: string; contactPhone: string } | null;
+  source: string;
+  sourceUrl: string | null;
+  sourceRawText: string | null;
 }
+
+const JOBPOST_SOURCE: Record<string, string> = {
+  PARTNER: "파트너",
+  CRAWLED_CAFE: "카페",
+  CRAWLED_BAND: "밴드",
+};
 
 const JOBPOST_STATUS: Record<string, { label: string; cls: string }> = {
   PENDING: { label: "승인 대기", cls: "catProfile" },
@@ -1020,18 +1029,24 @@ function JobPostsView({
   loading: boolean;
   onStatus: (id: string, status: "OPEN" | "CLOSED" | "PENDING") => void;
 }) {
+  const [expanded, setExpanded] = useState<Set<string>>(new Set());
   if (loading) return <div className={styles.loading}>채용 공고를 불러오는 중…</div>;
   if (!rows) return <div className={styles.empty}>데이터를 불러오지 못했습니다.</div>;
   if (rows.length === 0) return <div className={styles.empty}>등록된 채용 공고가 없습니다.</div>;
+  const crawledPending = rows.filter((j) => j.source !== "PARTNER" && j.status === "PENDING").length;
   return (
     <>
-      <div className={styles.sectionTitle}>채용 공고 {rows.length}건 · 승인 시 기술자에게 노출</div>
+      <div className={styles.sectionTitle}>
+        채용 공고 {rows.length}건 · 승인 시 기술자에게 노출
+        {crawledPending > 0 && ` · 크롤링 검수 대기 ${crawledPending}건`}
+      </div>
       <div className={styles.tableWrap}>
         <table className={styles.table}>
           <thead>
             <tr>
               <th>공고</th>
-              <th>기업</th>
+              <th>출처</th>
+              <th>기업/연락처</th>
               <th>직군</th>
               <th>인원</th>
               <th>상태</th>
@@ -1039,33 +1054,68 @@ function JobPostsView({
             </tr>
           </thead>
           <tbody>
-            {rows.map((j) => (
-              <tr key={j.id}>
-                <td style={{ fontWeight: 700 }}>{j.title}</td>
-                <td>{j.company?.name ?? "—"}</td>
-                <td className={styles.mono}>{j.jobType.join(", ")}</td>
-                <td className={styles.countCell}>{j.headcount ?? "—"}</td>
-                <td>
-                  <span className={`${styles.catBadge} ${jobBadgeClass(j.status)}`}>
-                    {JOBPOST_STATUS[j.status]?.label ?? j.status}
-                  </span>
-                </td>
-                <td>
-                  <div style={{ display: "flex", gap: "6px" }}>
-                    {j.status !== "OPEN" && (
-                      <button className={styles.filterChip} onClick={() => onStatus(j.id, "OPEN")}>
-                        승인
-                      </button>
-                    )}
-                    {j.status !== "CLOSED" && (
-                      <button className={styles.filterChip} onClick={() => onStatus(j.id, "CLOSED")}>
-                        마감
-                      </button>
-                    )}
-                  </div>
-                </td>
-              </tr>
-            ))}
+            {rows.map((j) => {
+              const isExpanded = expanded.has(j.id);
+              return (
+                <Fragment key={j.id}>
+                  <tr>
+                    <td
+                      style={{ fontWeight: 700, cursor: j.sourceRawText ? "pointer" : undefined }}
+                      onClick={() => {
+                        if (!j.sourceRawText) return;
+                        setExpanded((prev) => {
+                          const next = new Set(prev);
+                          next.has(j.id) ? next.delete(j.id) : next.add(j.id);
+                          return next;
+                        });
+                      }}
+                    >
+                      {j.title} {j.sourceRawText && (isExpanded ? "▲" : "▼ 원문보기")}
+                    </td>
+                    <td>
+                      <span className={styles.catBadge}>{JOBPOST_SOURCE[j.source] ?? j.source}</span>
+                    </td>
+                    <td>
+                      {j.company?.name ?? "—"}
+                      {j.company?.contactPhone ? ` · ${j.company.contactPhone}` : ""}
+                    </td>
+                    <td className={styles.mono}>{j.jobType.join(", ")}</td>
+                    <td className={styles.countCell}>{j.headcount ?? "—"}</td>
+                    <td>
+                      <span className={`${styles.catBadge} ${jobBadgeClass(j.status)}`}>
+                        {JOBPOST_STATUS[j.status]?.label ?? j.status}
+                      </span>
+                    </td>
+                    <td>
+                      <div style={{ display: "flex", gap: "6px" }}>
+                        {j.status !== "OPEN" && (
+                          <button className={styles.filterChip} onClick={() => onStatus(j.id, "OPEN")}>
+                            승인
+                          </button>
+                        )}
+                        {j.status !== "CLOSED" && (
+                          <button className={styles.filterChip} onClick={() => onStatus(j.id, "CLOSED")}>
+                            마감
+                          </button>
+                        )}
+                        {j.sourceUrl && (
+                          <a className={styles.filterChip} href={j.sourceUrl} target="_blank" rel="noreferrer">
+                            원문 링크
+                          </a>
+                        )}
+                      </div>
+                    </td>
+                  </tr>
+                  {isExpanded && j.sourceRawText && (
+                    <tr>
+                      <td colSpan={7} style={{ background: "#f8fafc", whiteSpace: "pre-wrap", fontSize: "12.5px", color: "#475569", padding: "12px 14px" }}>
+                        {j.sourceRawText}
+                      </td>
+                    </tr>
+                  )}
+                </Fragment>
+              );
+            })}
           </tbody>
         </table>
       </div>

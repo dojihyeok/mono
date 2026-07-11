@@ -29,7 +29,7 @@ export interface Notification {
 export interface JobPost {
   id: string;
   companyId: string;
-  company?: { name: string };
+  company?: { name: string; contactPhone?: string };
   title: string;
   jobType: string[];
   headcount?: number | null;
@@ -42,6 +42,7 @@ export interface JobPost {
   foreignAllowed: boolean;
   requiredVisaTypes: string[];
   interpreterProvided: boolean;
+  source?: "PARTNER" | "CRAWLED_CAFE" | "CRAWLED_BAND";
   createdAt: string;
   updatedAt: string;
 }

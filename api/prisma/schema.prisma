@@ -194,6 +194,13 @@ enum JobPostStatus {
   CLOSED // 마감
 }
 
+// 공고 출처 — 파트너 직접 등록 vs 외부 카페/밴드 크롤링
+enum JobPostSource {
+  PARTNER // 파트너(기업)가 직접 등록
+  CRAWLED_CAFE // 네이버 카페 크롤링
+  CRAWLED_BAND // 네이버 밴드 크롤링
+}
+
 model Company {
   id           String         @id @default(cuid())
   name         String // 회사명
@@ -242,6 +249,11 @@ model JobPost {
   // ── BM 검증(P0-1) — 급구 공고 과금 대상 실필드화 ──
   isUrgent            Boolean       @default(false) // 급구 공고(상단 노출 과금 대상)
   siteType            JobSiteType? // 오늘 현장 / 대형 현장 분류
+  // ── 외부 카페/밴드 크롤링 출처 ──
+  source              JobPostSource @default(PARTNER)
+  sourceUrl           String?       @unique // 원문 게시글 URL(중복 수집 방지)
+  sourceRawText       String? // 원문 텍스트(관리자 검수용)
+  sourcePostedAt      DateTime? // 원문 게시 일시
   createdAt           DateTime      @default(now())
   updatedAt           DateTime      @updatedAt
 

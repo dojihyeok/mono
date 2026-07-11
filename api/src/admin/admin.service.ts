@@ -20,6 +20,7 @@ import { CreateInterviewDto } from './dto/create-interview.dto';
 import { UpdateInterviewDto } from './dto/update-interview.dto';
 import { CreateSurveyResponseDto } from './dto/create-survey-response.dto';
 import { ReviewSitePrepDto } from './dto/review-site-prep.dto';
+import { CreateCrawledJobPostDto } from './dto/create-crawled-job-post.dto';
 
 // 운영 콘솔(/amono)용 집계·조회. 현재는 기술자(User) 도메인 기준.
 // 기업·공고 카운트는 /partner 도메인 구현 후 채워진다(지금은 0).
@@ -238,7 +239,7 @@ export class AdminService {
   listJobPosts() {
     return this.prisma.jobPost.findMany({
       orderBy: { createdAt: 'desc' },
-      include: { company: { select: { name: true } } },
+      include: { company: { select: { name: true, contactPhone: true } } },
     });
   }
 
@@ -257,6 +258,44 @@ export class AdminService {
       }
       throw e;
     }
+  }
+
+  // 외부 카페/밴드 크롤링 공고 등록 — sourceUrl 중복이면 기존 건 반환(재수집 시 upsert), 아니면
+  // 작성자명/연락처로 가상 Company를 찾거나 만들어 그 아래 JobPost(PENDING)를 생성한다.
+  async createCrawledJobPost(dto: CreateCrawledJobPostDto) {
+    const existing = await this.prisma.jobPost.findUnique({ where: { sourceUrl: dto.sourceUrl } });
+    if (existing) return existing;
+
+    let company = dto.posterPhone
+      ? await this.prisma.company.findFirst({ where: { contactPhone: dto.posterPhone } })
+      : null;
+    if (!company) {
+      company = await this.prisma.company.create({
+        data: {
+          name: dto.posterName,
+          contactName: dto.posterName,
+          contactPhone: dto.posterPhone || '',
+          memo: `[크롤링 자동생성] ${dto.source === 'CRAWLED_CAFE' ? '네이버 카페' : '네이버 밴드'} 게시글에서 수집된 인력사무소/현장 공고 출처`,
+        },
+      });
+    }
+
+    return this.prisma.jobPost.create({
+      data: {
+        companyId: company.id,
+        title: dto.title,
+        jobType: dto.jobType,
+        region: dto.region,
+        period: dto.period,
+        conditions: dto.conditions,
+        isUrgent: dto.isUrgent ?? false,
+        status: 'PENDING',
+        source: dto.source,
+        sourceUrl: dto.sourceUrl,
+        sourceRawText: dto.sourceRawText,
+        sourcePostedAt: dto.sourcePostedAt ? new Date(dto.sourcePostedAt) : undefined,
+      },
+    });
   }
 
   // 작업요청 관리 — 전체 요청(요청자명·산업·상태) 최신순 (§6.4)

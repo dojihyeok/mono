@@ -1092,11 +1092,18 @@ export default function MonoApp() {
                 <span style={{ fontSize: "12px", fontWeight: "800", color: "#2563eb", background: "#eff6ff", padding: "4px 10px", borderRadius: "8px" }}>
                   {jp.jobType?.[0] || "기술 조공"}
                 </span>
-                
-                {/* 신뢰 배지 */}
-                <span style={{ marginLeft: "auto", fontSize: "12.5px", fontWeight: "800", color: "#10b981", display: "flex", alignItems: "center", gap: "3px" }}>
-                  ✓ {isLarge ? "기업 준비 상태 완료" : "현장 확인 완료"}
-                </span>
+                {(jp.source === "CRAWLED_CAFE" || jp.source === "CRAWLED_BAND") && (
+                  <span style={{ fontSize: "12px", fontWeight: "800", color: "#92400e", background: "#fffbeb", padding: "4px 10px", borderRadius: "8px" }}>
+                    {jp.source === "CRAWLED_CAFE" ? "📋 카페 공고" : "📋 밴드 공고"}
+                  </span>
+                )}
+
+                {/* 신뢰 배지 — MONO가 직접 확인한 파트너 공고에만 표시 */}
+                {jp.source !== "CRAWLED_CAFE" && jp.source !== "CRAWLED_BAND" && (
+                  <span style={{ marginLeft: "auto", fontSize: "12.5px", fontWeight: "800", color: "#10b981", display: "flex", alignItems: "center", gap: "3px" }}>
+                    ✓ {isLarge ? "기업 준비 상태 완료" : "현장 확인 완료"}
+                  </span>
+                )}
               </div>
 
               {/* 현장 정보 */}
@@ -1111,48 +1118,67 @@ export default function MonoApp() {
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
                   <span style={{ fontSize: "14.5px", color: "#8694a8", fontWeight: "750" }}>하루 일당 (하루 단가)</span>
                   <div style={{ textAlign: "right" }}>
-                    <span style={{ fontSize: "22px", color: "#10b981", fontWeight: "950" }}>{jp.conditions || "230,000원"}</span>
-                    <div style={{ fontSize: "12px", color: "#64748b", fontWeight: "700", marginTop: "2px" }}>기본 1공수 / 연장 시 가산금 지급</div>
+                    {jp.conditions ? (
+                      <>
+                        <span style={{ fontSize: "22px", color: "#10b981", fontWeight: "950" }}>{jp.conditions}</span>
+                        <div style={{ fontSize: "12px", color: "#64748b", fontWeight: "700", marginTop: "2px" }}>기본 1공수 / 연장 시 가산금 지급</div>
+                      </>
+                    ) : jp.source === "CRAWLED_CAFE" || jp.source === "CRAWLED_BAND" ? (
+                      <span style={{ fontSize: "16px", color: "#8694a8", fontWeight: "800" }}>전화 문의</span>
+                    ) : (
+                      <span style={{ fontSize: "22px", color: "#10b981", fontWeight: "950" }}>230,000원</span>
+                    )}
                   </div>
                 </div>
 
-                {/* 2. 복리후생 및 현장 환경 그리드 뱃지 */}
-                <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", marginTop: "4px" }}>
-                  {/* 식사 */}
-                  <span style={{ fontSize: "12px", fontWeight: "800", color: "#2563eb", background: "#eff6ff", padding: "4px 10px", borderRadius: "8px" }}>
-                    🍱 {[jp.title, jp.prepare || ""].join(" ").match(/식사|점심|밥/) ? "점심 식사 제공" : "식사 지급"}
-                  </span>
-                  {/* 숙소 */}
-                  <span style={{ fontSize: "12px", fontWeight: "800", color: "#0d9488", background: "#f0fdfa", padding: "4px 10px", borderRadius: "8px" }}>
-                    🏠 {([jp.title, jp.conditions, jp.stay || ""].join(" ").match(/숙소|숙식/)) ? "무료 숙소 지원" : "출퇴근 현장"}
-                  </span>
-                  {/* 이동 */}
-                  <span style={{ fontSize: "12px", fontWeight: "800", color: "#4f46e5", background: "#f5f3ff", padding: "4px 10px", borderRadius: "8px" }}>
-                    🚌 {isLarge ? "통근버스 운행" : "집결지 차량 지원"}
-                  </span>
-                  {/* 안전 */}
-                  <span style={{ fontSize: "12px", fontWeight: "800", color: "#ea580c", background: "#fff7ed", padding: "4px 10px", borderRadius: "8px" }}>
-                    🛡️ {isLarge ? "안전교육 필수 · 보호구 전원 지급" : "보호구 개인 지참 (안전화)"}
-                  </span>
-                  {/* 초보 가능 */}
-                  <span style={{ fontSize: "12px", fontWeight: "800", color: "#059669", background: "#ecfdf5", padding: "4px 10px", borderRadius: "8px" }}>
-                    🔰 {jp.careerBand === "NEWBIE" || jp.careerBand === "ANY" ? "초보·입문 가능" : "경력자 우대"}
-                  </span>
-                  {/* 받을 금액 */}
-                  <span style={{ fontSize: "12px", fontWeight: "800", color: "#475569", background: "#f1f5f9", padding: "4px 10px", borderRadius: "8px" }}>
-                    💳 {isToday ? "당일 즉시 받을 금액" : "익월 15일 주급/월급 받을 금액"}
-                  </span>
-                </div>
+                {(jp.source === "CRAWLED_CAFE" || jp.source === "CRAWLED_BAND") ? (
+                  /* 크롤링 공고는 MONO가 확인한 복리후생 정보가 없으므로 추측 뱃지를 붙이지 않는다 */
+                  jp.period && (
+                    <div style={{ fontSize: "13px", color: "#5b6b82", fontWeight: "700", background: "#f8fafc", padding: "10px 12px", borderRadius: "12px", marginTop: "4px" }}>
+                      {jp.period}
+                    </div>
+                  )
+                ) : (
+                  <>
+                    {/* 2. 복리후생 및 현장 환경 그리드 뱃지 */}
+                    <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", marginTop: "4px" }}>
+                      {/* 식사 */}
+                      <span style={{ fontSize: "12px", fontWeight: "800", color: "#2563eb", background: "#eff6ff", padding: "4px 10px", borderRadius: "8px" }}>
+                        🍱 {[jp.title, jp.prepare || ""].join(" ").match(/식사|점심|밥/) ? "점심 식사 제공" : "식사 지급"}
+                      </span>
+                      {/* 숙소 */}
+                      <span style={{ fontSize: "12px", fontWeight: "800", color: "#0d9488", background: "#f0fdfa", padding: "4px 10px", borderRadius: "8px" }}>
+                        🏠 {([jp.title, jp.conditions, jp.stay || ""].join(" ").match(/숙소|숙식/)) ? "무료 숙소 지원" : "출퇴근 현장"}
+                      </span>
+                      {/* 이동 */}
+                      <span style={{ fontSize: "12px", fontWeight: "800", color: "#4f46e5", background: "#f5f3ff", padding: "4px 10px", borderRadius: "8px" }}>
+                        🚌 {isLarge ? "통근버스 운행" : "집결지 차량 지원"}
+                      </span>
+                      {/* 안전 */}
+                      <span style={{ fontSize: "12px", fontWeight: "800", color: "#ea580c", background: "#fff7ed", padding: "4px 10px", borderRadius: "8px" }}>
+                        🛡️ {isLarge ? "안전교육 필수 · 보호구 전원 지급" : "보호구 개인 지참 (안전화)"}
+                      </span>
+                      {/* 초보 가능 */}
+                      <span style={{ fontSize: "12px", fontWeight: "800", color: "#059669", background: "#ecfdf5", padding: "4px 10px", borderRadius: "8px" }}>
+                        🔰 {jp.careerBand === "NEWBIE" || jp.careerBand === "ANY" ? "초보·입문 가능" : "경력자 우대"}
+                      </span>
+                      {/* 받을 금액 */}
+                      <span style={{ fontSize: "12px", fontWeight: "800", color: "#475569", background: "#f1f5f9", padding: "4px 10px", borderRadius: "8px" }}>
+                        💳 {isToday ? "당일 즉시 받을 금액" : "익월 15일 주급/월급 받을 금액"}
+                      </span>
+                    </div>
 
-                {/* 3. 현장 평판 및 성장성 정보 */}
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", background: "#f8fafc", padding: "10px 12px", borderRadius: "12px", fontSize: "13px", marginTop: "4px" }}>
-                  <span style={{ color: "#475569", fontWeight: "750" }}>
-                    🌟 현장 후기 <strong>4.6</strong> <span style={{ color: "#94a3b8", fontWeight: "600" }}>(재요청 많은 현장)</span>
-                  </span>
-                  <span style={{ color: "#312e81", fontWeight: "850" }}>
-                    🏗️ {isLarge ? "대형 반도체 경력 축적" : "기술 전수 가능 현장"}
-                  </span>
-                </div>
+                    {/* 3. 현장 평판 및 성장성 정보 */}
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", background: "#f8fafc", padding: "10px 12px", borderRadius: "12px", fontSize: "13px", marginTop: "4px" }}>
+                      <span style={{ color: "#475569", fontWeight: "750" }}>
+                        🌟 현장 후기 <strong>4.6</strong> <span style={{ color: "#94a3b8", fontWeight: "600" }}>(재요청 많은 현장)</span>
+                      </span>
+                      <span style={{ color: "#312e81", fontWeight: "850" }}>
+                        🏗️ {isLarge ? "대형 반도체 경력 축적" : "기술 전수 가능 현장"}
+                      </span>
+                    </div>
+                  </>
+                )}
               </div>
 
               {/* 하단 지원 정보 행 */}
@@ -1162,25 +1188,45 @@ export default function MonoApp() {
                   {readinessStatus}
                 </span>
 
-                <button
-                  onClick={(e) => { e.stopPropagation(); track("job_applied", { jobId: jp.id, subTab: jobSubTab }); applyToJob(jp.id); }}
-                  disabled={alreadyApplied}
-                  style={{
-                    height: "46px",
-                    padding: "0 22px",
-                    border: "none",
-                    borderRadius: "12px",
-                    background: alreadyApplied ? "var(--soft,#E5E7EB)" : "var(--c1,#1F2226)",
-                    color: alreadyApplied ? "var(--c1,#1F2226)" : "#fff",
-                    fontSize: "14.5px",
-                    fontWeight: "900",
-                    fontFamily: "inherit",
-                    cursor: alreadyApplied ? "default" : "pointer",
-                    boxShadow: alreadyApplied ? "none" : "0 4px 10px rgba(0,0,0,0.1)"
-                  }}
-                >
-                  {alreadyApplied ? "지원 완료 ✓" : "일할래요! 바로 지원"}
-                </button>
+                {(jp.source === "CRAWLED_CAFE" || jp.source === "CRAWLED_BAND") ? (
+                  jp.company?.contactPhone ? (
+                    <a
+                      href={`tel:${jp.company.contactPhone}`}
+                      onClick={(e) => { e.stopPropagation(); track("job_applied", { jobId: jp.id, subTab: jobSubTab, source: "call" }); }}
+                      style={{
+                        height: "46px", padding: "0 22px", border: "none", borderRadius: "12px",
+                        background: "var(--c1,#1F2226)", color: "#fff",
+                        fontSize: "14.5px", fontWeight: "900", fontFamily: "inherit",
+                        display: "flex", alignItems: "center", textDecoration: "none",
+                        boxShadow: "0 4px 10px rgba(0,0,0,0.1)"
+                      }}
+                    >
+                      📞 전화하기
+                    </a>
+                  ) : (
+                    <span style={{ fontSize: "13px", fontWeight: "800", color: "#8694a8" }}>연락처 없음</span>
+                  )
+                ) : (
+                  <button
+                    onClick={(e) => { e.stopPropagation(); track("job_applied", { jobId: jp.id, subTab: jobSubTab }); applyToJob(jp.id); }}
+                    disabled={alreadyApplied}
+                    style={{
+                      height: "46px",
+                      padding: "0 22px",
+                      border: "none",
+                      borderRadius: "12px",
+                      background: alreadyApplied ? "var(--soft,#E5E7EB)" : "var(--c1,#1F2226)",
+                      color: alreadyApplied ? "var(--c1,#1F2226)" : "#fff",
+                      fontSize: "14.5px",
+                      fontWeight: "900",
+                      fontFamily: "inherit",
+                      cursor: alreadyApplied ? "default" : "pointer",
+                      boxShadow: alreadyApplied ? "none" : "0 4px 10px rgba(0,0,0,0.1)"
+                    }}
+                  >
+                    {alreadyApplied ? "지원 완료 ✓" : "일할래요! 바로 지원"}
+                  </button>
+                )}
               </div>
             </div>
           );
@@ -3056,6 +3102,11 @@ export default function MonoApp() {
                   {(jobDetail.period || "").match(/일당|당일|단기|오늘/) && (
                     <span style={{ fontSize: "11px", fontWeight: "800", color: "#7c3aed", background: "#ede9fe", padding: "2px 8px", borderRadius: "6px" }}>⚡ 오늘 출근</span>
                   )}
+                  {(jobDetail.source === "CRAWLED_CAFE" || jobDetail.source === "CRAWLED_BAND") && (
+                    <span style={{ fontSize: "11px", fontWeight: "800", color: "#92400e", background: "#fffbeb", padding: "2px 8px", borderRadius: "6px" }}>
+                      {jobDetail.source === "CRAWLED_CAFE" ? "📋 카페 공고" : "📋 밴드 공고"}
+                    </span>
+                  )}
                 </div>
                 <div style={{ fontSize: "19px", fontWeight: "800", color: "var(--c1,#1F2226)", lineHeight: "1.35" }}>{jobDetail.title}</div>
                 <div style={{ fontSize: "13px", color: "#8694a8", fontWeight: "600", marginTop: "5px" }}>{jobDetail.company ? jobDetail.company.name : "협약 기업"}{jobDetail.region.length ? " · " + jobDetail.region.join(", ") : ""}</div>
@@ -3198,24 +3249,46 @@ export default function MonoApp() {
 
             </div>
 
-            {/* 3. 즉시 지원 버튼 및 내 지원 상태 */}
-            <button
-              onClick={() => {
-                track("job_applied", { jobId: jobDetail.id, source: "job_detail_overlay" });
-                applyToJob(jobDetail.id);
-              }}
-              disabled={appliedJobs.has(jobDetail.id)}
-              style={{
-                marginTop: "10px", flex: "none", width: "100%", height: "50px", border: "none", borderRadius: "14px",
-                background: appliedJobs.has(jobDetail.id) ? "var(--soft,#E5E7EB)" : "var(--c1,#1F2226)",
-                color: appliedJobs.has(jobDetail.id) ? "var(--c1,#1F2226)" : "#fff",
-                fontSize: "15px", fontWeight: "800", fontFamily: "inherit",
-                cursor: appliedJobs.has(jobDetail.id) ? "default" : "pointer",
-                WebkitTapHighlightColor: "transparent"
-              }}
-            >
-              {appliedJobs.has(jobDetail.id) ? "지원 완료 ✓" : "현장 바로 지원하기"}
-            </button>
+            {/* 3. 즉시 지원 버튼 및 내 지원 상태 — 카페·밴드 외부 공고는 MONO 지원 파이프라인이 없어 바로 전화 연결 */}
+            {(jobDetail.source === "CRAWLED_CAFE" || jobDetail.source === "CRAWLED_BAND") ? (
+              jobDetail.company?.contactPhone ? (
+                <a
+                  href={`tel:${jobDetail.company.contactPhone}`}
+                  onClick={() => track("job_applied", { jobId: jobDetail.id, source: "job_detail_overlay_call" })}
+                  style={{
+                    marginTop: "10px", flex: "none", width: "100%", height: "50px", border: "none", borderRadius: "14px",
+                    background: "var(--c1,#1F2226)", color: "#fff",
+                    fontSize: "15px", fontWeight: "800", fontFamily: "inherit",
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    textDecoration: "none", WebkitTapHighlightColor: "transparent"
+                  }}
+                >
+                  📞 {jobDetail.company.contactPhone}로 전화하기
+                </a>
+              ) : (
+                <div style={{ marginTop: "10px", width: "100%", height: "50px", borderRadius: "14px", background: "#f1f5f9", color: "#8694a8", fontSize: "13.5px", fontWeight: "700", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                  연락처 정보 없음
+                </div>
+              )
+            ) : (
+              <button
+                onClick={() => {
+                  track("job_applied", { jobId: jobDetail.id, source: "job_detail_overlay" });
+                  applyToJob(jobDetail.id);
+                }}
+                disabled={appliedJobs.has(jobDetail.id)}
+                style={{
+                  marginTop: "10px", flex: "none", width: "100%", height: "50px", border: "none", borderRadius: "14px",
+                  background: appliedJobs.has(jobDetail.id) ? "var(--soft,#E5E7EB)" : "var(--c1,#1F2226)",
+                  color: appliedJobs.has(jobDetail.id) ? "var(--c1,#1F2226)" : "#fff",
+                  fontSize: "15px", fontWeight: "800", fontFamily: "inherit",
+                  cursor: appliedJobs.has(jobDetail.id) ? "default" : "pointer",
+                  WebkitTapHighlightColor: "transparent"
+                }}
+              >
+                {appliedJobs.has(jobDetail.id) ? "지원 완료 ✓" : "현장 바로 지원하기"}
+              </button>
+            )}
           </div>
         </div>
       )}

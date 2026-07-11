@@ -1,0 +1,14 @@
+{
+  "name": "mono-job-crawler",
+  "private": true,
+  "version": "1.0.0",
+  "description": "네이버 카페/밴드 구인 공고를 MONO JobPost로 수집하는 관리자 전용 도구",
+  "scripts": {
+    "login:naver": "node login-naver.js",
+    "login:band": "node login-band.js",
+    "crawl": "node crawl.js"
+  },
+  "dependencies": {
+    "playwright-core": "^1.48.0"
+  }
+}

@@ -11,6 +11,7 @@ import { CreateInterviewDto } from './dto/create-interview.dto';
 import { UpdateInterviewDto } from './dto/update-interview.dto';
 import { CreateSurveyResponseDto } from './dto/create-survey-response.dto';
 import { ReviewSitePrepDto } from './dto/review-site-prep.dto';
+import { CreateCrawledJobPostDto } from './dto/create-crawled-job-post.dto';
 
 // 운영 콘솔 BFF(/api/admin/*) → 이 컨트롤러.
 @Controller('admin')
@@ -65,6 +66,12 @@ export class AdminController {
   @Patch('job-posts/:id/status')
   setJobPostStatus(@Param('id') id: string, @Body() dto: JobPostStatusDto) {
     return this.admin.setJobPostStatus(id, dto.status);
+  }
+
+  // 외부 카페/밴드 크롤링 공고 등록(크롤러 스크립트 전용, status PENDING으로 생성)
+  @Post('job-posts/crawled')
+  createCrawledJobPost(@Body() dto: CreateCrawledJobPostDto) {
+    return this.admin.createCrawledJobPost(dto);
   }
 
   // 작업요청 관리 — 목록 + 상태 변경 (§6.4)
