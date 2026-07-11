@@ -57,30 +57,28 @@ export function stageComment(arr: number): string {
   return 'Series A 목표 구간(ARR 20억+) 도달 시나리오입니다. 유료 기업 100~300개사·기술자 5만~10만 명 지표와 교차 검증하십시오.';
 }
 
-// ── localStorage 시나리오 저장 (§11) ──
-const STORAGE_KEY = 'mono.bm.savedScenarios';
-
-export function loadSavedScenarios(): SavedScenario[] {
-  if (typeof window === 'undefined') return [];
+// ── 시나리오 저장 — DB(BmSavedScenario) 기반, 팀 전체가 공유해서 봄(§11 "협업 필요 시 DB 저장으로 확장") ──
+export async function loadSavedScenarios(linkedBm?: string): Promise<SavedScenario[]> {
   try {
-    const raw = window.localStorage.getItem(STORAGE_KEY);
-    return raw ? (JSON.parse(raw) as SavedScenario[]) : [];
+    const qs = linkedBm ? `?linkedBm=${encodeURIComponent(linkedBm)}` : '';
+    const res = await fetch(`/api/bm/scenarios${qs}`, { cache: 'no-store' });
+    const data = await res.json();
+    return Array.isArray(data) ? data : [];
   } catch {
     return [];
   }
 }
 
-export function saveScenario(scenario: SavedScenario): SavedScenario[] {
-  const all = loadSavedScenarios();
-  const idx = all.findIndex((s) => s.id === scenario.id);
-  if (idx >= 0) all[idx] = scenario;
-  else all.unshift(scenario);
-  window.localStorage.setItem(STORAGE_KEY, JSON.stringify(all));
-  return all;
+export async function saveScenario(scenario: Omit<SavedScenario, 'id' | 'createdAt' | 'updatedAt'>): Promise<SavedScenario[]> {
+  await fetch('/api/bm/scenarios', {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify(scenario),
+  });
+  return loadSavedScenarios();
 }
 
-export function deleteScenario(id: string): SavedScenario[] {
-  const all = loadSavedScenarios().filter((s) => s.id !== id);
-  window.localStorage.setItem(STORAGE_KEY, JSON.stringify(all));
-  return all;
+export async function deleteScenario(id: string): Promise<SavedScenario[]> {
+  await fetch(`/api/bm/scenarios/${id}`, { method: 'DELETE' });
+  return loadSavedScenarios();
 }

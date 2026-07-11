@@ -51,7 +51,7 @@ function SimulatorInner() {
 
   useEffect(() => {
     track('simulator_viewed', {});
-    setSaved(loadSavedScenarios());
+    loadSavedScenarios().then(setSaved);
   }, []);
 
   // 입력값 변경 시 URL 반영(§10)
@@ -77,9 +77,7 @@ function SimulatorInner() {
 
   const handleSave = () => {
     const name = scenarioName.trim() || `${preset.name} · ${new Date().toLocaleDateString('ko-KR')}`;
-    const now = new Date().toISOString();
-    const record: SavedScenario = {
-      id: `${scenarioParam}-${Date.now()}`,
+    const record: Omit<SavedScenario, 'id' | 'createdAt' | 'updatedAt'> = {
       name,
       linkedBm: preset.linkedBmId,
       inputs,
@@ -88,10 +86,8 @@ function SimulatorInner() {
       arr,
       assumptionStatus: overallStatus,
       assumptionVersion: preset.assumptionVersion,
-      createdAt: now,
-      updatedAt: now,
     };
-    setSaved(saveScenario(record));
+    saveScenario(record).then(setSaved);
     setScenarioName('');
     track('simulator_saved', { scenario: scenarioParam, linked_bm: preset.linkedBmId, assumption_status: overallStatus, arr });
   };
@@ -102,7 +98,7 @@ function SimulatorInner() {
   };
 
   const handleDelete = (id: string) => {
-    setSaved(deleteScenario(id));
+    deleteScenario(id).then(setSaved);
   };
 
   const handleCopyUrl = async () => {

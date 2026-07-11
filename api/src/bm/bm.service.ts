@@ -10,6 +10,7 @@ import { CreateBmNextActionDto } from './dto/create-next-action.dto';
 import { UpdateBmNextActionDto } from './dto/update-next-action.dto';
 import { CreateBmRevenueObjectiveDto } from './dto/create-revenue-objective.dto';
 import { UpdateBmRevenueObjectiveDto } from './dto/update-revenue-objective.dto';
+import { CreateBmSavedScenarioDto } from './dto/create-saved-scenario.dto';
 
 // /bm 내부 BM 검증 페이지(v1.2) — 수익모델 가설·실험·의사결정·실행액션·매출목표 CRUD.
 @Injectable()
@@ -227,6 +228,31 @@ export class BmService {
     } catch (e) {
       if (e instanceof Prisma.PrismaClientKnownRequestError && e.code === 'P2025') {
         throw new NotFoundException(`BmRevenueObjective ${id} not found`);
+      }
+      throw e;
+    }
+  }
+
+  // ── /bm/simulator 저장 시나리오(BmSavedScenario) ──
+
+  findAllSavedScenarios(linkedBm?: string) {
+    return this.prisma.bmSavedScenario.findMany({
+      where: linkedBm ? { linkedBm } : undefined,
+      orderBy: { updatedAt: 'desc' },
+    });
+  }
+
+  createSavedScenario(dto: CreateBmSavedScenarioDto) {
+    return this.prisma.bmSavedScenario.create({ data: dto });
+  }
+
+  async removeSavedScenario(id: string) {
+    try {
+      await this.prisma.bmSavedScenario.delete({ where: { id } });
+      return { ok: true };
+    } catch (e) {
+      if (e instanceof Prisma.PrismaClientKnownRequestError && e.code === 'P2025') {
+        throw new NotFoundException(`BmSavedScenario ${id} not found`);
       }
       throw e;
     }

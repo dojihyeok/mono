@@ -9,6 +9,7 @@ import { CreateBmNextActionDto } from './dto/create-next-action.dto';
 import { UpdateBmNextActionDto } from './dto/update-next-action.dto';
 import { CreateBmRevenueObjectiveDto } from './dto/create-revenue-objective.dto';
 import { UpdateBmRevenueObjectiveDto } from './dto/update-revenue-objective.dto';
+import { CreateBmSavedScenarioDto } from './dto/create-saved-scenario.dto';
 
 // /bm 내부 BM 검증 페이지(v1.2) BFF → 이 컨트롤러. 인증/마스킹은 Next.js 프록시 레이어에서 처리.
 @Controller('bm')
@@ -118,5 +119,22 @@ export class BmController {
   @Delete('revenue-objectives/:id')
   removeRevenueObjective(@Param('id') id: string) {
     return this.bm.removeRevenueObjective(id);
+  }
+
+  // ── /bm/simulator 저장 시나리오 ──
+
+  @Get('scenarios')
+  findAllSavedScenarios(@Query('linkedBm') linkedBm?: string) {
+    return this.bm.findAllSavedScenarios(linkedBm);
+  }
+
+  @Post('scenarios')
+  createSavedScenario(@Body() dto: CreateBmSavedScenarioDto) {
+    return this.bm.createSavedScenario(dto);
+  }
+
+  @Delete('scenarios/:id')
+  removeSavedScenario(@Param('id') id: string) {
+    return this.bm.removeSavedScenario(id);
   }
 }

@@ -2498,7 +2498,7 @@ export default function BmBoard({ role }: { role: 'admin' | 'mentor' }) {
     reloadDecisions();
     reloadNextActions();
     reloadRevenueObjectives();
-    setSavedScenarios(loadSavedScenarios());
+    loadSavedScenarios().then(setSavedScenarios);
     track('bm_page_viewed', {});
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

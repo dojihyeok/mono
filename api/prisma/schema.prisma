@@ -1286,6 +1286,24 @@ model BmRevenueObjective {
   updatedAt       DateTime @updatedAt
 }
 
+// /bm/simulator 저장 시나리오(v1.3 §11) — 최초 localStorage에서 DB로 전환(협업 공유 목적)
+model BmSavedScenario {
+  id                String   @id @default(cuid())
+  name              String
+  linkedBm          String // scenario preset linkedBmId (예: job-posting, field-pass)
+  inputs            Json // Record<string, number>
+  enabledFeatures   String[]
+  monthly           Float
+  arr               Float
+  assumptionStatus  String // hypothesis | benchmark | estimated | observed
+  assumptionVersion String
+  memo              String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@index([linkedBm])
+}
+
 // ── /amono 관리자 운영·컴플라이언스 (v1.0) ──
 enum ComplianceStatus {
   READY
