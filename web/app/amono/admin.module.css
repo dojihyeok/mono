@@ -123,6 +123,58 @@
   background: var(--brand,#504968);
 }
 
+/* 좁은 화면(모바일)에서는 좌측 고정폭 사이드바가 본문을 반 넘게 밀어내므로
+   상단 가로 스크롤 바로 전환한다 — /amono는 주로 데스크톱에서 쓰지만
+   모바일에서 급히 확인할 때도 콘텐츠가 정상적으로 보이도록. */
+@media (max-width: 720px) {
+  .topbar {
+    padding: 12px 14px;
+    gap: 10px;
+  }
+  .brandSub {
+    display: none;
+  }
+  .layout {
+    flex-direction: column;
+  }
+  .sidebar {
+    position: sticky;
+    top: 63px;
+    width: 100%;
+    height: auto;
+    max-height: none;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 4px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    border-right: none;
+    border-bottom: 1px solid #e5e9f0;
+    padding: 8px 10px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .sidebar > div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 4px;
+    flex: none;
+  }
+  .sidebar > div + div {
+    padding-left: 8px;
+    margin-left: 4px;
+    border-left: 1px solid #e5e9f0;
+  }
+  .sidebarGroupTitle {
+    display: none;
+  }
+  .tab {
+    width: auto;
+    white-space: nowrap;
+  }
+}
+
 .container {
   flex: 1;
   min-width: 0;
