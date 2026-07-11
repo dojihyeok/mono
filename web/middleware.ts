@@ -6,7 +6,7 @@ export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
   if (pathname.startsWith('/bm')) {
-    if (pathname === BM_LOGIN_PATH || pathname.startsWith('/api/bm/login')) {
+    if (pathname === BM_LOGIN_PATH) {
       return NextResponse.next();
     }
     const token = req.cookies.get(BM_SESSION_COOKIE)?.value;
@@ -20,7 +20,7 @@ export async function middleware(req: NextRequest) {
   }
 
   if (pathname.startsWith('/dataroom')) {
-    if (pathname === DATAROOM_LOGIN_PATH || pathname.startsWith('/api/dataroom/login')) {
+    if (pathname === DATAROOM_LOGIN_PATH) {
       return NextResponse.next();
     }
     const token = req.cookies.get(DATAROOM_SESSION_COOKIE)?.value;
