@@ -1439,7 +1439,7 @@ export default function MonoApp() {
 
       
       {/* 실기기 노치/상태바 영역(safe-area)만큼만 비워두는 상단 스페이서. 데스크톱 폰 프레임에선 env()=0이라 최소 여백만 남음. */}
-      <div style={{ height: "calc(env(safe-area-inset-top, 0px) + 14px)", flex: "none" }}></div>
+      <div style={{ height: "calc(max(env(safe-area-inset-top, 0px), 24px) + 14px)", flex: "none" }}></div>
 
       
       <div key={s.tab} className="scr" style={{ flex: "1", overflowY: "auto", overflowX: "hidden", position: "relative", paddingBottom: "110px", animation: "tabIn .26s ease both" }}>
@@ -1455,10 +1455,10 @@ export default function MonoApp() {
             <div style={{ display: "flex", alignItems: "center", gap: "10px", flex: "none" }}>
               <button type="button" onClick={openNotifs} aria-label="알림" style={{ position: "relative", width: "44px", height: "44px", border: "1px solid #e6e8ec", borderRadius: "14px", background: "#fff", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", padding: "0" }}>
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 3a4 4 0 0 0-4 4v3l-1.5 2.5h11L14 10V7a4 4 0 0 0-4-4Z" stroke="var(--c1,#1F2226)" strokeWidth="1.6" strokeLinejoin="round"></path><path d="M8.5 15a1.5 1.5 0 0 0 3 0" stroke="var(--c1,#1F2226)" strokeWidth="1.6" strokeLinecap="round"></path></svg>
-                {unread > 0 && (<span style={{ position: "absolute", top: "-5px", right: "-5px", minWidth: "18px", height: "18px", padding: "0 5px", borderRadius: "9px", background: "#d9534f", color: "#fff", fontSize: "10.5px", fontWeight: "800", display: "flex", alignItems: "center", justifyContent: "center", border: "2px solid var(--bg,#f5f6fb)", boxSizing: "border-box" }}>{unread > 99 ? "99+" : unread}</span>)}
+                {unread > 0 && (<span style={{ position: "absolute", top: "-5px", right: "-5px", minWidth: "18px", height: "18px", padding: "0 5px", borderRadius: "9px", background: "#d9534f", color: "#fff", fontSize: "12px", fontWeight: "800", display: "flex", alignItems: "center", justifyContent: "center", border: "2px solid var(--bg,#f5f6fb)", boxSizing: "border-box" }}>{unread > 99 ? "99+" : unread}</span>)}
               </button>
               <div onClick={v.goMe} style={{ position: "relative", width: "48px", height: "48px", flex: "none", cursor: "pointer" }}>
-                <div style={{ width: "48px", height: "48px", borderRadius: "16px", background: "var(--c3,#1F2226)", display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", fontWeight: "800", fontSize: "17px", boxShadow: "0 6px 16px -4px color-mix(in srgb, var(--brand,#1F2226) 50%, transparent), inset 0 0 0 1.5px color-mix(in srgb, var(--brand,#1F2226) 45%, transparent)" }}>{v.initial}</div>
+                <div style={{ width: "48px", height: "48px", borderRadius: "16px", background: "var(--c3,#1F2226)", display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", fontWeight: "800", fontSize: "18.5px", boxShadow: "0 6px 16px -4px color-mix(in srgb, var(--brand,#1F2226) 50%, transparent), inset 0 0 0 1.5px color-mix(in srgb, var(--brand,#1F2226) 45%, transparent)" }}>{v.initial}</div>
               </div>
             </div>
           </div>
@@ -1469,19 +1469,19 @@ export default function MonoApp() {
               {/* 오늘의 1분 안전 퀴즈 위젯 */}
               <div style={{ background: "#ffffff", border: "2px solid #e6e8ec", borderRadius: "22px", padding: "18px 20px", marginBottom: "16px", boxShadow: "0 4px 14px -10px rgba(0,0,0,0.05)" }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "10px" }}>
-              <span style={{ fontSize: "15px", fontWeight: "900", color: "#4f46e5" }}>🚨 오늘의 1분 안전 퀴즈 (신뢰 +10점)</span>
-              {quizAnswered && <span style={{ fontSize: "12px", color: "#10b981", fontWeight: "800" }}>완료됨 ✓</span>}
+              <span style={{ fontSize: "16.5px", fontWeight: "900", color: "#4f46e5" }}>🚨 오늘의 1분 안전 퀴즈 (신뢰 +10점)</span>
+              {quizAnswered && <span style={{ fontSize: "13.5px", color: "#10b981", fontWeight: "800" }}>완료됨 ✓</span>}
             </div>
             {!quizAnswered ? (
               <div>
-                <div style={{ fontSize: "14.5px", fontWeight: "800", color: "var(--c1,#1F2226)", lineHeight: "1.5" }}>
+                <div style={{ fontSize: "16px", fontWeight: "800", color: "var(--c1,#1F2226)", lineHeight: "1.5" }}>
                   Q. 높은 곳(고소) 작업 시, 추락 방지를 위해 신체와 현장 구조물을 단단히 결속시키는 장비는 무엇일까요?
                 </div>
                 <div style={{ display: "flex", flexDirection: "column", gap: "8px", marginTop: "12px" }}>
                   <button
                     type="button"
                     onClick={() => alert("❌ 오답입니다! 다른 정답을 골라보세요.")}
-                    style={{ height: "40px", borderRadius: "10px", border: "1.5px solid #e6e8ec", background: "#fff", fontSize: "13.5px", fontWeight: "700", cursor: "pointer", textAlign: "left", paddingLeft: "14px" }}
+                    style={{ height: "48px", borderRadius: "10px", border: "1.5px solid #e6e8ec", background: "#fff", fontSize: "15px", fontWeight: "700", cursor: "pointer", textAlign: "left", paddingLeft: "14px" }}
                   >
                     1. 🥾 일반 가죽 장갑
                   </button>
@@ -1502,14 +1502,14 @@ export default function MonoApp() {
                       });
                       track("quiz_completed", { score_gain: 10 });
                     }}
-                    style={{ height: "40px", borderRadius: "10px", border: "1.5px solid #4f46e5", background: "#eff6ff", color: "#2563eb", fontSize: "13.5px", fontWeight: "800", cursor: "pointer", textAlign: "left", paddingLeft: "14px" }}
+                    style={{ height: "48px", borderRadius: "10px", border: "1.5px solid #4f46e5", background: "#eff6ff", color: "#2563eb", fontSize: "15px", fontWeight: "800", cursor: "pointer", textAlign: "left", paddingLeft: "14px" }}
                   >
                     2. ⛓️ 안전고리가 달린 추락방지용 안전대
                   </button>
                   <button
                     type="button"
                     onClick={() => alert("❌ 오답입니다! 다른 정답을 골라보세요.")}
-                    style={{ height: "40px", borderRadius: "10px", border: "1.5px solid #e6e8ec", background: "#fff", fontSize: "13.5px", fontWeight: "700", cursor: "pointer", textAlign: "left", paddingLeft: "14px" }}
+                    style={{ height: "48px", borderRadius: "10px", border: "1.5px solid #e6e8ec", background: "#fff", fontSize: "15px", fontWeight: "700", cursor: "pointer", textAlign: "left", paddingLeft: "14px" }}
                   >
                     3. 🧢 햇빛 가림용 작업 모자
                   </button>
@@ -1518,7 +1518,7 @@ export default function MonoApp() {
             ) : (
               <div style={{ display: "flex", alignItems: "center", gap: "10px", background: "#f0fdf4", padding: "12px", borderRadius: "12px" }}>
                 <span style={{ fontSize: "20px" }}>🏆</span>
-                <span style={{ fontSize: "14px", fontWeight: "800", color: "#166534" }}>
+                <span style={{ fontSize: "15.5px", fontWeight: "800", color: "#166534" }}>
                   오늘의 안전 수칙을 마스터했습니다! (+10점 반영 완료)
                 </span>
               </div>
@@ -1530,11 +1530,11 @@ export default function MonoApp() {
             <div style={{ borderRadius: "20px", background: "var(--c1,#1F2226)", padding: "16px", color: "var(--t0,#E5E7EB)", position: "relative", overflow: "hidden", marginBottom: "16px", boxShadow: "0 10px 24px -10px color-mix(in srgb, var(--brand,#1F2226) 80%, transparent)" }}>
               <div style={{ display: "flex", alignItems: "center", gap: "7px" }}>
                 <span style={{ width: "7px", height: "7px", borderRadius: "50%", background: "#5fd1a0", boxShadow: "0 0 0 4px rgba(95,209,160,.25)" }}></span>
-                <span style={{ fontSize: "12px", fontWeight: "700", color: "var(--t1,#A5AEB8)", letterSpacing: ".3px" }}>현재 출근 중 · 힐스테이트 송도 더스카이</span>
+                <span style={{ fontSize: "13.5px", fontWeight: "700", color: "var(--t1,#A5AEB8)", letterSpacing: ".3px" }}>현재 출근 중 · 힐스테이트 송도 더스카이</span>
               </div>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "10px" }}>
-                <span style={{ fontSize: "14px", fontWeight: "700" }}>오늘 근무: {v.myJob}</span>
-                <button onClick={v.toggleCheck} style={{ height: "36px", padding: "0 14px", border: "none", borderRadius: "10px", background: "rgba(255,255,255,.14)", color: "#fff", fontSize: "13px", fontWeight: "800", cursor: "pointer" }}>퇴근하기</button>
+                <span style={{ fontSize: "15.5px", fontWeight: "700" }}>오늘 근무: {v.myJob}</span>
+                <button onClick={v.toggleCheck} style={{ height: "44px", padding: "0 14px", border: "none", borderRadius: "10px", background: "rgba(255,255,255,.14)", color: "#fff", fontSize: "14.5px", fontWeight: "800", cursor: "pointer" }}>퇴근하기</button>
               </div>
             </div>
           )}
@@ -1581,7 +1581,7 @@ export default function MonoApp() {
             }
             return (
               <div style={{ background: "#ffffff", border: "1px solid #e6e8ec", borderRadius: "20px", padding: "18px", marginBottom: "16px", boxShadow: "0 4px 14px -10px rgba(0,0,0,0.05)" }}>
-                <div style={{ fontSize: "15px", fontWeight: "800", color: "var(--c1,#1F2226)", marginBottom: "12px" }}>🗓️ 오늘 할 일</div>
+                <div style={{ fontSize: "16.5px", fontWeight: "800", color: "var(--c1,#1F2226)", marginBottom: "12px" }}>🗓️ 오늘 할 일</div>
                 <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
                   {todayItems.map((item, i) => (
                     <div
@@ -1594,11 +1594,11 @@ export default function MonoApp() {
                       }}
                     >
                       <span style={{ fontSize: "16px", flexShrink: 0 }}>{item.icon}</span>
-                      <div style={{ fontSize: "13px", fontWeight: "600", color: "#374151" }}>
+                      <div style={{ fontSize: "14.5px", fontWeight: "600", color: "#374151" }}>
                         <span style={{ color: item.tagColor, fontWeight: "800" }}>{item.tag} </span>
                         {item.text}
                       </div>
-                      {item.onClick && <span style={{ marginLeft: "auto", fontSize: "11px", color: "#a0aec0" }}>›</span>}
+                      {item.onClick && <span style={{ marginLeft: "auto", fontSize: "12.5px", color: "#a0aec0" }}>›</span>}
                     </div>
                   ))}
                 </div>
@@ -1609,8 +1609,8 @@ export default function MonoApp() {
           {/* 준비 상태 카드 */}
           <div style={{ background: "#ffffff", border: "2px solid #e6e8ec", borderRadius: "22px", padding: "20px 22px", marginBottom: "16px", boxShadow: "0 6px 16px -10px rgba(0,0,0,0.08)" }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "14px" }}>
-              <span style={{ fontSize: "17px", fontWeight: "900", color: "var(--c1,#1F2226)" }}>🚦 일하기 전 필수 서류 준비</span>
-              <span onClick={() => setTab('me')} style={{ fontSize: "14px", color: "#4f46e5", fontWeight: "800", cursor: "pointer" }}>서류 등록하기 →</span>
+              <span style={{ fontSize: "18.5px", fontWeight: "900", color: "var(--c1,#1F2226)" }}>🚦 일하기 전 필수 서류 준비</span>
+              <span onClick={() => setTab('me')} style={{ fontSize: "15.5px", color: "#4f46e5", fontWeight: "800", cursor: "pointer" }}>서류 등록하기 →</span>
             </div>
             
             {(() => {
@@ -1619,10 +1619,10 @@ export default function MonoApp() {
               const percent = Math.round((checkedCount / totalCount) * 100);
               return (
                 <>
-                  <div style={{ fontSize: "15px", color: "#5b6b82", fontWeight: "800", marginBottom: "4px" }}>
+                  <div style={{ fontSize: "16.5px", color: "#5b6b82", fontWeight: "800", marginBottom: "4px" }}>
                     총 {totalCount}개 서류 중 <strong style={{ color: "#10b981", fontSize: "18.5px" }}>{checkedCount}개</strong> 준비 완료되었습니다. ({percent}%)
                   </div>
-                  <div style={{ fontSize: "13px", color: "#4f46e5", fontWeight: "700", marginBottom: "12px", lineHeight: "1.4" }}>
+                  <div style={{ fontSize: "14.5px", color: "#4f46e5", fontWeight: "700", marginBottom: "12px", lineHeight: "1.4" }}>
                     {percent === 100 
                       ? "🎉 모든 필수 서류가 등록되었습니다! 즉시 현장 출근이 가능합니다."
                       : "💡 부족한 서류를 마저 등록하시면 대형 건설 현장 매칭이 더욱 빨라집니다."}
@@ -1655,8 +1655,8 @@ export default function MonoApp() {
                       boxShadow: "0 2px 4px rgba(0,0,0,0.02)"
                     }}
                   >
-                    <div style={{ fontSize: "13.5px", fontWeight: "950", color: isReady ? "#166534" : "#991b1b" }}>{item.label}</div>
-                    <div style={{ fontSize: "11.5px", marginTop: "6px", fontWeight: "900", color: isReady ? "#15803d" : "#b91c1c", display: "flex", alignItems: "center", justifyContent: "center", gap: "2px" }}>
+                    <div style={{ fontSize: "15px", fontWeight: "950", color: isReady ? "#166534" : "#991b1b" }}>{item.label}</div>
+                    <div style={{ fontSize: "13px", marginTop: "6px", fontWeight: "900", color: isReady ? "#15803d" : "#b91c1c", display: "flex", alignItems: "center", justifyContent: "center", gap: "2px" }}>
                       <span>{isReady ? "✅" : "❌"}</span>
                       <span>{isReady ? "준비완료" : "미등록"}</span>
                     </div>
@@ -1674,7 +1674,7 @@ export default function MonoApp() {
                 marginTop: "16px", width: "100%", height: "48px",
                 border: "none", borderRadius: "12px",
                 background: "#4f46e5", color: "#fff",
-                fontSize: "14.5px", fontWeight: "900", cursor: "pointer",
+                fontSize: "16px", fontWeight: "900", cursor: "pointer",
                 boxShadow: "0 4px 12px rgba(79,70,229,0.2)",
                 transition: "all 0.2s"
               }}
@@ -1687,8 +1687,8 @@ export default function MonoApp() {
           {/* 바로 지원 가능한 현장 */}
           <div style={{ marginTop: "24px" }}>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "12px" }}>
-              <span style={{ fontSize: "15px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>✨ 바로 지원 가능한 현장</span>
-              <span onClick={() => { track("job_search_opened", { source: "home_fit_jobs_more" }); v.goJobs(); }} style={{ fontSize: "12.5px", color: "var(--c1,#1F2226)", fontWeight: "700", cursor: "pointer" }}>더 보기</span>
+              <span style={{ fontSize: "16.5px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>✨ 바로 지원 가능한 현장</span>
+              <span onClick={() => { track("job_search_opened", { source: "home_fit_jobs_more" }); v.goJobs(); }} style={{ fontSize: "14px", color: "var(--c1,#1F2226)", fontWeight: "700", cursor: "pointer" }}>더 보기</span>
             </div>
             
             <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
@@ -1701,14 +1701,14 @@ export default function MonoApp() {
                 }}
               >
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
-                  <span style={{ fontSize: "11.5px", fontWeight: "850", color: "#4f46e5", background: "#eeebff", padding: "3.5px 9px", borderRadius: "6px" }}>
+                  <span style={{ fontSize: "13px", fontWeight: "850", color: "#4f46e5", background: "#eeebff", padding: "3.5px 9px", borderRadius: "6px" }}>
                     98.5% 매칭 (내 경력과 거의 일치해요)
                   </span>
                   <span className="mono" style={{ fontSize: "16px", fontWeight: "700", color: "var(--c1,#1F2226)" }}>₩230,000</span>
                 </div>
-                <h4 style={{ margin: "6px 0 4px", fontSize: "15px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>힐스테이트 송도 더스카이</h4>
-                <p style={{ margin: 0, fontSize: "12.5px", color: "#8694a8", fontWeight: "500" }}>인천 연수구 · 형틀목공 조공 · 숙식 제공</p>
-                <div style={{ fontSize: "12px", color: "#4f46e5", fontWeight: "700", marginTop: "8px", background: "#f5f3ff", padding: "6px 10px", borderRadius: "8px" }}>
+                <h4 style={{ margin: "6px 0 4px", fontSize: "16.5px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>힐스테이트 송도 더스카이</h4>
+                <p style={{ margin: 0, fontSize: "14px", color: "#8694a8", fontWeight: "500" }}>인천 연수구 · 형틀목공 조공 · 숙식 제공</p>
+                <div style={{ fontSize: "13.5px", color: "#4f46e5", fontWeight: "700", marginTop: "8px", background: "#f5f3ff", padding: "6px 10px", borderRadius: "8px" }}>
                   💡 회원님의 형틀목공 경력과 자격요건이 일치하여 강력 추천합니다.
                 </div>
               </div>
@@ -1722,12 +1722,12 @@ export default function MonoApp() {
                 }}
               >
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
-                  <span style={{ fontSize: "11px", fontWeight: "800", color: "#0d9488", background: "#f0fdfa", padding: "3px 8px", borderRadius: "6px" }}>95% 매칭</span>
+                  <span style={{ fontSize: "12.5px", fontWeight: "800", color: "#0d9488", background: "#f0fdfa", padding: "3px 8px", borderRadius: "6px" }}>95% 매칭</span>
                   <span className="mono" style={{ fontSize: "16px", fontWeight: "700", color: "var(--c1,#1F2226)" }}>₩225,000</span>
                 </div>
-                <h4 style={{ margin: "6px 0 4px", fontSize: "15px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>자이 평택고덕 4단지</h4>
-                <p style={{ margin: 0, fontSize: "12.5px", color: "#8694a8", fontWeight: "500" }}>경기 평택 · 형틀목공 조공 · 숙식 제공</p>
-                <div style={{ fontSize: "12px", color: "#0d9488", fontWeight: "700", marginTop: "8px", background: "#f0fdfa", padding: "6px 10px", borderRadius: "8px" }}>
+                <h4 style={{ margin: "6px 0 4px", fontSize: "16.5px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>자이 평택고덕 4단지</h4>
+                <p style={{ margin: 0, fontSize: "14px", color: "#8694a8", fontWeight: "500" }}>경기 평택 · 형틀목공 조공 · 숙식 제공</p>
+                <div style={{ fontSize: "13.5px", color: "#0d9488", fontWeight: "700", marginTop: "8px", background: "#f0fdfa", padding: "6px 10px", borderRadius: "8px" }}>
                   💡 비계기능사 자격증과 갱폼 시공 경험이 일치합니다.
                 </div>
               </div>
@@ -1737,7 +1737,7 @@ export default function MonoApp() {
           {/* 급구 현장 */}
           <div style={{ marginTop: "24px" }}>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "12px" }}>
-              <span style={{ fontSize: "15px", fontWeight: "800", color: "#dc2626", display: "flex", alignItems: "center", gap: "4px" }}>🚨 급구 현장</span>
+              <span style={{ fontSize: "16.5px", fontWeight: "800", color: "#dc2626", display: "flex", alignItems: "center", gap: "4px" }}>🚨 급구 현장</span>
             </div>
             
             <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
@@ -1764,11 +1764,11 @@ export default function MonoApp() {
                         <div style={{ width: "76px", height: "76px", borderRadius: "16px", background: "#fff5f5", border: "2px solid #feb2b2", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "36px", flexShrink: 0 }}>🚨</div>
                         <div style={{ flex: 1, minWidth: 0 }}>
                           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "4px" }}>
-                            <span style={{ fontSize: "12px", fontWeight: "900", color: "#dc2626", background: "#fee2e2", padding: "2px 8px", borderRadius: "6px" }}>🔥 긴급급구</span>
+                            <span style={{ fontSize: "13.5px", fontWeight: "900", color: "#dc2626", background: "#fee2e2", padding: "2px 8px", borderRadius: "6px" }}>🔥 긴급급구</span>
                             <strong style={{ fontSize: "21px", fontWeight: "950", color: "#dc2626" }}>일당 23만원</strong>
                           </div>
                           <h4 style={{ margin: "4px 0 6px", fontSize: "19px", fontWeight: "950", color: "#0f172a" }}>힐스테이트 송도 더스카이</h4>
-                          <div style={{ display: "flex", flexWrap: "wrap", gap: "3px 10px", fontSize: "14.5px", color: "#dc2626", fontWeight: "800" }}>
+                          <div style={{ display: "flex", flexWrap: "wrap", gap: "3px 10px", fontSize: "16px", color: "#dc2626", fontWeight: "800" }}>
                             <span>📍 인천 연수구 (당일지급)</span>
                             <span>👷 형틀목공 조공 (초보조공)</span>
                             <span>🏠 점심제공 (장비 대여)</span>
@@ -1789,11 +1789,11 @@ export default function MonoApp() {
                     }}
                   >
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
-                      <span style={{ fontSize: "11px", fontWeight: "800", color: "#dc2626", background: "#fef2f2", padding: "3px 8px", borderRadius: "6px" }}>🔥 긴급급구</span>
+                      <span style={{ fontSize: "12.5px", fontWeight: "800", color: "#dc2626", background: "#fef2f2", padding: "3px 8px", borderRadius: "6px" }}>🔥 긴급급구</span>
                       <span className="mono" style={{ fontSize: "16px", fontWeight: "700", color: "#dc2626" }}>{jp.conditions || "협의"}</span>
                     </div>
-                    <h4 style={{ margin: "6px 0 4px", fontSize: "15px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>{jp.title}</h4>
-                    <p style={{ margin: 0, fontSize: "12.5px", color: "#8694a8", fontWeight: "500" }}>{jp.region?.join(", ") || "전국"} · {jp.jobType?.join(", ") || "기술조공"} · 식사/숙소 가능</p>
+                    <h4 style={{ margin: "6px 0 4px", fontSize: "16.5px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>{jp.title}</h4>
+                    <p style={{ margin: 0, fontSize: "14px", color: "#8694a8", fontWeight: "500" }}>{jp.region?.join(", ") || "전국"} · {jp.jobType?.join(", ") || "기술조공"} · 식사/숙소 가능</p>
                   </div>
                 ));
               })()}
@@ -1804,9 +1804,9 @@ export default function MonoApp() {
                   v.goJobs();
                 }}
                 style={{
-                  width: "100%", height: "44px", border: "none", borderRadius: "12px",
+                  width: "100%", height: "48px", border: "none", borderRadius: "12px",
                   background: "var(--c1,#1F2226)", color: "#fff",
-                  fontSize: "13.5px", fontWeight: "800", cursor: "pointer",
+                  fontSize: "15px", fontWeight: "800", cursor: "pointer",
                   marginTop: "4px"
                 }}
               >
@@ -1820,8 +1820,8 @@ export default function MonoApp() {
             <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
               <span style={{ fontSize: "24px" }}>🤖</span>
               <div>
-                <h4 style={{ margin: 0, fontSize: "15px", fontWeight: "800", color: "#312e81" }}>처음 보는 현장 용어가 있나요?</h4>
-                <p style={{ margin: "2px 0 0", fontSize: "12.5px", color: "#4f46e5", fontWeight: "600", lineHeight: "1.4" }}>
+                <h4 style={{ margin: 0, fontSize: "16.5px", fontWeight: "800", color: "#312e81" }}>처음 보는 현장 용어가 있나요?</h4>
+                <p style={{ margin: "2px 0 0", fontSize: "14px", color: "#4f46e5", fontWeight: "600", lineHeight: "1.4" }}>
                   야리끼리, 데마찌, 단도리, 공구리, 덴조, 하바키 등 뜻을 알고 싶은 단어를 아래에 입력해 보세요.
                 </p>
               </div>
@@ -1835,7 +1835,7 @@ export default function MonoApp() {
                 placeholder="예: 데마찌, 공구리, 야리끼리"
                 style={{
                   flex: 1, minWidth: 0, height: "46px", border: "2px solid #c7d2fe", borderRadius: "12px",
-                  padding: "0 12px", fontSize: "14px", fontWeight: "800", fontFamily: "inherit",
+                  padding: "0 12px", fontSize: "15.5px", fontWeight: "800", fontFamily: "inherit",
                   outline: "none"
                 }}
                 onKeyDown={(e) => {
@@ -1861,7 +1861,7 @@ export default function MonoApp() {
                 }}
                 style={{
                   flex: "none", width: "70px", height: "46px", border: "none", borderRadius: "12px",
-                  background: "#4f46e5", color: "#fff", fontSize: "13.5px", fontWeight: "900", cursor: "pointer"
+                  background: "#4f46e5", color: "#fff", fontSize: "15px", fontWeight: "900", cursor: "pointer"
                 }}
               >
                 검색
@@ -1876,9 +1876,9 @@ export default function MonoApp() {
                   setActiveGuide('large');
                 }}
                 style={{
-                  width: "100%", height: "40px", border: "1px solid #ccfbf1", borderRadius: "12px",
+                  width: "100%", height: "48px", border: "1px solid #ccfbf1", borderRadius: "12px",
                   background: "#f0fdfa", color: "#0d9488",
-                  fontSize: "13px", fontWeight: "800", cursor: "pointer"
+                  fontSize: "14.5px", fontWeight: "800", cursor: "pointer"
                 }}
               >
                 🏗️ 대형 현장 준비하기
@@ -1889,7 +1889,7 @@ export default function MonoApp() {
           {/* 커뮤니티 인기 글 */}
           <div style={{ marginTop: "24px" }}>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "12px" }}>
-              <span style={{ fontSize: "15px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>💬 커뮤니티 인기 글</span>
+              <span style={{ fontSize: "16.5px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>💬 커뮤니티 인기 글</span>
             </div>
             
             <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
@@ -1897,24 +1897,24 @@ export default function MonoApp() {
                 onClick={() => { track("community_room_viewed", { room: "PRIME", subRoom: "삼성 평택" }); v.goCommunity(); }}
                 style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: "16px", padding: "14px", cursor: "pointer" }}
               >
-                <div style={{ display: "flex", justifyContent: "space-between", fontSize: "11px", color: "#8694a8", marginBottom: "4px" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", fontSize: "12.5px", color: "#8694a8", marginBottom: "4px" }}>
                   <span style={{ fontWeight: "700", color: "#4f46e5" }}>삼성 평택 현장방</span>
                   <span>10분 전</span>
                 </div>
-                <div style={{ fontSize: "13.5px", fontWeight: "800", color: "#1f2937" }}>오늘 평택 2기 TBM 집결 시간이 변경되었습니다.</div>
-                <div style={{ fontSize: "12px", color: "#8694a8", marginTop: "6px" }}>👍 도움돼요 14 · 💬 댓글 9</div>
+                <div style={{ fontSize: "15px", fontWeight: "800", color: "#1f2937" }}>오늘 평택 2기 TBM 집결 시간이 변경되었습니다.</div>
+                <div style={{ fontSize: "13.5px", color: "#8694a8", marginTop: "6px" }}>👍 도움돼요 14 · 💬 댓글 9</div>
               </div>
 
               <div
                 onClick={() => { track("community_room_viewed", { room: "ROLE", subRoom: "형틀목공" }); v.goCommunity(); }}
                 style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: "16px", padding: "14px", cursor: "pointer" }}
               >
-                <div style={{ display: "flex", justifyContent: "space-between", fontSize: "11px", color: "#8694a8", marginBottom: "4px" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", fontSize: "12.5px", color: "#8694a8", marginBottom: "4px" }}>
                   <span style={{ fontWeight: "700", color: "#0d9488" }}>형틀목공 직무방</span>
                   <span>40분 전</span>
                 </div>
-                <div style={{ fontSize: "13.5px", fontWeight: "800", color: "#1f2937" }}>초보 조공 단가 요즘 송도 쪽은 보통 얼마 선인가요?</div>
-                <div style={{ fontSize: "12px", color: "#8694a8", marginTop: "6px" }}>👍 도움돼요 8 · 💬 댓글 15</div>
+                <div style={{ fontSize: "15px", fontWeight: "800", color: "#1f2937" }}>초보 조공 단가 요즘 송도 쪽은 보통 얼마 선인가요?</div>
+                <div style={{ fontSize: "13.5px", color: "#8694a8", marginTop: "6px" }}>👍 도움돼요 8 · 💬 댓글 15</div>
               </div>
               
               <button
@@ -1923,9 +1923,9 @@ export default function MonoApp() {
                   v.goCommunity();
                 }}
                 style={{
-                  width: "100%", height: "42px", border: "1.5px solid #e6e8ec", borderRadius: "12px",
+                  width: "100%", height: "46px", border: "1.5px solid #e6e8ec", borderRadius: "12px",
                   background: "#ffffff", color: "#5b6b82",
-                  fontSize: "13px", fontWeight: "800", cursor: "pointer",
+                  fontSize: "14.5px", fontWeight: "800", cursor: "pointer",
                   marginTop: "4px"
                 }}
               >
@@ -1937,38 +1937,38 @@ export default function MonoApp() {
           {/* 내 경력 성장 카드 (경력 카드 미리보기) */}
           <div style={{ marginTop: "24px" }}>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "12px" }}>
-              <span style={{ fontSize: "15px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>💳 나의 MONO 경력 성장 카드</span>
-              <span onClick={v.goMe} style={{ fontSize: "12.5px", color: "#4f46e5", fontWeight: "700", cursor: "pointer" }}>열기 →</span>
+              <span style={{ fontSize: "16.5px", fontWeight: "800", color: "var(--c1,#1F2226)" }}>💳 나의 MONO 경력 성장 카드</span>
+              <span onClick={v.goMe} style={{ fontSize: "14px", color: "#4f46e5", fontWeight: "700", cursor: "pointer" }}>열기 →</span>
             </div>
             
             <div style={{ background: "linear-gradient(135deg, #1e1b4b 0%, #312e81 100%)", borderRadius: "20px", padding: "20px", color: "#fff", position: "relative", overflow: "hidden", boxShadow: "0 10px 20px rgba(49,46,129,0.15)" }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
                 <div>
                   <div style={{ fontSize: "16px", fontWeight: "900", letterSpacing: "0.5px" }}>MONO certified technician</div>
-                  <div style={{ fontSize: "12px", color: "#c7d2fe", marginTop: "2px" }}>출근 및 경력 신뢰도 준비 상태서</div>
+                  <div style={{ fontSize: "13.5px", color: "#c7d2fe", marginTop: "2px" }}>출근 및 경력 신뢰도 준비 상태서</div>
                 </div>
                 <span style={{ fontSize: "20px" }}>👑</span>
               </div>
               
               <div style={{ marginTop: "24px" }}>
                 <div style={{ fontSize: "22px", fontWeight: "800", letterSpacing: "1px" }}>{v.maskedName}</div>
-                <div style={{ fontSize: "13px", color: "#a5b4fc", marginTop: "2px" }}>{v.myJob || "일반 조공"}</div>
+                <div style={{ fontSize: "14.5px", color: "#a5b4fc", marginTop: "2px" }}>{v.myJob || "일반 조공"}</div>
               </div>
               
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginTop: "24px", borderTop: "1px solid rgba(255,255,255,0.1)", paddingTop: "14px" }}>
                 <div>
-                  <div style={{ fontSize: "10.5px", color: "#a5b4fc" }}>등록 경력 카드</div>
-                  <div style={{ fontSize: "15px", fontWeight: "700", marginTop: "2px" }}>{careerCards.length}건</div>
+                  <div style={{ fontSize: "12px", color: "#a5b4fc" }}>등록 경력 카드</div>
+                  <div style={{ fontSize: "16.5px", fontWeight: "700", marginTop: "2px" }}>{careerCards.length}건</div>
                 </div>
                 <div>
-                  <div style={{ fontSize: "10.5px", color: "#a5b4fc" }}>신뢰 점수 등급</div>
-                  <div style={{ fontSize: "15px", fontWeight: "700", marginTop: "2px" }}>
+                  <div style={{ fontSize: "12px", color: "#a5b4fc" }}>신뢰 점수 등급</div>
+                  <div style={{ fontSize: "16.5px", fontWeight: "700", marginTop: "2px" }}>
                     {trustScore ? `${trustScore.grade} (${trustScore.score}점)` : "준비 상태 대기"}
                   </div>
                 </div>
                 <div style={{ textAlign: "right" }}>
-                  <div style={{ fontSize: "10.5px", color: "#a5b4fc" }}>상태</div>
-                  <div style={{ fontSize: "13px", fontWeight: "800", marginTop: "2px", color: "#34d399" }}>
+                  <div style={{ fontSize: "12px", color: "#a5b4fc" }}>상태</div>
+                  <div style={{ fontSize: "14.5px", fontWeight: "800", marginTop: "2px", color: "#34d399" }}>
                     {(() => {
                       if (careerCards.length === 0) return "입문 준비 중";
                       if (careerCards.length <= 3) return "현장 경험 축적 중";
@@ -2830,7 +2830,7 @@ export default function MonoApp() {
       </div>
 
 
-    <div className="mono-bottomnav" style={{ minHeight: "calc(92px + env(safe-area-inset-bottom, 0px))", flex: "none", background: "rgba(249,250,253,.96)", backdropFilter: "blur(16px)", borderTop: "1px solid #e6e8ec", display: "flex", padding: "10px 6px calc(env(safe-area-inset-bottom, 0px) + 6px)", position: "sticky", bottom: 0, left: 0, right: 0, zIndex: "30" }}>
+    <div className="mono-bottomnav" style={{ minHeight: "calc(92px + max(env(safe-area-inset-bottom, 0px), 16px))", flex: "none", background: "rgba(249,250,253,.96)", backdropFilter: "blur(16px)", borderTop: "1px solid #e6e8ec", display: "flex", padding: "10px 6px calc(max(env(safe-area-inset-bottom, 0px), 16px) + 6px)", position: "sticky", bottom: 0, left: 0, right: 0, zIndex: "30" }}>
         {/* 모바일 버전 표시 */}
         <div style={{ position: "absolute", left: "12px", bottom: "4px", fontSize: "9.5px", color: "#94a3b8", fontWeight: "800", pointerEvents: "none" }}>v0.1.0</div>
         <button onClick={v.goHome} style={{ flex: "1", minHeight: "56px", background: "none", border: "none", cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center", gap: "5px", paddingTop: "4px", color: v.cHome, fontFamily: "inherit", WebkitTapHighlightColor: "transparent" }}>
