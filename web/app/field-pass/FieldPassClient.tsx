@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react';
 import { track } from '@/lib/analytics';
+import { GrowthFlowInfographic, OtacPocInfographic, PermissionLayerInfographic, ExpansionInfographic } from './Infographics';
 
 // ─────────────────────────────────────────────
 // MONO Field Pass 소개 페이지 — VC 투자자·센스톤 대표 공유용
@@ -276,6 +277,13 @@ export default function FieldPassClient() {
         </div>
       </section>
 
+      {/* ── 인포그래픽 1: 성장형 Field Pass 발급 흐름 ── */}
+      <section style={{ padding: '48px 20px 12px' }} onMouseEnter={() => track('field_pass_infographic_growth_viewed', {})}>
+        <div style={{ maxWidth: 920, margin: '0 auto' }}>
+          <GrowthFlowInfographic />
+        </div>
+      </section>
+
       {/* ── 5-2. Problem ── */}
       <Section eyebrow="Problem" title="현장 출입과 근무 기록은 아직 분리되어 있습니다" onView={() => track('field_pass_problem_viewed', {})}>
         <CardGrid
@@ -337,8 +345,10 @@ export default function FieldPassClient() {
           <span style={{ fontSize: 12, color: '#94a3b8', fontWeight: 650 }}>서면 협력 합의 전 · 기술 검토 단계</span>
         </div>
 
-        <div style={{ fontSize: 12.5, fontWeight: 800, color: '#64748b', marginTop: 22, marginBottom: 4 }}>PoC 흐름</div>
-        <FlowSteps steps={['교육·서류 준비 완료', 'Field Pass 활성화', '앱에서 OTAC 인증 생성', '현장 단말·관리자 앱에서 확인', '출입 승인', '출근 기록 저장', '경력·정산 데이터 연결']} />
+        {/* ── 인포그래픽 2: OTAC 기반 앱 출입 인증 PoC 흐름 ── */}
+        <div style={{ marginTop: 24 }}>
+          <OtacPocInfographic />
+        </div>
 
         <div style={{ fontSize: 12.5, fontWeight: 800, color: '#64748b', marginTop: 28, marginBottom: 4 }}>PoC 목표</div>
         <InfoTable
@@ -367,23 +377,6 @@ export default function FieldPassClient() {
             ['OT 기기 권한 검증', <PriorityBadge key="p2-2" p="P2" />],
           ]}
         />
-      </Section>
-
-      {/* ── 5-5.5 Permission — 3단계 차별성 ── */}
-      <Section eyebrow="Permission" title="출입 카드에서 권한 관리 카드로" onView={() => track('field_pass_permission_viewed', {})}>
-        <InfoTable
-          cols={['권한', '확장 방향']}
-          rows={[
-            ['출입 권한', '건설 현장, 아파트, 오피스, 공장 출입'],
-            ['근무 권한', '현장별 출근 가능 여부'],
-            ['장비 권한', '지게차, 굴착기, 크레인 등 자격 기반 사용 승인'],
-            ['OT 권한', '산업 설비, 제어 장비, 보안구역 접근'],
-            ['금융 권한', '급여 계좌, 보험, 복지 금융 연계'],
-          ]}
-        />
-        <Callout>
-          MONO Field Pass는 출입 가능한 사람을 확인하는 카드에서 시작해, 장비와 OT 기기를 사용할 수 있는 권한까지 관리하는 카드로 확장됩니다.
-        </Callout>
       </Section>
 
       {/* ── 5-6. Architecture ── */}
@@ -463,8 +456,30 @@ export default function FieldPassClient() {
         />
       </Section>
 
+      {/* ── 인포그래픽 3: 권한 레이어 아키텍처 + Permission ── */}
+      <section style={{ padding: '52px 20px', background: '#f8fafc' }} onMouseEnter={() => track('field_pass_infographic_permission_viewed', {})}>
+        <div style={{ maxWidth: 920, margin: '0 auto' }}>
+          <PermissionLayerInfographic />
+          <div style={{ marginTop: 16 }}>
+            <InfoTable
+              cols={['권한', '확장 방향']}
+              rows={[
+                ['출입 권한', '건설 현장, 아파트, 오피스, 공장 출입'],
+                ['근무 권한', '현장별 출근 가능 여부'],
+                ['장비 권한', '지게차, 굴착기, 크레인 등 자격 기반 사용 승인'],
+                ['OT 권한', '산업 설비, 제어 장비, 보안구역 접근'],
+                ['금융 권한', '급여 계좌, 보험, 복지 금융 연계'],
+              ]}
+            />
+          </div>
+        </div>
+      </section>
+
       {/* ── 5-7. Expansion Roadmap ── */}
       <Section eyebrow="Expansion Roadmap" title="건설 현장에서 생활·산업 공간으로 확장" alt onView={() => track('field_pass_expansion_roadmap_viewed', {})}>
+        {/* ── 인포그래픽 4: 확장 로드맵 ── */}
+        <ExpansionInfographic />
+        <div style={{ fontSize: 12.5, fontWeight: 800, color: '#64748b', marginTop: 26, marginBottom: 4 }}>단계별 세부 내용</div>
         <InfoTable
           cols={['단계', '적용 영역', '확장 내용']}
           rows={[
