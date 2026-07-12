@@ -145,13 +145,63 @@ export function PermissionLayerInfographic() {
   );
 }
 
+function MiniChips({ items, color }: { items: string[]; color: string }) {
+  return (
+    <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 6, marginTop: 6 }}>
+      {items.map((it, i) => (
+        <span key={it} style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+          <span style={{ fontSize: 11.5, fontWeight: 700, color: '#334155', background: '#fff', border: `1px solid ${color}44`, borderRadius: 8, padding: '4px 10px', whiteSpace: 'nowrap' }}>{it}</span>
+          {i < items.length - 1 && <span style={{ color: '#cbd5e1', fontSize: 12 }}>→</span>}
+        </span>
+      ))}
+    </div>
+  );
+}
+
+// 인포그래픽 · Architecture v2 — 인증 시스템이 아니라 "성장→인증→출입→권한→데이터→확장" 구조로
+// MONO가 왜 필요한지 먼저 보여주기 위한 아키텍처(투자자·센스톤 공통 관점, 사용자 요청 반영).
+export function ArchitectureV2Infographic() {
+  const steps: { n: number; key: string; label: string; color: string; items: string[] }[] = [
+    { n: 1, key: 'growth', label: '성장 (Growth)', color: '#2563eb', items: ['일용직', '기초안전교육', '준비서류(전자카드·계좌·신체검사)', '조공', '건설근로자', 'MONO Field Pass 발급'] },
+    { n: 2, key: 'credential', label: '인증 (Credential)', color: '#9333ea', items: ['MONO APP PASS', 'OTAC Dynamic Token', 'QR · NFC · BLE · Physical Card'] },
+    { n: 3, key: 'access', label: '출입 (Access)', color: '#059669', items: ['건설현장·아파트·오피스·공장·물류센터·공공시설', '출입 승인 → 출근 체크 → 작업 시작 → 작업 종료'] },
+    { n: 4, key: 'permission', label: '권한 (Permission)', color: '#ea580c', items: ['교육 상태 확인', '자격증 확인', '면허 확인', '현장별 권한', '장비 사용 권한', 'OT Device 권한'] },
+    { n: 5, key: 'data', label: '데이터 (Data)', color: '#0891b2', items: ['출근기록', '공수', '정산', '경력카드', '신뢰 프로필', '기업 운영 리포트'] },
+    { n: 6, key: 'expansion', label: '확장 (Expansion)', color: '#334155', items: ['Construction', 'Smart Apartment', 'Smart Office', 'Industrial Factory', 'OT/ICS Access', 'Financial & Insurance'] },
+  ];
+  return (
+    <InfographicShell
+      eyebrow="MONO Field Pass Architecture v2"
+      title="성장 · 인증 · 권한 · 데이터 · 확장 — MONO가 먼저 보여주는 것은 인증 시스템이 아니라 '왜 필요한가'입니다"
+      caption="MONO Field Pass → Digital Identity → Digital Access → Digital Permission → Industrial Trust Platform. MONO는 건설 전자카드를 만드는 회사가 아니라, 현장 근무자의 Digital Identity Platform입니다."
+    >
+      <div style={{ display: 'flex', flexDirection: 'column', marginTop: 20 }}>
+        {steps.map((s, i) => (
+          <div key={s.key} style={{ display: 'flex', alignItems: 'stretch' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flex: 'none', width: 44 }}>
+              <div style={{ width: 32, height: 32, borderRadius: 8, background: s.color, color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 13, fontWeight: 900, flex: 'none' }}>
+                {s.n}
+              </div>
+              {i < steps.length - 1 && <div style={{ flex: 1, width: 2, background: '#e2e8f0', minHeight: 12 }} />}
+            </div>
+            <div style={{ flex: 1, paddingLeft: 14, paddingBottom: i < steps.length - 1 ? 18 : 0 }}>
+              <div style={{ fontSize: 13.5, fontWeight: 900, color: s.color }}>STEP {s.n} · {s.label}</div>
+              <MiniChips items={s.items} color={s.color} />
+            </div>
+          </div>
+        ))}
+      </div>
+    </InfographicShell>
+  );
+}
+
 // 인포그래픽 4 — 확장 로드맵 (Expansion Roadmap 섹션 위)
 export function ExpansionInfographic() {
   return (
     <InfographicShell
       eyebrow="Infographic · 04"
       title="건설 현장에서 생활·산업 공간으로 확장"
-      caption="건설 현장에서 검증한 Field Pass는 아파트, 오피스, 산업 현장, OT 기기 권한 관리로 확장됩니다."
+      caption="건설 현장에서 검증한 Field Pass는 아파트, 오피스, 산업 현장, OT 기기 권한 관리를 거쳐 — Digital Identity → Digital Access → Digital Permission → Industrial Trust Platform으로 이어집니다."
     >
       <Timeline
         steps={[

@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 import { track } from '@/lib/analytics';
-import { GrowthFlowInfographic, OtacPocInfographic, PermissionLayerInfographic, ExpansionInfographic } from './Infographics';
+import { GrowthFlowInfographic, OtacPocInfographic, PermissionLayerInfographic, ExpansionInfographic, ArchitectureV2Infographic } from './Infographics';
 import styles from './strategy.module.css';
 
 // ─────────────────────────────────────────────
@@ -409,6 +409,14 @@ export default function FieldPassClient() {
       {/* ── 06. Architecture ── */}
       <NumberedSection num="06" eyebrow="Architecture" title="MONO Field Pass 아키텍처" alt maxWidth={1180} onView={() => track('field_pass_architecture_viewed', {})}>
         <p style={{ fontSize: 13, color: '#64748b', fontWeight: 650, lineHeight: 1.6, margin: '0 0 4px', wordBreak: 'keep-all' }}>
+          출입 인증 시스템이 아니라 &quot;왜 MONO가 필요한가&quot;가 먼저 보여야 합니다. 성장이 인증이 되고, 인증이 권한이 되고, 권한이 데이터가 되어, 산업 전반으로 확장됩니다.
+        </p>
+        <div style={{ marginTop: 18 }}>
+          <ArchitectureV2Infographic />
+        </div>
+
+        <div style={{ fontSize: 12.5, fontWeight: 800, color: '#64748b', marginTop: 34, marginBottom: 4 }}>기술 상세 · 시스템 구성</div>
+        <p style={{ fontSize: 12.5, color: '#94a3b8', fontWeight: 600, lineHeight: 1.6, margin: '0 0 4px', wordBreak: 'keep-all' }}>
           하나의 신원으로 다양한 현장·시설 출입을 안전하고 편리하게 — 장기 목표 아키텍처입니다. 금융기관·정부기관 명은 연동 대상 유형의 예시이며, 현재 확정된 제휴를 의미하지 않습니다.
         </p>
 
@@ -468,9 +476,6 @@ export default function FieldPassClient() {
             ]}
           />
         </div>
-
-        <div style={{ fontSize: 12.5, fontWeight: 800, color: '#64748b', marginTop: 30, marginBottom: 4 }}>인증 흐름(다양한 방식 지원)</div>
-        <FlowSteps steps={['카드 태그/앱 QR/NFC/BLE/위치', 'MONO 인증 서버에서 사용자/권한/시간/장소 검증', '게이트/도어/시스템에 출입 승인 전달', '출입/근태 데이터 실시간 저장', '근태 집계·정산·경력 반영 리포트/알림 생성']} />
 
         <div style={{ fontSize: 12.5, fontWeight: 800, color: '#64748b', marginTop: 30, marginBottom: 4 }}>핵심 가치</div>
         <CheckList
@@ -550,6 +555,16 @@ export default function FieldPassClient() {
       {/* ── Partnership CTA ── */}
       <section style={{ background: NAVY, padding: '56px 20px' }}>
         <div style={{ maxWidth: 680, margin: '0 auto', textAlign: 'center' }}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center', gap: 8, marginBottom: 20, fontSize: 13, fontWeight: 800, color: '#a5b4fc' }}>
+            <span>Field Pass</span><span style={{ color: '#475569' }}>→</span>
+            <span>Digital Identity</span><span style={{ color: '#475569' }}>→</span>
+            <span>Digital Access</span><span style={{ color: '#475569' }}>→</span>
+            <span>Digital Permission</span><span style={{ color: '#475569' }}>→</span>
+            <span style={{ color: '#fff' }}>Industrial Trust Platform</span>
+          </div>
+          <p style={{ fontSize: 15, color: '#fff', fontWeight: 700, lineHeight: 1.7, margin: '0 auto 28px', maxWidth: 560, wordBreak: 'keep-all' }}>
+            MONO는 건설 전자카드를 만드는 회사가 아니라, 현장 근무자의 Digital Identity Platform입니다.
+          </p>
           <h2 style={{ fontSize: 22, fontWeight: 950, color: '#fff', margin: '0 0 14px', wordBreak: 'keep-all' }}>
             PoC로 가장 차별성 있는 기능부터 검증합니다
           </h2>
