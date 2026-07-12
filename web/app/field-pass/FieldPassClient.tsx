@@ -254,6 +254,45 @@ export default function FieldPassClient() {
         </div>
       </section>
 
+      {/* ── 한장 요약: 무엇을 하려는지 한눈에 보기 ── */}
+      <section style={{ background: NAVY, padding: '0 20px 44px' }} onMouseEnter={() => track('field_pass_one_page_summary_viewed', {})}>
+        <div style={{ maxWidth: 920, margin: '0 auto' }}>
+          <div style={{ background: '#fff', borderRadius: 20, padding: '28px 24px', boxShadow: '0 20px 60px rgba(0,0,0,0.35)' }}>
+            <div style={{ fontSize: 11, fontWeight: 850, color: MINT, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 6, textAlign: 'center' }}>
+              MONO Field Pass · 한장 요약
+            </div>
+            <div style={{ fontSize: 17, fontWeight: 900, color: NAVY, textAlign: 'center', wordBreak: 'keep-all' }}>
+              무엇을 하려는지 한눈에 보기
+            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(190px, 1fr))', gap: 10, marginTop: 20 }}>
+              {[
+                { n: 1, icon: '🧑‍🔧', label: '성장', desc: '일용직 → 교육 → 조공 → 건설근로자', id: 'growth', color: BLUE },
+                { n: 2, icon: '🪪', label: 'Field Pass 발급', desc: '성장 기록 기반 발급', id: 'concept', color: MINT },
+                { n: 3, icon: '🔑', label: 'OTAC 앱 출입 인증', desc: '센스톤 기술 협력 PoC', id: 'otac', color: '#9333ea' },
+                { n: 4, icon: '🔐', label: '권한 확장', desc: '출입 → 장비 → OT 기기', id: 'permission', color: '#ea580c' },
+              ].map((s) => (
+                <button
+                  key={s.id}
+                  onClick={() => { track('field_pass_one_page_summary_jump_clicked', { target: s.id }); scrollTo(s.id); }}
+                  style={{ textAlign: 'center', background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: 14, padding: '16px 12px', cursor: 'pointer', fontFamily: 'inherit' }}
+                >
+                  <div style={{ width: 48, height: 48, borderRadius: '50%', background: s.color, color: '#fff', fontSize: 20, display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 10px', fontWeight: 900 }}>
+                    {s.icon}
+                  </div>
+                  <div style={{ fontSize: 10.5, fontWeight: 800, color: '#94a3b8', marginBottom: 3 }}>STEP {s.n}</div>
+                  <div style={{ fontSize: 14, fontWeight: 900, color: NAVY, wordBreak: 'keep-all' }}>{s.label}</div>
+                  <div style={{ fontSize: 11.5, color: '#64748b', fontWeight: 600, marginTop: 4, lineHeight: 1.5, wordBreak: 'keep-all' }}>{s.desc}</div>
+                  <div style={{ fontSize: 11, color: s.color, fontWeight: 800, marginTop: 8 }}>자세히 보기 ↓</div>
+                </button>
+              ))}
+            </div>
+            <div style={{ textAlign: 'center', marginTop: 18, fontSize: 13, color: '#475569', fontWeight: 700, wordBreak: 'keep-all' }}>
+              일한 기록이 경력이 되고, 경력이 Field Pass가 되며, Field Pass가 현장 권한이 됩니다.
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ── 포지셔닝 메시지 (VC / 센스톤) ── */}
       <section style={{ background: NAVY, padding: '0 20px 56px' }}>
         <div style={{ maxWidth: 820, margin: '0 auto' }}>
@@ -297,7 +336,7 @@ export default function FieldPassClient() {
       </Section>
 
       {/* ── 5-3. Growth Journey ── */}
-      <Section eyebrow="Growth Journey" title="일용직에서 건설근로자로 성장하는 흐름" alt onView={() => track('field_pass_growth_journey_viewed', {})}>
+      <Section id="growth" eyebrow="Growth Journey" title="일용직에서 건설근로자로 성장하는 흐름" alt onView={() => track('field_pass_growth_journey_viewed', {})}>
         <p style={{ fontSize: 14, color: '#475569', fontWeight: 650, lineHeight: 1.7, margin: 0, wordBreak: 'keep-all' }}>
           MONO는 단순 일자리 연결에서 끝나지 않습니다. 현장 근무자가 필요한 교육과 준비를 갖추고, 조공으로 경험을 쌓고, 건설근로자로 성장하는 과정을 데이터로 남깁니다.
         </p>
@@ -305,7 +344,7 @@ export default function FieldPassClient() {
       </Section>
 
       {/* ── 5-4. Field Pass Concept — 1·2단계 차별성 ── */}
-      <Section eyebrow="Concept" title="MONO Field Pass는 성장형 현장 인증 카드입니다" onView={() => track('field_pass_concept_viewed', {})}>
+      <Section id="concept" eyebrow="Concept" title="MONO Field Pass는 성장형 현장 인증 카드입니다" onView={() => track('field_pass_concept_viewed', {})}>
         <div style={{ fontSize: 12.5, fontWeight: 800, color: '#64748b', marginBottom: 4 }}>1단계 · 성장형 인증</div>
         <InfoTable
           cols={['기존', 'MONO']}
@@ -457,7 +496,7 @@ export default function FieldPassClient() {
       </Section>
 
       {/* ── 인포그래픽 3: 권한 레이어 아키텍처 + Permission ── */}
-      <section style={{ padding: '52px 20px', background: '#f8fafc' }} onMouseEnter={() => track('field_pass_infographic_permission_viewed', {})}>
+      <section id="permission" style={{ padding: '52px 20px', background: '#f8fafc' }} onMouseEnter={() => track('field_pass_infographic_permission_viewed', {})}>
         <div style={{ maxWidth: 920, margin: '0 auto' }}>
           <PermissionLayerInfographic />
           <div style={{ marginTop: 16 }}>
