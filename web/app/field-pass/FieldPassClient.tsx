@@ -264,15 +264,19 @@ export default function FieldPassClient() {
             <div style={{ fontSize: 17, fontWeight: 900, color: NAVY, textAlign: 'center', wordBreak: 'keep-all' }}>
               무엇을 하려는지 한눈에 보기
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(190px, 1fr))', gap: 10, marginTop: 20 }}>
+            <p style={{ fontSize: 13, color: '#64748b', fontWeight: 650, textAlign: 'center', lineHeight: 1.65, margin: '10px auto 0', maxWidth: 620, wordBreak: 'keep-all' }}>
+              조공으로 경험을 쌓아 카드를 발급받고, 현장 출입 때는 센스톤 OTAC 기술로 카드·앱 인증을 하고, 포크레인 같은 중장비 인증으로, 이후 아파트 출입으로까지 넓어지는 카드입니다.
+            </p>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(155px, 1fr))', gap: 10, marginTop: 20 }}>
               {[
-                { n: 1, icon: '🧑‍🔧', label: '성장', desc: '일용직 → 교육 → 조공 → 건설근로자', id: 'growth', color: BLUE },
-                { n: 2, icon: '🪪', label: 'Field Pass 발급', desc: '성장 기록 기반 발급', id: 'concept', color: MINT },
-                { n: 3, icon: '🔑', label: 'OTAC 앱 출입 인증', desc: '센스톤 기술 협력 PoC', id: 'otac', color: '#9333ea' },
-                { n: 4, icon: '🔐', label: '권한 확장', desc: '출입 → 장비 → OT 기기', id: 'permission', color: '#ea580c' },
+                { n: 1, icon: '🧑‍🔧', label: '성장', desc: '조공으로 경험을 쌓아 건설근로자로', id: 'growth', color: BLUE },
+                { n: 2, icon: '🪪', label: 'Field Pass 카드 발급', desc: '성장 기록 기반으로 카드 발급', id: 'concept', color: MINT },
+                { n: 3, icon: '🔑', label: '카드·앱 출입 인증(OTAC)', desc: '현장 출입 시 센스톤 OTAC로 카드·앱 인증', id: 'otac', color: '#9333ea' },
+                { n: 4, icon: '🚜', label: '중장비·기기 인증 확장', desc: '포크레인 등 중장비 인증으로 확장', id: 'permission', color: '#ea580c' },
+                { n: 5, icon: '🏢', label: '아파트 출입 확장', desc: '건설 현장 밖, 아파트 출입으로 확장', id: 'permission', color: '#0891b2' },
               ].map((s) => (
                 <button
-                  key={s.id}
+                  key={s.n}
                   onClick={() => { track('field_pass_one_page_summary_jump_clicked', { target: s.id }); scrollTo(s.id); }}
                   style={{ textAlign: 'center', background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: 14, padding: '16px 12px', cursor: 'pointer', fontFamily: 'inherit' }}
                 >
