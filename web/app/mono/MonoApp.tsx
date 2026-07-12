@@ -224,6 +224,7 @@ export default function MonoApp() {
 
   // #2 서류·자격증
   const [openDocs, setOpenDocs] = useState(false);
+  const [eduInfoOpen, setEduInfoOpen] = useState(false); // 조공 필수 교육(기초안전보건교육) 소개 시트
   const [openShareSheet, setOpenShareSheet] = useState(false); // #3 프로필 공유(링크+QR) 시트
   const [openCareerSheet, setOpenCareerSheet] = useState(false); // #4 현장 경력 입력 시트
   const [certForm, setCertForm] = useState({ name: "", licenseNo: "", issuer: "", issuedAt: "" });
@@ -3316,6 +3317,66 @@ export default function MonoApp() {
         </div>
       )}
 
+      {eduInfoOpen && (
+        <div onClick={() => setEduInfoOpen(false)} style={{ position: "absolute", inset: "0", zIndex: "70", background: "rgba(20,22,48,.55)", backdropFilter: "blur(3px)", display: "flex", alignItems: "flex-end", animation: "fadeIn .2s ease" }}>
+          <div onClick={(e) => e.stopPropagation()} style={{ width: "100%", background: "#fff", borderRadius: "28px 28px 0 0", padding: "24px 20px 28px", animation: "sheetUp .32s cubic-bezier(.22,1,.36,1)", maxHeight: "88%", display: "flex", flexDirection: "column" }}>
+            <div style={{ width: "40px", height: "4px", borderRadius: "2px", background: "#d4dae3", margin: "0 auto 16px" }}></div>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "6px" }}>
+              <div style={{ fontSize: "20px", fontWeight: "900", color: "var(--c1,#1F2226)" }}>🎓 조공이 되기 위한 필수 교육</div>
+              <button type="button" onClick={() => setEduInfoOpen(false)} aria-label="닫기" style={{ flex: "none", width: "34px", height: "34px", borderRadius: "10px", border: "none", background: "#eef0f3", color: "#5b6b82", fontSize: "17px", cursor: "pointer", fontFamily: "inherit" }}>✕</button>
+            </div>
+
+            <div className="scr" style={{ overflowY: "auto", flex: 1, display: "flex", flexDirection: "column", gap: "16px", marginTop: "10px" }}>
+              <div style={{ fontSize: "14px", color: "var(--c1,#1F2226)", fontWeight: "600", lineHeight: "1.6", wordBreak: "keep-all" }}>
+                산업안전보건법에 따라 건설 현장에 처음 투입되는 모든 근로자는 작업 시작 전 <strong>건설업 기초안전보건교육</strong>을 반드시 이수해야 해요. 이수하지 않으면 현장 출입 자체가 불가능합니다.
+              </div>
+
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px" }}>
+                {[
+                  { label: "교육 시간", value: "약 4시간" },
+                  { label: "유효 기간", value: "평생 1회" },
+                  { label: "비용", value: "대부분 무료·소액" },
+                  { label: "이수 방법", value: "온라인 또는 오프라인" },
+                ].map((x) => (
+                  <div key={x.label} style={{ background: "#f8fafc", borderRadius: "12px", padding: "10px 12px" }}>
+                    <div style={{ fontSize: "11.5px", color: "#8694a8", fontWeight: "700" }}>{x.label}</div>
+                    <div style={{ fontSize: "14px", fontWeight: "900", color: "var(--c1,#1F2226)", marginTop: "2px" }}>{x.value}</div>
+                  </div>
+                ))}
+              </div>
+              <div style={{ fontSize: "12px", color: "#8694a8", fontWeight: "600", marginTop: "-8px" }}>
+                한 번 이수하면 현장·회사가 바뀌어도 다시 받을 필요 없어요.
+              </div>
+
+              <div style={{ border: "1.5px solid #c7d2fe", background: "#eef2ff", borderRadius: "16px", padding: "16px" }}>
+                <div style={{ fontSize: "14px", fontWeight: "900", color: "#312e81" }}>💻 온라인으로 이수하기</div>
+                <div style={{ fontSize: "13px", color: "#4f46e5", fontWeight: "600", lineHeight: "1.55", marginTop: "6px", wordBreak: "keep-all" }}>
+                  &quot;기초안전보건교육 온라인&quot;으로 검색하면 고용노동부 인가 교육기관의 온라인 강의를 찾을 수 있어요. 스마트폰으로 4시간 안에 완료할 수 있습니다.
+                </div>
+              </div>
+
+              <div style={{ border: "1.5px dashed #cbd5e1", borderRadius: "16px", padding: "16px" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                  <span style={{ fontSize: "14px", fontWeight: "900", color: "#64748b" }}>📍 주변 교육기관 찾기</span>
+                  <span style={{ fontSize: "11px", fontWeight: "800", color: "#92400e", background: "#fffbeb", padding: "2px 8px", borderRadius: "6px" }}>준비 중</span>
+                </div>
+                <div style={{ fontSize: "12.5px", color: "#8694a8", fontWeight: "600", lineHeight: "1.55", marginTop: "6px", wordBreak: "keep-all" }}>
+                  공공데이터 연동을 준비하고 있어요. 곧 내 주변 오프라인 교육기관을 지도에서 바로 찾을 수 있도록 업데이트할게요.
+                </div>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => { track("safety_edu_doc_cta_clicked", { source: "edu_info_sheet" }); setEduInfoOpen(false); setOpenDocs(true); }}
+                style={{ height: "50px", border: "none", borderRadius: "14px", background: "var(--c1,#1F2226)", color: "#fff", fontSize: "15px", fontWeight: "800", cursor: "pointer" }}
+              >
+                이수증 등록하러 가기
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {openInterest && (
         <div onClick={() => setOpenInterest(false)} style={{ position: "absolute", inset: "0", zIndex: "60", background: "rgba(20,22,48,.55)", backdropFilter: "blur(3px)", display: "flex", alignItems: "flex-end", animation: "fadeIn .2s ease" }}>
           <div onClick={(e) => e.stopPropagation()} style={{ width: "100%", background: "#fff", borderRadius: "28px 28px 0 0", padding: "22px 18px 26px", animation: "sheetUp .32s cubic-bezier(.22,1,.36,1)", maxHeight: "82%", display: "flex", flexDirection: "column" }}>
@@ -3413,7 +3474,19 @@ export default function MonoApp() {
                     return (
                       <div key={doc.key} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "16px", border: "2px solid #e6e8ec", borderRadius: "16px", background: bg, borderColor: border }}>
                         <div style={{ minWidth: 0, flex: 1, paddingRight: "10px" }}>
-                          <div style={{ fontSize: "15px", fontWeight: "900", color: "var(--c1,#1F2226)" }}>{doc.label}</div>
+                          <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                            <span style={{ fontSize: "15px", fontWeight: "900", color: "var(--c1,#1F2226)" }}>{doc.label}</span>
+                            {doc.key === "safetyEdu" && (
+                              <button
+                                type="button"
+                                onClick={(e) => { e.stopPropagation(); track("safety_edu_info_viewed", { source: "doc_modal" }); setEduInfoOpen(true); }}
+                                aria-label="안전교육 안내 보기"
+                                style={{ width: "20px", height: "20px", flex: "none", border: "1px solid #c7d2fe", borderRadius: "50%", background: "#eef2ff", color: "#4f46e5", fontSize: "11.5px", fontWeight: "900", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", padding: "0" }}
+                              >
+                                ?
+                              </button>
+                            )}
+                          </div>
                           <div style={{ fontSize: "12.5px", color: statusColor, marginTop: "4px", fontWeight: "800" }}>
                             {statusText}
                           </div>
