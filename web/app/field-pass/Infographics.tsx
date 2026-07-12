@@ -4,7 +4,6 @@ import { Fragment } from 'react';
 import styles from './infographics.module.css';
 
 const NAVY = '#0b1224';
-const MINT = '#10b981';
 
 type Step = { icon: string; label: string; sub?: string; highlight?: boolean };
 
@@ -41,8 +40,8 @@ function InfographicShell({
   children: React.ReactNode;
 }) {
   return (
-    <div style={{ background: '#fff', border: '1.5px solid #e2e8f0', borderRadius: 20, padding: '26px 24px', boxShadow: '0 4px 20px rgba(15,23,42,0.04)' }}>
-      <div style={{ fontSize: 11.5, fontWeight: 850, color: MINT, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 6 }}>{eyebrow}</div>
+    <div style={{ background: 'rgba(255,255,255,0.86)', border: '1px solid rgba(36,91,255,0.16)', borderRadius: 16, padding: '26px 24px', boxShadow: '0 14px 36px rgba(15,23,42,0.06)' }}>
+      <div style={{ fontSize: 11.5, fontWeight: 850, color: '#4f46e5', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 6 }}>{eyebrow}</div>
       <div style={{ fontSize: 18, fontWeight: 900, color: NAVY, wordBreak: 'keep-all' }}>{title}</div>
       {children}
       <p style={{ fontSize: 13, color: '#475569', fontWeight: 650, lineHeight: 1.65, margin: '20px 0 0', wordBreak: 'keep-all', borderTop: '1px solid #f1f5f9', paddingTop: 16 }}>
