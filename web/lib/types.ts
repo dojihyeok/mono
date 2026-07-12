@@ -43,6 +43,7 @@ export interface JobPost {
   requiredVisaTypes: string[];
   interpreterProvided: boolean;
   source?: "PARTNER" | "CRAWLED_CAFE" | "CRAWLED_BAND";
+  sourceRawText?: string | null;
   createdAt: string;
   updatedAt: string;
 }

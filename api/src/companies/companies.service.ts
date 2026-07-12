@@ -176,6 +176,7 @@ export class CompaniesService {
         status: true,
         createdAt: true,
         source: true,
+        sourceRawText: true,
         company: { select: { name: true, region: true, contactPhone: true } },
       },
     });

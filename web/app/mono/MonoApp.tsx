@@ -3116,16 +3116,24 @@ export default function MonoApp() {
 
             <div className="scr" style={{ overflowY: "auto", marginTop: "14px", display: "flex", flexDirection: "column", gap: "14px", paddingBottom: "20px" }}>
               
-              {/* 2. 단가 정보 & 9. 받을 금액 예정일 */}
-              <div style={{ background: "#f8fafc", borderRadius: "16px", padding: "14px 16px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" }}>
+              {/* 2. 단가 정보 & 9. 받을 금액 예정일 — "받을 금액 예정일"은 MONO 자체 정산 흐름 안내라 외부 출처 공고엔 표시하지 않음 */}
+              <div style={{ background: "#f8fafc", borderRadius: "16px", padding: "14px 16px", display: "grid", gridTemplateColumns: jobDetail.source === "CRAWLED_CAFE" || jobDetail.source === "CRAWLED_BAND" ? "1fr" : "1fr 1fr", gap: "10px" }}>
                 <div>
                   <div style={{ fontSize: "11.5px", color: "#8694a8", fontWeight: "700" }}>일당 단가</div>
-                  <div style={{ fontSize: "16px", fontWeight: "800", color: "#10b981", marginTop: "2px" }}>{jobDetail.conditions || "일당 230,000원"}</div>
+                  {jobDetail.conditions ? (
+                    <div style={{ fontSize: "16px", fontWeight: "800", color: "#10b981", marginTop: "2px" }}>{jobDetail.conditions}</div>
+                  ) : jobDetail.source === "CRAWLED_CAFE" || jobDetail.source === "CRAWLED_BAND" ? (
+                    <div style={{ fontSize: "14px", fontWeight: "700", color: "#8694a8", marginTop: "3.5px" }}>전화 문의</div>
+                  ) : (
+                    <div style={{ fontSize: "16px", fontWeight: "800", color: "#10b981", marginTop: "2px" }}>일당 230,000원</div>
+                  )}
                 </div>
-                <div>
-                  <div style={{ fontSize: "11.5px", color: "#8694a8", fontWeight: "700" }}>받을 금액 예정일</div>
-                  <div style={{ fontSize: "13.5px", fontWeight: "700", color: "var(--c1,#1F2226)", marginTop: "3.5px" }}>근무 당일 17:00 입금</div>
-                </div>
+                {jobDetail.source !== "CRAWLED_CAFE" && jobDetail.source !== "CRAWLED_BAND" && (
+                  <div>
+                    <div style={{ fontSize: "11.5px", color: "#8694a8", fontWeight: "700" }}>받을 금액 예정일</div>
+                    <div style={{ fontSize: "13.5px", fontWeight: "700", color: "var(--c1,#1F2226)", marginTop: "3.5px" }}>근무 당일 17:00 입금</div>
+                  </div>
+                )}
               </div>
 
               {/* 4. 내 준비 상태 매칭율 및 부족한 사항 */}
@@ -3171,48 +3179,63 @@ export default function MonoApp() {
                 </div>
               </div>
 
-              {/* 5. 하는 일 (상세 직무 내용) */}
-              <div>
-                <div style={{ fontSize: "13.5px", color: "#8694a8", fontWeight: "700", marginBottom: "4px" }}>🔧 담당 업무</div>
-                <div style={{ fontSize: "14px", color: "var(--c1,#1F2226)", fontWeight: "500", lineHeight: "1.5", wordBreak: "keep-all" }}>
-                  {jobDetail.jobType.includes("형틀목공") ? "형틀목공 반장 및 숙련 기술인의 지시에 따라 거푸집 자재 운반, 정리 및 슬라브/벽체 거푸집 조립 보조 작업을 진행합니다." :
-                   jobDetail.jobType.includes("철근") ? "현장 도면 기준 철근 야적 및 조립 구역 운반 보조, 결속선 바인딩 및 철근 가공 보조 작업을 담당합니다." :
-                   "현장 내 자재 운반 및 정리정돈, 보행 통로 확보, 신호수 역할 보조 등 기초적인 건설 현장 안전 정비 업무를 수행합니다."}
-                </div>
-              </div>
+              {/* 5~8. 담당업무·준비물·복리후생·출근절차는 MONO 자체 파트너 공고용 안내라, 외부
+                  카페/밴드 출처 공고에는 대신 원문 그대로를 보여준다(사실과 다른 내용 노출 방지). */}
+              {jobDetail.source === "CRAWLED_CAFE" || jobDetail.source === "CRAWLED_BAND" ? (
+                jobDetail.sourceRawText && (
+                  <div>
+                    <div style={{ fontSize: "13.5px", color: "#8694a8", fontWeight: "700", marginBottom: "4px" }}>📋 원문 전체</div>
+                    <div style={{ background: "#f8fafc", borderRadius: "12px", padding: "12px", fontSize: "13.5px", color: "var(--c1,#1F2226)", fontWeight: "500", lineHeight: "1.6", whiteSpace: "pre-wrap", wordBreak: "keep-all" }}>
+                      {jobDetail.sourceRawText}
+                    </div>
+                  </div>
+                )
+              ) : (
+                <>
+                  {/* 5. 하는 일 (상세 직무 내용) */}
+                  <div>
+                    <div style={{ fontSize: "13.5px", color: "#8694a8", fontWeight: "700", marginBottom: "4px" }}>🔧 담당 업무</div>
+                    <div style={{ fontSize: "14px", color: "var(--c1,#1F2226)", fontWeight: "500", lineHeight: "1.5", wordBreak: "keep-all" }}>
+                      {jobDetail.jobType.includes("형틀목공") ? "형틀목공 반장 및 숙련 기술인의 지시에 따라 거푸집 자재 운반, 정리 및 슬라브/벽체 거푸집 조립 보조 작업을 진행합니다." :
+                       jobDetail.jobType.includes("철근") ? "현장 도면 기준 철근 야적 및 조립 구역 운반 보조, 결속선 바인딩 및 철근 가공 보조 작업을 담당합니다." :
+                       "현장 내 자재 운반 및 정리정돈, 보행 통로 확보, 신호수 역할 보조 등 기초적인 건설 현장 안전 정비 업무를 수행합니다."}
+                    </div>
+                  </div>
 
-              {/* 6. 준비할 것 */}
-              <div>
-                <div style={{ fontSize: "13.5px", color: "#8694a8", fontWeight: "700", marginBottom: "4px" }}>🎒 필수 준비할 것</div>
-                <div style={{ fontSize: "14px", color: "var(--c1,#1F2226)", fontWeight: "600" }}>
-                  {jobDetail.prepare || "안전화, 작업복, 신분증 실물 (미지참 시 현장 출입 및 근무 불가)"}
-                </div>
-              </div>
+                  {/* 6. 준비할 것 */}
+                  <div>
+                    <div style={{ fontSize: "13.5px", color: "#8694a8", fontWeight: "700", marginBottom: "4px" }}>🎒 필수 준비할 것</div>
+                    <div style={{ fontSize: "14px", color: "var(--c1,#1F2226)", fontWeight: "600" }}>
+                      {jobDetail.prepare || "안전화, 작업복, 신분증 실물 (미지참 시 현장 출입 및 근무 불가)"}
+                    </div>
+                  </div>
 
-              {/* 7. 제공되는 것 */}
-              <div>
-                <div style={{ fontSize: "13.5px", color: "#8694a8", fontWeight: "700", marginBottom: "4px" }}>🏠 복리후생 & 제공되는 것</div>
-                <div style={{ fontSize: "14px", color: "var(--c1,#1F2226)", fontWeight: "600", display: "flex", gap: "6px", flexWrap: "wrap" }}>
-                  <span style={{ background: "#f1f5f9", padding: "4px 8px", borderRadius: "6px", fontSize: "12px" }}>🍱 중식 제공</span>
-                  <span style={{ background: "#f1f5f9", padding: "4px 8px", borderRadius: "6px", fontSize: "12px" }}>🛡️ 4대 보험 가입</span>
-                  {[jobDetail.title, jobDetail.company?.name].join(" ").match(/삼성|SK|현대|대형|반도체/) && (
-                    <>
-                      <span style={{ background: "#f1f5f9", padding: "4px 8px", borderRadius: "6px", fontSize: "12px" }}>🏠 숙소 지원 가능</span>
-                      <span style={{ background: "#f1f5f9", padding: "4px 8px", borderRadius: "6px", fontSize: "12px" }}>🚌 통근 셔틀버스</span>
-                    </>
-                  )}
-                </div>
-              </div>
+                  {/* 7. 제공되는 것 */}
+                  <div>
+                    <div style={{ fontSize: "13.5px", color: "#8694a8", fontWeight: "700", marginBottom: "4px" }}>🏠 복리후생 & 제공되는 것</div>
+                    <div style={{ fontSize: "14px", color: "var(--c1,#1F2226)", fontWeight: "600", display: "flex", gap: "6px", flexWrap: "wrap" }}>
+                      <span style={{ background: "#f1f5f9", padding: "4px 8px", borderRadius: "6px", fontSize: "12px" }}>🍱 중식 제공</span>
+                      <span style={{ background: "#f1f5f9", padding: "4px 8px", borderRadius: "6px", fontSize: "12px" }}>🛡️ 4대 보험 가입</span>
+                      {[jobDetail.title, jobDetail.company?.name].join(" ").match(/삼성|SK|현대|대형|반도체/) && (
+                        <>
+                          <span style={{ background: "#f1f5f9", padding: "4px 8px", borderRadius: "6px", fontSize: "12px" }}>🏠 숙소 지원 가능</span>
+                          <span style={{ background: "#f1f5f9", padding: "4px 8px", borderRadius: "6px", fontSize: "12px" }}>🚌 통근 셔틀버스</span>
+                        </>
+                      )}
+                    </div>
+                  </div>
 
-              {/* 8. 출근 절차 및 위치 */}
-              <div>
-                <div style={{ fontSize: "13.5px", color: "#8694a8", fontWeight: "700", marginBottom: "4px" }}>📍 출근 및 집결 정보</div>
-                <div style={{ background: "#f8fafc", borderRadius: "12px", padding: "12px", fontSize: "13px", color: "#5b6b82", display: "flex", flexDirection: "column", gap: "6px" }}>
-                  <div><strong>집결지:</strong> {jobDetail.region?.join(" ") || "인천 연수구"} 송도동 아파트 신축공사 게이트 2앞</div>
-                  <div><strong>집결 시간:</strong> 오전 06:40 (당일 안전 교육 및 혈압 체크 필수, 지각 시 현장 출입 통제)</div>
-                  <div><strong>절차:</strong> 게이트 안전대 도착 → 출근 체크 → 혈압 측정 → 안전 체조 → 당일 TBM 진행 후 작업 투입</div>
-                </div>
-              </div>
+                  {/* 8. 출근 절차 및 위치 */}
+                  <div>
+                    <div style={{ fontSize: "13.5px", color: "#8694a8", fontWeight: "700", marginBottom: "4px" }}>📍 출근 및 집결 정보</div>
+                    <div style={{ background: "#f8fafc", borderRadius: "12px", padding: "12px", fontSize: "13px", color: "#5b6b82", display: "flex", flexDirection: "column", gap: "6px" }}>
+                      <div><strong>집결지:</strong> {jobDetail.region?.join(" ") || "인천 연수구"} 송도동 아파트 신축공사 게이트 2앞</div>
+                      <div><strong>집결 시간:</strong> 오전 06:40 (당일 안전 교육 및 혈압 체크 필수, 지각 시 현장 출입 통제)</div>
+                      <div><strong>절차:</strong> 게이트 안전대 도착 → 출근 체크 → 혈압 측정 → 안전 체조 → 당일 TBM 진행 후 작업 투입</div>
+                    </div>
+                  </div>
+                </>
+              )}
 
               {/* 10. 후기 및 커뮤니티 연계 & AI 물어보기 */}
               <div style={{ display: "flex", gap: "10px", marginTop: "8px" }}>
