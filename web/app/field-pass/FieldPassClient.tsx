@@ -228,8 +228,8 @@ export default function FieldPassClient() {
           <span className={styles.sectionLabel}>
             <span className={styles.num}>01</span> MONO Field Pass 소개
           </span>
-          <h1 className={styles.hDisplay}>
-            일용직에서 건설근로자로,<br />출입카드에서 현장 권한 인프라로
+          <h1 className={styles.hDisplay} style={{ fontSize: 'clamp(1.3rem, 2.6vw, 2.15rem)', whiteSpace: 'normal' }}>
+            일용직에서 건설근로자로, 출입카드에서 현장 권한 인프라로
           </h1>
           <p className={styles.bodyLg}>
             MONO Field Pass는 현장 근무자가 교육, 서류, 출근 기록, 경력을 쌓아 건설근로자로 성장할 때 발급되는 성장형 현장 인증 카드입니다. 앱과 카드, OTAC 기반 인증을 통해 현장 출입, 출근 기록, 경력 관리, 장비 권한을 하나의 흐름으로 연결합니다.
