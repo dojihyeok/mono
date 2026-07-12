@@ -90,7 +90,7 @@ function CardGrid({ items, minWidth = 240 }: { items: { title: string; body: str
   );
 }
 
-function InfoTable({ rows, cols = ['', ''] }: { rows: string[][]; cols?: string[] }) {
+function InfoTable({ rows, cols = ['', ''] }: { rows: React.ReactNode[][]; cols?: string[] }) {
   return (
     <div style={{ marginTop: 18, border: '1px solid #e2e8f0', borderRadius: 14, overflow: 'hidden', background: '#fff' }}>
       <table style={{ width: '100%', borderCollapse: 'collapse' }}>
@@ -173,6 +173,21 @@ function CheckList({ items }: { items: string[] }) {
   );
 }
 
+function Callout({ children }: { children: React.ReactNode }) {
+  return (
+    <div style={{ borderLeft: `3px solid ${MINT}`, background: '#f0fdf9', borderRadius: '0 12px 12px 0', padding: '14px 18px', margin: '18px 0' }}>
+      <p style={{ fontSize: 14, color: '#065f46', fontWeight: 750, lineHeight: 1.65, margin: 0, wordBreak: 'keep-all' }}>{children}</p>
+    </div>
+  );
+}
+
+function PriorityBadge({ p }: { p: 'P0' | 'P1' | 'P2' }) {
+  const c = p === 'P0' ? { color: '#b91c1c', bg: '#fef2f2' } : p === 'P1' ? { color: '#b45309', bg: '#fffbeb' } : { color: '#64748b', bg: '#f1f5f9' };
+  return (
+    <span style={{ fontSize: 10.5, fontWeight: 900, color: c.color, background: c.bg, padding: '2px 8px', borderRadius: 6, whiteSpace: 'nowrap' }}>{p}</span>
+  );
+}
+
 function StatusBadge({ children, tone = 'purple' }: { children: React.ReactNode; tone?: 'purple' | 'mint' }) {
   const c = tone === 'mint' ? { color: '#047857', bg: '#ecfdf5', border: '#a7f3d0' } : { color: '#9333ea', bg: '#faf5ff', border: '#e9d5ff' };
   return (
@@ -238,6 +253,29 @@ export default function FieldPassClient() {
         </div>
       </section>
 
+      {/* ── 포지셔닝 메시지 (VC / 센스톤) ── */}
+      <section style={{ background: NAVY, padding: '0 20px 56px' }}>
+        <div style={{ maxWidth: 820, margin: '0 auto' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 12 }}>
+            <div style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 14, padding: '18px 20px' }}>
+              <div style={{ fontSize: 11, fontWeight: 800, color: '#93c5fd', letterSpacing: '0.06em', marginBottom: 8 }}>VC용 메시지</div>
+              <p style={{ fontSize: 13.5, color: '#e2e8f0', fontWeight: 650, lineHeight: 1.65, margin: 0, wordBreak: 'keep-all' }}>
+                MONO는 일자리 앱에서 시작해, 현장 근무자의 성장 기록을 출입 권한과 장비 권한으로 연결하는 인증 인프라로 확장합니다.
+              </p>
+            </div>
+            <div style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 14, padding: '18px 20px' }}>
+              <div style={{ fontSize: 11, fontWeight: 800, color: '#6ee7b7', letterSpacing: '0.06em', marginBottom: 8 }}>센스톤용 메시지</div>
+              <p style={{ fontSize: 13.5, color: '#e2e8f0', fontWeight: 650, lineHeight: 1.65, margin: 0, wordBreak: 'keep-all' }}>
+                MONO는 기술자 프로필, 교육·서류 준비 상태, 현장 경험, 권한 데이터를 제공하고, 센스톤 OTAC 기술을 통해 앱 기반 Field Pass 인증과 출입 권한 검증을 PoC로 확인하고자 합니다.
+              </p>
+            </div>
+          </div>
+          <div style={{ textAlign: 'center', marginTop: 20, fontSize: 15, fontWeight: 800, color: '#fff', wordBreak: 'keep-all' }}>
+            &quot;일용직에서 건설근로자로 성장하고, 그 기록이 출입과 장비 권한이 되는 Field Pass&quot;
+          </div>
+        </div>
+      </section>
+
       {/* ── 5-2. Problem ── */}
       <Section eyebrow="Problem" title="현장 출입과 근무 기록은 아직 분리되어 있습니다" onView={() => track('field_pass_problem_viewed', {})}>
         <CardGrid
@@ -258,16 +296,30 @@ export default function FieldPassClient() {
         <FlowSteps color={MINT} steps={['오늘 현장', '처음 현장 준비', '교육·서류 완료', '조공으로 경험 축적', '건설근로자 프로필 형성', 'Field Pass 발급', '출입·출근·경력·정산 연결']} />
       </Section>
 
-      {/* ── 5-4. Field Pass Concept ── */}
+      {/* ── 5-4. Field Pass Concept — 1·2단계 차별성 ── */}
       <Section eyebrow="Concept" title="MONO Field Pass는 성장형 현장 인증 카드입니다" onView={() => track('field_pass_concept_viewed', {})}>
+        <div style={{ fontSize: 12.5, fontWeight: 800, color: '#64748b', marginBottom: 4 }}>1단계 · 성장형 인증</div>
         <InfoTable
+          cols={['기존', 'MONO']}
           rows={[
-            ['Field Ready', '신분증, 기초교육, 전자카드, 신체검사, 계좌, 출입 준비 상태 관리'],
-            ['Field Check-in', '앱, QR, NFC, 카드 기반 출근·출입 인증'],
-            ['Work Log', '출근, 작업 시작, 작업 완료, 공수 기록'],
-            ['Career Link', '일한 기록을 경력카드와 신뢰 프로필로 연결'],
-            ['Access Permission', '현장별 출입 권한 관리'],
-            ['Equipment Permission', '자격·면허 기반 장비 사용 권한 관리'],
+            ['현장에 필요한 카드 발급', '교육·서류·현장 경험을 갖춘 뒤 Field Pass 발급'],
+            ['출입 기록 중심', '출입, 출근, 경력, 정산으로 연결'],
+            ['카드가 중심', '사용자 성장 기록이 중심'],
+          ]}
+        />
+        <Callout>
+          MONO Field Pass는 카드를 먼저 발급하는 서비스가 아니라, 사람이 현장에 들어갈 준비를 갖추고 성장한 결과로 발급되는 인증입니다.
+        </Callout>
+
+        <div style={{ fontSize: 12.5, fontWeight: 800, color: '#64748b', marginTop: 26, marginBottom: 4 }}>2단계 · 앱 기반 출입 인증</div>
+        <InfoTable
+          cols={['기능', '설명']}
+          rows={[
+            ['Field Ready', '교육, 서류, 계좌, 신체검사, 전자카드 준비 상태'],
+            ['App Pass', '앱에서 출입 인증 생성'],
+            ['OTAC 인증', '일회성 인증값으로 출입 확인'],
+            ['출근 기록', '인증 성공 시 출근 기록 생성'],
+            ['경력 연결', '출근 기록이 경력카드에 반영'],
           ]}
         />
       </Section>
@@ -286,19 +338,52 @@ export default function FieldPassClient() {
         </div>
 
         <div style={{ fontSize: 12.5, fontWeight: 800, color: '#64748b', marginTop: 22, marginBottom: 4 }}>PoC 흐름</div>
-        <FlowSteps steps={['앱에서 Field Pass 인증 생성', 'OTAC 기반 일회성 인증값 생성', '현장 단말·관리자 앱에서 인증 확인', '출입 승인', '출근 기록 저장', '경력카드·정산 데이터 연결']} />
+        <FlowSteps steps={['교육·서류 준비 완료', 'Field Pass 활성화', '앱에서 OTAC 인증 생성', '현장 단말·관리자 앱에서 확인', '출입 승인', '출근 기록 저장', '경력·정산 데이터 연결']} />
 
-        <div style={{ fontSize: 12.5, fontWeight: 800, color: '#64748b', marginTop: 28, marginBottom: 4 }}>PoC 검증 항목</div>
+        <div style={{ fontSize: 12.5, fontWeight: 800, color: '#64748b', marginTop: 28, marginBottom: 4 }}>PoC 목표</div>
         <InfoTable
-          cols={['항목', '검증 내용']}
+          cols={['목표', '설명']}
           rows={[
-            ['앱 인증', '앱 기반 Field Pass 인증이 현장에서 사용 가능한지'],
-            ['QR/NFC 연동', '현장 단말 또는 관리자 앱에서 인증값을 확인할 수 있는지'],
-            ['인증 로그', '출입·출근 기록이 안전하게 남는지'],
-            ['권한 연결', '교육·서류·자격 상태에 따라 출입 가능 여부를 관리할 수 있는지'],
-            ['확장성', '카드, BLE, 장비 권한, OT 접근 제어로 확장 가능한지'],
+            ['앱 인증 검증', 'MONO 앱에서 Field Pass 인증 생성'],
+            ['OTAC 적용', '일회성 인증값 기반 출입 인증'],
+            ['현장 확인', '관리자 앱 또는 단말에서 인증 확인'],
+            ['출근 기록', '인증 성공 시 출근 기록 저장'],
+            ['권한 조건', '교육·서류·자격 상태에 따른 출입 가능 여부 검증'],
           ]}
         />
+
+        <div style={{ fontSize: 12.5, fontWeight: 800, color: '#64748b', marginTop: 28, marginBottom: 4 }}>PoC 최소 기능</div>
+        <InfoTable
+          cols={['기능', '우선순위']}
+          rows={[
+            ['Field Ready 상태', <PriorityBadge key="p0-1" p="P0" />],
+            ['앱 Field Pass 인증', <PriorityBadge key="p0-2" p="P0" />],
+            ['OTAC 인증값 생성·검증', <PriorityBadge key="p0-3" p="P0" />],
+            ['관리자 앱 인증 확인', <PriorityBadge key="p0-4" p="P0" />],
+            ['출근 기록 저장', <PriorityBadge key="p0-5" p="P0" />],
+            ['경력카드 반영', <PriorityBadge key="p1-1" p="P1" />],
+            ['실물 카드 연동', <PriorityBadge key="p1-2" p="P1" />],
+            ['중장비 권한 검증', <PriorityBadge key="p2-1" p="P2" />],
+            ['OT 기기 권한 검증', <PriorityBadge key="p2-2" p="P2" />],
+          ]}
+        />
+      </Section>
+
+      {/* ── 5-5.5 Permission — 3단계 차별성 ── */}
+      <Section eyebrow="Permission" title="출입 카드에서 권한 관리 카드로" onView={() => track('field_pass_permission_viewed', {})}>
+        <InfoTable
+          cols={['권한', '확장 방향']}
+          rows={[
+            ['출입 권한', '건설 현장, 아파트, 오피스, 공장 출입'],
+            ['근무 권한', '현장별 출근 가능 여부'],
+            ['장비 권한', '지게차, 굴착기, 크레인 등 자격 기반 사용 승인'],
+            ['OT 권한', '산업 설비, 제어 장비, 보안구역 접근'],
+            ['금융 권한', '급여 계좌, 보험, 복지 금융 연계'],
+          ]}
+        />
+        <Callout>
+          MONO Field Pass는 출입 가능한 사람을 확인하는 카드에서 시작해, 장비와 OT 기기를 사용할 수 있는 권한까지 관리하는 카드로 확장됩니다.
+        </Callout>
       </Section>
 
       {/* ── 5-6. Architecture ── */}
