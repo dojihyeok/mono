@@ -207,18 +207,11 @@ export default function FieldPassClient() {
     <div className={styles.page} style={{ fontFamily: 'var(--font-sans)' }}>
       {/* ── Header ── */}
       <header style={{ background: NAVY, padding: '16px 20px', position: 'sticky', top: 0, zIndex: 10 }}>
-        <div style={{ maxWidth: 1180, margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 8 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-            <span style={{ fontSize: 15.5, fontWeight: 950, color: '#fff' }}>MONO Field Pass</span>
-            <span style={{ fontSize: 10.5, fontWeight: 800, color: '#93c5fd', background: 'rgba(37,99,235,0.18)', padding: '3px 10px', borderRadius: 999, border: '1px solid rgba(147,197,253,0.3)' }}>
-              투자자·파트너 공유용
-            </span>
-          </div>
-          <div style={{ display: 'flex', gap: 14 }}>
-            <a href="/strategy" style={{ fontSize: 12.5, fontWeight: 700, color: '#cbd5e1', textDecoration: 'none' }}>/strategy</a>
-            <a href="/bm" style={{ fontSize: 12.5, fontWeight: 700, color: '#cbd5e1', textDecoration: 'none' }}>/bm</a>
-            <a href="/dataroom" style={{ fontSize: 12.5, fontWeight: 700, color: '#cbd5e1', textDecoration: 'none' }}>/dataroom</a>
-          </div>
+        <div style={{ maxWidth: 1180, margin: '0 auto', display: 'flex', alignItems: 'center', gap: 10 }}>
+          <span style={{ fontSize: 15.5, fontWeight: 950, color: '#fff' }}>MONO Field Pass</span>
+          <span style={{ fontSize: 10.5, fontWeight: 800, color: '#93c5fd', background: 'rgba(37,99,235,0.18)', padding: '3px 10px', borderRadius: 999, border: '1px solid rgba(147,197,253,0.3)' }}>
+            투자자·파트너 공유용
+          </span>
         </div>
       </header>
 
@@ -258,7 +251,7 @@ export default function FieldPassClient() {
               무엇을 하려는지 한눈에 보기
             </div>
             <p style={{ fontSize: 13, color: '#64748b', fontWeight: 650, textAlign: 'center', lineHeight: 1.65, margin: '10px auto 0', maxWidth: 620, wordBreak: 'keep-all' }}>
-              조공으로 경험을 쌓아 카드를 발급받고, 현장 출입 때는 센스톤 OTAC 기술로 카드·앱 인증을 하고, 포크레인 같은 중장비 인증으로, 이후 아파트 출입으로까지 넓어지는 카드입니다.
+              센스톤의 OTAC 인증 기술이 조공에서 발급받은 Field Pass 카드의 현장 출입 인증을 검증하고, 이 인증 구조가 포크레인 같은 중장비 인증, 나아가 아파트 출입까지 그대로 확장됩니다.
             </p>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(155px, 1fr))', gap: 10, marginTop: 20 }}>
               {[
