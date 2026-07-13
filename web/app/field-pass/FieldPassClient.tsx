@@ -249,10 +249,7 @@ export default function FieldPassClient() {
             <div style={{ fontSize: 11, fontWeight: 850, color: INDIGO, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 6, textAlign: 'center' }}>
               MONO Field Pass · 한장 요약
             </div>
-            <div style={{ fontSize: 17, fontWeight: 900, color: INK, textAlign: 'center', wordBreak: 'keep-all' }}>
-              무엇을 하려는지 한눈에 보기
-            </div>
-            <p style={{ fontSize: 13, color: '#64748b', fontWeight: 650, textAlign: 'center', lineHeight: 1.65, margin: '10px auto 0', maxWidth: 620, wordBreak: 'keep-all' }}>
+            <p style={{ fontSize: 15, color: '#334155', fontWeight: 750, textAlign: 'center', lineHeight: 1.65, margin: '10px auto 0', maxWidth: 620, wordBreak: 'keep-all' }}>
               조공에서 성장 기록을 쌓아 발급받은 Field Pass 카드 하나로, 현장 출입부터 중장비 인증, 나아가 아파트 출입까지 넓혀가는 것이 MONO Field Pass의 목표입니다.
             </p>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(155px, 1fr))', gap: 10, marginTop: 20 }}>
