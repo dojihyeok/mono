@@ -382,17 +382,19 @@ export function MonoSensstonePartnership() {
   );
 }
 
-// 전체 요약 섹션 전용 — 클릭 시 확대되는 이미지 (첨부 원본 인포그래픽 그대로 사용)
-export function ZoomableImage({ src, alt, caption }: { src: string; alt: string; caption: string }) {
+// 클릭 시 확대되는 참고 이미지 (첨부 원본 인포그래픽/패널 그대로 사용).
+// compact=true면 가로 스크롤을 강제하지 않고 섹션 폭에 맞춰 반응형으로 축소된다
+// (각 섹션에 매칭되는 작은 참고 패널용). compact=false는 큰 포스터형 이미지용.
+export function ZoomableImage({ src, alt, caption, compact = false, maxWidth = 1440 }: { src: string; alt: string; caption: string; compact?: boolean; maxWidth?: number }) {
   const [open, setOpen] = useState(false);
   return (
     <div style={{ marginTop: 18 }}>
-      <div style={{ overflowX: 'auto' }}>
+      <div style={compact ? undefined : { overflowX: 'auto' }}>
         <img
           src={src}
           alt={alt}
           onClick={() => setOpen(true)}
-          style={{ display: 'block', width: '100%', minWidth: 640, maxWidth: 1440, margin: '0 auto', borderRadius: 12, border: '1px solid rgba(36,91,255,0.16)', cursor: 'zoom-in' }}
+          style={{ display: 'block', width: '100%', minWidth: compact ? undefined : 640, maxWidth, margin: '0 auto', borderRadius: 12, border: '1px solid rgba(36,91,255,0.16)', cursor: 'zoom-in' }}
         />
       </div>
       <p style={{ fontSize: 12.5, color: '#64748b', fontWeight: 650, textAlign: 'center', marginTop: 10, wordBreak: 'keep-all' }}>{caption}</p>

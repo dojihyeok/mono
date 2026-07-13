@@ -207,6 +207,7 @@ export default function FieldPassClient() {
         <div style={{ marginTop: 28 }}>
           <WhyMonoInfographic />
         </div>
+        <ZoomableImage compact maxWidth={640} src="/field-pass/panel-01-why-mono.png" alt="Why MONO Field Pass 참고 패널" caption="참고 패널 · Why MONO Field Pass" />
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 12, marginTop: 20 }}>
           <div className={styles.card}>
@@ -230,6 +231,7 @@ export default function FieldPassClient() {
         <Callout>
           MONO Field Pass는 카드를 먼저 발급하는 서비스가 아니라, 사람이 현장에 들어갈 준비를 갖추고 성장한 결과로 발급되는 인증입니다.
         </Callout>
+        <ZoomableImage compact maxWidth={640} src="/field-pass/panel-02-legacy-vs-mono.png" alt="기존 전자카드 vs MONO Field Pass 참고 패널" caption="참고 패널 · 기존 전자카드 vs MONO Field Pass" />
       </NumberedSection>
 
       {/* ── 4. Growth Journey ── */}
@@ -258,6 +260,7 @@ export default function FieldPassClient() {
         <div style={{ marginTop: 24 }}>
           <OtacPocInfographic />
         </div>
+        <ZoomableImage compact maxWidth={640} src="/field-pass/panel-03-otac-poc.png" alt="센스톤 OTAC 기반 출입 인증 PoC 흐름 참고 패널" caption="참고 패널 · OTAC 기반 출입 인증 PoC 흐름" />
 
         <div style={{ fontSize: 12.5, fontWeight: 800, color: '#64748b', marginTop: 28, marginBottom: 4 }}>PoC 목표</div>
         <InfoTable
@@ -291,6 +294,7 @@ export default function FieldPassClient() {
       {/* ── 6. 출입·장비·OT 권한 아키텍처 ── */}
       <NumberedSection id="permission" num="05" eyebrow="Permission" title="출입에서 장비·OT 권한으로" onView={() => track('field_pass_infographic_permission_viewed', {})}>
         <PermissionLayerInfographic />
+        <ZoomableImage compact maxWidth={640} src="/field-pass/panel-04-permission.png" alt="출입·장비·OT 권한 아키텍처 참고 패널" caption="참고 패널 · Permission Architecture" />
       </NumberedSection>
 
       {/* ── 7. MONO Data Loop ── */}
@@ -301,6 +305,7 @@ export default function FieldPassClient() {
         <div style={{ marginTop: 20 }}>
           <DataLoopInfographic />
         </div>
+        <ZoomableImage compact maxWidth={640} src="/field-pass/panel-05-data-loop.png" alt="MONO Data Loop 참고 패널" caption="참고 패널 · MONO Data Loop" />
       </NumberedSection>
 
       {/* ── 8. Field Pass 전체 시스템 아키텍처 ── */}
@@ -311,16 +316,19 @@ export default function FieldPassClient() {
         <div style={{ marginTop: 18 }}>
           <SystemArchitectureInfographic />
         </div>
+        <ZoomableImage src="/field-pass/architecture-flow.png" alt="MONO Field Pass 아키텍처 흐름도 1.1 — 성장 단계부터 데이터 플랫폼, 확장 로드맵, 외부 연동까지" caption="MONO Field Pass 아키텍처 흐름도 1.1" />
       </NumberedSection>
 
       {/* ── 9. Expansion Roadmap ── */}
       <NumberedSection id="roadmap" num="08" eyebrow="Expansion Roadmap" title="건설 현장에서 산업·생활 공간으로 확장" alt onView={() => track('field_pass_expansion_roadmap_viewed', {})}>
         <ExpansionInfographic />
+        <ZoomableImage compact maxWidth={640} src="/field-pass/panel-07-expansion.png" alt="산업·생활 공간 확장 로드맵 참고 패널" caption="참고 패널 · Expansion Roadmap" />
       </NumberedSection>
 
       {/* ── 10. MONO + Sensstone ── */}
       <NumberedSection id="partnership" num="09" eyebrow="MONO + Sensstone" title="MONO의 데이터 + 센스톤의 인증, 결합하면 넓어집니다" onView={() => track('field_pass_mono_sensstone_viewed', {})}>
         <MonoSensstonePartnership />
+        <ZoomableImage compact maxWidth={640} src="/field-pass/panel-08-sensstone.png" alt="MONO + Sensstone 파트너십 시너지 참고 패널" caption="참고 패널 · MONO + Sensstone" />
       </NumberedSection>
 
       {/* ── 11. Business Model ── */}
@@ -341,27 +349,16 @@ export default function FieldPassClient() {
         </Callout>
       </NumberedSection>
 
-      {/* ── 12. 전체 요약 ── */}
-      <NumberedSection num="11" eyebrow="Summary" title="한눈에 보는 MONO Field Pass" onView={() => track('field_pass_summary_viewed', {})}>
-        <ZoomableImage
-          src="/field-pass/summary-infographic.png"
-          alt="MONO Field Pass 한눈에 이해하기 — Why MONO부터 투자 포인트까지 9개 인포그래픽 요약"
-          caption="성장 → 인증 → 출입 → 권한 → 데이터 → 산업 확장"
-        />
-        <ZoomableImage
-          src="/field-pass/architecture-flow.png"
-          alt="MONO Field Pass 아키텍처 흐름도 1.1 — 성장 단계부터 데이터 플랫폼, 확장 로드맵, 외부 연동까지"
-          caption="MONO Field Pass 아키텍처 흐름도 1.1"
-        />
-      </NumberedSection>
-
-      {/* ── 13. Partnership CTA ── */}
+      {/* ── 12. Partnership CTA ── */}
       <section style={{ background: NAVY, padding: '56px 20px' }}>
         <div style={{ maxWidth: 680, margin: '0 auto', textAlign: 'center' }}>
           <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center', gap: 10, marginBottom: 18, fontSize: 13, fontWeight: 800 }}>
             <span style={{ color: 'rgba(226,232,240,0.6)' }}>오늘 · 일자리 플랫폼</span>
             <span style={{ color: '#475569' }}>→</span>
             <span style={{ color: '#fff' }}>내일 · Field Pass 출입·권한 플랫폼</span>
+          </div>
+          <div style={{ maxWidth: 560, margin: '0 auto 24px' }}>
+            <ZoomableImage compact maxWidth={560} src="/field-pass/panel-09-investment.png" alt="Investment Story 참고 패널" caption="참고 패널 · Investment Story" />
           </div>
           <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center', gap: 8, marginBottom: 20, fontSize: 13, fontWeight: 800, color: '#a5b4fc' }}>
             <span>Field Pass</span><span style={{ color: '#475569' }}>→</span>
