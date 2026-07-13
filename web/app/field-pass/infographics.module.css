@@ -66,6 +66,64 @@
   margin-top: 2px;
 }
 
+.compareGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  align-items: start;
+  position: relative;
+  margin-top: 8px;
+}
+
+.compareVs {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: #0b1224;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  box-shadow: 0 4px 14px rgba(11, 18, 36, 0.28);
+}
+
+.archGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+@media (max-width: 900px) {
+  .archGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 560px) {
+  .archGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .compareGrid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  .compareVs {
+    position: static;
+    transform: none;
+    margin: 4px auto;
+  }
+}
+
 @media (max-width: 720px) {
   .timeline {
     flex-direction: column;
