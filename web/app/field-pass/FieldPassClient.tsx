@@ -2,13 +2,24 @@
 
 import { useEffect } from 'react';
 import { track } from '@/lib/analytics';
-import { GrowthFlowInfographic, OtacPocInfographic, PermissionLayerInfographic, ExpansionInfographic, ArchitectureV2Infographic } from './Infographics';
+import {
+  WhyMonoInfographic,
+  LegacyVsMonoInfographic,
+  OtacPocInfographic,
+  PermissionLayerInfographic,
+  DataLoopInfographic,
+  ArchitectureV2Infographic,
+  ExpansionInfographic,
+  MonoSensstoneInfographic,
+} from './Infographics';
 import styles from './strategy.module.css';
 
 // ─────────────────────────────────────────────
 // MONO Field Pass 소개 페이지 — VC 투자자·센스톤 대표 공유용
 // 톤: /strategy(전략 페이지)와 동일한 웜톤 오프화이트 + 인디고 + 블루프린트 그리드,
-//     넘버링된 섹션(01, 02, ...)으로 구성 — 사용자 피드백("전략 페이지처럼 순서 개편") 반영.
+//     넘버링된 섹션(01, 02, ...)으로 구성.
+// 구조 v2: "출입 인증 시스템 소개"가 아니라 1~2분 안에 왜 MONO가 Field Pass를 하는지 →
+//     왜 시장이 큰지 → 왜 센스톤과 해야 하는지 → 왜 투자해야 하는지가 읽히도록 재구성.
 // 주의: OTAC는 서면 합의 전 TECH REVIEW 상태 — "공식 파트너"/"적용 완료" 표현 금지(/partner/field-pass와 동일 원칙)
 // ─────────────────────────────────────────────
 
@@ -68,19 +79,6 @@ function FlowSteps({ steps, color = INDIGO }: { steps: string[]; color?: string 
             <span style={{ fontSize: 13.5, fontWeight: 800, color: INK, whiteSpace: 'nowrap' }}>{s}</span>
           </div>
           {i < steps.length - 1 && <span style={{ color: '#94a3b8', fontSize: 16 }}>→</span>}
-        </div>
-      ))}
-    </div>
-  );
-}
-
-function CardGrid({ items, minWidth = 240 }: { items: { title: string; body: string }[]; minWidth?: number }) {
-  return (
-    <div style={{ display: 'grid', gridTemplateColumns: `repeat(auto-fit, minmax(${minWidth}px, 1fr))`, gap: 12, marginTop: 18 }}>
-      {items.map((it) => (
-        <div key={it.title} className={`${styles.card} ${styles.hoverLift}`} style={{ padding: 18 }}>
-          <div style={{ fontSize: 14.5, fontWeight: 900, color: INK, marginBottom: 6 }}>{it.title}</div>
-          <div style={{ fontSize: 13, color: '#64748b', fontWeight: 600, lineHeight: 1.55, wordBreak: 'keep-all' }}>{it.body}</div>
         </div>
       ))}
     </div>
@@ -215,12 +213,9 @@ export default function FieldPassClient() {
         </div>
       </header>
 
-      {/* ── 01. 소개 + 한장 요약 ── */}
-      <section className={`${styles.section} ${styles.blueprint}`} onMouseEnter={() => track('field_pass_one_page_summary_viewed', {})}>
+      {/* ── Hero ── */}
+      <section className={`${styles.section} ${styles.blueprint}`} style={{ paddingBottom: 40 }}>
         <div className={styles.container}>
-          <span className={styles.sectionLabel}>
-            <span className={styles.num}>01</span> MONO Field Pass 소개
-          </span>
           <h1 className={styles.hDisplay} style={{ fontSize: 'clamp(1.3rem, 2.6vw, 2.15rem)', whiteSpace: 'normal' }}>
             일용직에서 건설근로자로, 출입카드에서 현장 권한 인프라로
           </h1>
@@ -243,116 +238,81 @@ export default function FieldPassClient() {
               PoC 구조 보기
             </button>
           </div>
-
-          {/* 한장 요약 */}
-          <div className={styles.card} style={{ marginTop: 44 }}>
-            <div style={{ fontSize: 11, fontWeight: 850, color: INDIGO, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 6, textAlign: 'center' }}>
-              MONO Field Pass · 한장 요약
-            </div>
-            <p style={{ fontSize: 15, color: '#334155', fontWeight: 750, textAlign: 'center', lineHeight: 1.65, margin: '10px auto 0', maxWidth: 620, wordBreak: 'keep-all' }}>
-              조공에서 성장 기록을 쌓아 발급받은 Field Pass 카드 하나로, 현장 출입부터 중장비 인증, 나아가 아파트 출입까지 넓혀가는 것이 MONO Field Pass의 목표입니다.
-            </p>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(155px, 1fr))', gap: 10, marginTop: 20 }}>
-              {[
-                { n: 1, icon: '🧑‍🔧', label: '성장', desc: '조공으로 경험을 쌓아 건설근로자로', id: 'growth', color: '#2563eb' },
-                { n: 2, icon: '🪪', label: 'Field Pass 카드 발급', desc: '성장 기록 기반으로 카드 발급', id: 'concept', color: '#059669' },
-                { n: 3, icon: '🔑', label: '카드·앱 출입 인증(OTAC)', desc: '현장 출입 시 센스톤 OTAC로 카드·앱 인증', id: 'otac', color: '#9333ea' },
-                { n: 4, icon: '🚜', label: '중장비·기기 인증 확장', desc: '포크레인 등 중장비 인증으로 확장', id: 'permission', color: '#ea580c' },
-                { n: 5, icon: '🏢', label: '아파트 출입 확장', desc: '건설 현장 밖, 아파트 출입으로 확장', id: 'permission', color: '#0891b2' },
-              ].map((s) => (
-                <button
-                  key={s.n}
-                  onClick={() => { track('field_pass_one_page_summary_jump_clicked', { target: s.id }); scrollTo(s.id); }}
-                  style={{ textAlign: 'center', background: '#fff', border: '1px solid rgba(36,91,255,0.14)', borderRadius: 14, padding: '16px 12px', cursor: 'pointer', fontFamily: 'inherit' }}
-                >
-                  <div style={{ width: 48, height: 48, borderRadius: '50%', background: s.color, color: '#fff', fontSize: 20, display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 10px', fontWeight: 900 }}>
-                    {s.icon}
-                  </div>
-                  <div style={{ fontSize: 10.5, fontWeight: 800, color: '#94a3b8', marginBottom: 3 }}>STEP {s.n}</div>
-                  <div style={{ fontSize: 14, fontWeight: 900, color: INK, wordBreak: 'keep-all' }}>{s.label}</div>
-                  <div style={{ fontSize: 11.5, color: '#64748b', fontWeight: 600, marginTop: 4, lineHeight: 1.5, wordBreak: 'keep-all' }}>{s.desc}</div>
-                  <div style={{ fontSize: 11, color: s.color, fontWeight: 800, marginTop: 8 }}>자세히 보기 ↓</div>
-                </button>
-              ))}
-            </div>
-            <div style={{ textAlign: 'center', marginTop: 18, fontSize: 13, color: '#475569', fontWeight: 700, wordBreak: 'keep-all' }}>
-              일한 기록이 경력이 되고, 경력이 Field Pass가 되며, Field Pass가 현장 권한이 됩니다.
-            </div>
-          </div>
-
-          {/* VC / 센스톤 메시지 */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 12, marginTop: 16 }}>
-            <div className={styles.card}>
-              <div style={{ fontSize: 11, fontWeight: 800, color: INDIGO, letterSpacing: '0.06em', marginBottom: 8 }}>VC용 메시지</div>
-              <p style={{ fontSize: 13.5, color: '#334155', fontWeight: 650, lineHeight: 1.65, margin: 0, wordBreak: 'keep-all' }}>
-                MONO는 일자리 앱에서 시작해, 현장 근무자의 성장 기록을 출입 권한과 장비 권한으로 연결하는 인증 인프라로 확장합니다.
-              </p>
-            </div>
-            <div className={styles.card}>
-              <div style={{ fontSize: 11, fontWeight: 800, color: '#059669', letterSpacing: '0.06em', marginBottom: 8 }}>센스톤용 메시지</div>
-              <p style={{ fontSize: 13.5, color: '#334155', fontWeight: 650, lineHeight: 1.65, margin: 0, wordBreak: 'keep-all' }}>
-                MONO는 기술자 프로필, 교육·서류 준비 상태, 현장 경험, 권한 데이터를 제공하고, 센스톤 OTAC 기술을 통해 앱 기반 Field Pass 인증과 출입 권한 검증을 PoC로 확인하고자 합니다.
-              </p>
-            </div>
-          </div>
-
-          {/* 성장 흐름 인포그래픽 */}
-          <div style={{ marginTop: 32 }}>
-            <GrowthFlowInfographic />
-          </div>
         </div>
       </section>
 
-      {/* ── 02. Problem ── */}
-      <NumberedSection num="02" eyebrow="Problem" title="현장 출입과 근무 기록은 아직 분리되어 있습니다" alt onView={() => track('field_pass_problem_viewed', {})}>
-        <CardGrid
-          items={[
-            { title: '준비 과정이 흩어짐', body: '교육, 전자카드, 신체검사, 서류, 출입카드가 각각 관리됩니다.' },
-            { title: '출입과 경력이 연결되지 않음', body: '현장에 출근해도 그 기록이 기술자의 경력 자산으로 충분히 남지 않습니다.' },
-            { title: '권한 관리가 제한적', body: '출입 가능 여부와 장비 사용 가능 여부가 별도로 관리됩니다.' },
-            { title: '금융 선택지가 제한됨', body: '전자카드 발급 과정에서 사용자와 현장 운영사의 선택 폭이 제한됩니다.' },
-          ]}
-        />
+      {/* ── 01. Why MONO ── */}
+      <NumberedSection id="why" num="01" eyebrow="Why MONO" title="왜 MONO가 Field Pass를 만드는가" onView={() => track('field_pass_why_mono_viewed', {})}>
+        <p style={{ fontSize: 14, color: '#475569', fontWeight: 650, lineHeight: 1.75, margin: '0 0 6px', wordBreak: 'keep-all' }}>
+          건설 현장은 매일 수많은 일용직·조공 인력이 드나들지만, 교육·서류·출입·경력 관리가 전부 따로 놀아서 원청과 협력사 모두 비효율과 리스크를 감수하고 있습니다.
+        </p>
+        <p style={{ fontSize: 14, color: '#475569', fontWeight: 650, lineHeight: 1.75, margin: 0, wordBreak: 'keep-all' }}>
+          MONO는 이 흩어진 과정을 하나로 연결합니다. 일한 기록이 경력이 되고, 경력이 Field Pass가 되며, Field Pass가 현장 권한이 되는 구조입니다.
+        </p>
+
+        <div style={{ marginTop: 28 }}>
+          <WhyMonoInfographic />
+        </div>
+
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(155px, 1fr))', gap: 10, marginTop: 20 }}>
+          {[
+            { n: 1, icon: '🧑‍🔧', label: '성장', desc: '조공으로 경험을 쌓아 건설근로자로', id: 'growth', color: '#2563eb' },
+            { n: 2, icon: '🪪', label: 'Field Pass 카드 발급', desc: '성장 기록 기반으로 카드 발급', id: 'concept', color: '#059669' },
+            { n: 3, icon: '🔑', label: '카드·앱 출입 인증(OTAC)', desc: '현장 출입 시 센스톤 OTAC로 카드·앱 인증', id: 'otac', color: '#9333ea' },
+            { n: 4, icon: '🚜', label: '중장비·기기 인증 확장', desc: '포크레인 등 중장비 인증으로 확장', id: 'permission', color: '#ea580c' },
+            { n: 5, icon: '🏢', label: '아파트 출입 확장', desc: '건설 현장 밖, 아파트 출입으로 확장', id: 'permission', color: '#0891b2' },
+          ].map((s) => (
+            <button
+              key={s.n}
+              onClick={() => { track('field_pass_one_page_summary_jump_clicked', { target: s.id }); scrollTo(s.id); }}
+              style={{ textAlign: 'center', background: '#fff', border: '1px solid rgba(36,91,255,0.14)', borderRadius: 14, padding: '16px 12px', cursor: 'pointer', fontFamily: 'inherit' }}
+            >
+              <div style={{ width: 48, height: 48, borderRadius: '50%', background: s.color, color: '#fff', fontSize: 20, display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 10px', fontWeight: 900 }}>
+                {s.icon}
+              </div>
+              <div style={{ fontSize: 10.5, fontWeight: 800, color: '#94a3b8', marginBottom: 3 }}>STEP {s.n}</div>
+              <div style={{ fontSize: 14, fontWeight: 900, color: INK, wordBreak: 'keep-all' }}>{s.label}</div>
+              <div style={{ fontSize: 11.5, color: '#64748b', fontWeight: 600, marginTop: 4, lineHeight: 1.5, wordBreak: 'keep-all' }}>{s.desc}</div>
+              <div style={{ fontSize: 11, color: s.color, fontWeight: 800, marginTop: 8 }}>자세히 보기 ↓</div>
+            </button>
+          ))}
+        </div>
+
+        {/* VC / 센스톤 메시지 */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 12, marginTop: 24 }}>
+          <div className={styles.card}>
+            <div style={{ fontSize: 11, fontWeight: 800, color: INDIGO, letterSpacing: '0.06em', marginBottom: 8 }}>VC용 메시지</div>
+            <p style={{ fontSize: 13.5, color: '#334155', fontWeight: 650, lineHeight: 1.65, margin: 0, wordBreak: 'keep-all' }}>
+              MONO는 일자리 앱에서 시작해, 현장 근무자의 성장 기록을 출입 권한과 장비 권한으로 연결하는 인증 인프라로 확장합니다.
+            </p>
+          </div>
+          <div className={styles.card}>
+            <div style={{ fontSize: 11, fontWeight: 800, color: '#059669', letterSpacing: '0.06em', marginBottom: 8 }}>센스톤용 메시지</div>
+            <p style={{ fontSize: 13.5, color: '#334155', fontWeight: 650, lineHeight: 1.65, margin: 0, wordBreak: 'keep-all' }}>
+              MONO는 기술자 프로필, 교육·서류 준비 상태, 현장 경험, 권한 데이터를 제공하고, 센스톤 OTAC 기술을 통해 앱 기반 Field Pass 인증과 출입 권한 검증을 PoC로 확인하고자 합니다.
+            </p>
+          </div>
+        </div>
       </NumberedSection>
 
-      {/* ── 03. Growth Journey ── */}
-      <NumberedSection id="growth" num="03" eyebrow="Growth Journey" title="일용직에서 건설근로자로 성장하는 흐름" onView={() => track('field_pass_growth_journey_viewed', {})}>
+      {/* ── 02. Growth Journey ── */}
+      <NumberedSection id="growth" num="02" eyebrow="Growth Journey" title="일용직에서 건설근로자로 성장하는 흐름" alt onView={() => track('field_pass_growth_journey_viewed', {})}>
         <p style={{ fontSize: 14, color: '#475569', fontWeight: 650, lineHeight: 1.7, margin: 0, wordBreak: 'keep-all' }}>
           MONO는 단순 일자리 연결에서 끝나지 않습니다. 현장 근무자가 필요한 교육과 준비를 갖추고, 조공으로 경험을 쌓고, 건설근로자로 성장하는 과정을 데이터로 남깁니다.
         </p>
         <FlowSteps steps={['오늘 현장', '처음 현장 준비', '교육·서류 완료', '조공으로 경험 축적', '건설근로자 프로필 형성', 'Field Pass 발급', '출입·출근·경력·정산 연결']} />
       </NumberedSection>
 
-      {/* ── 04. Field Pass Concept — 1·2단계 차별성 ── */}
-      <NumberedSection id="concept" num="04" eyebrow="Concept" title="MONO Field Pass는 성장형 현장 인증 카드입니다" alt onView={() => track('field_pass_concept_viewed', {})}>
-        <div style={{ fontSize: 12.5, fontWeight: 800, color: '#64748b', marginBottom: 4 }}>1단계 · 성장형 인증</div>
-        <InfoTable
-          cols={['기존', 'MONO']}
-          rows={[
-            ['현장에 필요한 카드 발급', '교육·서류·현장 경험을 갖춘 뒤 Field Pass 발급'],
-            ['출입 기록 중심', '출입, 출근, 경력, 정산으로 연결'],
-            ['카드가 중심', '사용자 성장 기록이 중심'],
-          ]}
-        />
+      {/* ── 03. 기존 건설 전자카드 vs MONO ── */}
+      <NumberedSection id="concept" num="03" eyebrow="Legacy vs MONO" title="카드를 먼저 발급하는 게 아니라, 성장한 결과로 발급합니다" onView={() => track('field_pass_concept_viewed', {})}>
+        <LegacyVsMonoInfographic />
         <Callout>
           MONO Field Pass는 카드를 먼저 발급하는 서비스가 아니라, 사람이 현장에 들어갈 준비를 갖추고 성장한 결과로 발급되는 인증입니다.
         </Callout>
-
-        <div style={{ fontSize: 12.5, fontWeight: 800, color: '#64748b', marginTop: 26, marginBottom: 4 }}>2단계 · 앱 기반 출입 인증</div>
-        <InfoTable
-          cols={['기능', '설명']}
-          rows={[
-            ['Field Ready', '교육, 서류, 계좌, 신체검사, 전자카드 준비 상태'],
-            ['App Pass', '앱에서 출입 인증 생성'],
-            ['OTAC 인증', '일회성 인증값으로 출입 확인'],
-            ['출근 기록', '인증 성공 시 출근 기록 생성'],
-            ['경력 연결', '출근 기록이 경력카드에 반영'],
-          ]}
-        />
       </NumberedSection>
 
-      {/* ── 05. OTAC Partnership PoC ── */}
-      <NumberedSection id="otac" num="05" eyebrow="OTAC Partnership" title="센스톤 OTAC 기반 기술 협력 PoC" onView={() => track('field_pass_otac_viewed', {})}>
+      {/* ── 04. OTAC Partnership PoC ── */}
+      <NumberedSection id="otac" num="04" eyebrow="OTAC Partnership" title="센스톤 OTAC 기반 기술 협력 PoC" alt onView={() => track('field_pass_otac_viewed', {})}>
         <p style={{ fontSize: 14, color: '#475569', fontWeight: 650, lineHeight: 1.7, margin: '0 0 4px', wordBreak: 'keep-all' }}>
           MONO는 센스톤의 OTAC 기반 인증 기술을 활용해 Field Pass의 핵심 인증 흐름을 검증하고자 합니다.
         </p>
@@ -364,7 +324,6 @@ export default function FieldPassClient() {
           <span style={{ fontSize: 12, color: '#94a3b8', fontWeight: 650 }}>서면 협력 합의 전 · 기술 검토 단계</span>
         </div>
 
-        {/* ── 인포그래픽 2: OTAC 기반 앱 출입 인증 PoC 흐름 ── */}
         <div style={{ marginTop: 24 }}>
           <OtacPocInfographic />
         </div>
@@ -398,10 +357,25 @@ export default function FieldPassClient() {
         />
       </NumberedSection>
 
-      {/* ── 06. Architecture ── */}
-      <NumberedSection num="06" eyebrow="Architecture" title="MONO Field Pass 아키텍처" alt maxWidth={1180} onView={() => track('field_pass_architecture_viewed', {})}>
+      {/* ── 05. Permission — 권한 레이어 아키텍처 ── */}
+      <NumberedSection id="permission" num="05" eyebrow="Permission" title="출입 카드에서 현장 권한 관리 카드로" onView={() => track('field_pass_infographic_permission_viewed', {})}>
+        <PermissionLayerInfographic />
+      </NumberedSection>
+
+      {/* ── 06. MONO Data Loop ── */}
+      <NumberedSection id="data-loop" num="06" eyebrow="MONO Data Loop" title="데이터가 쌓일수록 강해지는 구조" alt onView={() => track('field_pass_data_loop_viewed', {})}>
+        <p style={{ fontSize: 14, color: '#475569', fontWeight: 650, lineHeight: 1.7, margin: '0 0 4px', wordBreak: 'keep-all' }}>
+          이 페이지에서 가장 중요한 그림입니다. 출입 한 번이 근태, 경력, 신뢰 데이터로 쌓이고, 그 데이터가 다시 더 좋은 현장과 더 높은 급여로 이어집니다.
+        </p>
+        <div style={{ marginTop: 20 }}>
+          <DataLoopInfographic />
+        </div>
+      </NumberedSection>
+
+      {/* ── 07. Architecture ── */}
+      <NumberedSection num="07" eyebrow="Architecture" title="MONO Field Pass 아키텍처" maxWidth={1180} onView={() => track('field_pass_architecture_viewed', {})}>
         <p style={{ fontSize: 13, color: '#64748b', fontWeight: 650, lineHeight: 1.6, margin: '0 0 4px', wordBreak: 'keep-all' }}>
-          출입 인증 시스템이 아니라 &quot;왜 MONO가 필요한가&quot;가 먼저 보여야 합니다. 성장이 인증이 되고, 인증이 권한이 되고, 권한이 데이터가 되어, 산업 전반으로 확장됩니다.
+          출입 인증 시스템이 아니라 &quot;왜 MONO가 필요한가&quot;가 먼저 보여야 합니다. 성장이 신원이 되고, 신원이 인증이 되고, 인증이 권한이 되어, 산업 전반으로 확장됩니다.
         </p>
         <div style={{ marginTop: 18 }}>
           <ArchitectureV2Infographic />
@@ -480,23 +454,6 @@ export default function FieldPassClient() {
         />
       </NumberedSection>
 
-      {/* ── 07. Permission — 권한 레이어 아키텍처 ── */}
-      <NumberedSection id="permission" num="07" eyebrow="Permission" title="출입 카드에서 현장 권한 관리 카드로" onView={() => track('field_pass_infographic_permission_viewed', {})}>
-        <PermissionLayerInfographic />
-        <div style={{ marginTop: 16 }}>
-          <InfoTable
-            cols={['권한', '확장 방향']}
-            rows={[
-              ['출입 권한', '건설 현장, 아파트, 오피스, 공장 출입'],
-              ['근무 권한', '현장별 출근 가능 여부'],
-              ['장비 권한', '지게차, 굴착기, 크레인 등 자격 기반 사용 승인'],
-              ['OT 권한', '산업 설비, 제어 장비, 보안구역 접근'],
-              ['금융 권한', '급여 계좌, 보험, 복지 금융 연계'],
-            ]}
-          />
-        </div>
-      </NumberedSection>
-
       {/* ── 08. Expansion Roadmap ── */}
       <NumberedSection num="08" eyebrow="Expansion Roadmap" title="건설 현장에서 생활·산업 공간으로 확장" alt onView={() => track('field_pass_expansion_roadmap_viewed', {})}>
         <ExpansionInfographic />
@@ -505,7 +462,7 @@ export default function FieldPassClient() {
           cols={['단계', '적용 영역', '확장 내용']}
           rows={[
             ['Phase 1', '건설 현장', '출입, 출근, 교육, 전자카드, 경력 기록'],
-            ['Phase 2', '대형 산업 현장', '협력사 인력, 출입 권한, 안전교육 관리'],
+            ['Phase 2', '대형 산업 현장', '반도체·조선·플랜트 협력사 인력, 출입 권한, 안전교육 관리'],
             ['Phase 3', '아파트', '방문 작업자, 수리기사, 인테리어 작업자 출입 인증'],
             ['Phase 4', '오피스', '외주 인력, 시설관리, 보안구역 출입 관리'],
             ['Phase 5', '중장비·OT', '자격·면허 기반 장비 작동 권한 관리'],
@@ -514,18 +471,9 @@ export default function FieldPassClient() {
         />
       </NumberedSection>
 
-      {/* ── 09. Key Differentiation ── */}
-      <NumberedSection num="09" eyebrow="Differentiation" title="MONO Field Pass의 차별성" onView={() => track('field_pass_differentiation_viewed', {})}>
-        <InfoTable
-          rows={[
-            ['성장 기반 발급', '일용직에서 건설근로자로 성장하는 과정과 연결됩니다.'],
-            ['앱과 카드 동시 지원', '현장 상황에 따라 앱 인증과 카드 인증을 함께 사용할 수 있습니다.'],
-            ['OTAC 기반 인증', '재사용과 도용 리스크를 줄이는 인증 구조를 검토합니다.'],
-            ['출입과 경력 연결', '출근 기록이 기술자의 경력과 신뢰 프로필로 이어집니다.'],
-            ['자격 기반 권한 관리', '교육·자격·면허 상태에 따라 출입과 장비 사용 권한을 관리합니다.'],
-            ['공간 확장성', '건설 현장에서 아파트, 오피스, 공장, OT 기기로 확장됩니다.'],
-          ]}
-        />
+      {/* ── 09. MONO + Sensstone ── */}
+      <NumberedSection num="09" eyebrow="MONO + Sensstone" title="MONO의 데이터 + 센스톤의 인증, 결합하면 넓어집니다" onView={() => track('field_pass_mono_sensstone_viewed', {})}>
+        <MonoSensstoneInfographic />
       </NumberedSection>
 
       {/* ── 10. Business Model ── */}
@@ -547,6 +495,11 @@ export default function FieldPassClient() {
       {/* ── Partnership CTA ── */}
       <section style={{ background: NAVY, padding: '56px 20px' }}>
         <div style={{ maxWidth: 680, margin: '0 auto', textAlign: 'center' }}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center', gap: 10, marginBottom: 18, fontSize: 13, fontWeight: 800 }}>
+            <span style={{ color: 'rgba(226,232,240,0.6)' }}>오늘 · 일자리 플랫폼</span>
+            <span style={{ color: '#475569' }}>→</span>
+            <span style={{ color: '#fff' }}>내일 · Field Pass 출입·권한 플랫폼</span>
+          </div>
           <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center', gap: 8, marginBottom: 20, fontSize: 13, fontWeight: 800, color: '#a5b4fc' }}>
             <span>Field Pass</span><span style={{ color: '#475569' }}>→</span>
             <span>Digital Identity</span><span style={{ color: '#475569' }}>→</span>
