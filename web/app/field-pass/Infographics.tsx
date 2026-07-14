@@ -307,24 +307,124 @@ export function SystemArchitectureInfographic() {
   );
 }
 
-// 인포그래픽 · 산업·생활 공간 확장 로드맵 — 6단계, 현재 검증/확장 검토 배지로 구분
+// 인포그래픽 · Beyond Construction — 건설을 시작으로 산업 전반·글로벌로
+// 확장 가능한 구조를 목표로 설계했음을 보여주는 로드맵 (현재 검증/확장 검토 배지로 구분).
 export function ExpansionInfographic() {
   return (
     <InfographicShell
-      eyebrow="Infographic · Expansion Roadmap"
-      title="건설 현장에서 산업·생활 공간으로 확장"
-      caption="건설 현장 검증을 시작으로, 아파트·오피스·중장비·산업 설비까지 같은 인증 구조로 확장합니다."
+      eyebrow="Infographic · Beyond Construction"
+      title="건설을 시작으로, 산업 전반으로 확장 가능한 구조를 목표로 설계했습니다"
+      caption="건설 현장 검증을 시작으로 반도체·조선·플랜트 같은 산업 현장과 아파트·오피스·헬스케어·캠퍼스·스마트시티를 거쳐, 글로벌로 확장 가능한 Digital Credential 구조를 목표로 설계했습니다."
     >
       <Timeline
         steps={[
-          { icon: '🏗️', label: '건설 현장', sub: '앱 출입·출근', badge: '현재 검증', color: '#059669', highlight: true },
-          { icon: '🪪', label: 'Field Pass 카드', sub: '앱·카드 복합 인증', badge: '현재 검증', color: '#059669' },
-          { icon: '🏢', label: '아파트·주거단지', sub: '방문 작업자 출입', badge: '확장 검토', color: '#64748b' },
-          { icon: '🏬', label: '오피스·보안구역', sub: '외주 인력 권한', badge: '확장 검토', color: '#64748b' },
-          { icon: '🚜', label: '중장비·차량', sub: '자격 기반 사용 승인', badge: '확장 검토', color: '#64748b' },
-          { icon: '⚙️', label: 'OT·산업 설비', sub: '설비 접근 권한', badge: '확장 검토', color: '#64748b' },
+          { icon: '🏗️', label: 'Construction', sub: '건설 현장', badge: '현재 검증', color: '#059669', highlight: true },
+          { icon: '🔬', label: 'Semiconductor', sub: '반도체', badge: '확장 검토', color: '#64748b' },
+          { icon: '🚢', label: 'Shipyard', sub: '조선', badge: '확장 검토', color: '#64748b' },
+          { icon: '🏭', label: 'Plant', sub: '플랜트', badge: '확장 검토', color: '#64748b' },
+          { icon: '🏢', label: 'Apartment', sub: '아파트', badge: '확장 검토', color: '#64748b' },
+          { icon: '🏬', label: 'Office', sub: '오피스', badge: '확장 검토', color: '#64748b' },
+          { icon: '🏥', label: 'Healthcare', sub: '헬스케어', badge: '확장 검토', color: '#64748b' },
+          { icon: '🎓', label: 'Campus', sub: '캠퍼스', badge: '확장 검토', color: '#64748b' },
+          { icon: '🏙️', label: 'Smart City', sub: '스마트시티', badge: '확장 검토', color: '#64748b' },
+          { icon: '🌐', label: 'Global Digital Credential', sub: '글로벌 확장 지향', badge: '확장 검토', color: '#4f46e5', highlight: true },
         ]}
       />
+    </InfographicShell>
+  );
+}
+
+// 인포그래픽 · Digital Identity Evolution — "출입카드"가 아니라 신원·인증·권한·신뢰가
+// 단계적으로 진화해 확장 가능한 구조로 이어진다는 것을 보여준다.
+export function DigitalIdentityEvolutionInfographic() {
+  return (
+    <InfographicShell
+      eyebrow="Infographic · Digital Identity Evolution"
+      title="카드가 아니라, 신원이 진화합니다"
+      caption="카드에서 모바일 패스로, 신원·인증·출입·권한·신뢰를 거쳐 — 글로벌 표준으로 확장 가능한 구조를 목표로 설계했습니다."
+    >
+      <Timeline
+        steps={[
+          { icon: '💳', label: 'Today', sub: 'Card' },
+          { icon: '📱', label: 'Tomorrow', sub: 'Mobile Pass' },
+          { icon: '🪪', label: 'Identity', color: '#2563eb' },
+          { icon: '💳', label: 'Credential', color: '#9333ea' },
+          { icon: '🚪', label: 'Access', color: '#059669' },
+          { icon: '🛡️', label: 'Permission', color: '#ea580c' },
+          { icon: '⭐', label: 'Trust', color: '#b45309' },
+          { icon: '🌐', label: 'Global Standard', sub: '확장 지향', highlight: true },
+        ]}
+      />
+    </InfographicShell>
+  );
+}
+
+// 인포그래픽 · Why Sensstone? — MONO의 Workforce 데이터와 센스톤의 OTAC 인증이
+// 결합되는 이유를 보여주는 체인 + 함께 만들 것 체크리스트.
+// OTAC 노드는 서면 합의 전 단계이므로 "PoC 검토" 배지로 표기.
+export function WhySensstoneInfographic() {
+  const nodes = [
+    { icon: '🧑‍🔧', label: 'MONO Workforce', desc: '현장 근무자 성장 데이터', color: '#2563eb' },
+    { icon: '📈', label: 'Growth Data', desc: '교육·경험·평판·신뢰 축적', color: '#0d9488' },
+    { icon: '🪪', label: 'Field Pass', desc: '성장형 Digital Credential', color: '#059669' },
+    { icon: '🔑', label: 'OTAC', desc: '센스톤 · 인증 기술 PoC 검토', color: '#047857', partner: true },
+    { icon: '🌐', label: 'Global Authentication', desc: '모바일·저전력·오프라인 인증', color: '#0891b2' },
+    { icon: '🛡️', label: 'Digital Permission', desc: '출입·장비·OT 권한 확장', color: '#ea580c' },
+    { icon: '🏆', label: 'Industrial Standard', desc: '산업 현장 인증 표준을 목표로', color: '#4338ca' },
+  ];
+  return (
+    <InfographicShell
+      eyebrow="Infographic · Why Sensstone?"
+      title="MONO의 성장 데이터 + 센스톤의 인증 기술이 만나는 이유"
+      caption="MONO는 인증 기술을 새로 만들려는 회사가 아닙니다. 현장 근무자의 성장 데이터를 만들고, 이를 센스톤의 OTAC 기술과 연결해 산업 현장의 Digital Identity를 함께 만들고자 합니다."
+    >
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: 22, gap: 0 }}>
+        {nodes.map((n, i) => (
+          <Fragment key={n.label}>
+            <div
+              style={{
+                width: '100%',
+                maxWidth: 440,
+                display: 'flex',
+                alignItems: 'center',
+                gap: 12,
+                background: n.partner ? MINT.bg : '#fff',
+                border: `1.5px solid ${n.partner ? MINT.border : n.color + '33'}`,
+                borderRadius: 14,
+                padding: '11px 16px',
+              }}
+            >
+              <div style={{ width: 34, height: 34, borderRadius: '50%', background: n.color, color: '#fff', fontSize: 15, display: 'flex', alignItems: 'center', justifyContent: 'center', flex: 'none' }}>
+                {n.icon}
+              </div>
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+                  <span style={{ fontSize: 13, fontWeight: 900, color: NAVY }}>{n.label}</span>
+                  {n.partner && (
+                    <span style={{ fontSize: 9.5, fontWeight: 900, color: MINT.color, background: '#fff', border: `1px solid ${MINT.border}`, padding: '2px 7px', borderRadius: 999, whiteSpace: 'nowrap' }}>
+                      PoC 검토
+                    </span>
+                  )}
+                </div>
+                <div style={{ fontSize: 11.5, color: '#64748b', fontWeight: 600, marginTop: 1, wordBreak: 'keep-all' }}>{n.desc}</div>
+              </div>
+            </div>
+            {i < nodes.length - 1 && <div style={{ color: '#cbd5e1', fontSize: 14, padding: '2px 0' }}>↓</div>}
+          </Fragment>
+        ))}
+      </div>
+
+      <div style={{ marginTop: 24, paddingTop: 18, borderTop: '1px solid #f1f5f9' }}>
+        <div style={{ fontSize: 11.5, fontWeight: 850, color: '#64748b', marginBottom: 8 }}>What We Build Together · 함께 만들 것</div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(190px, 1fr))', gap: 8 }}>
+          {['Mobile Authentication', 'Low Power Authentication', 'Offline Authentication', 'Access Control', 'Equipment Permission', 'OT Authentication', 'Global Credential'].map((it) => (
+            <div key={it} style={{ display: 'flex', alignItems: 'center', gap: 8, background: '#fff', border: '1px solid rgba(36,91,255,0.14)', borderRadius: 10, padding: '8px 12px' }}>
+              <span style={{ color: '#059669', fontWeight: 900, fontSize: 13 }}>✓</span>
+              <span style={{ fontSize: 12, color: '#334155', fontWeight: 650 }}>{it}</span>
+            </div>
+          ))}
+        </div>
+      </div>
     </InfographicShell>
   );
 }

@@ -7,9 +7,11 @@ import {
   GrowthJourneyInfographic,
   LegacyVsMonoInfographic,
   OtacPocInfographic,
+  WhySensstoneInfographic,
   PermissionLayerInfographic,
   DataLoopInfographic,
   SystemArchitectureInfographic,
+  DigitalIdentityEvolutionInfographic,
   ExpansionInfographic,
   MonoSensstonePartnership,
   ZoomableImage,
@@ -171,12 +173,13 @@ export default function FieldPassClient() {
       <section className={`${styles.section} ${styles.blueprint}`} style={{ paddingBottom: 40 }}>
         <div className={styles.container}>
           <h1 className={styles.hDisplay}>
-            일용직에서 건설근로자로,
-            <br />
-            성장 기록이 현장 권한이 됩니다.
+            MONO Field Pass
           </h1>
+          <div style={{ fontSize: 'clamp(0.95rem, 1.8vw, 1.25rem)', fontWeight: 850, color: INDIGO, marginTop: 6, wordBreak: 'keep-all' }}>
+            Industrial Digital Identity Platform
+          </div>
           <p className={styles.bodyLg}>
-            MONO Field Pass는 교육, 준비 상태, 출근 기록, 현장 경험을 연결해 건설근로자의 성장과 출입·장비 권한을 관리하는 현장 인증 플랫폼입니다.
+            현장 근무자의 성장 데이터와 차세대 인증 기술을 연결해, 산업 현장 전반으로 확장 가능한 워크포스 신원·권한 플랫폼을 목표로 설계했습니다.
           </p>
           <div style={{ display: 'flex', gap: 10, marginTop: 24, flexWrap: 'wrap' }}>
             <button
@@ -189,14 +192,14 @@ export default function FieldPassClient() {
               onClick={() => { track('field_pass_poc_cta_clicked', { source: 'hero', label: 'otac_poc' }); scrollTo('otac-poc'); }}
               style={{ padding: '13px 24px', background: '#fff', color: INK, border: '1px solid rgba(36,91,255,0.25)', borderRadius: 12, fontSize: 14, fontWeight: 900, cursor: 'pointer' }}
             >
-              OTAC PoC 보기
+              Why Sensstone 보기
             </button>
           </div>
         </div>
       </section>
 
       {/* ── 2. Why MONO Field Pass ── */}
-      <NumberedSection id="why" num="01" eyebrow="Why MONO" title="사람의 성장과 현장 신뢰를 연결합니다" onView={() => track('field_pass_why_mono_viewed', {})}>
+      <NumberedSection id="why" num="01" eyebrow="Why MONO" title="왜 새로운 Field Pass가 필요한가" onView={() => track('field_pass_why_mono_viewed', {})}>
         <p style={{ fontSize: 14, color: '#475569', fontWeight: 650, lineHeight: 1.75, margin: '0 0 6px', wordBreak: 'keep-all' }}>
           건설 현장은 매일 수많은 일용직·조공 인력이 드나들지만, 교육·서류·출입·경력 관리가 전부 따로 놀아서 원청과 협력사 모두 비효율과 리스크를 감수하고 있습니다.
         </p>
@@ -244,13 +247,13 @@ export default function FieldPassClient() {
         </div>
       </NumberedSection>
 
-      {/* ── 5. OTAC Partnership PoC ── */}
-      <NumberedSection id="otac-poc" num="04" eyebrow="OTAC Partnership" title="센스톤 OTAC 기반 기술 협력 PoC" alt onView={() => track('field_pass_otac_viewed', {})}>
+      {/* ── 5. Why Sensstone? ── */}
+      <NumberedSection id="otac-poc" num="04" eyebrow="Why Sensstone?" title="MONO는 인증 기술을 새로 만들려는 회사가 아닙니다" alt onView={() => track('field_pass_otac_viewed', {})}>
         <p style={{ fontSize: 14, color: '#475569', fontWeight: 650, lineHeight: 1.7, margin: '0 0 4px', wordBreak: 'keep-all' }}>
-          MONO는 센스톤의 OTAC 기반 인증 기술을 활용해 Field Pass의 핵심 인증 흐름을 검증하고자 합니다.
+          MONO는 현장 근무자의 성장 데이터를 만들고, 그 데이터를 센스톤의 OTAC 기술과 연결해 산업 현장의 Digital Identity를 함께 만들고자 합니다.
         </p>
         <p style={{ fontSize: 14, color: '#475569', fontWeight: 650, lineHeight: 1.7, margin: '0 0 8px', wordBreak: 'keep-all' }}>
-          초기 PoC는 앱 기반 출입 인증과 출근 기록 생성에 집중하고, 이후 카드 인증, 장비 권한, OT 기기 접근 제어로 확장합니다.
+          초기 PoC는 앱 기반 출입 인증과 출근 기록 생성에 집중하고, 이후 카드 인증, 장비 권한, OT 기기 접근 제어로 확장 가능한 구조를 목표로 설계했습니다.
         </p>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, margin: '4px 0 10px' }}>
           <StatusBadge tone="mint">검증 예정</StatusBadge>
@@ -258,6 +261,11 @@ export default function FieldPassClient() {
         </div>
 
         <div style={{ marginTop: 24 }}>
+          <WhySensstoneInfographic />
+        </div>
+
+        <div style={{ fontSize: 12.5, fontWeight: 800, color: '#64748b', marginTop: 34, marginBottom: 4 }}>OTAC 기반 앱 출입 인증 PoC 흐름</div>
+        <div style={{ marginTop: 12 }}>
           <OtacPocInfographic />
         </div>
         <ZoomableImage compact maxWidth={640} src="/field-pass/panel-03-otac-poc.png" alt="센스톤 OTAC 기반 출입 인증 PoC 흐름 참고 패널" caption="참고 패널 · OTAC 기반 출입 인증 PoC 흐름" />
@@ -314,14 +322,22 @@ export default function FieldPassClient() {
           사용자·인증수단·OTAC 인증 엔진·권한 엔진의 인증 흐름이, 출입·장비 시스템·데이터 플랫폼·리포트·외부 연동의 데이터 흐름으로 이어지는 장기 목표 아키텍처입니다.
         </p>
         <div style={{ marginTop: 18 }}>
+          <DigitalIdentityEvolutionInfographic />
+        </div>
+        <div style={{ marginTop: 18 }}>
           <SystemArchitectureInfographic />
         </div>
         <ZoomableImage src="/field-pass/architecture-flow.png" alt="MONO Field Pass 아키텍처 흐름도 1.1 — 성장 단계부터 데이터 플랫폼, 확장 로드맵, 외부 연동까지" caption="MONO Field Pass 아키텍처 흐름도 1.1" />
       </NumberedSection>
 
-      {/* ── 9. Expansion Roadmap ── */}
-      <NumberedSection id="roadmap" num="08" eyebrow="Expansion Roadmap" title="건설 현장에서 산업·생활 공간으로 확장" alt onView={() => track('field_pass_expansion_roadmap_viewed', {})}>
-        <ExpansionInfographic />
+      {/* ── 9. Beyond Construction ── */}
+      <NumberedSection id="roadmap" num="08" eyebrow="Beyond Construction" title="건설을 시작으로, 산업 전반으로" alt onView={() => track('field_pass_expansion_roadmap_viewed', {})}>
+        <p style={{ fontSize: 14, color: '#475569', fontWeight: 650, lineHeight: 1.7, margin: '0 0 4px', wordBreak: 'keep-all' }}>
+          건설 현장에서 검증한 구조를, 반도체·조선·플랜트 같은 대형 산업 현장과 아파트·오피스·헬스케어·캠퍼스·스마트시티까지 확장 가능하도록 설계했습니다.
+        </p>
+        <div style={{ marginTop: 16 }}>
+          <ExpansionInfographic />
+        </div>
         <ZoomableImage compact maxWidth={640} src="/field-pass/panel-07-expansion.png" alt="산업·생활 공간 확장 로드맵 참고 패널" caption="참고 패널 · Expansion Roadmap" />
       </NumberedSection>
 
@@ -352,11 +368,21 @@ export default function FieldPassClient() {
       {/* ── 12. Partnership CTA ── */}
       <section style={{ background: NAVY, padding: '56px 20px' }}>
         <div style={{ maxWidth: 680, margin: '0 auto', textAlign: 'center' }}>
-          <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center', gap: 10, marginBottom: 18, fontSize: 13, fontWeight: 800 }}>
-            <span style={{ color: 'rgba(226,232,240,0.6)' }}>오늘 · 일자리 플랫폼</span>
+          <div style={{ fontSize: 11, fontWeight: 850, color: '#a5b4fc', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 12 }}>Vision 2030</div>
+          <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center', gap: 8, marginBottom: 20, fontSize: 12.5, fontWeight: 800 }}>
+            <span style={{ color: 'rgba(226,232,240,0.6)' }}>Today · Construction Workforce</span>
             <span style={{ color: '#475569' }}>→</span>
-            <span style={{ color: '#fff' }}>내일 · Field Pass 출입·권한 플랫폼</span>
+            <span style={{ color: 'rgba(226,232,240,0.75)' }}>2027 · Field Pass</span>
+            <span style={{ color: '#475569' }}>→</span>
+            <span style={{ color: 'rgba(226,232,240,0.85)' }}>2028 · Industrial Access</span>
+            <span style={{ color: '#475569' }}>→</span>
+            <span style={{ color: '#e0e7ff' }}>2029 · Digital Permission</span>
+            <span style={{ color: '#475569' }}>→</span>
+            <span style={{ color: '#fff' }}>2030 · Global Industrial Identity Platform</span>
           </div>
+          <p style={{ fontSize: 12, color: 'rgba(226,232,240,0.6)', fontWeight: 600, margin: '0 auto 24px', maxWidth: 520, wordBreak: 'keep-all' }}>
+            지금은 초기 검증 단계이며, 위 로드맵은 확정된 일정이 아니라 글로벌 확장이 가능한 구조로 설계한 목표 방향입니다.
+          </p>
           <div style={{ maxWidth: 560, margin: '0 auto 24px' }}>
             <ZoomableImage compact maxWidth={560} src="/field-pass/panel-09-investment.png" alt="Investment Story 참고 패널" caption="참고 패널 · Investment Story" />
           </div>
@@ -367,9 +393,13 @@ export default function FieldPassClient() {
             <span>Digital Permission</span><span style={{ color: '#475569' }}>→</span>
             <span style={{ color: '#fff' }}>Industrial Trust Platform</span>
           </div>
-          <p style={{ fontSize: 15, color: '#fff', fontWeight: 700, lineHeight: 1.7, margin: '0 auto 28px', maxWidth: 560, wordBreak: 'keep-all' }}>
-            MONO는 건설 전자카드를 만드는 회사가 아니라, 현장 근무자의 성장과 권한을 연결하는 산업 현장 인증 인프라입니다.
-          </p>
+          <div style={{ borderLeft: '3px solid #4f46e5', background: 'rgba(79,70,229,0.1)', borderRadius: '0 12px 12px 0', padding: '18px 22px', margin: '0 auto 28px', maxWidth: 560, textAlign: 'left' }}>
+            <p style={{ fontSize: 14.5, color: '#fff', fontWeight: 650, lineHeight: 1.8, margin: 0, wordBreak: 'keep-all' }}>
+              센스톤은 세계 최고의 인증 기술을 만들고 있습니다. MONO는 산업 현장의 성장 데이터와 Workforce 플랫폼을 만들고 있습니다.
+              <br /><br />
+              우리가 함께 만들고 싶은 것은 출입카드가 아니라, 산업 현장의 Digital Identity 표준으로 확장 가능한 구조입니다.
+            </p>
+          </div>
           <h2 style={{ fontSize: 22, fontWeight: 950, color: '#fff', margin: '0 0 14px', wordBreak: 'keep-all' }}>
             PoC로 가장 차별성 있는 기능부터 검증합니다
           </h2>
