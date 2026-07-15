@@ -5,9 +5,11 @@ import styles from './infographics.module.css';
 
 // Infographic Kit v1.0으로 교체된 컴포넌트는 아래에서 재수출한다 —
 // FieldPassClient.tsx의 import 경로('./Infographics')를 바꾸지 않기 위한 drop-in 연결.
-// Growth Journey는 채팅으로 전달받은 완성형 SVG 컴포넌트(GrowthJourneyGraphic.tsx)로
-// 개별 교체했고, 나머지 5종은 아직 플랫 박스 스타일(InfographicsKit.tsx)을 사용한다.
-export { GrowthJourneyInfographic } from './GrowthJourneyGraphic';
+// UnifiedFieldPassFlow는 성장 여정 + 인증·권한 흐름을 하나로 묶은 통합 컴포넌트
+// (UnifiedFieldPassFlow.tsx)다 — 예전에 따로 있던 "Why MONO 타임라인"과
+// "참고 패널 PNG"가 같은 내용을 반복해서 보여주던 중복을 없애기 위해 만들었다.
+// 이 통합으로 별도 Growth Journey 섹션(GrowthJourneyGraphic)은 더 이상 쓰지 않는다.
+export { UnifiedFieldPassFlow } from './UnifiedFieldPassFlow';
 export {
   GlobalCredentialLandscapeInfographic,
   OtacPocInfographic,
@@ -87,29 +89,6 @@ function MiniChips({ items, color }: { items: string[]; color: string }) {
         </span>
       ))}
     </div>
-  );
-}
-
-// 인포그래픽 · Why MONO — Hero 바로 아래. "왜 MONO가 Field Pass를 만드는가"를
-// 성장→인증 6단계 체인으로 한눈에 보여준다 (VC·센스톤 공통 진입점).
-export function WhyMonoInfographic() {
-  return (
-    <InfographicShell
-      eyebrow="Infographic · Why MONO"
-      title="왜 MONO가 Field Pass를 만드는가"
-      caption="일한 기록이 경력이 되고, 경력이 Field Pass가 되며, Field Pass가 현장 권한으로 이어집니다."
-    >
-      <Timeline
-        steps={[
-          { icon: '👷', label: '일용직', sub: '단순 현장 근무' },
-          { icon: '🎓', label: '교육', sub: '기초안전교육' },
-          { icon: '📋', label: '준비 완료', sub: '서류·계좌·자격' },
-          { icon: '🦺', label: '조공 경험', sub: '현장 경험 축적' },
-          { icon: '👷‍♂️', label: '건설근로자', sub: '신뢰 프로필 완성' },
-          { icon: '🪪', label: 'MONO Field Pass', sub: '앱·카드 인증 활성화', highlight: true },
-        ]}
-      />
-    </InfographicShell>
   );
 }
 

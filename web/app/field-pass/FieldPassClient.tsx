@@ -3,8 +3,7 @@
 import { useEffect } from 'react';
 import { track } from '@/lib/analytics';
 import {
-  WhyMonoInfographic,
-  GrowthJourneyInfographic,
+  UnifiedFieldPassFlow,
   LegacyVsMonoInfographic,
   GlobalCredentialLandscapeInfographic,
   OtacPocInfographic,
@@ -20,17 +19,22 @@ import styles from './strategy.module.css';
 // ─────────────────────────────────────────────
 // MONO Field Pass 소개 페이지 — VC 투자자·센스톤 대표 공유용
 // 톤: /strategy(전략 페이지)와 동일한 웜톤 오프화이트 + 인디고 + 블루프린트 그리드.
-// 구조 v5(docs/field-pass-infographic-request.md 반영 + 이후 Why MONO 복원 요청):
-//     각 설명 섹션 바로 아래에 Infographic Kit v1.0(SVG 6종, InfographicsKit.tsx)을
-//     1:1로 배치. 섹션 순서: Hero(앵커 내비) → Why MONO → Growth Journey →
-//     기존 전자카드 vs MONO → Global Credential Landscape(해외 사례 비교) →
-//     OTAC Authentication Flow → Permission Architecture → MONO Data Loop →
-//     Expansion Roadmap → MONO × Sensstone → Business Model → CTA.
-// 이전 구조 대비 제거한 것: OTAC 섹션의 PoC 목표·최소기능 상세 표(내부 백로그
-//     성격 — docs 문서로 이동), System Architecture·Digital Identity Evolution
-//     8단계 목록(Permission Architecture SVG가 동일한 인증 계층을 표현),
-//     MONO Brand Architecture(최종 페이지 순서에서 제외). Why MONO는 한 차례
-//     삭제했다가 사용자 요청으로 Hero 바로 아래에 복원했다. 상세 근거는
+// 구조 v6(docs/field-pass-infographic-request.md 반영 + Why MONO/Growth Journey
+//     통합): 각 설명 섹션 바로 아래에 Infographic Kit v1.0(SVG 6종,
+//     InfographicsKit.tsx)을 1:1로 배치. 섹션 순서: Hero(앵커 내비) → 문제 정의 →
+//     Why MONO(성장 여정 + 인증·권한 통합 인포그래픽) → 기존 전자카드 vs MONO →
+//     Global Credential Landscape(해외 사례 비교) → OTAC Authentication Flow →
+//     Permission Architecture → MONO Data Loop → Expansion Roadmap →
+//     MONO × Sensstone → Business Model → CTA.
+// Why MONO 통합: 예전에는 "Why MONO"(성장 흐름 요약 인포그래픽 + 참고 패널 PNG)와
+//     별도 "Growth Journey" 섹션(GrowthJourneyGraphic)이 같은 성장 흐름을 두 번
+//     보여줬다. 참고 패널 PNG의 이해 구조(성장 여정 + 인증·권한 흐름을 한 화면에
+//     세로로 연결)를 기준으로 UnifiedFieldPassFlow.tsx 하나로 통합했고,
+//     Growth Journey 섹션과 참고 패널 PNG, GrowthJourneyGraphic.tsx는 제거했다.
+// 이전 구조 대비 그 외 제거한 것: OTAC 섹션의 PoC 목표·최소기능 상세 표(내부
+//     백로그 성격 — docs 문서로 이동), System Architecture·Digital Identity
+//     Evolution 8단계 목록(Permission Architecture SVG가 동일한 인증 계층을 표현),
+//     MONO Brand Architecture(최종 페이지 순서에서 제외). 상세 근거는
 //     docs/field-pass-infographic-request.md 참고.
 // Global Credential Landscape: 해외 사례(북유럽 법정 전자카드/영미권 모바일 월렛·
 //     디지털 자격/산업현장 NFC·BLE)가 빠지면 "글로벌 스탠다드 가능성"이 선언처럼
@@ -191,8 +195,8 @@ export default function FieldPassClient() {
           </div>
           <nav style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 28, paddingTop: 20, borderTop: '1px solid rgba(36,91,255,0.12)' }}>
             {[
+              { label: '문제 정의', id: 'problem' },
               { label: '왜 MONO', id: 'why' },
-              { label: '성장 여정', id: 'growth' },
               { label: '글로벌 사례', id: 'global' },
               { label: '모바일 인증', id: 'otac-poc' },
               { label: '권한 구조', id: 'permission' },
@@ -210,40 +214,31 @@ export default function FieldPassClient() {
         </div>
       </section>
 
-      {/* ── 2. Why MONO Field Pass ── */}
-      <NumberedSection id="why" num="01" eyebrow="Why MONO" title="왜 새로운 Field Pass가 필요한가" onView={() => track('field_pass_why_mono_viewed', {})}>
-        <p style={{ fontSize: 14, color: '#475569', fontWeight: 650, lineHeight: 1.75, margin: '0 0 6px', wordBreak: 'keep-all' }}>
-          건설 현장은 매일 수많은 일용직·조공 인력이 드나들지만, 교육·서류·출입·경력 관리가 전부 따로 놀아서 원청과 협력사 모두 비효율과 리스크를 감수하고 있습니다.
-        </p>
-        <p style={{ fontSize: 14, color: '#475569', fontWeight: 650, lineHeight: 1.75, margin: 0, wordBreak: 'keep-all' }}>
-          MONO는 이 흩어진 과정을 하나로 연결합니다. 일한 기록이 경력이 되고, 경력이 Field Pass가 되며, Field Pass가 현장 권한이 되는 구조입니다.
-        </p>
-
-        <div style={{ marginTop: 28 }}>
-          <WhyMonoInfographic />
-        </div>
-        <ZoomableImage compact maxWidth={640} src="/field-pass/panel-01-why-mono.png" alt="Why MONO Field Pass 참고 패널" caption="참고 패널 · Why MONO Field Pass" />
-
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 12, marginTop: 20 }}>
+      {/* ── 2. 문제 정의 ── */}
+      <NumberedSection id="problem" num="01" eyebrow="Problem" title="현장 출입과 근무자의 성장 기록은 따로 관리되고 있습니다" onView={() => track('field_pass_problem_viewed', {})}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 12, marginTop: 20 }}>
           <div className={styles.card}>
-            <div style={{ fontSize: 11, fontWeight: 800, color: INDIGO, letterSpacing: '0.06em', marginBottom: 8 }}>VC용 메시지</div>
-            <p style={{ fontSize: 13.5, color: '#334155', fontWeight: 650, lineHeight: 1.65, margin: 0, wordBreak: 'keep-all' }}>
-              MONO는 일자리 앱에서 시작해, 현장 근무자의 성장 기록을 출입 권한과 장비 권한으로 연결하는 인증 인프라로 확장합니다.
+            <p style={{ fontSize: 14.5, color: '#0a0f1a', fontWeight: 800, lineHeight: 1.6, margin: 0, wordBreak: 'keep-all' }}>
+              교육·자격·경력 정보가 분산됩니다
             </p>
           </div>
           <div className={styles.card}>
-            <div style={{ fontSize: 11, fontWeight: 800, color: '#059669', letterSpacing: '0.06em', marginBottom: 8 }}>센스톤용 메시지</div>
-            <p style={{ fontSize: 13.5, color: '#334155', fontWeight: 650, lineHeight: 1.65, margin: 0, wordBreak: 'keep-all' }}>
-              MONO는 기술자 프로필, 교육·서류 준비 상태, 현장 경험, 권한 데이터를 제공하고, 센스톤 OTAC 기술을 통해 앱 기반 Field Pass 인증과 출입 권한 검증을 PoC로 확인하고자 합니다.
+            <p style={{ fontSize: 14.5, color: '#0a0f1a', fontWeight: 800, lineHeight: 1.6, margin: 0, wordBreak: 'keep-all' }}>
+              출입 기록이 경력 자산으로 이어지기 어렵습니다
+            </p>
+          </div>
+          <div className={styles.card}>
+            <p style={{ fontSize: 14.5, color: '#0a0f1a', fontWeight: 800, lineHeight: 1.6, margin: 0, wordBreak: 'keep-all' }}>
+              출입 권한과 장비 사용 권한이 분리되어 있습니다
             </p>
           </div>
         </div>
       </NumberedSection>
 
-      {/* ── 3. Growth Journey (완성형 SVG 컴포넌트 — 자체 헤더 포함, NumberedSection 미사용) ── */}
-      <section id="growth" className={`${styles.section} ${styles.sectionAlt}`} onMouseEnter={() => track('field_pass_growth_journey_viewed', {})}>
+      {/* ── 3. Why MONO — 성장 여정 + 인증·권한 통합 인포그래픽 (완성형 SVG, 자체 헤더 포함) ── */}
+      <section id="why" className={`${styles.section} ${styles.sectionAlt}`} onMouseEnter={() => track('field_pass_why_mono_viewed', {})}>
         <div className={styles.container}>
-          <GrowthJourneyInfographic />
+          <UnifiedFieldPassFlow />
         </div>
       </section>
 

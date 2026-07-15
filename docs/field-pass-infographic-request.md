@@ -91,3 +91,62 @@ React 적용 시 각 `<svg>` 블록을 독립 컴포넌트로 분리하고, HTML
 ## 6. 반영 상태
 
 - 2026-07-14: 위 항목을 `web/app/field-pass/` 코드에 직접 반영 완료(SVG 6종 교체, 삭제 대상 섹션 제거, 문구 교체, 페이지 순서 재정렬). 상세는 `git log web/app/field-pass/`에서 확인.
+- 2026-07-15: Why MONO 섹션과 Growth Journey 섹션이 같은 성장 흐름을 반복 노출하는 문제를 발견 — 아래 7절 "Why MONO 통합 요청"으로 대체 반영.
+
+## 7. Why MONO 통합 요청 (개정 — 재해석 방지용 확정 스펙)
+
+### 7.1 최종 목표 (한 문장 고정)
+
+> 성장 흐름과 인증·권한 흐름을 하나의 React + SVG 인포그래픽으로 통합하고, 기존 중복 인포그래픽과 저해상도 이미지는 제거한다.
+
+### 7.2 삭제 대상 (명확화)
+
+1. 상단 "왜 MONO가 Field Pass를 만드는가" 기존 타임라인 (`WhyMonoInfographic`, chip 기반 `Timeline` 컴포넌트)
+2. 하단 저해상도 참고 이미지 (`ZoomableImage` → `public/field-pass/panel-01-why-mono.png`)
+3. 동일한 성장 흐름을 반복하는 카드와 설명 (VC용/센스톤용 중복 메시지 카드, 별도 Growth Journey 섹션)
+
+### 7.3 신규 컴포넌트 이름 (고정)
+
+```text
+web/app/field-pass/UnifiedFieldPassFlow.tsx
+```
+
+> 원 요청은 `components/field-pass/UnifiedFieldPassFlow.tsx`였으나, 이 프로젝트는 `/field-pass` 관련 컴포넌트를 전부 `web/app/field-pass/`에 co-locate하는 기존 컨벤션을 쓰고 있어(`InfographicsKit.tsx`, `svgKit.tsx` 등) 같은 규칙을 적용했다. 파일 위치만 다르고 컴포넌트 이름(export)은 `UnifiedFieldPassFlow`로 요청대로 고정했다.
+
+### 7.4 배치 위치 (고정)
+
+```text
+Hero
+→ 문제 정의 (id="problem")
+→ UnifiedFieldPassFlow (id="why")
+→ 기존 전자카드 비교 (id="concept")
+```
+
+### 7.5 통합 인포그래픽 구성
+
+**상단 성장 흐름**: 일용직 → 필수 교육 → 준비 완료 → 조공 경험 → 건설근로자 → **MONO Field Pass**(강조)
+
+**하단 인증·권한 흐름**: MONO App Pass → 현장 출입 → 출근 기록 → 경력 반영 → 신뢰 프로필 → **권한 확장**(강조)
+
+**하단 핵심 문구**: "일한 기록이 경력이 되고, 경력이 Field Pass가 되며, Field Pass가 현장 권한으로 이어집니다."
+
+### 7.6 구현 방식
+
+- React + 인라인 SVG, 한글은 실제 `<text>` 요소로 렌더링 (이미지 텍스트 금지)
+- 데스크톱(1200px 이상): 가로 2단 구조 — 실제 `<svg viewBox>` 렌더링
+- 모바일(767px 이하): 세로 카드형 — **CSS 미디어쿼리로 전환되는 별도 DOM**(가로 스크롤 SVG 축소가 아니라 진짜 세로 스택)
+- 벡터(SVG) 기반이라 브라우저 확대 200%에서도 선명
+- 본문 전체 가로 스크롤 없음 (SVG 컨테이너만 필요 시 개별 스크롤)
+- 모든 SVG에 `<title>`/`<desc>`/`aria-labelledby` 포함
+
+### 7.7 완료 기준 (수치화)
+
+- [x] 성장 흐름 인포그래픽이 페이지에 1개만 존재한다 (`UnifiedFieldPassFlow` 단일 컴포넌트).
+- [x] 저해상도 PNG(`panel-01-why-mono.png`)가 페이지에서 제거된다.
+- [x] 중복 카드·설명(VC/센스톤 메시지 카드, 별도 Growth Journey 섹션)이 제거된다.
+- [x] 데스크톱 1200px 이상에서 가로 2단 구조가 적용된다.
+- [x] 모바일 767px 이하에서 세로 카드 구조가 적용된다.
+- [x] SVG 내부 한글이 실제 `<text>` 요소로 렌더링된다.
+- [x] 모든 SVG에 `title`/`desc`/`aria-labelledby`가 포함된다.
+
+> 2026-07-15 기준 위 항목 전부 구현·검증 완료 (`tsc --noEmit` 통과, 개발 서버 렌더링 확인).
