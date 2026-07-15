@@ -3,6 +3,19 @@
 import { Fragment, useState } from 'react';
 import styles from './infographics.module.css';
 
+// Infographic Kit v1.0으로 교체된 컴포넌트는 아래에서 재수출한다 —
+// FieldPassClient.tsx의 import 경로('./Infographics')를 바꾸지 않기 위한 drop-in 연결.
+// Growth Journey는 채팅으로 전달받은 완성형 SVG 컴포넌트(GrowthJourneyGraphic.tsx)로
+// 개별 교체했고, 나머지 5종은 아직 플랫 박스 스타일(InfographicsKit.tsx)을 사용한다.
+export { GrowthJourneyInfographic } from './GrowthJourneyGraphic';
+export {
+  GlobalCredentialLandscapeInfographic,
+  OtacPocInfographic,
+  PermissionLayerInfographic,
+  DataLoopInfographic,
+  ExpansionInfographic,
+} from './InfographicsKit';
+
 const NAVY = '#0b1224';
 const MINT = { color: '#047857', bg: '#ecfdf5', border: '#a7f3d0' };
 
@@ -100,31 +113,7 @@ export function WhyMonoInfographic() {
   );
 }
 
-// 인포그래픽 · Growth Journey — 현장 근무자의 성장 여정을 "단계별로 쌓이는 데이터"
-// 관점에서 보여준다 (Why MONO의 정체성 체인과는 별개로, 근태·평가 데이터 축적 흐름).
-export function GrowthJourneyInfographic() {
-  return (
-    <InfographicShell
-      eyebrow="Infographic · Growth Journey"
-      title="현장 근무자의 성장 여정"
-      caption="MONO는 단순 근무 기록을 기술자의 성장 데이터로 연결합니다."
-    >
-      <Timeline
-        steps={[
-          { icon: '👷', label: '오늘 현장', sub: '첫 지원·근무 기록' },
-          { icon: '🎓', label: '교육', sub: '교육 이수 정보' },
-          { icon: '📋', label: '조공 준비', sub: '준비 서류·자격' },
-          { icon: '🦺', label: '조공 근무', sub: '출근·작업 기록' },
-          { icon: '🧰', label: '직무 경험', sub: '현장·공수·평가' },
-          { icon: '⭐', label: '기공 성장', sub: '숙련도·직무 경력' },
-          { icon: '🏗️', label: '현장 리더', sub: '팀 운영·재요청', highlight: true },
-        ]}
-      />
-    </InfographicShell>
-  );
-}
-
-// 인포그래픽 · 기존 건설 전자카드 vs MONO — "카드 발급"이 아니라 "성장 기록"이
+// 인포그래픽 · 기존 건설 전자카드 vs MONO — "카드 발급"보다 "성장 기록"이
 // 중심이라는 차이를, 좌우 비교 카드 + VS 배지로 보여준다.
 export function LegacyVsMonoInfographic() {
   return (
@@ -165,200 +154,6 @@ export function LegacyVsMonoInfographic() {
   );
 }
 
-// 인포그래픽 · OTAC 기반 앱 출입 인증 PoC 흐름 (OTAC 섹션)
-export function OtacPocInfographic() {
-  return (
-    <InfographicShell
-      eyebrow="Infographic · OTAC PoC"
-      title="센스톤 OTAC 기반 앱 출입 인증 PoC"
-      caption="먼저 앱으로 출입 인증을 검증하고, 이후 카드·NFC·BLE·장비 권한으로 확장합니다."
-    >
-      <Timeline
-        steps={[
-          { icon: '📲', label: 'MONO App Pass 생성' },
-          { icon: '🔑', label: 'OTAC 일회성 인증값 생성', highlight: true },
-          { icon: '🛡️', label: '현장 단말·관리자 앱 검증' },
-          { icon: '🚪', label: '출입 승인' },
-          { icon: '🕒', label: '출근 기록 저장' },
-          { icon: '📈', label: '경력·근무 데이터 연결' },
-        ]}
-      />
-      <div style={{ marginTop: 22, paddingTop: 16, borderTop: '1px solid #f1f5f9' }}>
-        <div style={{ fontSize: 11.5, fontWeight: 850, color: '#64748b', marginBottom: 6 }}>출력 데이터</div>
-        <MiniChips items={['출입 성공', '출근 기록', '작업 기록', '경력카드', '기업 운영 리포트']} color="#059669" />
-      </div>
-      <div style={{ marginTop: 16 }}>
-        <div style={{ fontSize: 11.5, fontWeight: 850, color: '#64748b', marginBottom: 6 }}>확장 인증 수단</div>
-        <MiniChips items={['QR', 'NFC', 'BLE', '실물 카드', '기타 단말']} color="#64748b" />
-      </div>
-    </InfographicShell>
-  );
-}
-
-// 인포그래픽 · 출입·장비·OT 권한 아키텍처 (Permission 섹션, 동일 폭 가로 레이어)
-export function PermissionLayerInfographic() {
-  return (
-    <InfographicShell
-      eyebrow="Infographic · Permission"
-      title="출입에서 장비·OT 권한으로"
-      caption="자격과 현장 권한을 확인한 뒤 장비·OT 시스템의 사용 승인과 연동합니다."
-    >
-      <Timeline
-        steps={[
-          { icon: '🪪', label: 'Identity', sub: '본인 확인', color: '#2563eb' },
-          { icon: '💳', label: 'Credential', sub: '교육·서류·자격·경력 검증', color: '#9333ea' },
-          { icon: '🚪', label: 'Access', sub: '현장·건물 출입 권한', color: '#059669' },
-          { icon: '🛡️', label: 'Permission', sub: '현장별 작업 권한', color: '#ea580c' },
-          { icon: '🚜', label: 'Equipment', sub: '중장비·차량 사용 승인', color: '#b45309' },
-          { icon: '🏭', label: 'Industrial OT', sub: '산업 설비·보안구역 접근 권한', color: '#334155' },
-        ]}
-      />
-      <div style={{ marginTop: 20, paddingTop: 16, borderTop: '1px solid #f1f5f9' }}>
-        <div style={{ fontSize: 11.5, fontWeight: 850, color: '#64748b', marginBottom: 6 }}>적용 현장</div>
-        <MiniChips items={['건설현장', '아파트', '오피스', '공장', '물류', 'Smart Facility']} color="#334155" />
-      </div>
-    </InfographicShell>
-  );
-}
-
-// 인포그래픽 · MONO Data Loop — 이 페이지에서 가장 중요한 그림.
-// 출입이 데이터가 되고, 데이터가 신뢰가 되어 더 좋은 현장으로 돌아오는 선순환 구조.
-export function DataLoopInfographic() {
-  const steps = ['출입', '출근', '작업', '공수', '받을 금액', '경력', '신뢰', '더 좋은 현장', '더 나은 처우'];
-  return (
-    <InfographicShell
-      eyebrow="Infographic · MONO Data Loop"
-      title="데이터가 쌓일수록 강해지는 구조"
-      caption="출입이 출근이 되고, 출근이 경력과 신뢰가 되어 더 좋은 현장과 더 나은 처우로 이어지고, 다시 출입으로 돌아옵니다 — MONO가 쌓을수록 강해지는 데이터 선순환입니다."
-    >
-      <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 8, marginTop: 22 }}>
-        {steps.map((s, i) => (
-          <Fragment key={s}>
-            <span style={{ fontSize: 13, fontWeight: 800, color: '#312e81', background: '#eef2ff', border: '1px solid rgba(79,70,229,0.25)', borderRadius: 999, padding: '8px 14px', whiteSpace: 'nowrap' }}>
-              {s}
-            </span>
-            <span style={{ color: '#a5b4fc', fontSize: 15 }}>→</span>
-          </Fragment>
-        ))}
-        <span style={{ color: '#4f46e5', fontSize: 15, fontWeight: 900 }}>↩</span>
-        <span style={{ fontSize: 13, fontWeight: 900, color: '#fff', background: '#4f46e5', borderRadius: 999, padding: '8px 14px', whiteSpace: 'nowrap' }}>
-          다시 출입
-        </span>
-      </div>
-      <div style={{ textAlign: 'center', marginTop: 20 }}>
-        <span style={{ fontSize: 11.5, fontWeight: 900, color: '#4f46e5', background: 'rgba(79,70,229,0.08)', border: '1px solid rgba(79,70,229,0.25)', borderRadius: 999, padding: '5px 14px' }}>
-          🔁 MONO Data Loop
-        </span>
-      </div>
-    </InfographicShell>
-  );
-}
-
-// 인포그래픽 · Field Pass 전체 시스템 아키텍처 — 사용자→인증수단→OTAC엔진→권한엔진
-// (인증 흐름, 실선) → 출입장비시스템→데이터플랫폼→관리자리포트→외부연동 (데이터 흐름, 점선)
-export function SystemArchitectureInfographic() {
-  const layers: { n: number; title: string; color: string; items: string[]; flow: 'auth' | 'data' }[] = [
-    { n: 1, title: '사용자', color: '#2563eb', flow: 'auth', items: ['기술자 앱', '현장 리더 앱', 'Field Pass 카드', '기업 관리자'] },
-    { n: 2, title: '인증 수단', color: '#4338ca', flow: 'auth', items: ['QR', 'NFC', 'BLE', '실물 카드', '관리자 앱 확인'] },
-    { n: 3, title: 'OTAC 인증 엔진', color: '#9333ea', flow: 'auth', items: ['OTAC 인증값 생성', '인증값 검증', '재사용 방지', '인증 로그'] },
-    { n: 4, title: '권한 엔진', color: '#ea580c', flow: 'auth', items: ['교육 상태', '서류 상태', '자격·면허', '현장별 권한', '장비 사용 권한', 'OT 접근 권한'] },
-    { n: 5, title: '출입·장비 시스템', color: '#059669', flow: 'data', items: ['건설현장 게이트', '아파트·오피스 출입 시스템', '장비 임대·관제 연동', '현장 단말기 연동'] },
-    { n: 6, title: '데이터 플랫폼', color: '#0891b2', flow: 'data', items: ['출입 기록', '출근 기록', '작업 기록', '경력카드', '받을 금액', '권한 감사 로그'] },
-    { n: 7, title: '관리자·기업 리포트', color: '#334155', flow: 'data', items: ['현장 운영 대시보드', '인력 현황 리포트', '안전·교육 리포트', 'PoC 진행 리포트'] },
-    { n: 8, title: '외부 연동', color: '#64748b', flow: 'data', items: ['출입 게이트', '장비 관제 시스템', 'ERP·HR', '교육기관', '금융·보험', '공제·행정 시스템'] },
-  ];
-  return (
-    <InfographicShell
-      eyebrow="MONO Field Pass System Architecture"
-      title="MONO Field Pass 시스템 아키텍처"
-      caption="외부 기관명은 연동 대상 유형의 예시이며, 현재 확정된 연동을 의미하지 않습니다."
-    >
-      <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginTop: 18, marginBottom: 4, flexWrap: 'wrap' }}>
-        <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 11.5, fontWeight: 700, color: '#334155' }}>
-          <span style={{ width: 20, height: 0, borderTop: '2px solid #4f46e5' }} /> 인증 흐름
-        </span>
-        <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 11.5, fontWeight: 700, color: '#334155' }}>
-          <span style={{ width: 20, height: 0, borderTop: '2px dashed #94a3b8' }} /> 데이터 흐름
-        </span>
-      </div>
-      <div className={styles.archGrid}>
-        {layers.map((l) => (
-          <div
-            key={l.n}
-            style={{
-              background: '#fff',
-              border: '1px solid rgba(36,91,255,0.14)',
-              borderTop: l.flow === 'auth' ? `3px solid ${l.color}` : `3px dashed ${l.color}`,
-              borderRadius: 12,
-              padding: '12px 13px',
-            }}
-          >
-            <div style={{ fontSize: 11, fontWeight: 900, color: '#94a3b8', marginBottom: 2 }}>STEP {l.n}</div>
-            <div style={{ display: 'inline-block', fontSize: 12.5, fontWeight: 900, color: '#fff', background: l.color, padding: '2px 9px', borderRadius: 6, marginBottom: 8 }}>{l.title}</div>
-            <ul style={{ margin: 0, padding: '0 0 0 15px', fontSize: 11, color: '#64748b', fontWeight: 600, lineHeight: 1.65 }}>
-              {l.items.map((it) => (
-                <li key={it}>{it}</li>
-              ))}
-            </ul>
-          </div>
-        ))}
-      </div>
-    </InfographicShell>
-  );
-}
-
-// 인포그래픽 · Beyond Construction — 건설을 시작으로 산업 전반·글로벌로
-// 확장 가능한 구조를 목표로 설계했음을 보여주는 로드맵 (현재 검증/확장 검토 배지로 구분).
-export function ExpansionInfographic() {
-  return (
-    <InfographicShell
-      eyebrow="Infographic · Beyond Construction"
-      title="건설을 시작으로, 산업 전반으로 확장 가능한 구조를 목표로 설계했습니다"
-      caption="건설 현장 검증을 시작으로 반도체·조선·플랜트 같은 산업 현장과 아파트·오피스·헬스케어·캠퍼스·스마트시티를 거쳐, 글로벌로 확장 가능한 Digital Credential 구조를 목표로 설계했습니다."
-    >
-      <Timeline
-        steps={[
-          { icon: '🏗️', label: 'Construction', sub: '건설 현장', badge: '현재 검증', color: '#059669', highlight: true },
-          { icon: '🔬', label: 'Semiconductor', sub: '반도체', badge: '확장 검토', color: '#64748b' },
-          { icon: '🚢', label: 'Shipyard', sub: '조선', badge: '확장 검토', color: '#64748b' },
-          { icon: '🏭', label: 'Plant', sub: '플랜트', badge: '확장 검토', color: '#64748b' },
-          { icon: '🏢', label: 'Apartment', sub: '아파트', badge: '확장 검토', color: '#64748b' },
-          { icon: '🏬', label: 'Office', sub: '오피스', badge: '확장 검토', color: '#64748b' },
-          { icon: '🏥', label: 'Healthcare', sub: '헬스케어', badge: '확장 검토', color: '#64748b' },
-          { icon: '🎓', label: 'Campus', sub: '캠퍼스', badge: '확장 검토', color: '#64748b' },
-          { icon: '🏙️', label: 'Smart City', sub: '스마트시티', badge: '확장 검토', color: '#64748b' },
-          { icon: '🌐', label: 'Global Digital Credential', sub: '글로벌 확장 지향', badge: '확장 검토', color: '#4f46e5', highlight: true },
-        ]}
-      />
-    </InfographicShell>
-  );
-}
-
-// 인포그래픽 · Digital Identity Evolution — "출입카드"가 아니라 신원·인증·권한·신뢰가
-// 단계적으로 진화해 확장 가능한 구조로 이어진다는 것을 보여준다.
-export function DigitalIdentityEvolutionInfographic() {
-  return (
-    <InfographicShell
-      eyebrow="Infographic · Digital Identity Evolution"
-      title="카드가 아니라, 신원이 진화합니다"
-      caption="카드에서 모바일 패스로, 신원·인증·출입·권한·신뢰를 거쳐 — 글로벌 표준으로 확장 가능한 구조를 목표로 설계했습니다."
-    >
-      <Timeline
-        steps={[
-          { icon: '💳', label: 'Today', sub: 'Card' },
-          { icon: '📱', label: 'Tomorrow', sub: 'Mobile Pass' },
-          { icon: '🪪', label: 'Identity', color: '#2563eb' },
-          { icon: '💳', label: 'Credential', color: '#9333ea' },
-          { icon: '🚪', label: 'Access', color: '#059669' },
-          { icon: '🛡️', label: 'Permission', color: '#ea580c' },
-          { icon: '⭐', label: 'Trust', color: '#b45309' },
-          { icon: '🌐', label: 'Global Standard', sub: '확장 지향', highlight: true },
-        ]}
-      />
-    </InfographicShell>
-  );
-}
-
 // 인포그래픽 · Why Sensstone? — MONO의 Workforce 데이터와 센스톤의 OTAC 인증이
 // 결합되는 이유를 보여주는 체인 + 함께 만들 것 체크리스트.
 // OTAC 노드는 서면 합의 전 단계이므로 "PoC 검토" 배지로 표기.
@@ -376,7 +171,7 @@ export function WhySensstoneInfographic() {
     <InfographicShell
       eyebrow="Infographic · Why Sensstone?"
       title="MONO의 성장 데이터 + 센스톤의 인증 기술이 만나는 이유"
-      caption="MONO는 인증 기술을 새로 만들려는 회사가 아닙니다. 현장 근무자의 성장 데이터를 만들고, 이를 센스톤의 OTAC 기술과 연결해 산업 현장의 Digital Identity를 함께 만들고자 합니다."
+      caption="MONO는 현장 근무자의 성장 데이터를 만들고, 이를 센스톤의 OTAC 기술과 연결해 산업 현장의 Digital Identity를 함께 만들고자 합니다."
     >
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: 22, gap: 0 }}>
         {nodes.map((n, i) => (
