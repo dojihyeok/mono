@@ -5,8 +5,9 @@ import { KitCard } from './svgKit';
 // MONO Field Pass Infographic Kit v1.0 — 6종 인포그래픽.
 // 참고 원본: web/public/field-pass/mono-field-pass-infographics.html
 // (플랫 박스 + 화살표 HTML/CSS 구조 — SVG 대신 순수 div 기반으로 안정성 우선).
-// export 이름은 기존 이름과 동일하게 유지해 FieldPassClient.tsx의
-// import를 바꾸지 않고 그대로 교체(drop-in)할 수 있게 했다.
+// /field-pass는 field-pass-v2로 전면 교체되어 여기서는 더 이상 쓰지 않고,
+// /field-pass/otac(센스톤 미팅용 1페이지)에서 OtacPocInfographic·
+// ExpansionInfographic 두 개만 계속 사용한다.
 // ─────────────────────────────────────────────
 
 const boxStyle: React.CSSProperties = {

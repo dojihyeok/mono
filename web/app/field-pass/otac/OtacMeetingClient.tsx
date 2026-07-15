@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 import { track } from '@/lib/analytics';
-import { OtacPocInfographic, ExpansionInfographic } from '../Infographics';
+import { OtacPocInfographic, ExpansionInfographic } from '../InfographicsKit';
 
 // ─────────────────────────────────────────────
 // 센스톤 대표 미팅용 — /field-pass(투자자 상세자료)와 별도의 짧은 1페이지 소개.
