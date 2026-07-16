@@ -7,25 +7,21 @@ import { FieldPassSection } from './FieldPassSection';
 import { FieldPassHero } from './FieldPassHero';
 import { WhyMonoGraphic } from './WhyMonoGraphic';
 import { AllPassBridgeGraphic, AllPassBridgeMobile } from './AllPassBridgeGraphic';
-import { PainPointGraphic } from './PainPointGraphic';
 import { MonoSensstoneGraphic } from './MonoSensstoneGraphic';
-import { PermissionGraphic } from './PermissionGraphic';
 import { PublicLaunchGraphic } from './PublicLaunchGraphic';
 import { TogetherFinale } from './TogetherFinale';
 import { Reveal } from './graphicPrimitives';
 
 // ─────────────────────────────────────────────
 // MONO Field Pass Initiative — MONO × 센스톤 공동 프로젝트 제안서.
-// "제품 소개"가 아니라 센스톤 대표·VC·모두의창업 심사위원이 같은 페이지를 보고
-// 같은 그림을 이해하는 "공동 프로젝트 제안서"로 재설계했다 (v3).
-// 4개 Chapter, 6개 인포그래픽:
-//   Chapter 1 소개        — ① Why MONO(큰 그림 하나, 텍스트 최소)
-//   Chapter 2 연계 방향    — ③ Pain & Solution → ② Bridge(건설올패스↔MONO↔ERP↔장비OT)
-//   Chapter 3 Together     — ④ Together(MONO+SENSTONE 흐름) → ⑤ Credential(출입→권한)
-//   Chapter 4 발표 전략    — ⑥ Public Launch(모두의창업 4라운드 대국민 공개)
+// 정확히 4개 Chapter, Chapter당 "큰 SVG 인포그래픽 하나 + 짧은 설명"만 둔다
+// (Chapter 하나에 서브섹션 2개씩 넣었다가 목차가 6~7개처럼 보인다는 피드백으로 수정).
+//   Chapter 1 소개        — Hero + Why MONO 큰 그림
+//   Chapter 2 연계 방향    — Bridge 하나(건설올패스↔MONO↔ERP↔장비OT), 페인 포인트는 설명 문장으로만
+//   Chapter 3 Together     — Together 흐름 하나(MONO+SENSTONE→...→권한), Credential은 별도 섹션 없이 흐름에 포함
+//   Chapter 4 발표 전략    — Public Launch 큰 그림
 //   마지막: 화면 하나 — MONO × SENSTONE / Let's Build Together.
 // PoC/MVP/Phase/P0 등 내부 개발 단계 표현은 이 페이지에 쓰지 않는다.
-// 구 버전(7섹션 v2)은 git 히스토리에서 확인 가능.
 // ─────────────────────────────────────────────
 
 const NAVY = '#0f172a';
@@ -60,24 +56,13 @@ export default function FieldPassV2Client() {
         </Reveal>
       </FieldPassSection>
 
-      {/* Chapter 2 — MONO Field Pass 연계 방향 */}
-      <FieldPassSection
-        id="pain-point"
-        tight
-        chapter="Chapter 2 · MONO Field Pass 연계 방향"
-        title="현장 인증에는 속도·편의·보안이 함께 필요합니다"
-        onView={() => track('field_pass_initiative_pain_point_viewed', {})}
-      >
-        <Reveal>
-          <PainPointGraphic />
-        </Reveal>
-      </FieldPassSection>
-
+      {/* Chapter 2 — MONO Field Pass 연계 방향 (인포그래픽 1개: Bridge) */}
       <FieldPassSection
         id="bridge"
+        chapter="Chapter 2 · MONO Field Pass 연계 방향"
         centered
         title="건설올패스를 대체하지 않고, 확장합니다"
-        description="건설올패스는 그대로 유지됩니다. MONO는 출입 경험을 개선하고 현장 데이터를 ERP·공제회·마이데이터로 연결하며, 장비·OT 권한까지 확장합니다."
+        description="출근 시간대 병목, 스마트폰 조작 부담, 실물 카드 대리 인증 같은 현장 문제 위에서 — 건설올패스는 그대로 유지하고, MONO는 출입 경험을 개선하며 현장 데이터를 ERP·공제회·마이데이터로, 나아가 장비·OT 권한으로 연결합니다."
         onView={() => track('field_pass_initiative_bridge_viewed', {})}
       >
         <Reveal>
@@ -89,7 +74,7 @@ export default function FieldPassV2Client() {
         </p>
       </FieldPassSection>
 
-      {/* Chapter 3 — Together (구 PoC) */}
+      {/* Chapter 3 — MONO Field Pass Together (인포그래픽 1개: Together 흐름, 출입→권한 포함) */}
       <FieldPassSection
         id="together"
         dark
@@ -97,6 +82,7 @@ export default function FieldPassV2Client() {
         centered
         eyebrow="Together"
         title="함께 만들고 싶은 경험"
+        description="자격과 현장 권한을 확인한 뒤 장비·OT 시스템의 사용 승인까지 이어지는 인증 흐름을 센스톤과 함께 만들고 싶습니다."
         onView={() => track('field_pass_initiative_together_viewed', {})}
       >
         <Reveal>
@@ -104,17 +90,7 @@ export default function FieldPassV2Client() {
         </Reveal>
       </FieldPassSection>
 
-      <FieldPassSection
-        id="credential"
-        title="출입에서 장비·OT 권한으로"
-        onView={() => track('field_pass_initiative_credential_viewed', {})}
-      >
-        <Reveal>
-          <PermissionGraphic />
-        </Reveal>
-      </FieldPassSection>
-
-      {/* Chapter 4 — 모두의창업 발표 전략 */}
+      {/* Chapter 4 — 모두의창업 발표 전략 (인포그래픽 1개: Public Launch) */}
       <FieldPassSection
         id="public-launch"
         chapter="Chapter 4 · 모두의창업 발표 전략"
