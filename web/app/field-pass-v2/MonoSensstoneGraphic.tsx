@@ -1,69 +1,52 @@
-import { Users, GraduationCap, DoorOpen, Building2, KeyRound, BatteryLow, Smartphone, Cog } from 'lucide-react';
+import { Handshake, KeyRound, Smartphone, DoorOpen, Clock, Briefcase, ShieldCheck, Smartphone as MobileIcon, BatteryLow, Layers, Users, Truck } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import styles from './field-pass-v2.module.css';
-import { COLOR } from './graphicPrimitives';
+import { COLOR, ResponsiveChain, type ChainStep } from './graphicPrimitives';
 
-const monoRoles: { icon: LucideIcon; label: string }[] = [
-  { icon: Users, label: '현장 근무자 성장 데이터' },
-  { icon: GraduationCap, label: '교육·자격·경력 정보' },
-  { icon: DoorOpen, label: '현장 출입·출근 흐름' },
-  { icon: Building2, label: '기업 운영 인터페이스' },
+const togetherFlow: ChainStep[] = [
+  { icon: Handshake, title: 'MONO + SENSTONE', color: COLOR.teal, background: 'rgba(94,234,212,0.15)' },
+  { icon: KeyRound, title: 'OTAC', color: COLOR.purple, background: 'rgba(216,180,254,0.15)' },
+  { icon: Smartphone, title: 'MONO APP', color: COLOR.blue, background: 'rgba(147,197,253,0.15)' },
+  { icon: DoorOpen, title: '출입', color: COLOR.green, background: 'rgba(134,239,172,0.15)' },
+  { icon: Clock, title: '출근', color: COLOR.orange, background: 'rgba(253,186,116,0.15)' },
+  { icon: Briefcase, title: '경력', color: '#C4B5FD', background: 'rgba(196,181,253,0.15)' },
+  { icon: ShieldCheck, title: '권한', color: COLOR.indigo, background: 'rgba(165,180,252,0.2)', highlight: true },
 ];
 
-const sensstoneRoles: { icon: LucideIcon; label: string }[] = [
-  { icon: KeyRound, label: 'OTAC 인증' },
-  { icon: BatteryLow, label: '저전력 인증' },
-  { icon: Smartphone, label: '모바일·오프라인 인증' },
-  { icon: Cog, label: '산업·OT 인증 기술' },
+const buildTogether: { icon: LucideIcon; label: string }[] = [
+  { icon: MobileIcon, label: 'Mobile Authentication' },
+  { icon: BatteryLow, label: 'Low Power Authentication' },
+  { icon: Layers, label: 'Hybrid Authentication' },
+  { icon: Users, label: 'Workforce Credential' },
+  { icon: Truck, label: 'Equipment Permission' },
 ];
 
-function RoleList({ title, items, accent }: { title: string; items: { icon: LucideIcon; label: string }[]; accent: string }) {
-  return (
-    <div style={{ flex: '1 1 320px', minWidth: 280 }}>
-      <div style={{ fontSize: 13, fontWeight: 900, color: accent, letterSpacing: '0.06em', marginBottom: 16 }}>{title}</div>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-        {items.map((item) => (
-          <div key={item.label} style={{ display: 'flex', alignItems: 'center', gap: 12, background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 16, padding: '14px 16px' }}>
-            <div style={{ width: 36, height: 36, borderRadius: 12, background: 'rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', flex: 'none' }}>
-              <item.icon width={18} height={18} color="#fff" strokeWidth={1.8} />
-            </div>
-            <span style={{ fontSize: 14, fontWeight: 750, color: '#fff' }}>{item.label}</span>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
+// ④ Together — Chapter 3. "PoC"라는 단어를 쓰지 않고, MONO+SENSTONE이 함께
+// 만들고 싶은 인증 흐름과 그 결과물(What we build together)만 보여준다.
 export function MonoSensstoneGraphic() {
   return (
     <div>
-      <div style={{ display: 'flex', gap: 32, flexWrap: 'wrap', marginBottom: 56 }}>
-        <RoleList title="MONO 역할" items={monoRoles} accent="#A5B4FC" />
-        <RoleList title="SENSTONE 역할" items={sensstoneRoles} accent="#5EEAD4" />
-      </div>
+      <ResponsiveChain
+        steps={togetherFlow}
+        titleId="together-flow"
+        title="MONO와 센스톤이 함께 만드는 인증 흐름"
+        desc="MONO와 센스톤이 함께 OTAC 기반 MONO 앱 인증을 통해 출입, 출근, 경력을 거쳐 권한으로 이어지는 흐름을 만듭니다"
+        dark
+      />
 
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 20, flexWrap: 'wrap', margin: '0 auto 40px' }}>
-        <div style={{ textAlign: 'center', padding: '20px 28px', borderRadius: 20, background: 'rgba(79,70,229,0.16)', border: '1px solid rgba(165,180,252,0.3)' }}>
-          <div style={{ fontSize: 16, fontWeight: 900, color: '#fff' }}>MONO</div>
-          <div style={{ fontSize: 11.5, fontWeight: 650, color: '#a5b4fc', marginTop: 4 }}>Workforce &amp; Growth Data</div>
+      <div style={{ marginTop: 48 }}>
+        <div style={{ fontSize: 12, fontWeight: 900, color: 'rgba(226,232,240,0.6)', letterSpacing: '0.08em', marginBottom: 16, textAlign: 'center' }}>
+          WHAT WE BUILD TOGETHER
         </div>
-        <span style={{ fontSize: 22, fontWeight: 900, color: 'rgba(255,255,255,0.4)' }}>+</span>
-        <div style={{ textAlign: 'center', padding: '20px 28px', borderRadius: 20, background: 'rgba(15,159,154,0.16)', border: '1px solid rgba(94,234,212,0.3)' }}>
-          <div style={{ fontSize: 16, fontWeight: 900, color: '#fff' }}>SENSTONE</div>
-          <div style={{ fontSize: 11.5, fontWeight: 650, color: '#5eead4', marginTop: 4 }}>Authentication Technology</div>
-        </div>
-        <span style={{ fontSize: 22, fontWeight: 900, color: 'rgba(255,255,255,0.4)' }}>=</span>
-        <div style={{ textAlign: 'center', padding: '20px 32px', borderRadius: 20, background: '#fff' }}>
-          <div style={{ fontSize: 16, fontWeight: 900, color: COLOR.navy }}>Next Construction Credential</div>
+        <div className={styles.tagRow} style={{ justifyContent: 'center' }}>
+          {buildTogether.map((item) => (
+            <span key={item.label} className={styles.tag} style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+              <item.icon width={14} height={14} />
+              {item.label}
+            </span>
+          ))}
         </div>
       </div>
-
-      <p style={{ maxWidth: 640, margin: '0 auto', textAlign: 'center', fontSize: 16, fontWeight: 650, lineHeight: 1.9, color: 'rgba(226,232,240,0.85)', wordBreak: 'keep-all' }}>
-        MONO는 현장 근무자의 성장과 권한 데이터를 만들고, 센스톤은 강력한 인증 기술을 제공합니다.
-        <br />
-        함께 건설 현장에서 시작하는 새로운 Workforce Credential을 만들고 싶습니다.
-      </p>
     </div>
   );
 }

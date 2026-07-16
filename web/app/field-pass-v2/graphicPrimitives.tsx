@@ -1,5 +1,20 @@
 import type { LucideIcon } from 'lucide-react';
+import { motion } from 'framer-motion';
 import styles from './field-pass-v2.module.css';
+
+// 스크롤 진입 시 fade-up — 모든 Chapter/인포그래픽에 공통으로 씌우는 최소한의 모션.
+export function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-80px' }}
+      transition={{ duration: 0.6, delay, ease: 'easeOut' }}
+    >
+      {children}
+    </motion.div>
+  );
+}
 
 // ─────────────────────────────────────────────
 // MONO Field Pass v2 — 인포그래픽 공용 프리미티브.
@@ -178,5 +193,57 @@ export function ResponsiveChain({ steps, titleId, title, desc, dark }: { steps: 
       <SvgChain steps={steps} titleId={titleId} title={title} desc={desc} dark={dark} />
       <MobileChain steps={steps} dark={dark} />
     </>
+  );
+}
+
+// 큰 그림 하나 — 텍스트는 제목만, 노드가 세로로 이어지는 "Why MONO"류 대형 인포그래픽.
+// 데스크톱·모바일 모두 세로 배치라 별도 모바일 DOM 없이 반응형 뷰박스만 쓴다.
+export function VerticalBigPicture({ steps, titleId, title, desc, dark }: { steps: ChainStep[]; titleId: string; title: string; desc: string; dark?: boolean }) {
+  const nodeH = 92;
+  const gap = 30;
+  const padY = 30;
+  const width = 420;
+  const height = padY * 2 + steps.length * nodeH + (steps.length - 1) * gap;
+  const arrowId = `${titleId}-arrow`;
+  const shadowId = `${titleId}-shadow`;
+  const gradientId = `${arrowId}-highlight`;
+  const cy = (i: number) => padY + i * (nodeH + gap) + nodeH / 2;
+
+  return (
+    <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
+      <svg viewBox={`0 0 ${width} ${height}`} role="img" aria-labelledby={`${titleId}-t ${titleId}-d`} xmlns="http://www.w3.org/2000/svg" style={{ width: '100%', maxWidth: 420, height: 'auto', display: 'block' }}>
+        <title id={`${titleId}-t`}>{title}</title>
+        <desc id={`${titleId}-d`}>{desc}</desc>
+        <ChainDefs arrowId={arrowId} shadowId={shadowId} dark={dark} />
+        <g stroke={dark ? 'rgba(255,255,255,0.3)' : '#CBD5E1'} strokeWidth={3} markerEnd={`url(#${arrowId})`}>
+          {steps.slice(0, -1).map((_, i) => (
+            <line key={i} x1={width / 2} y1={cy(i) + nodeH / 2} x2={width / 2} y2={cy(i + 1) - nodeH / 2} />
+          ))}
+        </g>
+        {steps.map((s, i) => {
+          const y = cy(i) - nodeH / 2;
+          return (
+            <g key={s.title} filter={`url(#${shadowId})`}>
+              <rect
+                x={width / 2 - 170}
+                y={y}
+                width={340}
+                height={nodeH}
+                rx={22}
+                fill={s.highlight ? `url(#${gradientId})` : dark ? 'rgba(255,255,255,0.06)' : '#FFFFFF'}
+                stroke={s.highlight ? 'transparent' : dark ? 'rgba(255,255,255,0.14)' : '#E2E8F0'}
+              />
+              <circle cx={width / 2 - 170 + 46} cy={y + nodeH / 2} r={26} fill={s.highlight ? 'rgba(255,255,255,0.18)' : s.background} />
+              <g transform={`translate(${width / 2 - 170 + 46 - 13}, ${y + nodeH / 2 - 13})`}>
+                <s.icon width={26} height={26} color={s.highlight ? '#FFFFFF' : s.color} strokeWidth={1.8} />
+              </g>
+              <text x={width / 2 - 170 + 92} y={y + nodeH / 2 + 6} fontSize={18} fontWeight={850} fill={s.highlight ? '#FFFFFF' : dark ? '#FFFFFF' : '#0F172A'}>
+                {s.title}
+              </text>
+            </g>
+          );
+        })}
+      </svg>
+    </div>
   );
 }
