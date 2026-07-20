@@ -3,38 +3,157 @@
 import { useEffect } from 'react';
 import { track } from '@/lib/analytics';
 import styles from './field-pass-v2.module.css';
-import { FieldPassSection } from './FieldPassSection';
+import { FieldPassSection, type FieldPassSectionProps } from './FieldPassSection';
 import { FieldPassHero } from './FieldPassHero';
-import { WhyMonoGraphic } from './WhyMonoGraphic';
-import { AllPassBridgeGraphic, AllPassBridgeMobile } from './AllPassBridgeGraphic';
-import { MonoSensstoneGraphic } from './MonoSensstoneGraphic';
-import { PublicLaunchGraphic } from './PublicLaunchGraphic';
-import { TogetherFinale } from './TogetherFinale';
-import { Reveal } from './graphicPrimitives';
 
 // ─────────────────────────────────────────────
-// MONO Field Pass Initiative — MONO × 센스톤 공동 프로젝트 제안서.
-// 정확히 4개 Chapter, Chapter당 "큰 SVG 인포그래픽 하나 + 짧은 설명"만 둔다
-// (Chapter 하나에 서브섹션 2개씩 넣었다가 목차가 6~7개처럼 보인다는 피드백으로 수정).
-//   Chapter 1 소개        — Hero + Why MONO 큰 그림
-//   Chapter 2 연계 방향    — Bridge 하나(건설올패스↔MONO↔ERP↔장비OT), 페인 포인트는 설명 문장으로만
-//   Chapter 3 Together     — Together 흐름 하나(MONO+SENSTONE→...→권한), Credential은 별도 섹션 없이 흐름에 포함
-//   Chapter 4 발표 전략    — Public Launch 큰 그림
-//   마지막: 화면 하나 — MONO × SENSTONE / Let's Build Together.
-// PoC/MVP/Phase/P0 등 내부 개발 단계 표현은 이 페이지에 쓰지 않는다.
+// MONO Field Pass Initiative — 신규 9개 PNG 인포그래픽 기반 페이지.
+// 기존 React+SVG 다이어그램(WhyMonoGraphic/AllPassBridgeGraphic/
+// MonoSensstoneGraphic/PermissionGraphic/PublicLaunchGraphic/TogetherFinale/
+// graphicPrimitives)은 같은 메시지를 이미지로 다시 그리는 것이라 전부 제거했다.
+// 섹션 구조: 큰 제목 + 짧은 설명 + 큰 인포그래픽(PNG) 하나, 9개 섹션 고정 순서.
 // ─────────────────────────────────────────────
 
 const NAVY = '#0f172a';
+
+type SectionData = Omit<FieldPassSectionProps, 'onView'> & { trackKey: string };
+
+const sections: SectionData[] = [
+  {
+    id: 'allpass-connect',
+    theme: 'soft',
+    title: (
+      <>
+        건설올패스에서
+        <br />
+        현장 인증으로 이어집니다.
+      </>
+    ),
+    description: '공적 자격과 근로 기록은 건설올패스에 축적되고, MONO App은 현장 출입과 인증 경험을 연결합니다.',
+    imageSrc: '/images/field-pass/02_AllPass_Connect_1920x1080.png',
+    imageAlt: '건설올패스의 공적 기록과 MONO 현장 인증을 연결하는 구조',
+    trackKey: 'allpass_connect',
+  },
+  {
+    id: 'auth-pain-solution',
+    title: (
+      <>
+        현장의 반복 인증을
+        <br />
+        하나의 경험으로 연결합니다.
+      </>
+    ),
+    description: '근로자 등록부터 신원 확인, 출입 승인까지 현장에서 필요한 인증 흐름을 더 빠르고 명확하게 설계합니다.',
+    imageSrc: '/images/field-pass/03_Auth_Pain_Solution_1920x1080.png',
+    imageAlt: '기존 현장 인증 과정과 MONO 인증 경험 비교',
+    trackKey: 'auth_pain_solution',
+  },
+  {
+    id: 'service-flow',
+    theme: 'soft',
+    title: (
+      <>
+        한 번의 등록이
+        <br />
+        현장 경력과 권한으로 이어집니다.
+      </>
+    ),
+    description: '신원과 자격을 확인한 뒤 출입, 출근, 경력, 현장 권한까지 하나의 신뢰 흐름으로 연결합니다.',
+    imageSrc: '/images/field-pass/04_Service_Flow_1920x1080.png',
+    imageAlt: '본인 등록부터 현장 권한까지 이어지는 MONO Field Pass 서비스 흐름',
+    trackKey: 'service_flow',
+  },
+  {
+    id: 'hybrid-authentication',
+    title: (
+      <>
+        하나의 인증,
+        <br />
+        다양한 현장 인터페이스
+      </>
+    ),
+    description: 'MONO App과 OTAC을 중심으로 BLE, NFC, QR, 카드 기반 게이트 환경을 유연하게 연결합니다.',
+    imageSrc: '/images/field-pass/05_Hybrid_Authentication_1920x1080.png',
+    imageAlt: 'MONO App과 OTAC을 통해 BLE, NFC, QR, 카드 게이트를 연결하는 인증 구조',
+    trackKey: 'hybrid_authentication',
+  },
+  {
+    id: 'mono-x-senstone',
+    theme: 'dark',
+    eyebrow: 'MONO × SENSTONE',
+    title: (
+      <>
+        새로운 건설 Credential을
+        <br />
+        함께 설계합니다.
+      </>
+    ),
+    description: 'MONO의 현장 네트워크와 서비스 경험, SENSTONE의 인증 기술을 연결해 건설 산업에 필요한 새로운 신뢰 기반을 구축합니다.',
+    imageSrc: '/images/field-pass/06_MONO_x_SENSTONE_1920x1080.png',
+    imageAlt: 'MONO와 SENSTONE이 함께 만드는 차세대 건설 Credential',
+    trackKey: 'mono_x_senstone',
+  },
+  {
+    id: 'permission-expansion',
+    theme: 'soft',
+    title: (
+      <>
+        출입 인증은
+        <br />
+        현장 권한으로 확장됩니다.
+      </>
+    ),
+    description: '검증된 신원과 자격을 기반으로 작업 구역, 장비 사용, 산업 시스템 접근 권한까지 연결합니다.',
+    imageSrc: '/images/field-pass/07_Permission_Expansion_1920x1080.png',
+    imageAlt: '신원 확인에서 출입, 장비, OT 권한으로 확장되는 구조',
+    trackKey: 'permission_expansion',
+  },
+  {
+    id: 'data-integration',
+    title: (
+      <>
+        현장의 기록이
+        <br />
+        근로자의 자산으로 이어집니다.
+      </>
+    ),
+    description: 'ERP와 공제회, MyData를 연계해 출근과 경력 기록이 금융, 복지, 근로자 신뢰 데이터로 이어지는 기반을 설계합니다.',
+    imageSrc: '/images/field-pass/08_Data_Integration_1920x1080.png',
+    imageAlt: 'ERP, 공제회, MyData가 경력, 금융, 복지로 이어지는 데이터 구조',
+    trackKey: 'data_integration',
+  },
+  {
+    id: 'public-launch',
+    theme: 'soft',
+    eyebrow: 'PUBLIC LAUNCH',
+    title: (
+      <>
+        모두의창업에서
+        <br />
+        건설 인증의 미래를 공개합니다.
+      </>
+    ),
+    description: 'MONO와 SENSTONE이 함께 설계하는 Construction Workforce Credential을 모두의창업 4라운드에서 공개합니다.',
+    imageSrc: '/images/field-pass/09_Public_Launch_1920x1080.png',
+    imageAlt: 'MONO와 SENSTONE의 건설 인증 비전을 모두의창업에서 공개하는 과정',
+    trackKey: 'public_launch',
+  },
+];
 
 export default function FieldPassV2Client() {
   useEffect(() => {
     track('field_pass_initiative_viewed', {});
   }, []);
 
+  const handleCta = (source: string) => () => {
+    track('field_pass_initiative_cta_clicked', { source });
+    window.location.href = 'mailto:yunhyeok@t-rive.com?subject=MONO%20Field%20Pass%20Initiative%20%EA%B3%B5%EB%8F%99%20%EC%A0%9C%EC%95%88';
+  };
+
   return (
     <div className={styles.page} style={{ fontFamily: 'var(--font-sans)' }}>
       <header style={{ background: NAVY, padding: '16px 20px', position: 'sticky', top: 0, zIndex: 10 }}>
-        <div style={{ maxWidth: 1180, margin: '0 auto', display: 'flex', alignItems: 'center', gap: 10 }}>
+        <div style={{ maxWidth: 1440, margin: '0 auto', display: 'flex', alignItems: 'center', gap: 10 }}>
           <span style={{ fontSize: 15.5, fontWeight: 950, color: '#fff' }}>MONO Field Pass Initiative</span>
           <span style={{ fontSize: 10.5, fontWeight: 800, color: '#93c5fd', background: 'rgba(37,99,235,0.18)', padding: '3px 10px', borderRadius: 999, border: '1px solid rgba(147,197,253,0.3)' }}>
             MONO × SENSTONE 공동 프로젝트 제안
@@ -42,70 +161,19 @@ export default function FieldPassV2Client() {
         </div>
       </header>
 
-      {/* Chapter 1 — MONO Field Pass 소개 */}
-      <FieldPassHero />
-      <FieldPassSection
-        id="why-mono"
-        chapter="Chapter 1 · MONO Field Pass 소개"
-        centered
-        title="왜 MONO Field Pass인가"
-        onView={() => track('field_pass_initiative_why_mono_viewed', {})}
-      >
-        <Reveal>
-          <WhyMonoGraphic />
-        </Reveal>
-      </FieldPassSection>
+      <FieldPassHero onCtaClick={handleCta('hero')} />
 
-      {/* Chapter 2 — MONO Field Pass 연계 방향 (인포그래픽 1개: Bridge) */}
-      <FieldPassSection
-        id="bridge"
-        chapter="Chapter 2 · MONO Field Pass 연계 방향"
-        centered
-        title="건설올패스를 대체하지 않고, 확장합니다"
-        description="출근 시간대 병목, 스마트폰 조작 부담, 실물 카드 대리 인증 같은 현장 문제 위에서 — 건설올패스는 그대로 유지하고, MONO는 출입 경험을 개선하며 현장 데이터를 ERP·공제회·마이데이터로, 나아가 장비·OT 권한으로 연결합니다."
-        onView={() => track('field_pass_initiative_bridge_viewed', {})}
-      >
-        <Reveal>
-          <AllPassBridgeGraphic />
-          <AllPassBridgeMobile />
-        </Reveal>
-        <p style={{ marginTop: 28, textAlign: 'center', fontSize: 13, fontWeight: 650, color: '#94a3b8' }}>
-          해외에서도 ID06(스웨덴)·CSCS(영국)·MyPass(호주) 등 전자 인력카드가 모바일·디지털 자격으로 확장되고 있습니다.
-        </p>
-      </FieldPassSection>
+      {sections.map((section) => (
+        <FieldPassSection key={section.id} {...section} onView={() => track('field_pass_initiative_section_viewed', { section: section.trackKey })} />
+      ))}
 
-      {/* Chapter 3 — MONO Field Pass Together (인포그래픽 1개: Together 흐름, 출입→권한 포함) */}
-      <FieldPassSection
-        id="together"
-        dark
-        chapter="Chapter 3 · MONO Field Pass Together"
-        centered
-        eyebrow="Together"
-        title="함께 만들고 싶은 경험"
-        description="자격과 현장 권한을 확인한 뒤 장비·OT 시스템의 사용 승인까지 이어지는 인증 흐름을 센스톤과 함께 만들고 싶습니다."
-        onView={() => track('field_pass_initiative_together_viewed', {})}
-      >
-        <Reveal>
-          <MonoSensstoneGraphic />
-        </Reveal>
-      </FieldPassSection>
-
-      {/* Chapter 4 — 모두의창업 발표 전략 (인포그래픽 1개: Public Launch) */}
-      <FieldPassSection
-        id="public-launch"
-        chapter="Chapter 4 · 모두의창업 발표 전략"
-        centered
-        title="국민이 직접 경험하는 MONO Field Pass"
-        description="건설현장에서 시작한 인증 경험을 모두의창업 4라운드에서 국민이 직접 체험할 수 있도록 함께 공개하고 싶습니다."
-        onView={() => track('field_pass_initiative_public_launch_viewed', {})}
-      >
-        <Reveal>
-          <PublicLaunchGraphic />
-        </Reveal>
-      </FieldPassSection>
-
-      {/* 마지막 — Together 클로징 */}
-      <TogetherFinale />
+      <section data-theme="soft" style={{ background: '#ffffff', padding: '0 20px 96px', textAlign: 'center' }}>
+        <div className={styles.ctaRow}>
+          <button className={styles.ctaPrimary} onClick={handleCta('public_launch')}>
+            함께 새로운 건설 인증을 만듭시다
+          </button>
+        </div>
+      </section>
 
       <footer style={{ padding: '20px', textAlign: 'center' }}>
         <span style={{ fontSize: 11.5, color: '#94a3b8', fontWeight: 600 }}>
