@@ -22,13 +22,7 @@ const sections: SectionData[] = [
   {
     id: 'allpass-connect',
     theme: 'soft',
-    title: (
-      <>
-        건설올패스에서
-        <br />
-        현장 인증으로 이어집니다.
-      </>
-    ),
+    title: '건설올패스에서 현장 인증으로 이어집니다.',
     description: '공적 자격과 근로 기록은 건설올패스에 축적되고, MONO App은 현장 출입과 인증 경험을 연결합니다.',
     imageSrc: '/images/field-pass/02_AllPass_Connect_1920x1080.png',
     imageAlt: '건설올패스의 공적 기록과 MONO 현장 인증을 연결하는 구조',
@@ -36,13 +30,7 @@ const sections: SectionData[] = [
   },
   {
     id: 'auth-pain-solution',
-    title: (
-      <>
-        현장의 반복 인증을
-        <br />
-        하나의 경험으로 연결합니다.
-      </>
-    ),
+    title: '현장의 반복 인증을 하나의 경험으로 연결합니다.',
     description: '근로자 등록부터 신원 확인, 출입 승인까지 현장에서 필요한 인증 흐름을 더 빠르고 명확하게 설계합니다.',
     imageSrc: '/images/field-pass/03_Auth_Pain_Solution_1920x1080.png',
     imageAlt: '기존 현장 인증 과정과 MONO 인증 경험 비교',
@@ -51,13 +39,7 @@ const sections: SectionData[] = [
   {
     id: 'service-flow',
     theme: 'soft',
-    title: (
-      <>
-        한 번의 등록이
-        <br />
-        현장 경력과 권한으로 이어집니다.
-      </>
-    ),
+    title: '한 번의 등록이 현장 경력과 권한으로 이어집니다.',
     description: '신원과 자격을 확인한 뒤 출입, 출근, 경력, 현장 권한까지 하나의 신뢰 흐름으로 연결합니다.',
     imageSrc: '/images/field-pass/04_Service_Flow_1920x1080.png',
     imageAlt: '본인 등록부터 현장 권한까지 이어지는 MONO Field Pass 서비스 흐름',
@@ -65,13 +47,7 @@ const sections: SectionData[] = [
   },
   {
     id: 'hybrid-authentication',
-    title: (
-      <>
-        하나의 인증,
-        <br />
-        다양한 현장 인터페이스
-      </>
-    ),
+    title: '하나의 인증, 다양한 현장 인터페이스',
     description: 'MONO App과 OTAC을 중심으로 BLE, NFC, QR, 카드 기반 게이트 환경을 유연하게 연결합니다.',
     imageSrc: '/images/field-pass/05_Hybrid_Authentication_1920x1080.png',
     imageAlt: 'MONO App과 OTAC을 통해 BLE, NFC, QR, 카드 게이트를 연결하는 인증 구조',
@@ -81,13 +57,7 @@ const sections: SectionData[] = [
     id: 'mono-x-senstone',
     theme: 'dark',
     eyebrow: 'MONO × SENSTONE',
-    title: (
-      <>
-        새로운 건설 Credential을
-        <br />
-        함께 설계합니다.
-      </>
-    ),
+    title: '새로운 건설 Credential을 함께 설계합니다.',
     description: 'MONO의 현장 네트워크와 서비스 경험, SENSTONE의 인증 기술을 연결해 건설 산업에 필요한 새로운 신뢰 기반을 구축합니다.',
     imageSrc: '/images/field-pass/06_MONO_x_SENSTONE_1920x1080.png',
     imageAlt: 'MONO와 SENSTONE이 함께 만드는 차세대 건설 Credential',
@@ -96,13 +66,7 @@ const sections: SectionData[] = [
   {
     id: 'permission-expansion',
     theme: 'soft',
-    title: (
-      <>
-        출입 인증은
-        <br />
-        현장 권한으로 확장됩니다.
-      </>
-    ),
+    title: '출입 인증은 현장 권한으로 확장됩니다.',
     description: '검증된 신원과 자격을 기반으로 작업 구역, 장비 사용, 산업 시스템 접근 권한까지 연결합니다.',
     imageSrc: '/images/field-pass/07_Permission_Expansion_1920x1080.png',
     imageAlt: '신원 확인에서 출입, 장비, OT 권한으로 확장되는 구조',
@@ -110,13 +74,7 @@ const sections: SectionData[] = [
   },
   {
     id: 'data-integration',
-    title: (
-      <>
-        현장의 기록이
-        <br />
-        근로자의 자산으로 이어집니다.
-      </>
-    ),
+    title: '현장의 기록이 근로자의 자산으로 이어집니다.',
     description: 'ERP와 공제회, MyData를 연계해 출근과 경력 기록이 금융, 복지, 근로자 신뢰 데이터로 이어지는 기반을 설계합니다.',
     imageSrc: '/images/field-pass/08_Data_Integration_1920x1080.png',
     imageAlt: 'ERP, 공제회, MyData가 경력, 금융, 복지로 이어지는 데이터 구조',
@@ -126,13 +84,7 @@ const sections: SectionData[] = [
     id: 'public-launch',
     theme: 'soft',
     eyebrow: 'PUBLIC LAUNCH',
-    title: (
-      <>
-        모두의창업에서
-        <br />
-        건설 인증의 미래를 공개합니다.
-      </>
-    ),
+    title: '모두의창업에서 건설 인증의 미래를 공개합니다.',
     description: 'MONO와 SENSTONE이 함께 설계하는 Construction Workforce Credential을 모두의창업 4라운드에서 공개합니다.',
     imageSrc: '/images/field-pass/09_Public_Launch_1920x1080.png',
     imageAlt: 'MONO와 SENSTONE의 건설 인증 비전을 모두의창업에서 공개하는 과정',

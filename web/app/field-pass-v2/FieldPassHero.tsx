@@ -8,10 +8,8 @@ export function FieldPassHero({ onCtaClick }: { onCtaClick?: () => void }) {
       <div className={styles.sectionInner}>
         <header className={styles.sectionHeader} style={{ marginBottom: 48 }}>
           <p className={styles.eyebrow}>CONSTRUCTION WORKFORCE CREDENTIAL</p>
-          <h1 className={styles.sectionTitle} style={{ fontSize: 'clamp(32px, 5vw, 52px)' }}>
-            건설 인증의 다음 경험을
-            <br />
-            함께 만듭니다.
+          <h1 className={styles.sectionTitle} style={{ fontSize: 'clamp(28px, 4.4vw, 48px)' }}>
+            건설 인증의 다음 경험을 함께 만듭니다.
           </h1>
           <p className={styles.sectionDescription}>
             건설올패스의 공적 기록과 MONO의 현장 경험,
