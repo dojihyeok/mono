@@ -40,7 +40,7 @@ export function FieldPassSection({
             alt={imageAlt}
             width={1920}
             height={1080}
-            sizes="(max-width: 768px) 100vw, (max-width: 1440px) 92vw, 1440px"
+            sizes="(max-width: 767px) 92vw, (max-width: 1023px) 640px, 920px"
             priority={priority}
             className={styles.visual}
           />

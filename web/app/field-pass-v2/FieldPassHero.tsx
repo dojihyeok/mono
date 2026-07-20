@@ -30,7 +30,7 @@ export function FieldPassHero({ onCtaClick }: { onCtaClick?: () => void }) {
             alt="건설올패스와 MONO App, SENSTONE이 MONO Field Pass로 연결되는 공동 비전"
             width={1920}
             height={1080}
-            sizes="(max-width: 768px) 100vw, (max-width: 1440px) 92vw, 1440px"
+            sizes="(max-width: 767px) 92vw, (max-width: 1023px) 640px, 920px"
             priority
             className={styles.visual}
           />
