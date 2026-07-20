@@ -5,6 +5,7 @@ import { track } from '@/lib/analytics';
 import styles from './field-pass-v2.module.css';
 import { FieldPassSection, type FieldPassSectionProps } from './FieldPassSection';
 import { FieldPassHero } from './FieldPassHero';
+import { versionedImage } from './imageVersions';
 
 // ─────────────────────────────────────────────
 // MONO Field Pass Initiative — 신규 9개 PNG 인포그래픽 기반 페이지.
@@ -116,7 +117,12 @@ export default function FieldPassV2Client() {
       <FieldPassHero onCtaClick={handleCta('hero')} />
 
       {sections.map((section) => (
-        <FieldPassSection key={section.id} {...section} onView={() => track('field_pass_initiative_section_viewed', { section: section.trackKey })} />
+        <FieldPassSection
+          key={section.id}
+          {...section}
+          imageSrc={versionedImage(section.imageSrc)}
+          onView={() => track('field_pass_initiative_section_viewed', { section: section.trackKey })}
+        />
       ))}
 
       <section data-theme="soft" style={{ background: '#ffffff', padding: '0 20px 96px', textAlign: 'center' }}>

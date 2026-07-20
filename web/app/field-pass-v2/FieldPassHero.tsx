@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import styles from './field-pass-v2.module.css';
+import { versionedImage } from './imageVersions';
 
 // Section 01 — Hero. 텍스트(위) → 이미지(아래) 세로 구조, 이미지는 16:9 유지.
 export function FieldPassHero({ onCtaClick }: { onCtaClick?: () => void }) {
@@ -24,7 +25,7 @@ export function FieldPassHero({ onCtaClick }: { onCtaClick?: () => void }) {
         </header>
         <div className={styles.visualFrame}>
           <Image
-            src="/images/field-pass/01_Hero_Bridge_1920x1080.png"
+            src={versionedImage('/images/field-pass/01_Hero_Bridge_1920x1080.png')}
             alt="건설올패스와 MONO App, SENSTONE이 MONO Field Pass로 연결되는 공동 비전"
             width={1920}
             height={1080}
