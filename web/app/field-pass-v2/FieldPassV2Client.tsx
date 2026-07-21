@@ -60,7 +60,7 @@ const sections: SectionData[] = [
     eyebrow: 'MONO × SSenStone',
     title: '새로운 건설 Credential을 함께 설계합니다.',
     description: 'MONO의 현장 네트워크와 서비스 경험, SSenStone의 인증 기술을 연결해 건설 산업에 필요한 새로운 신뢰 기반을 구축합니다.',
-    imageSrc: '/images/field-pass/06_MONO_x_SENSTONE_1920x1080.png',
+    imageSrc: '/images/field-pass/06_MONO_x_SSenStone_1920x1080.png',
     imageAlt: 'MONO와 SSenStone이 함께 만드는 차세대 건설 Credential',
     trackKey: 'mono_x_senstone',
   },
