@@ -15,7 +15,7 @@ export function FieldPassHero({ onCtaClick }: { onCtaClick?: () => void }) {
           <p className={styles.sectionDescription}>
             건설올패스의 공적 기록과 MONO의 현장 경험,
             <br />
-            SENSTONE의 인증 기술을 하나의 흐름으로 연결합니다.
+            SSenStone의 인증 기술을 하나의 흐름으로 연결합니다.
           </p>
           <div className={styles.ctaRow}>
             <button className={styles.ctaPrimary} onClick={onCtaClick}>
@@ -26,7 +26,7 @@ export function FieldPassHero({ onCtaClick }: { onCtaClick?: () => void }) {
         <div className={styles.visualFrame}>
           <Image
             src={versionedImage('/images/field-pass/01_Hero_Bridge_1920x1080.png')}
-            alt="건설올패스와 MONO App, SENSTONE이 MONO Field Pass로 연결되는 공동 비전"
+            alt="건설올패스와 MONO App, SSenStone이 MONO Field Pass로 연결되는 공동 비전"
             width={1920}
             height={1080}
             sizes="(max-width: 767px) 92vw, (max-width: 1023px) 640px, 920px"

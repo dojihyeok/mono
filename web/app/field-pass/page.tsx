@@ -7,7 +7,7 @@ export const revalidate = 60;
 
 export const metadata = {
   title: 'MONO Field Pass Initiative',
-  description: '건설올패스와 MONO 앱, 센스톤의 인증 기술을 연결하는 MONO × SENSTONE 공동 프로젝트 제안 — MONO Field Pass Initiative',
+  description: '건설올패스와 MONO 앱, 센스톤의 인증 기술을 연결하는 MONO × SSenStone 공동 프로젝트 제안 — MONO Field Pass Initiative',
   robots: { index: false, follow: false },
 };
 

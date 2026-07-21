@@ -57,11 +57,11 @@ const sections: SectionData[] = [
   {
     id: 'mono-x-senstone',
     theme: 'dark',
-    eyebrow: 'MONO × SENSTONE',
+    eyebrow: 'MONO × SSenStone',
     title: '새로운 건설 Credential을 함께 설계합니다.',
-    description: 'MONO의 현장 네트워크와 서비스 경험, SENSTONE의 인증 기술을 연결해 건설 산업에 필요한 새로운 신뢰 기반을 구축합니다.',
+    description: 'MONO의 현장 네트워크와 서비스 경험, SSenStone의 인증 기술을 연결해 건설 산업에 필요한 새로운 신뢰 기반을 구축합니다.',
     imageSrc: '/images/field-pass/06_MONO_x_SENSTONE_1920x1080.png',
-    imageAlt: 'MONO와 SENSTONE이 함께 만드는 차세대 건설 Credential',
+    imageAlt: 'MONO와 SSenStone이 함께 만드는 차세대 건설 Credential',
     trackKey: 'mono_x_senstone',
   },
   {
@@ -86,9 +86,9 @@ const sections: SectionData[] = [
     theme: 'soft',
     eyebrow: 'PUBLIC LAUNCH',
     title: '모두의창업에서 건설 인증의 미래를 공개합니다.',
-    description: 'MONO와 SENSTONE이 함께 설계하는 Construction Workforce Credential을 모두의창업 4라운드에서 공개합니다.',
+    description: 'MONO와 SSenStone이 함께 설계하는 Construction Workforce Credential을 모두의창업 4라운드에서 공개합니다.',
     imageSrc: '/images/field-pass/09_Public_Launch_1920x1080.png',
-    imageAlt: 'MONO와 SENSTONE의 건설 인증 비전을 모두의창업에서 공개하는 과정',
+    imageAlt: 'MONO와 SSenStone의 건설 인증 비전을 모두의창업에서 공개하는 과정',
     trackKey: 'public_launch',
   },
 ];
@@ -109,7 +109,7 @@ export default function FieldPassV2Client() {
         <div style={{ maxWidth: 1440, margin: '0 auto', display: 'flex', alignItems: 'center', gap: 10 }}>
           <span style={{ fontSize: 15.5, fontWeight: 950, color: '#fff' }}>MONO Field Pass Initiative</span>
           <span style={{ fontSize: 10.5, fontWeight: 800, color: '#93c5fd', background: 'rgba(37,99,235,0.18)', padding: '3px 10px', borderRadius: 999, border: '1px solid rgba(147,197,253,0.3)' }}>
-            MONO × SENSTONE 공동 프로젝트 제안
+            MONO × SSenStone 공동 프로젝트 제안
           </span>
         </div>
       </header>
@@ -135,7 +135,7 @@ export default function FieldPassV2Client() {
 
       <footer style={{ padding: '20px', textAlign: 'center' }}>
         <span style={{ fontSize: 11.5, color: '#94a3b8', fontWeight: 600 }}>
-          MONO Field Pass Initiative · MONO × SENSTONE 공동 프로젝트 제안 · <a href="/strategy" style={{ color: '#94a3b8' }}>MONO 전략 페이지 보기 →</a>
+          MONO Field Pass Initiative · MONO × SSenStone 공동 프로젝트 제안 · <a href="/strategy" style={{ color: '#94a3b8' }}>MONO 전략 페이지 보기 →</a>
         </span>
       </footer>
     </div>
