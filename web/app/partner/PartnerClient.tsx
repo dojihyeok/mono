@@ -319,6 +319,99 @@ function Landing({ onStart, onBrowse, onLogin }: { onStart: () => void; onBrowse
         </div>
       </div>
 
+      {/* ── 파트너 유형별 혜택 ── */}
+      <section style={{ marginTop: 48 }} onMouseEnter={() => track('partner_segment_viewed', {})}>
+        <div style={{ fontSize: 13, fontWeight: 850, color: '#4f46e5', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 12 }}>For your business</div>
+        <h2 style={{ fontSize: 22, fontWeight: 950, color: '#0f172a', margin: '0 0 6px 0' }}>어떤 파트너신가요?</h2>
+        <p style={{ margin: '0 0 16px 0', fontSize: 13.5, color: '#5b6b82', fontWeight: 600, wordBreak: 'keep-all' }}>
+          규모와 필요에 맞는 서비스로 시작해, 필요해지는 만큼 넓혀가면 됩니다.
+        </p>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 16 }}>
+          {[
+            {
+              tag: '인테리어 · 전문시공업체',
+              stage: 'P0',
+              headline: '당장 급한 자리부터, 빠르게',
+              pain: '사람 구하는 데 하루 이상 쓰고, 급할수록 검증 안 된 사람을 쓰게 됩니다.',
+              value: [
+                '급구 공고 등록 즉시 조건에 맞는 기술자에게 우선 노출',
+                '경력·자격·교육이 확인된 프로필만 열람',
+                '상단 노출·긴급 알림으로 마감 시간 단축',
+              ],
+              price: '공고 등록 건별 과금',
+              cta: '급구 공고 등록하기',
+              ctaTrack: 'p0_urgent_post',
+            },
+            {
+              tag: '전문건설 · 협력업체',
+              stage: 'P1',
+              headline: '현장이 늘어도 관리는 하나로',
+              pain: '현장마다 인력·출역·정산을 따로 관리하느라 담당자 손이 남아나지 않습니다.',
+              value: [
+                'Partner Workspace에서 현장·팀원·출역을 한 화면으로 관리',
+                '정산 참고자료·평가 이력을 자동으로 축적',
+                '팀 단위 매칭으로 반복 채용 부담 감소',
+              ],
+              price: '월 구독',
+              cta: 'Partner Workspace 안내받기',
+              ctaTrack: 'p1_workspace',
+            },
+            {
+              tag: '원청 · 대기업',
+              stage: 'P2',
+              headline: '협력사 리스크, 자동으로 관리',
+              pain: '협력사 인력의 자격·안전교육 확인, 출입 통제, 감사 대응에 매번 많은 시간이 듭니다.',
+              value: [
+                'MONO Field Pass로 신원·자격·출입권한을 하나로 통합',
+                '출입 이벤트가 근태·정산·감사 로그로 자동 연결',
+                '기존 출입·설비(OT) 시스템과 API로 연동',
+              ],
+              price: 'Enterprise 계약',
+              cta: 'Field Pass 도입 상담',
+              ctaTrack: 'p2_field_pass',
+              href: '/partner/field-pass',
+            },
+          ].map((seg) => (
+            <div
+              key={seg.stage}
+              style={{ background: '#fff', border: '1px solid #e6e8ec', borderRadius: 18, padding: 22, display: 'flex', flexDirection: 'column' }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
+                <span style={{ fontSize: 10.5, fontWeight: 900, color: '#4f46e5', background: '#eef0ff', border: '1px solid #d7d9fb', borderRadius: 999, padding: '3px 9px' }}>
+                  {seg.stage}
+                </span>
+                <span style={{ fontSize: 12.5, fontWeight: 800, color: '#5b6b82' }}>{seg.tag}</span>
+              </div>
+              <div style={{ fontSize: 16.5, fontWeight: 900, color: '#0f172a', marginBottom: 8, wordBreak: 'keep-all' }}>{seg.headline}</div>
+              <div style={{ fontSize: 12.5, color: '#94a3b8', fontWeight: 650, lineHeight: 1.6, marginBottom: 14, wordBreak: 'keep-all' }}>{seg.pain}</div>
+              <ul style={{ margin: '0 0 16px 0', paddingLeft: 18, fontSize: 12.5, color: '#334155', lineHeight: 1.8, fontWeight: 650, flex: 1 }}>
+                {seg.value.map((v) => <li key={v}>{v}</li>)}
+              </ul>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, paddingTop: 14, borderTop: '1px solid #f1f5f9' }}>
+                <span style={{ fontSize: 12, fontWeight: 800, color: '#0f172a' }}>{seg.price}</span>
+                {seg.href ? (
+                  <a
+                    href={seg.href}
+                    onClick={() => track('partner_segment_cta_clicked', { segment: seg.ctaTrack })}
+                    style={{ fontSize: 12.5, fontWeight: 850, color: '#4f46e5', textDecoration: 'none' }}
+                  >
+                    {seg.cta} →
+                  </a>
+                ) : (
+                  <button
+                    className={styles.btnSm}
+                    onClick={() => { track('partner_segment_cta_clicked', { segment: seg.ctaTrack }); onStart(); }}
+                    style={{ fontSize: 12.5 }}
+                  >
+                    {seg.cta}
+                  </button>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* ── 기업의 문제 (기업용 Partner·Field Pass 웹 개발 요청서 v1.0 §1) ── */}
       <section style={{ marginTop: 48 }}>
         <div style={{ fontSize: 13, fontWeight: 850, color: '#4f46e5', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 12 }}>Problem</div>
@@ -358,6 +451,49 @@ function Landing({ onStart, onBrowse, onLogin }: { onStart: () => void; onBrowse
               <ul style={{ margin: 0, paddingLeft: 18, fontSize: 12.5, color: '#5b6b82', lineHeight: 1.75, fontWeight: 600 }}>
                 {p.items.map((it) => <li key={it}>{it}</li>)}
               </ul>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ── 성장 단계별 요금제 ── */}
+      <section style={{ marginTop: 48 }} onMouseEnter={() => track('partner_pricing_viewed', {})}>
+        <div style={{ fontSize: 13, fontWeight: 850, color: '#4f46e5', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 12 }}>Growth Stage</div>
+        <h2 style={{ fontSize: 22, fontWeight: 950, color: '#0f172a', margin: '0 0 6px 0' }}>지금 필요한 만큼 시작해, 필요해지면 넓힙니다</h2>
+        <p style={{ margin: '0 0 16px 0', fontSize: 13.5, color: '#5b6b82', fontWeight: 600, wordBreak: 'keep-all' }}>
+          급구 공고부터 Enterprise 계약까지, 3단계로 함께 성장합니다.
+        </p>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 14 }}>
+          {[
+            { stage: 'P0', name: '급구 공고', target: '협력업체', billing: '공고 등록 과금', desc: '현장 수요를 먼저 등록하고 검증된 기술자를 우선 안내받는 시작 단계' },
+            { stage: 'P1', name: 'Partner Workspace', target: '협력업체', billing: '월 구독', accent: true, desc: '현장·인력·출역·정산 참고자료를 하나의 업무공간에서 반복 이용' },
+            { stage: 'P2', name: 'MONO Field Pass', target: '원청 · 대기업', billing: 'Enterprise 계약', desc: '신원·자격·출입권한을 통합한 인증 기반 운영 서비스', href: '/partner/field-pass' },
+          ].map((s) => (
+            <div
+              key={s.stage}
+              style={{
+                background: s.accent ? '#0f172a' : '#fff',
+                border: `1px solid ${s.accent ? '#0f172a' : '#e6e8ec'}`,
+                borderRadius: 18,
+                padding: 22,
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
+                <span style={{ fontSize: 11, fontWeight: 950, color: s.accent ? '#0f172a' : '#fff', background: s.accent ? '#fff' : '#0f172a', borderRadius: 999, padding: '3px 10px' }}>
+                  {s.stage}
+                </span>
+                <span style={{ fontSize: 12, fontWeight: 800, color: s.accent ? '#a5b4fc' : '#94a3b8' }}>{s.target} 대상</span>
+              </div>
+              <div style={{ fontSize: 18, fontWeight: 950, color: s.accent ? '#fff' : '#0f172a', marginBottom: 8 }}>{s.name}</div>
+              <div style={{ fontSize: 13, color: s.accent ? '#cbd5e1' : '#5b6b82', fontWeight: 650, lineHeight: 1.65, marginBottom: 16, wordBreak: 'keep-all' }}>{s.desc}</div>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: 14, borderTop: `1px solid ${s.accent ? 'rgba(255,255,255,0.12)' : '#f1f5f9'}` }}>
+                <span style={{ fontSize: 13, fontWeight: 900, color: s.accent ? '#fff' : '#0f172a' }}>{s.billing}</span>
+                {s.href && (
+                  <a href={s.href} onClick={() => track('partner_pricing_cta_clicked', { stage: s.stage })} style={{ fontSize: 12.5, fontWeight: 850, color: s.accent ? '#a5b4fc' : '#4f46e5', textDecoration: 'none' }}>
+                    자세히 →
+                  </a>
+                )}
+              </div>
             </div>
           ))}
         </div>
