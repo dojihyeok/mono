@@ -23,8 +23,36 @@ interface Company {
   status: string;
   region: string[];
   industry?: string | null;
+  companyKind?: "PERFORMER" | "OPERATOR" | null;
+  industries?: string[];
+  safetyRate?: number | null;
+  rehireRate?: number | null;
+  defectMemo?: string | null;
+  memo?: string | null;
   createdAt?: string;
   _count?: { jobPosts: number; savedWorkers: number };
+}
+interface WorkRecord {
+  id: string;
+  industry: string;
+  title: string;
+  siteName?: string | null;
+  workTypes: string[];
+  period?: string | null;
+  scaleMemo?: string | null;
+  description?: string | null;
+  createdAt: string;
+}
+interface PerformerCompany {
+  id: string;
+  name: string;
+  industry?: string | null;
+  industries: string[];
+  region: string[];
+  safetyRate: number | null;
+  rehireRate: number | null;
+  createdAt: string;
+  _count: { workRecords: number };
 }
 interface JobPost {
   id: string;
@@ -70,7 +98,17 @@ interface TeamDir {
 }
 
 type View = "landing" | "signup" | "login" | "dashboard";
-type Tab = "info" | "post" | "workers" | "teams" | "saved" | "applications" | "work_requests";
+type Tab =
+  | "overview"
+  | "info"
+  | "post"
+  | "work_requests"
+  | "applications"
+  | "workers"
+  | "teams"
+  | "saved"
+  | "profile"
+  | "directory";
 
 const COMPANY_STATUS_LABEL: Record<string, string> = {
   INQUIRY: "문의 접수",
@@ -79,6 +117,15 @@ const COMPANY_STATUS_LABEL: Record<string, string> = {
   POSTED: "공고 등록",
   POC: "PoC 논의",
 };
+
+const COMPANY_KIND_LABEL: Record<string, string> = {
+  PERFORMER: "협력업체 · 전문시공",
+  OPERATOR: "원청 · 발주처",
+};
+
+function pct(v?: number | null): string {
+  return v == null ? "—" : `${Math.round(v * 100)}%`;
+}
 
 function jobPostBadge(status: string): { label: string; cls: string } {
   switch (status) {
@@ -120,7 +167,7 @@ function Chips({
 
 export function PartnerClient() {
   const [view, setView] = useState<View>("landing");
-  const [tab, setTab] = useState<Tab>("post");
+  const [tab, setTab] = useState<Tab>("overview");
   const [company, setCompany] = useState<Company | null>(null);
 
   const loadCompany = useCallback(async (id: string) => {
@@ -208,7 +255,7 @@ export function PartnerClient() {
                 }
                 if (existing && (await loadCompany(existing))) {
                   setView("dashboard");
-                  setTab("post");
+                  setTab("overview");
                   return;
                 }
                 const res = await fetch("/api/companies", {
@@ -226,7 +273,7 @@ export function PartnerClient() {
                   /* noop */
                 }
                 setView("dashboard");
-                setTab("post");
+                setTab("overview");
               } catch {
                 /* noop */
               }
@@ -243,7 +290,7 @@ export function PartnerClient() {
                 /* noop */
               }
               setView("dashboard");
-              setTab("info"); // 협약 신청 직후 신청 내역(협약 정보)으로 진입
+              setTab("overview"); // 협약 신청 직후 개요(홈)로 진입 — 다음 행동을 바로 안내
             }}
             onCancel={() => setView("landing")}
           />
@@ -258,7 +305,7 @@ export function PartnerClient() {
                 /* noop */
               }
               setView("dashboard");
-              setTab("info");
+              setTab("overview");
             }}
             onCancel={() => setView("landing")}
           />
@@ -602,6 +649,8 @@ function SignupForm({
   const [contactPhone, setContactPhone] = useState("");
   const [industry, setIndustry] = useState("");
   const [region, setRegion] = useState<string[]>([]);
+  const [companyKind, setCompanyKind] = useState<"PERFORMER" | "OPERATOR">("PERFORMER");
+  const [industries, setIndustries] = useState<string[]>([]);
   const [busy, setBusy] = useState(false);
 
   const valid = name.trim() && contactName.trim() && contactPhone.trim();
@@ -619,12 +668,15 @@ function SignupForm({
           contactPhone: contactPhone.trim(),
           industry: industry.trim() || undefined,
           region,
+          companyKind,
+          industries,
         }),
       });
       const c = (await res.json()) as Company;
       track("company_signup_completed");
       track("company_interest_submitted");
       track("partner_contact_submitted", {});
+      track("company_kind_selected", { companyKind });
       onDone(c);
     } catch {
       setBusy(false);
@@ -636,6 +688,36 @@ function SignupForm({
       <div className={styles.panelTitle}>기업 협약 신청</div>
       <div className={styles.panelSub}>회사·담당자 정보를 남겨주시면 협약 검토 후 안내드립니다.</div>
 
+      <div className={styles.field}>
+        <div className={styles.label}>
+          우리 회사는 <span className={styles.req}>*</span>
+        </div>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+          {(
+            [
+              { k: "PERFORMER" as const, t: "협력업체 · 전문시공", d: "인력을 확보해 현장에 투입합니다" },
+              { k: "OPERATOR" as const, t: "원청 · 발주처", d: "협력사·인력을 발주·관리합니다" },
+            ]
+          ).map((opt) => (
+            <button
+              key={opt.k}
+              type="button"
+              onClick={() => setCompanyKind(opt.k)}
+              style={{
+                textAlign: "left",
+                padding: "14px 16px",
+                borderRadius: 14,
+                border: `1.5px solid ${companyKind === opt.k ? "var(--brand,#4f46e5)" : "#e6e8ec"}`,
+                background: companyKind === opt.k ? "var(--brand-tint,#ecedfb)" : "#fff",
+                cursor: "pointer",
+              }}
+            >
+              <div style={{ fontSize: 14, fontWeight: 800, color: "#0f172a" }}>{opt.t}</div>
+              <div style={{ fontSize: 12, color: "#5b6b82", fontWeight: 600, marginTop: 3 }}>{opt.d}</div>
+            </button>
+          ))}
+        </div>
+      </div>
       <div className={styles.field}>
         <div className={styles.label}>
           회사명 <span className={styles.req}>*</span>
@@ -659,6 +741,21 @@ function SignupForm({
       <div className={styles.field}>
         <div className={styles.label}>업종</div>
         <input className={styles.input} value={industry} onChange={(e) => setIndustry(e.target.value)} placeholder="예: 건축 · 토목" />
+      </div>
+      <div className={styles.field}>
+        <div className={styles.label}>산업분야 (복수 선택)</div>
+        <div className={styles.chips}>
+          {INDUSTRIES.map((i) => (
+            <button
+              key={i.value}
+              type="button"
+              className={`${styles.chip} ${industries.includes(i.value) ? styles.chipOn : ""}`}
+              onClick={() => setIndustries((p) => (p.includes(i.value) ? p.filter((x) => x !== i.value) : [...p, i.value]))}
+            >
+              {i.label}
+            </button>
+          ))}
+        </div>
       </div>
       <div className={styles.field}>
         <div className={styles.label}>현장 지역</div>
@@ -745,33 +842,47 @@ function Dashboard({
   setTab: (t: Tab) => void;
   reloadCompany: () => void;
 }) {
+  const groups: { label: string; items: { k: Tab; t: string }[] }[] = [
+    { label: "", items: [{ k: "overview", t: "🏠 홈" }] },
+    { label: "인력 확보", items: [{ k: "post", t: "채용 공고" }, { k: "work_requests", t: "현장 작업 요청" }] },
+    {
+      label: "인력 검토",
+      items: [
+        { k: "applications", t: "후보자" },
+        { k: "workers", t: "기술자 조회" },
+        { k: "teams", t: "팀 조회" },
+        { k: "saved", t: "관심 기술자" },
+      ],
+    },
+    { label: "협력사", items: [{ k: "profile", t: "신뢰 프로필" }, { k: "directory", t: "협력사 디렉터리" }] },
+    { label: "", items: [{ k: "info", t: "협약 정보" }] },
+  ];
+
   return (
     <>
       <div className={styles.tabs}>
-        {(
-          [
-            { k: "info", t: "협약 정보" },
-            { k: "post", t: "채용 공고" },
-            { k: "work_requests", t: "현장현장 작업 요청" },
-            { k: "applications", t: "후보자" },
-            { k: "workers", t: "기술자 조회" },
-            { k: "teams", t: "팀 조회" },
-            { k: "saved", t: "관심 기술자" },
-          ] as { k: Tab; t: string }[]
-        ).map((x) => (
-          <button
-            key={x.k}
-            className={`${styles.tab} ${tab === x.k ? styles.tabActive : ""}`}
-            onClick={() => {
-              setTab(x.k);
-              if (x.k === "post") track("job_post_started");
-            }}
-          >
-            {x.t}
-          </button>
+        {groups.map((g, gi) => (
+          <span key={gi} style={{ display: "flex", alignItems: "center" }}>
+            {g.label && <span className={styles.tabGroupLabel}>{g.label}</span>}
+            {g.items.map((x) => (
+              <button
+                key={x.k}
+                className={`${styles.tab} ${tab === x.k ? styles.tabActive : ""}`}
+                onClick={() => {
+                  setTab(x.k);
+                  if (x.k === "post") track("job_post_started");
+                  if (x.k === "profile") track("company_profile_tab_viewed");
+                  if (x.k === "directory") track("performer_directory_viewed");
+                }}
+              >
+                {x.t}
+              </button>
+            ))}
+          </span>
         ))}
       </div>
 
+      {tab === "overview" && <OverviewTab company={company} setTab={setTab} />}
       {tab === "info" && <CompanyInfoView company={company} />}
       {tab === "post" && <PostTab companyId={company.id} reloadCompany={reloadCompany} />}
       {tab === "work_requests" && <WorkRequestsTab companyId={company.id} reloadCompany={reloadCompany} />}
@@ -779,6 +890,8 @@ function Dashboard({
       {tab === "workers" && <WorkersTab companyId={company.id} reloadCompany={reloadCompany} />}
       {tab === "teams" && <TeamsTab companyId={company.id} />}
       {tab === "saved" && <SavedTab companyId={company.id} />}
+      {tab === "profile" && <ProfileTab company={company} reloadCompany={reloadCompany} />}
+      {tab === "directory" && <DirectoryTab />}
 
       <PocBanner />
     </>
@@ -1511,6 +1624,484 @@ function SavedTab({ companyId }: { companyId: string }) {
                   style={{ flex: 1 }}
                 >
                   {consultedIds.has(s.userId) ? "상담 요청됨 ✓" : "상담 요청"}
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </>
+  );
+}
+
+function OverviewTab({ company, setTab }: { company: Company; setTab: (t: Tab) => void }) {
+  const [appCount, setAppCount] = useState<number | null>(null);
+  const [wrCount, setWrCount] = useState<number | null>(null);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const [apps, wrs] = await Promise.all([
+          fetch(`/api/companies/${company.id}/applications`, { cache: "no-store" }).then((r) => r.json()).catch(() => []),
+          fetch(`/api/companies/${company.id}/work-requests`, { cache: "no-store" }).then((r) => r.json()).catch(() => []),
+        ]);
+        setAppCount(Array.isArray(apps) ? apps.length : 0);
+        setWrCount(Array.isArray(wrs) ? wrs.length : 0);
+      } catch {
+        setAppCount(0);
+        setWrCount(0);
+      }
+    })();
+  }, [company.id]);
+
+  const profileComplete = !!(company.companyKind && (company.industries?.length ?? 0) > 0 && company.safetyRate != null);
+
+  const kpis: { label: string; value: number | null; icon: string }[] = [
+    { label: "등록 공고", value: company._count?.jobPosts ?? 0, icon: "📋" },
+    { label: "후보자", value: appCount, icon: "🧑‍🔧" },
+    { label: "관심 기술자", value: company._count?.savedWorkers ?? 0, icon: "⭐" },
+    { label: "현장 작업 요청", value: wrCount, icon: "🏗️" },
+  ];
+
+  return (
+    <>
+      <div style={{ background: "linear-gradient(135deg, #0f172a, #1e2547)", borderRadius: 20, padding: "26px 26px 24px", color: "#fff", marginBottom: 20 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
+          <span style={{ fontSize: 11, fontWeight: 900, background: "rgba(255,255,255,0.14)", padding: "4px 10px", borderRadius: 999 }}>
+            Partner Workspace
+          </span>
+          <span style={{ fontSize: 13, color: "#a5b4fc", fontWeight: 700 }}>
+            {COMPANY_KIND_LABEL[company.companyKind ?? "PERFORMER"]}
+          </span>
+        </div>
+        <div style={{ fontSize: 21, fontWeight: 900, marginTop: 12 }}>안녕하세요, {company.contactName}님</div>
+        <div style={{ fontSize: 13, color: "#cbd5e1", fontWeight: 600, marginTop: 6, wordBreak: "keep-all" }}>
+          {company.name} · {COMPANY_STATUS_LABEL[company.status] ?? company.status}
+        </div>
+      </div>
+
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: 12, marginBottom: 20 }}>
+        {kpis.map((k) => (
+          <div key={k.label} className={styles.panel} style={{ padding: 18 }}>
+            <div style={{ fontSize: 19 }}>{k.icon}</div>
+            <div style={{ fontFamily: "var(--font-mono)", fontSize: 25, fontWeight: 700, color: "#0f172a", marginTop: 8 }}>
+              {k.value == null ? "···" : k.value}
+            </div>
+            <div style={{ fontSize: 12.5, color: "#5b6b82", fontWeight: 650, marginTop: 4 }}>{k.label}</div>
+          </div>
+        ))}
+      </div>
+
+      {!profileComplete && (
+        <div style={{ background: "#fff7ed", border: "1px solid #fed7aa", borderRadius: 16, padding: "18px 20px", marginBottom: 20, display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
+          <div>
+            <div style={{ fontSize: 14, fontWeight: 850, color: "#9a3412" }}>신뢰 프로필을 완성해 보세요</div>
+            <div style={{ fontSize: 12.5, color: "#c2410c", fontWeight: 600, marginTop: 4, wordBreak: "keep-all" }}>
+              안전이수율·작업수행사례를 등록하면 원청·대기업 협력사 디렉터리에 우리 회사가 노출됩니다.
+            </div>
+          </div>
+          <button className={styles.btnPrimary} onClick={() => setTab("profile")} style={{ height: 40, fontSize: 13, flexShrink: 0 }}>
+            프로필 완성하기
+          </button>
+        </div>
+      )}
+
+      <div className={styles.sectionTitle}>바로가기</div>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 12 }}>
+        {(
+          [
+            { t: "급구 공고 등록", d: "현장 수요를 지금 바로 등록합니다", tab: "post" as Tab, icon: "🔥" },
+            { t: "기술자 검색", d: "경력·자격이 검증된 기술자를 찾습니다", tab: "workers" as Tab, icon: "🔎" },
+            { t: "팀 조회", d: "현장에 투입 가능한 팀을 찾습니다", tab: "teams" as Tab, icon: "👷" },
+            { t: "협력사 디렉터리", d: "신뢰할 수 있는 협력사를 찾습니다", tab: "directory" as Tab, icon: "🏢" },
+          ] as { t: string; d: string; tab: Tab; icon: string }[]
+        ).map((q) => (
+          <button
+            key={q.t}
+            onClick={() => setTab(q.tab)}
+            style={{ textAlign: "left", background: "#fff", border: "1px solid #e6e8ec", borderRadius: 16, padding: 18, cursor: "pointer" }}
+          >
+            <div style={{ fontSize: 19 }}>{q.icon}</div>
+            <div style={{ fontSize: 14, fontWeight: 850, color: "#0f172a", marginTop: 8 }}>{q.t}</div>
+            <div style={{ fontSize: 12, color: "#5b6b82", fontWeight: 600, marginTop: 4, wordBreak: "keep-all" }}>{q.d}</div>
+          </button>
+        ))}
+      </div>
+    </>
+  );
+}
+
+function ProfileTab({ company, reloadCompany }: { company: Company; reloadCompany: () => void }) {
+  const [companyKind, setCompanyKind] = useState<"PERFORMER" | "OPERATOR">(company.companyKind ?? "PERFORMER");
+  const [industries, setIndustries] = useState<string[]>(company.industries ?? []);
+  const [safetyRate, setSafetyRate] = useState(company.safetyRate != null ? String(Math.round(company.safetyRate * 100)) : "");
+  const [rehireRate, setRehireRate] = useState(company.rehireRate != null ? String(Math.round(company.rehireRate * 100)) : "");
+  const [memo, setMemo] = useState(company.memo ?? "");
+  const [saving, setSaving] = useState(false);
+  const [saved, setSaved] = useState(false);
+
+  const saveProfile = async () => {
+    setSaving(true);
+    setSaved(false);
+    try {
+      const body: Record<string, unknown> = { companyKind, industries };
+      if (safetyRate.trim()) body.safetyRate = Math.min(1, Math.max(0, Number(safetyRate) / 100));
+      if (rehireRate.trim()) body.rehireRate = Math.min(1, Math.max(0, Number(rehireRate) / 100));
+      body.memo = memo.trim() || undefined;
+      await fetch(`/api/companies/${company.id}`, {
+        method: "PATCH",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(body),
+      });
+      track("company_profile_updated", { companyKind });
+      reloadCompany();
+      setSaved(true);
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const [records, setRecords] = useState<WorkRecord[] | null>(null);
+  const loadRecords = useCallback(async () => {
+    try {
+      const res = await fetch(`/api/companies/${company.id}/work-records`, { cache: "no-store" });
+      setRecords((await res.json()) as WorkRecord[]);
+    } catch {
+      setRecords([]);
+    }
+  }, [company.id]);
+  useEffect(() => {
+    void loadRecords();
+  }, [loadRecords]);
+
+  const [rIndustry, setRIndustry] = useState(INDUSTRIES[0].value as string);
+  const [rTitle, setRTitle] = useState("");
+  const [rSite, setRSite] = useState("");
+  const [rPeriod, setRPeriod] = useState("");
+  const [rScale, setRScale] = useState("");
+  const [rDesc, setRDesc] = useState("");
+  const [rBusy, setRBusy] = useState(false);
+
+  const addRecord = async () => {
+    if (!rTitle.trim() || rBusy) return;
+    setRBusy(true);
+    try {
+      await fetch(`/api/companies/${company.id}/work-records`, {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          industry: rIndustry,
+          title: rTitle.trim(),
+          siteName: rSite.trim() || undefined,
+          period: rPeriod.trim() || undefined,
+          scaleMemo: rScale.trim() || undefined,
+          description: rDesc.trim() || undefined,
+        }),
+      });
+      track("work_record_added", { industry: rIndustry });
+      setRTitle("");
+      setRSite("");
+      setRPeriod("");
+      setRScale("");
+      setRDesc("");
+      await loadRecords();
+    } finally {
+      setRBusy(false);
+    }
+  };
+
+  const delRecord = async (rid: string) => {
+    if (!window.confirm("이 작업수행사례를 삭제할까요?")) return;
+    try {
+      await fetch(`/api/companies/${company.id}/work-records/${rid}`, { method: "DELETE" });
+      await loadRecords();
+    } catch {
+      /* noop */
+    }
+  };
+
+  return (
+    <>
+      <div className={styles.panel}>
+        <div className={styles.panelTitle}>협력사 신뢰 프로필</div>
+        <div className={styles.panelSub}>
+          안전이수율·재의뢰율·작업수행사례를 등록하면 원청·대기업이 협력사 디렉터리에서 우리 회사를 발견할 수 있습니다.
+        </div>
+
+        <div className={styles.field}>
+          <div className={styles.label}>파트너 유형</div>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+            {(
+              [
+                { k: "PERFORMER" as const, t: "협력업체 · 전문시공" },
+                { k: "OPERATOR" as const, t: "원청 · 발주처" },
+              ]
+            ).map((opt) => (
+              <button
+                key={opt.k}
+                type="button"
+                onClick={() => setCompanyKind(opt.k)}
+                style={{
+                  padding: "12px 14px",
+                  borderRadius: 12,
+                  border: `1.5px solid ${companyKind === opt.k ? "var(--brand,#4f46e5)" : "#e6e8ec"}`,
+                  background: companyKind === opt.k ? "var(--brand-tint,#ecedfb)" : "#fff",
+                  fontSize: 13.5,
+                  fontWeight: 800,
+                  color: "#0f172a",
+                  cursor: "pointer",
+                }}
+              >
+                {opt.t}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className={styles.field}>
+          <div className={styles.label}>산업분야 (복수 선택)</div>
+          <div className={styles.chips}>
+            {INDUSTRIES.map((i) => (
+              <button
+                key={i.value}
+                type="button"
+                className={`${styles.chip} ${industries.includes(i.value) ? styles.chipOn : ""}`}
+                onClick={() => setIndustries((p) => (p.includes(i.value) ? p.filter((x) => x !== i.value) : [...p, i.value]))}
+              >
+                {i.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className={styles.grid2}>
+          <div className={styles.field}>
+            <div className={styles.label}>안전이수율 (%)</div>
+            <input className={styles.input} type="number" min={0} max={100} value={safetyRate} onChange={(e) => setSafetyRate(e.target.value)} placeholder="예: 95" />
+          </div>
+          <div className={styles.field}>
+            <div className={styles.label}>재의뢰율 (%)</div>
+            <input className={styles.input} type="number" min={0} max={100} value={rehireRate} onChange={(e) => setRehireRate(e.target.value)} placeholder="예: 88" />
+          </div>
+        </div>
+        <div className={styles.field}>
+          <div className={styles.label}>소개 메모</div>
+          <input className={styles.input} value={memo} onChange={(e) => setMemo(e.target.value)} placeholder="우리 회사의 강점을 한 줄로 소개해 주세요" />
+        </div>
+
+        <button className={styles.btnPrimary} onClick={saveProfile} disabled={saving} style={{ marginTop: 18, width: "100%" }}>
+          {saving ? "저장 중…" : saved ? "저장됨 ✓" : "프로필 저장"}
+        </button>
+      </div>
+
+      <div className={styles.sectionTitle}>작업수행사례 {records ? `(${records.length})` : ""}</div>
+      <div className={styles.panel}>
+        <div className={styles.panelTitle}>작업수행사례 등록</div>
+        <div className={styles.panelSub}>완료한 프로젝트를 등록하면 신뢰 프로필의 근거 자료가 됩니다.</div>
+        <div className={styles.field}>
+          <div className={styles.label}>산업분야</div>
+          <select className={styles.input} value={rIndustry} onChange={(e) => setRIndustry(e.target.value)}>
+            {INDUSTRIES.map((i) => (
+              <option key={i.value} value={i.value}>{i.label}</option>
+            ))}
+          </select>
+        </div>
+        <div className={styles.field}>
+          <div className={styles.label}>
+            제목 <span className={styles.req}>*</span>
+          </div>
+          <input className={styles.input} value={rTitle} onChange={(e) => setRTitle(e.target.value)} placeholder="예: 힐스테이트 송도 골조 공사" />
+        </div>
+        <div className={styles.grid2}>
+          <div className={styles.field}>
+            <div className={styles.label}>현장명</div>
+            <input className={styles.input} value={rSite} onChange={(e) => setRSite(e.target.value)} placeholder="예: 힐스테이트 송도" />
+          </div>
+          <div className={styles.field}>
+            <div className={styles.label}>수행 기간</div>
+            <input className={styles.input} value={rPeriod} onChange={(e) => setRPeriod(e.target.value)} placeholder="예: 2025.03 ~ 2025.09" />
+          </div>
+        </div>
+        <div className={styles.field}>
+          <div className={styles.label}>규모</div>
+          <input className={styles.input} value={rScale} onChange={(e) => setRScale(e.target.value)} placeholder="예: 지상 25층, 연면적 3.2만평" />
+        </div>
+        <div className={styles.field}>
+          <div className={styles.label}>설명</div>
+          <input className={styles.input} value={rDesc} onChange={(e) => setRDesc(e.target.value)} placeholder="수행 역할, 성과 등을 간단히 적어주세요" />
+        </div>
+        <button className={styles.btnPrimary} onClick={addRecord} disabled={!rTitle.trim() || rBusy} style={{ marginTop: 16, width: "100%" }}>
+          {rBusy ? "등록 중…" : "작업수행사례 등록"}
+        </button>
+      </div>
+
+      <div className={styles.panel}>
+        {records === null ? (
+          <div className={styles.empty}>불러오는 중…</div>
+        ) : records.length === 0 ? (
+          <div className={styles.empty}>아직 등록한 작업수행사례가 없습니다.</div>
+        ) : (
+          records.map((r) => (
+            <div className={styles.listItem} key={r.id}>
+              <div className={styles.itemBody}>
+                <div className={styles.itemTitle}>{r.title}</div>
+                <div className={styles.itemSub}>
+                  {INDUSTRIES.find((i) => i.value === r.industry)?.label ?? r.industry}
+                  {r.siteName ? ` · ${r.siteName}` : ""}
+                  {r.period ? ` · ${r.period}` : ""}
+                  {r.scaleMemo ? ` · ${r.scaleMemo}` : ""}
+                </div>
+              </div>
+              <button className={styles.btnSm} onClick={() => delRecord(r.id)} style={{ marginLeft: 8, height: 32, padding: "0 12px" }}>
+                삭제
+              </button>
+            </div>
+          ))
+        )}
+      </div>
+    </>
+  );
+}
+
+function DirectoryTab() {
+  const [companies, setCompanies] = useState<PerformerCompany[] | null>(null);
+  const [industry, setIndustry] = useState("");
+  const [region, setRegion] = useState("");
+  const [openId, setOpenId] = useState<string | null>(null);
+  const [openRecords, setOpenRecords] = useState<WorkRecord[] | null>(null);
+
+  const search = useCallback(async () => {
+    setCompanies(null);
+    const qs = new URLSearchParams();
+    if (industry) qs.set("industry", industry);
+    if (region) qs.set("region", region);
+    try {
+      const res = await fetch(`/api/performers?${qs.toString()}`, { cache: "no-store" });
+      const data = (await res.json()) as PerformerCompany[];
+      setCompanies(data);
+      track("performer_search", { industry: industry || null, region: region || null, count: data.length });
+    } catch {
+      setCompanies([]);
+    }
+  }, [industry, region]);
+
+  useEffect(() => {
+    void search();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const viewProfile = async (id: string) => {
+    if (openId === id) {
+      setOpenId(null);
+      return;
+    }
+    setOpenId(id);
+    setOpenRecords(null);
+    try {
+      const res = await fetch(`/api/companies/${id}/profile`, { cache: "no-store" });
+      const data = (await res.json()) as { workRecords: WorkRecord[] };
+      setOpenRecords(data.workRecords ?? []);
+      track("performer_profile_viewed", { companyId: id });
+    } catch {
+      setOpenRecords([]);
+    }
+  };
+
+  return (
+    <>
+      <div className={styles.panel}>
+        <div className={styles.panelTitle}>협력사 디렉터리</div>
+        <div className={styles.panelSub}>산업분야·지역으로 필터링해 검증된 협력사(수행기업)를 찾습니다.</div>
+        <div className={styles.field}>
+          <div className={styles.label}>산업분야</div>
+          <div className={styles.chips}>
+            <button type="button" className={`${styles.chip} ${industry === "" ? styles.chipOn : ""}`} onClick={() => setIndustry("")}>
+              전체
+            </button>
+            {INDUSTRIES.map((i) => (
+              <button key={i.value} type="button" className={`${styles.chip} ${industry === i.value ? styles.chipOn : ""}`} onClick={() => setIndustry(i.value)}>
+                {i.label}
+              </button>
+            ))}
+          </div>
+        </div>
+        <div className={styles.field}>
+          <div className={styles.label}>지역</div>
+          <div className={styles.chips}>
+            <button type="button" className={`${styles.chip} ${region === "" ? styles.chipOn : ""}`} onClick={() => setRegion("")}>
+              전체
+            </button>
+            {REGIONS.map((r) => (
+              <button key={r} type="button" className={`${styles.chip} ${region === r ? styles.chipOn : ""}`} onClick={() => setRegion(r)}>
+                {r}
+              </button>
+            ))}
+          </div>
+        </div>
+        <button className={styles.btnPrimary} onClick={search} style={{ marginTop: 20 }}>
+          협력사 검색
+        </button>
+      </div>
+
+      <div className={styles.sectionTitle}>{companies ? `검색 결과 ${companies.length}곳` : "검색 중…"}</div>
+      {companies === null ? (
+        <div className={styles.empty}>불러오는 중…</div>
+      ) : companies.length === 0 ? (
+        <div className={styles.panel}>
+          <div className={styles.empty}>조건에 맞는 협력사가 아직 없습니다. 협력사의 프로필 등록이 늘면 이곳에 표시됩니다.</div>
+        </div>
+      ) : (
+        <div className={styles.workerGrid}>
+          {companies.map((c) => (
+            <div className={styles.workerCard} key={c.id}>
+              <div className={styles.workerHead}>
+                <div className={styles.avatar}>{c.name?.charAt(0) ?? "·"}</div>
+                <div>
+                  <div className={styles.workerName}>{c.name}</div>
+                  <div className={styles.workerMeta}>{c.region.length ? c.region.join(", ") : "지역 미입력"}</div>
+                </div>
+              </div>
+              <div className={styles.tagRow}>
+                {c.industries.length ? (
+                  c.industries.map((iv) => (
+                    <span className={styles.tag} key={iv}>
+                      {INDUSTRIES.find((i) => i.value === iv)?.label ?? iv}
+                    </span>
+                  ))
+                ) : (
+                  <span className={styles.tag}>산업분야 미입력</span>
+                )}
+              </div>
+              <div className={styles.statRow}>
+                <div className={styles.stat}>
+                  <b>{pct(c.safetyRate)}</b>안전이수율
+                </div>
+                <div className={styles.stat}>
+                  <b>{pct(c.rehireRate)}</b>재의뢰율
+                </div>
+                <div className={styles.stat}>
+                  <b>{c._count.workRecords}</b>작업사례
+                </div>
+              </div>
+              {openId === c.id && (
+                <div className={styles.note} style={{ marginTop: 10 }}>
+                  {openRecords === null ? (
+                    "불러오는 중…"
+                  ) : openRecords.length === 0 ? (
+                    "등록된 작업수행사례가 없습니다."
+                  ) : (
+                    openRecords.map((r) => (
+                      <div key={r.id} style={{ marginBottom: 6 }}>
+                        · {r.title}
+                        {r.siteName ? ` (${r.siteName})` : ""}
+                      </div>
+                    ))
+                  )}
+                </div>
+              )}
+              <div className={styles.cardActions} style={{ display: "flex", gap: 8 }}>
+                <button className={styles.btnSm} onClick={() => viewProfile(c.id)} style={{ flex: 1 }}>
+                  {openId === c.id ? "접기" : "작업수행사례 보기"}
                 </button>
               </div>
             </div>

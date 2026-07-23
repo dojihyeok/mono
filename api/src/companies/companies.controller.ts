@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  Patch,
   Post,
   Query,
 } from '@nestjs/common';
@@ -15,6 +16,7 @@ import {
 } from '@prisma/client';
 import { CompaniesService } from './companies.service';
 import { CreateCompanyDto } from './dto/create-company.dto';
+import { UpdateCompanyDto } from './dto/update-company.dto';
 import { CompanyLoginDto } from './dto/company-login.dto';
 import { CreateJobPostDto } from './dto/create-job-post.dto';
 import { SaveWorkerDto } from './dto/save-worker.dto';
@@ -83,6 +85,12 @@ export class CompaniesController {
   @Get('companies/:id')
   get(@Param('id') id: string) {
     return this.companies.getCompany(id);
+  }
+
+  // 기업 정보 수정 — 신뢰 프로필(파트너 유형·산업분야·안전이수율·재의뢰율 등)
+  @Patch('companies/:id')
+  update(@Param('id') id: string, @Body() dto: UpdateCompanyDto) {
+    return this.companies.updateCompany(id, dto);
   }
 
   // 작업수행사례 등록/조회/삭제 (WorkRecord)

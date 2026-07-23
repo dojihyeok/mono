@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateCompanyDto } from './dto/create-company.dto';
+import { UpdateCompanyDto } from './dto/update-company.dto';
 import { CreateJobPostDto } from './dto/create-job-post.dto';
 import { SaveWorkerDto } from './dto/save-worker.dto';
 import { CreateWorkRecordDto } from './dto/create-work-record.dto';
@@ -44,6 +45,16 @@ export class CompaniesService {
     });
     if (!company) throw new NotFoundException(`Company ${id} not found`);
     return company;
+  }
+
+  // 기업 정보 수정 — 신뢰 프로필(파트너 유형·산업분야·안전이수율·재의뢰율 등) 갱신.
+  async updateCompany(id: string, dto: UpdateCompanyDto) {
+    await this.ensureCompany(id);
+    return this.prisma.company.update({
+      where: { id },
+      data: { ...dto },
+      include: { _count: { select: { jobPosts: true, savedWorkers: true } } },
+    });
   }
 
   // 기업 로그인 — 신청 연락처로 기존 협약 조회(데모: 비밀번호 없음, 가장 최근 1건)
