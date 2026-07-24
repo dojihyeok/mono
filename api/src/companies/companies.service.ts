@@ -3,6 +3,10 @@ import { Prisma } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateCompanyDto } from './dto/create-company.dto';
 import { UpdateCompanyDto } from './dto/update-company.dto';
+import { CreateProjectDto } from './dto/create-project.dto';
+import { UpdateProjectDto } from './dto/update-project.dto';
+import { AddProjectMemberDto } from './dto/add-project-member.dto';
+import { UpdateProjectMemberDto } from './dto/update-project-member.dto';
 import { CreateJobPostDto } from './dto/create-job-post.dto';
 import { SaveWorkerDto } from './dto/save-worker.dto';
 import { CreateWorkRecordDto } from './dto/create-work-record.dto';
@@ -255,6 +259,146 @@ export class CompaniesService {
     if (res.count === 0) {
       throw new NotFoundException(
         `WorkRecord ${rid} not found for company ${companyId}`,
+      );
+    }
+    return { ok: true, deleted: res.count };
+  }
+
+  // ── Partner Workspace 프로젝트(PartnerProject) — P0~P1 핵심 흐름 ──
+  // WorkRequest(발주 요청+후보추천)와 달리, 협력업체가 직접 만들어 운영하는
+  // 진행형 프로젝트. 인력 배정·출역·정산이 이 위에 쌓인다.
+
+  async createProject(companyId: string, dto: CreateProjectDto) {
+    await this.ensureCompany(companyId);
+    return this.prisma.partnerProject.create({
+      data: {
+        companyId,
+        name: dto.name,
+        siteName: dto.siteName,
+        industry: dto.industry,
+        jobTypes: dto.jobTypes ?? [],
+        region: dto.region ?? [],
+        requiredHeadcount: dto.requiredHeadcount,
+        startDate: dto.startDate,
+        endDate: dto.endDate,
+        memo: dto.memo,
+      },
+    });
+  }
+
+  listProjects(companyId: string) {
+    return this.prisma.partnerProject.findMany({
+      where: { companyId },
+      orderBy: { createdAt: 'desc' },
+      include: {
+        _count: { select: { members: true } },
+      },
+    });
+  }
+
+  async getProject(companyId: string, projectId: string) {
+    const project = await this.prisma.partnerProject.findFirst({
+      where: { id: projectId, companyId },
+      include: {
+        members: { orderBy: { createdAt: 'desc' } },
+      },
+    });
+    if (!project) {
+      throw new NotFoundException(
+        `PartnerProject ${projectId} not found for company ${companyId}`,
+      );
+    }
+    return project;
+  }
+
+  private async ensureProject(companyId: string, projectId: string) {
+    const p = await this.prisma.partnerProject.findFirst({
+      where: { id: projectId, companyId },
+    });
+    if (!p) {
+      throw new NotFoundException(
+        `PartnerProject ${projectId} not found for company ${companyId}`,
+      );
+    }
+  }
+
+  async updateProject(
+    companyId: string,
+    projectId: string,
+    dto: UpdateProjectDto,
+  ) {
+    await this.ensureProject(companyId, projectId);
+    return this.prisma.partnerProject.update({
+      where: { id: projectId },
+      data: { ...dto },
+    });
+  }
+
+  async deleteProject(companyId: string, projectId: string) {
+    const res = await this.prisma.partnerProject.deleteMany({
+      where: { id: projectId, companyId },
+    });
+    if (res.count === 0) {
+      throw new NotFoundException(
+        `PartnerProject ${projectId} not found for company ${companyId}`,
+      );
+    }
+    return { ok: true, deleted: res.count };
+  }
+
+  async addProjectMember(
+    companyId: string,
+    projectId: string,
+    dto: AddProjectMemberDto,
+  ) {
+    await this.ensureProject(companyId, projectId);
+    return this.prisma.partnerProjectMember.create({
+      data: {
+        projectId,
+        userId: dto.userId,
+        name: dto.name,
+        phone: dto.phone,
+        jobType: dto.jobType,
+        role: dto.role,
+        status: dto.status ?? 'CONFIRMED',
+        joinedAt: dto.joinedAt,
+      },
+    });
+  }
+
+  async updateProjectMember(
+    companyId: string,
+    projectId: string,
+    memberId: string,
+    dto: UpdateProjectMemberDto,
+  ) {
+    await this.ensureProject(companyId, projectId);
+    const res = await this.prisma.partnerProjectMember.updateMany({
+      where: { id: memberId, projectId },
+      data: { ...dto },
+    });
+    if (res.count === 0) {
+      throw new NotFoundException(
+        `PartnerProjectMember ${memberId} not found in project ${projectId}`,
+      );
+    }
+    return this.prisma.partnerProjectMember.findUnique({
+      where: { id: memberId },
+    });
+  }
+
+  async removeProjectMember(
+    companyId: string,
+    projectId: string,
+    memberId: string,
+  ) {
+    await this.ensureProject(companyId, projectId);
+    const res = await this.prisma.partnerProjectMember.deleteMany({
+      where: { id: memberId, projectId },
+    });
+    if (res.count === 0) {
+      throw new NotFoundException(
+        `PartnerProjectMember ${memberId} not found in project ${projectId}`,
       );
     }
     return { ok: true, deleted: res.count };

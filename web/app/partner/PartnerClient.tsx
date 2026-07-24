@@ -102,6 +102,7 @@ type View = "landing" | "signup" | "login" | "dashboard";
 type Tab =
   | "overview"
   | "info"
+  | "projects"
   | "post"
   | "work_requests"
   | "applications"
@@ -525,7 +526,7 @@ function Dashboard({
   reloadCompany: () => void;
 }) {
   const groups: { label: string; items: { k: Tab; t: string }[] }[] = [
-    { label: "", items: [{ k: "overview", t: "🏠 홈" }] },
+    { label: "", items: [{ k: "overview", t: "🏠 홈" }, { k: "projects", t: "프로젝트" }] },
     { label: "인력 확보", items: [{ k: "post", t: "채용 공고" }, { k: "work_requests", t: "현장 작업 요청" }] },
     {
       label: "인력 검토",
@@ -566,6 +567,7 @@ function Dashboard({
 
       {tab === "overview" && <OverviewTab company={company} setTab={setTab} />}
       {tab === "info" && <CompanyInfoView company={company} />}
+      {tab === "projects" && <ProjectsTab companyId={company.id} />}
       {tab === "post" && <PostTab companyId={company.id} reloadCompany={reloadCompany} />}
       {tab === "work_requests" && <WorkRequestsTab companyId={company.id} reloadCompany={reloadCompany} />}
       {tab === "applications" && <ApplicationsTab companyId={company.id} />}
@@ -1319,19 +1321,24 @@ function SavedTab({ companyId }: { companyId: string }) {
 function OverviewTab({ company, setTab }: { company: Company; setTab: (t: Tab) => void }) {
   const [appCount, setAppCount] = useState<number | null>(null);
   const [wrCount, setWrCount] = useState<number | null>(null);
+  const [activeProjectCount, setActiveProjectCount] = useState<number | null>(null);
 
   useEffect(() => {
     (async () => {
       try {
-        const [apps, wrs] = await Promise.all([
+        const [apps, wrs, projects] = await Promise.all([
           fetch(`/api/companies/${company.id}/applications`, { cache: "no-store" }).then((r) => r.json()).catch(() => []),
           fetch(`/api/companies/${company.id}/work-requests`, { cache: "no-store" }).then((r) => r.json()).catch(() => []),
+          fetch(`/api/companies/${company.id}/projects`, { cache: "no-store" }).then((r) => r.json()).catch(() => []),
         ]);
         setAppCount(Array.isArray(apps) ? apps.length : 0);
         setWrCount(Array.isArray(wrs) ? wrs.length : 0);
+        const list: Project[] = Array.isArray(projects) ? projects : [];
+        setActiveProjectCount(list.filter((p) => p.status === "ACTIVE" || p.status === "PLANNING").length);
       } catch {
         setAppCount(0);
         setWrCount(0);
+        setActiveProjectCount(0);
       }
     })();
   }, [company.id]);
@@ -1339,10 +1346,11 @@ function OverviewTab({ company, setTab }: { company: Company; setTab: (t: Tab) =
   const profileComplete = !!(company.companyKind && (company.industries?.length ?? 0) > 0 && company.safetyRate != null);
 
   const kpis: { label: string; value: number | null; icon: string }[] = [
+    { label: "진행 프로젝트", value: activeProjectCount, icon: "🏗️" },
     { label: "등록 공고", value: company._count?.jobPosts ?? 0, icon: "📋" },
     { label: "후보자", value: appCount, icon: "🧑‍🔧" },
     { label: "관심 기술자", value: company._count?.savedWorkers ?? 0, icon: "⭐" },
-    { label: "현장 작업 요청", value: wrCount, icon: "🏗️" },
+    { label: "현장 작업 요청", value: wrCount, icon: "📐" },
   ];
 
   return (
@@ -1392,6 +1400,7 @@ function OverviewTab({ company, setTab }: { company: Company; setTab: (t: Tab) =
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 12 }}>
         {(
           [
+            { t: "프로젝트 만들기", d: "진행 중인 현장을 등록하고 인력·출역·정산을 관리합니다", tab: "projects" as Tab, icon: "🏗️" },
             { t: "급구 공고 등록", d: "현장 수요를 지금 바로 등록합니다", tab: "post" as Tab, icon: "🔥" },
             { t: "기술자 검색", d: "경력·자격이 검증된 기술자를 찾습니다", tab: "workers" as Tab, icon: "🔎" },
             { t: "팀 조회", d: "현장에 투입 가능한 팀을 찾습니다", tab: "teams" as Tab, icon: "👷" },
@@ -2049,6 +2058,573 @@ function WorkRequestsTab({ companyId, reloadCompany }: { companyId: string; relo
               </div>
             </div>
           ))}
+        </div>
+      )}
+    </>
+  );
+}
+
+interface Project {
+  id: string;
+  name: string;
+  siteName?: string | null;
+  industry?: string | null;
+  jobTypes: string[];
+  region: string[];
+  requiredHeadcount?: number | null;
+  startDate?: string | null;
+  endDate?: string | null;
+  status: "PLANNING" | "ACTIVE" | "COMPLETED" | "ARCHIVED";
+  memo?: string | null;
+  createdAt: string;
+  _count?: { members: number };
+}
+interface ProjectMember {
+  id: string;
+  projectId: string;
+  userId?: string | null;
+  name: string;
+  phone?: string | null;
+  jobType?: string | null;
+  role: "WORKER" | "MANAGER";
+  status: "INVITED" | "CONFIRMED" | "DECLINED" | "REMOVED";
+  joinedAt?: string | null;
+  leftAt?: string | null;
+  createdAt: string;
+}
+interface ProjectDetail extends Project {
+  members: ProjectMember[];
+}
+
+const PROJECT_STATUS_LABEL: Record<Project["status"], string> = {
+  PLANNING: "준비 중",
+  ACTIVE: "진행 중",
+  COMPLETED: "완료",
+  ARCHIVED: "보관",
+};
+function projectStatusBadge(status: Project["status"]): { label: string; cls: string } {
+  switch (status) {
+    case "ACTIVE":
+      return { label: "진행 중", cls: styles.badgeOpen };
+    case "PLANNING":
+      return { label: "준비 중", cls: styles.badgePending };
+    default:
+      return { label: PROJECT_STATUS_LABEL[status], cls: styles.badgeClosed };
+  }
+}
+const MEMBER_STATUS_LABEL: Record<ProjectMember["status"], string> = {
+  INVITED: "배정 대기",
+  CONFIRMED: "투입 확정",
+  DECLINED: "참여 불가",
+  REMOVED: "배정 해제",
+};
+function memberStatusBadge(status: ProjectMember["status"]): { label: string; cls: string } {
+  switch (status) {
+    case "CONFIRMED":
+      return { label: "투입 확정", cls: styles.badgeOpen };
+    case "INVITED":
+      return { label: "배정 대기", cls: styles.badgePending };
+    default:
+      return { label: MEMBER_STATUS_LABEL[status], cls: styles.badgeClosed };
+  }
+}
+
+function ProjectCreateForm({ companyId, onCreated }: { companyId: string; onCreated: () => void }) {
+  const [name, setName] = useState("");
+  const [siteName, setSiteName] = useState("");
+  const [jobTypes, setJobTypes] = useState<string[]>([]);
+  const [region, setRegion] = useState<string[]>([]);
+  const [requiredHeadcount, setRequiredHeadcount] = useState("");
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [open, setOpen] = useState(false);
+
+  const valid = name.trim().length > 0;
+
+  const submit = async () => {
+    if (!valid || busy) return;
+    setBusy(true);
+    try {
+      const body: Record<string, unknown> = { name: name.trim() };
+      if (siteName.trim()) body.siteName = siteName.trim();
+      if (jobTypes.length) body.jobTypes = jobTypes;
+      if (region.length) body.region = region;
+      if (requiredHeadcount.trim()) body.requiredHeadcount = Number(requiredHeadcount.trim());
+      if (startDate.trim()) body.startDate = startDate.trim();
+      if (endDate.trim()) body.endDate = endDate.trim();
+      await fetch(`/api/companies/${companyId}/projects`, {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(body),
+      });
+      track("project_created", { jobTypes, region });
+      setName("");
+      setSiteName("");
+      setJobTypes([]);
+      setRegion([]);
+      setRequiredHeadcount("");
+      setStartDate("");
+      setEndDate("");
+      setOpen(false);
+      onCreated();
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  if (!open) {
+    return (
+      <button className={styles.btnPrimary} onClick={() => { setOpen(true); track("project_create_started"); }} style={{ marginBottom: 20 }}>
+        + 새 프로젝트 만들기
+      </button>
+    );
+  }
+
+  return (
+    <div className={styles.panel} style={{ marginBottom: 20 }}>
+      <div className={styles.panelTitle}>새 프로젝트 만들기</div>
+      <div className={styles.panelSub}>현재 진행 중인 현장을 프로젝트로 등록하면 인력 배정·출역·정산을 이어서 관리할 수 있습니다.</div>
+
+      <div className={styles.field}>
+        <div className={styles.label}>
+          프로젝트명 <span className={styles.req}>*</span>
+        </div>
+        <input className={styles.input} value={name} onChange={(e) => setName(e.target.value)} placeholder="예: 힐스테이트 송도 골조 공사" />
+      </div>
+      <div className={styles.field}>
+        <div className={styles.label}>현장명</div>
+        <input className={styles.input} value={siteName} onChange={(e) => setSiteName(e.target.value)} placeholder="예: 힐스테이트 송도" />
+      </div>
+      <div className={styles.field}>
+        <div className={styles.label}>필요 직종</div>
+        <Chips options={JOB_TYPES} selected={jobTypes} onToggle={(v) => setJobTypes((p) => (p.includes(v) ? p.filter((x) => x !== v) : [...p, v]))} />
+      </div>
+      <div className={styles.field}>
+        <div className={styles.label}>현장 지역</div>
+        <Chips options={REGIONS} selected={region} onToggle={(v) => setRegion((p) => (p.includes(v) ? p.filter((x) => x !== v) : [...p, v]))} />
+      </div>
+      <div className={styles.grid2}>
+        <div className={styles.field}>
+          <div className={styles.label}>필요 인원</div>
+          <input className={styles.input} type="number" min={1} value={requiredHeadcount} onChange={(e) => setRequiredHeadcount(e.target.value)} placeholder="예: 8" />
+        </div>
+        <div className={styles.field}>
+          <div className={styles.label}>시작일</div>
+          <input className={styles.input} type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} />
+        </div>
+      </div>
+      <div className={styles.field}>
+        <div className={styles.label}>종료 예정일</div>
+        <input className={styles.input} type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} />
+      </div>
+
+      <div style={{ marginTop: 20, display: "flex", gap: 10 }}>
+        <button className={styles.btnPrimary} onClick={submit} disabled={!valid || busy} style={{ flex: 1 }}>
+          {busy ? "생성 중…" : "프로젝트 생성"}
+        </button>
+        <button className={styles.btnSm} onClick={() => setOpen(false)} style={{ flex: "none", height: 48, padding: "0 20px", fontSize: 15 }}>
+          취소
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function ProjectMemberAddForm({
+  companyId,
+  projectId,
+  onAdded,
+}: {
+  companyId: string;
+  projectId: string;
+  onAdded: () => void;
+}) {
+  const [mode, setMode] = useState<"search" | "manual">("search");
+  const [query, setQuery] = useState("");
+  const [results, setResults] = useState<Worker[] | null>(null);
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [jobType, setJobType] = useState("");
+  const [role, setRole] = useState<"WORKER" | "MANAGER">("WORKER");
+  const [busy, setBusy] = useState(false);
+
+  const search = async () => {
+    setResults(null);
+    try {
+      const qs = new URLSearchParams();
+      if (jobType) qs.set("jobType", jobType);
+      qs.set("limit", "20");
+      const res = await fetch(`/api/workers?${qs.toString()}`, { cache: "no-store" });
+      const data = (await res.json()) as Worker[];
+      const filtered = query.trim()
+        ? data.filter((w) => w.name?.toLowerCase().includes(query.trim().toLowerCase()))
+        : data;
+      setResults(filtered);
+    } catch {
+      setResults([]);
+    }
+  };
+
+  const addFromWorker = async (w: Worker) => {
+    setBusy(true);
+    try {
+      await fetch(`/api/companies/${companyId}/projects/${projectId}/members`, {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ userId: w.id, name: w.name, jobType: w.jobType[0], role }),
+      });
+      track("project_member_added", { source: "worker_search", role });
+      onAdded();
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const addManual = async () => {
+    if (!name.trim() || busy) return;
+    setBusy(true);
+    try {
+      await fetch(`/api/companies/${companyId}/projects/${projectId}/members`, {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          name: name.trim(),
+          phone: phone.trim() || undefined,
+          jobType: jobType.trim() || undefined,
+          role,
+        }),
+      });
+      track("project_member_added", { source: "manual", role });
+      setName("");
+      setPhone("");
+      onAdded();
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  return (
+    <div className={styles.panel} style={{ marginBottom: 16 }}>
+      <div className={styles.panelTitle}>인력 배정</div>
+      <div className={styles.panelSub}>MONO에 등록된 기술자를 검색하거나, 미가입 인력을 이름으로 바로 등록할 수 있습니다.</div>
+      <div style={{ display: "flex", gap: 8, marginTop: 14, marginBottom: 14 }}>
+        <button
+          className={`${styles.chip} ${mode === "search" ? styles.chipOn : ""}`}
+          onClick={() => setMode("search")}
+        >
+          기술자 검색
+        </button>
+        <button
+          className={`${styles.chip} ${mode === "manual" ? styles.chipOn : ""}`}
+          onClick={() => setMode("manual")}
+        >
+          외부 인력 직접 등록
+        </button>
+      </div>
+
+      <div className={styles.field}>
+        <div className={styles.label}>역할</div>
+        <div style={{ display: "flex", gap: 8 }}>
+          <button className={`${styles.chip} ${role === "WORKER" ? styles.chipOn : ""}`} onClick={() => setRole("WORKER")}>
+            현장 인력
+          </button>
+          <button className={`${styles.chip} ${role === "MANAGER" ? styles.chipOn : ""}`} onClick={() => setRole("MANAGER")}>
+            현장관리자
+          </button>
+        </div>
+      </div>
+
+      {mode === "search" ? (
+        <>
+          <div className={styles.grid2}>
+            <div className={styles.field}>
+              <div className={styles.label}>이름 검색</div>
+              <input className={styles.input} value={query} onChange={(e) => setQuery(e.target.value)} placeholder="이름 일부 입력" />
+            </div>
+            <div className={styles.field}>
+              <div className={styles.label}>직군</div>
+              <select className={styles.input} value={jobType} onChange={(e) => setJobType(e.target.value)}>
+                <option value="">전체</option>
+                {JOB_TYPES.map((j) => (
+                  <option key={j} value={j}>{j}</option>
+                ))}
+              </select>
+            </div>
+          </div>
+          <button className={styles.btnSm} onClick={search} style={{ marginTop: 4 }}>
+            검색
+          </button>
+          {results !== null && (
+            <div style={{ marginTop: 12 }}>
+              {results.length === 0 ? (
+                <div className={styles.empty}>검색 결과가 없습니다.</div>
+              ) : (
+                results.map((w) => (
+                  <div className={styles.listItem} key={w.id}>
+                    <div className={styles.itemBody}>
+                      <div className={styles.itemTitle}>{w.name}</div>
+                      <div className={styles.itemSub}>
+                        {w.jobType.join(", ")}
+                        {w.careerYears ? ` · ${CAREER_BAND_LABEL[w.careerYears] ?? w.careerYears}` : ""}
+                      </div>
+                    </div>
+                    <button className={styles.btnSm} onClick={() => addFromWorker(w)} disabled={busy}>
+                      배정
+                    </button>
+                  </div>
+                ))
+              )}
+            </div>
+          )}
+        </>
+      ) : (
+        <>
+          <div className={styles.grid2}>
+            <div className={styles.field}>
+              <div className={styles.label}>
+                이름 <span className={styles.req}>*</span>
+              </div>
+              <input className={styles.input} value={name} onChange={(e) => setName(e.target.value)} placeholder="이름" />
+            </div>
+            <div className={styles.field}>
+              <div className={styles.label}>연락처</div>
+              <input className={styles.input} value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="010-0000-0000" />
+            </div>
+          </div>
+          <div className={styles.field}>
+            <div className={styles.label}>직종</div>
+            <input className={styles.input} value={jobType} onChange={(e) => setJobType(e.target.value)} placeholder="예: 형틀목공" />
+          </div>
+          <button className={styles.btnPrimary} onClick={addManual} disabled={!name.trim() || busy} style={{ marginTop: 4, width: "100%" }}>
+            {busy ? "등록 중…" : "인력 등록"}
+          </button>
+        </>
+      )}
+    </div>
+  );
+}
+
+function ProjectDetailView({
+  companyId,
+  projectId,
+  onBack,
+}: {
+  companyId: string;
+  projectId: string;
+  onBack: () => void;
+}) {
+  const [project, setProject] = useState<ProjectDetail | null>(null);
+
+  const load = useCallback(async () => {
+    try {
+      const res = await fetch(`/api/companies/${companyId}/projects/${projectId}`, { cache: "no-store" });
+      setProject((await res.json()) as ProjectDetail);
+    } catch {
+      setProject(null);
+    }
+  }, [companyId, projectId]);
+
+  useEffect(() => {
+    void load();
+  }, [load]);
+
+  const setStatus = async (status: Project["status"]) => {
+    setProject((p) => (p ? { ...p, status } : p));
+    track("project_status_changed", { status });
+    try {
+      await fetch(`/api/companies/${companyId}/projects/${projectId}`, {
+        method: "PATCH",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ status }),
+      });
+    } catch {
+      /* noop */
+    }
+  };
+
+  const setMemberStatus = async (memberId: string, status: ProjectMember["status"]) => {
+    setProject((p) => (p ? { ...p, members: p.members.map((m) => (m.id === memberId ? { ...m, status } : m)) } : p));
+    track("project_member_status_changed", { status });
+    try {
+      await fetch(`/api/companies/${companyId}/projects/${projectId}/members/${memberId}`, {
+        method: "PATCH",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ status }),
+      });
+    } catch {
+      /* noop */
+    }
+  };
+
+  const removeMember = async (memberId: string) => {
+    if (!window.confirm("이 인력을 배정 해제할까요?")) return;
+    setProject((p) => (p ? { ...p, members: p.members.filter((m) => m.id !== memberId) } : p));
+    try {
+      await fetch(`/api/companies/${companyId}/projects/${projectId}/members/${memberId}`, { method: "DELETE" });
+    } catch {
+      /* noop */
+    }
+  };
+
+  if (!project) {
+    return <div className={styles.empty}>불러오는 중…</div>;
+  }
+
+  const b = projectStatusBadge(project.status);
+  const confirmedCount = project.members.filter((m) => m.status === "CONFIRMED").length;
+
+  return (
+    <>
+      <button className={styles.btnSm} onClick={onBack} style={{ marginBottom: 14 }}>
+        ← 프로젝트 목록
+      </button>
+      <div className={styles.panel}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 12 }}>
+          <div>
+            <div className={styles.panelTitle}>{project.name}</div>
+            <div className={styles.panelSub}>
+              {project.siteName ?? "현장명 미입력"}
+              {project.region.length ? ` · ${project.region.join(", ")}` : ""}
+            </div>
+          </div>
+          <span className={`${styles.badge} ${b.cls}`}>{b.label}</span>
+        </div>
+
+        <div className={styles.statRow} style={{ marginTop: 16 }}>
+          <div className={styles.stat}>
+            <b>{project.requiredHeadcount ?? "-"}</b>필요 인원
+          </div>
+          <div className={styles.stat}>
+            <b>{confirmedCount}</b>투입 확정
+          </div>
+          <div className={styles.stat}>
+            <b>{project.members.length}</b>전체 배정
+          </div>
+        </div>
+
+        <div style={{ display: "flex", gap: 8, marginTop: 18, flexWrap: "wrap" }}>
+          {(["PLANNING", "ACTIVE", "COMPLETED", "ARCHIVED"] as Project["status"][]).map((s) => (
+            <button
+              key={s}
+              className={`${styles.chip} ${project.status === s ? styles.chipOn : ""}`}
+              onClick={() => setStatus(s)}
+            >
+              {PROJECT_STATUS_LABEL[s]}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <ProjectMemberAddForm companyId={companyId} projectId={projectId} onAdded={load} />
+
+      <div className={styles.sectionTitle}>배정 인력 ({project.members.length})</div>
+      <div className={styles.panel}>
+        {project.members.length === 0 ? (
+          <div className={styles.empty}>아직 배정된 인력이 없습니다.</div>
+        ) : (
+          project.members.map((m) => {
+            const mb = memberStatusBadge(m.status);
+            return (
+              <div className={styles.listItem} key={m.id}>
+                <div className={styles.itemBody}>
+                  <div className={styles.itemTitle}>
+                    {m.role === "MANAGER" && <span style={{ color: "var(--brand,#4f46e5)", fontWeight: 800, marginRight: 4 }}>[관리자]</span>}
+                    {m.name}
+                  </div>
+                  <div className={styles.itemSub}>
+                    {m.jobType ?? "직종 미입력"}
+                    {m.phone ? ` · ${m.phone}` : ""}
+                    {!m.userId ? " · 외부 인력" : ""}
+                  </div>
+                </div>
+                <span className={`${styles.badge} ${mb.cls}`}>{mb.label}</span>
+                {m.status === "INVITED" && (
+                  <button className={styles.btnSm} onClick={() => setMemberStatus(m.id, "CONFIRMED")} style={{ marginLeft: 8, height: 32, padding: "0 10px", fontSize: 12 }}>
+                    확정
+                  </button>
+                )}
+                <button className={styles.btnSm} onClick={() => removeMember(m.id)} style={{ marginLeft: 8, height: 32, padding: "0 10px", fontSize: 12 }}>
+                  해제
+                </button>
+              </div>
+            );
+          })
+        )}
+      </div>
+    </>
+  );
+}
+
+function ProjectsTab({ companyId }: { companyId: string }) {
+  const [projects, setProjects] = useState<Project[] | null>(null);
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+
+  const load = useCallback(async () => {
+    try {
+      const res = await fetch(`/api/companies/${companyId}/projects`, { cache: "no-store" });
+      setProjects((await res.json()) as Project[]);
+    } catch {
+      setProjects([]);
+    }
+  }, [companyId]);
+
+  useEffect(() => {
+    void load();
+  }, [load]);
+
+  if (selectedId) {
+    return <ProjectDetailView companyId={companyId} projectId={selectedId} onBack={() => { setSelectedId(null); void load(); }} />;
+  }
+
+  return (
+    <>
+      <ProjectCreateForm companyId={companyId} onCreated={load} />
+
+      <div className={styles.sectionTitle}>프로젝트 {projects ? `(${projects.length})` : ""}</div>
+      {projects === null ? (
+        <div className={styles.empty}>불러오는 중…</div>
+      ) : projects.length === 0 ? (
+        <div className={styles.panel}>
+          <div className={styles.empty}>아직 등록한 프로젝트가 없습니다. 진행 중인 현장을 프로젝트로 만들어 인력·출역·정산을 관리해 보세요.</div>
+        </div>
+      ) : (
+        <div className={styles.workerGrid}>
+          {projects.map((p) => {
+            const b = projectStatusBadge(p.status);
+            return (
+              <div
+                className={styles.workerCard}
+                key={p.id}
+                onClick={() => { setSelectedId(p.id); track("project_viewed", { projectId: p.id }); }}
+                style={{ cursor: "pointer" }}
+              >
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 8 }}>
+                  <div className={styles.workerName}>{p.name}</div>
+                  <span className={`${styles.badge} ${b.cls}`}>{b.label}</span>
+                </div>
+                <div className={styles.workerMeta} style={{ marginTop: 6 }}>
+                  {p.siteName ?? "현장명 미입력"}
+                  {p.region.length ? ` · ${p.region.join(", ")}` : ""}
+                </div>
+                <div className={styles.tagRow}>
+                  {p.jobTypes.length ? (
+                    p.jobTypes.map((j) => <span className={styles.tag} key={j}>{j}</span>)
+                  ) : (
+                    <span className={styles.tag}>직종 미입력</span>
+                  )}
+                </div>
+                <div className={styles.statRow}>
+                  <div className={styles.stat}>
+                    <b>{p._count?.members ?? 0}</b>배정 인력
+                  </div>
+                  <div className={styles.stat}>
+                    <b>{p.requiredHeadcount ?? "-"}</b>필요 인원
+                  </div>
+                </div>
+              </div>
+            );
+          })}
         </div>
       )}
     </>

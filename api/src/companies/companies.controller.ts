@@ -17,6 +17,10 @@ import {
 import { CompaniesService } from './companies.service';
 import { CreateCompanyDto } from './dto/create-company.dto';
 import { UpdateCompanyDto } from './dto/update-company.dto';
+import { CreateProjectDto } from './dto/create-project.dto';
+import { UpdateProjectDto } from './dto/update-project.dto';
+import { AddProjectMemberDto } from './dto/add-project-member.dto';
+import { UpdateProjectMemberDto } from './dto/update-project-member.dto';
 import { CompanyLoginDto } from './dto/company-login.dto';
 import { CreateJobPostDto } from './dto/create-job-post.dto';
 import { SaveWorkerDto } from './dto/save-worker.dto';
@@ -107,6 +111,71 @@ export class CompaniesController {
   @Delete('companies/:id/work-records/:rid')
   deleteWorkRecord(@Param('id') id: string, @Param('rid') rid: string) {
     return this.companies.deleteWorkRecord(id, rid);
+  }
+
+  // Partner Workspace 프로젝트(PartnerProject) — 생성/목록/상세/수정/삭제
+  @Post('companies/:id/projects')
+  createProject(@Param('id') id: string, @Body() dto: CreateProjectDto) {
+    return this.companies.createProject(id, dto);
+  }
+
+  @Get('companies/:id/projects')
+  listProjects(@Param('id') id: string) {
+    return this.companies.listProjects(id);
+  }
+
+  @Get('companies/:id/projects/:projectId')
+  getProject(
+    @Param('id') id: string,
+    @Param('projectId') projectId: string,
+  ) {
+    return this.companies.getProject(id, projectId);
+  }
+
+  @Patch('companies/:id/projects/:projectId')
+  updateProject(
+    @Param('id') id: string,
+    @Param('projectId') projectId: string,
+    @Body() dto: UpdateProjectDto,
+  ) {
+    return this.companies.updateProject(id, projectId, dto);
+  }
+
+  @Delete('companies/:id/projects/:projectId')
+  deleteProject(
+    @Param('id') id: string,
+    @Param('projectId') projectId: string,
+  ) {
+    return this.companies.deleteProject(id, projectId);
+  }
+
+  // 프로젝트 인력 배정(PartnerProjectMember) — 등록/수정/해제
+  @Post('companies/:id/projects/:projectId/members')
+  addProjectMember(
+    @Param('id') id: string,
+    @Param('projectId') projectId: string,
+    @Body() dto: AddProjectMemberDto,
+  ) {
+    return this.companies.addProjectMember(id, projectId, dto);
+  }
+
+  @Patch('companies/:id/projects/:projectId/members/:memberId')
+  updateProjectMember(
+    @Param('id') id: string,
+    @Param('projectId') projectId: string,
+    @Param('memberId') memberId: string,
+    @Body() dto: UpdateProjectMemberDto,
+  ) {
+    return this.companies.updateProjectMember(id, projectId, memberId, dto);
+  }
+
+  @Delete('companies/:id/projects/:projectId/members/:memberId')
+  removeProjectMember(
+    @Param('id') id: string,
+    @Param('projectId') projectId: string,
+    @Param('memberId') memberId: string,
+  ) {
+    return this.companies.removeProjectMember(id, projectId, memberId);
   }
 
   // 채용 공고 선등록
