@@ -407,16 +407,15 @@ function Landing({ onStart, onBrowse, onLogin }: { onStart: () => void; onBrowse
               tag: '원청 · 대기업',
               stage: 'P2',
               headline: '협력사 리스크, 자동으로 관리',
-              pain: '협력사 인력의 자격·안전교육 확인, 출입 통제, 감사 대응에 매번 많은 시간이 듭니다.',
+              pain: '다수 협력사 인력의 자격·안전교육 확인과 관리에 매번 많은 시간이 듭니다.',
               value: [
-                'MONO Field Pass로 신원·자격·출입권한을 하나로 통합',
-                '출입 이벤트가 근태·정산·감사 로그로 자동 연결',
-                '기존 출입·설비(OT) 시스템과 API로 연동',
+                '협력사 디렉터리에서 산업·지역별 검증된 협력사 탐색',
+                '협력사 신뢰 프로필로 안전이수율·재의뢰율·작업수행사례 확인',
+                '협력사별 인력·자격·교육 현황을 한 화면에서 관리',
               ],
               price: 'Enterprise 계약',
-              cta: 'Field Pass 도입 상담',
-              ctaTrack: 'p2_field_pass',
-              href: '/partner/field-pass',
+              cta: '협력사 관리 도입 상담',
+              ctaTrack: 'p2_enterprise',
             },
           ].map((seg) => (
             <div
@@ -436,23 +435,13 @@ function Landing({ onStart, onBrowse, onLogin }: { onStart: () => void; onBrowse
               </ul>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, paddingTop: 14, borderTop: '1px solid #f1f5f9' }}>
                 <span style={{ fontSize: 12, fontWeight: 800, color: '#0f172a' }}>{seg.price}</span>
-                {seg.href ? (
-                  <a
-                    href={seg.href}
-                    onClick={() => track('partner_segment_cta_clicked', { segment: seg.ctaTrack })}
-                    style={{ fontSize: 12.5, fontWeight: 850, color: '#4f46e5', textDecoration: 'none' }}
-                  >
-                    {seg.cta} →
-                  </a>
-                ) : (
-                  <button
-                    className={styles.btnSm}
-                    onClick={() => { track('partner_segment_cta_clicked', { segment: seg.ctaTrack }); onStart(); }}
-                    style={{ fontSize: 12.5 }}
-                  >
-                    {seg.cta}
-                  </button>
-                )}
+                <button
+                  className={styles.btnSm}
+                  onClick={() => { track('partner_segment_cta_clicked', { segment: seg.ctaTrack }); onStart(); }}
+                  style={{ fontSize: 12.5 }}
+                >
+                  {seg.cta}
+                </button>
               </div>
             </div>
           ))}
@@ -487,7 +476,7 @@ function Landing({ onStart, onBrowse, onLogin }: { onStart: () => void; onBrowse
             { title: '급구 공고', items: ['직종·지역 타기팅', '긴급 알림', '상단 노출', '기간 연장', '성과 리포트'] },
             { title: '검증 프로필·팀', items: ['경력·자격·교육 확인', '후보 저장', '연락 요청', '팀 조회', '검증상태'] },
             { title: 'Partner Workspace', items: ['현장·팀원 관리', '출역·공수', '정산 참고자료', '평가·재요청', '증빙·리포트'] },
-            { title: 'MONO Field Pass', items: ['현장 준비상태', '신원·자격·교육', '출입권한', 'QR·NFC·카드·OTAC 확장', '출입 기록', '근태·정산·경력 연결'] },
+            { title: '협력사 디렉터리', items: ['산업·지역별 협력사 탐색', '안전이수율·재의뢰율 확인', '작업수행사례 열람', '신뢰 프로필 등록'] },
           ].map((p) => (
             <div
               key={p.title}
@@ -514,7 +503,7 @@ function Landing({ onStart, onBrowse, onLogin }: { onStart: () => void; onBrowse
           {[
             { stage: 'P0', name: '급구 공고', target: '협력업체', billing: '공고 등록 과금', desc: '현장 수요를 먼저 등록하고 검증된 기술자를 우선 안내받는 시작 단계' },
             { stage: 'P1', name: 'Partner Workspace', target: '협력업체', billing: '월 구독', accent: true, desc: '현장·인력·출역·정산 참고자료를 하나의 업무공간에서 반복 이용' },
-            { stage: 'P2', name: 'MONO Field Pass', target: '원청 · 대기업', billing: 'Enterprise 계약', desc: '신원·자격·출입권한을 통합한 인증 기반 운영 서비스', href: '/partner/field-pass' },
+            { stage: 'P2', name: '협력사 디렉터리 · Enterprise', target: '원청 · 대기업', billing: 'Enterprise 계약', desc: '협력사 신뢰 프로필과 디렉터리를 통합한 협력사 관리 서비스' },
           ].map((s) => (
             <div
               key={s.stage}
@@ -535,11 +524,6 @@ function Landing({ onStart, onBrowse, onLogin }: { onStart: () => void; onBrowse
               <div style={{ fontSize: 13, color: s.accent ? '#cbd5e1' : '#5b6b82', fontWeight: 650, lineHeight: 1.65, marginBottom: 16, wordBreak: 'keep-all' }}>{s.desc}</div>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: 14, borderTop: `1px solid ${s.accent ? 'rgba(255,255,255,0.12)' : '#f1f5f9'}` }}>
                 <span style={{ fontSize: 13, fontWeight: 900, color: s.accent ? '#fff' : '#0f172a' }}>{s.billing}</span>
-                {s.href && (
-                  <a href={s.href} onClick={() => track('partner_pricing_cta_clicked', { stage: s.stage })} style={{ fontSize: 12.5, fontWeight: 850, color: s.accent ? '#a5b4fc' : '#4f46e5', textDecoration: 'none' }}>
-                    자세히 →
-                  </a>
-                )}
               </div>
             </div>
           ))}
@@ -609,7 +593,7 @@ function Landing({ onStart, onBrowse, onLogin }: { onStart: () => void; onBrowse
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 12, marginBottom: 20 }}>
           {[
             ['1', '문의', '기업 협약 신청 또는 상담 요청'],
-            ['2', '상담·범위 확정', '급구 공고·Workspace·Field Pass 중 필요한 범위를 함께 정합니다'],
+            ['2', '상담·범위 확정', '급구 공고·Workspace·협력사 디렉터리 중 필요한 범위를 함께 정합니다'],
             ['3', 'PoC·도입', '합의된 범위로 시범 운영 후 정식 도입'],
           ].map(([n, t, d]) => (
             <div key={n} className={styles.pointCard}>
@@ -620,17 +604,16 @@ function Landing({ onStart, onBrowse, onLogin }: { onStart: () => void; onBrowse
           ))}
         </div>
         <div style={{ background: '#0f172a', borderRadius: 16, padding: 22 }}>
-          <div style={{ fontSize: 14, fontWeight: 900, color: '#fff', marginBottom: 8 }}>Field Pass PoC가 궁금하신가요?</div>
+          <div style={{ fontSize: 14, fontWeight: 900, color: '#fff', marginBottom: 8 }}>도입 상담이 궁금하신가요?</div>
           <p style={{ margin: '0 0 14px 0', fontSize: 13, color: '#cbd5e1', fontWeight: 600, lineHeight: 1.6, wordBreak: 'keep-all' }}>
-            현장·이용자·출입구 범위, 인증 방식, 기간, 성공 기준까지 Field Pass 상세 페이지에서 확인할 수 있습니다.
+            현장·인력 범위, 도입 기간, 성공 기준까지 담당 매니저와 함께 정합니다.
           </p>
-          <a
-            href="/partner/field-pass"
-            onClick={() => track('partner_field_pass_viewed', { source: 'landing_poc' })}
-            style={{ display: 'inline-block', fontSize: 13, fontWeight: 800, color: '#0f172a', background: '#fff', borderRadius: 10, padding: '9px 18px', textDecoration: 'none' }}
+          <button
+            onClick={() => { track('partner_poc_cta_clicked', { source: 'landing_adoption' }); onStart(); }}
+            style={{ display: 'inline-block', fontSize: 13, fontWeight: 800, color: '#0f172a', background: '#fff', borderRadius: 10, padding: '9px 18px', border: 'none', cursor: 'pointer' }}
           >
-            MONO Field Pass 자세히 보기 →
-          </a>
+            기업 협약 신청하기 →
+          </button>
         </div>
       </section>
     </>
